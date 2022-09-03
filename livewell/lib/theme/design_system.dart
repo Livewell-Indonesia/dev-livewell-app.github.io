@@ -28,12 +28,22 @@ class AppColors {
 }
 
 class Insets {
+  /// Padding 4.0
   static const double paddingXSmall = 4.0;
+
+  /// Padding 8.0
   static const double paddingSmall = 8.0;
+
+  /// Padding 12.0
   static const double paddingMedium = 12.0;
 
+  /// Spacing 4.0
   static const double spacingSmall = 4.0;
+
+  /// Spacing 12.0
   static const double spacingMedium = 12.0;
+
+  /// Spacing 24.0
   static const double spacingLarge = 24.0;
 }
 
@@ -42,6 +52,7 @@ class TextStyles {
     return TextStyle(
       fontSize: 32,
       fontWeight: FontWeight.w700,
+      fontFamily: 'DM Sans',
       color: color,
     );
   }
@@ -49,7 +60,8 @@ class TextStyles {
   static TextStyle subTitleHiEm({required Color color}) {
     return TextStyle(
       fontSize: 24,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w700,
+      fontFamily: 'DM Sans',
       color: color,
     );
   }
@@ -58,6 +70,7 @@ class TextStyles {
     return TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w700,
+      fontFamily: 'DM Sans',
       color: color,
     );
   }
@@ -66,6 +79,7 @@ class TextStyles {
     return TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w400,
+      fontFamily: 'DM Sans',
       color: color,
     );
   }
@@ -74,6 +88,7 @@ class TextStyles {
     return TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.w700,
+      fontFamily: 'DM Sans',
       color: color,
     );
   }
@@ -82,6 +97,7 @@ class TextStyles {
     return TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.w400,
+      fontFamily: 'DM Sans',
       color: color,
     );
   }
