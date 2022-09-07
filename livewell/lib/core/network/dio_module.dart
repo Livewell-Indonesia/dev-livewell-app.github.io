@@ -1,4 +1,4 @@
-import 'package:rfitness_flutter/src/core/network/token_interceptor.dart';
+import 'package:livewell/core/network/token_interceptor.dart';
 
 import 'api_url.dart';
 import 'package:dio/adapter.dart';
@@ -8,16 +8,15 @@ import 'logging_interceptor.dart';
 
 class DioModule with DioMixin implements Dio {
   DioModule._([BaseOptions? options]) {
-    if (options == null) {
-      options = BaseOptions(
-        baseUrl: Endpoint.api,
-        contentType: 'application/json',
-        connectTimeout: 30000,///for network time out
-        sendTimeout: 30000,
-        receiveTimeout: 30000,
+    options ??= BaseOptions(
+      baseUrl: Endpoint.api,
+      contentType: 'application/json',
+      connectTimeout: 30000,
 
-      );
-    }
+      ///for network time out
+      sendTimeout: 30000,
+      receiveTimeout: 30000,
+    );
 
     this.options = options;
     interceptors.add(LoggingInterceptor());

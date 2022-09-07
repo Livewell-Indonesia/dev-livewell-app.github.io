@@ -22,7 +22,7 @@ class PrimaryTextField extends StatefulWidget {
 
 class _PrimaryTextFieldState extends State<PrimaryTextField> {
   bool showPassword = false;
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
   bool isFocused = false;
 
   @override

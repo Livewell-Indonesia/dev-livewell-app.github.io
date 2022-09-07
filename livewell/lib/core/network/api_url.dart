@@ -1,8 +1,6 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 class Endpoint {
   /// DEV
-  static String api = "${dotenv.env['baseUrl']}/api/v1/";
+  static String api = "/api/v1/";
 
   /// Profile
   static const String profile = "customer/profile";

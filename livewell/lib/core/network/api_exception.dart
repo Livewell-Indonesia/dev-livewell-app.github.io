@@ -4,6 +4,7 @@ abstract class ApiException implements Exception {
 
   ApiException(this._prefix, this._message);
 
+  @override
   String toString() {
     return '$_prefix :$_message}';
   }

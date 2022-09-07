@@ -12,7 +12,7 @@ class LoggingInterceptor extends Interceptor {
 
     Log.info("Headers:");
     options.headers.forEach(
-      (k, v) => print('$k: $v'),
+      (k, v) => Log.info('$k: $v'),
     );
 
     Log.info("queryParameters:");
@@ -36,7 +36,7 @@ class LoggingInterceptor extends Interceptor {
 
     Log.info("Headers:");
     response.headers.forEach(
-      (k, v) => print('$k: $v'),
+      (k, v) => Log.info('$k: $v'),
     );
 
     Log.info("Response: ${response.data}");
@@ -49,21 +49,21 @@ class LoggingInterceptor extends Interceptor {
   }
 
   @override
-  Future onError(DioError dioError, ErrorInterceptorHandler handler) async {
+  Future onError(DioError err, ErrorInterceptorHandler handler) async {
     Log.error(
-      'ERROR[${dioError.response?.statusCode}] => PATH: ${dioError.requestOptions.path}',
+      'ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}',
     );
 
     Log.error(
-      "<-- ${dioError.message} ${(dioError.response?.requestOptions != null ? (dioError.response!.requestOptions.baseUrl + dioError.response!.requestOptions.path) : 'URL')}",
+      "<-- ${err.message} ${(err.response?.requestOptions != null ? (err.response!.requestOptions.baseUrl + err.response!.requestOptions.path) : 'URL')}",
     );
 
     Log.error(
-      "${dioError.response != null ? dioError.response!.data : 'Unknown Error'}",
+      "${err.response != null ? err.response!.data : 'Unknown Error'}",
     );
 
     Log.error("<-- End error");
 
-    return super.onError(dioError, handler);
+    return super.onError(err, handler);
   }
 }

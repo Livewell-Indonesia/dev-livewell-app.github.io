@@ -4,7 +4,7 @@ import 'package:livewell/core/base/usecase.dart';
 class PostLogin implements UseCase<String, ParamsLogin> {
   @override
   Future<String> call(ParamsLogin params) {
-    return Future.delayed(Duration(seconds: 1), () => 'Hello World');
+    return Future.delayed(const Duration(seconds: 1), () => 'Hello World');
   }
 }
 

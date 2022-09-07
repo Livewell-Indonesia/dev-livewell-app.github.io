@@ -19,7 +19,7 @@ class NewPasswordScreen extends StatelessWidget {
         top: true,
         child: Column(
           children: [
-            LargeAppBar(
+            const LargeAppBar(
               title: 'New Password',
               backgroundColor: Colors.white,
             ),
