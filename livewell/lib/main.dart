@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:livewell/feature/questionnaire/presentation/page/questionnaire_screen.dart';
 import 'package:livewell/theme/design_system.dart';
 
 import 'feature/auth/presentation/page/login/login_screen.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'DM Sans',
           primaryColor: AppColors.primary100,
           brightness: Brightness.light),
-      home: LoginScreen(),
+      home: QuestionnaireScreen(),
     );
   }
 }
