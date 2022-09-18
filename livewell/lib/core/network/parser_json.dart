@@ -6,8 +6,7 @@ class ParserJson<T> {
   late int rescode;
   late Meta? meta;
 
-  ParserJson(
-      {required this.data, required this.message, required this.rescode});
+  ParserJson({required data, required message, required rescode});
 
   ParserJson.fromJson(Map<String, dynamic> json, Parser<T> parser) {
     data = parser(json['data']);
@@ -22,7 +21,7 @@ class Meta {
   late int? rowPerPage;
   late int? total;
 
-  Meta({required this.page, required this.rowPerPage, required this.total});
+  Meta({required page, required rowPerPage, required total});
 
   Meta.fromJson(Map<String, dynamic> json) {
     page = json['page'];

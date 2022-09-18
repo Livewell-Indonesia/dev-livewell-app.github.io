@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/button_view.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/core/localization/Languages.dart';
 import 'package:livewell/feature/auth/presentation/controller/login_controller.dart';
 import 'package:livewell/widgets/appBar/large_appbar.dart';
+import 'package:livewell/widgets/buttons/livewell_button.dart';
+import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
+import 'package:livewell/widgets/textfield/livewell_textfield.dart';
 
 import '../../../../../theme/design_system.dart';
 import '../../../../../widgets/buttons/primary_button.dart';
@@ -12,70 +19,78 @@ class LoginScreen extends StatelessWidget {
   final controller = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
+    return LiveWellScaffold(
+        title: '',
+        backgroundColor: Colors.white,
+        body: Expanded(
           child: Column(
-        children: [
-          const LargeAppBar(title: 'Login'),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
+            children: [
+              const Spacer(),
+              Image.asset(Constant.imgLogo),
+              const Spacer(),
+              LiveWellTextField(
+                  controller: controller.email,
+                  hintText: null,
+                  labelText: AppStringsKeys.email.tr,
+                  errorText: null,
+                  obscureText: false,
+                  isEmail: true),
+              const SizedBox(height: 20),
+              LiveWellTextField(
+                  controller: controller.password,
+                  hintText: null,
+                  labelText: AppStringsKeys.password.tr,
+                  errorText: null,
+                  obscureText: true),
+              const SizedBox(height: 20),
+              LiveWellButton(
+                  label: AppStringsKeys.signIn.tr,
+                  color: const Color(0xFFDDF235),
+                  onPressed: () {
+                    controller.doLogin();
+                  }),
+              const SizedBox(height: 20),
+              TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    AppStringsKeys.forgotPassword.tr,
+                    style: const TextStyle(
+                        color: Color(0xFF8F01DF),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  )),
+              const SizedBox(height: 20),
+              Text(AppStringsKeys.orSignInWith.tr,
+                  style: const TextStyle(fontSize: 16)),
+              const SizedBox(height: 20),
+              SignInButton(Buttons.Google, onPressed: () {}),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(
-                    height: 64.0,
-                  ),
-                  PrimaryTextField(
-                    controller: controller.email,
-                    hintText: 'Email',
-                    labelText: 'Email',
-                    obscureText: false,
-                    errorText: 'Error',
-                  ),
-                  const SizedBox(
-                    height: Insets.spacingMedium,
-                  ),
-                  PrimaryTextField(
-                    controller: controller.password,
-                    hintText: 'Password',
-                    labelText: 'Password',
-                    obscureText: true,
-                    errorText: 'Error',
-                  ),
-                  const SizedBox(
-                    height: Insets.spacingLarge,
-                  ),
-                  PrimaryButton(
-                      label: 'Login',
-                      color: AppColors.primary100,
-                      onPressed: () {}),
-                  const SizedBox(
-                    height: Insets.spacingLarge,
-                  ),
-                  Text(
-                    'Or, continue with',
-                    style: TextStyles.body(color: AppColors.textLoEm),
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Have a Livewell account?',
-                          style: TextStyles.body(color: AppColors.textLoEm)),
-                      TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Sign up',
-                            style: TextStyles.bodyStrong(
-                                color: AppColors.secondary100),
-                          )),
-                    ],
-                  ),
+                  Text(AppStringsKeys.dontHaveAccount.tr,
+                      style: TextStyle(
+                          color: const Color(0xFF171433).withOpacity(0.7),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400)),
+                  TextButton(
+                      onPressed: () {
+                        Get.toNamed('/signup');
+                      },
+                      child: Text(
+                        AppStringsKeys.signUp.tr,
+                        style: const TextStyle(
+                            color: Color(0xFF8F01DF),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500),
+                      )),
                 ],
               ),
-            ),
-          )
-        ],
-      )),
-    );
+              SizedBox(
+                height: 11,
+              ),
+            ],
+          ),
+        ));
   }
 }

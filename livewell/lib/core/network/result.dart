@@ -34,7 +34,7 @@ class Result<T> {
     );
   }
 
-  static Result<T> timeout<T >(T? errorBody,  String message) {
+  static Result<T> timeout<T>(T? errorBody, String message) {
     return Result(
       Status.UNREACHABLE,
       errorBody!,
