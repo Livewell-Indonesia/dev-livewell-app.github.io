@@ -7,7 +7,8 @@ import 'dart:convert';
 /// time : 0.480811811
 /// payload : {}
 
-InternalResponse resFromJson(String str) => InternalResponse.fromJson(json.decode(str));
+InternalResponse resFromJson(String str) =>
+    InternalResponse.fromJson(json.decode(str));
 
 class InternalResponse {
   InternalResponse({

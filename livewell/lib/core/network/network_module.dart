@@ -10,7 +10,8 @@ import 'result.dart';
 abstract class NetworkModule {
   Dio get _dio => DioModule.getInstance();
 
-  BaseOptions? options;
+  BaseOptions? _baseOptions;
+
   final Map<String, String> header = {};
   final String authorization = "Authorization";
 
@@ -39,13 +40,13 @@ abstract class NetworkModule {
     Map<String, dynamic>? param,
     Map<String, String>? headers,
   }) async {
-    Options options = Options(headers: headers);
+    Options _options = Options(headers: headers);
 
     final response = await _safeCallApi(
       _dio.get(
         endpoint,
         queryParameters: param,
-        options: options,
+        options: _options,
       ),
     );
 
@@ -58,14 +59,13 @@ abstract class NetworkModule {
     Map<String, dynamic>? body,
     Map<String, dynamic>? param,
   }) async {
-    Options options = Options(headers: headers);
-
+    Options _options = Options(headers: headers);
     final response = await _safeCallApi(
       _dio.post(
         endpoint,
         data: body,
         queryParameters: param,
-        options: options,
+        options: _options,
       ),
     );
 
@@ -77,13 +77,13 @@ abstract class NetworkModule {
     Map<String, dynamic>? headers,
     Map<String, dynamic>? body,
   }) async {
-    Options options = Options(headers: headers);
+    Options _options = Options(headers: headers);
 
     final response = await _safeCallApi(
       _dio.put(
         endpoint,
         data: body,
-        options: options,
+        options: _options,
       ),
     );
 
@@ -96,7 +96,7 @@ abstract class NetworkModule {
     Map<String, String>? headers,
     FormData? body,
   }) async {
-    Options options = Options(headers: headers);
+    Options _options = Options(headers: headers);
     Dio dio = DioModule.getInstance(
       BaseOptions(
         baseUrl: url,
@@ -110,7 +110,7 @@ abstract class NetworkModule {
       dio.post(
         endpoint,
         data: body,
-        options: options,
+        options: _options,
       ),
     );
 
@@ -122,13 +122,13 @@ abstract class NetworkModule {
     Map<String, String>? headers,
     Map<String, dynamic>? body,
   }) async {
-    Options options = Options(headers: headers);
+    Options _options = Options(headers: headers);
 
     final response = await _safeCallApi(
       _dio.delete(
         endpoint,
         data: body,
-        options: options,
+        options: _options,
       ),
     );
 
