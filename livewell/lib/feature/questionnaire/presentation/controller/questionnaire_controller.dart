@@ -1,6 +1,14 @@
-import 'package:get/get.dart';
-import 'package:livewell/core/constant/constant.dart';
+import 'dart:developer';
 
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/questionnaire/domain/usecase/post_questionnaire.dart';
+
+import '../../../../core/log.dart';
+import '../../../../routes/app_navigator.dart';
 import '../page/finish_questionnaire_screen.dart';
 
 class QuestionnaireController extends GetxController {
@@ -12,9 +20,12 @@ class QuestionnaireController extends GetxController {
   var height = 1.obs;
   var drink = 1.obs;
   var sleep = 1.obs;
+  var weight = 1.obs;
+  Rx<Gender> selectedGender = Gender.male.obs;
+  Rx<GoalSelection> selectedGoals = GoalSelection.getFitter.obs;
+  Rx<DietrarySelection> selectedDietrary = DietrarySelection.yes.obs;
 
-  Rx<GoalSelection> selectedGoals = GoalSelection.none.obs;
-  Rx<DietrarySelection> selectedDietrary = DietrarySelection.none.obs;
+  PostQuestionnaire postQuestionnaire = PostQuestionnaire.instance();
 
   QuestionnairePage findNextPage() {
     final nextIndex =
@@ -36,7 +47,7 @@ class QuestionnaireController extends GetxController {
     if (currentPage.value == QuestionnairePage.finish) {
       Get.offAllNamed('/home');
     } else if (findNextPage() == QuestionnairePage.finish) {
-      Get.to(() => const FinishQuestionnaireScreen());
+      sendData();
     } else {
       nextPage();
     }
@@ -48,6 +59,31 @@ class QuestionnaireController extends GetxController {
     } else {
       currentPage.value = findPreviousPage();
     }
+  }
+
+  void sendData() async {
+    var usersData = Get.find<DashboardController>().user.value;
+    var params = QuestionnaireParams.asParams(
+        usersData.firstName,
+        usersData.lastName,
+        selectedGender.value.label(),
+        DateFormat('yyyy-MM-dd').format(date.value),
+        weight.value,
+        height.value,
+        drink.value.toString(),
+        sleep.value.toString(),
+        selectedDietrary.value.title(),
+        selectedGoals.value.title());
+    inspect(params);
+    Log.info(params.toJson());
+    inspect(params.toJson());
+    EasyLoading.show(maskType: EasyLoadingMaskType.black);
+    final result = await postQuestionnaire(params);
+    result.fold((l) {}, (r) {
+      EasyLoading.dismiss();
+      Get.offAll(FinishQuestionnaireScreen());
+    });
+    //AppNavigator.push(routeName: AppPages.finishQuestionnaire);
   }
 }
 

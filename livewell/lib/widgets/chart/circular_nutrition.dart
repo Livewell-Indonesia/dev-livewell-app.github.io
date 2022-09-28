@@ -38,7 +38,6 @@ class _MultipleColorCirclePainter extends CustomPainter {
     double radianStart = 0;
     double radianLength = 0;
     int allOccurrences = 0;
-    canvas.drawColor(Colors.white, BlendMode.color);
     //set denominator
     colorOccurrences.forEach((color, occurrence) {
       allOccurrences += occurrence;

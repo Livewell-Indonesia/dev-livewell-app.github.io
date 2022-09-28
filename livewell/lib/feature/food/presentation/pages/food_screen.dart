@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
+import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
 import 'package:livewell/widgets/horizontal_picker/horizontal_picker.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
@@ -18,86 +20,76 @@ class FoodScreen extends StatelessWidget {
     return LiveWellScaffold(
       title: 'Food',
       body: Expanded(
-        child: SafeArea(
-            top: false,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 40),
-                  HorizontalPicker(
-                      minValue: 0,
-                      maxValue: 300,
-                      divisions: 300,
-                      height: 200,
-                      onChanged: (index) {}),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(children: [
-                            TextSpan(
-                              text: 'Today you have consumed ',
-                              style: TextStyles.titleHiEm(color: Colors.black),
-                            ),
-                            TextSpan(
-                                text: '500 Cal',
-                                style:
-                                    TextStyles.titleHiEm(color: Colors.orange))
-                          ]))),
-                  const SizedBox(height: 20),
-                  Center(child: Obx(() {
-                    return NutritionCircularProgress(
-                      firstValue: controller.firstValue.value,
-                      secondValue: controller.secondValue.value,
-                      thirdValue: controller.thirdValue.value,
-                    );
-                  })),
-                  Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: NutritionProgressDescription(
-                      data: [
-                        NutrtionProgressModel(
-                            name: 'Macro nut',
-                            color: HexColor('#75E5EB'),
-                            total: '200',
-                            consumed: '50%'),
-                        NutrtionProgressModel(
-                            name: 'Micro nut',
-                            color: HexColor('#F06736'),
-                            total: '200',
-                            consumed: '50%'),
-                        NutrtionProgressModel(
-                            name: 'Macro nut',
-                            color: HexColor('#D8F3B1'),
-                            total: '200',
-                            consumed: '50%'),
-                      ],
-                    ),
-                  ),
-                  ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return ButtonAddMeal(
-                            type: MealTime.values[index],
-                            callback: () {
-                              Get.to(
-                                  () => AddMealScreen(
-                                      time: MealTime.values[index]),
-                                  transition: Transition.leftToRight);
-                            });
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(
-                          height: 10,
-                        );
-                      },
-                      itemCount: MealTime.values.length),
-                ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 40),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(children: [
+                        TextSpan(
+                          text: 'Today you have consumed ',
+                          style: TextStyles.titleHiEm(color: Colors.black),
+                        ),
+                        TextSpan(
+                            text: '500 Cal',
+                            style: TextStyles.titleHiEm(color: Colors.orange))
+                      ]))),
+              const SizedBox(height: 20),
+              Center(child: Obx(() {
+                return NutritionCircularProgress(
+                  firstValue: controller.firstValue.value,
+                  secondValue: controller.secondValue.value,
+                  thirdValue: controller.thirdValue.value,
+                );
+              })),
+              Padding(
+                padding: EdgeInsets.all(16.0),
+                child: NutritionProgressDescription(
+                  data: [
+                    NutrtionProgressModel(
+                        name: 'Macro nut',
+                        color: Color(0xFF34EAB2),
+                        total: '200',
+                        consumed: '50%'),
+                    NutrtionProgressModel(
+                        name: 'Micro nut',
+                        color: Color(0xFF8F01DF),
+                        total: '200',
+                        consumed: '50%'),
+                    NutrtionProgressModel(
+                        name: 'Total Cal',
+                        color: Color(0xFFDDF235),
+                        total: '200',
+                        consumed: '50%'),
+                  ],
+                ),
               ),
-            )),
+              ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return ButtonAddMeal(
+                        type: MealTime.values[index],
+                        callback: () {
+                          AppNavigator.push(
+                              routeName:
+                                  '${AppPages.addMeal}/${MealTime.values[index].name}');
+                        });
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(
+                      height: 10,
+                    );
+                  },
+                  itemCount: MealTime.values.length),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -130,41 +122,40 @@ class NutritionProgressDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 18.0),
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16.0),
       decoration: BoxDecoration(
           color: backgroundColor,
           borderRadius: const BorderRadius.all(Radius.circular(16.0))),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Flexible(
-            child: ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return nutritionDescription(
-                      color: data[index].color,
-                      name: data[index].name,
-                      total: data[index].total,
-                      consumed: data[index].consumed);
-                },
-                separatorBuilder: (context, index) {
-                  return Divider(
-                    color: dividerColor,
-                  );
-                },
-                itemCount: data.length),
+          LimitedBox(
+            maxHeight: 164.h,
+            child: MediaQuery.removePadding(
+              context: context,
+              removeTop: true,
+              removeBottom: true,
+              child: ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return nutritionDescription(
+                        color: data[index].color,
+                        name: data[index].name,
+                        total: data[index].total,
+                        consumed: data[index].consumed);
+                  },
+                  separatorBuilder: (context, index) {
+                    return Divider(
+                      color: dividerColor,
+                    );
+                  },
+                  itemCount: data.length),
+            ),
           ),
         ],
       ),
-      // child: Column(
-      //     children: data
-      //         .map((e) => nutritionDescription(
-      //             color: e.color,
-      //             name: e.name,
-      //             total: e.total,
-      //             consumed: e.consumed))
-      //         .toList()),
     );
   }
 
@@ -392,7 +383,7 @@ final customWidth01 = CustomSliderWidths(trackWidth: 4, progressBarWidth: 12);
 final customColors01 = CustomSliderColors(
     dotColor: Colors.transparent,
     trackColor: Colors.white,
-    progressBarColor: HexColor('#D8F3B1'),
+    progressBarColor: Color(0xFFDDF235),
     hideShadow: true);
 
 final CircularSliderAppearance appearance01 = CircularSliderAppearance(
@@ -407,7 +398,7 @@ final customWidth02 = CustomSliderWidths(trackWidth: 4, progressBarWidth: 12);
 final customColors02 = CustomSliderColors(
     dotColor: Colors.transparent,
     trackColor: Colors.white,
-    progressBarColor: HexColor('#F06736'),
+    progressBarColor: Color(0xFF8F01DF),
     hideShadow: true);
 
 final CircularSliderAppearance appearance02 = CircularSliderAppearance(
@@ -422,7 +413,7 @@ final customWidth03 = CustomSliderWidths(trackWidth: 4, progressBarWidth: 12);
 final customColors03 = CustomSliderColors(
     dotColor: Colors.transparent,
     trackColor: Colors.white,
-    progressBarColor: HexColor('#75E5EB'),
+    progressBarColor: Color(0xFF34EAB2),
     hideShadow: true);
 
 final CircularSliderAppearance appearance03 = CircularSliderAppearance(

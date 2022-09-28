@@ -1,19 +1,20 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/food/presentation/controller/add_meal_controller.dart';
 import 'package:livewell/feature/food/presentation/pages/add_food_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/scan_barcode_screen.dart';
 import 'package:livewell/theme/design_system.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
+import 'dart:developer';
 
 class AddMealScreen extends StatefulWidget {
-  final MealTime time;
-
-  AddMealScreen({Key? key, required this.time}) : super(key: key);
+  AddMealScreen({Key? key}) : super(key: key);
 
   @override
   State<AddMealScreen> createState() => _AddMealScreenState();
@@ -21,14 +22,13 @@ class AddMealScreen extends StatefulWidget {
 
 class _AddMealScreenState extends State<AddMealScreen>
     with TickerProviderStateMixin {
-  final AddMealController controller = Get.put(AddMealController());
-  final FocusNode _focusNode = FocusNode();
+  final AddMealController addMealController = Get.put(AddMealController());
 
   @override
   Widget build(BuildContext context) {
     TabController controller = TabController(length: 3, vsync: this);
     return LiveWellScaffold(
-      title: widget.time.appBarTitle(),
+      title: (MealTime.values.byName(Get.parameters['type']!)).appBarTitle(),
       body: Expanded(
         child: Column(
           children: [
@@ -39,74 +39,128 @@ class _AddMealScreenState extends State<AddMealScreen>
             const SizedBox(
               height: 20,
             ),
-            Expanded(child: searchInitial())
-            // TabBar(
-            //   controller: controller,
-            //   labelColor: const Color(0xFF171433),
-            //   unselectedLabelColor: const Color(0xFF171433).withOpacity(0.3),
-            //   indicatorWeight: 2.0,
-            //   indicatorPadding: EdgeInsets.zero,
-            //   indicator: const BubbleTabIndicator(
-            //     indicatorHeight: 35.0,
-            //     indicatorColor: Color(0xFFD8F3B1),
-            //     tabBarIndicatorSize: TabBarIndicatorSize.tab,
-            //   ),
-            //   isScrollable: true,
-            //   tabs: const [
-            //     Tab(
-            //       text: "All",
-            //     ),
-            //     Tab(
-            //       text: "Local F&B",
-            //     ),
-            //     Tab(
-            //       text: "Brand Name",
-            //     ),
-            //   ],
-            // ),
-            // Expanded(
-            //   child: TabBarView(
-            //     controller: controller,
-            //     children: [
-            //       Column(
-            //         children: [
-            //           Expanded(
-            //             child: Container(
-            //               color: Colors.red,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //       Column(
-            //         children: [
-            //           Expanded(
-            //             child: Container(
-            //               color: Colors.green,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //       Column(
-            //         children: [
-            //           Expanded(
-            //             child: Container(
-            //               color: Colors.blue,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ],
-            //   ),
-            // ),
+            Expanded(
+              child: Obx(() {
+                return mapState(controller);
+              }),
+            ),
           ],
         ),
       ),
     );
   }
 
+  Widget mapState(TabController controller) {
+    switch (addMealController.state.value) {
+      case SearchState.initial:
+        return searchInitial();
+      case SearchState.searching:
+        return Container();
+      case SearchState.searchingWithResults:
+        return searchResult(controller);
+    }
+  }
+
+  Column searchResult(TabController controller) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        TabBar(
+          controller: controller,
+          labelColor: const Color(0xFF171433),
+          unselectedLabelColor: const Color(0xFF171433).withOpacity(0.3),
+          indicatorWeight: 2.0,
+          indicatorPadding: EdgeInsets.zero,
+          indicator: const BubbleTabIndicator(
+            indicatorHeight: 35.0,
+            indicatorColor: Color(0xFFD8F3B1),
+            tabBarIndicatorSize: TabBarIndicatorSize.tab,
+          ),
+          isScrollable: true,
+          tabs: const [
+            Tab(
+              text: "All",
+            ),
+            Tab(
+              text: "Local F&B",
+            ),
+            Tab(
+              text: "Brand Name",
+            ),
+          ],
+        ),
+        Expanded(
+          child: TabBarView(
+            controller: controller,
+            children: [
+              Column(
+                children: [
+                  Expanded(
+                    child: Obx(
+                      () {
+                        if (addMealController.results.isNotEmpty) {
+                          return ListView.separated(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: addMealController.results.value.length,
+                            itemBuilder: (context, index) {
+                              return SearchHistoryItem(
+                                title:
+                                    addMealController.results[index].foodName ??
+                                        "",
+                                callback: () {
+                                  print(
+                                      "andi ganteng ${addMealController.results[index]}");
+                                  Get.to(
+                                      () => AddFoodScreen(
+                                            food: addMealController
+                                                .results[index],
+                                          ),
+                                      transition: Transition.cupertino);
+                                },
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return 16.verticalSpace;
+                            },
+                          );
+                        } else {
+                          return const SizedBox();
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Expanded(
+                    child: Container(
+                      color: Colors.green,
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Expanded(
+                    child: Container(
+                      color: Colors.blue,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   SingleChildScrollView searchInitial() {
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -115,49 +169,57 @@ class _AddMealScreenState extends State<AddMealScreen>
                 Expanded(
                     child: scanButton(ScanType.barcode, () {
                   Get.to(() => ScanBarcodeScreen(type: ScanType.barcode),
-                      transition: Transition.leftToRight);
+                      transition: Transition.cupertino);
                 })),
                 const SizedBox(width: 24),
                 Expanded(
                     child: scanButton(ScanType.photo, () {
                   Get.to(() => ScanBarcodeScreen(type: ScanType.photo),
-                      transition: Transition.leftToRight);
+                      transition: Transition.cupertino);
                 })),
               ],
             ),
           ),
           const SizedBox(height: 32),
-          Text('History'),
-          SearchHistoryItem(
-            title: 'Margherita Pizza - Dominos',
-            callback: () {
-              Get.to(() => AddFoodScreen(), transition: Transition.leftToRight);
-            },
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16).r,
+            child: Text(
+              'History',
+              style: TextStyle(
+                  fontSize: 22.sp,
+                  color: Color(0xFF171433),
+                  fontWeight: FontWeight.w600),
+            ),
           ),
-          SearchHistoryItem(
-            title: 'Margherita Pizza - Dominos',
-            callback: () {},
-          ),
-          SearchHistoryItem(
-            title: 'Margherita Pizza - Dominos',
-            callback: () {},
-          ),
-          SearchHistoryItem(
-            title: 'Margherita Pizza - Dominos',
-            callback: () {},
-          ),
-          SearchHistoryItem(
-            title: 'Margherita Pizza - Dominos',
-            callback: () {},
-          ),
-          SearchHistoryItem(
-            title: 'Margherita Pizza - Dominos',
-            callback: () {},
-          ),
-          SearchHistoryItem(
-            title: 'Margherita Pizza - Dominos',
-            callback: () {
-              Get.to(() => FoodScreen(), transition: Transition.leftToRight);
+          Obx(
+            () {
+              if (addMealController.history.isNotEmpty) {
+                return ListView.separated(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: 5,
+                  itemBuilder: (context, index) {
+                    return SearchHistoryItem(
+                      title: addMealController.history[index].foodName ?? "",
+                      callback: () {
+                        inspect(addMealController.history[index]);
+                        Get.to(
+                            () => AddFoodScreen(
+                                  food: addMealController.history[index],
+                                ),
+                            transition: Transition.cupertino);
+                      },
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(
+                      height: 16,
+                    );
+                  },
+                );
+              } else {
+                return const SizedBox();
+              }
             },
           ),
         ],
@@ -173,7 +235,12 @@ class _AddMealScreenState extends State<AddMealScreen>
         borderRadius: BorderRadius.circular(20),
       ),
       child: TextFormField(
-        focusNode: controller.focusNode,
+        controller: addMealController.textEditingController,
+        onEditingComplete: () {
+          addMealController.doSearchFood();
+          addMealController.focusNode.unfocus();
+        },
+        focusNode: addMealController.focusNode,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.only(top: 20, bottom: 16),
           border: InputBorder.none,
@@ -217,7 +284,13 @@ class _AddMealScreenState extends State<AddMealScreen>
               ),
             ),
             const SizedBox(height: 32),
-            Text(type.title())
+            Text(
+              type.title(),
+              style: TextStyle(
+                  fontSize: 16.sp,
+                  color: const Color(0xFF171433),
+                  fontWeight: FontWeight.w600),
+            )
           ],
         ),
       ),
@@ -247,7 +320,13 @@ class SearchHistoryItem extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Text(title),
+            Text(
+              title,
+              style: TextStyle(
+                  color: Color(0xFF171433).withOpacity(0.8),
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600),
+            ),
             Spacer(),
             Container(
               width: 35,

@@ -9,6 +9,7 @@ import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'package:livewell/widgets/textfield/livewell_textfield.dart';
 
+import '../../../../../routes/app_navigator.dart';
 import '../../../../../theme/design_system.dart';
 import '../../../../../widgets/appBar/large_appbar.dart';
 import '../../../../../widgets/buttons/primary_button.dart';
@@ -80,7 +81,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   label: AppStringsKeys.signUp.tr,
                   color: const Color(0xFFDDF235),
                   onPressed: () {
-                    Get.to(() => QuestionnaireScreen());
+                    controller.onRegisterTapped();
+                    //AppNavigator.push(routeName: AppPages.questionnaire);
                   }),
               20.verticalSpace,
               Center(

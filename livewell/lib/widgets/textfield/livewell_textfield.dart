@@ -9,6 +9,8 @@ class LiveWellTextField extends StatefulWidget {
   final String? errorText;
   final bool obscureText;
   final bool? isEmail;
+  final bool? enabled;
+  final VoidCallback? onTap;
 
   const LiveWellTextField({
     Key? key,
@@ -17,6 +19,8 @@ class LiveWellTextField extends StatefulWidget {
     required this.labelText,
     required this.errorText,
     required this.obscureText,
+    this.enabled = true,
+    this.onTap,
     this.isEmail = false,
   }) : super(key: key);
   @override
@@ -43,25 +47,12 @@ class _LiveWellTextFieldState extends State<LiveWellTextField> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16.0).r,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(36.0).r,
-        border: const Border(
-          top: BorderSide(
-            color: Color(0xFFDDF235),
-            width: 3.0,
-          ),
-          bottom: BorderSide(
-            color: Color(0xFFDDF235),
-            width: 3.0,
-          ),
-          left: BorderSide(
-            color: Color(0xFFDDF235),
-            width: 3.0,
-          ),
-          right: BorderSide(
-            color: Color(0xFFDDF235),
-            width: 3.0,
-          ),
+        border: Border.all(
+          color:
+              widget.errorText == null ? Color(0xFFDDF235) : Color(0xFFFA6F6F),
+          width: 3.0,
         ),
       ),
       child: //create textformfield with green border
@@ -70,12 +61,14 @@ class _LiveWellTextFieldState extends State<LiveWellTextField> {
         style: TextStyle(color: Color(0xFF171433), fontSize: 17.sp),
         cursorColor: const Color(0xFF171433),
         controller: widget.controller,
-        obscureText: widget.obscureText,
+        obscureText: showPassword,
+        enabled: widget.enabled,
+        onTap: widget.onTap,
         decoration: InputDecoration(
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8.0).r,
             //hintText: widget.hintText,
-            labelText: widget.labelText,
+            labelText: widget.errorText ?? widget.labelText,
             floatingLabelBehavior: FloatingLabelBehavior.auto,
             labelStyle: TextStyle(
                 color: const Color(0xFF171433).withOpacity(0.5),
