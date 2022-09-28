@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/core/localization/Languages.dart';
+import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 
 class FinishQuestionnaireScreen extends StatelessWidget {
@@ -21,7 +24,7 @@ class FinishQuestionnaireScreen extends StatelessWidget {
                   child: SvgPicture.asset(Constant.imgFinishQuestionnaireSVG))),
           50.verticalSpace,
           Text(
-            'You are ready to go!',
+            AppStringsKeys.youReadyToGo.tr,
             style: TextStyle(
                 color: const Color(0xFF171433),
                 fontSize: 24.sp,
@@ -31,7 +34,7 @@ class FinishQuestionnaireScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24).r,
             child: Text(
-              'Thanks for taking your time to create account with us. Let\'s start your wellness Journey',
+              AppStringsKeys.thanksForTakingYourTime.tr,
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: const Color(0xFF171433).withOpacity(0.7),
@@ -39,15 +42,16 @@ class FinishQuestionnaireScreen extends StatelessWidget {
                   fontWeight: FontWeight.w500),
             ),
           ),
-          80.verticalSpace,
+          50.verticalSpace,
           LiveWellButton(
-              label: 'Get Started!',
+              label: AppStringsKeys.getStarted2.tr,
               color: const Color(0xFF8F01DF),
               textColor: Colors.white,
               onPressed: () {
                 // Navigator.pushNamed(context, '/home');
+                AppNavigator.pushAndRemove(routeName: AppPages.home);
               }),
-          65.verticalSpace,
+          31.verticalSpace,
         ],
       ),
     );

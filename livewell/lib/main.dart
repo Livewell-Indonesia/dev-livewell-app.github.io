@@ -1,18 +1,42 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/localization/Languages.dart';
 import 'package:livewell/feature/splash/presentation/splash_screen.dart';
+import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
+late List<CameraDescription> _cameras;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarBrightness: Brightness.light));
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await ScreenUtil.ensureScreenSize();
+  configLoading();
+  _cameras = await availableCameras();
   runApp(const MyApp());
+}
+
+void configLoading() {
+  EasyLoading.instance
+    ..maskType = EasyLoadingMaskType.black
+    ..displayDuration = const Duration(milliseconds: 2000)
+    ..indicatorType = EasyLoadingIndicatorType.threeBounce
+    ..loadingStyle = EasyLoadingStyle.custom
+    ..indicatorSize = 45.0
+    ..radius = 10.0
+    ..progressColor = Colors.yellow
+    ..backgroundColor = Colors.white
+    ..indicatorColor = const Color(0xFF8F01DF)
+    ..textColor = Colors.yellow
+    ..maskColor = Colors.blue.withOpacity(0.5)
+    ..userInteractions = false
+    ..dismissOnTap = false;
 }
 
 class MyApp extends StatelessWidget {
@@ -22,23 +46,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(375, 812),
+      designSize: const Size(1125, 2436),
       minTextAdapt: true,
       builder: (context, child) {
         return GetMaterialApp(
-          builder: (context, widget) {
+          builder: EasyLoading.init(builder: (context, widget) {
             ScreenUtil.init(context);
             return MediaQuery(
-                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                child: widget!);
-          },
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: widget!,
+            );
+          }),
           title: 'LiveWell',
           debugShowCheckedModeBanner: false,
           translations: Languages(),
           locale: Get.deviceLocale,
           fallbackLocale: const Locale('en', 'US'),
+          initialRoute: AppNavigator.initialRoute,
+          getPages: AppNavigator.pages,
           theme: ThemeData(
-              fontFamily: 'DM Sans',
+              fontFamily: GoogleFonts.archivo().fontFamily,
               primaryColor: AppColors.primary100,
               textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
               brightness: Brightness.light),

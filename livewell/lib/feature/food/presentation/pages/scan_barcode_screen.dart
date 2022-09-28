@@ -1,23 +1,39 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:livewell/main.dart';
 
-class ScanBarcodeScreen extends StatelessWidget {
+class ScanBarcodeScreen extends StatefulWidget {
   final ScanType type;
   ScanBarcodeScreen({Key? key, required this.type}) : super(key: key);
+
+  @override
+  State<ScanBarcodeScreen> createState() => _ScanBarcodeScreenState();
+}
+
+class _ScanBarcodeScreenState extends State<ScanBarcodeScreen> {
   final MobileScannerController controller = MobileScannerController();
+
+  late CameraController cameraController;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: type.title(),
+        title: widget.type.title(),
         body: Expanded(
           child: Column(
             children: [
-              Spacer(
+              const Spacer(
                 flex: 1,
               ),
               Expanded(
@@ -32,13 +48,19 @@ class ScanBarcodeScreen extends StatelessWidget {
                 flex: 4,
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: 20,
+                    20.verticalSpace,
+                    Text(
+                      'Processing...',
+                      style: TextStyle(
+                          color: Color(0xFF171433),
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w600),
                     ),
-                    Text('Processing'),
+                    7.verticalSpace,
                     Text(
                       'We’ll redirect you to another screen once we got the scanning result',
                       textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 13.sp),
                     )
                   ],
                 ),

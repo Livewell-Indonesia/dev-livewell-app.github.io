@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/localization/Languages.dart';
 import 'package:livewell/feature/auth/presentation/controller/login_controller.dart';
+import 'package:livewell/feature/auth/presentation/page/forgot_password/forgot_password_screen.dart';
+import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/appBar/large_appbar.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
@@ -36,12 +38,16 @@ class LoginScreen extends StatelessWidget {
                   obscureText: false,
                   isEmail: true),
               const SizedBox(height: 20),
-              LiveWellTextField(
-                  controller: controller.password,
-                  hintText: null,
-                  labelText: AppStringsKeys.password.tr,
-                  errorText: null,
-                  obscureText: true),
+              Obx(() {
+                return LiveWellTextField(
+                    controller: controller.password,
+                    hintText: null,
+                    labelText: AppStringsKeys.password.tr,
+                    errorText: controller.passwordError.isEmpty
+                        ? null
+                        : controller.passwordError.value,
+                    obscureText: true);
+              }),
               const SizedBox(height: 20),
               LiveWellButton(
                   label: AppStringsKeys.signIn.tr,
@@ -51,7 +57,9 @@ class LoginScreen extends StatelessWidget {
                   }),
               const SizedBox(height: 20),
               TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    AppNavigator.push(routeName: AppPages.forgotPassword);
+                  },
                   child: Text(
                     AppStringsKeys.forgotPassword.tr,
                     style: const TextStyle(
@@ -75,7 +83,7 @@ class LoginScreen extends StatelessWidget {
                           fontWeight: FontWeight.w400)),
                   TextButton(
                       onPressed: () {
-                        Get.toNamed('/signup');
+                        AppNavigator.push(routeName: AppPages.signup);
                       },
                       child: Text(
                         AppStringsKeys.signUp.tr,

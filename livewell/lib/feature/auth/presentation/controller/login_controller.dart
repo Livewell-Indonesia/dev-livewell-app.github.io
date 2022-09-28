@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
+import 'package:livewell/feature/auth/domain/usecase/post_forgot_password.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_login.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
+import 'package:livewell/routes/app_navigator.dart';
 
 class LoginController extends BaseController {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController pin = TextEditingController();
   TextEditingController forgotPasswordEmail = TextEditingController();
+  Rx<String> passwordError = ''.obs;
+
+  var showOtpInput = false.obs;
 
   PostLogin postLogin = PostLogin.instance();
-  var showOtpInput = false.obs;
+  PostForgotPassword postForgotPassword = PostForgotPassword.instance();
 
   // create function when button sendveritication tapped
   void sendVerification() {
@@ -23,14 +28,49 @@ class LoginController extends BaseController {
   void verifyOTP() {}
 
   void doLogin() async {
-    final result = await postLogin(
-        ParamsLogin(email: email.text, password: password.text));
+    if (password.text.isEmpty) {
+      passwordError.value = 'Password Empty';
+      return;
+    } else {
+      EasyLoading.show();
+      final result = await postLogin(
+          ParamsLogin(email: email.text, password: password.text));
+      EasyLoading.dismiss();
+      result.fold((l) {
+        Get.snackbar('Error', l.message ?? 'Error');
+      }, (r) {
+        SharedPref.saveToken(r.accessToken!);
+        SharedPref.saveRefreshToken(r.refreshToken!);
+        AppNavigator.pushAndRemove(routeName: AppPages.home);
+      });
+    }
+  }
+
+  void validateEmailAndPassword() {
+    if (email.text.isEmpty) {
+      Get.snackbar('Error', 'Email is required');
+      return;
+    }
+    if (password.text.isEmpty) {
+      Get.snackbar('Error', 'Password is required');
+      return;
+    }
+    doLogin();
+  }
+
+  void sendForgotPassword() async {
+    if (email.text.isEmpty) {
+      Get.snackbar('Error', 'Email is required');
+      return;
+    }
+    EasyLoading.show();
+    final result =
+        await postForgotPassword(ParamsForgotPassword(email: email.text));
+    EasyLoading.dismiss();
     result.fold((l) {
       Get.snackbar('Error', l.message ?? 'Error');
     }, (r) {
-      SharedPref.saveToken(r.accessToken!);
-      SharedPref.saveRefreshToken(r.refreshToken!);
-      Get.offAll(FoodScreen());
+      Get.snackbar('Success', r.message ?? 'Success');
     });
   }
 }

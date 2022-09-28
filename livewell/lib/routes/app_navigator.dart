@@ -1,6 +1,95 @@
+import 'package:get/get.dart';
+import 'package:livewell/feature/auth/presentation/page/forgot_password/forgot_password_screen.dart';
+import 'package:livewell/feature/auth/presentation/page/landing/landing_auth_screen.dart';
 import 'package:livewell/feature/auth/presentation/page/login/login_screen.dart';
-import 'package:livewell/routes/page_route_fade.dart';
+import 'package:livewell/feature/auth/presentation/page/signup/signup_screen.dart';
+import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
+import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
+import 'package:livewell/feature/home/presentation/home_screen.dart';
+import 'package:livewell/feature/questionnaire/presentation/page/finish_questionnaire_screen.dart';
+import 'package:livewell/feature/questionnaire/presentation/page/questionnaire_screen.dart';
+import 'package:livewell/feature/splash/presentation/splash_screen.dart';
 
 class AppNavigator {
-  static PageRouteFade login() => PageRouteFade(LoginScreen(), 1000);
+  static var initialRoute = AppPages.splash;
+  static var pages = [
+    GetPage(
+        name: AppPages.splash,
+        page: () => SplashScreen(),
+        transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.home,
+        page: () => HomeScreen(),
+        transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.landingLogin,
+        page: () => const LandingAuthScreen(),
+        transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.login,
+        page: () => LoginScreen(),
+        transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.signup,
+        page: () => const SignUpScreen(),
+        transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.questionnaire,
+        page: () => const QuestionnaireScreen(),
+        transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.finishQuestionnaire,
+        page: () => const FinishQuestionnaireScreen(),
+        transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.forgotPassword,
+        page: () => ForgotPasswordScreen(),
+        transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.food,
+        page: () => FoodScreen(),
+        transition: Transition.cupertino),
+    GetPage(
+      name: "${AppPages.addMeal}/:type",
+      page: () => AddMealScreen(),
+    )
+  ];
+
+  static void push({required String routeName, dynamic arguments}) {
+    Get.toNamed(routeName, arguments: arguments);
+  }
+
+  static void pushAndRemove({required String routeName, dynamic arguments}) {
+    Get.offAllNamed(routeName, arguments: arguments);
+  }
+
+  /// Get.offNamed() is used to remove the previous routes and push the new route.
+  static void pushReplacement({required String routeName, dynamic arguments}) {
+    Get.offNamed(routeName, arguments: arguments);
+  }
+
+  static void pop() {
+    Get.back();
+  }
+
+  static void popUntil({required String routeName}) {
+    Get.until((route) => route.settings.name == routeName);
+  }
+
+  static void popUntilRoot() {
+    Get.until((route) => route.isFirst);
+  }
+}
+
+class AppPages {
+  static String splash = '/';
+  static String home = '/home';
+  static String landingLogin = '/landingLogin';
+  static String login = '/login';
+  static String signup = '/signup';
+  static String questionnaire = '/questionnaire';
+  static String finishQuestionnaire = '/finishQuestionnaire';
+  static String forgotPassword = '/forgotPassword';
+  static String food = '/food';
+  static String addMeal = '/addMeal';
 }

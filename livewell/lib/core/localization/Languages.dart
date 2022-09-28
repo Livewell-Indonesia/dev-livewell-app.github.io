@@ -23,6 +23,14 @@ class Languages extends Translations {
           AppStringsKeys.lastName: 'Last Name',
           AppStringsKeys.orSignInWith: 'Or Sign In With',
           AppStringsKeys.forgotPassword: 'Forgot Password?',
+          AppStringsKeys.getStarted2: 'Get Started!',
+          AppStringsKeys.youReadyToGo: 'You are ready to go!',
+          AppStringsKeys.thanksForTakingYourTime:
+              'Thanks for taking your time to create account with us. Let\'s start your wellness Journey',
+          AppStringsKeys.forgotPasswordDesc:
+              'Please enter your email address. You will receive a link to create a new password via email.',
+          AppStringsKeys.submit: 'Submit',
+          AppStringsKeys.forgotPassword2: 'Forgot Password',
         },
         'es_ES': {
           'title': 'Hola',
@@ -52,4 +60,10 @@ class AppStringsKeys {
   static const String lastName = 'last_name';
   static const String orSignInWith = 'or_sign_in_with';
   static const String forgotPassword = 'forgot_password';
+  static const String getStarted2 = 'get_started2';
+  static const String youReadyToGo = 'you_ready_to_go';
+  static const String thanksForTakingYourTime = 'thanks_for_taking_your_time';
+  static const String forgotPasswordDesc = 'forgot_password_desc';
+  static const String submit = 'submit';
+  static const String forgotPassword2 = 'forgot_password2';
 }

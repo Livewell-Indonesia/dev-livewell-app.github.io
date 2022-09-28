@@ -6,6 +6,7 @@ import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/localization/Languages.dart';
 import 'package:livewell/feature/auth/presentation/page/signup/signup_screen.dart';
 import 'package:livewell/feature/food/domain/usecase/get_food_history.dart';
+import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 
 import '../login/login_screen.dart';
@@ -69,7 +70,7 @@ class LandingAuthScreen extends StatelessWidget {
                     label: AppStringsKeys.getStarted.tr,
                     color: const Color(0xFFDDF235),
                     onPressed: () {
-                      Get.to(() => SignUpScreen());
+                      AppNavigator.push(routeName: AppPages.signup);
                     }),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -81,7 +82,7 @@ class LandingAuthScreen extends StatelessWidget {
                             color: const Color(0xFF171433))),
                     TextButton(
                         onPressed: () {
-                          Get.to(() => LoginScreen());
+                          AppNavigator.push(routeName: AppPages.login);
                         },
                         child: Text(
                           AppStringsKeys.signIn.tr,

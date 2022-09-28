@@ -1,13 +1,12 @@
 import 'package:get/get.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
-import 'package:livewell/feature/auth/presentation/page/landing/landing_auth_screen.dart';
-import 'package:livewell/feature/auth/presentation/page/login/login_screen.dart';
-import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
+
+import '../../../../routes/app_navigator.dart';
 
 class SplashController extends GetxController {
   @override
   void onReady() {
-    Future.delayed(const Duration(milliseconds: 2000))
+    Future.delayed(const Duration(milliseconds: 1000))
         .then((value) => checkUserSession());
     super.onReady();
   }
@@ -15,9 +14,9 @@ class SplashController extends GetxController {
   void checkUserSession() async {
     final isLoggedIn = await SharedPref.getToken();
     if (isLoggedIn.isEmpty) {
-      Get.offAll(LandingAuthScreen());
+      AppNavigator.pushAndRemove(routeName: AppPages.landingLogin);
     } else {
-      Get.offAll(FoodScreen());
+      AppNavigator.pushAndRemove(routeName: AppPages.home);
     }
   }
 }

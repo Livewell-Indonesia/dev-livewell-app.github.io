@@ -20,7 +20,7 @@ class DioModule with DioMixin implements Dio {
 
     this.options = options;
     interceptors.add(LoggingInterceptor());
-    interceptors.add(TokenInterceptor());
+    interceptors.add(NewTokenInteceptor());
     httpClientAdapter = DefaultHttpClientAdapter();
   }
 

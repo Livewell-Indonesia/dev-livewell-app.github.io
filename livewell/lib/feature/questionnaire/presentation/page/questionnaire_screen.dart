@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
 import 'package:livewell/widgets/picker/ruler_picker.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
@@ -78,12 +80,16 @@ class QuestionnaireContent extends StatelessWidget {
                 color: const Color(0xFF171433),
                 fontWeight: FontWeight.w600)),
         7.verticalSpace,
-        Text(
-          currentPage.subtitle(),
-          style: TextStyle(
-              fontSize: 16.sp,
-              color: const Color(0xFF171433).withOpacity(0.7),
-              fontWeight: FontWeight.w500),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16).r,
+          child: Text(
+            currentPage.subtitle(),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 16.sp,
+                color: const Color(0xFF171433).withOpacity(0.7),
+                fontWeight: FontWeight.w500),
+          ),
         ),
         40.verticalSpace,
         Container(
@@ -96,13 +102,13 @@ class QuestionnaireContent extends StatelessWidget {
   Widget findContent() {
     switch (currentPage) {
       case QuestionnairePage.gender:
-        return genderSelector();
+        return GenderSelector();
       case QuestionnairePage.age:
-        return ageSelector();
+        return AgeSelector();
       case QuestionnairePage.height:
         return HeightSelector();
       case QuestionnairePage.weight:
-        return weightSelector();
+        return WeightSelector();
       case QuestionnairePage.drink:
         return DrinkSelector();
       case QuestionnairePage.sleep:
@@ -114,49 +120,6 @@ class QuestionnaireContent extends StatelessWidget {
       case QuestionnairePage.finish:
         return Text('finish');
     }
-  }
-
-  Widget ageSelector() {
-    return SizedBox(
-      height: 298.h,
-      child: CupertinoPicker(
-          itemExtent: 55.h,
-          onSelectedItemChanged: (index) {
-            controller.age.value = index + 1;
-          },
-          selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
-            background: Colors.transparent,
-          ),
-          useMagnifier: true,
-          magnification: 1.3,
-          children: List.generate(100, (index) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Obx(() {
-                  return Text(
-                    (index + 1).toString(),
-                    style: TextStyle(
-                        color: controller.age.value == index + 1
-                            ? Color(0xFF8F01DF)
-                            : Color(0xFF171433).withOpacity(0.7),
-                        fontSize: 34.sp),
-                  );
-                })
-              ],
-            );
-          })),
-    );
-  }
-
-  Row genderSelector() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Flexible(child: genderButton(Gender.male, () {})),
-        Flexible(child: genderButton(Gender.female, () {})),
-      ],
-    );
   }
 
   Column weightSelector() {
@@ -200,39 +163,63 @@ class QuestionnaireContent extends StatelessWidget {
       ],
     );
   }
+}
 
-  Column genderButton(Gender gender, VoidCallback onTap) {
-    return Column(
-      children: [
-        SizedBox(
-          height: Get.height * 0.19,
-          width: Get.width * 0.346,
-          child: InkWell(
-            onTap: () {},
-            child: Opacity(
-              opacity: 0.5,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(30.0),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.red,
-                  ),
-                  padding:
-                      const EdgeInsets.only(left: 12, right: 12, top: 20).r,
-                  child: SvgPicture.asset(
-                    gender == Gender.male
-                        ? Constant.imgMaleSVG
-                        : Constant.imgFemaleSVG,
-                    alignment: Alignment.bottomCenter,
-                  ),
-                ),
-              ),
-            ),
-          ),
+class AgeSelector extends StatelessWidget {
+  final QuestionnaireController controller = Get.find();
+  AgeSelector({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 298.h,
+      child: DatePickerWidget(
+        onMonthChangeStartWithFirstDate: false,
+        maxDateTime: DateTime.now(),
+        onChange: (dateTime, selectedIndex) {
+          controller.date.value = dateTime;
+        },
+        pickerTheme: DateTimePickerTheme(
+          showTitle: false,
         ),
-        19.verticalSpace,
-        Text(gender.label()),
-      ],
+      ),
+      // child: CupertinoDatePicker(
+      //   mode: CupertinoDatePickerMode.date,
+      //   onDateTimeChanged: (value) {
+      //     //controller.age.value = value;
+      //   },
+      // ),
+      // child: CupertinoPicker(
+      //   itemExtent: 55.h,
+      //   onSelectedItemChanged: (index) {
+      //     controller.age.value = index + 1;
+      //   },
+      //   selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
+      //     background: Colors.transparent,
+      //   ),
+      //   useMagnifier: true,
+      //   magnification: 1.3,
+      //   children: List.generate(
+      //     100,
+      //     (index) {
+      //       return Column(
+      //         mainAxisAlignment: MainAxisAlignment.center,
+      //         children: [
+      //           Obx(() {
+      //             return Text(
+      //               (index + 1).toString(),
+      //               style: TextStyle(
+      //                   color: controller.age.value == index + 1
+      //                       ? Color(0xFF8F01DF)
+      //                       : Color(0xFF171433).withOpacity(0.7),
+      //                   fontSize: 34.sp),
+      //             );
+      //           })
+      //         ],
+      //       );
+      //     },
+      //   ),
+      // ),
     );
   }
 }
@@ -347,7 +334,7 @@ class HeightSelector extends StatelessWidget {
           selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
             background: Colors.transparent,
           ),
-          children: List.generate(100, (index) {
+          children: List.generate(200, (index) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -591,6 +578,113 @@ class GoalSelector extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class WeightSelector extends StatelessWidget {
+  final QuestionnaireController controller = Get.find();
+  WeightSelector({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 298.h,
+      child: CupertinoPicker(
+          scrollController: FixedExtentScrollController(
+              initialItem: controller.weight.value - 1),
+          itemExtent: 55.h,
+          onSelectedItemChanged: (index) {
+            controller.weight.value = index + 1;
+          },
+          useMagnifier: true,
+          magnification: 1.3,
+          selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
+            background: Colors.transparent,
+          ),
+          children: List.generate(200, (index) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Obx(() {
+                  return Text(
+                    '${index + 1} kg',
+                    style: TextStyle(
+                        color: controller.weight.value == index + 1
+                            ? const Color(0xFF8F01DF)
+                            : const Color(0xFF171433).withOpacity(0.7),
+                        fontSize: 34.sp),
+                  );
+                })
+              ],
+            );
+          })),
+    );
+  }
+}
+
+class GenderSelector extends StatelessWidget {
+  final QuestionnaireController controller = Get.find();
+  GenderSelector({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Flexible(child: genderButton(Gender.male, () {})),
+        Flexible(child: genderButton(Gender.female, () {})),
+      ],
+    );
+  }
+
+  Column genderButton(Gender gender, VoidCallback onTap) {
+    return Column(
+      children: [
+        SizedBox(
+            height: 0.19.sh,
+            width: 0.346.sw,
+            child: Obx(() {
+              return InkWell(
+                onTap: () {
+                  controller.selectedGender.value = gender;
+                },
+                child: Opacity(
+                  opacity:
+                      gender == controller.selectedGender.value ? 1.0 : 0.5,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30.0).r,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: gender == Gender.male
+                            ? Color(0xFFDDF235)
+                            : Color(0xFF7FE4F0),
+                      ),
+                      padding:
+                          const EdgeInsets.only(left: 12, right: 12, top: 20).r,
+                      child: SvgPicture.asset(
+                        gender == Gender.male
+                            ? Constant.imgMaleSVG
+                            : Constant.imgFemaleSVG,
+                        alignment: Alignment.bottomCenter,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            })),
+        19.verticalSpace,
+        Obx(() {
+          return Text(
+            gender.label(),
+            style: TextStyle(
+                color: gender == controller.selectedGender.value
+                    ? Color(0xFFDDF235)
+                    : Color(0xFF171433).withOpacity(0.8),
+                fontSize: 18.sp),
+          );
+        })
+      ],
     );
   }
 }
