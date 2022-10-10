@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:livewell/core/network/api_url.dart';
 import 'package:livewell/core/network/network_module.dart';
+import 'package:livewell/feature/dashboard/data/model/dashboard_model.dart';
 import 'package:livewell/feature/dashboard/domain/repository/dashboard_repository.dart';
 
 import '../../../../core/error/failures.dart';
@@ -17,10 +18,23 @@ class DashboardRepostoryImpl extends NetworkModule
   Future<Either<Failure, UserModel>> getUser() async {
     try {
       final response = await getMethod(Endpoint.user, headers: {
-        'Authorization': await SharedPref.getToken(),
+        authorization: await SharedPref.getToken(),
       });
       final json = responseHandler(response);
       return Right(UserModel.fromJson(json));
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, DashboardModel>> getDashboardData() async {
+    try {
+      final response = await getMethod(Endpoint.dashboard, headers: {
+        authorization: await SharedPref.getToken(),
+      });
+      final json = responseHandler(response);
+      return Right(DashboardModel.fromJson(json));
     } catch (ex) {
       return Left(ServerFailure(message: ex.toString()));
     }

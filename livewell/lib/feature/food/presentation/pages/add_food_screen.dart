@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,7 +21,9 @@ import 'nutrient_fact_screen.dart';
 
 class AddFoodScreen extends StatefulWidget {
   final Foods food;
-  const AddFoodScreen({required this.food, Key? key}) : super(key: key);
+  final MealTime mealTime;
+  AddFoodScreen({required this.food, required this.mealTime, Key? key})
+      : super(key: key);
 
   @override
   State<AddFoodScreen> createState() => _AddFoodScreenState();
@@ -33,6 +38,14 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
     controller.servingSize.text =
         widget.food.servings?[0].servingDescription ?? "";
     controller.numberOfServing.text = "1";
+    inspect(widget.food);
+    controller.selectedTime.value = selectedTime.toString();
+    controller.time.text = DateFormat('hh:mm a').format(selectedTime);
+    if (Get.arguments != null) {
+      selectedTime = Get.arguments as DateTime;
+      controller.selectedTime.value = selectedTime.toString();
+      controller.time.text = DateFormat('hh:mm a').format(selectedTime);
+    }
     super.initState();
   }
 
@@ -50,7 +63,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                     padding: const EdgeInsets.only(left: 16.0).r,
                     child: Text(
                       widget.food.foodName ?? "",
-                      style: GoogleFonts.dmSans(
+                      style: GoogleFonts.archivo(
                           fontSize: 24.sp,
                           fontWeight: FontWeight.w700,
                           color: const Color(0xFF8F01DF)),
@@ -199,7 +212,16 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                       child: CupertinoDatePicker(
                                         mode: CupertinoDatePickerMode.time,
                                         onDateTimeChanged: (time) {
-                                          selectedTime = time;
+                                          if (Get.arguments != null) {
+                                            selectedTime = DateTime(
+                                                selectedTime.year,
+                                                selectedTime.month,
+                                                selectedTime.day,
+                                                time.hour,
+                                                time.minute);
+                                          } else {
+                                            selectedTime = time;
+                                          }
                                         },
                                       ),
                                     ),
@@ -301,7 +323,8 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                           children: [
                             Row(
                               children: [
-                                Text('36% of your daily goals',
+                                Text(
+                                    "${controller.percentOfDailyGoals(int.parse(widget.food.servings?[0].calories ?? "0"))}% of your daily goals",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 11.sp,
@@ -319,7 +342,10 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                             LinearPercentIndicator(
                               padding: EdgeInsets.zero,
                               lineHeight: 7.0,
-                              percent: 0.5,
+                              percent: controller.percentOfDailyGoals(int.parse(
+                                      widget.food.servings?[0].calories ??
+                                          "0")) /
+                                  100,
                               barRadius: const Radius.circular(4.0),
                               backgroundColor: const Color(0xFFF2F1F9),
                               progressColor: const Color(0xFFDDF235),
@@ -333,7 +359,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                         onTap: () {
                           controller.selectedTime.value =
                               selectedTime.toString();
-                          controller.addMeals(widget.food, MealTime.breakfast);
+                          controller.addMeals(widget.food, widget.mealTime);
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(

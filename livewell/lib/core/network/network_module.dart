@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 
@@ -21,6 +22,7 @@ abstract class NetworkModule {
       return Result.success(
         response.data as T,
         response.statusMessage,
+        response.statusCode,
       );
     } on DioError catch (e) {
       if (e.type == DioErrorType.response) {
@@ -63,7 +65,7 @@ abstract class NetworkModule {
     final response = await _safeCallApi(
       _dio.post(
         endpoint,
-        data: body,
+        data: jsonEncode(body),
         queryParameters: param,
         options: _options,
       ),
@@ -144,7 +146,7 @@ abstract class NetworkModule {
         if (result.code == 401) {
           throw UnAuthorizedExceptions(result.message ?? '');
         } else {
-          throw ErrorRequestException(result.code, result.message);
+          throw ErrorRequestException(result.code!, result.message);
         }
       case Status.UNREACHABLE:
         throw NetworkException(result.message);

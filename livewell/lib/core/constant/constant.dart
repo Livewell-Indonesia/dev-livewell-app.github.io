@@ -12,20 +12,9 @@ class Constant {
   static const String icSearch = '$assetsIcons/ic_search.png';
   static const String icBarcode = '$assetsIcons/ic_barcode.svg';
   static const String icScanMeal = '$assetsIcons/ic_scanmeal.svg';
-  static const String icBloodWhite = '$assetsIcons/ic_blood_white.png';
-  static const String icBloodPurple = '$assetsIcons/ic_blood_purple.png';
-  static const String icFoodWhite = '$assetsIcons/ic_food_white.png';
-  static const String icFoodPurple = '$assetsIcons/ic_food_purple.png';
-  static const String icMeditationWhite =
-      '$assetsIcons/ic_meditation_white.png';
-  static const String icMeditationPurple =
-      '$assetsIcons/ic_meditation_purple.png';
-  static const String icSleepWhite = '$assetsIcons/ic_sleep_white.png';
-  static const String icSleepPurple = '$assetsIcons/ic_sleep_purple.png';
-  static const String icExerciseWhite = '$assetsIcons/ic_exercise_white.png';
-  static const String icExercisePurple = '$assetsIcons/ic_exercise_purple.png';
   static const String icAvatarPlaceholder =
       '$assetsIcons/ic_avatar_placeholder.svg';
+  static const String icCalories = '$assetsIcons/ic_calories.svg';
 
   static const String icSleepUnselected =
       '$assetsIcons/ic_sleep_unselected.png';
@@ -48,6 +37,10 @@ class Constant {
   static const String icWaterUnselected =
       '$assetsIcons/ic_water_unselected.png';
   static const String icWaterSelected = '$assetsIcons/ic_water_selected.png';
+  static const String icLogout = '$assetsIcons/ic_logout.png';
+  static const String icAccountSetting = '$assetsIcons/ic_account_settings.png';
+  static const String icPhysicalInfo = '$assetsIcons/ic_physical_info.png';
+  static const String icKey = '$assetsIcons/ic_key.png';
 
   // image Assets
   static const String assetsImages = 'assets/images';

@@ -1,8 +1,13 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:camera_platform_interface/src/types/camera_description.dart';
 import 'package:dartz/dartz.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/network/network_module.dart';
 import 'package:livewell/feature/food/domain/entity/add_meal_param.dart';
 import 'package:livewell/feature/auth/data/model/register_model.dart';
+import 'package:livewell/feature/food/domain/entity/meal_history.dart';
 import 'package:livewell/feature/food/domain/repository/food_repository.dart';
 
 import '../../../../core/error/failures.dart';
@@ -10,6 +15,7 @@ import '../../../../core/log.dart';
 import '../../../../core/network/api_url.dart';
 import '../../domain/usecase/post_search_food.dart';
 import '../model/foods_model.dart';
+import 'package:camera/camera.dart';
 
 class FoodRepositoryImpl extends NetworkModule implements FoodRepository {
   FoodRepositoryImpl._();
@@ -24,6 +30,7 @@ class FoodRepositoryImpl extends NetworkModule implements FoodRepository {
           headers: {authorization: await SharedPref.getToken()});
       final json = responseHandler(response);
       final data = FoodsModel.fromJson(json);
+      Log.colorGreen("success get data food history ${data.foods?.length}");
       return Right(data);
     } catch (ex) {
       Log.error(ex);
@@ -58,6 +65,40 @@ class FoodRepositoryImpl extends NetworkModule implements FoodRepository {
     } catch (ex) {
       Log.error(ex);
       return Left(ServerFailure(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<CameraDescription>>> getCameras() async {
+    final cameras = await availableCameras();
+    return Right(cameras);
+  }
+
+  @override
+  Future<Either<Failure, bool>> addMealHistory(MealHistory params) async {
+    final currentHistory = await SharedPref.getMealHistories();
+    if (currentHistory.isNotEmpty) {
+      final histories = MealHistories.fromJson(jsonDecode(currentHistory));
+      histories.mealHistories?.add(params);
+      inspect(histories);
+      await SharedPref.saveMealHistories(jsonEncode(histories));
+    } else {
+      final result = MealHistories(mealHistories: []);
+      result.mealHistories?.add(params);
+      inspect(result);
+      await SharedPref.saveMealHistories(jsonEncode(result));
+    }
+    return const Right(true);
+  }
+
+  @override
+  Future<Either<Failure, MealHistories>> getMealHistory() async {
+    final result = await SharedPref.getMealHistories();
+    if (result.isNotEmpty) {
+      final response = MealHistories.fromJson(jsonDecode(result));
+      return Right(response);
+    } else {
+      return Right(MealHistories(mealHistories: []));
     }
   }
 }

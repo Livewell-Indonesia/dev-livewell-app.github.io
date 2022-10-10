@@ -9,8 +9,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:livewell/main.dart';
 
 class ScanBarcodeScreen extends StatefulWidget {
-  final ScanType type;
-  ScanBarcodeScreen({Key? key, required this.type}) : super(key: key);
+  ScanBarcodeScreen({Key? key}) : super(key: key);
 
   @override
   State<ScanBarcodeScreen> createState() => _ScanBarcodeScreenState();
@@ -29,7 +28,7 @@ class _ScanBarcodeScreenState extends State<ScanBarcodeScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: widget.type.title(),
+        title: "scan a barcode",
         body: Expanded(
           child: Column(
             children: [

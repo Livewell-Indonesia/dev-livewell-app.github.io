@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -17,20 +18,33 @@ class QuestionnaireController extends GetxController {
   var date = DateTime.now().obs;
   var dateOfBirth = "".obs;
   var age = 1.obs;
-  var height = 1.obs;
+  var height = 150.obs;
   var drink = 1.obs;
   var sleep = 1.obs;
-  var weight = 1.obs;
+  var weight = 30.obs;
+  var targetWeight = 30.obs;
   Rx<Gender> selectedGender = Gender.male.obs;
   Rx<GoalSelection> selectedGoals = GoalSelection.getFitter.obs;
-  Rx<DietrarySelection> selectedDietrary = DietrarySelection.yes.obs;
+  Rx<DietrarySelection> selectedDietrary = DietrarySelection.no.obs;
+  TextEditingController selectedDietraryText = TextEditingController();
 
   PostQuestionnaire postQuestionnaire = PostQuestionnaire.instance();
 
   QuestionnairePage findNextPage() {
+    // if current page is questionnairepage.goal and selected goal is not better sleeping, return questionnairepage.targetweight
+    print(
+        "selectedGoals : ${selectedGoals.value} berarti ${selectedGoals.value != GoalSelection.betterSleeping} current page: ${currentPage.value}");
     final nextIndex =
         (currentPage.value.index + 1) % QuestionnairePage.values.length;
-    return QuestionnairePage.values[nextIndex];
+    final nextPage = QuestionnairePage.values[nextIndex];
+    if (currentPage.value == QuestionnairePage.goal &&
+        selectedGoals.value != GoalSelection.betterSleeping) {
+      return QuestionnairePage.targetWeight;
+    } else if (currentPage.value == QuestionnairePage.goal) {
+      return QuestionnairePage.finish;
+    } else {
+      return nextPage;
+    }
   }
 
   QuestionnairePage findPreviousPage() {
@@ -70,18 +84,19 @@ class QuestionnaireController extends GetxController {
         DateFormat('yyyy-MM-dd').format(date.value),
         weight.value,
         height.value,
+        targetWeight.value,
         drink.value.toString(),
         sleep.value.toString(),
-        selectedDietrary.value.title(),
+        selectedDietraryText.text,
         selectedGoals.value.title());
     inspect(params);
     Log.info(params.toJson());
     inspect(params.toJson());
-    EasyLoading.show(maskType: EasyLoadingMaskType.black);
+    await EasyLoading.show(maskType: EasyLoadingMaskType.black);
     final result = await postQuestionnaire(params);
+    await EasyLoading.dismiss();
     result.fold((l) {}, (r) {
-      EasyLoading.dismiss();
-      Get.offAll(FinishQuestionnaireScreen());
+      AppNavigator.pushAndRemove(routeName: AppPages.finishQuestionnaire);
     });
     //AppNavigator.push(routeName: AppPages.finishQuestionnaire);
   }
@@ -96,6 +111,7 @@ enum QuestionnairePage {
   sleep,
   dieatary,
   goal,
+  targetWeight,
   finish
 }
 
@@ -118,6 +134,8 @@ extension QuestionnairePageData on QuestionnairePage {
         return 'Any dietary restriction?';
       case QuestionnairePage.goal:
         return 'Your specific goal?';
+      case QuestionnairePage.targetWeight:
+        return 'Target weight';
       case QuestionnairePage.finish:
         return 'finish';
     }
@@ -141,6 +159,8 @@ extension QuestionnairePageData on QuestionnairePage {
         return 'Help us to create your personalized plan';
       case QuestionnairePage.goal:
         return 'You always change this latter';
+      case QuestionnairePage.targetWeight:
+        return 'Help us to create your personalized plan';
       case QuestionnairePage.finish:
         return 'finish';
     }

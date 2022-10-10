@@ -44,6 +44,7 @@ class NewTokenInteceptor extends Interceptor with NetworkModule {
           AppNavigator.pushAndRemove(routeName: AppPages.landingLogin);
         }, (r) async {
           await SharedPref.saveToken(r.accessToken ?? '');
+          await SharedPref.saveRefreshToken(r.refreshToken ?? '');
           options.headers['Authorization'] = r.accessToken;
           handler.next(options);
         });

@@ -10,15 +10,15 @@ import 'package:livewell/theme/design_system.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-late List<CameraDescription> _cameras;
+List<CameraDescription> cameras = [];
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarBrightness: Brightness.light));
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await ScreenUtil.ensureScreenSize();
   configLoading();
-  _cameras = await availableCameras();
   runApp(const MyApp());
 }
 
@@ -46,12 +46,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(1125, 2436),
+      designSize: const Size(375, 812),
       minTextAdapt: true,
       builder: (context, child) {
         return GetMaterialApp(
           builder: EasyLoading.init(builder: (context, widget) {
-            ScreenUtil.init(context);
             return MediaQuery(
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
               child: widget!,

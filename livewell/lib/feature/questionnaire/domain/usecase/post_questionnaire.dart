@@ -26,6 +26,7 @@ class QuestionnaireParams {
   String? gender;
   int? height;
   int? weight;
+  int? targetWeight;
   OnboardingQuestionnaire? onboardingQuestionnaire;
 
   QuestionnaireParams(
@@ -35,6 +36,7 @@ class QuestionnaireParams {
       this.gender,
       this.height,
       this.weight,
+      this.targetWeight,
       this.onboardingQuestionnaire});
 
   QuestionnaireParams.asParams(
@@ -44,6 +46,7 @@ class QuestionnaireParams {
       String age,
       this.weight,
       this.height,
+      this.targetWeight,
       String drink,
       String sleep,
       String dietraryRestriction,
@@ -53,7 +56,7 @@ class QuestionnaireParams {
       dietaryRestrictions: [dietraryRestriction],
       sleepDuration: sleep,
       glassesOfWaterDaily: drink,
-      targetImprovement: goal,
+      targetImprovement: [goal],
     );
   }
 
@@ -65,6 +68,11 @@ class QuestionnaireParams {
     data['gender'] = gender;
     data['height'] = height;
     data['weight'] = weight;
+    if (onboardingQuestionnaire!.targetImprovement != null &&
+        !onboardingQuestionnaire!.targetImprovement!
+            .contains("Better Sleeping")) {
+      data['weight_target'] = targetWeight;
+    }
     if (onboardingQuestionnaire != null) {
       data['onboarding_questionnaire'] = onboardingQuestionnaire!.toJson();
     }
@@ -76,7 +84,7 @@ class OnboardingQuestionnaire {
   List<String>? dietaryRestrictions;
   String? sleepDuration;
   String? glassesOfWaterDaily;
-  String? targetImprovement;
+  List<String>? targetImprovement;
 
   OnboardingQuestionnaire(
       {this.dietaryRestrictions,

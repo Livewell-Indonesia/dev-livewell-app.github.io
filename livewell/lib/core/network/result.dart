@@ -12,16 +12,17 @@ class Result<T> {
     this.message = "",
   });
 
-  final int code;
+  final int? code;
   final Status? status;
   final T body;
   final String? message;
 
-  static Result<T> success<T>(T? data, String? message) {
+  static Result<T> success<T>(T? data, String? message, int? code) {
     return Result(
       Status.SUCCESS,
       data!,
       message: message,
+      code: code,
     );
   }
 

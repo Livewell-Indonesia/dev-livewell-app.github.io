@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/feature/food/domain/usecase/post_search_food.dart';
 
@@ -30,6 +31,7 @@ class AddMealController extends GetxController {
       }
     });
     getFoodsHistory();
+    print("andi ganteng ${Get.arguments}");
   }
 
   void onTapSearchBar() {
@@ -40,6 +42,7 @@ class AddMealController extends GetxController {
     GetFoodHistory instance = GetFoodHistory.instance();
     final result = await instance.call(NoParams());
     result.fold((l) => print(l), (r) {
+      Log.info("total history ${r.foods?.length}");
       history.value = r.foods ?? [];
     });
   }
