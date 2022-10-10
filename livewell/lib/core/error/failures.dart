@@ -11,6 +11,12 @@ class ServerFailure extends Failure {
   List<Object?> get props => [message];
 }
 
+class NotFoundFailure extends Failure {
+  const NotFoundFailure({String? message}) : super(message: message);
+  @override
+  List<Object?> get props => [message];
+}
+
 class CacheFailure extends Failure {
   @override
   List<Object?> get props => [];

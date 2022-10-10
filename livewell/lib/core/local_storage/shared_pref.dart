@@ -38,4 +38,14 @@ class SharedPref {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.remove(PrefConstant.refreshToken);
   }
+
+  static Future<String> getMealHistories() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(PrefConstant.mealHistories) ?? '';
+  }
+
+  static Future<bool> saveMealHistories(String data) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setString(PrefConstant.mealHistories, data);
+  }
 }

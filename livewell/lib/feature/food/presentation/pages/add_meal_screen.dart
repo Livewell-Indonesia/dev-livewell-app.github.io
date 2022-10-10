@@ -9,6 +9,8 @@ import 'package:livewell/feature/food/presentation/controller/add_meal_controlle
 import 'package:livewell/feature/food/presentation/pages/add_food_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/scan_barcode_screen.dart';
+import 'package:livewell/feature/food/presentation/pages/scan_food_screen.dart';
+import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'dart:developer';
@@ -28,7 +30,7 @@ class _AddMealScreenState extends State<AddMealScreen>
   Widget build(BuildContext context) {
     TabController controller = TabController(length: 3, vsync: this);
     return LiveWellScaffold(
-      title: (MealTime.values.byName(Get.parameters['type']!)).appBarTitle(),
+      title: MealTime.values.byName(Get.parameters['type']!).appBarTitle(),
       body: Expanded(
         child: Column(
           children: [
@@ -109,14 +111,15 @@ class _AddMealScreenState extends State<AddMealScreen>
                                     addMealController.results[index].foodName ??
                                         "",
                                 callback: () {
-                                  print(
-                                      "andi ganteng ${addMealController.results[index]}");
                                   Get.to(
                                       () => AddFoodScreen(
                                             food: addMealController
                                                 .results[index],
+                                            mealTime: MealTime.values.byName(
+                                                Get.parameters['type']!),
                                           ),
-                                      transition: Transition.cupertino);
+                                      transition: Transition.cupertino,
+                                      arguments: Get.arguments);
                                 },
                               );
                             },
@@ -167,15 +170,15 @@ class _AddMealScreenState extends State<AddMealScreen>
             child: Row(
               children: [
                 Expanded(
-                    child: scanButton(ScanType.barcode, () {
-                  Get.to(() => ScanBarcodeScreen(type: ScanType.barcode),
-                      transition: Transition.cupertino);
+                    child: scanButton(ScanType.barcode, () async {
+                  AppNavigator.push(
+                      routeName:
+                          "${AppPages.scanFood}/${ScanType.barcode.name}");
                 })),
                 const SizedBox(width: 24),
                 Expanded(
-                    child: scanButton(ScanType.photo, () {
-                  Get.to(() => ScanBarcodeScreen(type: ScanType.photo),
-                      transition: Transition.cupertino);
+                    child: scanButton(ScanType.photo, () async {
+                  Get.to(ScanFoodScreen());
                 })),
               ],
             ),
@@ -187,7 +190,7 @@ class _AddMealScreenState extends State<AddMealScreen>
               'History',
               style: TextStyle(
                   fontSize: 22.sp,
-                  color: Color(0xFF171433),
+                  color: const Color(0xFF171433),
                   fontWeight: FontWeight.w600),
             ),
           ),
@@ -195,7 +198,7 @@ class _AddMealScreenState extends State<AddMealScreen>
             () {
               if (addMealController.history.isNotEmpty) {
                 return ListView.separated(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: 5,
                   itemBuilder: (context, index) {
@@ -206,15 +209,16 @@ class _AddMealScreenState extends State<AddMealScreen>
                         Get.to(
                             () => AddFoodScreen(
                                   food: addMealController.history[index],
+                                  mealTime: MealTime.values
+                                      .byName(Get.parameters['type']!),
                                 ),
-                            transition: Transition.cupertino);
+                            transition: Transition.cupertino,
+                            arguments: Get.arguments);
                       },
                     );
                   },
                   separatorBuilder: (context, index) {
-                    return SizedBox(
-                      height: 16,
-                    );
+                    return 16.verticalSpace;
                   },
                 );
               } else {
@@ -240,12 +244,13 @@ class _AddMealScreenState extends State<AddMealScreen>
           addMealController.doSearchFood();
           addMealController.focusNode.unfocus();
         },
+        style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
         focusNode: addMealController.focusNode,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.only(top: 20, bottom: 16),
           border: InputBorder.none,
           hintText: 'Search here...',
-          hintStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          hintStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
           prefixIcon: Image.asset(
             Constant.icSearch,
             scale: 1,

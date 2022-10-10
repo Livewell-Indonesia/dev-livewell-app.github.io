@@ -11,6 +11,7 @@ import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 import '../../../../core/constant/constant.dart';
+import '../../../../routes/app_navigator.dart';
 
 class QuestionnaireScreen extends StatefulWidget {
   const QuestionnaireScreen({Key? key}) : super(key: key);
@@ -27,6 +28,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     return LiveWellScaffold(
       title: '',
       backgroundColor: Colors.white,
+      allowBack: Get.previousRoute == AppPages.profile,
       body: Expanded(
         child: Column(children: [
           const SizedBox(
@@ -118,7 +120,9 @@ class QuestionnaireContent extends StatelessWidget {
       case QuestionnairePage.goal:
         return GoalSelector();
       case QuestionnairePage.finish:
-        return Text('finish');
+        return const Text('finish');
+      case QuestionnairePage.targetWeight:
+        return TargetWeightSelector();
     }
   }
 
@@ -174,8 +178,10 @@ class AgeSelector extends StatelessWidget {
     return SizedBox(
       height: 298.h,
       child: DatePickerWidget(
+        initialDateTime: DateTime(1990, 1, 1),
         onMonthChangeStartWithFirstDate: false,
         maxDateTime: DateTime.now(),
+        dateFormat: 'yyyy-MMM-dd',
         onChange: (dateTime, selectedIndex) {
           controller.date.value = dateTime;
         },
@@ -326,6 +332,8 @@ class HeightSelector extends StatelessWidget {
       height: 298.h,
       child: CupertinoPicker(
           itemExtent: 55.h,
+          scrollController: FixedExtentScrollController(
+              initialItem: controller.height.value - 1),
           onSelectedItemChanged: (index) {
             controller.height.value = index + 1;
           },
@@ -454,44 +462,70 @@ class DietrarySelector extends StatelessWidget {
                         onTap: () {
                           controller.selectedDietrary.value =
                               DietrarySelection.values[index];
+                          controller.selectedDietraryText.text =
+                              DietrarySelection.values[index].name;
                         },
-                        child: Text(
-                          DietrarySelection.values[index].title(),
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: const Color(0xFF171433).withOpacity(0.7)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            DietrarySelection.values[index].title(),
+                            style: TextStyle(
+                                fontSize: 18,
+                                color:
+                                    const Color(0xFF171433).withOpacity(0.7)),
+                          ),
                         ),
                       ),
                     )
                   : Container(
                       padding: const EdgeInsets.symmetric(horizontal: 19).r,
                       height: 57.h,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            controller.selectedDietrary.value =
-                                DietrarySelection.values[index];
-                          },
-                          style: ElevatedButton.styleFrom(
-                              elevation: 0.0,
-                              primary: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40),
-                                  side: BorderSide(
-                                      color: const Color(0xFF8F01DF),
-                                      width: 3.w))),
-                          child: Obx(() {
-                            return Text(
-                              DietrarySelection.values[index].title(),
-                              style: TextStyle(
-                                  color: controller.selectedDietrary.value ==
-                                          DietrarySelection.values[index]
-                                      ? const Color(0xFF8F01DF)
-                                      : const Color(0xFF171433)
-                                          .withOpacity(0.7),
-                                  fontSize: 24.sp,
-                                  fontWeight: FontWeight.w600),
-                            );
-                          })),
+                      child: controller.selectedDietrary.value ==
+                              DietrarySelection.yes
+                          ? Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: const Color(0xFF8F01DF), width: 2),
+                                  borderRadius: BorderRadius.circular(36)),
+                              child: TextField(
+                                controller: controller.selectedDietraryText,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 24.sp,
+                                    color: const Color(0xFF8F01DF),
+                                    fontWeight: FontWeight.w600),
+                                cursorColor: const Color(0xFF8F01DF),
+                                decoration: const InputDecoration(
+                                    border: InputBorder.none),
+                              ),
+                            )
+                          : ElevatedButton(
+                              onPressed: () {
+                                controller.selectedDietrary.value =
+                                    DietrarySelection.values[index];
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  elevation: 0.0,
+                                  primary: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(40),
+                                      side: BorderSide(
+                                          color: const Color(0xFF8F01DF),
+                                          width: 3.w))),
+                              child: Obx(() {
+                                return Text(
+                                  DietrarySelection.values[index].title(),
+                                  style: TextStyle(
+                                      color: controller
+                                                  .selectedDietrary.value ==
+                                              DietrarySelection.values[index]
+                                          ? const Color(0xFF8F01DF)
+                                          : const Color(0xFF171433)
+                                              .withOpacity(0.7),
+                                      fontSize: 24.sp,
+                                      fontWeight: FontWeight.w600),
+                                );
+                              })),
                     );
             });
           }
@@ -578,6 +612,47 @@ class GoalSelector extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class TargetWeightSelector extends StatelessWidget {
+  final QuestionnaireController controller = Get.find();
+  TargetWeightSelector({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 298.h,
+      child: CupertinoPicker(
+          scrollController: FixedExtentScrollController(
+              initialItem: controller.targetWeight.value - 1),
+          itemExtent: 55.h,
+          onSelectedItemChanged: (index) {
+            controller.targetWeight.value = index + 1;
+          },
+          useMagnifier: true,
+          magnification: 1.3,
+          selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
+            background: Colors.transparent,
+          ),
+          children: List.generate(200, (index) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Obx(() {
+                  return Text(
+                    '${index + 1} kg',
+                    style: TextStyle(
+                        color: controller.targetWeight.value == index + 1
+                            ? const Color(0xFF8F01DF)
+                            : const Color(0xFF171433).withOpacity(0.7),
+                        fontSize: 34.sp),
+                  );
+                })
+              ],
+            );
+          })),
     );
   }
 }

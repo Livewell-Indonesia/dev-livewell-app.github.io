@@ -32,12 +32,16 @@ class LoginController extends BaseController {
       passwordError.value = 'Password Empty';
       return;
     } else {
-      EasyLoading.show();
+      await EasyLoading.show();
       final result = await postLogin(
           ParamsLogin(email: email.text, password: password.text));
-      EasyLoading.dismiss();
+      await EasyLoading.dismiss();
       result.fold((l) {
-        Get.snackbar('Error', l.message ?? 'Error');
+        if (l.message!.contains("404")) {
+          Get.snackbar('Error', 'Please verify your email first');
+        } else {
+          Get.snackbar('Error', l.message ?? 'Error');
+        }
       }, (r) {
         SharedPref.saveToken(r.accessToken!);
         SharedPref.saveRefreshToken(r.refreshToken!);
@@ -63,14 +67,16 @@ class LoginController extends BaseController {
       Get.snackbar('Error', 'Email is required');
       return;
     }
-    EasyLoading.show();
+    await EasyLoading.show();
     final result =
         await postForgotPassword(ParamsForgotPassword(email: email.text));
-    EasyLoading.dismiss();
+    await EasyLoading.dismiss();
     result.fold((l) {
       Get.snackbar('Error', l.message ?? 'Error');
     }, (r) {
-      Get.snackbar('Success', r.message ?? 'Success');
+      Get.snackbar('Success',
+          r.message ?? 'Success reset password. Please check your email');
+      AppNavigator.push(routeName: AppPages.changePassword);
     });
   }
 }

@@ -1,6 +1,6 @@
 class Endpoint {
   /// DEV
-  static String api = "http://159.223.36.228:4000/api/v1/";
+  static String api = "https://dev-api.livewellindo.com/api/v1/";
 
   /// Login
   static const String login = "auth/login";
@@ -11,10 +11,12 @@ class Endpoint {
 
   /// forgot password
   static const String forgotPassword = "auth/forgot-password";
-
+  static const String changePassword = "auth/verify-forgot-password";
   static const String refreshToken = "auth/refresh";
 
   static const String user = "user/profile";
+  static const String dailyJournal = "user/daily-journal";
+  static const String dashboard = "user/dashboard";
 
   /// food
   static const String foods = "foods";
@@ -22,4 +24,7 @@ class Endpoint {
 
   /// questionnaire
   static const String questionnaire = "user/onboarding";
+
+  /// diary
+  static const String userMealHistory = "user/meal/history";
 }

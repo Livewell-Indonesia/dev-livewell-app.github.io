@@ -17,13 +17,13 @@ class SignUpController extends GetxController {
   }
 
   void doRegister() async {
-    EasyLoading.show();
+    await EasyLoading.show();
     final result = await postRegister.call(ParamsRegister(
         firstName: firstName.text,
         lastName: lastName.text,
         email: email.text,
         password: password.text));
-    EasyLoading.dismiss();
+    await EasyLoading.dismiss();
     result.fold((l) {}, (r) {
       AppNavigator.pushReplacement(routeName: AppPages.login);
       Get.snackbar("Success Register", "Verify your email");

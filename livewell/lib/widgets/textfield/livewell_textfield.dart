@@ -61,7 +61,7 @@ class _LiveWellTextFieldState extends State<LiveWellTextField> {
         style: TextStyle(color: Color(0xFF171433), fontSize: 17.sp),
         cursorColor: const Color(0xFF171433),
         controller: widget.controller,
-        obscureText: showPassword,
+        obscureText: !showPassword && widget.obscureText,
         enabled: widget.enabled,
         onTap: widget.onTap,
         decoration: InputDecoration(

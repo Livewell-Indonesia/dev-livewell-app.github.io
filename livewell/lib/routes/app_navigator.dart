@@ -1,11 +1,16 @@
 import 'package:get/get.dart';
+import 'package:livewell/feature/auth/presentation/page/change_pasword/change_password_screen.dart';
 import 'package:livewell/feature/auth/presentation/page/forgot_password/forgot_password_screen.dart';
 import 'package:livewell/feature/auth/presentation/page/landing/landing_auth_screen.dart';
 import 'package:livewell/feature/auth/presentation/page/login/login_screen.dart';
 import 'package:livewell/feature/auth/presentation/page/signup/signup_screen.dart';
+import 'package:livewell/feature/daily_journal/presentation/page/daily_journal_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
+import 'package:livewell/feature/food/presentation/pages/scan_barcode_screen.dart';
 import 'package:livewell/feature/home/presentation/home_screen.dart';
+import 'package:livewell/feature/profile/presentation/page/account_settings_screen.dart';
+import 'package:livewell/feature/profile/presentation/page/user_settings_screen.dart';
 import 'package:livewell/feature/questionnaire/presentation/page/finish_questionnaire_screen.dart';
 import 'package:livewell/feature/questionnaire/presentation/page/questionnaire_screen.dart';
 import 'package:livewell/feature/splash/presentation/splash_screen.dart';
@@ -50,9 +55,31 @@ class AppNavigator {
         page: () => FoodScreen(),
         transition: Transition.cupertino),
     GetPage(
-      name: "${AppPages.addMeal}/:type",
-      page: () => AddMealScreen(),
-    )
+        name: "${AppPages.addMeal}/:type",
+        page: () => AddMealScreen(),
+        transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.profile,
+        page: () => UserSettingsScreen(),
+        transition: Transition.cupertino),
+    GetPage(
+      name: AppPages.dailyJournal,
+      page: () => DailyJournalScreen(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+        name: AppPages.changePassword,
+        page: () => ChangePasswordScreen(),
+        transition: Transition.cupertino),
+    GetPage(
+      name: "${AppPages.scanFood}/:type",
+      page: () => ScanBarcodeScreen(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+        name: AppPages.accountSetting,
+        page: () => AccountSettingsScreen(),
+        transition: Transition.cupertino),
   ];
 
   static void push({required String routeName, dynamic arguments}) {
@@ -92,4 +119,9 @@ class AppPages {
   static String forgotPassword = '/forgotPassword';
   static String food = '/food';
   static String addMeal = '/addMeal';
+  static String profile = '/profile';
+  static String dailyJournal = '/dailyJournal';
+  static String changePassword = '/changePasword';
+  static String scanFood = '/scanFood';
+  static String accountSetting = '/accountSetting';
 }

@@ -6,51 +6,59 @@ class LiveWellScaffold extends StatelessWidget {
   final String title;
   final Color? backgroundColor;
   final Widget body;
+  final bool allowBack;
   const LiveWellScaffold(
       {Key? key,
       required this.title,
       this.backgroundColor = const Color(0xFFF1F1F1),
-      required this.body})
+      required this.body,
+      this.allowBack = true})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      body: Column(
-        children: [
-          53.verticalSpace,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16).r,
-            child: Stack(
-              clipBehavior: Clip.none,
-              alignment: Alignment.centerLeft,
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  //color: Colors.red,
-                  child: Center(
-                    child: Text(
-                      title,
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600),
+    return WillPopScope(
+      onWillPop: () {
+        return Future.value(allowBack);
+      },
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        body: Column(
+          children: [
+            53.verticalSpace,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16).r,
+              child: Stack(
+                clipBehavior: Clip.none,
+                alignment: Alignment.centerLeft,
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    //color: Colors.red,
+                    child: Center(
+                      child: Text(
+                        title,
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600),
+                      ),
                     ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    child:
-                        Navigator.canPop(context) ? backButton() : Container(),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      child: Navigator.canPop(context) && allowBack
+                          ? backButton()
+                          : Container(),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          body
-        ],
+            body
+          ],
+        ),
       ),
     );
   }

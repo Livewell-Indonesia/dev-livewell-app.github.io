@@ -5,16 +5,10 @@ import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/localization/Languages.dart';
 import 'package:livewell/feature/auth/presentation/controller/login_controller.dart';
-import 'package:livewell/feature/auth/presentation/page/forgot_password/forgot_password_screen.dart';
 import 'package:livewell/routes/app_navigator.dart';
-import 'package:livewell/widgets/appBar/large_appbar.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'package:livewell/widgets/textfield/livewell_textfield.dart';
-
-import '../../../../../theme/design_system.dart';
-import '../../../../../widgets/buttons/primary_button.dart';
-import '../../../../../widgets/textfield/primary_textfield.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);

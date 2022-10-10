@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
@@ -36,7 +38,8 @@ class FoodScreen extends StatelessWidget {
                           style: TextStyles.titleHiEm(color: Colors.black),
                         ),
                         TextSpan(
-                            text: '500 Cal',
+                            text:
+                                "${controller.dashboardData.value.dashboard?.caloriesTaken.toString()} Cal",
                             style: TextStyles.titleHiEm(color: Colors.orange))
                       ]))),
               const SizedBox(height: 20),
@@ -48,45 +51,52 @@ class FoodScreen extends StatelessWidget {
                 );
               })),
               Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0).r,
                 child: NutritionProgressDescription(
                   data: [
                     NutrtionProgressModel(
                         name: 'Macro nut',
-                        color: Color(0xFF34EAB2),
-                        total: '200',
+                        color: const Color(0xFF34EAB2),
+                        total: controller.getTotalMacroNut().value.toString(),
                         consumed: '50%'),
                     NutrtionProgressModel(
                         name: 'Micro nut',
-                        color: Color(0xFF8F01DF),
+                        color: const Color(0xFF8F01DF),
                         total: '200',
                         consumed: '50%'),
                     NutrtionProgressModel(
                         name: 'Total Cal',
-                        color: Color(0xFFDDF235),
-                        total: '200',
+                        color: const Color(0xFFDDF235),
+                        total: controller.getTotalCal().value.toString(),
                         consumed: '50%'),
                   ],
                 ),
               ),
-              ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return ButtonAddMeal(
-                        type: MealTime.values[index],
-                        callback: () {
-                          AppNavigator.push(
-                              routeName:
-                                  '${AppPages.addMeal}/${MealTime.values[index].name}');
-                        });
-                  },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(
-                      height: 10,
-                    );
-                  },
-                  itemCount: MealTime.values.length),
+              Obx(() {
+                return controller.isLoadingHistory.value
+                    ? Container()
+                    : ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return ExpandableDiaryItem(
+                              title: MealTime.values[index].appBarTitle(),
+                              data: controller.mealHistory
+                                  .where((p0) =>
+                                      p0.mealType?.toUpperCase() ==
+                                      MealTime.values[index].name.toUpperCase())
+                                  .toList(),
+                              onTap: () {
+                                AppNavigator.push(
+                                    routeName:
+                                        '${AppPages.addMeal}/${MealTime.values[index].name}');
+                              });
+                        },
+                        separatorBuilder: (context, index) {
+                          return 10.verticalSpace;
+                        },
+                        itemCount: MealTime.values.length);
+              })
             ],
           ),
         ),
@@ -252,12 +262,9 @@ class NutritionCircularProgress extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.home,
-                            size: 28,
-                          ),
+                          SvgPicture.asset(Constant.icCalories),
                           Text(
-                            '45%',
+                            '${Get.find<FoodController>().percentageOfDailyGoals().value}%',
                             style: TextStyles.titleHiEm(color: Colors.black),
                           ),
                           Text(
