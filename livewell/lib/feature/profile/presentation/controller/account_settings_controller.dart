@@ -24,29 +24,23 @@ class AccountSettingsController extends GetxController {
   }
 
   void validate() async {
-    if (firstName.text != (dashboardController.user.value.firstName ?? "") ||
-        lastName.text != (dashboardController.user.value.lastName ?? "")) {
-      print("andi ganteng");
-      EasyLoading.show();
-      final result = await updateUserInfo.call(UpdateUserInfoParams(
-          firstName: firstName.text,
-          lastName: lastName.text,
-          height: dashboardController.user.value.height ?? 0,
-          weight: dashboardController.user.value.weight ?? 0,
-          gender: dashboardController.user.value.gender ?? "",
-          dob: DateFormat('yyyy-MM-dd').format(
-              DateTime.parse(dashboardController.user.value.birthDate ?? "")),
-          weightTarget: dashboardController.user.value.weightTarget ?? 0));
-      EasyLoading.dismiss();
-      Get.back();
-      result.fold((l) {
-        Get.snackbar('Failed', 'Failed Update User Info');
-      }, (r) {
-        Get.snackbar('Success', 'Success Update User Info');
-        dashboardController.getUsersData();
-      });
-    } else {
-      Get.back();
-    }
+    EasyLoading.show();
+    final result = await updateUserInfo.call(UpdateUserInfoParams(
+        firstName: firstName.text,
+        lastName: lastName.text,
+        height: dashboardController.user.value.height ?? 0,
+        weight: dashboardController.user.value.weight ?? 0,
+        gender: dashboardController.user.value.gender ?? "",
+        dob: DateFormat('yyyy-MM-dd').format(
+            DateTime.parse(dashboardController.user.value.birthDate ?? "")),
+        weightTarget: dashboardController.user.value.weightTarget ?? 0));
+    EasyLoading.dismiss();
+    Get.back();
+    result.fold((l) {
+      Get.snackbar('Failed', 'Failed Update User Info');
+    }, (r) {
+      Get.snackbar('Success', 'Success Update User Info');
+      dashboardController.getUsersData();
+    });
   }
 }

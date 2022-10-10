@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/localization/Languages.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 
@@ -48,8 +49,19 @@ class FinishQuestionnaireScreen extends StatelessWidget {
               color: const Color(0xFF8F01DF),
               textColor: Colors.white,
               onPressed: () {
-                // Navigator.pushNamed(context, '/home');
-                AppNavigator.pushAndRemove(routeName: AppPages.home);
+                if (!Get.isRegistered<DashboardController>() ||
+                    Get.find<DashboardController>().user.value.dailyJournal ==
+                        null ||
+                    Get.find<DashboardController>()
+                        .user
+                        .value
+                        .dailyJournal!
+                        .isEmpty) {
+                  AppNavigator.push(
+                      routeName: AppPages.dailyJournal, arguments: false);
+                } else {
+                  AppNavigator.pushAndRemove(routeName: AppPages.home);
+                }
               }),
           31.verticalSpace,
         ],

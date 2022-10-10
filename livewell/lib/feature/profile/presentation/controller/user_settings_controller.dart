@@ -12,7 +12,7 @@ class UserSettingsController extends GetxController {
   }
 
   void dailyJournalTapped() {
-    AppNavigator.push(routeName: AppPages.dailyJournal);
+    AppNavigator.push(routeName: AppPages.dailyJournal, arguments: true);
   }
 
   void physicalInformationTapped() {

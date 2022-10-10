@@ -279,7 +279,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 thickness: 1.0,
                               ),
                               Text(
-                                "${controller.dashboard.value.dashboard?.totalCarbsInG ?? 0}",
+                                "${controller.dashboard.value.dashboard?.totalCarbsInG ?? 0} / ${controller.totalCarbs().round()}",
                                 style: TextStyle(
                                     color: const Color(0xFF171433),
                                     fontSize: 16.sp,
@@ -305,7 +305,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 thickness: 1.0,
                               ),
                               Text(
-                                "${controller.dashboard.value.dashboard?.totalProteinInG ?? 0}",
+                                "${controller.dashboard.value.dashboard?.totalProteinInG ?? 0} / ${controller.totalProtein().round()}",
                                 style: TextStyle(
                                     color: const Color(0xFF171433),
                                     fontSize: 16.sp,
@@ -331,7 +331,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 thickness: 1.0,
                               ),
                               Text(
-                                "${controller.dashboard.value.dashboard?.totalFatsInG ?? 0}",
+                                "${controller.dashboard.value.dashboard?.totalFatsInG ?? 0} / ${controller.totalFat().round()}",
                                 style: TextStyle(
                                     color: const Color(0xFF171433),
                                     fontSize: 16.sp,

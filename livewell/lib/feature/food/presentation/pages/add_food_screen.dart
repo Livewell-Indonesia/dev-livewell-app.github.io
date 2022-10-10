@@ -163,6 +163,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                 ),
                 SearchHistoryItem(
                     title: 'Show nutrient facts',
+                    description: "",
                     callback: () {
                       Get.to(() => NutrientFactScreen(
                             servings: widget.food.servings![0],

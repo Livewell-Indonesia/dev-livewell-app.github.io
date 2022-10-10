@@ -28,6 +28,10 @@ class Foods {
   List<Servings>? servings;
   String? provider;
 
+  String get foodDesc {
+    return "${(servings?[0].calories ?? "0")} cal, ${(servings?[0].servingDescription ?? "")} ${brandName ?? ""}";
+  }
+
   Foods(
       {this.foodName,
       this.foodDescription,

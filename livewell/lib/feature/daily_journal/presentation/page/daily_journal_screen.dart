@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/feature/daily_journal/presentation/controller/daily_journal_controller.dart';
+import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
 class DailyJournalScreen extends StatefulWidget {
@@ -20,6 +21,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
   Widget build(BuildContext context) {
     return LiveWellScaffold(
         title: 'Daily Journal',
+        allowBack: (Get.arguments as bool),
         body: Column(
           children: [
             55.verticalSpace,
@@ -65,7 +67,6 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                               onPressed: () {
                                 showTimePicker(context, (time) {
                                   controller.breakfastTime.value = time;
-                                  controller.setTime();
                                 });
                               },
                             );
@@ -81,7 +82,6 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                               onPressed: () {
                                 showTimePicker(context, (time) {
                                   controller.lunchTime.value = time;
-                                  controller.setTime();
                                 });
                               },
                             );
@@ -97,7 +97,6 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                               onPressed: () {
                                 showTimePicker(context, (time) {
                                   controller.dinnerTime.value = time;
-                                  controller.setTime();
                                 });
                               },
                             );
@@ -110,6 +109,14 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                 ],
               ),
             ),
+            20.verticalSpace,
+            LiveWellButton(
+                label: 'Save',
+                color: const Color(0xFF8F01DF),
+                textColor: Colors.white,
+                onPressed: () {
+                  controller.setTime();
+                })
           ],
         ));
   }

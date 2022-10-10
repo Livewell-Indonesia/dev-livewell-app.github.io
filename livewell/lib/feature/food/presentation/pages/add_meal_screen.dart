@@ -110,6 +110,8 @@ class _AddMealScreenState extends State<AddMealScreen>
                                 title:
                                     addMealController.results[index].foodName ??
                                         "",
+                                description:
+                                    addMealController.results[index].foodDesc,
                                 callback: () {
                                   Get.to(
                                       () => AddFoodScreen(
@@ -204,6 +206,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                   itemBuilder: (context, index) {
                     return SearchHistoryItem(
                       title: addMealController.history[index].foodName ?? "",
+                      description: addMealController.history[index].foodDesc,
                       callback: () {
                         inspect(addMealController.history[index]);
                         Get.to(
@@ -305,10 +308,14 @@ class _AddMealScreenState extends State<AddMealScreen>
 
 class SearchHistoryItem extends StatelessWidget {
   final String title;
+  final String description;
   final VoidCallback callback;
 
   const SearchHistoryItem(
-      {Key? key, required this.title, required this.callback})
+      {Key? key,
+      required this.title,
+      required this.description,
+      required this.callback})
       : super(key: key);
 
   @override
@@ -325,14 +332,31 @@ class SearchHistoryItem extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Text(
-              title,
-              style: TextStyle(
-                  color: Color(0xFF171433).withOpacity(0.8),
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                        color: Color(0xFF171433).withOpacity(0.8),
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  description.isEmpty
+                      ? Container()
+                      : Text(
+                          description,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: Color(0xFF171433).withOpacity(0.5),
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500),
+                        ),
+                ],
+              ),
             ),
-            Spacer(),
             Container(
               width: 35,
               height: 35,

@@ -121,4 +121,37 @@ class DashboardController extends GetxController {
       return false.obs;
     }
   }
+
+  Rx<num> totalCarbs() {
+    var total = 0.0.obs;
+    if (user.value.bmr == null) {
+      return total;
+    } else {
+      var bmr = user.value.bmr ?? 0;
+      total = ((0.3 * bmr) / 4).obs;
+      return total;
+    }
+  }
+
+  Rx<num> totalProtein() {
+    var total = 0.0.obs;
+    if (user.value.bmr == null) {
+      return total;
+    } else {
+      var bmr = user.value.bmr ?? 0;
+      total = ((0.4 * bmr) / 4).obs;
+      return total;
+    }
+  }
+
+  Rx<num> totalFat() {
+    var total = 0.0.obs;
+    if (user.value.bmr == null) {
+      return total;
+    } else {
+      var bmr = user.value.bmr ?? 0;
+      total = ((0.3 * bmr) / 9).obs;
+      return total;
+    }
+  }
 }

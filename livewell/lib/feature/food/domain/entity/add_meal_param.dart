@@ -10,11 +10,18 @@ class AddMealParams {
   String? mealNutritions;
   String? mealType;
   String? restaurantName;
+  String? mealServings;
   Nutritions? nutritions;
   String? mealAt;
 
   AddMealParams(
-      {mealName, mealBrand, mealNutritions, mealType, nutritions, mealAt});
+      {mealName,
+      mealBrand,
+      mealNutritions,
+      mealType,
+      nutritions,
+      mealAt,
+      mealServings});
 
   AddMealParams.asParams(Foods food, MealTime mealTime, String time) {
     mealName = food.foodName;
@@ -23,6 +30,7 @@ class AddMealParams {
     mealType = mealTime.name;
     restaurantName = food.brandName;
     nutritions = Nutritions.asParams(food.servings![0]);
+    mealServings = food.servings![0].servingDescription;
     mealAt = time;
   }
 
@@ -36,6 +44,7 @@ class AddMealParams {
       data['nutritions'] = nutritions!.toJson();
     }
     data['meal_at'] = mealAt;
+    data['meal_servings'] = mealServings;
     return data;
   }
 }
