@@ -100,4 +100,11 @@ class AddFoodController extends GetxController {
     }
     return totalProtein.obs;
   }
+  // create a list of time
+  List<String> timeList = [
+    "Breakfast",
+    "Lunch",
+    "Dinner",
+    "Snack",
+  ];
 }
