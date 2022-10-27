@@ -101,4 +101,17 @@ class FoodRepositoryImpl extends NetworkModule implements FoodRepository {
       return Right(MealHistories(mealHistories: []));
     }
   }
+
+  @override
+  Future<Either<Failure, RegisterModel>> deleteMealHistory(int id) async {
+    try {
+      final response = await deleteMethod('${Endpoint.deleteMeal}/$id',
+          headers: {authorization: await SharedPref.getToken()});
+      final json = responseHandler(response);
+      final data = RegisterModel.fromJson(json);
+      return Right(data);
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
 }

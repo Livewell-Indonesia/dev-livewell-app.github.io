@@ -37,14 +37,17 @@ class DailyJournalParams {
     dailyJournal!.add(DailyJournals(name: name, time: time));
   }
 
-  DailyJournalParams.asParams(
-      String? breakfastTime, String? lunchTime, String? dinnerTime) {
+  DailyJournalParams.asParams(String? breakfastTime, String? lunchTime,
+      String? snackTime, String? dinnerTime) {
     dailyJournal = <DailyJournals>[];
     if (breakfastTime != null) {
-      dailyJournal!.add(DailyJournals(name: 'breakfast', time: breakfastTime));
+      dailyJournal!.add(DailyJournals(name: 'Breakfast', time: breakfastTime));
     }
     if (lunchTime != null) {
       dailyJournal!.add(DailyJournals(name: 'Lunch', time: lunchTime));
+    }
+    if (snackTime != null) {
+      dailyJournal!.add(DailyJournals(name: 'Snack', time: snackTime));
     }
     if (dinnerTime != null) {
       dailyJournal!.add(DailyJournals(name: 'Dinner', time: dinnerTime));

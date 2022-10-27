@@ -189,43 +189,6 @@ class AgeSelector extends StatelessWidget {
           showTitle: false,
         ),
       ),
-      // child: CupertinoDatePicker(
-      //   mode: CupertinoDatePickerMode.date,
-      //   onDateTimeChanged: (value) {
-      //     //controller.age.value = value;
-      //   },
-      // ),
-      // child: CupertinoPicker(
-      //   itemExtent: 55.h,
-      //   onSelectedItemChanged: (index) {
-      //     controller.age.value = index + 1;
-      //   },
-      //   selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
-      //     background: Colors.transparent,
-      //   ),
-      //   useMagnifier: true,
-      //   magnification: 1.3,
-      //   children: List.generate(
-      //     100,
-      //     (index) {
-      //       return Column(
-      //         mainAxisAlignment: MainAxisAlignment.center,
-      //         children: [
-      //           Obx(() {
-      //             return Text(
-      //               (index + 1).toString(),
-      //               style: TextStyle(
-      //                   color: controller.age.value == index + 1
-      //                       ? Color(0xFF8F01DF)
-      //                       : Color(0xFF171433).withOpacity(0.7),
-      //                   fontSize: 34.sp),
-      //             );
-      //           })
-      //         ],
-      //       );
-      //     },
-      //   ),
-      // ),
     );
   }
 }
@@ -420,7 +383,7 @@ class SleepSelector extends StatelessWidget {
           ),
           useMagnifier: true,
           magnification: 1.3,
-          children: List.generate(100, (index) {
+          children: List.generate(24, (index) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

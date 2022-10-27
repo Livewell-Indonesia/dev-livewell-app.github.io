@@ -56,6 +56,9 @@ dependencies:
   path_provider: ^2.0.5
   image_picker: ^0.8.5+3
   scrollable_positioned_list: ^0.3.5
+  google_sign_in: ^5.4.2
+  flutter_slidable: ^2.0.0
+  webview_flutter: ^3.0.4
 
 dev_dependencies:
   flutter_lints: ^2.0.0

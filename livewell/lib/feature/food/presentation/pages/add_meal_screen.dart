@@ -28,22 +28,31 @@ class _AddMealScreenState extends State<AddMealScreen>
 
   @override
   Widget build(BuildContext context) {
-    TabController controller = TabController(length: 3, vsync: this);
     return LiveWellScaffold(
-      title: MealTime.values.byName(Get.parameters['type']!).appBarTitle(),
+      title: MealTime.values
+          .byName(Get.parameters['type']!.toLowerCase())
+          .appBarTitle(),
       body: Expanded(
         child: Column(
           children: [
             const SizedBox(
               height: 48,
             ),
-            searchBar(),
+            GetBuilder<AddMealController>(builder: (controller) {
+              return SearchBar(
+                  addMealController: addMealController.textEditingController,
+                  focusNode: addMealController.focusNode,
+                  onEditingComplete: () {
+                    addMealController.doSearchFood();
+                    addMealController.focusNode.unfocus();
+                  });
+            }),
             const SizedBox(
               height: 20,
             ),
             Expanded(
               child: Obx(() {
-                return mapState(controller);
+                return mapState(addMealController.tabController);
               }),
             ),
           ],
@@ -84,9 +93,6 @@ class _AddMealScreenState extends State<AddMealScreen>
               text: "All",
             ),
             Tab(
-              text: "Local F&B",
-            ),
-            Tab(
               text: "Brand Name",
             ),
           ],
@@ -102,9 +108,9 @@ class _AddMealScreenState extends State<AddMealScreen>
                       () {
                         if (addMealController.results.isNotEmpty) {
                           return ListView.separated(
-                            physics: NeverScrollableScrollPhysics(),
+                            //physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: addMealController.results.value.length,
+                            itemCount: addMealController.results.length,
                             itemBuilder: (context, index) {
                               return SearchHistoryItem(
                                 title:
@@ -117,6 +123,51 @@ class _AddMealScreenState extends State<AddMealScreen>
                                       () => AddFoodScreen(
                                             food: addMealController
                                                 .results[index],
+                                            mealTime: MealTime.values.byName(Get
+                                                .parameters['type']!
+                                                .toLowerCase()),
+                                          ),
+                                      transition: Transition.cupertino,
+                                      arguments: Get.arguments);
+                                },
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return 16.verticalSpace;
+                            },
+                          );
+                        } else {
+                          return const Center(
+                            child: Text('No Result Found'),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Expanded(
+                    child: Obx(
+                      () {
+                        if (addMealController.brandNameResult.isNotEmpty) {
+                          return ListView.separated(
+                            //physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: addMealController.results.length,
+                            itemBuilder: (context, index) {
+                              return SearchHistoryItem(
+                                title: addMealController
+                                        .brandNameResult[index].foodName ??
+                                    "",
+                                description: addMealController
+                                    .brandNameResult[index].foodDesc,
+                                callback: () {
+                                  Get.to(
+                                      () => AddFoodScreen(
+                                            food: addMealController
+                                                .brandNameResult[index],
                                             mealTime: MealTime.values.byName(
                                                 Get.parameters['type']!),
                                           ),
@@ -130,27 +181,11 @@ class _AddMealScreenState extends State<AddMealScreen>
                             },
                           );
                         } else {
-                          return const SizedBox();
+                          return const Center(
+                            child: Text('No Result Found'),
+                          );
                         }
                       },
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  Expanded(
-                    child: Container(
-                      color: Colors.green,
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  Expanded(
-                    child: Container(
-                      color: Colors.blue,
                     ),
                   ),
                 ],
@@ -186,34 +221,42 @@ class _AddMealScreenState extends State<AddMealScreen>
             ),
           ),
           const SizedBox(height: 32),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16).r,
-            child: Text(
-              'History',
-              style: TextStyle(
-                  fontSize: 22.sp,
-                  color: const Color(0xFF171433),
-                  fontWeight: FontWeight.w600),
-            ),
-          ),
+          Obx(() {
+            if (addMealController.history.isNotEmpty) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16).r,
+                child: Text(
+                  'History',
+                  style: TextStyle(
+                      fontSize: 22.sp,
+                      color: const Color(0xFF171433),
+                      fontWeight: FontWeight.w600),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
           Obx(
             () {
               if (addMealController.history.isNotEmpty) {
                 return ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: 5,
+                  itemCount: addMealController.history.length,
                   itemBuilder: (context, index) {
                     return SearchHistoryItem(
-                      title: addMealController.history[index].foodName ?? "",
-                      description: addMealController.history[index].foodDesc,
+                      title: addMealController.history[index].mealName ?? "",
+                      description:
+                          "${addMealController.history[index].mealServings}",
                       callback: () {
                         inspect(addMealController.history[index]);
                         Get.to(
                             () => AddFoodScreen(
-                                  food: addMealController.history[index],
-                                  mealTime: MealTime.values
-                                      .byName(Get.parameters['type']!),
+                                  food: addMealController.history[index]
+                                      .toFoodsObject(),
+                                  mealTime: MealTime.values.byName(
+                                      Get.parameters['type']!.toLowerCase()),
                                 ),
                             transition: Transition.cupertino,
                             arguments: Get.arguments);
@@ -230,35 +273,6 @@ class _AddMealScreenState extends State<AddMealScreen>
             },
           ),
         ],
-      ),
-    );
-  }
-
-  Container searchBar() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: TextFormField(
-        controller: addMealController.textEditingController,
-        onEditingComplete: () {
-          addMealController.doSearchFood();
-          addMealController.focusNode.unfocus();
-        },
-        style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
-        focusNode: addMealController.focusNode,
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.only(top: 20, bottom: 16),
-          border: InputBorder.none,
-          hintText: 'Search here...',
-          hintStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
-          prefixIcon: Image.asset(
-            Constant.icSearch,
-            scale: 1,
-          ),
-        ),
       ),
     );
   }
@@ -301,6 +315,54 @@ class _AddMealScreenState extends State<AddMealScreen>
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class SearchBar extends StatelessWidget {
+  const SearchBar(
+      {Key? key,
+      required this.addMealController,
+      required this.focusNode,
+      required this.onEditingComplete})
+      : super(key: key);
+
+  final TextEditingController addMealController;
+  final FocusNode focusNode;
+  final VoidCallback onEditingComplete;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: TextFormField(
+        controller: addMealController,
+        onEditingComplete: () {
+          onEditingComplete();
+        },
+        style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
+        focusNode: focusNode,
+        decoration: InputDecoration(
+            contentPadding: const EdgeInsets.only(top: 20, bottom: 16),
+            border: InputBorder.none,
+            hintText: 'Search here...',
+            hintStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
+            prefixIcon: Image.asset(
+              Constant.icSearch,
+              scale: 1,
+            ),
+            suffixIcon: addMealController.text.isEmpty
+                ? null
+                : IconButton(
+                    onPressed: () {
+                      addMealController.clear();
+                    },
+                    icon: const Icon(Icons.clear_rounded))),
       ),
     );
   }

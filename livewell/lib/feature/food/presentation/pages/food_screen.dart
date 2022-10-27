@@ -13,9 +13,15 @@ import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import '../../../../widgets/scaffold/livewell_scaffold.dart';
 import '../controller/food_controller.dart';
 
-class FoodScreen extends StatelessWidget {
-  final FoodController controller = Get.put(FoodController());
+class FoodScreen extends StatefulWidget {
   FoodScreen({Key? key}) : super(key: key);
+
+  @override
+  State<FoodScreen> createState() => _FoodScreenState();
+}
+
+class _FoodScreenState extends State<FoodScreen> {
+  final FoodController controller = Get.put(FoodController());
 
   @override
   Widget build(BuildContext context) {
@@ -45,33 +51,41 @@ class FoodScreen extends StatelessWidget {
               const SizedBox(height: 20),
               Center(child: Obx(() {
                 return NutritionCircularProgress(
-                  firstValue: controller.firstValue.value,
-                  secondValue: controller.secondValue.value,
-                  thirdValue: controller.thirdValue.value,
+                  firstValue: Get.find<FoodController>()
+                      .percentageOfDailyGoals()
+                      .value
+                      .toDouble(),
+                  secondValue: (controller.getPercentMicroNut().value * 100),
+                  thirdValue: (controller.getPercentMacroNut().value * 100),
                 );
               })),
-              Padding(
-                padding: const EdgeInsets.all(16.0).r,
-                child: NutritionProgressDescription(
-                  data: [
-                    NutrtionProgressModel(
-                        name: 'Macro nut',
-                        color: const Color(0xFF34EAB2),
-                        total: controller.getTotalMacroNut().value.toString(),
-                        consumed: '50%'),
-                    NutrtionProgressModel(
-                        name: 'Micro nut',
-                        color: const Color(0xFF8F01DF),
-                        total: '200',
-                        consumed: '50%'),
-                    NutrtionProgressModel(
-                        name: 'Total Cal',
-                        color: const Color(0xFFDDF235),
-                        total: controller.getTotalCal().value.toString(),
-                        consumed: '50%'),
-                  ],
-                ),
-              ),
+              Obx(() {
+                return Padding(
+                  padding: const EdgeInsets.all(16.0).r,
+                  child: NutritionProgressDescription(
+                    data: [
+                      NutrtionProgressModel(
+                          name: 'Macro nut',
+                          color: const Color(0xFF34EAB2),
+                          total: "",
+                          consumed:
+                              "${(controller.getPercentMacroNut().value * 100).round()}%"),
+                      NutrtionProgressModel(
+                          name: 'Micro nut',
+                          color: const Color(0xFF8F01DF),
+                          total: "",
+                          consumed:
+                              "${(controller.getPercentMicroNut().value * 100).round()}%"),
+                      NutrtionProgressModel(
+                          name: 'Total Cal',
+                          color: const Color(0xFFDDF235),
+                          total: "",
+                          consumed:
+                              '${Get.find<FoodController>().percentageOfDailyGoals().value}%'),
+                    ],
+                  ),
+                );
+              }),
               Obx(() {
                 return controller.isLoadingHistory.value
                     ? Container()
@@ -79,7 +93,8 @@ class FoodScreen extends StatelessWidget {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          return ExpandableDiaryItem(
+                          return Obx(() {
+                            return ExpandableDiaryItem(
                               title: MealTime.values[index].appBarTitle(),
                               data: controller.mealHistory
                                   .where((p0) =>
@@ -90,7 +105,13 @@ class FoodScreen extends StatelessWidget {
                                 AppNavigator.push(
                                     routeName:
                                         '${AppPages.addMeal}/${MealTime.values[index].name}');
-                              });
+                              },
+                              onDelete: (item) {
+                                controller.onDeleteHistory(
+                                    MealTime.values[index], item);
+                              },
+                            );
+                          });
                         },
                         separatorBuilder: (context, index) {
                           return 10.verticalSpace;

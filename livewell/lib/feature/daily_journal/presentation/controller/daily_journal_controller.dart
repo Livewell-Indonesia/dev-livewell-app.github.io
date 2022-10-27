@@ -7,9 +7,14 @@ import 'package:livewell/feature/dashboard/presentation/controller/dashboard_con
 import 'package:livewell/routes/app_navigator.dart';
 
 class DailyJournalController extends GetxController {
-  Rxn<DateTime> breakfastTime = Rxn<DateTime>();
-  Rxn<DateTime> lunchTime = Rxn<DateTime>();
-  Rxn<DateTime> dinnerTime = Rxn<DateTime>();
+  Rxn<DateTime> breakfastTime = Rxn<DateTime>(DateTime(DateTime.now().year,
+      DateTime.now().month, DateTime.now().day, 7, 0, 0, 0, 0));
+  Rxn<DateTime> lunchTime = Rxn<DateTime>(DateTime(DateTime.now().year,
+      DateTime.now().month, DateTime.now().day, 11, 0, 0, 0, 0));
+  Rxn<DateTime> snackTime = Rxn<DateTime>(DateTime(DateTime.now().year,
+      DateTime.now().month, DateTime.now().day, 18, 0, 0, 0, 0));
+  Rxn<DateTime> dinnerTime = Rxn<DateTime>(DateTime(DateTime.now().year,
+      DateTime.now().month, DateTime.now().day, 18, 0, 0, 0, 0));
 
   PostDailyJournal postDailyJournal = PostDailyJournal.getInstance();
 
@@ -29,6 +34,11 @@ class DailyJournalController extends GetxController {
         lunchTime.value = lunchTemp == null
             ? null
             : DateFormat('HH:mm').parse(lunchTemp.time!);
+        DailyJournal? snacktemp = user.dailyJournal!.firstWhereOrNull(
+            (element) => element.name?.toUpperCase() == 'Snack'.toUpperCase());
+        snackTime.value = snacktemp == null
+            ? null
+            : DateFormat('HH:mm').parse(snacktemp.time!);
         DailyJournal? dinnerTemp = user.dailyJournal!.firstWhereOrNull(
             (element) => element.name?.toUpperCase() == 'Dinner'.toUpperCase());
         dinnerTime.value = dinnerTemp == null
@@ -47,6 +57,9 @@ class DailyJournalController extends GetxController {
             : null,
         lunchTime.value != null
             ? DateFormat('HH:mm').format(lunchTime.value!).toString()
+            : null,
+        snackTime.value != null
+            ? DateFormat('HH:mm').format(snackTime.value!).toString()
             : null,
         dinnerTime.value != null
             ? DateFormat('HH:mm').format(dinnerTime.value!).toString()

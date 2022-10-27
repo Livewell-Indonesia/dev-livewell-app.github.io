@@ -41,6 +41,7 @@ class Constant {
   static const String icAccountSetting = '$assetsIcons/ic_account_settings.png';
   static const String icPhysicalInfo = '$assetsIcons/ic_physical_info.png';
   static const String icKey = '$assetsIcons/ic_key.png';
+  static const String icHomeAccount = '$assetsIcons/ic_home_account.svg';
 
   // image Assets
   static const String assetsImages = 'assets/images';

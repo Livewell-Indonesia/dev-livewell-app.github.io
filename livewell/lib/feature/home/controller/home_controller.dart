@@ -11,9 +11,44 @@ class HomeController extends GetxController {
   void changePage(HomeTab tab) {
     currentMenu.value = tab;
   }
+
+  void changePageIndex(int index) {
+    if (index == 0) {
+      currentMenu.value = HomeTab.food;
+    } else if (index == 1) {
+      currentMenu.value = HomeTab.home;
+    } else if (index == 2) {
+      currentMenu.value = HomeTab.account;
+    }
+  }
+
+  Widget customSelectedImage(Widget child) {
+    return ClipOval(
+      child: Material(
+          color: const Color(0xFF8F01DF), // button color
+          child: SizedBox(child: child, width: 40.w, height: 40.w)),
+    );
+  }
+
+  Widget customUnselectedImage(Widget child) {
+    return SizedBox(
+      child: child,
+      width: 40.w,
+      height: 40.w,
+    );
+  }
 }
 
-enum HomeTab { home, food, exercise, sleep, water, meditation, nutrition }
+enum HomeTab {
+  home,
+  food,
+  exercise,
+  sleep,
+  water,
+  meditation,
+  nutrition,
+  account
+}
 
 extension HomeTabIcons on HomeTab {
   String selectedAssets() {
@@ -31,6 +66,8 @@ extension HomeTabIcons on HomeTab {
       case HomeTab.meditation:
         return Constant.icMeditationSelected;
       case HomeTab.nutrition:
+        return Constant.icBloodSelected;
+      case HomeTab.account:
         return Constant.icBloodSelected;
     }
   }
@@ -50,6 +87,8 @@ extension HomeTabIcons on HomeTab {
       case HomeTab.meditation:
         return Constant.icMeditationUnselected;
       case HomeTab.nutrition:
+        return Constant.icBloodUnselected;
+      case HomeTab.account:
         return Constant.icBloodUnselected;
     }
   }

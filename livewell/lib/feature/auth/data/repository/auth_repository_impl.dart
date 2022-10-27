@@ -1,3 +1,4 @@
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:livewell/core/error/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:livewell/core/log.dart';
@@ -70,6 +71,29 @@ class AuthRepositoryImpl extends NetworkModule implements AuthRepository {
     } catch (ex) {
       Log.error(ex);
       return Left(ServerFailure(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Login>> postAuthGoogle() async {
+    try {
+      var result = await GoogleSignIn(
+        scopes: ['email', 'openid'],
+      ).signIn();
+      try {
+        final response = await postMethod(Endpoint.loginGoogle, body: {
+          'token': "TCoUNDaZIGUmbUckJaCHeYfirDIXtErAChouNBureNTiOsTyPT",
+          'email': result?.email
+        });
+        final json = responseHandler(response);
+        return Right(LoginModel.fromJson(json));
+      } catch (ex) {
+        Log.error(ex);
+        return Left(ServerFailure(message: ex.toString()));
+      }
+    } catch (error) {
+      Log.error(error);
+      return Left(ServerFailure(message: error.toString()));
     }
   }
 }

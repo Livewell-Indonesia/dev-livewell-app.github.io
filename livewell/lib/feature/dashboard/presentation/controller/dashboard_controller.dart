@@ -9,9 +9,12 @@ import 'package:livewell/feature/dashboard/data/model/dashboard_model.dart';
 import 'package:livewell/feature/dashboard/data/model/user_model.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_dashboard_data.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_user.dart';
+import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart';
 import 'package:livewell/feature/food/domain/entity/meal_history.dart';
 import 'package:livewell/feature/food/domain/usecase/get_meal_history.dart';
 import 'package:livewell/routes/app_navigator.dart';
+
+import '../../../diary/domain/entity/user_meal_history_model.dart';
 
 class DashboardController extends GetxController {
   GetUser getUser = GetUser.instance();
@@ -19,8 +22,9 @@ class DashboardController extends GetxController {
   GetDashboardData getDashboardData = GetDashboardData.instance();
   Rx<UserModel> user = UserModel().obs;
   Rx<DashboardModel> dashboard = DashboardModel().obs;
-  Rx<MealHistories> mealHistory = MealHistories().obs;
   ValueNotifier<double> valueNotifier = ValueNotifier(0.0);
+  GetUserMealHistory getUserMealHistory = GetUserMealHistory.instance();
+  RxList<MealHistoryModel> mealHistoryList = <MealHistoryModel>[].obs;
   @override
   void onInit() {
     getUsersData();
@@ -30,13 +34,22 @@ class DashboardController extends GetxController {
   }
 
   void getMealHistories() async {
-    final result = await getMealHistory(NoParams());
-    result.fold((failure) {
-      Log.error(failure.toString());
-    }, (mealHistory) {
-      Log.colorGreen(mealHistory.mealHistories?.length.toString());
-      inspect(mealHistory);
-      this.mealHistory.value = mealHistory;
+    // final result = await getMealHistory(NoParams());
+    // result.fold((failure) {
+    //   Log.error(failure.toString());
+    // }, (mealHistory) {
+    //   Log.colorGreen(mealHistory.mealHistories?.length.toString());
+    //   inspect(mealHistory);
+    //   this.mealHistory.value = mealHistory;
+    // });
+    var currentDate = DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0);
+    final result = await getUserMealHistory(UserMealHistoryParams(
+        filter: Filter(
+            endDate: currentDate,
+            startDate: currentDate.add(const Duration(seconds: 86399)))));
+    result.fold((l) {}, (r) {
+      mealHistoryList.value = r.response ?? [];
     });
   }
 
@@ -63,10 +76,12 @@ class DashboardController extends GetxController {
         valueNotifier.value = 0;
       } else if ((dashboard.value.dashboard?.caloriesTaken ?? 0) == 0) {
         valueNotifier.value = 0;
+      } else if ((dashboard.value.dashboard?.caloriesTaken ?? 0) >=
+          (dashboard.value.dashboard?.target ?? 0)) {
+        valueNotifier.value = 1;
       } else {
-        valueNotifier.value = 1 -
-            (dashboard.value.dashboard?.caloriesTaken ?? 0) /
-                (dashboard.value.dashboard?.target ?? 0);
+        valueNotifier.value = (dashboard.value.dashboard?.caloriesTaken ?? 0) /
+            (dashboard.value.dashboard?.target ?? 0);
       }
     });
   }
@@ -101,15 +116,24 @@ class DashboardController extends GetxController {
     return percentage;
   }
 
+  RxString remainingCalToShow() {
+    var remaining = dashboard.value.dashboard?.caloriesLeft ?? 0;
+    var remainingCal = remaining.toString().obs;
+    if (remaining < 0) {
+      remainingCal.value = '+ ${remaining * -1}';
+    }
+    return remainingCal;
+  }
+
   Rx<bool> isCompleted(int index) {
     // cek user udah pernah makan atau belum
-    if (mealHistory.value.mealHistories == null) {
+    if (mealHistoryList.isEmpty) {
       return false.obs;
     } else {
-      for (var element in mealHistory.value.mealHistories!) {
-        if (element.mealType?.toUpperCase() ==
-            user.value.dailyJournal![index].name?.toUpperCase()) {
-          var d1 = DateTime.parse(element.date!);
+      for (var element in mealHistoryList) {
+        if (element.mealType?.toLowerCase() ==
+            user.value.dailyJournal![index].name?.toLowerCase()) {
+          var d1 = DateTime.parse(element.mealAt!);
           var d2 = DateTime.now();
           if (d1.day == d2.day && d1.month == d2.month && d1.year == d2.year) {
             return true.obs;
@@ -127,8 +151,8 @@ class DashboardController extends GetxController {
     if (user.value.bmr == null) {
       return total;
     } else {
-      var bmr = user.value.bmr ?? 0;
-      total = ((0.3 * bmr) / 4).obs;
+      var bmr = dashboard.value.dashboard?.target ?? 0;
+      total = ((0.5 * bmr) / 4).obs;
       return total;
     }
   }
@@ -138,8 +162,8 @@ class DashboardController extends GetxController {
     if (user.value.bmr == null) {
       return total;
     } else {
-      var bmr = user.value.bmr ?? 0;
-      total = ((0.4 * bmr) / 4).obs;
+      var bmr = dashboard.value.dashboard?.target ?? 0;
+      total = ((0.2 * bmr) / 4).obs;
       return total;
     }
   }
@@ -149,7 +173,7 @@ class DashboardController extends GetxController {
     if (user.value.bmr == null) {
       return total;
     } else {
-      var bmr = user.value.bmr ?? 0;
+      var bmr = dashboard.value.dashboard?.target ?? 0;
       total = ((0.3 * bmr) / 9).obs;
       return total;
     }

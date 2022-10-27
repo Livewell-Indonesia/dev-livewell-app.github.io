@@ -7,6 +7,8 @@ import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../../../core/log.dart';
+import '../../../food/domain/usecase/delete_meal_history.dart';
+import '../../../food/presentation/pages/food_screen.dart';
 
 class UserDiaryController extends GetxController {
   Rx<DiaryType> diaryType = DiaryType.food.obs;
@@ -74,6 +76,18 @@ class UserDiaryController extends GetxController {
     });
   }
 
+  void onDeleteTapped(MealTime mealTime, int index) async {
+    DeleteMealHistory deleteMealHistory = DeleteMealHistory.instance();
+    var lists = allMealHistory
+        .where(
+            (p0) => p0.mealType?.toUpperCase() == mealTime.name.toUpperCase())
+        .toList();
+    var deletedItem = lists[index];
+    allMealHistory.remove(deletedItem);
+    final result = await deleteMealHistory.call(deletedItem.id ?? 0);
+    result.fold((l) => print(l), (r) => print(r));
+  }
+
   void onNextTapped() {
     if (selectedIndex.value == dateList.length - 1) {
       return;
@@ -123,7 +137,7 @@ class UserDiaryController extends GetxController {
     }
     filteredMealHistory.value = allMealHistory.where(
       (p0) {
-        var mealDate = DateTime.parse(p0.mealAt!).toLocal();
+        var mealDate = DateTime.parse(p0.mealAt!);
         return mealDate.day == date.day &&
             mealDate.month == date.month &&
             mealDate.year == date.year;

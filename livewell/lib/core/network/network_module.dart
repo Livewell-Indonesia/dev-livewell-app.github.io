@@ -119,7 +119,7 @@ abstract class NetworkModule {
     return response;
   }
 
-  Future<Result<dynamic>?> deleteMethod(
+  Future<Result<dynamic>> deleteMethod(
     String endpoint, {
     Map<String, String>? headers,
     Map<String, dynamic>? body,

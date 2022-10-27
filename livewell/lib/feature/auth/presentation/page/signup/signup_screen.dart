@@ -1,19 +1,15 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/localization/Languages.dart';
+import 'package:livewell/feature/auth/presentation/controller/login_controller.dart';
 import 'package:livewell/feature/auth/presentation/controller/signup_controller.dart';
-import 'package:livewell/feature/questionnaire/presentation/page/questionnaire_screen.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'package:livewell/widgets/textfield/livewell_textfield.dart';
-
-import '../../../../../routes/app_navigator.dart';
-import '../../../../../theme/design_system.dart';
-import '../../../../../widgets/appBar/large_appbar.dart';
-import '../../../../../widgets/buttons/primary_button.dart';
-import '../../../../../widgets/textfield/primary_textfield.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -37,7 +33,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: Text(AppStringsKeys.createNewAccount.tr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: Color(0xFF171433),
+                        color: const Color(0xFF171433),
                         fontSize: 30.sp,
                         fontWeight: FontWeight.w600)),
               ),
@@ -99,7 +95,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Center(
                 child: SignInButton(
                   Buttons.Google,
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.find<LoginController>().onGoogleLoginTapped();
+                  },
                   text: "Sign up with Google",
                 ),
               ),
@@ -126,6 +124,60 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             fontWeight: FontWeight.w500),
                       ))
                 ],
+              ),
+              10.verticalSpace,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30.w),
+                child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(children: [
+                      TextSpan(
+                          text:
+                              'By clicking "Sign Up / Sign up with google" above, you acknowledge that you have read and understood, and agree to LIVEWELL\'s\n ',
+                          style: TextStyle(
+                              color: const Color(0xFF171433).withOpacity(0.7),
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600)),
+                      TextSpan(
+                        text: 'Terms & condition',
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Get.to(() => const WebView(
+                                  initialUrl:
+                                      'https:// livewellindo.com/privacy',
+                                  javascriptMode: JavascriptMode.unrestricted,
+                                ));
+                          },
+                        style: TextStyle(
+                            color: const Color(0xFF171433).withOpacity(0.7),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                            decoration: TextDecoration.underline),
+                      ),
+                      TextSpan(
+                        text: ' and ',
+                        style: TextStyle(
+                            color: const Color(0xFF171433).withOpacity(0.7),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      TextSpan(
+                        text: 'Privacy policy',
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Get.to(() => const WebView(
+                                  initialUrl: 'https:// livewellindo.com/terms',
+                                  javascriptMode: JavascriptMode.unrestricted,
+                                ));
+                            //AppNavigator.push(routeName: AppPages.privacyPolicy);
+                          },
+                        style: TextStyle(
+                            color: const Color(0xFF171433).withOpacity(0.7),
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w500,
+                            decoration: TextDecoration.underline),
+                      )
+                    ])),
               ),
             ],
           ),

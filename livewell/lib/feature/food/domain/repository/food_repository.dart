@@ -15,4 +15,5 @@ abstract class FoodRepository {
   Future<Either<Failure, List<CameraDescription>>> getCameras();
   Future<Either<Failure, bool>> addMealHistory(MealHistory params);
   Future<Either<Failure, MealHistories>> getMealHistory();
+  Future<Either<Failure, RegisterModel>> deleteMealHistory(int id);
 }

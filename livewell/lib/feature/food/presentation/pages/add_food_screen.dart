@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:livewell/core/equation/formula.dart';
 import 'package:livewell/feature/food/presentation/controller/add_food_controller.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
@@ -37,7 +38,10 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
   void initState() {
     controller.servingSize.text =
         widget.food.servings?[0].servingDescription ?? "";
-    controller.numberOfServing.text = "1";
+    controller.numberOfServing.text =
+        double.parse(widget.food.servings?[0].numberOfUnits ?? "1.0")
+            .toInt()
+            .toString();
     inspect(widget.food);
     controller.selectedTime.value = selectedTime.toString();
     controller.time.text = DateFormat('hh:mm a').format(selectedTime);
@@ -46,6 +50,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
       controller.selectedTime.value = selectedTime.toString();
       controller.time.text = DateFormat('hh:mm a').format(selectedTime);
     }
+
     super.initState();
   }
 
@@ -58,7 +63,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                47.verticalSpace,
+                20.verticalSpace,
                 Padding(
                     padding: const EdgeInsets.only(left: 16.0).r,
                     child: Text(
@@ -78,7 +83,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                           fontWeight: FontWeight.w600)),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  padding: EdgeInsets.symmetric(vertical: 20.h),
                   child: Center(
                     child: MultipleColorCircle(
                       colorOccurrences: {
@@ -118,12 +123,15 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
-                                '${widget.food.servings?[0].calories ?? 0}',
-                                style: TextStyle(
-                                    fontSize: 24.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
+                              GetBuilder<AddFoodController>(
+                                  builder: (controller) {
+                                return Text(
+                                  '${controller.getTotalCalByServings(int.parse(widget.food.servings?[0].calories ?? "1"))}',
+                                  style: TextStyle(
+                                      fontSize: 24.sp,
+                                      fontWeight: FontWeight.w500),
+                                );
+                              }),
                               Text(
                                 'Cal',
                                 style: TextStyle(fontSize: 11.sp),
@@ -135,32 +143,34 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                     ),
                   ),
                 ),
-                NutritionProgressDescription(
-                  data: [
-                    NutrtionProgressModel(
-                        name: 'Carbs',
-                        color: const Color(0xFF8F01DF),
-                        total:
-                            "${widget.food.servings?[0].carbohydrate} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
-                        consumed:
-                            "${(((double.parse(widget.food.servings?[0].carbohydrate ?? "1")) * 4) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).round()}% "),
-                    NutrtionProgressModel(
-                        name: 'Fat',
-                        color: const Color(0xFFF5D25D),
-                        total:
-                            "${widget.food.servings?[0].fat} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
-                        consumed:
-                            "${((double.parse(widget.food.servings?[0].fat ?? "1") * 9) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).round()}% "),
-                    NutrtionProgressModel(
-                        name: 'Protein',
-                        color: const Color(0xFFDDF235),
-                        total:
-                            "${widget.food.servings?[0].carbohydrate} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
-                        consumed:
-                            "${((double.parse(widget.food.servings?[0].protein ?? "1") * 4) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).round()}% "),
-                  ],
-                  backgroundColor: Colors.transparent,
-                ),
+                GetBuilder<AddFoodController>(builder: (controller) {
+                  return NutritionProgressDescription(
+                    data: [
+                      NutrtionProgressModel(
+                          name: 'Carbs',
+                          color: const Color(0xFF8F01DF),
+                          total:
+                              "${controller.getTotalCarbsByServings(num.parse(widget.food.servings?[0].carbohydrate ?? "1"))} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
+                          consumed:
+                              "${Formula.carbohydratePercentage(num.parse(widget.food.servings?[0].carbohydrate ?? "1"), int.parse(widget.food.servings?[0].calories ?? "1") * 100).round()}% "),
+                      NutrtionProgressModel(
+                          name: 'Fat',
+                          color: const Color(0xFFF5D25D),
+                          total:
+                              "${controller.getTotalFatByServings(num.parse(widget.food.servings?[0].fat ?? "1"))} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
+                          consumed:
+                              "${((num.parse(widget.food.servings?[0].fat ?? "1") * 9) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).round()}% "),
+                      NutrtionProgressModel(
+                          name: 'Protein',
+                          color: const Color(0xFFDDF235),
+                          total:
+                              "${controller.getTotalProteinByServings(num.parse(widget.food.servings?[0].protein ?? "1"))} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
+                          consumed:
+                              "${((num.parse(widget.food.servings?[0].protein ?? "1") * 4) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).round()}% "),
+                    ],
+                    backgroundColor: Colors.transparent,
+                  );
+                }),
                 SearchHistoryItem(
                     title: 'Show nutrient facts',
                     description: "",
@@ -169,25 +179,33 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                             servings: widget.food.servings![0],
                           ));
                     }),
-                20.verticalSpace,
-                LiveWellTextField(
-                  controller: controller.servingSize,
-                  hintText: null,
-                  labelText: "Serving Size",
-                  errorText: null,
-                  obscureText: false,
-                  enabled: false,
+                15.verticalSpace,
+                Row(
+                  children: [
+                    Expanded(
+                      child: LiveWellTextField(
+                        controller: controller.servingSize,
+                        hintText: null,
+                        labelText: "Serving Size",
+                        errorText: null,
+                        obscureText: false,
+                        enabled: false,
+                      ),
+                    ),
+                    Expanded(
+                      child: LiveWellTextField(
+                        controller: controller.numberOfServing,
+                        keyboardType: TextInputType.number,
+                        hintText: null,
+                        labelText: "Serving Size",
+                        errorText: null,
+                        obscureText: false,
+                        enabled: true,
+                      ),
+                    )
+                  ],
                 ),
-                20.verticalSpace,
-                LiveWellTextField(
-                  controller: controller.numberOfServing,
-                  hintText: null,
-                  labelText: "Serving Size",
-                  errorText: null,
-                  obscureText: false,
-                  enabled: true,
-                ),
-                20.verticalSpace,
+                15.verticalSpace,
                 InkWell(
                     onTap: () {
                       showCupertinoDialog(
@@ -303,7 +321,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                         enabled: false,
                       ),
                     )),
-                20.verticalSpace,
+                15.verticalSpace,
                 Container(
                   width: 1.sw,
                   height: 76.h,
@@ -385,7 +403,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                     ],
                   ),
                 ),
-                20.verticalSpace,
+                10.verticalSpace,
               ],
             ),
           ),

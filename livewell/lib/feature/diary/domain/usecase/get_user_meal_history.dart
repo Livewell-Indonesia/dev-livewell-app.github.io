@@ -49,8 +49,8 @@ class Filter {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['start_date'] = DateFormat('yyyy-MM-dd hh:mm:ss').format(endDate!);
-    data['end_date'] = DateFormat('yyyy-MM-dd hh:mm:ss').format(startDate!);
+    data['start_date'] = DateFormat('yyyy-MM-dd HH:mm:ss').format(endDate!);
+    data['end_date'] = DateFormat('yyyy-MM-dd HH:mm:ss').format(startDate!);
     return data;
   }
 }

@@ -1,17 +1,16 @@
-import 'dart:developer';
-
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
 import 'package:livewell/feature/diary/presentation/controller/user_diary_controller.dart';
+import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../../../routes/app_navigator.dart';
-import '../../../food/presentation/pages/add_meal_screen.dart';
 
 class UserDiaryScreen extends StatelessWidget {
   final UserDiaryController controller = Get.put(UserDiaryController());
@@ -26,54 +25,7 @@ class UserDiaryScreen extends StatelessWidget {
             child: Column(
               children: [
                 55.verticalSpace,
-                // Container(
-                //   height: 28.h,
-                //   width: 1.sw,
-                //   padding: EdgeInsets.symmetric(horizontal: 24.w),
-                //   alignment: Alignment.center,
-                //   child: ListView.separated(
-                //       scrollDirection: Axis.horizontal,
-                //       itemBuilder: (context, index) {
-                //         return InkWell(
-                //           onTap: () {
-                //             controller.diaryType.value =
-                //                 DiaryType.values[index];
-                //           },
-                //           child: Obx(() {
-                //             return Container(
-                //               width: 74.w,
-                //               height: 28.h,
-                //               alignment: Alignment.center,
-                //               decoration: BoxDecoration(
-                //                 color: controller.diaryType.value ==
-                //                         DiaryType.values[index]
-                //                     ? const Color(0xFFDDF235)
-                //                     : Colors.white,
-                //                 borderRadius: BorderRadius.circular(20).r,
-                //               ),
-                //               child: Text(
-                //                 DiaryType.values[index].name,
-                //                 style: TextStyle(
-                //                   fontSize: 12.sp,
-                //                   fontWeight: FontWeight.w500,
-                //                   color: controller.diaryType.value ==
-                //                           DiaryType.values[index]
-                //                       ? const Color(0xFF171433)
-                //                       : const Color(0xFF171433)
-                //                           .withOpacity(0.5),
-                //                 ),
-                //               ),
-                //             );
-                //           }),
-                //         );
-                //       },
-                //       separatorBuilder: (context, index) {
-                //         return 10.horizontalSpace;
-                //       },
-                //       itemCount: DiaryType.values.length),
-                // ),
-                // 40.verticalSpace,
-                Container(
+                SizedBox(
                   width: 1.sw,
                   child: Obx(() {
                     return Row(
@@ -203,6 +155,10 @@ class UserDiaryScreen extends StatelessWidget {
                                     arguments: controller.dateList[
                                         controller.selectedIndex.value]);
                               },
+                              onDelete: (index) {
+                                controller.onDeleteTapped(
+                                    MealTime.breakfast, index);
+                              },
                             ),
                             20.verticalSpace,
                             ExpandableDiaryItem(
@@ -218,6 +174,10 @@ class UserDiaryScreen extends StatelessWidget {
                                     arguments: controller.dateList[
                                         controller.selectedIndex.value]);
                               },
+                              onDelete: (index) {
+                                controller.onDeleteTapped(
+                                    MealTime.lunch, index);
+                              },
                             ),
                             20.verticalSpace,
                             ExpandableDiaryItem(
@@ -232,6 +192,29 @@ class UserDiaryScreen extends StatelessWidget {
                                     routeName: '${AppPages.addMeal}/dinner',
                                     arguments: controller.dateList[
                                         controller.selectedIndex.value]);
+                              },
+                              onDelete: (index) {
+                                controller.onDeleteTapped(
+                                    MealTime.dinner, index);
+                              },
+                            ),
+                            20.verticalSpace,
+                            ExpandableDiaryItem(
+                              title: "Snack",
+                              data: controller.filteredMealHistory
+                                  .where((p0) =>
+                                      p0.mealType?.toUpperCase() ==
+                                      "snack".toUpperCase())
+                                  .toList(),
+                              onTap: () {
+                                AppNavigator.push(
+                                    routeName: '${AppPages.addMeal}/snack',
+                                    arguments: controller.dateList[
+                                        controller.selectedIndex.value]);
+                              },
+                              onDelete: (index) {
+                                controller.onDeleteTapped(
+                                    MealTime.snack, index);
                               },
                             ),
                             20.verticalSpace,
@@ -249,8 +232,13 @@ class ExpandableDiaryItem extends StatelessWidget {
   final String title;
   final List<MealHistoryModel> data;
   VoidCallback onTap;
+  final void Function(int) onDelete;
   ExpandableDiaryItem(
-      {Key? key, required this.title, required this.data, required this.onTap})
+      {Key? key,
+      required this.title,
+      required this.data,
+      required this.onTap,
+      required this.onDelete})
       : super(key: key);
 
   int getTotalCal(List<MealHistoryModel> mealHistory) {
@@ -259,7 +247,7 @@ class ExpandableDiaryItem extends StatelessWidget {
       totalCal += element.caloriesInG!;
     }
     if (totalCal > 0) {
-      totalCal = (totalCal * 7.7162).round();
+      totalCal += (totalCal).round();
     }
     return totalCal;
   }
@@ -309,7 +297,7 @@ class ExpandableDiaryItem extends StatelessWidget {
                             fontSize: 24.sp,
                             fontWeight: FontWeight.w600)),
                     TextSpan(
-                      text: 'kcal',
+                      text: 'cal',
                       style: TextStyle(
                           color: const Color(0xFF171433).withOpacity(0.7),
                           fontSize: 15.sp,
@@ -325,7 +313,7 @@ class ExpandableDiaryItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: Icon(
-                      data.isNotEmpty ? Icons.keyboard_arrow_down : Icons.add,
+                      Icons.add,
                       color: const Color(0xFF171433).withOpacity(0.7),
                     ),
                   ),
@@ -340,43 +328,68 @@ class ExpandableDiaryItem extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, item) {
-                      return Container(
-                        padding: EdgeInsets.fromLTRB(26.w, 0.h, 16.w, 0.h),
-                        height: 47.h,
-                        alignment: Alignment.center,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      return Slidable(
+                        endActionPane: ActionPane(
+                          extentRatio: 1 / 5,
+                          dismissible: DismissiblePane(onDismissed: () {
+                            onDelete(item);
+                          }),
+                          motion: const ScrollMotion(),
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  data[item].mealName ?? "",
-                                  style: TextStyle(
-                                      color: const Color(0xFF171433)
-                                          .withOpacity(0.8),
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Text(
-                                  '22 Teaspoons',
-                                  style: TextStyle(
-                                      color: const Color(0xFF171433)
-                                          .withOpacity(0.7),
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.w500),
-                                )
-                              ],
+                            SlidableAction(
+                              onPressed: (context) {
+                                onDelete(item);
+                              },
+                              backgroundColor: const Color(0xFFFE4A49),
+                              foregroundColor: Colors.white,
+                              icon: Icons.delete,
                             ),
-                            const Spacer(),
-                            Text(
-                              '${(data[item].caloriesInG! * 7.7162).round()} kcal',
-                              style: TextStyle(
-                                  fontSize: 17.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xFF8F01DF)),
-                            )
                           ],
+                        ),
+                        key: UniqueKey(),
+                        child: Container(
+                          padding: EdgeInsets.fromLTRB(26.w, 0.h, 16.w, 0.h),
+                          height: 47.h,
+                          alignment: Alignment.center,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      data[item].mealName ?? "",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: const Color(0xFF171433)
+                                              .withOpacity(0.8),
+                                          fontSize: 20.sp,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    Text(
+                                      data[item].mealServings ?? "",
+                                      style: TextStyle(
+                                          color: const Color(0xFF171433)
+                                              .withOpacity(0.7),
+                                          fontSize: 15.sp,
+                                          fontWeight: FontWeight.w500),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              //const Spacer(),
+                              Text(
+                                '${(data[item].caloriesInG!).round()} cal',
+                                style: TextStyle(
+                                    fontSize: 17.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xFF8F01DF)),
+                              )
+                            ],
+                          ),
                         ),
                       );
                     },

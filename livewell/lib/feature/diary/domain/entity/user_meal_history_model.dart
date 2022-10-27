@@ -1,3 +1,5 @@
+import '../../../food/data/model/foods_model.dart';
+
 class UserMealHistoryModel {
   List<MealHistoryModel>? response;
 
@@ -29,6 +31,7 @@ class MealHistoryModel {
   String? restaurant;
   String? createdAt;
   String? updatedAt;
+  String? mealServings;
   int? caloriesInG;
   int? carbohydratesInG;
   int? proteinInG;
@@ -64,6 +67,7 @@ class MealHistoryModel {
   int? chromiumInMcg;
   int? molybdenumInMcg;
   String? mealAt;
+  String? measurementDescription;
 
   MealHistoryModel(
       {this.id,
@@ -73,6 +77,7 @@ class MealHistoryModel {
       this.restaurant,
       this.createdAt,
       this.updatedAt,
+      this.mealServings,
       this.caloriesInG,
       this.carbohydratesInG,
       this.proteinInG,
@@ -107,7 +112,8 @@ class MealHistoryModel {
       this.fluorideInMg,
       this.chromiumInMcg,
       this.molybdenumInMcg,
-      this.mealAt});
+      this.mealAt,
+      this.measurementDescription});
 
   MealHistoryModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -117,6 +123,7 @@ class MealHistoryModel {
     restaurant = json['restaurant'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    mealServings = json['meal_servings'];
     caloriesInG = json['calories_in_g'];
     carbohydratesInG = json['carbohydrates_in_g'];
     proteinInG = json['protein_in_g'];
@@ -152,6 +159,55 @@ class MealHistoryModel {
     chromiumInMcg = json['chromium_in_mcg'];
     molybdenumInMcg = json['molybdenum_in_mcg'];
     mealAt = json['meal_at'];
+  }
+
+  Foods toFoodsObject() {
+    return Foods(
+        foodName: mealName,
+        foodDescription: "",
+        foodType: mealType,
+        brandName: mealBrand,
+        provider: "",
+        servings: [
+          Servings(
+            servingDescription: mealServings,
+            calcium: calciumInMg.toString(),
+            calories: caloriesInG.toString(),
+            carbohydrate: carbohydratesInG.toString(),
+            fat: fatInG.toString(),
+            iron: ironInMg.toString(),
+            measurementDescription: measurementDescription,
+            monounsaturatedFat: monosaturatedFatInG.toString(),
+            polyunsaturatedFat: polyunsaturatedFatInG.toString(),
+            potassium: potassiumInMg.toString(),
+            protein: proteinInG.toString(),
+            saturatedFat: saturatedFatInG.toString(),
+            sodium: sodiumInMg.toString(),
+            transFat: transfatInG.toString(),
+            vitaminA: vitaminAInMcg.toString(),
+            vitaminC: vitaminCInMg.toString(),
+            vitaminD: vitaminDInMcg.toString(),
+            vitaminE: vitaminEInMg.toString(),
+            vitaminK: vitaminKInMcg.toString(),
+            vitaminB1: vitaminB1InMg.toString(),
+            vitaminB2: vitaminB2InMg.toString(),
+            vitaminB3: vitaminB3InMg.toString(),
+            vitaminB5: vitaminB5InMg.toString(),
+            vitaminB6: vitaminB6InMg.toString(),
+            vitaminB7: vitaminB7InMcg.toString(),
+            vitaminB9: vitaminB9InMcg.toString(),
+            vitaminB12: vitaminB12InMcg.toString(),
+            phosphorus: phosphorusInMg.toString(),
+            magnesium: magnesiumInMg.toString(),
+            chloride: chlorideInMg.toString(),
+            iodine: iodineInMcg.toString(),
+            zinc: zincInMg.toString(),
+            selenium: seleniumInMcg.toString(),
+            fluoride: fluorideInMg.toString(),
+            chromium: chromiumInMcg.toString(),
+            molybdenum: molybdenumInMcg.toString(),
+          ),
+        ]);
   }
 
   Map<String, dynamic> toJson() {

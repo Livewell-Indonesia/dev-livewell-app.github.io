@@ -4,7 +4,7 @@ class Endpoint {
 
   /// Login
   static const String login = "auth/login";
-  static const String loginGoogle = "customer/login/google";
+  static const String loginGoogle = "auth/google";
 
   /// Register
   static const String register = "auth/registration";
@@ -21,6 +21,7 @@ class Endpoint {
   /// food
   static const String foods = "foods";
   static const String addMeal = "user/meal/add";
+  static const String deleteMeal = "user/meal/delete";
 
   /// questionnaire
   static const String questionnaire = "user/onboarding";

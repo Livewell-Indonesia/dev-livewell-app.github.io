@@ -145,7 +145,9 @@ class OnboardingQuestionnaire {
     sleepDuration = json['sleep_duration'];
     sleepProblem = json['sleep_problem'];
     sourceOfCarbs = json['source_of_carbs'];
-    targetImprovement = json['target_improvement'].cast<String>();
+    targetImprovement = json['target_improvement'] is String
+        ? [json['target_improvement']]
+        : json['target_improvement'].cast<String>();
     userRawFoodMaterial = json['user_raw_food_material'];
   }
 

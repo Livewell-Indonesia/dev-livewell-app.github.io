@@ -22,6 +22,7 @@ class LiveWellScaffold extends StatelessWidget {
         return Future.value(allowBack);
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         backgroundColor: backgroundColor,
         body: Column(
           children: [

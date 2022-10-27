@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
           getPages: AppNavigator.pages,
           theme: ThemeData(
               fontFamily: GoogleFonts.archivo().fontFamily,
-              primaryColor: AppColors.primary100,
+              primarySwatch: mycolor,
               textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
               brightness: Brightness.light),
           home: SplashScreen(),
@@ -74,3 +74,19 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+MaterialColor mycolor = const MaterialColor(
+  0xFF8F01DF,
+  <int, Color>{
+    50: Color(0xFF8F01DF),
+    100: Color(0xFF8F01DF),
+    200: Color(0xFF8F01DF),
+    300: Color(0xFF8F01DF),
+    400: Color(0xFF8F01DF),
+    500: Color(0xFF8F01DF),
+    600: Color(0xFF8F01DF),
+    700: Color(0xFF8F01DF),
+    800: Color(0xFF8F01DF),
+    900: Color(0xFF8F01DF),
+  },
+);

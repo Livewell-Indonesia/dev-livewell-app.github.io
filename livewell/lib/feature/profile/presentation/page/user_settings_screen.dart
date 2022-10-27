@@ -11,106 +11,112 @@ class UserSettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 1.sh,
       color: const Color(0xFFF1F1F1),
-      child: Column(
-        children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              const ProfileBackground(),
-              Column(
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: InkWell(
-                      //behavior: HitTestBehavior.translucent,
-                      onTap: () {
-                        Get.back();
-                      },
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                const ProfileBackground(),
+                Column(
+                  children: [
+                    Navigator.of(context).canPop()
+                        ? Align(
+                            alignment: Alignment.topLeft,
+                            child: InkWell(
+                              //behavior: HitTestBehavior.translucent,
+                              onTap: () {
+                                Get.back();
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(left: 16).r,
+                                width: 31.w,
+                                height: 31.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: const SizedBox(
+                                  child: Icon(
+                                    Icons.arrow_back_ios_new_rounded,
+                                    size: 18,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        : const SizedBox(),
+                    Container(
+                      width: 210.h,
+                      height: 210.h,
+                      decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.3),
+                          shape: BoxShape.circle),
+                      alignment: Alignment.center,
                       child: Container(
-                        margin: const EdgeInsets.only(left: 16).r,
-                        width: 31.w,
-                        height: 31.w,
-                        decoration: BoxDecoration(
+                        width: 180.h,
+                        height: 180.h,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const SizedBox(
-                          child: Icon(
-                            Icons.arrow_back_ios_new_rounded,
-                            size: 18,
-                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: 210.h,
-                    height: 210.h,
-                    decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.3),
-                        shape: BoxShape.circle),
-                    alignment: Alignment.center,
-                    child: Container(
-                      width: 180.h,
-                      height: 180.h,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  13.verticalSpace,
-                  Obx(() {
-                    return Text(
-                      "${controller.user.value.firstName ?? ""} ${controller.user.value.lastName ?? ""}",
-                      style: TextStyle(
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xFF171433)),
-                    );
-                  })
-                  // Text(
-                  //   'Indonesia ${flagEmoji('ID')}',
-                  //   style: TextStyle(fontSize: 18.sp),
-                  // ),
-                ],
-              ),
-            ],
-          ),
-          57.verticalSpace,
-          ProfileSettingsItem(
-              title: 'Account Settings',
-              icon: Image.asset(Constant.icAccountSetting),
+                    13.verticalSpace,
+                    Obx(() {
+                      return Text(
+                        "${controller.user.value.firstName ?? ""} ${controller.user.value.lastName ?? ""}",
+                        style: TextStyle(
+                            fontSize: 24.sp,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFF171433)),
+                      );
+                    })
+                    // Text(
+                    //   'Indonesia ${flagEmoji('ID')}',
+                    //   style: TextStyle(fontSize: 18.sp),
+                    // ),
+                  ],
+                ),
+              ],
+            ),
+            57.verticalSpace,
+            ProfileSettingsItem(
+                title: 'Account Settings',
+                icon: Image.asset(Constant.icAccountSetting),
+                onPressed: () {
+                  controller.accountSettingsTap();
+                }),
+            20.verticalSpace,
+            ProfileSettingsItem(
+                title: 'Daily Journal',
+                icon: Icon(
+                  Icons.class_outlined,
+                  size: 20.w,
+                ),
+                onPressed: () {
+                  controller.dailyJournalTapped();
+                }),
+            20.verticalSpace,
+            ProfileSettingsItem(
+                title: 'Physical Information',
+                icon: Image.asset(Constant.icPhysicalInfo),
+                onPressed: () {
+                  controller.physicalInformationTapped();
+                }),
+            20.verticalSpace,
+            ProfileSettingsItem(
+              title: 'Logout',
+              icon: Image.asset(Constant.icLogout),
               onPressed: () {
-                controller.accountSettingsTap();
-              }),
-          20.verticalSpace,
-          ProfileSettingsItem(
-              title: 'Daily Journal',
-              icon: Icon(
-                Icons.class_outlined,
-                size: 20.w,
-              ),
-              onPressed: () {
-                controller.dailyJournalTapped();
-              }),
-          20.verticalSpace,
-          ProfileSettingsItem(
-              title: 'Physical Information',
-              icon: Image.asset(Constant.icPhysicalInfo),
-              onPressed: () {
-                controller.physicalInformationTapped();
-              }),
-          20.verticalSpace,
-          ProfileSettingsItem(
-            title: 'Logout',
-            icon: Image.asset(Constant.icLogout),
-            onPressed: () {
-              controller.logoutTapped();
-            },
-          ),
-        ],
+                controller.logoutTapped();
+              },
+            ),
+            100.verticalSpace,
+          ],
+        ),
       ),
     );
   }

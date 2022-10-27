@@ -26,7 +26,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
           children: [
             55.verticalSpace,
             Container(
-              height: 303.h,
+              height: 380.h,
               width: 342.w,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -69,6 +69,15 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                                   controller.breakfastTime.value = time;
                                 });
                               },
+                              onCheckboxTapped: () {
+                                if (controller.breakfastTime.value != null) {
+                                  controller.breakfastTime.value = null;
+                                } else {
+                                  showTimePicker(context, (time) {
+                                    controller.breakfastTime.value = time;
+                                  });
+                                }
+                              },
                             );
                           }),
                           20.verticalSpace,
@@ -84,6 +93,15 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                                   controller.lunchTime.value = time;
                                 });
                               },
+                              onCheckboxTapped: () {
+                                if (controller.lunchTime.value != null) {
+                                  controller.lunchTime.value = null;
+                                } else {
+                                  showTimePicker(context, (time) {
+                                    controller.lunchTime.value = time;
+                                  });
+                                }
+                              },
                             );
                           }),
                           20.verticalSpace,
@@ -98,6 +116,39 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                                 showTimePicker(context, (time) {
                                   controller.dinnerTime.value = time;
                                 });
+                              },
+                              onCheckboxTapped: () {
+                                if (controller.dinnerTime.value != null) {
+                                  controller.dinnerTime.value = null;
+                                } else {
+                                  showTimePicker(context, (time) {
+                                    controller.dinnerTime.value = time;
+                                  });
+                                }
+                              },
+                            );
+                          }),
+                          20.verticalSpace,
+                          Obx(() {
+                            return DailyJournalEatingItem(
+                              title: 'Snack',
+                              time: controller.snackTime.value == null
+                                  ? null
+                                  : DateFormat('hh:mm a')
+                                      .format(controller.snackTime.value!),
+                              onPressed: () {
+                                showTimePicker(context, (time) {
+                                  controller.snackTime.value = time;
+                                });
+                              },
+                              onCheckboxTapped: () {
+                                if (controller.snackTime.value != null) {
+                                  controller.snackTime.value = null;
+                                } else {
+                                  showTimePicker(context, (time) {
+                                    controller.snackTime.value = time;
+                                  });
+                                }
                               },
                             );
                           }),
@@ -213,8 +264,13 @@ class DailyJournalEatingItem extends StatelessWidget {
   final String title;
   final String? time;
   final VoidCallback onPressed;
+  final VoidCallback onCheckboxTapped;
   const DailyJournalEatingItem(
-      {Key? key, required this.title, this.time, required this.onPressed})
+      {Key? key,
+      required this.title,
+      this.time,
+      required this.onPressed,
+      required this.onCheckboxTapped})
       : super(key: key);
 
   @override
@@ -230,9 +286,12 @@ class DailyJournalEatingItem extends StatelessWidget {
             border: Border.all(color: const Color(0xFFDDF235), width: 3.w),
             borderRadius: BorderRadius.circular(30).r),
         child: Row(children: [
-          Icon(time == null
-              ? Icons.check_box_outline_blank
-              : Icons.check_box_outlined),
+          InkWell(
+            onTap: onCheckboxTapped,
+            child: Icon(time == null
+                ? Icons.check_box_outline_blank
+                : Icons.check_box_outlined),
+          ),
           7.horizontalSpace,
           Text(
             title,

@@ -23,16 +23,37 @@ class AddFoodController extends GetxController {
   AddMeal addMeal = AddMeal.instance();
   AddMealHistory addMealHistory = AddMealHistory.instance();
 
+  @override
+  void onInit() {
+    super.onInit();
+    numberOfServing.addListener(() {
+      if (numberOfServing.text.isNotEmpty) {
+        update();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    numberOfServing.dispose();
+    servingSize.dispose();
+    time.dispose();
+    super.dispose();
+  }
+
   void addMeals(Foods food, MealTime mealTime) async {
     await EasyLoading.show();
     inspect(food);
-    inspect(AddMealParams.asParams(food, mealTime, selectedTime.value));
-    final result = await addMeal
-        .call(AddMealParams.asParams(food, mealTime, selectedTime.value));
+    inspect(AddMealParams.asParams(
+        food, numberOfServing.text, mealTime, selectedTime.value));
+    final result = await addMeal.call(AddMealParams.asParams(
+        food, numberOfServing.text, mealTime, selectedTime.value));
     await addMealHistory
         .call(MealHistory(date: selectedTime.value, mealType: mealTime.name));
-    Get.find<DashboardController>().getMealHistories();
-    Get.find<FoodController>().fetchUserMealHistory();
+    Get.find<DashboardController>().onInit();
+    if (Get.isRegistered<FoodController>()) {
+      Get.find<FoodController>().fetchUserMealHistory();
+    }
     await EasyLoading.dismiss();
     result.fold((l) {
       print(l);
@@ -46,5 +67,37 @@ class AddFoodController extends GetxController {
         Get.find<DashboardController>().dashboard.value.dashboard?.target ?? 0;
     var percent = (cal / dailyTarget) * 100;
     return percent.toInt().obs;
+  }
+
+  Rx<double> getTotalCalByServings(int cal) {
+    var totalCal = 0.0;
+    if (numberOfServing.text.isNotEmpty) {
+      totalCal = cal * double.parse(numberOfServing.text);
+    }
+    return totalCal.obs;
+  }
+
+  Rx<double> getTotalCarbsByServings(num carbs) {
+    var totalCarbs = 0.0;
+    if (numberOfServing.text.isNotEmpty) {
+      totalCarbs = carbs * double.parse(numberOfServing.text);
+    }
+    return totalCarbs.obs;
+  }
+
+  Rx<double> getTotalFatByServings(num fat) {
+    var totalFat = 0.0;
+    if (numberOfServing.text.isNotEmpty) {
+      totalFat = fat * double.parse(numberOfServing.text);
+    }
+    return totalFat.obs;
+  }
+
+  Rx<double> getTotalProteinByServings(num protein) {
+    var totalProtein = 0.0;
+    if (numberOfServing.text.isNotEmpty) {
+      totalProtein = protein * double.parse(numberOfServing.text);
+    }
+    return totalProtein.obs;
   }
 }

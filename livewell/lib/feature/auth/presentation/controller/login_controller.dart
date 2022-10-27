@@ -1,12 +1,18 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_forgot_password.dart';
+import 'package:livewell/feature/auth/domain/usecase/post_google_auth.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_login.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/routes/app_navigator.dart';
+
+import '../../../../core/log.dart';
 
 class LoginController extends BaseController {
   TextEditingController email = TextEditingController();
@@ -19,6 +25,7 @@ class LoginController extends BaseController {
 
   PostLogin postLogin = PostLogin.instance();
   PostForgotPassword postForgotPassword = PostForgotPassword.instance();
+  PostAuthGoogle postAuthGoogle = PostAuthGoogle.instance();
 
   // create function when button sendveritication tapped
   void sendVerification() {
@@ -40,7 +47,8 @@ class LoginController extends BaseController {
         if (l.message!.contains("404")) {
           Get.snackbar('Error', 'Please verify your email first');
         } else {
-          Get.snackbar('Error', l.message ?? 'Error');
+          Get.snackbar('Authentication Failed',
+              'Your authentication information is incorrect. Please try again.');
         }
       }, (r) {
         SharedPref.saveToken(r.accessToken!);
@@ -62,6 +70,22 @@ class LoginController extends BaseController {
     doLogin();
   }
 
+  void onGoogleLoginTapped() async {
+    var result = await postAuthGoogle();
+    result.fold((l) {
+      if (l.message!.contains("404")) {
+        Get.snackbar('Error', 'Please verify your email first');
+      } else {
+        Get.snackbar('Authentication Failed',
+            'Your authentication information is incorrect. Please try again.');
+      }
+    }, (r) {
+      SharedPref.saveToken(r.accessToken!);
+      SharedPref.saveRefreshToken(r.refreshToken!);
+      AppNavigator.pushAndRemove(routeName: AppPages.home);
+    });
+  }
+
   void sendForgotPassword() async {
     if (email.text.isEmpty) {
       Get.snackbar('Error', 'Email is required');
@@ -72,10 +96,10 @@ class LoginController extends BaseController {
         await postForgotPassword(ParamsForgotPassword(email: email.text));
     await EasyLoading.dismiss();
     result.fold((l) {
-      Get.snackbar('Error', l.message ?? 'Error');
+      Get.snackbar('Authentication Failed',
+          'Your authentication information is incorrent. Please try again.');
     }, (r) {
-      Get.snackbar('Success',
-          r.message ?? 'Success reset password. Please check your email');
+      Get.snackbar('Password Email Sent', 'Check your Email for your OTP');
       AppNavigator.push(routeName: AppPages.changePassword);
     });
   }

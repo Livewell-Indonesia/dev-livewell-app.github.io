@@ -154,11 +154,13 @@ class AccountSettingsTextField extends StatelessWidget {
   TextEditingController textEditingController;
   String hintText;
   bool enabled;
+  TextInputType inputType;
   AccountSettingsTextField({
     Key? key,
     required this.textEditingController,
     required this.hintText,
     this.enabled = true,
+    this.inputType = TextInputType.text,
   }) : super(key: key);
 
   @override
@@ -176,6 +178,7 @@ class AccountSettingsTextField extends StatelessWidget {
       ),
       alignment: Alignment.center,
       child: TextFormField(
+        keyboardType: inputType,
         enabled: enabled,
         textAlign: TextAlign.end,
         controller: textEditingController,

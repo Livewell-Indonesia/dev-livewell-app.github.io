@@ -5,9 +5,11 @@ class FoodsModel {
 
   FoodsModel({this.foods});
 
-  factory FoodsModel.fromJson(Map<String, dynamic> json) {
+  factory FoodsModel.fromJson(Map<String, dynamic>? json) {
     return FoodsModel(
-      foods: List<Foods>.from(json["foods"].map((x) => Foods.fromJson(x))),
+      foods: json == null
+          ? []
+          : List<Foods>.from(json["foods"].map((x) => Foods.fromJson(x))),
     );
   }
 
@@ -30,6 +32,15 @@ class Foods {
 
   String get foodDesc {
     return "${(servings?[0].calories ?? "0")} cal, ${(servings?[0].servingDescription ?? "")} ${brandName ?? ""}";
+  }
+
+  Foods.copyWith(Foods food) {
+    foodName = food.foodName;
+    foodDescription = food.foodDescription;
+    foodType = food.foodType;
+    brandName = food.brandName;
+    servings = food.servings;
+    provider = food.provider;
   }
 
   Foods(
@@ -68,58 +79,102 @@ class Foods {
 }
 
 class Servings {
-  String? calcium;
   String? calories;
   String? carbohydrate;
-  String? cholesterol;
-  String? fat;
-  String? fiber;
-  String? iron;
-  String? measurementDescription;
-  String? metricServingAmount;
-  String? metricServingUnit;
-  String? monounsaturatedFat;
-  String? numberOfUnits;
-  String? polyunsaturatedFat;
-  String? potassium;
   String? protein;
+  String? fat;
   String? saturatedFat;
-  String? servingDescription;
-  String? servingId;
-  String? servingUrl;
-  String? sodium;
-  String? sugar;
   String? transFat;
+  String? monounsaturatedFat;
+  String? polyunsaturatedFat;
   String? vitaminA;
   String? vitaminC;
   String? vitaminD;
+  String? vitaminE;
+  String? vitaminK;
+  String? vitaminB1;
+  String? vitaminB2;
+  String? vitaminB3;
+  String? vitaminB5;
+  String? vitaminB6;
+  String? vitaminB12;
+  String? vitaminB7;
+  String? vitaminB9;
+  String? calcium;
+  String? phosphorus;
+  String? magnesium;
+  String? sodium;
+  String? potassium;
+  String? chloride;
+  String? iron;
+  String? iodine;
+  String? zinc;
+  String? selenium;
+  String? fluoride;
+  String? chromium;
+  String? molybdenum;
+
+  String? cholesterol;
+
+  String? fiber;
+
+  String? measurementDescription;
+  String? metricServingAmount;
+  String? metricServingUnit;
+
+  String? numberOfUnits;
+
+  String? servingDescription;
+  String? servingId;
+  String? servingUrl;
+
+  String? sugar;
 
   Servings(
-      {this.calcium,
-      this.calories,
+      {this.calories,
       this.carbohydrate,
-      this.cholesterol,
+      this.protein,
       this.fat,
-      this.fiber,
+      this.saturatedFat,
+      this.transFat,
+      this.monounsaturatedFat,
+      this.polyunsaturatedFat,
+      this.vitaminA,
+      this.vitaminC,
+      this.vitaminD,
+      this.vitaminE,
+      this.vitaminK,
+      this.vitaminB1,
+      this.vitaminB2,
+      this.vitaminB3,
+      this.vitaminB5,
+      this.vitaminB6,
+      this.vitaminB12,
+      this.vitaminB7,
+      this.vitaminB9,
+      this.calcium,
+      this.phosphorus,
+      this.magnesium,
+      this.sodium,
+      this.potassium,
+      this.chloride,
       this.iron,
+      this.iodine,
+      this.zinc,
+      this.selenium,
+      this.fluoride,
+      this.chromium,
+      this.molybdenum,
+      this.cholesterol,
+      this.fiber,
       this.measurementDescription,
       this.metricServingAmount,
       this.metricServingUnit,
-      this.monounsaturatedFat,
       this.numberOfUnits,
-      this.polyunsaturatedFat,
-      this.potassium,
-      this.protein,
-      this.saturatedFat,
       this.servingDescription,
       this.servingId,
       this.servingUrl,
-      this.sodium,
-      this.sugar,
-      this.transFat,
-      this.vitaminA,
-      this.vitaminC,
-      this.vitaminD});
+      this.sugar});
 
   Servings.fromJson(Map<String, dynamic> json) {
     calcium = json['calcium'];
@@ -147,6 +202,29 @@ class Servings {
     vitaminA = json['vitamin_a'];
     vitaminC = json['vitamin_c'];
     vitaminD = json['vitamin_d'];
+    vitaminE = json['vitamin_e'];
+    vitaminK = json['vitamin_k'];
+    vitaminB1 = json['vitamin_b1'];
+    vitaminB2 = json['vitamin_b2'];
+    vitaminB3 = json['vitamin_b3'];
+    vitaminB5 = json['vitamin_b5'];
+    vitaminB6 = json['vitamin_b6'];
+    vitaminB12 = json['vitamin_b12'];
+    vitaminB7 = json['vitamin_b7'];
+    vitaminB9 = json['vitamin_b9'];
+    calcium = json['calcium'];
+    phosphorus = json['phosphorus'];
+    magnesium = json['magnesium'];
+    sodium = json['sodium'];
+    potassium = json['potassium'];
+    chloride = json['chloride'];
+    iron = json['iron'];
+    iodine = json['iodine'];
+    zinc = json['zinc'];
+    selenium = json['selenium'];
+    fluoride = json['fluoride'];
+    chromium = json['chromium'];
+    molybdenum = json['molybdenum'];
   }
 
   Map<String, dynamic> toJson() {

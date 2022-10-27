@@ -65,7 +65,9 @@ class LoginScreen extends StatelessWidget {
               Text(AppStringsKeys.orSignInWith.tr,
                   style: const TextStyle(fontSize: 16)),
               const SizedBox(height: 20),
-              SignInButton(Buttons.Google, onPressed: () {}),
+              SignInButton(Buttons.Google, onPressed: () {
+                controller.onGoogleLoginTapped();
+              }),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

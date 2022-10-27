@@ -11,6 +11,7 @@ class LiveWellTextField extends StatefulWidget {
   final bool? isEmail;
   final bool? enabled;
   final VoidCallback? onTap;
+  final TextInputType keyboardType;
 
   const LiveWellTextField({
     Key? key,
@@ -22,6 +23,7 @@ class LiveWellTextField extends StatefulWidget {
     this.enabled = true,
     this.onTap,
     this.isEmail = false,
+    this.keyboardType = TextInputType.text,
   }) : super(key: key);
   @override
   State<LiveWellTextField> createState() => _LiveWellTextFieldState();
@@ -57,6 +59,7 @@ class _LiveWellTextFieldState extends State<LiveWellTextField> {
       ),
       child: //create textformfield with green border
           TextFormField(
+        keyboardType: widget.keyboardType,
         focusNode: _focusNode,
         style: TextStyle(color: Color(0xFF171433), fontSize: 17.sp),
         cursorColor: const Color(0xFF171433),

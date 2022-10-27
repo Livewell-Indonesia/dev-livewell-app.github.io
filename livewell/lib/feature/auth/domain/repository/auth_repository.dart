@@ -13,4 +13,5 @@ abstract class AuthRepository {
   Future<Either<Failure, Register>> register(ParamsRegister params);
   Future<Either<Failure, Register>> forgotPassword(ParamsForgotPassword params);
   Future<Either<Failure, Register>> changePassword(ChangePasswordParams params);
+  Future<Either<Failure, Login>> postAuthGoogle();
 }
