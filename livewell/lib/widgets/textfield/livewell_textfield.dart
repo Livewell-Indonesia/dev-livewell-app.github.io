@@ -52,8 +52,9 @@ class _LiveWellTextFieldState extends State<LiveWellTextField> {
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(36.0).r,
         border: Border.all(
-          color:
-              widget.errorText == null ? Color(0xFFDDF235) : Color(0xFFFA6F6F),
+          color: widget.errorText == null
+              ? const Color(0xFFDDF235)
+              : const Color(0xFFFA6F6F),
           width: 3.0,
         ),
       ),
@@ -61,7 +62,7 @@ class _LiveWellTextFieldState extends State<LiveWellTextField> {
           TextFormField(
         keyboardType: widget.keyboardType,
         focusNode: _focusNode,
-        style: TextStyle(color: Color(0xFF171433), fontSize: 17.sp),
+        style: TextStyle(color: const Color(0xFF171433), fontSize: 17.sp),
         cursorColor: const Color(0xFF171433),
         controller: widget.controller,
         obscureText: !showPassword && widget.obscureText,
@@ -87,7 +88,7 @@ class _LiveWellTextFieldState extends State<LiveWellTextField> {
 
   Widget? suffixIcon() {
     if (widget.isEmail == true) {
-      return Icon(getIcon(), color: Color(0xFF8F01DF));
+      return Icon(getIcon(), color: const Color(0xFF8F01DF));
     } else if (widget.obscureText == true) {
       return IconButton(
         onPressed: () {
@@ -96,7 +97,7 @@ class _LiveWellTextFieldState extends State<LiveWellTextField> {
           });
         },
         icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off),
-        color: showPassword ? Color(0xFF8F01DF) : Color(0xFF8F01DF),
+        color: showPassword ? const Color(0xFF8F01DF) : const Color(0xFF8F01DF),
       );
     } else {
       return null;

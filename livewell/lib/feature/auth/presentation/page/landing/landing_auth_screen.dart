@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/core/constant/constant.dart';
@@ -38,11 +39,21 @@ class LandingAuthScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           40.verticalSpace,
-                          Image.asset(
-                            Constant.imgLogo,
-                            width: 165.w,
-                            height: 80.h,
+                          Container(
+                            child: AspectRatio(
+                              aspectRatio: 4,
+                              child: SvgPicture.asset(
+                                "assets/images/FA_Livewell_Logo.svg",
+                                fit: BoxFit.cover,
+                                color: const Color(0xFF34EAB2),
+                              ),
+                            ),
                           ),
+                          // Image.asset(
+                          //   Constant.imgLogo,
+                          //   width: 165.w,
+                          //   height: 80.h,
+                          // ),
                           Text(AppStringsKeys.welcomeToLiveWell.tr,
                               style: TextStyle(
                                   fontSize: 24.sp,

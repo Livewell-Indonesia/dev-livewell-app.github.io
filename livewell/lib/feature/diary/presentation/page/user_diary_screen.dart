@@ -7,10 +7,13 @@ import 'package:intl/intl.dart';
 import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
 import 'package:livewell/feature/diary/presentation/controller/user_diary_controller.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
+import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
+import 'package:livewell/widgets/textfield/livewell_textfield.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../../../routes/app_navigator.dart';
+import '../../../../theme/design_system.dart';
 
 class UserDiaryScreen extends StatelessWidget {
   final UserDiaryController controller = Get.put(UserDiaryController());
@@ -155,6 +158,10 @@ class UserDiaryScreen extends StatelessWidget {
                                     arguments: controller.dateList[
                                         controller.selectedIndex.value]);
                               },
+                              onUpdate: (index, size) {
+                                controller.onUpdateTapped(
+                                    MealTime.breakfast, index, size);
+                              },
                               onDelete: (index) {
                                 controller.onDeleteTapped(
                                     MealTime.breakfast, index);
@@ -173,6 +180,10 @@ class UserDiaryScreen extends StatelessWidget {
                                     routeName: '${AppPages.addMeal}/lunch',
                                     arguments: controller.dateList[
                                         controller.selectedIndex.value]);
+                              },
+                              onUpdate: (index, size) {
+                                controller.onUpdateTapped(
+                                    MealTime.lunch, index, size);
                               },
                               onDelete: (index) {
                                 controller.onDeleteTapped(
@@ -193,6 +204,10 @@ class UserDiaryScreen extends StatelessWidget {
                                     arguments: controller.dateList[
                                         controller.selectedIndex.value]);
                               },
+                              onUpdate: (index, size) {
+                                controller.onUpdateTapped(
+                                    MealTime.dinner, index, size);
+                              },
                               onDelete: (index) {
                                 controller.onDeleteTapped(
                                     MealTime.dinner, index);
@@ -211,6 +226,10 @@ class UserDiaryScreen extends StatelessWidget {
                                     routeName: '${AppPages.addMeal}/snack',
                                     arguments: controller.dateList[
                                         controller.selectedIndex.value]);
+                              },
+                              onUpdate: (index, size) {
+                                controller.onUpdateTapped(
+                                    MealTime.snack, index, size);
                               },
                               onDelete: (index) {
                                 controller.onDeleteTapped(
@@ -233,21 +252,23 @@ class ExpandableDiaryItem extends StatelessWidget {
   final List<MealHistoryModel> data;
   VoidCallback onTap;
   final void Function(int) onDelete;
+  final void Function(int index, double value) onUpdate;
   ExpandableDiaryItem(
       {Key? key,
       required this.title,
       required this.data,
       required this.onTap,
+      required this.onUpdate,
       required this.onDelete})
       : super(key: key);
 
-  int getTotalCal(List<MealHistoryModel> mealHistory) {
-    var totalCal = 0;
+  num getTotalCal(List<MealHistoryModel> mealHistory) {
+    num totalCal = 0;
     for (var element in mealHistory) {
       totalCal += element.caloriesInG!;
     }
     if (totalCal > 0) {
-      totalCal += (totalCal).round();
+      totalCal = (totalCal).round();
     }
     return totalCal;
   }
@@ -328,69 +349,11 @@ class ExpandableDiaryItem extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, item) {
-                      return Slidable(
-                        endActionPane: ActionPane(
-                          extentRatio: 1 / 5,
-                          dismissible: DismissiblePane(onDismissed: () {
-                            onDelete(item);
-                          }),
-                          motion: const ScrollMotion(),
-                          children: [
-                            SlidableAction(
-                              onPressed: (context) {
-                                onDelete(item);
-                              },
-                              backgroundColor: const Color(0xFFFE4A49),
-                              foregroundColor: Colors.white,
-                              icon: Icons.delete,
-                            ),
-                          ],
-                        ),
-                        key: UniqueKey(),
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(26.w, 0.h, 16.w, 0.h),
-                          height: 47.h,
-                          alignment: Alignment.center,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      data[item].mealName ?? "",
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          color: const Color(0xFF171433)
-                                              .withOpacity(0.8),
-                                          fontSize: 20.sp,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    Text(
-                                      data[item].mealServings ?? "",
-                                      style: TextStyle(
-                                          color: const Color(0xFF171433)
-                                              .withOpacity(0.7),
-                                          fontSize: 15.sp,
-                                          fontWeight: FontWeight.w500),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              //const Spacer(),
-                              Text(
-                                '${(data[item].caloriesInG!).round()} cal',
-                                style: TextStyle(
-                                    fontSize: 17.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color(0xFF8F01DF)),
-                              )
-                            ],
-                          ),
-                        ),
+                      return HistoryContent(
+                        onDelete: onDelete,
+                        onUpdate: onUpdate,
+                        data: data,
+                        index: item,
                       );
                     },
                     separatorBuilder: (context, item) {
@@ -404,6 +367,183 @@ class ExpandableDiaryItem extends StatelessWidget {
                 )
               : const SizedBox.shrink()
         ],
+      ),
+    );
+  }
+}
+
+class HistoryContent extends StatefulWidget {
+  const HistoryContent({
+    Key? key,
+    required this.onDelete,
+    required this.onUpdate,
+    required this.data,
+    required this.index,
+  }) : super(key: key);
+
+  final void Function(int p1) onDelete;
+  final void Function(int index, double servingSize) onUpdate;
+  final List<MealHistoryModel> data;
+  final int index;
+
+  @override
+  State<HistoryContent> createState() => _HistoryContentState();
+}
+
+class _HistoryContentState extends State<HistoryContent> {
+  bool isExpanded = false;
+  TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    _controller.text = (widget.data[widget.index].servingSize ?? 1).toString();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          isExpanded = !isExpanded;
+        });
+      },
+      child: Container(
+        padding: EdgeInsets.fromLTRB(isExpanded ? 0.w : 26.w, 0.h, 16.w, 0.h),
+        height: isExpanded ? 100.h : 50.h,
+        alignment: Alignment.center,
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                isExpanded ? 8.horizontalSpace : 0.horizontalSpace,
+                isExpanded
+                    ? Container(
+                        height: 40.h,
+                        width: 60.w,
+                        padding: EdgeInsets.symmetric(horizontal: 10.w),
+                        child: Center(
+                          child: TextFormField(
+                            keyboardType: const TextInputType.numberWithOptions(
+                                decimal: true),
+                            controller: _controller,
+                            style: TextStyle(
+                                color: const Color(0xFF171433).withOpacity(0.7),
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500),
+                            textAlign: TextAlign.center,
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                contentPadding: EdgeInsets.all(8)),
+                          ),
+                        ))
+                    : Container(),
+                isExpanded ? 8.horizontalSpace : 0.horizontalSpace,
+                Expanded(
+                  flex: isExpanded ? 5 : 8,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.data[widget.index].mealName ?? "",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            color: const Color(0xFF171433).withOpacity(0.8),
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        widget.data[widget.index].mealServings ?? "",
+                        style: TextStyle(
+                            color: const Color(0xFF171433).withOpacity(0.7),
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                ),
+                //const Spacer(),
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    '${(widget.data[widget.index].caloriesInG!).round()} cal',
+                    style: TextStyle(
+                        fontSize: 17.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xFF8F01DF)),
+                  ),
+                )
+              ],
+            ),
+            isExpanded
+                ? Row(
+                    children: [
+                      Expanded(
+                        child: LiveWellSmallButton(
+                            textColor: Colors.white,
+                            label: "update",
+                            color: Colors.green,
+                            onPressed: () {
+                              widget.onUpdate(widget.index,
+                                  double.parse(_controller.text.trim()));
+                            }),
+                      ),
+                      Expanded(
+                        child: LiveWellSmallButton(
+                            textColor: Colors.white,
+                            label: "delete",
+                            color: Colors.red,
+                            onPressed: () {
+                              widget.onDelete(widget.index);
+                            }),
+                      )
+                    ],
+                  )
+                : Container()
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class LiveWellSmallButton extends StatelessWidget {
+  final String label;
+  final Color color;
+  final VoidCallback onPressed;
+  final Color? textColor;
+  const LiveWellSmallButton(
+      {required this.label,
+      required this.color,
+      required this.onPressed,
+      this.textColor,
+      Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: Insets.paddingMedium),
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+            shadowColor: Colors.transparent,
+            minimumSize: Size(double.infinity, 22.w),
+            primary: color,
+            padding: const EdgeInsets.symmetric(
+                    horizontal: Insets.paddingMedium, vertical: 12.0)
+                .r,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(36.0).r)),
+        child: Text(
+          label,
+          style: TextStyle(
+              color: textColor ?? Colors.black,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500),
+        ),
       ),
     );
   }

@@ -26,7 +26,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
           children: [
             55.verticalSpace,
             Container(
-              height: 380.h,
+              height: 400.h,
               width: 342.w,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -53,10 +53,17 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                   Expanded(
                     child: Container(
                       padding:
-                          EdgeInsets.only(left: 20.w, right: 20.w, top: 39.h),
+                          EdgeInsets.only(left: 20.w, right: 20.w, top: 20.h),
                       color: const Color(0xFFF1F1F1),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text('Set Your Meal Time',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600)),
+                          20.verticalSpace,
                           Obx(() {
                             return DailyJournalEatingItem(
                               title: 'Breakfast',

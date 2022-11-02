@@ -5,6 +5,7 @@ import 'package:camera_platform_interface/src/types/camera_description.dart';
 import 'package:dartz/dartz.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/network/network_module.dart';
+import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
 import 'package:livewell/feature/food/domain/entity/add_meal_param.dart';
 import 'package:livewell/feature/auth/data/model/register_model.dart';
 import 'package:livewell/feature/food/domain/entity/meal_history.dart';
@@ -107,6 +108,21 @@ class FoodRepositoryImpl extends NetworkModule implements FoodRepository {
     try {
       final response = await deleteMethod('${Endpoint.deleteMeal}/$id',
           headers: {authorization: await SharedPref.getToken()});
+      final json = responseHandler(response);
+      final data = RegisterModel.fromJson(json);
+      return Right(data);
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, RegisterModel>> updateMealHistory(
+      MealHistoryModel params) async {
+    try {
+      final response = await postMethod(Endpoint.updateMeal,
+          headers: {authorization: await SharedPref.getToken()},
+          body: params.toJson());
       final json = responseHandler(response);
       final data = RegisterModel.fromJson(json);
       return Right(data);

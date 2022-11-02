@@ -1,13 +1,13 @@
 class Formula {
-  static double proteinPercentage(int protein, int totalCalories) {
+  static double proteinPercentage(num protein, num totalCalories) {
     return protein / ((0.2 * totalCalories) / 4);
   }
 
-  static double carbohydratePercentage(num carbohydrate, int totalCalories) {
+  static double carbohydratePercentage(num carbohydrate, num totalCalories) {
     return carbohydrate / ((0.5 * totalCalories) / 4);
   }
 
-  static double fatPercentage(int fat, int totalCalories) {
+  static double fatPercentage(num fat, num totalCalories) {
     return fat / ((0.3 * totalCalories) / 9);
   }
 

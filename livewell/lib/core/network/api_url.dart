@@ -22,10 +22,13 @@ class Endpoint {
   static const String foods = "foods";
   static const String addMeal = "user/meal/add";
   static const String deleteMeal = "user/meal/delete";
+  static const String updateMeal = "user/meal/update";
 
   /// questionnaire
   static const String questionnaire = "user/onboarding";
 
   /// diary
   static const String userMealHistory = "user/meal/history";
+
+  static const String appConfig = "config/app";
 }

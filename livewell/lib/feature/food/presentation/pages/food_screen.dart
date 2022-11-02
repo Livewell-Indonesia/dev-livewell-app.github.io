@@ -106,6 +106,10 @@ class _FoodScreenState extends State<FoodScreen> {
                                     routeName:
                                         '${AppPages.addMeal}/${MealTime.values[index].name}');
                               },
+                              onUpdate: (index, size) {
+                                controller.onUpdateTapped(
+                                    MealTime.values[index], index, size);
+                              },
                               onDelete: (item) {
                                 controller.onDeleteHistory(
                                     MealTime.values[index], item);
@@ -339,8 +343,6 @@ class ButtonAddMeal extends StatelessWidget {
               const Spacer(),
               const Icon(Icons.arrow_forward_ios),
               //create rounded button
-
-
             ],
           ),
         ),

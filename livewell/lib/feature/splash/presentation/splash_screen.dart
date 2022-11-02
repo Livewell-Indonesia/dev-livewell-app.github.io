@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/splash/presentation/controller/splash_controller.dart';
+
+import '../../../core/localization/Languages.dart';
 
 class SplashScreen extends StatelessWidget {
   SplashScreen({Key? key}) : super(key: key);
@@ -14,7 +17,25 @@ class SplashScreen extends StatelessWidget {
       body: Container(
         color: Colors.white,
         child: Center(
-          child: Image.asset(Constant.imgLogo),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AspectRatio(
+                aspectRatio: 5,
+                child: SvgPicture.asset(
+                  "assets/images/FA_Livewell_Logo.svg",
+                  fit: BoxFit.cover,
+                  color: const Color(0xFF34EAB2),
+                ),
+              ),
+              Text(AppStringsKeys.letsYourNewHealth.tr,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF171433).withOpacity(0.5))),
+            ],
+          ),
         ),
       ),
     );

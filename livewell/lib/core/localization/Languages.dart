@@ -6,7 +6,7 @@ class Languages extends Translations {
         'en_US': {
           AppStringsKeys.welcomeToLiveWell: 'Welcome to Livewell',
           AppStringsKeys.letsYourNewHealth:
-              'Let\'s your new Health & Fitness Journey with us!',
+              'Better Health Through Better Living',
           AppStringsKeys.getStarted: 'Get Started',
           AppStringsKeys.signIn: 'Sign In',
           AppStringsKeys.signUp: 'Sign Up',

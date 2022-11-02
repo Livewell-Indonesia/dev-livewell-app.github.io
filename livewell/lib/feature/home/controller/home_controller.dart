@@ -4,9 +4,31 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/state_manager.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/feature/dashboard/domain/usecase/get_app_config.dart';
+
+import '../../../core/base/usecase.dart';
+import '../../dashboard/data/model/app_config_model.dart';
 
 class HomeController extends GetxController {
   Rx<HomeTab> currentMenu = HomeTab.home.obs;
+
+  GetAppConfig appConfig = GetAppConfig.instance();
+  Rx<AppConfigModel> appConfigModel = AppConfigModel().obs;
+
+  @override
+  void onInit() {
+    getAppConfig();
+    super.onInit();
+  }
+
+  void getAppConfig() async {
+    final result = await appConfig.call(NoParams());
+    result.fold((l) {
+      print(l);
+    }, (r) {
+      appConfigModel.value = r;
+    });
+  }
 
   void changePage(HomeTab tab) {
     currentMenu.value = tab;

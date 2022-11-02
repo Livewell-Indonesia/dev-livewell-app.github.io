@@ -156,6 +156,17 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     fontWeight: FontWeight.w500),
               ),
             ),
+            10.verticalSpace,
+            Center(child: Obx(() {
+              return Text(
+                'Your goal: ${controller.user.value.onboardingQuestionnaire?.targetImprovement?.first ?? []}',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: const Color(0xFF171433).withOpacity(0.5),
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500),
+              );
+            })),
             32.verticalSpace,
             InkWell(
               onTap: () {
@@ -241,24 +252,28 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           const Spacer(),
                           Expanded(
                             flex: 2,
-                            child: Column(
-                              children: [
-                                Text(
-                                  "${controller.dashboard.value.dashboard?.target ?? 0}",
-                                  style: TextStyle(
-                                      fontSize: 24.sp,
-                                      color: const Color(0xFF171433),
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                Text(
-                                  "BMR",
-                                  style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: const Color(0xFF171433)
-                                          .withOpacity(0.6),
-                                      fontWeight: FontWeight.w500),
-                                )
-                              ],
+                            child: MyTooltip(
+                              message:
+                                  "Basal Metabolic Rate (BMR) is the number of calories you burn as your body performs basic (basal) life-sustaining function, such as breathing, circulation, nutrient processing and cell production.",
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "${controller.dashboard.value.dashboard?.target ?? 0}",
+                                    style: TextStyle(
+                                        fontSize: 24.sp,
+                                        color: const Color(0xFF171433),
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  Text(
+                                    "BMR",
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: const Color(0xFF171433)
+                                            .withOpacity(0.6),
+                                        fontWeight: FontWeight.w500),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -453,5 +468,34 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         ),
       ),
     );
+  }
+}
+
+class MyTooltip extends StatelessWidget {
+  final Widget child;
+  final String message;
+
+  MyTooltip({required this.message, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    final key = GlobalKey<State<Tooltip>>();
+    return Tooltip(
+      margin: EdgeInsets.symmetric(horizontal: 16.w),
+      padding: EdgeInsets.all(20.r),
+      key: key,
+      message: message,
+      triggerMode: TooltipTriggerMode.tap,
+      child: GestureDetector(
+        behavior: HitTestBehavior.deferToChild,
+        onTap: () => _onTap(key),
+        child: child,
+      ),
+    );
+  }
+
+  void _onTap(GlobalKey key) {
+    final dynamic tooltip = key.currentState;
+    tooltip?.ensureTooltipVisible();
   }
 }

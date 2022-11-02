@@ -201,25 +201,39 @@ class _AddMealScreenState extends State<AddMealScreen>
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                Expanded(
-                    child: scanButton(ScanType.barcode, () async {
-                  AppNavigator.push(
-                      routeName:
-                          "${AppPages.scanFood}/${ScanType.barcode.name}");
-                })),
-                const SizedBox(width: 24),
-                Expanded(
-                    child: scanButton(ScanType.photo, () async {
-                  Get.to(ScanFoodScreen());
-                })),
-              ],
-            ),
-          ),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Obx(() {
+                return SizedBox(
+                  height: addMealController.showScanMenu().value ? 159.h : 0.h,
+                  child: ListView.separated(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return addMealController
+                                .checkAvailability(ScanType.values[index])
+                                .value
+                            ? Expanded(
+                                child: scanButton(ScanType.values[index],
+                                    () async {
+                                AppNavigator.push(
+                                    routeName:
+                                        "${AppPages.scanFood}/${ScanType.values[index].name}");
+                              }))
+                            : Container();
+                      },
+                      separatorBuilder: (context, index) {
+                        return addMealController
+                                .checkAvailability(ScanType.values[index])
+                                .value
+                            ? 20.horizontalSpace
+                            : Container();
+                      },
+                      itemCount: ScanType.values.length),
+                );
+              })),
           const SizedBox(height: 32),
           Obx(() {
             if (addMealController.history.isNotEmpty) {
@@ -281,7 +295,7 @@ class _AddMealScreenState extends State<AddMealScreen>
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: double.infinity,
+        width: 153.w,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),

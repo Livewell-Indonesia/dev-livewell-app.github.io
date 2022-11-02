@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:livewell/feature/food/domain/usecase/delete_meal_history.dart';
 
 import '../../../diary/domain/entity/user_meal_history_model.dart';
+import '../../domain/usecase/update_food_history.dart';
 import '../pages/food_screen.dart';
 
 class FoodController extends GetxController {
@@ -84,7 +85,7 @@ class FoodController extends GetxController {
     }
   }
 
-  Rx<int> getTotalMacroNut() {
+  Rx<num> getTotalMacroNut() {
     if (dashboardData.value.dashboard != null) {
       var carbs = dashboardData.value.dashboard!.totalCarbsInG ?? 0;
       var protein = dashboardData.value.dashboard!.totalProteinInG ?? 0;
@@ -97,13 +98,13 @@ class FoodController extends GetxController {
 
   Rx<double> getPercentMacroNut() {
     if (dashboardData.value.dashboard != null) {
-      var carbs = Formula.carbohydratePercentage(
+      num carbs = Formula.carbohydratePercentage(
           dashboardData.value.dashboard!.totalCarbsInG ?? 0,
           dashboardData.value.dashboard?.target ?? 0);
-      var protein = Formula.proteinPercentage(
+      num protein = Formula.proteinPercentage(
           dashboardData.value.dashboard!.totalProteinInG ?? 0,
           dashboardData.value.dashboard?.target ?? 0);
-      var fat = Formula.fatPercentage(
+      num fat = Formula.fatPercentage(
           dashboardData.value.dashboard!.totalFatsInG ?? 0,
           dashboardData.value.dashboard?.target ?? 0);
       var average = (carbs + protein + fat) / 3;
@@ -457,5 +458,32 @@ class FoodController extends GetxController {
     mealHistory.remove(deletedItem);
     final result = await deleteMealHistory.call(deletedItem.id ?? 0);
     result.fold((l) => print(l), (r) => print(r));
+    if (Get.isRegistered<DashboardController>()) {
+      Get.find<DashboardController>().onInit();
+    }
+  }
+
+  void onUpdateTapped(MealTime mealTime, int index, double servingSize) async {
+    UpdateFoodHistory deleteMealHistory = UpdateFoodHistory.instance();
+    var lists = mealHistory
+        .where(
+            (p0) => p0.mealType?.toUpperCase() == mealTime.name.toUpperCase())
+        .toList();
+    var updatedItem = lists[index];
+    updatedItem.servingSize = servingSize;
+    if (servingSize == 0.0) {
+      onDeleteHistory(mealTime, index);
+    } else {
+      final result = await deleteMealHistory.call(updatedItem);
+      result.fold((l) => print(l), (r) {
+        fetchUserMealHistory();
+        if (Get.isRegistered<DashboardController>()) {
+          Get.find<DashboardController>().onInit();
+        }
+        if (Get.isRegistered<FoodController>()) {
+          Get.find<FoodController>().onInit();
+        }
+      });
+    }
   }
 }

@@ -29,12 +29,12 @@ class DashboardModel {
 }
 
 class Dashboard {
-  int? target;
-  int? caloriesLeft;
-  int? caloriesTaken;
-  int? totalCarbsInG;
-  int? totalFatsInG;
-  int? totalProteinInG;
+  num? target;
+  num? caloriesLeft;
+  num? caloriesTaken;
+  num? totalCarbsInG;
+  num? totalFatsInG;
+  num? totalProteinInG;
 
   Dashboard(
       {this.target,
@@ -71,43 +71,43 @@ class Details {
   String? mealType;
   String? createdAt;
   String? updatedAt;
-  int? carbohydratesInG;
-  int? proteinInG;
-  int? fatInG;
-  int? saturatedFatInG;
-  int? transfatInG;
-  int? monosaturatedFatInG;
-  int? polyunsaturatedFatInG;
-  int? vitaminAInMcg;
-  int? vitaminCInMg;
-  int? vitaminDInMcg;
-  int? vitaminEInMg;
-  int? vitaminKInMcg;
-  int? vitaminB1InMg;
-  int? vitaminB2InMg;
-  int? vitaminB3InMg;
-  int? vitaminB5InMg;
-  int? vitaminB6InMg;
-  int? vitaminB7InMcg;
-  int? vitaminB9InMcg;
-  int? vitaminB12InMcg;
-  int? calciumInMg;
-  int? phosphorusInMg;
-  int? magnesiumInMg;
-  int? sodiumInMg;
-  int? potassiumInMg;
-  int? chlorideInMg;
-  int? ironInMg;
-  int? iodineInMcg;
-  int? zincInMg;
-  int? seleniumInMcg;
-  int? fluorideInMg;
-  int? chromiumInMcg;
-  int? molybdenumInMcg;
+  num? carbohydratesInG;
+  num? proteinInG;
+  num? fatInG;
+  num? saturatedFatInG;
+  num? transfatInG;
+  num? monosaturatedFatInG;
+  num? polyunsaturatedFatInG;
+  num? vitaminAInMcg;
+  num? vitaminCInMg;
+  num? vitaminDInMcg;
+  num? vitaminEInMg;
+  num? vitaminKInMcg;
+  num? vitaminB1InMg;
+  num? vitaminB2InMg;
+  num? vitaminB3InMg;
+  num? vitaminB5InMg;
+  num? vitaminB6InMg;
+  num? vitaminB7InMcg;
+  num? vitaminB9InMcg;
+  num? vitaminB12InMcg;
+  num? calciumInMg;
+  num? phosphorusInMg;
+  num? magnesiumInMg;
+  num? sodiumInMg;
+  num? potassiumInMg;
+  num? chlorideInMg;
+  num? ironInMg;
+  num? iodineInMcg;
+  num? zincInMg;
+  num? seleniumInMcg;
+  num? fluorideInMg;
+  num? chromiumInMcg;
+  num? molybdenumInMcg;
   String? mealAt;
   String? userReferenceId;
   String? restaurant;
-  int? caloriesInG;
+  num? caloriesInG;
 
   Details(
       {this.mealName,

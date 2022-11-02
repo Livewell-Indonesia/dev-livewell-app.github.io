@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:livewell/core/network/api_url.dart';
 import 'package:livewell/core/network/network_module.dart';
+import 'package:livewell/feature/dashboard/data/model/app_config_model.dart';
 import 'package:livewell/feature/dashboard/data/model/dashboard_model.dart';
 import 'package:livewell/feature/dashboard/domain/repository/dashboard_repository.dart';
 
@@ -35,6 +36,19 @@ class DashboardRepostoryImpl extends NetworkModule
       });
       final json = responseHandler(response);
       return Right(DashboardModel.fromJson(json));
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, AppConfigModel>> getAppConfig() async {
+    try {
+      final response = await getMethod(Endpoint.appConfig, headers: {
+        authorization: await SharedPref.getToken(),
+      });
+      final json = responseHandler(response);
+      return Right(AppConfigModel.fromJson(json));
     } catch (ex) {
       return Left(ServerFailure(message: ex.toString()));
     }

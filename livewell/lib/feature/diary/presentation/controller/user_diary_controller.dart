@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
 import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart';
+import 'package:livewell/feature/food/domain/usecase/update_food_history.dart';
+import 'package:livewell/feature/food/presentation/controller/food_controller.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../../../core/log.dart';
+import '../../../dashboard/presentation/controller/dashboard_controller.dart';
 import '../../../food/domain/usecase/delete_meal_history.dart';
 import '../../../food/presentation/pages/food_screen.dart';
 
@@ -78,14 +81,44 @@ class UserDiaryController extends GetxController {
 
   void onDeleteTapped(MealTime mealTime, int index) async {
     DeleteMealHistory deleteMealHistory = DeleteMealHistory.instance();
-    var lists = allMealHistory
+    var lists = filteredMealHistory
         .where(
             (p0) => p0.mealType?.toUpperCase() == mealTime.name.toUpperCase())
         .toList();
     var deletedItem = lists[index];
-    allMealHistory.remove(deletedItem);
+    filteredMealHistory.remove(deletedItem);
     final result = await deleteMealHistory.call(deletedItem.id ?? 0);
     result.fold((l) => print(l), (r) => print(r));
+    if (Get.isRegistered<DashboardController>()) {
+      Get.find<DashboardController>().onInit();
+    }
+    if (Get.isRegistered<FoodController>()) {
+      Get.find<FoodController>().onInit();
+    }
+  }
+
+  void onUpdateTapped(MealTime mealTime, int index, double servingSize) async {
+    UpdateFoodHistory deleteMealHistory = UpdateFoodHistory.instance();
+    var lists = filteredMealHistory
+        .where(
+            (p0) => p0.mealType?.toUpperCase() == mealTime.name.toUpperCase())
+        .toList();
+    var updatedItem = lists[index];
+    updatedItem.servingSize = servingSize;
+    if (servingSize == 0.0) {
+      onDeleteTapped(mealTime, index);
+    } else {
+      final result = await deleteMealHistory.call(updatedItem);
+      result.fold((l) => print(l), (r) {
+        doGetUserMealHistory();
+        if (Get.isRegistered<DashboardController>()) {
+          Get.find<DashboardController>().onInit();
+        }
+        if (Get.isRegistered<FoodController>()) {
+          Get.find<FoodController>().onInit();
+        }
+      });
+    }
   }
 
   void onNextTapped() {
@@ -146,15 +179,15 @@ class UserDiaryController extends GetxController {
     inspect(filteredMealHistory);
   }
 
-  Rx<int> getTotalCal(List<MealHistoryModel> mealHistory) {
-    var totalCal = 0;
+  Rx<num> getTotalCal(List<MealHistoryModel> mealHistory) {
+    num totalCal = 0;
     for (var element in mealHistory) {
       totalCal += element.caloriesInG!;
     }
     if (totalCal > 0) {
       totalCal = (totalCal * 7.7162).round();
     }
-    return Rx<int>(totalCal);
+    return Rx<num>(totalCal);
   }
 }
 

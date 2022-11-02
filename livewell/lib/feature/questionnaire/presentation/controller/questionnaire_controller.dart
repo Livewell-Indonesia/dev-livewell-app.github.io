@@ -217,7 +217,7 @@ extension GoalSelectionContent on GoalSelection {
   String title() {
     switch (this) {
       case GoalSelection.getFitter:
-        return "Get Fitter";
+        return "Healthier Lifestyle";
       case GoalSelection.betterSleeping:
         return "Better Sleeping";
       case GoalSelection.weightLoss:

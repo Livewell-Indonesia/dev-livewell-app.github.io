@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:dartz/dartz.dart';
 import 'package:livewell/feature/auth/data/model/register_model.dart';
+import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
 import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/feature/food/domain/entity/meal_history.dart';
 import 'package:livewell/feature/food/domain/usecase/post_search_food.dart';
@@ -16,4 +17,6 @@ abstract class FoodRepository {
   Future<Either<Failure, bool>> addMealHistory(MealHistory params);
   Future<Either<Failure, MealHistories>> getMealHistory();
   Future<Either<Failure, RegisterModel>> deleteMealHistory(int id);
+  Future<Either<Failure, RegisterModel>> updateMealHistory(
+      MealHistoryModel params);
 }
