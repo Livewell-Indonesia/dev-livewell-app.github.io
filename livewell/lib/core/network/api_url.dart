@@ -1,6 +1,10 @@
+import 'package:flutter/foundation.dart';
+
 class Endpoint {
   /// DEV
-  static String api = "https://dev-api.livewellindo.com/api/v1/";
+  static String api = kReleaseMode
+      ? "https://dev-api.livewellindo.com/api/v1/"
+      : "https://api.livewellindo.com/api/v1/";
 
   /// Login
   static const String login = "auth/login";
