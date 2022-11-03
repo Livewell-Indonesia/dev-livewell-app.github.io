@@ -66,7 +66,7 @@ class AddFoodController extends GetxController {
     var dailyTarget =
         Get.find<DashboardController>().dashboard.value.dashboard?.target ?? 0;
     var percent = (cal / dailyTarget) * 100;
-    return percent.toInt() > 1 ? 1.obs : percent.toInt().obs;
+    return percent.toInt() > 100 ? 100.obs : percent.toInt().obs;
   }
 
   Rx<double> getTotalCalByServings(int cal) {
