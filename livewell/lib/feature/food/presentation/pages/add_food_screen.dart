@@ -150,21 +150,21 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                           name: 'Carbs',
                           color: const Color(0xFF8F01DF),
                           total:
-                              "${controller.getTotalCarbsByServings(num.parse(widget.food.servings?[0].carbohydrate ?? "1"))} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
+                              "${controller.getTotalCarbsByServings(num.parse(widget.food.servings?[0].carbohydrate ?? "1")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
                           consumed:
-                              "${Formula.carbohydratePercentage(num.parse(widget.food.servings?[0].carbohydrate ?? "1"), int.parse(widget.food.servings?[0].calories ?? "1") * 100).round()}% "),
+                              "${((num.parse(widget.food.servings?[0].carbohydrate ?? "1") * 4) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).round()}% "),
                       NutrtionProgressModel(
                           name: 'Fat',
                           color: const Color(0xFFF5D25D),
                           total:
-                              "${controller.getTotalFatByServings(num.parse(widget.food.servings?[0].fat ?? "1"))} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
+                              "${controller.getTotalFatByServings(num.parse(widget.food.servings?[0].fat ?? "1")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
                           consumed:
                               "${((num.parse(widget.food.servings?[0].fat ?? "1") * 9) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).round()}% "),
                       NutrtionProgressModel(
                           name: 'Protein',
                           color: const Color(0xFFDDF235),
                           total:
-                              "${controller.getTotalProteinByServings(num.parse(widget.food.servings?[0].protein ?? "1"))} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
+                              "${controller.getTotalProteinByServings(num.parse(widget.food.servings?[0].protein ?? "1")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
                           consumed:
                               "${((num.parse(widget.food.servings?[0].protein ?? "1") * 4) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).round()}% "),
                     ],
