@@ -257,7 +257,9 @@ class _AddMealScreenState extends State<AddMealScreen>
                 return ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: addMealController.history.length,
+                  itemCount: addMealController.history.length >= 5
+                      ? 5
+                      : addMealController.history.length,
                   itemBuilder: (context, index) {
                     return SearchHistoryItem(
                       title: addMealController.history[index].mealName ?? "",

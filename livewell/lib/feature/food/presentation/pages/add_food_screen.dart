@@ -152,7 +152,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                           total:
                               "${controller.getTotalCarbsByServings(num.parse(widget.food.servings?[0].carbohydrate ?? "1")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
                           consumed:
-                              "${((num.parse(widget.food.servings?[0].carbohydrate ?? "1") * 4) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).round()}% "),
+                              "${((num.parse(widget.food.servings?[0].carbohydrate ?? "1") * 4) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).floor().round()}% "),
                       NutrtionProgressModel(
                           name: 'Fat',
                           color: const Color(0xFFF5D25D),
