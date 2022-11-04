@@ -101,6 +101,14 @@ class AddFoodController extends GetxController {
     return totalProtein.obs;
   }
 
+  double maxHundred(double value) {
+    if (value >= 100) {
+      return 100;
+    } else {
+      return value;
+    }
+  }
+
   // create a list of time
   List<String> timeList = [
     "Breakfast",
