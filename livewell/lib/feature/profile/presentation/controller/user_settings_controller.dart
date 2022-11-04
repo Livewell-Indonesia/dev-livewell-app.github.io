@@ -5,6 +5,7 @@ import 'package:livewell/feature/dashboard/presentation/controller/dashboard_con
 import 'package:livewell/routes/app_navigator.dart';
 
 import '../page/physical_information_screen.dart';
+import 'dart:io' show Platform;
 
 class UserSettingsController extends GetxController {
   var state = UserSettingsState.initial.obs;
@@ -26,7 +27,14 @@ class UserSettingsController extends GetxController {
   void logoutTapped() async {
     await SharedPref.removeToken();
     await SharedPref.clearToken();
-    await GoogleSignIn().signOut();
+    if (Platform.isIOS) {
+      await GoogleSignIn(
+              clientId:
+                  "649229634613-l8tqhjbf9o0lmu3mcs3ouhndi0aj5brk.apps.googleusercontent.com")
+          .signOut();
+    } else if (Platform.isAndroid) {
+      await GoogleSignIn().signOut();
+    }
     AppNavigator.pushAndRemove(routeName: AppPages.landingLogin);
   }
 }

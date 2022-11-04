@@ -87,29 +87,29 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                   child: Center(
                     child: MultipleColorCircle(
                       colorOccurrences: {
-                        const Color(0xFF8F01DF): (((double.parse(
+                        const Color(0xFF8F01DF): ((((double.parse(
                                         widget.food.servings?[0].carbohydrate ??
                                             "1")) *
                                     4) /
                                 int.parse(
                                     widget.food.servings?[0].calories ?? "1") *
                                 100)
-                            .round(),
-                        const Color(0xFFF5D25D): ((double.parse(
+                            .round()),
+                        const Color(0xFFF5D25D): (((double.parse(
                                         widget.food.servings?[0].fat ?? "1") *
                                     9) /
                                 int.parse(
                                     widget.food.servings?[0].calories ?? "1") *
                                 100)
-                            .round(),
-                        const Color(0xFFDDF235): ((double.parse(
+                            .round()),
+                        const Color(0xFFDDF235): (((double.parse(
                                         widget.food.servings?[0].protein ??
                                             "1") *
                                     4) /
                                 int.parse(
                                     widget.food.servings?[0].calories ?? "1") *
                                 100)
-                            .round()
+                            .round())
                       },
                       height: 100,
                       child:
@@ -152,21 +152,21 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                           total:
                               "${controller.getTotalCarbsByServings(num.parse(widget.food.servings?[0].carbohydrate ?? "1")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
                           consumed:
-                              "${((num.parse(widget.food.servings?[0].carbohydrate ?? "1") * 4) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).round()}% "),
+                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].carbohydrate ?? "1") * 4) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).floor().round())}% "),
                       NutrtionProgressModel(
                           name: 'Fat',
                           color: const Color(0xFFF5D25D),
                           total:
                               "${controller.getTotalFatByServings(num.parse(widget.food.servings?[0].fat ?? "1")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
                           consumed:
-                              "${((num.parse(widget.food.servings?[0].fat ?? "1") * 9) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).round()}% "),
+                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].fat ?? "1") * 9) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).round())}% "),
                       NutrtionProgressModel(
                           name: 'Protein',
                           color: const Color(0xFFDDF235),
                           total:
                               "${controller.getTotalProteinByServings(num.parse(widget.food.servings?[0].protein ?? "1")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
                           consumed:
-                              "${((num.parse(widget.food.servings?[0].protein ?? "1") * 4) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).round()}% "),
+                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].protein ?? "1") * 4) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).round())}% "),
                     ],
                     backgroundColor: Colors.transparent,
                   );
