@@ -143,8 +143,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             Get.to(() => const WebView(
-                                  initialUrl:
-                                      'https:// livewellindo.com/privacy',
+                                  initialUrl: 'https://livewellindo.com/terms',
                                   javascriptMode: JavascriptMode.unrestricted,
                                 ));
                           },
@@ -166,7 +165,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             Get.to(() => const WebView(
-                                  initialUrl: 'https:// livewellindo.com/terms',
+                                  initialUrl:
+                                      'https://livewellindo.com/privacy',
                                   javascriptMode: JavascriptMode.unrestricted,
                                 ));
                             //AppNavigator.push(routeName: AppPages.privacyPolicy);
