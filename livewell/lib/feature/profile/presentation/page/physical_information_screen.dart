@@ -175,14 +175,14 @@ class PhysicalInformationScreen extends StatelessWidget {
                               20.verticalSpace,
                               AccountSettingsTextField(
                                 textEditingController: controller.height,
-                                hintText: 'height',
+                                hintText: 'Height (cm)',
                                 enabled: true,
                                 inputType: TextInputType.number,
                               ),
                               20.verticalSpace,
                               AccountSettingsTextField(
                                 textEditingController: controller.weight,
-                                hintText: 'weight',
+                                hintText: 'Weight (kg)',
                                 enabled: true,
                                 inputType: TextInputType.number,
                               ),

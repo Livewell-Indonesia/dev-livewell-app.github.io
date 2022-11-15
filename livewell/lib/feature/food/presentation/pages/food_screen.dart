@@ -28,101 +28,107 @@ class _FoodScreenState extends State<FoodScreen> {
     return LiveWellScaffold(
       title: 'Food',
       body: Expanded(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 40),
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(children: [
-                        TextSpan(
-                          text: 'Today you have consumed ',
-                          style: TextStyles.titleHiEm(color: Colors.black),
-                        ),
-                        TextSpan(
-                            text:
-                                "${controller.dashboardData.value.dashboard?.caloriesTaken.toString()} Cal",
-                            style: TextStyles.titleHiEm(color: Colors.orange))
-                      ]))),
-              const SizedBox(height: 20),
-              Center(child: Obx(() {
-                return NutritionCircularProgress(
-                  firstValue: Get.find<FoodController>()
-                      .percentageOfDailyGoals()
-                      .value
-                      .toDouble(),
-                  secondValue: (controller.getPercentMicroNut().value * 100),
-                  thirdValue: (controller.getPercentMacroNut().value * 100),
-                );
-              })),
-              Obx(() {
-                return Padding(
-                  padding: const EdgeInsets.all(16.0).r,
-                  child: NutritionProgressDescription(
-                    data: [
-                      NutrtionProgressModel(
-                          name: 'Macro nut',
-                          color: const Color(0xFF34EAB2),
-                          total: "",
-                          consumed:
-                              "${(controller.getPercentMacroNut().value * 100).round()}%"),
-                      NutrtionProgressModel(
-                          name: 'Micro nut',
-                          color: const Color(0xFF8F01DF),
-                          total: "",
-                          consumed:
-                              "${(controller.getPercentMicroNut().value * 100).round()}%"),
-                      NutrtionProgressModel(
-                          name: 'Total Cal',
-                          color: const Color(0xFFDDF235),
-                          total: "",
-                          consumed:
-                              '${Get.find<FoodController>().percentageOfDailyGoals().value}%'),
-                    ],
-                  ),
-                );
-              }),
-              Obx(() {
-                return controller.isLoadingHistory.value
-                    ? Container()
-                    : ListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return Obx(() {
-                            return ExpandableDiaryItem(
-                              title: MealTime.values[index].appBarTitle(),
-                              data: controller.mealHistory
-                                  .where((p0) =>
-                                      p0.mealType?.toUpperCase() ==
-                                      MealTime.values[index].name.toUpperCase())
-                                  .toList(),
-                              onTap: () {
-                                AppNavigator.push(
-                                    routeName:
-                                        '${AppPages.addMeal}/${MealTime.values[index].name}');
-                              },
-                              onUpdate: (index, size) {
-                                controller.onUpdateTapped(
-                                    MealTime.values[index], index, size);
-                              },
-                              onDelete: (item) {
-                                controller.onDeleteHistory(
-                                    MealTime.values[index], item);
-                              },
-                            );
-                          });
-                        },
-                        separatorBuilder: (context, index) {
-                          return 10.verticalSpace;
-                        },
-                        itemCount: MealTime.values.length);
-              })
-            ],
+        child: RefreshIndicator(
+          onRefresh: () async {
+            controller.onInit();
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 40),
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(children: [
+                          TextSpan(
+                            text: 'Today you have consumed ',
+                            style: TextStyles.titleHiEm(color: Colors.black),
+                          ),
+                          TextSpan(
+                              text:
+                                  "${controller.dashboardData.value.dashboard?.caloriesTaken.toString()} Cal",
+                              style: TextStyles.titleHiEm(color: Colors.orange))
+                        ]))),
+                const SizedBox(height: 20),
+                Center(child: Obx(() {
+                  return NutritionCircularProgress(
+                    firstValue: Get.find<FoodController>()
+                        .percentageOfDailyGoals()
+                        .value
+                        .toDouble(),
+                    secondValue: (controller.getPercentMicroNut().value * 100),
+                    thirdValue: (controller.getPercentMacroNut().value * 100),
+                  );
+                })),
+                Obx(() {
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0).r,
+                    child: NutritionProgressDescription(
+                      data: [
+                        NutrtionProgressModel(
+                            name: 'Macro nut',
+                            color: const Color(0xFF34EAB2),
+                            total: "",
+                            consumed:
+                                "${(controller.getPercentMacroNut().value * 100).round()}%"),
+                        NutrtionProgressModel(
+                            name: 'Micro nut',
+                            color: const Color(0xFF8F01DF),
+                            total: "",
+                            consumed:
+                                "${(controller.getPercentMicroNut().value * 100).round()}%"),
+                        NutrtionProgressModel(
+                            name: 'Total Cal',
+                            color: const Color(0xFFDDF235),
+                            total: "",
+                            consumed:
+                                '${Get.find<FoodController>().percentageOfDailyGoals().value}%'),
+                      ],
+                    ),
+                  );
+                }),
+                Obx(() {
+                  return controller.isLoadingHistory.value
+                      ? Container()
+                      : ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Obx(() {
+                              return ExpandableDiaryItem(
+                                title: MealTime.values[index].appBarTitle(),
+                                data: controller.mealHistory
+                                    .where((p0) =>
+                                        p0.mealType?.toUpperCase() ==
+                                        MealTime.values[index].name
+                                            .toUpperCase())
+                                    .toList(),
+                                onTap: () {
+                                  AppNavigator.push(
+                                      routeName:
+                                          '${AppPages.addMeal}/${MealTime.values[index].name}');
+                                },
+                                onUpdate: (index, size) {
+                                  controller.onUpdateTapped(
+                                      MealTime.values[index], index, size);
+                                },
+                                onDelete: (item) {
+                                  controller.onDeleteHistory(
+                                      MealTime.values[index], item);
+                                },
+                              );
+                            });
+                          },
+                          separatorBuilder: (context, index) {
+                            return 10.verticalSpace;
+                          },
+                          itemCount: MealTime.values.length);
+                })
+              ],
+            ),
           ),
         ),
       ),

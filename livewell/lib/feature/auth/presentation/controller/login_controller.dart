@@ -20,6 +20,7 @@ class LoginController extends BaseController {
   TextEditingController pin = TextEditingController();
   TextEditingController forgotPasswordEmail = TextEditingController();
   Rx<String> passwordError = ''.obs;
+  Rx<String> emailError = ''.obs;
 
   var showOtpInput = false.obs;
 
@@ -35,27 +36,30 @@ class LoginController extends BaseController {
   void verifyOTP() {}
 
   void doLogin() async {
+    if (!email.text.isEmail) {
+      emailError.value = 'Email Not Valid';
+      return;
+    }
     if (password.text.isEmpty) {
       passwordError.value = 'Password Empty';
       return;
-    } else {
-      await EasyLoading.show();
-      final result = await postLogin(
-          ParamsLogin(email: email.text, password: password.text));
-      await EasyLoading.dismiss();
-      result.fold((l) {
-        if (l.message!.contains("404")) {
-          Get.snackbar('Error', 'Please verify your email first');
-        } else {
-          Get.snackbar('Authentication Failed',
-              'Your authentication information is incorrect. Please try again.');
-        }
-      }, (r) {
-        SharedPref.saveToken(r.accessToken!);
-        SharedPref.saveRefreshToken(r.refreshToken!);
-        AppNavigator.pushAndRemove(routeName: AppPages.home);
-      });
     }
+    await EasyLoading.show();
+    final result = await postLogin(
+        ParamsLogin(email: email.text, password: password.text));
+    await EasyLoading.dismiss();
+    result.fold((l) {
+      if (l.message!.contains("404")) {
+        Get.snackbar('Error', 'Please verify your email first');
+      } else {
+        Get.snackbar('Authentication Failed',
+            'Your authentication information is incorrect. Please try again.');
+      }
+    }, (r) {
+      SharedPref.saveToken(r.accessToken!);
+      SharedPref.saveRefreshToken(r.refreshToken!);
+      AppNavigator.pushAndRemove(routeName: AppPages.home);
+    });
   }
 
   void validateEmailAndPassword() {
@@ -102,5 +106,23 @@ class LoginController extends BaseController {
       Get.snackbar('Password Email Sent', 'Check your Email for your OTP');
       AppNavigator.push(routeName: AppPages.changePassword);
     });
+  }
+}
+
+extension PasswordChecker on String {
+  bool isPasswordValid() {
+    if (length <= 8) {
+      return false;
+    }
+    if (!contains(RegExp(r'[A-Z]'))) {
+      return false;
+    }
+    if (!contains(RegExp(r'[0-9]'))) {
+      return false;
+    }
+    if (!contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+      return false;
+    }
+    return true;
   }
 }

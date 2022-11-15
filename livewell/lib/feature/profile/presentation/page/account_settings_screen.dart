@@ -186,9 +186,11 @@ class AccountSettingsTextField extends StatelessWidget {
           contentPadding: EdgeInsets.only(top: 16.h),
           prefixIcon: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 hintText,
+                textAlign: TextAlign.start,
                 style: TextStyle(
                     color: Color(0xFF171433).withOpacity(0.5),
                     fontSize: 14.sp,

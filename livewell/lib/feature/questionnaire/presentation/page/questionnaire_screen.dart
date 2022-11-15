@@ -178,7 +178,7 @@ class AgeSelector extends StatelessWidget {
     return SizedBox(
       height: 298.h,
       child: DatePickerWidget(
-        initialDateTime: DateTime(1990, 1, 1),
+        initialDateTime: controller.date.value,
         onMonthChangeStartWithFirstDate: false,
         maxDateTime: DateTime.now(),
         dateFormat: 'yyyy-MMM-dd',

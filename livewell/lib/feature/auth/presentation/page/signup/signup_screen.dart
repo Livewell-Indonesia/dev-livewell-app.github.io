@@ -25,8 +25,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return LiveWellScaffold(
         title: '',
         backgroundColor: Colors.white,
-        body: Expanded(
-          child: ListView(
+        body: Expanded(child: Obx(() {
+          return ListView(
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -48,29 +48,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: controller.firstName,
                   hintText: null,
                   labelText: AppStringsKeys.firstName.tr,
-                  errorText: null,
+                  errorText: controller.firstNameError.value,
                   obscureText: false),
               20.verticalSpace,
               LiveWellTextField(
                   controller: controller.lastName,
                   hintText: null,
                   labelText: AppStringsKeys.lastName.tr,
-                  errorText: null,
+                  errorText: controller.lastNameError.value,
                   obscureText: false),
               20.verticalSpace,
               LiveWellTextField(
                   controller: controller.email,
                   hintText: null,
                   labelText: AppStringsKeys.email.tr,
-                  errorText: null,
+                  errorText: controller.emailError.value,
                   isEmail: true,
                   obscureText: false),
               20.verticalSpace,
               LiveWellTextField(
                   controller: controller.password,
-                  hintText: null,
+                  hintText: AppStringsKeys.password.tr,
                   labelText: AppStringsKeys.password.tr,
-                  errorText: null,
+                  errorText: controller.passwordError.value,
                   obscureText: true),
               20.verticalSpace,
               LiveWellButton(
@@ -180,7 +180,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ])),
               ),
             ],
-          ),
-        ));
+          );
+        })));
   }
 }

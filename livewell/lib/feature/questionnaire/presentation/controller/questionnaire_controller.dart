@@ -10,12 +10,11 @@ import 'package:livewell/feature/questionnaire/domain/usecase/post_questionnaire
 
 import '../../../../core/log.dart';
 import '../../../../routes/app_navigator.dart';
-import '../page/finish_questionnaire_screen.dart';
 
 class QuestionnaireController extends GetxController {
   Rx<QuestionnairePage> currentPage = QuestionnairePage.gender.obs;
   var progress = 0.0.obs;
-  var date = DateTime.now().obs;
+  var date = DateTime(1990, 1, 1).obs;
   var dateOfBirth = "".obs;
   var age = 1.obs;
   var height = 150.obs;
@@ -32,8 +31,6 @@ class QuestionnaireController extends GetxController {
 
   QuestionnairePage findNextPage() {
     // if current page is questionnairepage.goal and selected goal is not better sleeping, return questionnairepage.targetweight
-    print(
-        "selectedGoals : ${selectedGoals.value} berarti ${selectedGoals.value != GoalSelection.betterSleeping} current page: ${currentPage.value}");
     final nextIndex =
         (currentPage.value.index + 1) % QuestionnairePage.values.length;
     final nextPage = QuestionnairePage.values[nextIndex];
@@ -158,7 +155,7 @@ extension QuestionnairePageData on QuestionnairePage {
       case QuestionnairePage.dieatary:
         return 'Help us to create your personalized plan';
       case QuestionnairePage.goal:
-        return 'You always change this latter';
+        return 'You can always change this later';
       case QuestionnairePage.targetWeight:
         return 'Help us to create your personalized plan';
       case QuestionnairePage.finish:
@@ -217,7 +214,7 @@ extension GoalSelectionContent on GoalSelection {
   String title() {
     switch (this) {
       case GoalSelection.getFitter:
-        return "Healthier Lifestyle";
+        return "Get Fitter";
       case GoalSelection.betterSleeping:
         return "Better Sleeping";
       case GoalSelection.weightLoss:

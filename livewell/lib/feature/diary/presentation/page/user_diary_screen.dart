@@ -24,223 +24,230 @@ class UserDiaryScreen extends StatelessWidget {
     return LiveWellScaffold(
         title: "Diary",
         body: Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                55.verticalSpace,
-                SizedBox(
-                  width: 1.sw,
-                  child: Obx(() {
-                    return Row(
-                      children: [
-                        const Spacer(),
-                        IconButton(
-                            onPressed: () {
-                              controller.onPreviousTapped();
-                            },
-                            icon: Icon(
-                              Icons.arrow_back_ios_new_rounded,
-                              size: 20.r,
-                              color: controller.selectedIndex.value == 0
-                                  ? Color(0xFF171433).withOpacity(0.5)
-                                  : Color(0xFF171433),
-                            )),
-                        Column(
-                          children: [
-                            Text(
-                                DateFormat('MMMM').format(controller
+          child: RefreshIndicator(
+            onRefresh: () async {
+              controller.onInit();
+            },
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  55.verticalSpace,
+                  SizedBox(
+                    width: 1.sw,
+                    child: Obx(() {
+                      return Row(
+                        children: [
+                          const Spacer(),
+                          IconButton(
+                              onPressed: () {
+                                controller.onPreviousTapped();
+                              },
+                              icon: Icon(
+                                Icons.arrow_back_ios_new_rounded,
+                                size: 20.r,
+                                color: controller.selectedIndex.value == 0
+                                    ? Color(0xFF171433).withOpacity(0.5)
+                                    : Color(0xFF171433),
+                              )),
+                          Column(
+                            children: [
+                              Text(
+                                  DateFormat('MMMM').format(controller.dateList[
+                                      controller.selectedIndex.value]),
+                                  style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xFF171433)
+                                          .withOpacity(0.7))),
+                              Text(
+                                DateFormat('EEEE, d').format(controller
                                     .dateList[controller.selectedIndex.value]),
                                 style: TextStyle(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color(0xFF171433)
-                                        .withOpacity(0.7))),
-                            Text(
-                              DateFormat('EEEE, d').format(controller
-                                  .dateList[controller.selectedIndex.value]),
-                              style: TextStyle(
-                                  fontSize: 24.sp,
-                                  color: const Color(0xFF171433),
-                                  fontWeight: FontWeight.w500),
-                            )
-                          ],
-                        ),
-                        IconButton(
-                            onPressed: () {
-                              controller.onNextTapped();
-                            },
-                            icon: Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              size: 20.r,
-                              color: controller.selectedIndex.value ==
-                                      controller.dateList.length - 1
-                                  ? Color(0xFF171433).withOpacity(0.5)
-                                  : Color(0xFF171433),
-                            )),
-                        const Spacer()
-                      ],
-                    );
-                  }),
-                ),
-                25.verticalSpace,
-                Container(
-                  height: 72.h,
-                  width: 1.sw,
-                  alignment: Alignment.center,
-                  child: Obx(() {
-                    return ScrollablePositionedList.separated(
-                        itemScrollController: controller.itemScrollController,
-                        padding: EdgeInsets.symmetric(horizontal: 24.w),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: ((context, index) {
-                          return Obx(() {
-                            return InkWell(
-                              onTap: () {
-                                controller.onDateTapped(index);
+                                    fontSize: 24.sp,
+                                    color: const Color(0xFF171433),
+                                    fontWeight: FontWeight.w500),
+                              )
+                            ],
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                controller.onNextTapped();
                               },
-                              child: Container(
-                                width: 55.w,
-                                height: 72.h,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    color:
-                                        controller.selectedIndex.value == index
-                                            ? const Color(0xFFDDF235)
-                                            : const Color(0xFFDDF235)
-                                                .withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(10).r),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      DateFormat('EEE')
-                                          .format(controller.dateList[index]),
-                                      style: TextStyle(
-                                          fontSize: 13.sp,
-                                          color: const Color(0xFF171433),
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(
-                                        controller.dateList[index].day
-                                            .toString(),
+                              icon: Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                size: 20.r,
+                                color: controller.selectedIndex.value ==
+                                        controller.dateList.length - 1
+                                    ? Color(0xFF171433).withOpacity(0.5)
+                                    : Color(0xFF171433),
+                              )),
+                          const Spacer()
+                        ],
+                      );
+                    }),
+                  ),
+                  25.verticalSpace,
+                  Container(
+                    height: 72.h,
+                    width: 1.sw,
+                    alignment: Alignment.center,
+                    child: Obx(() {
+                      return ScrollablePositionedList.separated(
+                          itemScrollController: controller.itemScrollController,
+                          padding: EdgeInsets.symmetric(horizontal: 24.w),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: ((context, index) {
+                            return Obx(() {
+                              return InkWell(
+                                onTap: () {
+                                  controller.onDateTapped(index);
+                                },
+                                child: Container(
+                                  width: 55.w,
+                                  height: 72.h,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: controller.selectedIndex.value ==
+                                              index
+                                          ? const Color(0xFFDDF235)
+                                          : const Color(0xFFDDF235)
+                                              .withOpacity(0.2),
+                                      borderRadius:
+                                          BorderRadius.circular(10).r),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        DateFormat('EEE')
+                                            .format(controller.dateList[index]),
                                         style: TextStyle(
-                                            fontSize: 19.sp,
+                                            fontSize: 13.sp,
                                             color: const Color(0xFF171433),
-                                            fontWeight: FontWeight.w700)),
-                                  ],
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      Text(
+                                          controller.dateList[index].day
+                                              .toString(),
+                                          style: TextStyle(
+                                              fontSize: 19.sp,
+                                              color: const Color(0xFF171433),
+                                              fontWeight: FontWeight.w700)),
+                                    ],
+                                  ),
                                 ),
+                              );
+                            });
+                          }),
+                          separatorBuilder: (context, index) {
+                            return 20.horizontalSpace;
+                          },
+                          itemCount: controller.dateList.length);
+                    }),
+                  ),
+                  40.verticalSpace,
+                  Obx(() {
+                    return controller.isLoading.value
+                        ? Container()
+                        : Column(
+                            children: [
+                              ExpandableDiaryItem(
+                                title: "Breakfast",
+                                data: controller.filteredMealHistory
+                                    .where((p0) =>
+                                        p0.mealType?.toUpperCase() ==
+                                        "breakfast".toUpperCase())
+                                    .toList(),
+                                onTap: () {
+                                  AppNavigator.push(
+                                      routeName:
+                                          '${AppPages.addMeal}/breakfast',
+                                      arguments: controller.dateList[
+                                          controller.selectedIndex.value]);
+                                },
+                                onUpdate: (index, size) {
+                                  controller.onUpdateTapped(
+                                      MealTime.breakfast, index, size);
+                                },
+                                onDelete: (index) {
+                                  controller.onDeleteTapped(
+                                      MealTime.breakfast, index);
+                                },
                               ),
-                            );
-                          });
-                        }),
-                        separatorBuilder: (context, index) {
-                          return 20.horizontalSpace;
-                        },
-                        itemCount: controller.dateList.length);
-                  }),
-                ),
-                40.verticalSpace,
-                Obx(() {
-                  return controller.isLoading.value
-                      ? Container()
-                      : Column(
-                          children: [
-                            ExpandableDiaryItem(
-                              title: "Breakfast",
-                              data: controller.filteredMealHistory
-                                  .where((p0) =>
-                                      p0.mealType?.toUpperCase() ==
-                                      "breakfast".toUpperCase())
-                                  .toList(),
-                              onTap: () {
-                                AppNavigator.push(
-                                    routeName: '${AppPages.addMeal}/breakfast',
-                                    arguments: controller.dateList[
-                                        controller.selectedIndex.value]);
-                              },
-                              onUpdate: (index, size) {
-                                controller.onUpdateTapped(
-                                    MealTime.breakfast, index, size);
-                              },
-                              onDelete: (index) {
-                                controller.onDeleteTapped(
-                                    MealTime.breakfast, index);
-                              },
-                            ),
-                            20.verticalSpace,
-                            ExpandableDiaryItem(
-                              title: "Lunch",
-                              data: controller.filteredMealHistory
-                                  .where((p0) =>
-                                      p0.mealType?.toUpperCase() ==
-                                      "lunch".toUpperCase())
-                                  .toList(),
-                              onTap: () {
-                                AppNavigator.push(
-                                    routeName: '${AppPages.addMeal}/lunch',
-                                    arguments: controller.dateList[
-                                        controller.selectedIndex.value]);
-                              },
-                              onUpdate: (index, size) {
-                                controller.onUpdateTapped(
-                                    MealTime.lunch, index, size);
-                              },
-                              onDelete: (index) {
-                                controller.onDeleteTapped(
-                                    MealTime.lunch, index);
-                              },
-                            ),
-                            20.verticalSpace,
-                            ExpandableDiaryItem(
-                              title: "Dinner",
-                              data: controller.filteredMealHistory
-                                  .where((p0) =>
-                                      p0.mealType?.toUpperCase() ==
-                                      "dinner".toUpperCase())
-                                  .toList(),
-                              onTap: () {
-                                AppNavigator.push(
-                                    routeName: '${AppPages.addMeal}/dinner',
-                                    arguments: controller.dateList[
-                                        controller.selectedIndex.value]);
-                              },
-                              onUpdate: (index, size) {
-                                controller.onUpdateTapped(
-                                    MealTime.dinner, index, size);
-                              },
-                              onDelete: (index) {
-                                controller.onDeleteTapped(
-                                    MealTime.dinner, index);
-                              },
-                            ),
-                            20.verticalSpace,
-                            ExpandableDiaryItem(
-                              title: "Snack",
-                              data: controller.filteredMealHistory
-                                  .where((p0) =>
-                                      p0.mealType?.toUpperCase() ==
-                                      "snack".toUpperCase())
-                                  .toList(),
-                              onTap: () {
-                                AppNavigator.push(
-                                    routeName: '${AppPages.addMeal}/snack',
-                                    arguments: controller.dateList[
-                                        controller.selectedIndex.value]);
-                              },
-                              onUpdate: (index, size) {
-                                controller.onUpdateTapped(
-                                    MealTime.snack, index, size);
-                              },
-                              onDelete: (index) {
-                                controller.onDeleteTapped(
-                                    MealTime.snack, index);
-                              },
-                            ),
-                            20.verticalSpace,
-                          ],
-                        );
-                })
-              ],
+                              20.verticalSpace,
+                              ExpandableDiaryItem(
+                                title: "Lunch",
+                                data: controller.filteredMealHistory
+                                    .where((p0) =>
+                                        p0.mealType?.toUpperCase() ==
+                                        "lunch".toUpperCase())
+                                    .toList(),
+                                onTap: () {
+                                  AppNavigator.push(
+                                      routeName: '${AppPages.addMeal}/lunch',
+                                      arguments: controller.dateList[
+                                          controller.selectedIndex.value]);
+                                },
+                                onUpdate: (index, size) {
+                                  controller.onUpdateTapped(
+                                      MealTime.lunch, index, size);
+                                },
+                                onDelete: (index) {
+                                  controller.onDeleteTapped(
+                                      MealTime.lunch, index);
+                                },
+                              ),
+                              20.verticalSpace,
+                              ExpandableDiaryItem(
+                                title: "Dinner",
+                                data: controller.filteredMealHistory
+                                    .where((p0) =>
+                                        p0.mealType?.toUpperCase() ==
+                                        "dinner".toUpperCase())
+                                    .toList(),
+                                onTap: () {
+                                  AppNavigator.push(
+                                      routeName: '${AppPages.addMeal}/dinner',
+                                      arguments: controller.dateList[
+                                          controller.selectedIndex.value]);
+                                },
+                                onUpdate: (index, size) {
+                                  controller.onUpdateTapped(
+                                      MealTime.dinner, index, size);
+                                },
+                                onDelete: (index) {
+                                  controller.onDeleteTapped(
+                                      MealTime.dinner, index);
+                                },
+                              ),
+                              20.verticalSpace,
+                              ExpandableDiaryItem(
+                                title: "Snack",
+                                data: controller.filteredMealHistory
+                                    .where((p0) =>
+                                        p0.mealType?.toUpperCase() ==
+                                        "snack".toUpperCase())
+                                    .toList(),
+                                onTap: () {
+                                  AppNavigator.push(
+                                      routeName: '${AppPages.addMeal}/snack',
+                                      arguments: controller.dateList[
+                                          controller.selectedIndex.value]);
+                                },
+                                onUpdate: (index, size) {
+                                  controller.onUpdateTapped(
+                                      MealTime.snack, index, size);
+                                },
+                                onDelete: (index) {
+                                  controller.onDeleteTapped(
+                                      MealTime.snack, index);
+                                },
+                              ),
+                              20.verticalSpace,
+                            ],
+                          );
+                  })
+                ],
+              ),
             ),
           ),
         ));
