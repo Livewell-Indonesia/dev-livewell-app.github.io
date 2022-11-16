@@ -27,6 +27,7 @@ class Endpoint {
   static const String addMeal = "user/meal/add";
   static const String deleteMeal = "user/meal/delete";
   static const String updateMeal = "user/meal/update";
+  static const String requestFood = "foods/request";
 
   /// questionnaire
   static const String questionnaire = "user/onboarding";

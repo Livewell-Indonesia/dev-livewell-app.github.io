@@ -7,7 +7,9 @@ import 'package:livewell/feature/auth/presentation/page/signup/signup_screen.dar
 import 'package:livewell/feature/daily_journal/presentation/page/daily_journal_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
+import 'package:livewell/feature/food/presentation/pages/request_food_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/scan_barcode_screen.dart';
+import 'package:livewell/feature/food/presentation/pages/success_request_food_screen.dart';
 import 'package:livewell/feature/home/presentation/home_screen.dart';
 import 'package:livewell/feature/profile/presentation/page/account_settings_screen.dart';
 import 'package:livewell/feature/profile/presentation/page/user_settings_screen.dart';
@@ -80,6 +82,15 @@ class AppNavigator {
         name: AppPages.accountSetting,
         page: () => AccountSettingsScreen(),
         transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.requestFood,
+        page: () => RequestFoodScreen(),
+        transition: Transition.cupertino),
+    GetPage(
+      name: AppPages.requestFoodSuccess,
+      page: () => const SuccessRequestFoodScreen(),
+      transition: Transition.cupertino,
+    ),
   ];
 
   static void push({required String routeName, dynamic arguments}) {
@@ -124,4 +135,6 @@ class AppPages {
   static String changePassword = '/changePasword';
   static String scanFood = '/scanFood';
   static String accountSetting = '/accountSetting';
+  static String requestFood = '/requestFood';
+  static String requestFoodSuccess = '/requestFoodSuccess';
 }

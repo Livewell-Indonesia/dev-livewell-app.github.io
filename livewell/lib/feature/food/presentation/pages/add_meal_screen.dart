@@ -4,14 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
-import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/food/presentation/controller/add_meal_controller.dart';
 import 'package:livewell/feature/food/presentation/pages/add_food_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
-import 'package:livewell/feature/food/presentation/pages/scan_barcode_screen.dart';
-import 'package:livewell/feature/food/presentation/pages/scan_food_screen.dart';
 import 'package:livewell/routes/app_navigator.dart';
-import 'package:livewell/theme/design_system.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'dart:developer';
 
@@ -30,7 +26,8 @@ class _AddMealScreenState extends State<AddMealScreen>
   Widget build(BuildContext context) {
     return LiveWellScaffold(
       title: MealTime.values
-          .byName(Get.parameters['type']!.toLowerCase())
+          .byName(
+              Get.parameters['type']?.toLowerCase() ?? MealTime.breakfast.name)
           .appBarTitle(),
       body: Expanded(
         child: Column(
@@ -39,13 +36,58 @@ class _AddMealScreenState extends State<AddMealScreen>
               height: 48,
             ),
             GetBuilder<AddMealController>(builder: (controller) {
-              return SearchBar(
-                  addMealController: addMealController.textEditingController,
-                  focusNode: addMealController.focusNode,
-                  onEditingComplete: () {
-                    addMealController.doSearchFood();
-                    addMealController.focusNode.unfocus();
-                  });
+              return SizedBox(
+                width: 1.sw,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: SearchBar(
+                          addMealController:
+                              addMealController.textEditingController,
+                          focusNode: addMealController.focusNode,
+                          onEditingComplete: () {
+                            addMealController.doSearchFood();
+                            addMealController.focusNode.unfocus();
+                          }),
+                    ),
+                    controller.state.value == SearchState.searchingWithResults
+                        ? Expanded(
+                            flex: 1,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                GestureDetector(
+                                  //behavior: HitTestBehavior.translucent,
+                                  onTap: () {
+                                    AppNavigator.push(
+                                        routeName: AppPages.requestFood,
+                                        arguments: controller
+                                            .textEditingController.text);
+                                  },
+                                  child: Container(
+                                    width: 50.w,
+                                    height: 50.w,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: const SizedBox(
+                                      child: Icon(
+                                        Icons.add,
+                                        size: 24,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const Spacer()
+                              ],
+                            ),
+                          )
+                        : Container()
+                  ],
+                ),
+              );
             }),
             const SizedBox(
               height: 20,

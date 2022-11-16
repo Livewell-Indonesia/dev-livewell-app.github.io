@@ -19,4 +19,5 @@ abstract class FoodRepository {
   Future<Either<Failure, RegisterModel>> deleteMealHistory(int id);
   Future<Either<Failure, RegisterModel>> updateMealHistory(
       MealHistoryModel params);
+  Future<Either<Failure, RegisterModel>> requestFood(String foodName);
 }

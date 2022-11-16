@@ -130,4 +130,18 @@ class FoodRepositoryImpl extends NetworkModule implements FoodRepository {
       return Left(ServerFailure(message: ex.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, RegisterModel>> requestFood(String foodName) async {
+    try {
+      final response = await postMethod(Endpoint.requestFood,
+          headers: {authorization: await SharedPref.getToken()},
+          body: {"name": foodName});
+      final json = responseHandler(response);
+      final data = RegisterModel.fromJson(json);
+      return Right(data);
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
 }
