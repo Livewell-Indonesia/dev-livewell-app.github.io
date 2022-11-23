@@ -36,6 +36,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
 
   @override
   void initState() {
+    inspect(widget.food);
     controller.servingSize.text =
         widget.food.servings?[0].servingDescription ?? "";
     controller.numberOfServing.text =
@@ -76,12 +77,15 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                 Padding(
                   padding: const EdgeInsets.only(left: 16.0).r,
                   child: Text(
-                      widget.food.servings?.first.servingDescription ?? "",
+                      "${widget.food.servings?.first.servingDescription ?? ""} ${widget.food.servings?.first.servingDesc ?? ""}",
                       style: TextStyle(
                           color: const Color(0xFF171433).withOpacity(0.8),
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w600)),
                 ),
+                Padding(
+                    padding: const EdgeInsets.only(left: 16.0).r,
+                    child: 10.verticalSpace),
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 20.h),
                   child: Center(
@@ -91,25 +95,25 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                         widget.food.servings?[0].carbohydrate ??
                                             "1")) *
                                     4) /
-                                int.parse(
+                                double.parse(
                                     widget.food.servings?[0].calories ?? "1") *
                                 100)
-                            .round()),
+                            .roundZero()),
                         const Color(0xFFF5D25D): (((double.parse(
                                         widget.food.servings?[0].fat ?? "1") *
                                     9) /
-                                int.parse(
+                                double.parse(
                                     widget.food.servings?[0].calories ?? "1") *
                                 100)
-                            .round()),
+                            .roundZero()),
                         const Color(0xFFDDF235): (((double.parse(
                                         widget.food.servings?[0].protein ??
                                             "1") *
                                     4) /
-                                int.parse(
+                                double.parse(
                                     widget.food.servings?[0].calories ?? "1") *
                                 100)
-                            .round())
+                            .roundZero())
                       },
                       height: 100,
                       child:
@@ -126,7 +130,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                               GetBuilder<AddFoodController>(
                                   builder: (controller) {
                                 return Text(
-                                  '${controller.getTotalCalByServings(int.parse(widget.food.servings?[0].calories ?? "1"))}',
+                                  '${controller.getTotalCalByServings(int.parse(widget.food.servings?[0].calories ?? "1")).round().toInt()}',
                                   style: TextStyle(
                                       fontSize: 24.sp,
                                       fontWeight: FontWeight.w500),
@@ -152,21 +156,21 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                           total:
                               "${controller.getTotalCarbsByServings(num.parse(widget.food.servings?[0].carbohydrate ?? "1")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
                           consumed:
-                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].carbohydrate ?? "1") * 4) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).floor().round())}% "),
+                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].carbohydrate ?? "1") * 4) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).roundZero())}% "),
                       NutrtionProgressModel(
                           name: 'Fat',
                           color: const Color(0xFFF5D25D),
                           total:
                               "${controller.getTotalFatByServings(num.parse(widget.food.servings?[0].fat ?? "1")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
                           consumed:
-                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].fat ?? "1") * 9) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).round())}% "),
+                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].fat ?? "1") * 9) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).roundZero())}% "),
                       NutrtionProgressModel(
                           name: 'Protein',
                           color: const Color(0xFFDDF235),
                           total:
                               "${controller.getTotalProteinByServings(num.parse(widget.food.servings?[0].protein ?? "1")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
                           consumed:
-                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].protein ?? "1") * 4) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).round())}% "),
+                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].protein ?? "1") * 4) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).roundZero())}% "),
                     ],
                     backgroundColor: Colors.transparent,
                   );
@@ -408,5 +412,11 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
             ),
           ),
         ));
+  }
+}
+
+extension CustomRounder on double {
+  int roundZero() {
+    return this == 0 || isNaN || isInfinite ? 0 : round();
   }
 }

@@ -398,8 +398,12 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         return InkWell(
                           onTap: () {
                             AppNavigator.push(
-                                routeName:
-                                    '${AppPages.addMeal}/${controller.user.value.dailyJournal?[index].name}');
+                                routeName: AppPages.addMeal,
+                                arguments: {
+                                  "type": controller
+                                      .user.value.dailyJournal?[index].name,
+                                  "date": DateTime.now()
+                                });
                           },
                           child: Container(
                             padding: EdgeInsets.only(left: 10.w, right: 20.w),

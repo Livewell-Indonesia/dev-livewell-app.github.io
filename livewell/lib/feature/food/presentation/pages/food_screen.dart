@@ -108,8 +108,11 @@ class _FoodScreenState extends State<FoodScreen> {
                                     .toList(),
                                 onTap: () {
                                   AppNavigator.push(
-                                      routeName:
-                                          '${AppPages.addMeal}/${MealTime.values[index].name}');
+                                      routeName: AppPages.addMeal,
+                                      arguments: {
+                                        "type": MealTime.values[index].name,
+                                        "date": DateTime.now()
+                                      });
                                 },
                                 onUpdate: (index, size) {
                                   controller.onUpdateTapped(

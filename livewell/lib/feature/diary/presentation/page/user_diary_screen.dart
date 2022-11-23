@@ -159,10 +159,12 @@ class UserDiaryScreen extends StatelessWidget {
                                     .toList(),
                                 onTap: () {
                                   AppNavigator.push(
-                                      routeName:
-                                          '${AppPages.addMeal}/breakfast',
-                                      arguments: controller.dateList[
-                                          controller.selectedIndex.value]);
+                                      routeName: AppPages.addMeal,
+                                      arguments: {
+                                        "type": "breakfast",
+                                        "date": controller.dateList[
+                                            controller.selectedIndex.value]
+                                      });
                                 },
                                 onUpdate: (index, size) {
                                   controller.onUpdateTapped(
@@ -183,9 +185,12 @@ class UserDiaryScreen extends StatelessWidget {
                                     .toList(),
                                 onTap: () {
                                   AppNavigator.push(
-                                      routeName: '${AppPages.addMeal}/lunch',
-                                      arguments: controller.dateList[
-                                          controller.selectedIndex.value]);
+                                      routeName: AppPages.addMeal,
+                                      arguments: {
+                                        "type": "lunch",
+                                        "date": controller.dateList[
+                                            controller.selectedIndex.value]
+                                      });
                                 },
                                 onUpdate: (index, size) {
                                   controller.onUpdateTapped(
@@ -206,9 +211,12 @@ class UserDiaryScreen extends StatelessWidget {
                                     .toList(),
                                 onTap: () {
                                   AppNavigator.push(
-                                      routeName: '${AppPages.addMeal}/dinner',
-                                      arguments: controller.dateList[
-                                          controller.selectedIndex.value]);
+                                      routeName: AppPages.addMeal,
+                                      arguments: {
+                                        "type": "dinner",
+                                        "date": controller.dateList[
+                                            controller.selectedIndex.value]
+                                      });
                                 },
                                 onUpdate: (index, size) {
                                   controller.onUpdateTapped(
@@ -229,9 +237,10 @@ class UserDiaryScreen extends StatelessWidget {
                                     .toList(),
                                 onTap: () {
                                   AppNavigator.push(
-                                      routeName: '${AppPages.addMeal}/snack',
-                                      arguments: controller.dateList[
-                                          controller.selectedIndex.value]);
+                                      routeName: AppPages.addMeal,
+                                      arguments: {
+                                        "type": "snack",
+                                      });
                                 },
                                 onUpdate: (index, size) {
                                   controller.onUpdateTapped(

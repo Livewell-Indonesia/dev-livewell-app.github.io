@@ -130,6 +130,20 @@ class Servings {
 
   String? sugar;
 
+  int get servingAmountInt {
+    return double.parse(metricServingAmount ?? "0.0").round().toInt();
+  }
+
+  String get servingDesc {
+    if (servingAmountInt == 0) {
+      return "";
+    }
+    if (metricServingUnit == null) {
+      return "";
+    }
+    return "($servingAmountInt $metricServingUnit)";
+  }
+
   Servings(
       {this.calories,
       this.carbohydrate,

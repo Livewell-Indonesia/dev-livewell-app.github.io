@@ -21,13 +21,22 @@ class AddMealScreen extends StatefulWidget {
 class _AddMealScreenState extends State<AddMealScreen>
     with TickerProviderStateMixin {
   final AddMealController addMealController = Get.put(AddMealController());
+  String? type;
+  DateTime? date;
+
+  @override
+  void initState() {
+    print("andi ganteng ${Get.arguments}");
+    type = Get.arguments['type'];
+    date = Get.arguments['date'];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
       title: MealTime.values
-          .byName(
-              Get.parameters['type']?.toLowerCase() ?? MealTime.breakfast.name)
+          .byName((type ?? MealTime.breakfast.name).toLowerCase())
           .appBarTitle(),
       body: Expanded(
         child: Column(
@@ -165,12 +174,13 @@ class _AddMealScreenState extends State<AddMealScreen>
                                       () => AddFoodScreen(
                                             food: addMealController
                                                 .results[index],
-                                            mealTime: MealTime.values.byName(Get
-                                                .parameters['type']!
-                                                .toLowerCase()),
+                                            mealTime: MealTime.values.byName(
+                                                (type ??
+                                                        MealTime.breakfast.name)
+                                                    .toLowerCase()),
                                           ),
                                       transition: Transition.cupertino,
-                                      arguments: Get.arguments);
+                                      arguments: date);
                                 },
                               );
                             },
@@ -211,10 +221,12 @@ class _AddMealScreenState extends State<AddMealScreen>
                                             food: addMealController
                                                 .brandNameResult[index],
                                             mealTime: MealTime.values.byName(
-                                                Get.parameters['type']!),
+                                                (type ??
+                                                        MealTime.breakfast.name)
+                                                    .toLowerCase()),
                                           ),
                                       transition: Transition.cupertino,
-                                      arguments: Get.arguments);
+                                      arguments: date);
                                 },
                               );
                             },
@@ -314,10 +326,11 @@ class _AddMealScreenState extends State<AddMealScreen>
                                   food: addMealController.history[index]
                                       .toFoodsObject(),
                                   mealTime: MealTime.values.byName(
-                                      Get.parameters['type']!.toLowerCase()),
+                                      (type ?? MealTime.breakfast.name)
+                                          .toLowerCase()),
                                 ),
                             transition: Transition.cupertino,
-                            arguments: Get.arguments);
+                            arguments: date);
                       },
                     );
                   },

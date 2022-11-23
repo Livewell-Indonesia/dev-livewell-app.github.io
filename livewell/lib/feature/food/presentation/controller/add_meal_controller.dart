@@ -39,6 +39,7 @@ class AddMealController extends GetxController
           state.value = SearchState.initial;
         } else {
           state.value = SearchState.searchingWithResults;
+          update();
         }
       }
     });

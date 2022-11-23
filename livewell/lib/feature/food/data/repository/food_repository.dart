@@ -42,7 +42,7 @@ class FoodRepositoryImpl extends NetworkModule implements FoodRepository {
   @override
   Future<Either<Failure, FoodsModel>> searchFood(SearchFoodParams name) async {
     try {
-      final response = await postMethod(Endpoint.foods,
+      final response = await postMethod("${Endpoint.foods}/v3",
           body: name.toJson(),
           headers: {authorization: await SharedPref.getToken()});
       final json = responseHandler(response);

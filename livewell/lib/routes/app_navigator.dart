@@ -57,7 +57,7 @@ class AppNavigator {
         page: () => FoodScreen(),
         transition: Transition.cupertino),
     GetPage(
-        name: "${AppPages.addMeal}/:type",
+        name: AppPages.addMeal,
         page: () => AddMealScreen(),
         transition: Transition.cupertino),
     GetPage(

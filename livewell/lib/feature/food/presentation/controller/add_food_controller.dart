@@ -27,7 +27,7 @@ class AddFoodController extends GetxController {
   void onInit() {
     super.onInit();
     numberOfServing.addListener(() {
-      if (numberOfServing.text.isNotEmpty) {
+      if (numberOfServing.text.isNotEmpty && numberOfServing.text.isNum) {
         update();
       }
     });
