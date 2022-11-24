@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/state_manager.dart';
+import 'package:health/health.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_app_config.dart';
 
@@ -15,10 +18,40 @@ class HomeController extends GetxController {
   GetAppConfig appConfig = GetAppConfig.instance();
   Rx<AppConfigModel> appConfigModel = AppConfigModel().obs;
 
+  HealthFactory healthFactory = HealthFactory();
+
+  var types = [
+    HealthDataType.STEPS,
+    HealthDataType.WEIGHT,
+    HealthDataType.HEIGHT,
+    HealthDataType.BODY_MASS_INDEX,
+    HealthDataType.BODY_FAT_PERCENTAGE,
+    HealthDataType.BLOOD_GLUCOSE,
+    HealthDataType.BLOOD_PRESSURE_DIASTOLIC,
+  ];
+
   @override
   void onInit() {
     getAppConfig();
+    requestHealthAccess();
     super.onInit();
+  }
+
+  void requestHealthAccess() async {
+    var isAllowed = await healthFactory.requestAuthorization(types);
+    if (isAllowed) {
+      fetchHealthDataFromTypes();
+    }
+  }
+
+  void fetchHealthDataFromTypes() async {
+    List<HealthDataPoint> healthData =
+        await healthFactory.getHealthDataFromTypes(
+      DateTime.now().subtract(Duration(days: 1)),
+      DateTime.now(),
+      types,
+    );
+    inspect(healthData);
   }
 
   void getAppConfig() async {
