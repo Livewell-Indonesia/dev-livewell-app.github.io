@@ -29,6 +29,16 @@ class HomeController extends GetxController {
     HealthDataType.BLOOD_PRESSURE_DIASTOLIC,
   ];
 
+  var permissions = [
+    HealthDataAccess.READ,
+    HealthDataAccess.READ,
+    HealthDataAccess.READ,
+    HealthDataAccess.READ,
+    HealthDataAccess.READ,
+    HealthDataAccess.READ,
+    HealthDataAccess.READ,
+  ];
+
   @override
   void onInit() {
     getAppConfig();
@@ -37,7 +47,8 @@ class HomeController extends GetxController {
   }
 
   void requestHealthAccess() async {
-    var isAllowed = await healthFactory.requestAuthorization(types);
+    var isAllowed = await healthFactory.requestAuthorization(types,
+        permissions: permissions);
     if (isAllowed) {
       fetchHealthDataFromTypes();
     }
