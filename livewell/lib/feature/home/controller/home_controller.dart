@@ -50,7 +50,7 @@ class HomeController extends GetxController {
       DateTime.now(),
       types,
     );
-    Get.snackbar('health', healthData.toString());
+    //Get.snackbar('health', healthData.toString());
     inspect(healthData);
   }
 
