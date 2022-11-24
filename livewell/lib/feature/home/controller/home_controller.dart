@@ -1,9 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/state_manager.dart';
 import 'package:health/health.dart';
 import 'package:livewell/core/constant/constant.dart';
@@ -11,6 +9,7 @@ import 'package:livewell/feature/dashboard/domain/usecase/get_app_config.dart';
 
 import '../../../core/base/usecase.dart';
 import '../../dashboard/data/model/app_config_model.dart';
+import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   Rx<HomeTab> currentMenu = HomeTab.home.obs;
@@ -51,6 +50,7 @@ class HomeController extends GetxController {
       DateTime.now(),
       types,
     );
+    Get.snackbar('health', healthData.toString());
     inspect(healthData);
   }
 
