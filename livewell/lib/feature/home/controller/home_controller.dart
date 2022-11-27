@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/state_manager.dart';
 import 'package:health/health.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_app_config.dart';
 
 import '../../../core/base/usecase.dart';
@@ -27,9 +29,19 @@ class HomeController extends GetxController {
     HealthDataType.BODY_FAT_PERCENTAGE,
     HealthDataType.BLOOD_GLUCOSE,
     HealthDataType.BLOOD_PRESSURE_DIASTOLIC,
+    HealthDataType.ACTIVE_ENERGY_BURNED,
+    HealthDataType.SLEEP_ASLEEP,
+    HealthDataType.SLEEP_AWAKE,
+    HealthDataType.SLEEP_IN_BED,
+    HealthDataType.BLOOD_OXYGEN,
   ];
 
   var permissions = [
+    HealthDataAccess.READ,
+    HealthDataAccess.READ,
+    HealthDataAccess.READ,
+    HealthDataAccess.READ,
+    HealthDataAccess.READ,
     HealthDataAccess.READ,
     HealthDataAccess.READ,
     HealthDataAccess.READ,
@@ -57,11 +69,13 @@ class HomeController extends GetxController {
   void fetchHealthDataFromTypes() async {
     List<HealthDataPoint> healthData =
         await healthFactory.getHealthDataFromTypes(
-      DateTime.now().subtract(Duration(days: 1)),
+      DateTime.now().subtract(Duration(days: 3)),
       DateTime.now(),
       types,
     );
     Get.snackbar('health', healthData.toString());
+    print("health data ${healthData.toString()}");
+    Log.info(jsonEncode(healthData));
     inspect(healthData);
   }
 
