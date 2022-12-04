@@ -16,6 +16,7 @@ import 'package:livewell/feature/profile/presentation/page/user_settings_screen.
 import 'package:livewell/feature/questionnaire/presentation/page/finish_questionnaire_screen.dart';
 import 'package:livewell/feature/questionnaire/presentation/page/questionnaire_screen.dart';
 import 'package:livewell/feature/splash/presentation/splash_screen.dart';
+import 'package:livewell/feature/update_weight/presentation/page/update_weight_screen.dart';
 
 class AppNavigator {
   static var initialRoute = AppPages.splash;
@@ -91,6 +92,10 @@ class AppNavigator {
       page: () => const SuccessRequestFoodScreen(),
       transition: Transition.cupertino,
     ),
+    GetPage(
+        name: AppPages.updateWeight,
+        page: () => UpdateWeightScreen(),
+        transition: Transition.cupertino)
   ];
 
   static void push({required String routeName, dynamic arguments}) {
@@ -137,4 +142,5 @@ class AppPages {
   static String accountSetting = '/accountSetting';
   static String requestFood = '/requestFood';
   static String requestFoodSuccess = '/requestFoodSuccess';
+  static String updateWeight = '/updateWeight';
 }

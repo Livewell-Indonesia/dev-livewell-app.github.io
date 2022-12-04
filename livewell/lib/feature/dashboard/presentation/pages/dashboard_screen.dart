@@ -6,6 +6,7 @@ import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
+import 'package:livewell/feature/update_weight/presentation/page/update_weight_screen.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/chart/circular_calories.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -103,50 +104,56 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 ),
               ),
               32.verticalSpace,
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16).r,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 25, vertical: 20).r,
-                decoration: BoxDecoration(
-                    color: const Color(0xFF171433),
-                    borderRadius: BorderRadius.circular(30.r)),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Obx(() {
-                          return Text(
-                            "Target Weight: ${controller.user.value.weightTarget ?? 0} Kg",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w500),
-                          );
-                        }),
-                        const Spacer(),
-                        Obx(() {
-                          return Text(
-                            "Current Weight: ${controller.user.value.weight ?? 0} Kg",
-                            style: TextStyle(
-                                color: Colors.white.withOpacity(0.5),
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w500),
-                          );
-                        })
-                      ],
-                    ),
-                    7.verticalSpace,
-                    Obx(() {
-                      return LinearPercentIndicator(
-                        padding: EdgeInsets.zero,
-                        lineHeight: 7.0,
-                        percent: controller.getWeightPercentage().value,
-                        barRadius: const Radius.circular(4.0),
-                        backgroundColor: const Color(0xFFF2F1F9),
-                        progressColor: const Color(0xFFDDF235),
-                      );
-                    })
-                  ],
+              InkWell(
+                onTap: () {
+                  AppNavigator.push(routeName: AppPages.updateWeight);
+                },
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16).r,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 25, vertical: 20)
+                          .r,
+                  decoration: BoxDecoration(
+                      color: const Color(0xFF171433),
+                      borderRadius: BorderRadius.circular(30.r)),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Obx(() {
+                            return Text(
+                              "Target Weight: ${controller.user.value.weightTarget ?? 0} Kg",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500),
+                            );
+                          }),
+                          const Spacer(),
+                          Obx(() {
+                            return Text(
+                              "Current Weight: ${controller.user.value.weight ?? 0} Kg",
+                              style: TextStyle(
+                                  color: Colors.white.withOpacity(0.5),
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500),
+                            );
+                          })
+                        ],
+                      ),
+                      7.verticalSpace,
+                      Obx(() {
+                        return LinearPercentIndicator(
+                          padding: EdgeInsets.zero,
+                          lineHeight: 7.0,
+                          percent: controller.getWeightPercentage().value,
+                          barRadius: const Radius.circular(4.0),
+                          backgroundColor: const Color(0xFFF2F1F9),
+                          progressColor: const Color(0xFFDDF235),
+                        );
+                      })
+                    ],
+                  ),
                 ),
               ),
               10.verticalSpace,

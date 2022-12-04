@@ -74,6 +74,7 @@ class HomeController extends GetxController {
       types,
     );
     Get.snackbar('health', healthData.toString());
+    print("andi ganteng ${healthData.first.unitString}");
     print("health data ${healthData.toString()}");
     Log.info(jsonEncode(healthData));
     inspect(healthData);

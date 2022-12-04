@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'dart:io' show Platform;
 
 class LiveWellScaffold extends StatelessWidget {
   final String title;
@@ -17,10 +18,8 @@ class LiveWellScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        return Future.value(allowBack);
-      },
+    return CustomWillPopScope(
+      allowBack: allowBack,
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: backgroundColor,
@@ -85,5 +84,35 @@ class LiveWellScaffold extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class CustomWillPopScope extends StatelessWidget {
+  // create constructor with widget as parameter
+  final Widget child;
+  final bool allowBack;
+  const CustomWillPopScope(
+      {Key? key, required this.child, this.allowBack = true})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (!Platform.isIOS) {
+      return WillPopScope(
+        onWillPop: () {
+          return Future.value(allowBack);
+        },
+        child: child,
+      );
+    } else {
+      return GestureDetector(
+          onHorizontalDragUpdate: (details) {
+            int sensitivity = 40;
+            if (details.delta.dx > sensitivity && allowBack) {
+              Get.back();
+            }
+          },
+          child: child);
+    }
   }
 }
