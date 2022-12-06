@@ -93,25 +93,25 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                       colorOccurrences: {
                         const Color(0xFF8F01DF): ((((double.parse(
                                         widget.food.servings?[0].carbohydrate ??
-                                            "1")) *
+                                            "0")) *
                                     4) /
                                 double.parse(
-                                    widget.food.servings?[0].calories ?? "1") *
+                                    widget.food.servings?[0].calories ?? "0") *
                                 100)
                             .roundZero()),
                         const Color(0xFFF5D25D): (((double.parse(
-                                        widget.food.servings?[0].fat ?? "1") *
+                                        widget.food.servings?[0].fat ?? "0") *
                                     9) /
                                 double.parse(
-                                    widget.food.servings?[0].calories ?? "1") *
+                                    widget.food.servings?[0].calories ?? "0") *
                                 100)
                             .roundZero()),
                         const Color(0xFFDDF235): (((double.parse(
                                         widget.food.servings?[0].protein ??
-                                            "1") *
+                                            "0") *
                                     4) /
                                 double.parse(
-                                    widget.food.servings?[0].calories ?? "1") *
+                                    widget.food.servings?[0].calories ?? "0") *
                                 100)
                             .roundZero())
                       },
@@ -130,7 +130,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                               GetBuilder<AddFoodController>(
                                   builder: (controller) {
                                 return Text(
-                                  '${controller.getTotalCalByServings(int.parse(widget.food.servings?[0].calories ?? "1")).round().toInt()}',
+                                  '${controller.getTotalCalByServings(int.parse(widget.food.servings?[0].calories ?? "0")).round().toInt()}',
                                   style: TextStyle(
                                       fontSize: 24.sp,
                                       fontWeight: FontWeight.w500),
@@ -154,23 +154,23 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                           name: 'Carbs',
                           color: const Color(0xFF8F01DF),
                           total:
-                              "${controller.getTotalCarbsByServings(num.parse(widget.food.servings?[0].carbohydrate ?? "1")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
+                              "${controller.getTotalCarbsByServings(num.parse(widget.food.servings?[0].carbohydrate ?? "0")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
                           consumed:
-                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].carbohydrate ?? "1") * 4) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).roundZero())}% "),
+                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].carbohydrate ?? "0") * 4) / int.parse(widget.food.servings?[0].calories ?? "0") * 100).roundZero())}% "),
                       NutrtionProgressModel(
                           name: 'Fat',
                           color: const Color(0xFFF5D25D),
                           total:
-                              "${controller.getTotalFatByServings(num.parse(widget.food.servings?[0].fat ?? "1")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
+                              "${controller.getTotalFatByServings(num.parse(widget.food.servings?[0].fat ?? "0")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
                           consumed:
-                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].fat ?? "1") * 9) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).roundZero())}% "),
+                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].fat ?? "0") * 9) / int.parse(widget.food.servings?[0].calories ?? "0") * 100).roundZero())}% "),
                       NutrtionProgressModel(
                           name: 'Protein',
                           color: const Color(0xFFDDF235),
                           total:
-                              "${controller.getTotalProteinByServings(num.parse(widget.food.servings?[0].protein ?? "1")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
+                              "${controller.getTotalProteinByServings(num.parse(widget.food.servings?[0].protein ?? "0")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
                           consumed:
-                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].protein ?? "1") * 4) / int.parse(widget.food.servings?[0].calories ?? "1") * 100).roundZero())}% "),
+                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].protein ?? "0") * 4) / int.parse(widget.food.servings?[0].calories ?? "0") * 100).roundZero())}% "),
                     ],
                     backgroundColor: Colors.transparent,
                   );
@@ -354,7 +354,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                         fontWeight: FontWeight.w600)),
                                 const Spacer(),
                                 Text(
-                                    ("${widget.food.servings?[0].calories ?? "1"} cal"),
+                                    ("${widget.food.servings?[0].calories ?? "0"} cal"),
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 11.sp,

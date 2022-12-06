@@ -54,7 +54,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     getAppConfig();
-    requestHealthAccess();
+    //requestHealthAccess();
     super.onInit();
   }
 

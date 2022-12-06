@@ -24,9 +24,9 @@ class UpdateUserInfoParams {
   String lastName;
   String dob;
   String gender;
-  int height;
-  int weight;
-  int weightTarget;
+  num height;
+  num weight;
+  num weightTarget;
 
   UpdateUserInfoParams(
       {required this.firstName,

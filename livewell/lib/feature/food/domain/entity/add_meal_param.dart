@@ -130,112 +130,142 @@ class Nutritions {
 
   Nutritions.asParams(Servings servings, String numberOfServings) {
     carbohydrates = Nutrition.asParams(
-        double.parse(servings.carbohydrate ?? "0") *
+        (double.tryParse(servings.carbohydrate ?? "0") ?? 0) *
             num.parse(numberOfServings),
         unit: "g");
     protein = Nutrition.asParams(
-        double.parse(servings.protein ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.protein ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: "g");
     fat = Nutrition.asParams(
-        double.parse(servings.fat ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.fat ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: "g");
     saturatedFat = Nutrition.asParams(
-        double.parse(servings.saturatedFat ?? "0") *
+        (double.tryParse(servings.saturatedFat ?? "0") ?? 0) *
             num.parse(numberOfServings),
         unit: "g");
     transfat = Nutrition.asParams(
-        double.parse(servings.transFat ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.transFat ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: "g");
     monosaturatedFat = Nutrition.asParams(
-        double.parse(servings.monounsaturatedFat ?? "0") *
+        (double.tryParse(servings.monounsaturatedFat ?? "0") ?? 0) *
             num.parse(numberOfServings),
         unit: "g");
     polyunsaturatedFat = Nutrition.asParams(
-        double.parse(servings.polyunsaturatedFat ?? "0") *
+        (double.tryParse(servings.polyunsaturatedFat ?? "0") ?? 0.0) *
             num.parse(numberOfServings),
         unit: "g");
     vitaminA = Nutrition.asParams(
-        double.parse(servings.vitaminA ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.vitaminA ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mcg');
     vitaminC = Nutrition.asParams(
-        double.parse(servings.vitaminC ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.vitaminC ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mg');
 
     vitaminD = Nutrition.asParams(
-        double.parse(servings.vitaminD ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.vitaminD ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mcg');
     calcium = Nutrition.asParams(
-        double.parse(servings.calcium ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.calcium ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mg');
 
     sodium = Nutrition.asParams(
-        double.parse(servings.sodium ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.sodium ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mg');
     iron = Nutrition.asParams(
-        double.parse(servings.iron ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.iron ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mg');
     calories = Nutrition.asParams(
-        double.parse(servings.calories ?? "0") * num.parse(numberOfServings));
+        (double.tryParse(servings.calories ?? "0") ?? 0) *
+            num.parse(numberOfServings));
     potassium = Nutrition.asParams(
-        double.parse(servings.potassium ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.potassium ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mg');
     vitaminE = Nutrition.asParams(
-        double.parse(servings.vitaminE ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.vitaminE ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mg');
     vitaminK = Nutrition.asParams(
-        double.parse(servings.vitaminK ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.vitaminK ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mcg');
     vitaminB1 = Nutrition.asParams(
-        double.parse(servings.vitaminB1 ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.vitaminB1 ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mg');
     vitaminB2 = Nutrition.asParams(
-        double.parse(servings.vitaminB2 ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.vitaminB2 ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mg');
     vitaminB3 = Nutrition.asParams(
-        double.parse(servings.vitaminB3 ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.vitaminB3 ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mg');
     vitaminB5 = Nutrition.asParams(
-        double.parse(servings.vitaminB5 ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.vitaminB5 ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mg');
     vitaminB6 = Nutrition.asParams(
-        double.parse(servings.vitaminB6 ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.vitaminB6 ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mg');
     vitaminB12 = Nutrition.asParams(
-        double.parse(servings.vitaminB12 ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.vitaminB12 ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mcg');
     vitaminB7 = Nutrition.asParams(
-        double.parse(servings.vitaminB7 ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.vitaminB7 ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mcg');
 
     vitaminB9 = Nutrition.asParams(
-        double.parse(servings.vitaminB9 ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.vitaminB9 ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mcg');
     phosphorus = Nutrition.asParams(
-        double.parse(servings.phosphorus ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.phosphorus ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mg');
     magnesium = Nutrition.asParams(
-        double.parse(servings.magnesium ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.magnesium ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mg');
     chloride = Nutrition.asParams(
-        double.parse(servings.chloride ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.chloride ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mg');
     iodine = Nutrition.asParams(
-        double.parse(servings.iodine ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.iodine ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mcg');
     zinc = Nutrition.asParams(
-        double.parse(servings.zinc ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.zinc ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mg');
     selenium = Nutrition.asParams(
-        double.parse(servings.selenium ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.selenium ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mcg');
     fluoride = Nutrition.asParams(
-        double.parse(servings.fluoride ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.fluoride ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mg');
     chromium = Nutrition.asParams(
-        double.parse(servings.chromium ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.chromium ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mcg');
     molybdenum = Nutrition.asParams(
-        double.parse(servings.molybdenum ?? "0") * num.parse(numberOfServings),
+        (double.tryParse(servings.molybdenum ?? "0") ?? 0) *
+            num.parse(numberOfServings),
         unit: 'mcg');
   }
 
@@ -285,13 +315,13 @@ class Nutritions {
 }
 
 class Nutrition {
-  int? value;
+  num? value;
   String? unit;
 
   Nutrition({value, unit});
 
   Nutrition.asParams(double value, {String unit = 'g'}) {
-    this.value = value.toInt();
+    this.value = value;
     this.unit = unit;
   }
 

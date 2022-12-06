@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:intl/intl.dart';
+import 'package:livewell/feature/update_weight/domain/usecase/update_user_weight.dart';
 
 import '../../../dashboard/presentation/controller/dashboard_controller.dart';
 import '../../../questionnaire/domain/usecase/post_questionnaire.dart';
@@ -23,25 +25,17 @@ class UpdateWeightController extends GetxController {
   }
 
   void onUpdateTapped() async {
-    PostQuestionnaire postQuestionnaire = PostQuestionnaire.instance();
+    UpdateUserWeight updateUserWeight = UpdateUserWeight.instance();
     if (Get.isRegistered<DashboardController>()) {
-      var user = Get.find<DashboardController>().user.value;
-      user.weight = int.parse(weightController.text);
       EasyLoading.show();
-
-      final result = await postQuestionnaire.call(QuestionnaireParams.asParams(
-        user.firstName,
-        user.lastName,
-        user.gender,
-        user.birthDate ?? "",
-        user.weight,
-        user.height,
-        user.weightTarget,
-        user.onboardingQuestionnaire?.glassesOfWaterDaily ?? "",
-        user.onboardingQuestionnaire?.sleepDuration ?? "",
-        user.onboardingQuestionnaire?.dietaryRestrictions?.first ?? "",
-        user.onboardingQuestionnaire?.targetImprovement?.first ?? "",
-      ));
+      final result = await updateUserWeight(
+          UpdateWeightParams(weight: num.parse(weightController.text)));
+      EasyLoading.dismiss();
+      result.fold((l) {
+        print("something went wrong");
+      }, (r) {
+        Get.find<DashboardController>().getUsersData();
+      });
     }
   }
 }

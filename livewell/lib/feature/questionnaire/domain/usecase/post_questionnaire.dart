@@ -24,9 +24,9 @@ class QuestionnaireParams {
   String? lastName;
   String? dob;
   String? gender;
-  int? height;
-  int? weight;
-  int? targetWeight;
+  num? height;
+  num? weight;
+  num? targetWeight;
   OnboardingQuestionnaire? onboardingQuestionnaire;
 
   QuestionnaireParams(

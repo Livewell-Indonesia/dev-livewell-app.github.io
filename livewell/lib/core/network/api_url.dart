@@ -21,6 +21,7 @@ class Endpoint {
   static const String user = "user/profile";
   static const String dailyJournal = "user/daily-journal";
   static const String dashboard = "user/dashboard";
+  static const String updateWeight = "user/update/weight";
 
   /// food
   static const String foods = "foods";

@@ -8,8 +8,8 @@ class UserModel {
   String? lastName;
   String? birthDate;
   String? gender;
-  int? height;
-  int? weight;
+  num? height;
+  num? weight;
   num? bmi;
   num? bmr;
   int? weightTarget;
