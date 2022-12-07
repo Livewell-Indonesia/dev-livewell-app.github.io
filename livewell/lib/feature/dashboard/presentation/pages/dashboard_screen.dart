@@ -6,6 +6,7 @@ import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
+import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
 import 'package:livewell/feature/update_weight/presentation/page/update_weight_screen.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/chart/circular_calories.dart';
@@ -44,7 +45,25 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SvgPicture.asset(Constant.icAvatarPlaceholder),
+                    ClipOval(
+                      child: Container(
+                        width: 40.h,
+                        height: 40.h,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.rectangle,
+                        ),
+                        child: Obx(() {
+                          return SvgPicture.asset(
+                            (controller.user.value.gender ?? Gender.male.name)
+                                        .toLowerCase() ==
+                                    "male"
+                                ? Constant.imgMaleSVG
+                                : Constant.imgFemaleSVG,
+                          );
+                        }),
+                      ),
+                    ),
+                    //SvgPicture.asset(Constant.icAvatarPlaceholder),
                     10.horizontalSpace,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,7 +125,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               32.verticalSpace,
               InkWell(
                 onTap: () {
-                  AppNavigator.push(routeName: AppPages.updateWeight);
+                  //AppNavigator.push(routeName: AppPages.updateWeight);
                 },
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16).r,
