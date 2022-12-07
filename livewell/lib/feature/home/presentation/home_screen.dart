@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:livewell/feature/exercise/presentation/pages/exercise_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/profile/presentation/page/account_settings_screen.dart';
 
@@ -33,7 +34,7 @@ class HomeScreen extends StatelessWidget {
               itemPadding: EdgeInsets.zero,
               // itemPadding:
               //     const EdgeInsets.symmetric(horizontal: 4, vertical: 10).r,
-              marginR: EdgeInsets.symmetric(horizontal: 100.w, vertical: 20.w),
+              marginR: EdgeInsets.symmetric(horizontal: 90.w, vertical: 20.w),
               selectedItemColor: Colors.white,
               unselectedItemColor: const Color(0xFF8F01DF),
               // boxShadow: [
@@ -63,6 +64,18 @@ class HomeScreen extends StatelessWidget {
                         )
                       : controller.customUnselectedImage(
                           Image.asset(Constant.icHomeUnselected),
+                        ),
+                  selectedColor: Colors.white,
+                  unselectedColor: const Color(0xFF8F01DF),
+                  // selectedColor: Colors.white,
+                ),
+                DotNavigationBarItem(
+                  icon: controller.currentMenu.value == HomeTab.exercise
+                      ? controller.customSelectedImage(
+                          Image.asset(Constant.icExerciseSelected),
+                        )
+                      : controller.customUnselectedImage(
+                          Image.asset(Constant.icExerciseUnselected),
                         ),
                   selectedColor: Colors.white,
                   unselectedColor: const Color(0xFF8F01DF),
@@ -117,9 +130,7 @@ class HomeScreen extends StatelessWidget {
       case HomeTab.food:
         return FoodScreen();
       case HomeTab.exercise:
-        return Container(
-          color: Colors.green,
-        );
+        return ExerciseScreen();
       case HomeTab.meditation:
         return Container(
           color: Colors.yellow,

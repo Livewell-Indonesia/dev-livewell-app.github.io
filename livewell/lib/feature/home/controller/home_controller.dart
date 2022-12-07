@@ -99,6 +99,8 @@ class HomeController extends GetxController {
     } else if (index == 1) {
       currentMenu.value = HomeTab.home;
     } else if (index == 2) {
+      currentMenu.value = HomeTab.exercise;
+    } else if (index == 3) {
       currentMenu.value = HomeTab.account;
     }
   }
@@ -107,15 +109,15 @@ class HomeController extends GetxController {
     return ClipOval(
       child: Material(
           color: const Color(0xFF8F01DF), // button color
-          child: SizedBox(child: child, width: 40.w, height: 40.w)),
+          child: SizedBox(width: 40.w, height: 40.w, child: child)),
     );
   }
 
   Widget customUnselectedImage(Widget child) {
     return SizedBox(
-      child: child,
       width: 40.w,
       height: 40.w,
+      child: child,
     );
   }
 }
