@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/state_manager.dart';
 import 'package:health/health.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/log.dart';
@@ -23,27 +22,13 @@ class HomeController extends GetxController {
 
   var types = [
     HealthDataType.STEPS,
-    HealthDataType.WEIGHT,
-    HealthDataType.HEIGHT,
-    HealthDataType.BODY_MASS_INDEX,
-    HealthDataType.BODY_FAT_PERCENTAGE,
-    HealthDataType.BLOOD_GLUCOSE,
-    HealthDataType.BLOOD_PRESSURE_DIASTOLIC,
     HealthDataType.ACTIVE_ENERGY_BURNED,
     HealthDataType.SLEEP_ASLEEP,
     HealthDataType.SLEEP_AWAKE,
     HealthDataType.SLEEP_IN_BED,
-    HealthDataType.BLOOD_OXYGEN,
   ];
 
   var permissions = [
-    HealthDataAccess.READ,
-    HealthDataAccess.READ,
-    HealthDataAccess.READ,
-    HealthDataAccess.READ,
-    HealthDataAccess.READ,
-    HealthDataAccess.READ,
-    HealthDataAccess.READ,
     HealthDataAccess.READ,
     HealthDataAccess.READ,
     HealthDataAccess.READ,
@@ -54,7 +39,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     getAppConfig();
-    //requestHealthAccess();
+    requestHealthAccess();
     super.onInit();
   }
 
@@ -67,15 +52,13 @@ class HomeController extends GetxController {
   }
 
   void fetchHealthDataFromTypes() async {
-    List<HealthDataPoint> healthData =
-        await healthFactory.getHealthDataFromTypes(
-      DateTime.now().subtract(Duration(days: 3)),
-      DateTime.now(),
-      types,
-    );
+    var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 0, 0, 0, 0, 0);
+    var dateTill = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 23, 59, 59, 0, 0);
+    List<HealthDataPoint> healthData = await healthFactory
+        .getHealthDataFromTypes(currentDate, dateTill, types);
     Get.snackbar('health', healthData.toString());
-    print("andi ganteng ${healthData.first.unitString}");
-    print("health data ${healthData.toString()}");
     Log.info(jsonEncode(healthData));
     inspect(healthData);
   }

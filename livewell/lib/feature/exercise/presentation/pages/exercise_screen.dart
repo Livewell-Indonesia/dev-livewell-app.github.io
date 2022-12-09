@@ -21,7 +21,14 @@ class ExerciseScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             57.verticalSpace,
-            const Center(child: Text("Exercise")),
+            Center(
+                child: Text(
+              "Exercise",
+              style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF171433)),
+            )),
             38.verticalSpace,
             Obx(() {
               return SlideSwitcher(
@@ -39,7 +46,7 @@ class ExerciseScreen extends StatelessWidget {
                   Text(
                     'Diary',
                     style: TextStyle(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                       color: controller.currentMenu.value.index == 0
                           ? const Color(0xFF171433)
                           : const Color(0xFF171433).withOpacity(0.3),
@@ -48,7 +55,7 @@ class ExerciseScreen extends StatelessWidget {
                   Text(
                     'Classes',
                     style: TextStyle(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                       color: controller.currentMenu.value.index == 1
                           ? const Color(0xFF171433)
                           : const Color(0xFF171433).withOpacity(0.3),
@@ -62,8 +69,8 @@ class ExerciseScreen extends StatelessWidget {
               child: TabBarView(
                   controller: controller.tabController,
                   children: const [
+                    ExerciseDiaryScreen(),
                     ExerciseClassScreen(),
-                    ExerciseDiaryScreen()
                   ]),
             )
           ],
