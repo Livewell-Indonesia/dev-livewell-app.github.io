@@ -3,11 +3,15 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:livewell/feature/exercise/presentation/controller/exercise_controller.dart';
 
 import '../../../../widgets/chart/circular_calories.dart';
 
 class ExerciseDiaryScreen extends StatelessWidget {
-  const ExerciseDiaryScreen({Key? key}) : super(key: key);
+  ExerciseDiaryScreen({Key? key}) : super(key: key);
+
+  ExerciseController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -66,31 +70,38 @@ class ExerciseDiaryScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SimpleCircularProgressBar(
-                    backColor: Colors.white,
-                    progressColors: [const Color(0xFF171433).withOpacity(0.7)],
-                    mergeMode: true,
-                    backStrokeWidth: 5,
-                    size: 70.h,
-                    progressStrokeWidth: 8,
-                    valueNotifier: ValueNotifier(0.4),
-                    animationDuration: const Duration(seconds: 1),
-                    maxValue: 1,
-                    shadow: false,
-                    onGetText: (value) {
-                      return SvgPicture.asset(
-                          "assets/icons/ic_calories_exercise.svg");
-                    },
-                  ),
+                  Obx(() {
+                    return SimpleCircularProgressBar(
+                      backColor: Colors.white,
+                      progressColors: [
+                        const Color(0xFF171433).withOpacity(0.7)
+                      ],
+                      mergeMode: true,
+                      backStrokeWidth: 5,
+                      size: 70.h,
+                      progressStrokeWidth: 8,
+                      valueNotifier:
+                          ValueNotifier(controller.burntCalories.value / 10000),
+                      animationDuration: const Duration(seconds: 1),
+                      maxValue: 1,
+                      shadow: false,
+                      onGetText: (value) {
+                        return SvgPicture.asset(
+                            "assets/icons/ic_calories_exercise.svg");
+                      },
+                    );
+                  }),
                   16.verticalSpace,
-                  Text(
-                    "300\n Calories Burnt",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF171433)),
-                  ),
+                  Obx(() {
+                    return Text(
+                      "${controller.burntCalories.value}\n Calories Burnt",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF171433)),
+                    );
+                  })
                 ],
               ),
             ),
@@ -100,31 +111,38 @@ class ExerciseDiaryScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SimpleCircularProgressBar(
-                    backColor: Colors.white,
-                    progressColors: [const Color(0xFF171433).withOpacity(0.7)],
-                    mergeMode: true,
-                    backStrokeWidth: 5,
-                    size: 70.h,
-                    progressStrokeWidth: 8,
-                    valueNotifier: ValueNotifier(0.4),
-                    animationDuration: const Duration(seconds: 1),
-                    maxValue: 1,
-                    shadow: false,
-                    onGetText: (value) {
-                      return SvgPicture.asset(
-                          "assets/icons/ic_steps_exercise.svg");
-                    },
-                  ),
+                  Obx(() {
+                    return SimpleCircularProgressBar(
+                      backColor: Colors.white,
+                      progressColors: [
+                        const Color(0xFF171433).withOpacity(0.7)
+                      ],
+                      mergeMode: true,
+                      backStrokeWidth: 5,
+                      size: 70.h,
+                      progressStrokeWidth: 8,
+                      valueNotifier:
+                          ValueNotifier(controller.steps.value / 10000),
+                      animationDuration: const Duration(seconds: 1),
+                      maxValue: 1,
+                      shadow: false,
+                      onGetText: (value) {
+                        return SvgPicture.asset(
+                            "assets/icons/ic_steps_exercise.svg");
+                      },
+                    );
+                  }),
                   16.verticalSpace,
-                  Text(
-                    "300\n Steps",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF171433)),
-                  ),
+                  Obx(() {
+                    return Text(
+                      "${controller.steps.value}\n Steps",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF171433)),
+                    );
+                  })
                 ],
               ),
             ),

@@ -78,6 +78,8 @@ class AuthRepositoryImpl extends NetworkModule implements AuthRepository {
   Future<Either<Failure, Login>> postAuthGoogle() async {
     try {
       var result = await GoogleSignIn(
+        clientId:
+            '649229634613-l8tqhjbf9o0lmu3mcs3ouhndi0aj5brk.apps.googleusercontent.com',
         scopes: ['email', 'openid'],
       ).signIn();
       try {

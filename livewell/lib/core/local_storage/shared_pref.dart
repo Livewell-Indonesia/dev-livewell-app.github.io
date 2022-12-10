@@ -48,4 +48,14 @@ class SharedPref {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setString(PrefConstant.mealHistories, data);
   }
+
+  static Future<String?> getLastHealthSyncDate() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(PrefConstant.lastHealthSyncDate);
+  }
+
+  static Future<bool> saveLastHealthSyncDate(DateTime date) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setString(PrefConstant.lastHealthSyncDate, date.toString());
+  }
 }

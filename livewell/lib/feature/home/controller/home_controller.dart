@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:health/health.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_app_config.dart';
+import 'package:livewell/feature/exercise/domain/usecase/post_exercise_data.dart';
 
 import '../../../core/base/usecase.dart';
 import '../../dashboard/data/model/app_config_model.dart';
@@ -60,7 +62,37 @@ class HomeController extends GetxController {
         .getHealthDataFromTypes(currentDate, dateTill, types);
     Get.snackbar('health', healthData.toString());
     Log.info(jsonEncode(healthData));
-    inspect(healthData);
+    PostExerciseData postExerciseData = PostExerciseData.instance();
+    var lastSyncHealth = await SharedPref.getLastHealthSyncDate();
+    // if user ever synced data
+    if (lastSyncHealth != null && healthData.isNotEmpty) {
+      healthData.sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
+      var lastSyncDate = DateTime.parse(lastSyncHealth);
+      if (lastSyncDate.isBefore(healthData.last.dateTo)) {
+        var filteredHealth = healthData
+            .where((element) => element.dateTo.isAfter(lastSyncDate))
+            .toList();
+        Log.info("new data: ${filteredHealth.length}");
+        final result = await postExerciseData
+            .call(PostExerciseParams.fromHealth(filteredHealth));
+        result.fold((l) {
+          print(l);
+        }, (r) async {
+          await SharedPref.saveLastHealthSyncDate(healthData.last.dateTo);
+        });
+      } else {
+        Log.info("no new data");
+      }
+      // if user never synced data
+    } else if (healthData.isNotEmpty) {
+      final result = await postExerciseData
+          .call(PostExerciseParams.fromHealth(healthData));
+      result.fold((l) {
+        print(l);
+      }, (r) async {
+        await SharedPref.saveLastHealthSyncDate(healthData.last.dateTo);
+      });
+    }
   }
 
   void getAppConfig() async {

@@ -66,12 +66,11 @@ class ExerciseScreen extends StatelessWidget {
             }),
             40.verticalSpace,
             Expanded(
-              child: TabBarView(
-                  controller: controller.tabController,
-                  children: const [
-                    ExerciseDiaryScreen(),
-                    ExerciseClassScreen(),
-                  ]),
+              child:
+                  TabBarView(controller: controller.tabController, children: [
+                ExerciseDiaryScreen(),
+                const ExerciseClassScreen(),
+              ]),
             )
           ],
         ),
