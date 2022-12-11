@@ -23,6 +23,7 @@ class AddMealController extends GetxController
   var filteredResult = <Foods>[].obs;
   var localFnBResult = <Foods>[].obs;
   var brandNameResult = <Foods>[].obs;
+  var isLoading = false.obs;
 
   PostSearchFood searchFood = PostSearchFood.instance();
   GetUserMealHistory mealHistory = GetUserMealHistory.instance();
@@ -88,8 +89,10 @@ class AddMealController extends GetxController
 
   void doSearchFood() async {
     state.value = SearchState.searchingWithResults;
+    isLoading.value = true;
     final result = await searchFood
         .call(SearchFoodParams(query: textEditingController.text));
+    isLoading.value = false;
     result.fold((l) {
       inspect(l);
     }, (r) {

@@ -26,7 +26,6 @@ class _AddMealScreenState extends State<AddMealScreen>
 
   @override
   void initState() {
-    print("andi ganteng ${Get.arguments}");
     type = Get.arguments['type'];
     date = Get.arguments['date'];
     super.initState();
@@ -117,7 +116,9 @@ class _AddMealScreenState extends State<AddMealScreen>
       case SearchState.initial:
         return searchInitial();
       case SearchState.searching:
-        return Container();
+        return addMealController.results.isEmpty
+            ? Container()
+            : searchResult(controller);
       case SearchState.searchingWithResults:
         return searchResult(controller);
     }
@@ -157,7 +158,9 @@ class _AddMealScreenState extends State<AddMealScreen>
                   Expanded(
                     child: Obx(
                       () {
-                        if (addMealController.results.isNotEmpty) {
+                        if (addMealController.isLoading.value) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (addMealController.results.isNotEmpty) {
                           return ListView.separated(
                             //physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
