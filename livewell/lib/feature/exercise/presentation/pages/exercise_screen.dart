@@ -30,48 +30,49 @@ class ExerciseScreen extends StatelessWidget {
                   color: const Color(0xFF171433)),
             )),
             38.verticalSpace,
-            Obx(() {
-              return SlideSwitcher(
-                containerColor: Colors.white,
-                onSelect: (int index) {
-                  controller.changeTab(ExerciseTab.values[index]);
-                },
-                valueNotifier: controller.sliderValueNotifier,
-                containerHeight: 35,
-                containerWight: 200,
-                slidersColors: const [
-                  Color(0xFFDDF235),
-                ],
-                children: [
-                  Text(
-                    'Diary',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: controller.currentMenu.value.index == 0
-                          ? const Color(0xFF171433)
-                          : const Color(0xFF171433).withOpacity(0.3),
-                    ),
-                  ),
-                  Text(
-                    'Classes',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: controller.currentMenu.value.index == 1
-                          ? const Color(0xFF171433)
-                          : const Color(0xFF171433).withOpacity(0.3),
-                    ),
-                  ),
-                ],
-              );
-            }),
-            40.verticalSpace,
-            Expanded(
-              child:
-                  TabBarView(controller: controller.tabController, children: [
-                ExerciseDiaryScreen(),
-                const ExerciseClassScreen(),
-              ]),
-            )
+            // Obx(() {
+            //   return SlideSwitcher(
+            //     containerColor: Colors.white,
+            //     onSelect: (int index) {
+            //       controller.changeTab(ExerciseTab.values[index]);
+            //     },
+            //     valueNotifier: controller.sliderValueNotifier,
+            //     containerHeight: 35,
+            //     containerWight: 200,
+            //     slidersColors: const [
+            //       Color(0xFFDDF235),
+            //     ],
+            //     children: [
+            //       Text(
+            //         'Diary',
+            //         style: TextStyle(
+            //           fontWeight: FontWeight.w600,
+            //           color: controller.currentMenu.value.index == 0
+            //               ? const Color(0xFF171433)
+            //               : const Color(0xFF171433).withOpacity(0.3),
+            //         ),
+            //       ),
+            //       Text(
+            //         'Classes',
+            //         style: TextStyle(
+            //           fontWeight: FontWeight.w600,
+            //           color: controller.currentMenu.value.index == 1
+            //               ? const Color(0xFF171433)
+            //               : const Color(0xFF171433).withOpacity(0.3),
+            //         ),
+            //       ),
+            //     ],
+            //   );
+            // }),
+            //40.verticalSpace,
+            ExerciseDiaryScreen(),
+            // Expanded(
+            //   child:
+            //       TabBarView(controller: controller.tabController, children: [
+            //     ExerciseDiaryScreen(),
+            //     const ExerciseClassScreen(),
+            //   ]),
+            // )
           ],
         ),
       ),

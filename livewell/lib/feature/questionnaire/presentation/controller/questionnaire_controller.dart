@@ -25,6 +25,8 @@ class QuestionnaireController extends GetxController {
   Rx<Gender> selectedGender = Gender.male.obs;
   Rx<GoalSelection> selectedGoals = GoalSelection.getFitter.obs;
   Rx<DietrarySelection> selectedDietrary = DietrarySelection.no.obs;
+  Rx<TargetExerciseSelection> selectedExerciseTarget =
+      TargetExerciseSelection.light.obs;
   TextEditingController selectedDietraryText = TextEditingController();
 
   PostQuestionnaire postQuestionnaire = PostQuestionnaire.instance();
@@ -107,6 +109,7 @@ enum QuestionnairePage {
   drink,
   sleep,
   dieatary,
+  exercise,
   goal,
   targetWeight,
   finish
@@ -131,6 +134,8 @@ extension QuestionnairePageData on QuestionnairePage {
         return 'Any dietary restriction?';
       case QuestionnairePage.goal:
         return 'Your specific goal?';
+      case QuestionnairePage.exercise:
+        return 'Exercise';
       case QuestionnairePage.targetWeight:
         return 'Target weight';
       case QuestionnairePage.finish:
@@ -156,6 +161,8 @@ extension QuestionnairePageData on QuestionnairePage {
         return 'Help us to create your personalized plan';
       case QuestionnairePage.goal:
         return 'You can always change this later';
+      case QuestionnairePage.exercise:
+        return 'Set your fitness goals';
       case QuestionnairePage.targetWeight:
         return 'Help us to create your personalized plan';
       case QuestionnairePage.finish:
@@ -225,6 +232,32 @@ extension GoalSelectionContent on GoalSelection {
         return "Improve Overall Fitness";
       case GoalSelection.none:
         return "None";
+    }
+  }
+}
+
+enum TargetExerciseSelection { light, moderate, active }
+
+extension TargetExerciseContent on TargetExerciseSelection {
+  String title() {
+    switch (this) {
+      case TargetExerciseSelection.light:
+        return "200 Kcal - Light";
+      case TargetExerciseSelection.moderate:
+        return "300 Kcal - Moderate";
+      case TargetExerciseSelection.active:
+        return "400 Kcal - Active";
+    }
+  }
+
+  int value() {
+    switch (this) {
+      case TargetExerciseSelection.light:
+        return 200;
+      case TargetExerciseSelection.moderate:
+        return 300;
+      case TargetExerciseSelection.active:
+        return 400;
     }
   }
 }

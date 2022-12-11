@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +10,7 @@ import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_app_config.dart';
 import 'package:livewell/feature/exercise/domain/usecase/post_exercise_data.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../core/base/usecase.dart';
 import '../../dashboard/data/model/app_config_model.dart';
@@ -46,10 +48,20 @@ class HomeController extends GetxController {
   }
 
   void requestHealthAccess() async {
-    var isAllowed = await healthFactory.requestAuthorization(types,
-        permissions: permissions);
-    if (isAllowed) {
-      fetchHealthDataFromTypes();
+    if (Platform.isAndroid) {
+      final permissionStatus = await Permission.activityRecognition.request();
+      if (permissionStatus.isGranted) {
+        fetchHealthDataFromTypes();
+        Log.colorGreen("Permission granted");
+      } else {
+        Log.error("Permission denied");
+      }
+    } else {
+      var isAllowed = await healthFactory.requestAuthorization(types,
+          permissions: permissions);
+      if (isAllowed) {
+        fetchHealthDataFromTypes();
+      }
     }
   }
 
@@ -60,8 +72,8 @@ class HomeController extends GetxController {
         DateTime.now().day, 23, 59, 59, 0, 0);
     List<HealthDataPoint> healthData = await healthFactory
         .getHealthDataFromTypes(currentDate, dateTill, types);
-    Get.snackbar('health', healthData.toString());
     Log.info(jsonEncode(healthData));
+    inspect(healthData);
     PostExerciseData postExerciseData = PostExerciseData.instance();
     var lastSyncHealth = await SharedPref.getLastHealthSyncDate();
     // if user ever synced data

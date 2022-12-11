@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:health/health.dart';
+import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_exercise_list.dart';
 import 'package:livewell/widgets/switcher/slide_switcher.dart';
 
@@ -37,7 +38,7 @@ class ExerciseController extends GetxController
       // sum all value from object r and assign it to steps
       steps.value = r.fold(
           0, (previousValue, element) => previousValue + (element.value ?? 0));
-      print("total steps ${steps.value}");
+      Log.colorGreen("total steps ${steps.value}");
     });
   }
 
@@ -50,6 +51,7 @@ class ExerciseController extends GetxController
       burntCalories.value = r.fold(
           0, (previousValue, element) => previousValue + (element.value ?? 0));
     });
+    Log.colorGreen("total calories ${burntCalories.value}");
   }
 }
 
