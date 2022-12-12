@@ -159,7 +159,8 @@ class _AddMealScreenState extends State<AddMealScreen>
                     child: Obx(
                       () {
                         if (addMealController.isLoading.value) {
-                          return Center(child: CircularProgressIndicator());
+                          return const Center(
+                              child: CircularProgressIndicator());
                         } else if (addMealController.results.isNotEmpty) {
                           return ListView.separated(
                             //physics: NeverScrollableScrollPhysics(),
