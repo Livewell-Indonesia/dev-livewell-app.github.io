@@ -79,6 +79,9 @@ class HomeController extends GetxController {
     // if user ever synced data
     if (lastSyncHealth != null && healthData.isNotEmpty) {
       healthData.sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
+      healthData
+          .where((element) => element.sourceName == "com.google.android.gms")
+          .toList();
       var lastSyncDate = DateTime.parse(lastSyncHealth);
       if (lastSyncDate.isBefore(healthData.last.dateTo)) {
         var filteredHealth = healthData

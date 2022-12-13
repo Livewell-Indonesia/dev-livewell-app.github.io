@@ -94,7 +94,7 @@ class ExerciseDiaryScreen extends StatelessWidget {
                   16.verticalSpace,
                   Obx(() {
                     return Text(
-                      "${controller.burntCalories.value}\n Calories Burnt",
+                      "${controller.burntCalories.value.round()}\n Calories Burnt",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 14.sp,
