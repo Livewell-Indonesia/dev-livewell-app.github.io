@@ -30,7 +30,6 @@ class ExerciseController extends GetxController
     tabController.addListener(() {
       changeTab(ExerciseTab.values[tabController.index]);
     });
-    requestHealthAccess();
   }
 
   void changeTab(ExerciseTab tab) {
