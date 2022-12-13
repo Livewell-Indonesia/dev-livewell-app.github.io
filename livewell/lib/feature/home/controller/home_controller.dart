@@ -48,14 +48,18 @@ class HomeController extends GetxController {
   }
 
   void requestHealthAccess() async {
-    if (Platform.isAndroid) {
-      final permissionStatus = await Permission.activityRecognition.request();
-      if (permissionStatus.isGranted) {
+    final permissionStatus = await Permission.activityRecognition.request();
+    if (permissionStatus.isGranted) {
+      var isAllowed = await healthFactory.requestAuthorization(types,
+          permissions: permissions);
+      if (isAllowed) {
         fetchHealthDataFromTypes();
-        Log.colorGreen("Permission granted");
-      } else {
-        Log.error("Permission denied");
       }
+      Log.colorGreen("Permission granted");
+    } else {
+      Log.error("Permission denied");
+    }
+    if (Platform.isAndroid) {
     } else {
       var isAllowed = await healthFactory.requestAuthorization(types,
           permissions: permissions);

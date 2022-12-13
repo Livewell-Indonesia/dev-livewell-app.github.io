@@ -58,7 +58,9 @@ class ExerciseController extends GetxController
     result.fold((l) => print(l), (r) {
       // sum all value from object r and assign it to burntCalories
       burntCalories.value = r.fold(
-          0, (previousValue, element) => previousValue + (element.value ?? 0));
+          0,
+          (previousValue, element) =>
+              previousValue + (element.value?.toDouble() ?? 0.0));
     });
     Log.colorGreen("total calories ${burntCalories.value}");
   }
@@ -111,21 +113,7 @@ class ExerciseController extends GetxController
     PostExerciseData postExerciseData = PostExerciseData.instance();
     var lastSyncHealth = await SharedPref.getLastHealthSyncDate();
     // if user ever synced data
-    if (lastSyncHealth != null && healthData.isNotEmpty) {
-      healthData.sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
-      var lastSyncDate = DateTime.parse(lastSyncHealth);
-      if (lastSyncDate.isBefore(healthData.last.dateTo)) {
-        var filteredHealth = healthData
-            .where((element) => element.dateTo.isAfter(lastSyncDate))
-            .toList();
-        dataController.text = jsonEncode(healthData);
-      } else {
-        Log.info("no new data");
-      }
-      // if user never synced data
-    } else if (healthData.isNotEmpty) {
-      dataController.text = jsonEncode(healthData);
-    }
+    dataController.text = jsonEncode(healthData);
   }
 }
 
