@@ -84,6 +84,7 @@ class QuestionnaireController extends GetxController {
         weight.value,
         height.value,
         targetWeight.value,
+        selectedExerciseTarget.value.value(),
         drink.value.toString(),
         sleep.value.toString(),
         selectedDietraryText.text,

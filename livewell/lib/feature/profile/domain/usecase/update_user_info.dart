@@ -27,6 +27,7 @@ class UpdateUserInfoParams {
   num height;
   num weight;
   num weightTarget;
+  num exerciseGoalKcal;
 
   UpdateUserInfoParams(
       {required this.firstName,
@@ -35,7 +36,8 @@ class UpdateUserInfoParams {
       required this.gender,
       required this.height,
       required this.weight,
-      required this.weightTarget});
+      required this.weightTarget,
+      required this.exerciseGoalKcal});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -46,6 +48,7 @@ class UpdateUserInfoParams {
     data['height'] = height;
     data['weight'] = weight;
     data['weight_target'] = weightTarget;
+    data['exercise_goal_kcal'] = exerciseGoalKcal;
     return data;
   }
 }

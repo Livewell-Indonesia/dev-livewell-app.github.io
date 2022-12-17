@@ -43,7 +43,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     getAppConfig();
-    requestHealthAccess();
+    //requestHealthAccess();
     super.onInit();
   }
 
@@ -83,33 +83,43 @@ class HomeController extends GetxController {
     // if user ever synced data
     if (lastSyncHealth != null && healthData.isNotEmpty) {
       healthData.sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
-      healthData
-          .where((element) => element.sourceName == "com.google.android.gms")
+      var filteredData = healthData
+          .where((element) => element.sourceName != "com.google.android.gms")
           .toList();
       var lastSyncDate = DateTime.parse(lastSyncHealth);
-      if (lastSyncDate.isBefore(healthData.last.dateTo)) {
-        var filteredHealth = healthData
+      if (lastSyncDate.isBefore(filteredData.last.dateTo)) {
+        var filteredHealth = filteredData
             .where((element) => element.dateTo.isAfter(lastSyncDate))
             .toList();
-        Log.info("new data: ${filteredHealth.length}");
-        final result = await postExerciseData
-            .call(PostExerciseParams.fromHealth(filteredHealth));
-        result.fold((l) {
-          print(l);
-        }, (r) async {
-          await SharedPref.saveLastHealthSyncDate(healthData.last.dateTo);
-        });
+        if (filteredHealth.isNotEmpty) {
+          final result = await postExerciseData
+              .call(PostExerciseParams.fromHealth(filteredHealth));
+          result.fold((l) {
+            Log.error(l);
+          }, (r) async {
+            if (filteredHealth.isNotEmpty) {
+              await SharedPref.saveLastHealthSyncDate(
+                  filteredHealth.last.dateTo);
+            }
+          });
+        }
       } else {
         Log.info("no new data");
       }
       // if user never synced data
     } else if (healthData.isNotEmpty) {
+      healthData.sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
+      var filteredData = healthData
+          .where((element) => element.sourceName != "com.google.android.gms")
+          .toList();
       final result = await postExerciseData
-          .call(PostExerciseParams.fromHealth(healthData));
+          .call(PostExerciseParams.fromHealth(filteredData));
       result.fold((l) {
-        print(l);
+        Log.error(l);
       }, (r) async {
-        await SharedPref.saveLastHealthSyncDate(healthData.last.dateTo);
+        if (filteredData.isNotEmpty) {
+          await SharedPref.saveLastHealthSyncDate(filteredData.last.dateTo);
+        }
       });
     }
   }
@@ -117,7 +127,7 @@ class HomeController extends GetxController {
   void getAppConfig() async {
     final result = await appConfig.call(NoParams());
     result.fold((l) {
-      print(l);
+      Log.error(l);
     }, (r) {
       appConfigModel.value = r;
     });

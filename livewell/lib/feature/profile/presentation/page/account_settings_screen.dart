@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:livewell/feature/profile/presentation/controller/account_settings_controller.dart';
@@ -155,12 +156,14 @@ class AccountSettingsTextField extends StatelessWidget {
   String hintText;
   bool enabled;
   TextInputType inputType;
+  List<TextInputFormatter> inputFormatter;
   AccountSettingsTextField({
     Key? key,
     required this.textEditingController,
     required this.hintText,
     this.enabled = true,
     this.inputType = TextInputType.text,
+    this.inputFormatter = const [],
   }) : super(key: key);
 
   @override
@@ -182,6 +185,7 @@ class AccountSettingsTextField extends StatelessWidget {
         enabled: enabled,
         textAlign: TextAlign.end,
         controller: textEditingController,
+        inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
         decoration: InputDecoration(
           contentPadding: EdgeInsets.only(top: 16.h),
           prefixIcon: Column(

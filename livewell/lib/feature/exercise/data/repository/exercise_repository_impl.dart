@@ -32,14 +32,14 @@ class ExerciseRepositoryImpl extends NetworkModule
   }
 
   @override
-  Future<Either<Failure, List<ActivityDataModel>>> getExerciseData(
+  Future<Either<Failure, ActivityDataModel>> getExerciseData(
       GetExerciseParams params) async {
     try {
       final response = await postMethod(Endpoint.getActivities,
           headers: {authorization: await SharedPref.getToken()},
           body: params.toJson());
-      final List json = responseHandler(response);
-      return Right(json.map((e) => ActivityDataModel.fromJson(e)).toList());
+      final json = responseHandler(response);
+      return Right(ActivityDataModel.fromJson(json));
     } catch (ex) {
       return Left(ServerFailure(message: ex.toString()));
     }

@@ -20,7 +20,7 @@ class ExerciseClassScreen extends StatelessWidget {
         40.verticalSpace,
         SimpleCircularProgressBar(
           backColor: Colors.white,
-          progressColors: [const Color(0xFF8F01DF)],
+          progressColors: const [Color(0xFF8F01DF)],
           mergeMode: true,
           backStrokeWidth: 8,
           size: 200.h,

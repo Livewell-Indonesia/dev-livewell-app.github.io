@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:livewell/feature/exercise/presentation/controller/exercise_controller.dart';
-import 'package:livewell/feature/exercise/presentation/pages/exercise_class_screen.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_diary_screen.dart';
-import 'package:livewell/widgets/switcher/slide_switcher.dart';
 
-class ExerciseScreen extends StatelessWidget {
+class ExerciseScreen extends StatefulWidget {
+  const ExerciseScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ExerciseScreen> createState() => _ExerciseScreenState();
+}
+
+class _ExerciseScreenState extends State<ExerciseScreen> {
   int switcherIndex2 = 0;
-  ExerciseScreen({Key? key}) : super(key: key);
 
   ExerciseController controller = Get.put(ExerciseController());
 
@@ -16,9 +20,12 @@ class ExerciseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF1F1F1),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          controller.refresh();
+        },
+        child: ListView(
+          //crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             57.verticalSpace,
             Center(

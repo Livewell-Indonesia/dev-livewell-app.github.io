@@ -9,6 +9,6 @@ abstract class ExerciseRepository {
   Future<Either<Failure, RegisterModel>> postExerciseData(
       PostExerciseParams params);
 
-  Future<Either<Failure, List<ActivityDataModel>>> getExerciseData(
+  Future<Either<Failure, ActivityDataModel>> getExerciseData(
       GetExerciseParams params);
 }

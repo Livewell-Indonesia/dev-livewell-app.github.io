@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/profile/presentation/controller/user_settings_controller.dart';
@@ -105,6 +106,13 @@ class UserSettingsScreen extends StatelessWidget {
                 icon: Image.asset(Constant.icPhysicalInfo),
                 onPressed: () {
                   controller.physicalInformationTapped();
+                }),
+            20.verticalSpace,
+            ProfileSettingsItem(
+                title: 'Exercise',
+                icon: Image.asset(Constant.icExerciseBlack3),
+                onPressed: () {
+                  controller.exerciseInformationTapped();
                 }),
             20.verticalSpace,
             ProfileSettingsItem(

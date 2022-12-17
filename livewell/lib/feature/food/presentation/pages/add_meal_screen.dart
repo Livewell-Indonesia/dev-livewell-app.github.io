@@ -74,8 +74,8 @@ class _AddMealScreenState extends State<AddMealScreen>
                                             .textEditingController.text);
                                   },
                                   child: Container(
-                                    width: 50.w,
-                                    height: 50.w,
+                                    width: 50,
+                                    height: 50,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(10),
