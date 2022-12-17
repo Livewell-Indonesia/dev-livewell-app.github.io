@@ -51,18 +51,22 @@ class Foods {
       this.servings,
       this.provider});
 
-  factory Foods.fromJson(Map<String, dynamic> json) => Foods(
-        foodName: json['food_name'] as String?,
-        foodDescription: json['food_description'] as String?,
-        foodType: json['food_type'] as String?,
-        brandName: json['brand_name'] as String?,
-        servings: // check if json['servings'] is an object or array
-            json['servings'] is Map<String, dynamic>
-                ? [Servings.fromJson(json['servings'] as Map<String, dynamic>)]
-                : List<Servings>.from(
-                    json['servings'].map((x) => Servings.fromJson(x))),
-        provider: json['provider'] as String?,
-      );
+  factory Foods.fromJson(Map<String, dynamic> json) {
+    if (json['servings'] == null) {
+      print("andi ganteng ${json}");
+    }
+    return Foods(
+      foodName: json['food_name'],
+      foodDescription: json['food_description'],
+      foodType: json['food_type'],
+      brandName: json['brand_name'],
+      servings: json['servings'] == null
+          ? []
+          : List<Servings>.from(
+              json["servings"].map((x) => Servings.fromJson(x))),
+      provider: json['provider'],
+    );
+  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

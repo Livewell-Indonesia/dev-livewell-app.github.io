@@ -1,9 +1,13 @@
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:health/health.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/core/base/usecase.dart';
+import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/data/model/dashboard_model.dart';
 import 'package:livewell/feature/dashboard/data/model/user_model.dart';
@@ -13,8 +17,10 @@ import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart
 import 'package:livewell/feature/food/domain/entity/meal_history.dart';
 import 'package:livewell/feature/food/domain/usecase/get_meal_history.dart';
 import 'package:livewell/routes/app_navigator.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../diary/domain/entity/user_meal_history_model.dart';
+import '../../../exercise/domain/usecase/post_exercise_data.dart';
 
 class DashboardController extends GetxController {
   GetUser getUser = GetUser.instance();
@@ -25,6 +31,102 @@ class DashboardController extends GetxController {
   ValueNotifier<double> valueNotifier = ValueNotifier(0.0);
   GetUserMealHistory getUserMealHistory = GetUserMealHistory.instance();
   RxList<MealHistoryModel> mealHistoryList = <MealHistoryModel>[].obs;
+
+  HealthFactory healthFactory = HealthFactory();
+
+  var types = [
+    HealthDataType.STEPS,
+    HealthDataType.ACTIVE_ENERGY_BURNED,
+    HealthDataType.SLEEP_ASLEEP,
+    HealthDataType.SLEEP_AWAKE,
+    HealthDataType.SLEEP_IN_BED,
+  ];
+
+  var permissions = [
+    HealthDataAccess.READ,
+    HealthDataAccess.READ,
+    HealthDataAccess.READ,
+    HealthDataAccess.READ,
+    HealthDataAccess.READ,
+  ];
+
+  void requestHealthAccess() async {
+    final permissionStatus = await Permission.activityRecognition.request();
+    if (permissionStatus.isGranted) {
+      var isAllowed = await healthFactory.requestAuthorization(types,
+          permissions: permissions);
+      if (isAllowed) {
+        fetchHealthDataFromTypes();
+      }
+      Log.colorGreen("Permission granted");
+    } else {
+      Log.error("Permission denied");
+    }
+    if (Platform.isAndroid) {
+    } else {
+      var isAllowed = await healthFactory.requestAuthorization(types,
+          permissions: permissions);
+      if (isAllowed) {
+        fetchHealthDataFromTypes();
+      }
+    }
+  }
+
+  void fetchHealthDataFromTypes() async {
+    var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 0, 0, 0, 0, 0);
+    var dateTill = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 23, 59, 59, 0, 0);
+    List<HealthDataPoint> healthData = await healthFactory
+        .getHealthDataFromTypes(currentDate, dateTill, types);
+    Log.info(jsonEncode(healthData));
+    inspect(healthData);
+    PostExerciseData postExerciseData = PostExerciseData.instance();
+    var lastSyncHealth = user.value.lastSyncedAt;
+    // if user ever synced data
+    if (lastSyncHealth != null && healthData.isNotEmpty) {
+      healthData.sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
+      var filteredData = healthData
+          .where((element) => element.sourceName != "com.google.android.gms")
+          .toList();
+      var lastSyncDate = DateTime.parse(lastSyncHealth);
+      if (lastSyncDate.isBefore(filteredData.last.dateTo)) {
+        var filteredHealth = filteredData
+            .where((element) => element.dateTo.isAfter(lastSyncDate))
+            .toList();
+        if (filteredHealth.isNotEmpty) {
+          final result = await postExerciseData
+              .call(PostExerciseParams.fromHealth(filteredHealth));
+          result.fold((l) {
+            Log.error(l);
+          }, (r) async {
+            if (filteredHealth.isNotEmpty) {
+              await SharedPref.saveLastHealthSyncDate(
+                  filteredHealth.last.dateTo);
+            }
+          });
+        }
+      } else {
+        Log.info("no new data");
+      }
+      // if user never synced data
+    } else if (healthData.isNotEmpty) {
+      healthData.sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
+      var filteredData = healthData
+          .where((element) => element.sourceName != "com.google.android.gms")
+          .toList();
+      final result = await postExerciseData
+          .call(PostExerciseParams.fromHealth(filteredData));
+      result.fold((l) {
+        Log.error(l);
+      }, (r) async {
+        if (filteredData.isNotEmpty) {
+          await SharedPref.saveLastHealthSyncDate(filteredData.last.dateTo);
+        }
+      });
+    }
+  }
+
   @override
   void onInit() {
     getUsersData();
@@ -34,14 +136,6 @@ class DashboardController extends GetxController {
   }
 
   void getMealHistories() async {
-    // final result = await getMealHistory(NoParams());
-    // result.fold((failure) {
-    //   Log.error(failure.toString());
-    // }, (mealHistory) {
-    //   Log.colorGreen(mealHistory.mealHistories?.length.toString());
-    //   inspect(mealHistory);
-    //   this.mealHistory.value = mealHistory;
-    // });
     var currentDate = DateTime(
         DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0);
     final result = await getUserMealHistory(UserMealHistoryParams(
@@ -63,6 +157,8 @@ class DashboardController extends GetxController {
         Future.delayed(Duration(milliseconds: 800), () {
           AppNavigator.push(routeName: AppPages.questionnaire);
         });
+      } else {
+        requestHealthAccess();
       }
     });
   }

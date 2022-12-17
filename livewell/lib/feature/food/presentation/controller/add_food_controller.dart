@@ -62,14 +62,14 @@ class AddFoodController extends GetxController {
     });
   }
 
-  Rx<int> percentOfDailyGoals(int cal) {
+  Rx<int> percentOfDailyGoals(num cal) {
     var dailyTarget =
         Get.find<DashboardController>().dashboard.value.dashboard?.target ?? 0;
     var percent = (cal / dailyTarget) * 100;
     return percent.toInt() > 100 ? 100.obs : percent.toInt().obs;
   }
 
-  Rx<double> getTotalCalByServings(int cal) {
+  Rx<double> getTotalCalByServings(num cal) {
     var totalCal = 0.0;
     if (numberOfServing.text.isNotEmpty) {
       totalCal = cal * double.parse(numberOfServing.text);

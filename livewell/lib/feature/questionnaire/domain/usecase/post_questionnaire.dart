@@ -27,6 +27,7 @@ class QuestionnaireParams {
   num? height;
   num? weight;
   num? targetWeight;
+  num? exerciseGoalKcal;
   OnboardingQuestionnaire? onboardingQuestionnaire;
 
   QuestionnaireParams(
@@ -37,7 +38,8 @@ class QuestionnaireParams {
       this.height,
       this.weight,
       this.targetWeight,
-      this.onboardingQuestionnaire});
+      this.onboardingQuestionnaire,
+      this.exerciseGoalKcal});
 
   QuestionnaireParams.asParams(
       this.firstName,
@@ -47,6 +49,7 @@ class QuestionnaireParams {
       this.weight,
       this.height,
       this.targetWeight,
+      this.exerciseGoalKcal,
       String drink,
       String sleep,
       String dietraryRestriction,
@@ -68,6 +71,7 @@ class QuestionnaireParams {
     data['gender'] = gender;
     data['height'] = height;
     data['weight'] = weight;
+    data['exercise_goal_kcal'] = exerciseGoalKcal;
     if (onboardingQuestionnaire!.targetImprovement != null &&
         !onboardingQuestionnaire!.targetImprovement!
             .contains("Better Sleeping")) {

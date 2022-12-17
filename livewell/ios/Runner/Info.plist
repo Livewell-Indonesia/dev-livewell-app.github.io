@@ -12,6 +12,17 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>com.googleusercontent.apps.649229634613-l8tqhjbf9o0lmu3mcs3ouhndi0aj5brk</string>
+            </array>
+        </dict>
+    </array>
 	<key>CFBundleName</key>
 	<string>livewell</string>
 	<key>CFBundlePackageType</key>

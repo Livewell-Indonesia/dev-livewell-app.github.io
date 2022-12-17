@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/state_manager.dart';
 import 'package:health/health.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_app_config.dart';
+import 'package:livewell/feature/exercise/domain/usecase/post_exercise_data.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../core/base/usecase.dart';
 import '../../dashboard/data/model/app_config_model.dart';
@@ -23,27 +26,13 @@ class HomeController extends GetxController {
 
   var types = [
     HealthDataType.STEPS,
-    HealthDataType.WEIGHT,
-    HealthDataType.HEIGHT,
-    HealthDataType.BODY_MASS_INDEX,
-    HealthDataType.BODY_FAT_PERCENTAGE,
-    HealthDataType.BLOOD_GLUCOSE,
-    HealthDataType.BLOOD_PRESSURE_DIASTOLIC,
     HealthDataType.ACTIVE_ENERGY_BURNED,
     HealthDataType.SLEEP_ASLEEP,
     HealthDataType.SLEEP_AWAKE,
     HealthDataType.SLEEP_IN_BED,
-    HealthDataType.BLOOD_OXYGEN,
   ];
 
   var permissions = [
-    HealthDataAccess.READ,
-    HealthDataAccess.READ,
-    HealthDataAccess.READ,
-    HealthDataAccess.READ,
-    HealthDataAccess.READ,
-    HealthDataAccess.READ,
-    HealthDataAccess.READ,
     HealthDataAccess.READ,
     HealthDataAccess.READ,
     HealthDataAccess.READ,
@@ -59,31 +48,86 @@ class HomeController extends GetxController {
   }
 
   void requestHealthAccess() async {
-    var isAllowed = await healthFactory.requestAuthorization(types,
-        permissions: permissions);
-    if (isAllowed) {
-      fetchHealthDataFromTypes();
+    final permissionStatus = await Permission.activityRecognition.request();
+    if (permissionStatus.isGranted) {
+      var isAllowed = await healthFactory.requestAuthorization(types,
+          permissions: permissions);
+      if (isAllowed) {
+        fetchHealthDataFromTypes();
+      }
+      Log.colorGreen("Permission granted");
+    } else {
+      Log.error("Permission denied");
+    }
+    if (Platform.isAndroid) {
+    } else {
+      var isAllowed = await healthFactory.requestAuthorization(types,
+          permissions: permissions);
+      if (isAllowed) {
+        fetchHealthDataFromTypes();
+      }
     }
   }
 
   void fetchHealthDataFromTypes() async {
-    List<HealthDataPoint> healthData =
-        await healthFactory.getHealthDataFromTypes(
-      DateTime.now().subtract(Duration(days: 3)),
-      DateTime.now(),
-      types,
-    );
-    Get.snackbar('health', healthData.toString());
-    print("andi ganteng ${healthData.first.unitString}");
-    print("health data ${healthData.toString()}");
+    var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 0, 0, 0, 0, 0);
+    var dateTill = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 23, 59, 59, 0, 0);
+    List<HealthDataPoint> healthData = await healthFactory
+        .getHealthDataFromTypes(currentDate, dateTill, types);
     Log.info(jsonEncode(healthData));
     inspect(healthData);
+    PostExerciseData postExerciseData = PostExerciseData.instance();
+    var lastSyncHealth = await SharedPref.getLastHealthSyncDate();
+    // if user ever synced data
+    if (lastSyncHealth != null && healthData.isNotEmpty) {
+      healthData.sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
+      var filteredData = healthData
+          .where((element) => element.sourceName != "com.google.android.gms")
+          .toList();
+      var lastSyncDate = DateTime.parse(lastSyncHealth);
+      if (lastSyncDate.isBefore(filteredData.last.dateTo)) {
+        var filteredHealth = filteredData
+            .where((element) => element.dateTo.isAfter(lastSyncDate))
+            .toList();
+        if (filteredHealth.isNotEmpty) {
+          final result = await postExerciseData
+              .call(PostExerciseParams.fromHealth(filteredHealth));
+          result.fold((l) {
+            Log.error(l);
+          }, (r) async {
+            if (filteredHealth.isNotEmpty) {
+              await SharedPref.saveLastHealthSyncDate(
+                  filteredHealth.last.dateTo);
+            }
+          });
+        }
+      } else {
+        Log.info("no new data");
+      }
+      // if user never synced data
+    } else if (healthData.isNotEmpty) {
+      healthData.sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
+      var filteredData = healthData
+          .where((element) => element.sourceName != "com.google.android.gms")
+          .toList();
+      final result = await postExerciseData
+          .call(PostExerciseParams.fromHealth(filteredData));
+      result.fold((l) {
+        Log.error(l);
+      }, (r) async {
+        if (filteredData.isNotEmpty) {
+          await SharedPref.saveLastHealthSyncDate(filteredData.last.dateTo);
+        }
+      });
+    }
   }
 
   void getAppConfig() async {
     final result = await appConfig.call(NoParams());
     result.fold((l) {
-      print(l);
+      Log.error(l);
     }, (r) {
       appConfigModel.value = r;
     });
@@ -99,6 +143,8 @@ class HomeController extends GetxController {
     } else if (index == 1) {
       currentMenu.value = HomeTab.home;
     } else if (index == 2) {
+      currentMenu.value = HomeTab.exercise;
+    } else if (index == 3) {
       currentMenu.value = HomeTab.account;
     }
   }
@@ -107,15 +153,15 @@ class HomeController extends GetxController {
     return ClipOval(
       child: Material(
           color: const Color(0xFF8F01DF), // button color
-          child: SizedBox(child: child, width: 40.w, height: 40.w)),
+          child: SizedBox(width: 40.w, height: 40.w, child: child)),
     );
   }
 
   Widget customUnselectedImage(Widget child) {
     return SizedBox(
-      child: child,
       width: 40.w,
       height: 40.w,
+      child: child,
     );
   }
 }

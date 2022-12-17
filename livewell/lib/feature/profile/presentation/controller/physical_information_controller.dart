@@ -110,6 +110,7 @@ class PhysicalInformationController extends GetxController {
         int.parse(weight.text),
         int.parse(height.text),
         int.parse(targetWeight.text),
+        0,
         drink.text,
         sleep.text,
         dietaryResitriction.text,

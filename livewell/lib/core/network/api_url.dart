@@ -37,4 +37,8 @@ class Endpoint {
   static const String userMealHistory = "user/meal/history";
 
   static const String appConfig = "config/app";
+
+  ///Exercise
+  static const String postBulkActivities = "activities/bulk-create";
+  static const String getActivities = "activities/list";
 }

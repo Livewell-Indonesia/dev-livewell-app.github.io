@@ -15,6 +15,9 @@ class UserModel {
   int? weightTarget;
   List<DailyJournal>? dailyJournal;
   OnboardingQuestionnaire? onboardingQuestionnaire;
+  String? lastSyncedAt;
+  int? exerciseGoalKcal;
+  int? stepsGoalCount;
 
   UserModel(
       {this.email,
@@ -32,7 +35,10 @@ class UserModel {
       this.bmr,
       this.weightTarget,
       this.dailyJournal,
-      this.onboardingQuestionnaire});
+      this.onboardingQuestionnaire,
+      this.lastSyncedAt,
+      this.exerciseGoalKcal,
+      this.stepsGoalCount});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];
@@ -48,6 +54,9 @@ class UserModel {
     weight = json['weight'];
     bmi = json['bmi'];
     bmr = json['bmr'];
+    lastSyncedAt = json['last_synced_at'];
+    exerciseGoalKcal = json['exercise_goal_kcal'];
+    stepsGoalCount = json['steps_goal_count'];
     weightTarget = json['weight_target'];
     if (json['daily_journal'] != null) {
       dailyJournal = <DailyJournal>[];
@@ -58,6 +67,52 @@ class UserModel {
     onboardingQuestionnaire = json['onboarding_questionnaire'] != null
         ? new OnboardingQuestionnaire.fromJson(json['onboarding_questionnaire'])
         : null;
+  }
+
+  // create copyWith
+  UserModel copyWith({
+    String? email,
+    String? mcc,
+    String? phoneNumber,
+    String? referenceId,
+    String? status,
+    String? firstName,
+    String? lastName,
+    String? birthDate,
+    String? gender,
+    num? height,
+    num? weight,
+    num? bmi,
+    num? bmr,
+    int? weightTarget,
+    List<DailyJournal>? dailyJournal,
+    OnboardingQuestionnaire? onboardingQuestionnaire,
+    String? lastSyncedAt,
+    int? exerciseGoalKcal,
+    int? stepsGoalCount,
+  }) {
+    return UserModel(
+      email: email ?? this.email,
+      mcc: mcc ?? this.mcc,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      referenceId: referenceId ?? this.referenceId,
+      status: status ?? this.status,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      birthDate: birthDate ?? this.birthDate,
+      gender: gender ?? this.gender,
+      height: height ?? this.height,
+      weight: weight ?? this.weight,
+      bmi: bmi ?? this.bmi,
+      bmr: bmr ?? this.bmr,
+      weightTarget: weightTarget ?? this.weightTarget,
+      dailyJournal: dailyJournal ?? this.dailyJournal,
+      onboardingQuestionnaire:
+          onboardingQuestionnaire ?? this.onboardingQuestionnaire,
+      lastSyncedAt: lastSyncedAt ?? this.lastSyncedAt,
+      exerciseGoalKcal: exerciseGoalKcal ?? this.exerciseGoalKcal,
+      stepsGoalCount: stepsGoalCount ?? this.stepsGoalCount,
+    );
   }
 
   Map<String, dynamic> toJson() {

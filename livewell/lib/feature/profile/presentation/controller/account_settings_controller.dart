@@ -25,15 +25,19 @@ class AccountSettingsController extends GetxController {
 
   void validate() async {
     EasyLoading.show();
-    final result = await updateUserInfo.call(UpdateUserInfoParams(
-        firstName: firstName.text,
-        lastName: lastName.text,
-        height: dashboardController.user.value.height ?? 0,
-        weight: dashboardController.user.value.weight ?? 0,
-        gender: dashboardController.user.value.gender ?? "",
-        dob: DateFormat('yyyy-MM-dd').format(
-            DateTime.parse(dashboardController.user.value.birthDate ?? "")),
-        weightTarget: dashboardController.user.value.weightTarget ?? 0));
+    final result = await updateUserInfo.call(
+      UpdateUserInfoParams(
+          firstName: firstName.text,
+          lastName: lastName.text,
+          height: dashboardController.user.value.height ?? 0,
+          weight: dashboardController.user.value.weight ?? 0,
+          gender: dashboardController.user.value.gender ?? "",
+          dob: DateFormat('yyyy-MM-dd').format(
+              DateTime.parse(dashboardController.user.value.birthDate ?? "")),
+          weightTarget: dashboardController.user.value.weightTarget ?? 0,
+          exerciseGoalKcal:
+              dashboardController.user.value.exerciseGoalKcal ?? 0),
+    );
     EasyLoading.dismiss();
     Get.back();
     result.fold((l) {

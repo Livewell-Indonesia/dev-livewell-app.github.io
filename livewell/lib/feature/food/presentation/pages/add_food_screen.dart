@@ -130,7 +130,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                               GetBuilder<AddFoodController>(
                                   builder: (controller) {
                                 return Text(
-                                  '${controller.getTotalCalByServings(int.parse(widget.food.servings?[0].calories ?? "0")).round().toInt()}',
+                                  '${controller.getTotalCalByServings(num.parse(widget.food.servings?[0].calories ?? "0")).round().toInt()}',
                                   style: TextStyle(
                                       fontSize: 24.sp,
                                       fontWeight: FontWeight.w500),
@@ -156,21 +156,21 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                           total:
                               "${controller.getTotalCarbsByServings(num.parse(widget.food.servings?[0].carbohydrate ?? "0")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
                           consumed:
-                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].carbohydrate ?? "0") * 4) / int.parse(widget.food.servings?[0].calories ?? "0") * 100).roundZero())}% "),
+                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].carbohydrate ?? "0") * 4) / num.parse(widget.food.servings?[0].calories ?? "0") * 100).roundZero())}% "),
                       NutrtionProgressModel(
                           name: 'Fat',
                           color: const Color(0xFFF5D25D),
                           total:
                               "${controller.getTotalFatByServings(num.parse(widget.food.servings?[0].fat ?? "0")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
                           consumed:
-                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].fat ?? "0") * 9) / int.parse(widget.food.servings?[0].calories ?? "0") * 100).roundZero())}% "),
+                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].fat ?? "0") * 9) / num.parse(widget.food.servings?[0].calories ?? "0") * 100).roundZero())}% "),
                       NutrtionProgressModel(
                           name: 'Protein',
                           color: const Color(0xFFDDF235),
                           total:
                               "${controller.getTotalProteinByServings(num.parse(widget.food.servings?[0].protein ?? "0")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
                           consumed:
-                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].protein ?? "0") * 4) / int.parse(widget.food.servings?[0].calories ?? "0") * 100).roundZero())}% "),
+                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].protein ?? "0") * 4) / num.parse(widget.food.servings?[0].calories ?? "0") * 100).roundZero())}% "),
                     ],
                     backgroundColor: Colors.transparent,
                   );
@@ -347,7 +347,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                             Row(
                               children: [
                                 Text(
-                                    "${controller.percentOfDailyGoals(int.parse(widget.food.servings?[0].calories ?? "0"))}% of your daily goals",
+                                    "${controller.percentOfDailyGoals(num.parse(widget.food.servings?[0].calories ?? "0.0"))}% of your daily goals",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 11.sp,
@@ -365,7 +365,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                             LinearPercentIndicator(
                               padding: EdgeInsets.zero,
                               lineHeight: 7.0,
-                              percent: controller.percentOfDailyGoals(int.parse(
+                              percent: controller.percentOfDailyGoals(num.parse(
                                       widget.food.servings?[0].calories ??
                                           "0")) /
                                   100,

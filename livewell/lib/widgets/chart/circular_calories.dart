@@ -58,6 +58,9 @@ class SimpleCircularProgressBar extends StatefulWidget {
   /// The object designed to update the value of the progress bar.
   final ValueNotifier<double>? valueNotifier;
 
+  /// add shadow
+  final bool shadow;
+
   /// Callback to generate a new Text widget located in the center of the
   /// progress bar. The callback input is the current value of the bar progress.
   final OnGetCenterText? onGetText;
@@ -109,6 +112,7 @@ class SimpleCircularProgressBar extends StatefulWidget {
     this.mergeMode = false,
     this.valueNotifier,
     this.onGetText,
+    this.shadow = true,
   }) : super(key: key);
 
   @override
@@ -284,6 +288,7 @@ class _SimpleCircularProgressBarState extends State<SimpleCircularProgressBar>
                       backColor: widget.backColor,
                       fullProgressColor: fullProgressColor,
                       isFullProgress: isFullProgress,
+                      drawShadow: widget.shadow,
                     ),
                   ),
                 ),
@@ -318,6 +323,7 @@ class _SimpleCircularProgressBarPainter extends CustomPainter {
   final Color backColor;
   final Color fullProgressColor;
   final bool isFullProgress;
+  final bool drawShadow;
 
   _SimpleCircularProgressBarPainter({
     required this.progressStrokeWidth,
@@ -329,6 +335,7 @@ class _SimpleCircularProgressBarPainter extends CustomPainter {
     required this.backColor,
     required this.fullProgressColor,
     required this.isFullProgress,
+    required this.drawShadow,
   });
 
   /// Draw background circle for progress bar
@@ -348,7 +355,9 @@ class _SimpleCircularProgressBarPainter extends CustomPainter {
       ..addOval(Rect.fromCircle(
           center: size.center(Offset.zero), radius: size.width / 2));
 
-    canvas.drawPath(bg, shadowPaint);
+    if (drawShadow) {
+      canvas.drawPath(bg, shadowPaint);
+    }
 
     canvas.drawCircle(size.center(Offset.zero), size.width / 2, paint);
   }

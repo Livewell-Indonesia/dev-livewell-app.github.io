@@ -5,6 +5,7 @@ import 'package:livewell/feature/auth/presentation/page/landing/landing_auth_scr
 import 'package:livewell/feature/auth/presentation/page/login/login_screen.dart';
 import 'package:livewell/feature/auth/presentation/page/signup/signup_screen.dart';
 import 'package:livewell/feature/daily_journal/presentation/page/daily_journal_screen.dart';
+import 'package:livewell/feature/exercise/presentation/pages/exercise_kyc_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/request_food_screen.dart';
@@ -95,7 +96,11 @@ class AppNavigator {
     GetPage(
         name: AppPages.updateWeight,
         page: () => UpdateWeightScreen(),
-        transition: Transition.cupertino)
+        transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.exerciseKYC,
+        page: () => ExerciseKYCScreen(),
+        transition: Transition.cupertinoDialog),
   ];
 
   static void push({required String routeName, dynamic arguments}) {
@@ -143,4 +148,5 @@ class AppPages {
   static String requestFood = '/requestFood';
   static String requestFoodSuccess = '/requestFoodSuccess';
   static String updateWeight = '/updateWeight';
+  static String exerciseKYC = '/exerciseKYC';
 }

@@ -1,0 +1,46 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
+
+class HeightSelector extends StatelessWidget {
+  final QuestionnaireController controller = Get.find();
+  HeightSelector({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 298.h,
+      child: CupertinoPicker(
+          itemExtent: 55.h,
+          scrollController: FixedExtentScrollController(
+              initialItem: controller.height.value - 1),
+          onSelectedItemChanged: (index) {
+            controller.height.value = index + 1;
+          },
+          useMagnifier: true,
+          magnification: 1.3,
+          selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
+            background: Colors.transparent,
+          ),
+          children: List.generate(200, (index) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Obx(() {
+                  return Text(
+                    '${index + 1} cm',
+                    style: TextStyle(
+                        color: controller.height.value == index + 1
+                            ? const Color(0xFF8F01DF)
+                            : const Color(0xFF171433).withOpacity(0.7),
+                        fontSize: 34.sp),
+                  );
+                })
+              ],
+            );
+          })),
+    );
+  }
+}

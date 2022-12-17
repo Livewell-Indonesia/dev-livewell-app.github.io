@@ -23,6 +23,9 @@ class Constant {
       '$assetsIcons/ic_exercise_unselected.png';
   static const String icExerciseSelected =
       '$assetsIcons/ic_exercise_selected.png';
+  static const String icExerciseBlack = '$assetsIcons/ic_exercise_black.png';
+  static const String icExerciseBlack2 = '$assetsIcons/ic_exercise_black_2.png';
+  static const String icExerciseBlack3 = '$assetsIcons/ic_exercise_black_3.png';
   static const String icMeditationUnselected =
       '$assetsIcons/ic_meditation_unselected.png';
   static const String icMeditationSelected =
