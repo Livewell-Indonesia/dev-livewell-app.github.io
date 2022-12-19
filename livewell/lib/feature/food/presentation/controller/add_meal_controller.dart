@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:algolia_helper_flutter/algolia_helper_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/log.dart';
@@ -17,7 +18,7 @@ class AddMealController extends GetxController
     with GetTickerProviderStateMixin {
   final FocusNode focusNode = FocusNode();
   final TextEditingController textEditingController = TextEditingController();
-  var state = SearchState.initial.obs;
+  var state = SearchStates.initial.obs;
   var history = <MealHistoryModel>[].obs;
   var results = <Foods>[].obs;
   var filteredResult = <Foods>[].obs;
@@ -34,12 +35,13 @@ class AddMealController extends GetxController
     super.onInit();
     focusNode.addListener(() {
       if (focusNode.hasFocus) {
-        state.value = SearchState.searching;
+        state.value = SearchStates.searching;
+        hitsSearcher.query(textEditingController.text);
       } else {
         if (textEditingController.text.isEmpty) {
-          state.value = SearchState.initial;
+          state.value = SearchStates.initial;
         } else {
-          state.value = SearchState.searchingWithResults;
+          state.value = SearchStates.searchingWithResults;
           update();
         }
       }
@@ -58,7 +60,7 @@ class AddMealController extends GetxController
   }
 
   void onTapSearchBar() {
-    state.value = SearchState.searching;
+    state.value = SearchStates.searching;
   }
 
   void onTabChange(int index) {
@@ -88,7 +90,7 @@ class AddMealController extends GetxController
   }
 
   void doSearchFood() async {
-    state.value = SearchState.searchingWithResults;
+    state.value = SearchStates.searchingWithResults;
     isLoading.value = true;
     final result = await searchFood
         .call(SearchFoodParams(query: textEditingController.text));
@@ -140,9 +142,16 @@ class AddMealController extends GetxController
       return false.obs;
     }
   }
+
+  // algolia integration
+  final hitsSearcher = HitsSearcher(
+    applicationID: 'JTCO4LVZ9P',
+    apiKey: '7604aab9adfbe627a8f4ccde0902e2e0',
+    indexName: 'dev_food_directory',
+  );
 }
 
-enum SearchState {
+enum SearchStates {
   initial,
   searching,
   searchingWithResults,

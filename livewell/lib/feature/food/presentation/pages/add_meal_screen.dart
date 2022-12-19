@@ -1,3 +1,4 @@
+import 'package:algolia_helper_flutter/algolia_helper_flutter.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,15 +52,17 @@ class _AddMealScreenState extends State<AddMealScreen>
                     Expanded(
                       flex: 5,
                       child: SearchBar(
-                          addMealController:
-                              addMealController.textEditingController,
-                          focusNode: addMealController.focusNode,
-                          onEditingComplete: () {
-                            addMealController.doSearchFood();
-                            addMealController.focusNode.unfocus();
-                          }),
+                        addMealController:
+                            addMealController.textEditingController,
+                        focusNode: addMealController.focusNode,
+                        onEditingComplete: () {
+                          // addMealController.doSearchFood();
+                          addMealController.focusNode.unfocus();
+                        },
+                        onChanged: (val) => controller.hitsSearcher.query(val),
+                      ),
                     ),
-                    controller.state.value == SearchState.searchingWithResults
+                    controller.state.value == SearchStates.searchingWithResults
                         ? Expanded(
                             flex: 1,
                             child: Row(
@@ -113,13 +116,12 @@ class _AddMealScreenState extends State<AddMealScreen>
 
   Widget mapState(TabController controller) {
     switch (addMealController.state.value) {
-      case SearchState.initial:
+      case SearchStates.initial:
         return searchInitial();
-      case SearchState.searching:
-        return addMealController.results.isEmpty
-            ? Container()
-            : searchResult(controller);
-      case SearchState.searchingWithResults:
+      case SearchStates.searching:
+        return ListOfSearchResults(
+            addMealController: addMealController, type: type, date: date);
+      case SearchStates.searchingWithResults:
         return searchResult(controller);
     }
   }
@@ -153,55 +155,8 @@ class _AddMealScreenState extends State<AddMealScreen>
           child: TabBarView(
             controller: controller,
             children: [
-              Column(
-                children: [
-                  Expanded(
-                    child: Obx(
-                      () {
-                        if (addMealController.isLoading.value) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        } else if (addMealController.results.isNotEmpty) {
-                          return ListView.separated(
-                            //physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: addMealController.results.length,
-                            itemBuilder: (context, index) {
-                              return SearchHistoryItem(
-                                title:
-                                    addMealController.results[index].foodName ??
-                                        "",
-                                description:
-                                    addMealController.results[index].foodDesc,
-                                callback: () {
-                                  Get.to(
-                                      () => AddFoodScreen(
-                                            food: addMealController
-                                                .results[index],
-                                            mealTime: MealTime.values.byName(
-                                                (type ??
-                                                        MealTime.breakfast.name)
-                                                    .toLowerCase()),
-                                          ),
-                                      transition: Transition.cupertino,
-                                      arguments: date);
-                                },
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return 16.verticalSpace;
-                            },
-                          );
-                        } else {
-                          return const Center(
-                            child: Text('No Result Found'),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ],
-              ),
+              ListOfSearchResults(
+                  addMealController: addMealController, type: type, date: date),
               Column(
                 children: [
                   Expanded(
@@ -395,17 +350,75 @@ class _AddMealScreenState extends State<AddMealScreen>
   }
 }
 
+class ListOfSearchResults extends StatelessWidget {
+  const ListOfSearchResults({
+    Key? key,
+    required this.addMealController,
+    required this.type,
+    required this.date,
+  }) : super(key: key);
+
+  final AddMealController addMealController;
+  final String? type;
+  final DateTime? date;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+            child: StreamBuilder<SearchResponse>(
+          stream: addMealController.hitsSearcher.responses,
+          builder: (ctx, snapshot) {
+            if (snapshot.hasData) {
+              final response = snapshot.data;
+              final hits = response?.hits.toList() ?? [];
+              return ListView.separated(
+                itemCount: hits.length,
+                itemBuilder: (context, index) {
+                  return SearchHistoryItem(
+                    title: snapshot.data!.hits[index]['food_name'],
+                    description: snapshot.data!.hits[index]['food_name'],
+                    callback: () {
+                      // Get.to(
+                      //     () => AddFoodScreen(
+                      //           food: snapshot.data!.hits[index].food.toFoodsObject(),
+                      //           mealTime: MealTime.values.byName(
+                      //               (type ?? MealTime.breakfast.name)
+                      //                   .toLowerCase()),
+                      //         ),
+                      //     transition: Transition.cupertino,
+                      //     arguments: date);
+                    },
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return 16.verticalSpace;
+                },
+              );
+            } else {
+              return const SizedBox();
+            }
+          },
+        )),
+      ],
+    );
+  }
+}
+
 class SearchBar extends StatelessWidget {
   const SearchBar(
       {Key? key,
       required this.addMealController,
       required this.focusNode,
-      required this.onEditingComplete})
+      required this.onEditingComplete,
+      required this.onChanged})
       : super(key: key);
 
   final TextEditingController addMealController;
   final FocusNode focusNode;
   final VoidCallback onEditingComplete;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -420,6 +433,7 @@ class SearchBar extends StatelessWidget {
         onEditingComplete: () {
           onEditingComplete();
         },
+        onChanged: onChanged,
         style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
         focusNode: focusNode,
         decoration: InputDecoration(
