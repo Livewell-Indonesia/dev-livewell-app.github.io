@@ -118,7 +118,11 @@ class ExerciseController extends GetxController
     var userData = Get.find<DashboardController>().user.value;
     var goal = userData.exerciseGoalKcal ?? 0;
     var percentage = (burntCalories.value / goal) * 100;
-    return percentage.roundToDouble().toInt();
+    if (percentage.isNaN || percentage.isInfinite) {
+      return 0;
+    } else {
+      return percentage.roundToDouble().toInt();
+    }
   }
 
   Future<void> getBurntCaloriesData() async {
