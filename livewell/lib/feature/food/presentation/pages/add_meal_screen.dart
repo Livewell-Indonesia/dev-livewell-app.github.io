@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/feature/food/presentation/controller/add_meal_controller.dart';
 import 'package:livewell/feature/food/presentation/pages/add_food_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
@@ -130,82 +132,42 @@ class _AddMealScreenState extends State<AddMealScreen>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        TabBar(
-          controller: controller,
-          labelColor: const Color(0xFF171433),
-          unselectedLabelColor: const Color(0xFF171433).withOpacity(0.3),
-          indicatorWeight: 2.0,
-          indicatorPadding: EdgeInsets.zero,
-          indicator: const BubbleTabIndicator(
-            indicatorHeight: 35.0,
-            indicatorColor: Color(0xFFD8F3B1),
-            tabBarIndicatorSize: TabBarIndicatorSize.tab,
-          ),
-          isScrollable: true,
-          tabs: const [
-            Tab(
-              text: "All",
-            ),
-            Tab(
-              text: "Brand Name",
-            ),
-          ],
-        ),
+        // TabBar(
+        //   controller: controller,
+        //   labelColor: const Color(0xFF171433),
+        //   unselectedLabelColor: const Color(0xFF171433).withOpacity(0.3),
+        //   indicatorWeight: 2.0,
+        //   indicatorPadding: EdgeInsets.zero,
+        //   indicator: const BubbleTabIndicator(
+        //     indicatorHeight: 35.0,
+        //     indicatorColor: Color(0xFFD8F3B1),
+        //     tabBarIndicatorSize: TabBarIndicatorSize.tab,
+        //   ),
+        //   isScrollable: true,
+        //   tabs: const [
+        //     Tab(
+        //       text: "All",
+        //     ),
+        //     Tab(
+        //       text: "Brand Name",
+        //     ),
+        //   ],
+        // ),
         Expanded(
-          child: TabBarView(
-            controller: controller,
-            children: [
-              ListOfSearchResults(
-                  addMealController: addMealController, type: type, date: date),
-              Column(
-                children: [
-                  Expanded(
-                    child: Obx(
-                      () {
-                        if (addMealController.brandNameResult.isNotEmpty) {
-                          return ListView.separated(
-                            //physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: addMealController.results.length,
-                            itemBuilder: (context, index) {
-                              return SearchHistoryItem(
-                                title: addMealController
-                                        .brandNameResult[index].foodName ??
-                                    "",
-                                description: addMealController
-                                    .brandNameResult[index].foodDesc,
-                                callback: () {
-                                  Get.to(
-                                      () => AddFoodScreen(
-                                            food: addMealController
-                                                .brandNameResult[index],
-                                            mealTime: MealTime.values.byName(
-                                                (type ??
-                                                        MealTime.breakfast.name)
-                                                    .toLowerCase()),
-                                          ),
-                                      transition: Transition.cupertino,
-                                      arguments: date);
-                                },
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return 16.verticalSpace;
-                            },
-                          );
-                        } else {
-                          return const Center(
-                            child: Text('No Result Found'),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+          child: ListOfSearchResults(
+              addMealController: addMealController, type: type, date: date),
         ),
+        // Expanded(
+        //   child: TabBarView(
+        //     controller: controller,
+        //     children: [
+        //       ListOfSearchResults(
+        //           addMealController: addMealController, type: type, date: date),
+        //       ListOfSearchResults(
+        //           addMealController: addMealController, type: type, date: date),
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }
@@ -367,43 +329,37 @@ class ListOfSearchResults extends StatelessWidget {
     return Column(
       children: [
         Expanded(
-            child: StreamBuilder<SearchResponse>(
-          stream: addMealController.hitsSearcher.responses,
-          builder: (ctx, snapshot) {
-            if (snapshot.hasData) {
-              final response = snapshot.data;
-              final hits = response?.hits.toList() ?? [];
-              return ListView.separated(
-                itemCount: hits.length,
-                itemBuilder: (context, index) {
-                  return SearchHistoryItem(
-                    title: snapshot.data!.hits[index]['food_name'],
-                    description: snapshot.data!.hits[index]['food_name'],
-                    callback: () {
-                      // Get.to(
-                      //     () => AddFoodScreen(
-                      //           food: snapshot.data!.hits[index].food.toFoodsObject(),
-                      //           mealTime: MealTime.values.byName(
-                      //               (type ?? MealTime.breakfast.name)
-                      //                   .toLowerCase()),
-                      //         ),
-                      //     transition: Transition.cupertino,
-                      //     arguments: date);
-                    },
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return 16.verticalSpace;
-                },
-              );
-            } else {
-              return const SizedBox();
-            }
-          },
-        )),
+          child: _hits(context),
+        )
       ],
     );
   }
+
+  Widget _hits(BuildContext context) => PagedListView<int, Foods>(
+      pagingController: addMealController.pagingController,
+      builderDelegate: PagedChildBuilderDelegate<Foods>(
+          noItemsFoundIndicatorBuilder: (_) => const Center(
+                child: Text('No results found'),
+              ),
+          itemBuilder: (_, item, __) => Column(
+                children: [
+                  SearchHistoryItem(
+                      title: item.foodName ?? "",
+                      description: item.foodDesc,
+                      callback: () {
+                        Get.to(
+                            () => AddFoodScreen(
+                                  food: item,
+                                  mealTime: MealTime.values.byName(
+                                      (type ?? MealTime.breakfast.name)
+                                          .toLowerCase()),
+                                ),
+                            transition: Transition.cupertino,
+                            arguments: date);
+                      }),
+                  20.verticalSpace,
+                ],
+              )));
 }
 
 class SearchBar extends StatelessWidget {

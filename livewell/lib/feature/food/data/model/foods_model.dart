@@ -60,12 +60,25 @@ class Foods {
       foodDescription: json['food_description'],
       foodType: json['food_type'],
       brandName: json['brand_name'],
-      servings: json['servings'] == null
-          ? []
-          : List<Servings>.from(
-              json["servings"].map((x) => Servings.fromJson(x))),
+      servings: mapServings(json['servings']),
       provider: json['provider'],
     );
+  }
+
+  static List<Servings> mapServings(String data) {
+    if (data == null) {
+      return [];
+    }
+    var jsonData = json.decode(data.replaceAll("'", '"'));
+    if (jsonData is Map<String, dynamic>) {
+      jsonData = [jsonData];
+    } else {
+      jsonData = jsonData as List<dynamic>;
+    }
+    if (jsonData != null) {
+      return jsonData.map<Servings>((json) => Servings.fromJson(json)).toList();
+    }
+    return [];
   }
 
   Map<String, dynamic> toJson() {
