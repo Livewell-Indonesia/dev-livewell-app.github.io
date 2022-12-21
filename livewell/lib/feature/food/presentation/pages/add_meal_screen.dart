@@ -1,9 +1,12 @@
+import 'package:algolia_helper_flutter/algolia_helper_flutter.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/feature/food/presentation/controller/add_meal_controller.dart';
 import 'package:livewell/feature/food/presentation/pages/add_food_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
@@ -51,15 +54,17 @@ class _AddMealScreenState extends State<AddMealScreen>
                     Expanded(
                       flex: 5,
                       child: SearchBar(
-                          addMealController:
-                              addMealController.textEditingController,
-                          focusNode: addMealController.focusNode,
-                          onEditingComplete: () {
-                            addMealController.doSearchFood();
-                            addMealController.focusNode.unfocus();
-                          }),
+                        addMealController:
+                            addMealController.textEditingController,
+                        focusNode: addMealController.focusNode,
+                        onEditingComplete: () {
+                          // addMealController.doSearchFood();
+                          addMealController.focusNode.unfocus();
+                        },
+                        onChanged: (val) => controller.hitsSearcher.query(val),
+                      ),
                     ),
-                    controller.state.value == SearchState.searchingWithResults
+                    controller.state.value == SearchStates.searchingWithResults
                         ? Expanded(
                             flex: 1,
                             child: Row(
@@ -113,13 +118,12 @@ class _AddMealScreenState extends State<AddMealScreen>
 
   Widget mapState(TabController controller) {
     switch (addMealController.state.value) {
-      case SearchState.initial:
+      case SearchStates.initial:
         return searchInitial();
-      case SearchState.searching:
-        return addMealController.results.isEmpty
-            ? Container()
-            : searchResult(controller);
-      case SearchState.searchingWithResults:
+      case SearchStates.searching:
+        return ListOfSearchResults(
+            addMealController: addMealController, type: type, date: date);
+      case SearchStates.searchingWithResults:
         return searchResult(controller);
     }
   }
@@ -128,129 +132,42 @@ class _AddMealScreenState extends State<AddMealScreen>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        TabBar(
-          controller: controller,
-          labelColor: const Color(0xFF171433),
-          unselectedLabelColor: const Color(0xFF171433).withOpacity(0.3),
-          indicatorWeight: 2.0,
-          indicatorPadding: EdgeInsets.zero,
-          indicator: const BubbleTabIndicator(
-            indicatorHeight: 35.0,
-            indicatorColor: Color(0xFFD8F3B1),
-            tabBarIndicatorSize: TabBarIndicatorSize.tab,
-          ),
-          isScrollable: true,
-          tabs: const [
-            Tab(
-              text: "All",
-            ),
-            Tab(
-              text: "Brand Name",
-            ),
-          ],
-        ),
+        // TabBar(
+        //   controller: controller,
+        //   labelColor: const Color(0xFF171433),
+        //   unselectedLabelColor: const Color(0xFF171433).withOpacity(0.3),
+        //   indicatorWeight: 2.0,
+        //   indicatorPadding: EdgeInsets.zero,
+        //   indicator: const BubbleTabIndicator(
+        //     indicatorHeight: 35.0,
+        //     indicatorColor: Color(0xFFD8F3B1),
+        //     tabBarIndicatorSize: TabBarIndicatorSize.tab,
+        //   ),
+        //   isScrollable: true,
+        //   tabs: const [
+        //     Tab(
+        //       text: "All",
+        //     ),
+        //     Tab(
+        //       text: "Brand Name",
+        //     ),
+        //   ],
+        // ),
         Expanded(
-          child: TabBarView(
-            controller: controller,
-            children: [
-              Column(
-                children: [
-                  Expanded(
-                    child: Obx(
-                      () {
-                        if (addMealController.isLoading.value) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        } else if (addMealController.results.isNotEmpty) {
-                          return ListView.separated(
-                            //physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: addMealController.results.length,
-                            itemBuilder: (context, index) {
-                              return SearchHistoryItem(
-                                title:
-                                    addMealController.results[index].foodName ??
-                                        "",
-                                description:
-                                    addMealController.results[index].foodDesc,
-                                callback: () {
-                                  Get.to(
-                                      () => AddFoodScreen(
-                                            food: addMealController
-                                                .results[index],
-                                            mealTime: MealTime.values.byName(
-                                                (type ??
-                                                        MealTime.breakfast.name)
-                                                    .toLowerCase()),
-                                          ),
-                                      transition: Transition.cupertino,
-                                      arguments: date);
-                                },
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return 16.verticalSpace;
-                            },
-                          );
-                        } else {
-                          return const Center(
-                            child: Text('No Result Found'),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  Expanded(
-                    child: Obx(
-                      () {
-                        if (addMealController.brandNameResult.isNotEmpty) {
-                          return ListView.separated(
-                            //physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: addMealController.results.length,
-                            itemBuilder: (context, index) {
-                              return SearchHistoryItem(
-                                title: addMealController
-                                        .brandNameResult[index].foodName ??
-                                    "",
-                                description: addMealController
-                                    .brandNameResult[index].foodDesc,
-                                callback: () {
-                                  Get.to(
-                                      () => AddFoodScreen(
-                                            food: addMealController
-                                                .brandNameResult[index],
-                                            mealTime: MealTime.values.byName(
-                                                (type ??
-                                                        MealTime.breakfast.name)
-                                                    .toLowerCase()),
-                                          ),
-                                      transition: Transition.cupertino,
-                                      arguments: date);
-                                },
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return 16.verticalSpace;
-                            },
-                          );
-                        } else {
-                          return const Center(
-                            child: Text('No Result Found'),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+          child: ListOfSearchResults(
+              addMealController: addMealController, type: type, date: date),
         ),
+        // Expanded(
+        //   child: TabBarView(
+        //     controller: controller,
+        //     children: [
+        //       ListOfSearchResults(
+        //           addMealController: addMealController, type: type, date: date),
+        //       ListOfSearchResults(
+        //           addMealController: addMealController, type: type, date: date),
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }
@@ -395,17 +312,69 @@ class _AddMealScreenState extends State<AddMealScreen>
   }
 }
 
+class ListOfSearchResults extends StatelessWidget {
+  const ListOfSearchResults({
+    Key? key,
+    required this.addMealController,
+    required this.type,
+    required this.date,
+  }) : super(key: key);
+
+  final AddMealController addMealController;
+  final String? type;
+  final DateTime? date;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          child: _hits(context),
+        )
+      ],
+    );
+  }
+
+  Widget _hits(BuildContext context) => PagedListView<int, Foods>(
+      pagingController: addMealController.pagingController,
+      builderDelegate: PagedChildBuilderDelegate<Foods>(
+          noItemsFoundIndicatorBuilder: (_) => const Center(
+                child: Text('No results found'),
+              ),
+          itemBuilder: (_, item, __) => Column(
+                children: [
+                  SearchHistoryItem(
+                      title: item.foodName ?? "",
+                      description: item.foodDesc,
+                      callback: () {
+                        Get.to(
+                            () => AddFoodScreen(
+                                  food: item,
+                                  mealTime: MealTime.values.byName(
+                                      (type ?? MealTime.breakfast.name)
+                                          .toLowerCase()),
+                                ),
+                            transition: Transition.cupertino,
+                            arguments: date);
+                      }),
+                  20.verticalSpace,
+                ],
+              )));
+}
+
 class SearchBar extends StatelessWidget {
   const SearchBar(
       {Key? key,
       required this.addMealController,
       required this.focusNode,
-      required this.onEditingComplete})
+      required this.onEditingComplete,
+      required this.onChanged})
       : super(key: key);
 
   final TextEditingController addMealController;
   final FocusNode focusNode;
   final VoidCallback onEditingComplete;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -420,6 +389,7 @@ class SearchBar extends StatelessWidget {
         onEditingComplete: () {
           onEditingComplete();
         },
+        onChanged: onChanged,
         style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
         focusNode: focusNode,
         decoration: InputDecoration(
