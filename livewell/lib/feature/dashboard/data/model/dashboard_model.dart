@@ -35,6 +35,7 @@ class Dashboard {
   num? totalCarbsInG;
   num? totalFatsInG;
   num? totalProteinInG;
+  num? totalCalories;
 
   Dashboard(
       {this.target,
@@ -42,7 +43,8 @@ class Dashboard {
       this.caloriesTaken,
       this.totalCarbsInG,
       this.totalFatsInG,
-      this.totalProteinInG});
+      this.totalProteinInG,
+      this.totalCalories});
 
   Dashboard.fromJson(Map<String, dynamic> json) {
     target = json['target'];
@@ -51,6 +53,7 @@ class Dashboard {
     totalCarbsInG = json['total_carbs_in_g'];
     totalFatsInG = json['total_fats_in_g'];
     totalProteinInG = json['total_protein_in_g'];
+    totalCalories = json['total_calories'];
   }
 
   Map<String, dynamic> toJson() {
@@ -61,6 +64,7 @@ class Dashboard {
     data['total_carbs_in_g'] = this.totalCarbsInG;
     data['total_fats_in_g'] = this.totalFatsInG;
     data['total_protein_in_g'] = this.totalProteinInG;
+    data['total_calories'] = this.totalCalories;
     return data;
   }
 }

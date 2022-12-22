@@ -247,7 +247,7 @@ class DashboardController extends GetxController {
     if (user.value.bmr == null) {
       return total;
     } else {
-      var bmr = dashboard.value.dashboard?.target ?? 0;
+      var bmr = dashboard.value.dashboard?.totalCalories ?? 0;
       total = ((0.5 * bmr) / 4).obs;
       return total;
     }
@@ -258,7 +258,7 @@ class DashboardController extends GetxController {
     if (user.value.bmr == null) {
       return total;
     } else {
-      var bmr = dashboard.value.dashboard?.target ?? 0;
+      var bmr = dashboard.value.dashboard?.totalCalories ?? 0;
       total = ((0.2 * bmr) / 4).obs;
       return total;
     }
@@ -269,7 +269,7 @@ class DashboardController extends GetxController {
     if (user.value.bmr == null) {
       return total;
     } else {
-      var bmr = dashboard.value.dashboard?.target ?? 0;
+      var bmr = dashboard.value.dashboard?.totalCalories ?? 0;
       total = ((0.3 * bmr) / 9).obs;
       return total;
     }
