@@ -199,7 +199,8 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                     Expanded(
                       child: LiveWellTextField(
                         controller: controller.numberOfServing,
-                        keyboardType: TextInputType.number,
+                        keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
                         hintText: null,
                         labelText: "Serving Size",
                         errorText: null,

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
 import 'package:livewell/feature/diary/presentation/controller/user_diary_controller.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
@@ -409,6 +410,31 @@ class HistoryContent extends StatefulWidget {
 class _HistoryContentState extends State<HistoryContent> {
   bool isExpanded = false;
   TextEditingController _controller = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+
+  KeyboardActionsConfig _buildConfig(BuildContext context) {
+    return KeyboardActionsConfig(
+      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      keyboardBarColor: Colors.grey[200],
+      nextFocus: false,
+      actions: [
+        KeyboardActionsItem(
+          focusNode: _focusNode,
+          toolbarButtons: [
+            (node) {
+              return GestureDetector(
+                onTap: () => node.unfocus(),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text("Done"),
+                ),
+              );
+            }
+          ],
+        ),
+      ],
+    );
+  }
 
   @override
   void initState() {
@@ -435,25 +461,33 @@ class _HistoryContentState extends State<HistoryContent> {
               children: [
                 isExpanded ? 8.horizontalSpace : 0.horizontalSpace,
                 isExpanded
-                    ? Container(
-                        height: 40.h,
-                        width: 60.w,
-                        padding: EdgeInsets.symmetric(horizontal: 10.w),
-                        child: Center(
-                          child: TextFormField(
-                            keyboardType: const TextInputType.numberWithOptions(
-                                decimal: true),
-                            controller: _controller,
-                            style: TextStyle(
-                                color: const Color(0xFF171433).withOpacity(0.7),
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500),
-                            textAlign: TextAlign.center,
-                            decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                contentPadding: EdgeInsets.all(8)),
-                          ),
-                        ))
+                    ? KeyboardActions(
+                        config: _buildConfig(context),
+                        disableScroll: true,
+                        child: Container(
+                            height: 40.h,
+                            width: 60.w,
+                            padding: EdgeInsets.symmetric(horizontal: 10.w),
+                            child: Center(
+                              child: TextFormField(
+                                focusNode: _focusNode,
+                                textInputAction: TextInputAction.done,
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: true),
+                                controller: _controller,
+                                style: TextStyle(
+                                    color: const Color(0xFF171433)
+                                        .withOpacity(0.7),
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.center,
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    contentPadding: EdgeInsets.all(8)),
+                              ),
+                            )),
+                      )
                     : Container(),
                 isExpanded ? 8.horizontalSpace : 0.horizontalSpace,
                 Expanded(

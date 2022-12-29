@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 
 class LiveWellTextField extends StatefulWidget {
   final TextEditingController controller;
@@ -44,44 +45,82 @@ class _LiveWellTextFieldState extends State<LiveWellTextField> {
     super.initState();
   }
 
+  KeyboardActionsConfig _buildConfig(BuildContext context) {
+    return KeyboardActionsConfig(
+      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      keyboardBarColor: Colors.grey[200],
+      nextFocus: false,
+      actions: widget.keyboardType == TextInputType.number ||
+              widget.keyboardType ==
+                  TextInputType.numberWithOptions(decimal: true)
+          ? [
+              KeyboardActionsItem(
+                focusNode: _focusNode,
+                toolbarButtons: [
+                  (node) {
+                    return GestureDetector(
+                      onTap: () {
+                        node.unfocus();
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8.0),
+                        child: const Text(
+                          'Done',
+                          style: TextStyle(color: Colors.blue),
+                        ),
+                      ),
+                    );
+                  }
+                ],
+              ),
+            ]
+          : [],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16.0).r,
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(36.0).r,
-        border: Border.all(
-          color: widget.errorText == null
-              ? const Color(0xFFDDF235)
-              : const Color(0xFFFA6F6F),
-          width: 3.0,
+    return KeyboardActions(
+      disableScroll: true,
+      config: _buildConfig(context),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16.0).r,
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(36.0).r,
+          border: Border.all(
+            color: widget.errorText == null
+                ? const Color(0xFFDDF235)
+                : const Color(0xFFFA6F6F),
+            width: 3.0,
+          ),
         ),
-      ),
-      child: //create textformfield with green border
-          TextFormField(
-        keyboardType: widget.keyboardType,
-        focusNode: _focusNode,
-        style: TextStyle(color: const Color(0xFF171433), fontSize: 17.sp),
-        cursorColor: const Color(0xFF171433),
-        controller: widget.controller,
-        obscureText: !showPassword && widget.obscureText,
-        enabled: widget.enabled,
-        onTap: widget.onTap,
-        decoration: InputDecoration(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8.0).r,
-            //hintText: widget.hintText,
-            labelText: widget.errorText ?? widget.labelText,
-            floatingLabelBehavior: FloatingLabelBehavior.auto,
-            labelStyle: TextStyle(
-                color: const Color(0xFF171433).withOpacity(0.5),
-                fontSize: isFocused ? 13.sp : 17.sp),
-            hintStyle: TextStyle(
-                color: const Color(0xFF171433).withOpacity(0.5),
-                fontSize: 18.sp),
-            border: InputBorder.none,
-            suffixIcon: suffixIcon()),
+        child: //create textformfield with green border
+            TextFormField(
+          keyboardType: widget.keyboardType,
+          focusNode: _focusNode,
+          style: TextStyle(color: const Color(0xFF171433), fontSize: 17.sp),
+          cursorColor: const Color(0xFF171433),
+          controller: widget.controller,
+          textInputAction: TextInputAction.done,
+          obscureText: !showPassword && widget.obscureText,
+          enabled: widget.enabled,
+          onTap: widget.onTap,
+          decoration: InputDecoration(
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8.0).r,
+              //hintText: widget.hintText,
+              labelText: widget.errorText ?? widget.labelText,
+              floatingLabelBehavior: FloatingLabelBehavior.auto,
+              labelStyle: TextStyle(
+                  color: const Color(0xFF171433).withOpacity(0.5),
+                  fontSize: isFocused ? 13.sp : 17.sp),
+              hintStyle: TextStyle(
+                  color: const Color(0xFF171433).withOpacity(0.5),
+                  fontSize: 18.sp),
+              border: InputBorder.none,
+              suffixIcon: suffixIcon()),
+        ),
       ),
     );
   }

@@ -23,41 +23,46 @@ class LiveWellScaffold extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: backgroundColor,
-        body: Column(
-          children: [
-            53.verticalSpace,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16).r,
-              child: Stack(
-                clipBehavior: Clip.none,
-                alignment: Alignment.centerLeft,
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    //color: Colors.red,
-                    child: Center(
-                      child: Text(
-                        title,
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600),
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Column(
+            children: [
+              53.verticalSpace,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16).r,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  alignment: Alignment.centerLeft,
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      //color: Colors.red,
+                      child: Center(
+                        child: Text(
+                          title,
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600),
+                        ),
                       ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      child: Navigator.canPop(context) && allowBack
-                          ? backButton()
-                          : Container(),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        child: Navigator.canPop(context) && allowBack
+                            ? backButton()
+                            : Container(),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            body
-          ],
+              body
+            ],
+          ),
         ),
       ),
     );

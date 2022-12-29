@@ -184,7 +184,9 @@ class PhysicalInformationScreen extends StatelessWidget {
                                 textEditingController: controller.weight,
                                 hintText: 'Weight (kg)',
                                 enabled: true,
-                                inputType: TextInputType.number,
+                                inputType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: true),
                               ),
                               20.verticalSpace,
                               AccountSettingsTextField(
@@ -258,9 +260,11 @@ class PhysicalInformationScreen extends StatelessWidget {
                               20.verticalSpace,
                               AccountSettingsTextField(
                                 textEditingController: controller.targetWeight,
-                                hintText: 'Target Weight',
+                                hintText: 'Target Weight (kg)',
                                 enabled: true,
-                                inputType: TextInputType.number,
+                                inputType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: true),
                               ),
                               20.verticalSpace,
                             ],
