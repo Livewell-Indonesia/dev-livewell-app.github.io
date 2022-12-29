@@ -22,7 +22,10 @@ class NutrientFactScreen extends StatelessWidget {
               child: Column(
                 children: [
                   48.verticalSpace,
-                  parentNutrient("Total Fat", servings.fat),
+                  parentNutrient(
+                    "Total Fat",
+                    servingDesc(servings.fat, "g"),
+                  ),
                   10.verticalSpace,
                   childNutrient("Saturated", servings.saturatedFat),
                   10.verticalSpace,
@@ -34,14 +37,75 @@ class NutrientFactScreen extends StatelessWidget {
                   10.verticalSpace,
                   const Divider(),
                   20.verticalSpace,
-                  parentNutrient("Cholesterol", servings.cholesterol),
+                  parentNutrient(
+                    "Carbs",
+                    servingDesc(servings.carbohydrate, "g"),
+                  ),
                   10.verticalSpace,
                   const Divider(),
                   20.verticalSpace,
-                  parentNutrient("Sodium", servings.sodium),
+                  parentNutrient(
+                    "Fiber",
+                    servingDesc(servings.fiber, "mg"),
+                  ),
                   10.verticalSpace,
                   const Divider(),
                   20.verticalSpace,
+                  parentNutrient(
+                    "Protein",
+                    servingDesc(servings.protein, "g"),
+                  ),
+                  10.verticalSpace,
+                  const Divider(),
+                  20.verticalSpace,
+                  parentNutrient(
+                    "Sodium",
+                    servingDesc(servings.sodium, "mg"),
+                  ),
+                  10.verticalSpace,
+                  const Divider(),
+                  20.verticalSpace,
+                  parentNutrient(
+                    "Potassium",
+                    servingDesc(servings.potassium, "mg"),
+                  ),
+                  10.verticalSpace,
+                  const Divider(),
+                  20.verticalSpace,
+                  parentNutrient(
+                    "Cholesterol",
+                    servingDesc(servings.cholesterol, "mg"),
+                  ),
+                  10.verticalSpace,
+                  const Divider(),
+                  20.verticalSpace,
+                  parentNutrient(
+                    "Vitamin A",
+                    servingDesc(servings.vitaminA, "mcg"),
+                  ),
+                  10.verticalSpace,
+                  const Divider(),
+                  20.verticalSpace,
+                  parentNutrient(
+                    "Vitamin C",
+                    servingDesc(servings.vitaminC, "mg"),
+                  ),
+                  10.verticalSpace,
+                  const Divider(),
+                  20.verticalSpace,
+                  parentNutrient(
+                    "Calcium",
+                    servingDesc(servings.calcium, "mg"),
+                  ),
+                  10.verticalSpace,
+                  const Divider(),
+                  20.verticalSpace,
+                  parentNutrient(
+                    "Iron",
+                    servingDesc(servings.iron, "mg"),
+                  ),
+                  10.verticalSpace,
+                  const Divider(),
                 ],
               ),
             ),
@@ -58,13 +122,25 @@ class NutrientFactScreen extends StatelessWidget {
                 color: Color(0xFF171433),
                 fontWeight: FontWeight.w600)),
         Spacer(),
-        Text(value == null ? '-' : "$value g",
+        Text(value ?? "-",
             style: TextStyle(
                 fontSize: 20.sp,
                 color: Color(0xFF171433),
                 fontWeight: FontWeight.w600)),
       ],
     );
+  }
+
+  String servingDesc(String? servingAmountInt, String? metricServingUnit) {
+    if (servingAmountInt == "0" ||
+        servingAmountInt == "" ||
+        servingAmountInt == null) {
+      return "-";
+    }
+    if (metricServingUnit == null) {
+      return "-";
+    }
+    return "$servingAmountInt $metricServingUnit";
   }
 
   Widget childNutrient(String name, String? value) {

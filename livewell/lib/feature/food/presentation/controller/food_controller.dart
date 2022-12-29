@@ -457,8 +457,8 @@ class FoodController extends GetxController {
         .toList();
     var deletedItem = lists[index];
     mealHistory.remove(deletedItem);
-    final result = await deleteMealHistory.call(deletedItem.id ?? 0);
     EasyLoading.show();
+    final result = await deleteMealHistory.call(deletedItem.id ?? 0);
     result.fold((l) => print(l), (r) => print(r));
     if (Get.isRegistered<DashboardController>()) {
       Get.find<DashboardController>().onInit();
@@ -477,8 +477,8 @@ class FoodController extends GetxController {
     if (servingSize == 0.0) {
       onDeleteHistory(mealTime, index);
     } else {
-      final result = await deleteMealHistory.call(updatedItem);
       EasyLoading.show();
+      final result = await deleteMealHistory.call(updatedItem);
       result.fold((l) => print(l), (r) {
         fetchUserMealHistory();
         if (Get.isRegistered<DashboardController>()) {
