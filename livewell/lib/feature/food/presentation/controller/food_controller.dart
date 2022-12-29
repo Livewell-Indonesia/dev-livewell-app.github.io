@@ -1,3 +1,4 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:livewell/core/equation/formula.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
@@ -457,10 +458,12 @@ class FoodController extends GetxController {
     var deletedItem = lists[index];
     mealHistory.remove(deletedItem);
     final result = await deleteMealHistory.call(deletedItem.id ?? 0);
+    EasyLoading.show();
     result.fold((l) => print(l), (r) => print(r));
     if (Get.isRegistered<DashboardController>()) {
       Get.find<DashboardController>().onInit();
     }
+    EasyLoading.dismiss();
   }
 
   void onUpdateTapped(MealTime mealTime, int index, double servingSize) async {
@@ -475,6 +478,7 @@ class FoodController extends GetxController {
       onDeleteHistory(mealTime, index);
     } else {
       final result = await deleteMealHistory.call(updatedItem);
+      EasyLoading.show();
       result.fold((l) => print(l), (r) {
         fetchUserMealHistory();
         if (Get.isRegistered<DashboardController>()) {
@@ -484,6 +488,7 @@ class FoodController extends GetxController {
           Get.find<FoodController>().onInit();
         }
       });
+      EasyLoading.dismiss();
     }
   }
 }
