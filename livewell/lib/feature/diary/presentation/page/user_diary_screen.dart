@@ -536,8 +536,11 @@ class _HistoryContentState extends State<HistoryContent> {
                             label: "update",
                             color: Colors.green,
                             onPressed: () {
-                              widget.onUpdate(widget.index,
-                                  double.parse(_controller.text.trim()));
+                              widget.onUpdate(
+                                  widget.index,
+                                  double.parse(_controller.text
+                                      .trim()
+                                      .replaceAll(',', '.')));
                             }),
                       ),
                       Expanded(
