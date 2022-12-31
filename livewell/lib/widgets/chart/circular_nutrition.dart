@@ -5,9 +5,13 @@ class MultipleColorCircle extends StatelessWidget {
   final Map<Color, int> colorOccurrences;
   final double height;
   final Widget? child;
+  final double strokeWidth;
   @override
   MultipleColorCircle(
-      {required this.colorOccurrences, this.height = 20, this.child});
+      {required this.colorOccurrences,
+      this.height = 20,
+      this.strokeWidth = 20,
+      this.child});
   Widget build(BuildContext context) => Container(
         height: height,
         width: height,
@@ -17,6 +21,7 @@ class MultipleColorCircle extends StatelessWidget {
             painter: _MultipleColorCirclePainter(
               colorOccurrences: colorOccurrences,
               height: height,
+              strokeWidth: strokeWidth,
             )),
       );
 }
@@ -24,14 +29,16 @@ class MultipleColorCircle extends StatelessWidget {
 class _MultipleColorCirclePainter extends CustomPainter {
   final Map<Color, int> colorOccurrences;
   final double height;
+  final double strokeWidth;
   @override
   _MultipleColorCirclePainter(
-      {required this.colorOccurrences, required this.height});
+      {required this.colorOccurrences,
+      required this.height,
+      required this.strokeWidth});
   double pi = math.pi;
 
   @override
   void paint(Canvas canvas, Size size) {
-    double strokeWidth = 20;
     Rect myRect = Rect.fromCircle(
         center: Offset(height / 2, height / 2), radius: height / 2);
 

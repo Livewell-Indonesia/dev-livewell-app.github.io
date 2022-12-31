@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/profile/presentation/page/account_settings_screen.dart';
+import 'package:livewell/feature/sleep/pages/sleep_screen.dart';
 
 import '../../../core/constant/constant.dart';
 import '../../dashboard/presentation/pages/dashboard_screen.dart';
@@ -34,7 +35,7 @@ class HomeScreen extends StatelessWidget {
               itemPadding: EdgeInsets.zero,
               // itemPadding:
               //     const EdgeInsets.symmetric(horizontal: 4, vertical: 10).r,
-              marginR: EdgeInsets.symmetric(horizontal: 90.w, vertical: 20.w),
+              marginR: EdgeInsets.symmetric(horizontal: 70.w, vertical: 20.w),
               selectedItemColor: Colors.white,
               unselectedItemColor: const Color(0xFF8F01DF),
               // boxShadow: [
@@ -76,6 +77,18 @@ class HomeScreen extends StatelessWidget {
                         )
                       : controller.customUnselectedImage(
                           Image.asset(Constant.icExerciseUnselected),
+                        ),
+                  selectedColor: Colors.white,
+                  unselectedColor: const Color(0xFF8F01DF),
+                  // selectedColor: Colors.white,
+                ),
+                DotNavigationBarItem(
+                  icon: controller.currentMenu.value == HomeTab.sleep
+                      ? controller.customSelectedImage(
+                          Image.asset(Constant.icSleepSelected),
+                        )
+                      : controller.customUnselectedImage(
+                          Image.asset(Constant.icSleepUnselected),
                         ),
                   selectedColor: Colors.white,
                   unselectedColor: const Color(0xFF8F01DF),
@@ -136,9 +149,7 @@ class HomeScreen extends StatelessWidget {
           color: Colors.yellow,
         );
       case HomeTab.sleep:
-        return Container(
-          color: Colors.yellow,
-        );
+        return SleepScreen();
       case HomeTab.nutrition:
         return Container(
           color: Colors.yellow,
