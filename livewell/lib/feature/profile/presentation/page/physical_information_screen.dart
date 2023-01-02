@@ -259,6 +259,15 @@ class PhysicalInformationScreen extends StatelessWidget {
                               ),
                               20.verticalSpace,
                               AccountSettingsTextField(
+                                textEditingController: controller.sleep,
+                                hintText: 'Sleep (Hours)',
+                                enabled: true,
+                                inputType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: true),
+                              ),
+                              20.verticalSpace,
+                              AccountSettingsTextField(
                                 textEditingController: controller.targetWeight,
                                 hintText: 'Target Weight (kg)',
                                 enabled: true,
