@@ -66,6 +66,9 @@ class AddFoodController extends GetxController {
     var dailyTarget =
         Get.find<DashboardController>().dashboard.value.dashboard?.target ?? 0;
     var percent = (cal / dailyTarget) * 100;
+    if (percent.isNaN || percent.isInfinite) {
+      return 0.obs;
+    }
     return percent.toInt() > 100 ? 100.obs : percent.toInt().obs;
   }
 
