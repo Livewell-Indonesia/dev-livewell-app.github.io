@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
@@ -104,6 +105,13 @@ class _LiveWellTextFieldState extends State<LiveWellTextField> {
           controller: widget.controller,
           textInputAction: TextInputAction.done,
           obscureText: !showPassword && widget.obscureText,
+          inputFormatters: widget.keyboardType == TextInputType.number ||
+                  widget.keyboardType ==
+                      TextInputType.numberWithOptions(decimal: true)
+              ? [
+                  FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+                ]
+              : [],
           enabled: widget.enabled,
           onTap: widget.onTap,
           decoration: InputDecoration(

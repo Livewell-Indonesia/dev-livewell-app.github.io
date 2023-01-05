@@ -41,7 +41,7 @@ class SignUpController extends GetxController {
       passwordError.value = 'Password Cannot Empty';
       return;
     }
-    if (password.text.isPasswordValid()) {
+    if (!password.text.isPasswordValid()) {
       passwordError.value =
           'Password must contains 1 uppercase, 1 number and 1 symbol';
       return;

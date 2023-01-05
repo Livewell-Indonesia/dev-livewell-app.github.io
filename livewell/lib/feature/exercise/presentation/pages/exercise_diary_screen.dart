@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -148,6 +150,12 @@ class _ExerciseDiaryScreenState extends State<ExerciseDiaryScreen> {
             ),
           ],
         ),
+        20.verticalSpace,
+        Text('Synced Via ${Platform.isIOS ? 'Apple Health' : 'Google Fit'}',
+            style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFF171433))),
       ],
     );
   }

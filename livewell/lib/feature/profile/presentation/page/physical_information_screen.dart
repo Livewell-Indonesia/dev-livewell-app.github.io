@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
@@ -184,6 +187,12 @@ class PhysicalInformationScreen extends StatelessWidget {
                                 textEditingController: controller.weight,
                                 hintText: 'Weight (kg)',
                                 enabled: true,
+                                inputFormatter: Platform.isIOS
+                                    ? []
+                                    : [
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'^\d+\.?\d{0,2}'))
+                                      ],
                                 inputType:
                                     const TextInputType.numberWithOptions(
                                         decimal: true),
@@ -271,6 +280,12 @@ class PhysicalInformationScreen extends StatelessWidget {
                                 textEditingController: controller.targetWeight,
                                 hintText: 'Target Weight (kg)',
                                 enabled: true,
+                                inputFormatter: Platform.isIOS
+                                    ? []
+                                    : [
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'^\d+\.?\d{0,2}'))
+                                      ],
                                 inputType:
                                     const TextInputType.numberWithOptions(
                                         decimal: true),

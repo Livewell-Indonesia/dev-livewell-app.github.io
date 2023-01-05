@@ -4,6 +4,7 @@ import 'package:livewell/core/network/network_module.dart';
 import 'package:livewell/feature/dashboard/data/model/app_config_model.dart';
 import 'package:livewell/feature/dashboard/data/model/dashboard_model.dart';
 import 'package:livewell/feature/dashboard/domain/repository/dashboard_repository.dart';
+import 'package:ua_client_hints/ua_client_hints.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/local_storage/shared_pref.dart';

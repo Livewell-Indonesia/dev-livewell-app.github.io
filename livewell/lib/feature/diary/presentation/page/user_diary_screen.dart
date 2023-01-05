@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
@@ -474,7 +477,13 @@ class _HistoryContentState extends State<HistoryContent> {
                                 textInputAction: TextInputAction.done,
                                 keyboardType:
                                     const TextInputType.numberWithOptions(
-                                        decimal: true),
+                                        signed: false, decimal: true),
+                                inputFormatters: Platform.isIOS
+                                    ? []
+                                    : [
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'^\d+\.?\d{0,2}'))
+                                      ],
                                 controller: _controller,
                                 style: TextStyle(
                                     color: const Color(0xFF171433)

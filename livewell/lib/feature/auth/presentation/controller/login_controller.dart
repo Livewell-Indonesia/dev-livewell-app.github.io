@@ -95,6 +95,10 @@ class LoginController extends BaseController {
       Get.snackbar('Error', 'Email is required');
       return;
     }
+    if (!email.text.isEmail) {
+      Get.snackbar('Error', 'Email is not valid');
+      return;
+    }
     await EasyLoading.show();
     final result =
         await postForgotPassword(ParamsForgotPassword(email: email.text));

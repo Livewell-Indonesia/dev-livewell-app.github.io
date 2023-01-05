@@ -47,7 +47,10 @@ class AddFoodController extends GetxController {
     inspect(AddMealParams.asParams(
         food, numberOfServing.text, mealTime, selectedTime.value));
     final result = await addMeal.call(AddMealParams.asParams(
-        food, numberOfServing.text, mealTime, selectedTime.value));
+        food,
+        numberOfServing.text.trim().replaceAll(',', '.'),
+        mealTime,
+        selectedTime.value));
     await addMealHistory
         .call(MealHistory(date: selectedTime.value, mealType: mealTime.name));
     Get.find<DashboardController>().onInit();
@@ -66,6 +69,9 @@ class AddFoodController extends GetxController {
     var dailyTarget =
         Get.find<DashboardController>().dashboard.value.dashboard?.target ?? 0;
     var percent = (cal / dailyTarget) * 100;
+    if (percent.isNaN || percent.isInfinite) {
+      return 0.obs;
+    }
     return percent.toInt() > 100 ? 100.obs : percent.toInt().obs;
   }
 
