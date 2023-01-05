@@ -164,6 +164,56 @@ class MealHistoryModel {
     servingSize = json['serving_size'];
   }
 
+  MealHistoryModel toOneServings() {
+    return MealHistoryModel(
+        id: id,
+        mealName: mealName,
+        mealBrand: mealBrand,
+        mealType: mealType,
+        restaurant: restaurant,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        mealServings: mealServings,
+        caloriesInG: (caloriesInG ?? 0) / (servingSize ?? 1),
+        carbohydratesInG: (carbohydratesInG ?? 0) / (servingSize ?? 1),
+        proteinInG: (proteinInG ?? 0) / (servingSize ?? 1),
+        fatInG: (fatInG ?? 0) / (servingSize ?? 1),
+        saturatedFatInG: (saturatedFatInG ?? 0) / (servingSize ?? 1),
+        transfatInG: (transfatInG ?? 0) / (servingSize ?? 1),
+        monosaturatedFatInG: (monosaturatedFatInG ?? 0) / (servingSize ?? 1),
+        polyunsaturatedFatInG:
+            (polyunsaturatedFatInG ?? 0) / (servingSize ?? 1),
+        vitaminAInMcg: (vitaminAInMcg ?? 0) / (servingSize ?? 1),
+        vitaminCInMg: (vitaminCInMg ?? 0) / (servingSize ?? 1),
+        vitaminDInMcg: (vitaminDInMcg ?? 0) / (servingSize ?? 1),
+        vitaminEInMg: (vitaminEInMg ?? 0) / (servingSize ?? 1),
+        vitaminKInMcg: (vitaminKInMcg ?? 0) / (servingSize ?? 1),
+        vitaminB1InMg: (vitaminB1InMg ?? 0) / (servingSize ?? 1),
+        vitaminB2InMg: (vitaminB2InMg ?? 0) / (servingSize ?? 1),
+        vitaminB3InMg: (vitaminB3InMg ?? 0) / (servingSize ?? 1),
+        vitaminB5InMg: (vitaminB5InMg ?? 0) / (servingSize ?? 1),
+        vitaminB6InMg: (vitaminB6InMg ?? 0) / (servingSize ?? 1),
+        vitaminB7InMcg: (vitaminB7InMcg ?? 0) / (servingSize ?? 1),
+        vitaminB9InMcg: (vitaminB9InMcg ?? 0) / (servingSize ?? 1),
+        vitaminB12InMcg: (vitaminB12InMcg ?? 0) / (servingSize ?? 1),
+        calciumInMg: (calciumInMg ?? 0) / (servingSize ?? 1),
+        phosphorusInMg: (phosphorusInMg ?? 0) / (servingSize ?? 1),
+        magnesiumInMg: (magnesiumInMg ?? 0) / (servingSize ?? 1),
+        sodiumInMg: (sodiumInMg ?? 0) / (servingSize ?? 1),
+        potassiumInMg: (potassiumInMg ?? 0) / (servingSize ?? 1),
+        chlorideInMg: (chlorideInMg ?? 0) / (servingSize ?? 1),
+        ironInMg: (ironInMg ?? 0) / (servingSize ?? 1),
+        iodineInMcg: (iodineInMcg ?? 0) / (servingSize ?? 1),
+        zincInMg: (zincInMg ?? 0) / (servingSize ?? 1),
+        seleniumInMcg: (seleniumInMcg ?? 0) / (servingSize ?? 1),
+        fluorideInMg: (fluorideInMg ?? 0) / (servingSize ?? 1),
+        chromiumInMcg: (chromiumInMcg ?? 0) / (servingSize ?? 1),
+        molybdenumInMcg: (molybdenumInMcg ?? 0) / (servingSize ?? 1),
+        mealAt: mealAt,
+        measurementDescription: measurementDescription,
+        servingSize: servingSize);
+  }
+
   Foods toFoodsObject() {
     return Foods(
         foodName: mealName,
@@ -214,17 +264,16 @@ class MealHistoryModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id.toString();
-    data['meal_name'] = this.mealName;
-    data['meal_brand'] = this.mealBrand;
-    data['meal_type'] = this.mealType;
-    data['restaurant'] = this.restaurant;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['calories_in_g'] = (this.caloriesInG ?? 0) * (this.servingSize ?? 1);
-    data['carbohydrates_in_g'] =
-        (this.carbohydratesInG ?? 0) * (this.servingSize ?? 1);
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['id'] = id.toString();
+    data['meal_name'] = mealName;
+    data['meal_brand'] = mealBrand;
+    data['meal_type'] = mealType;
+    data['restaurant'] = restaurant;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['calories_in_g'] = (caloriesInG ?? 0) * (servingSize ?? 1);
+    data['carbohydrates_in_g'] = (carbohydratesInG ?? 0) * (servingSize ?? 1);
     data['protein_in_g'] = (this.proteinInG ?? 0) * (this.servingSize ?? 1);
     data['fat_in_g'] = (this.fatInG ?? 0) * (this.servingSize ?? 1);
     data['saturated_fat_in_g'] =

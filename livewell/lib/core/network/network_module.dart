@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:ua_client_hints/ua_client_hints.dart';
 
 import '../error/error_const.dart';
 import 'api_exception.dart';
@@ -42,6 +43,9 @@ abstract class NetworkModule {
     Map<String, dynamic>? param,
     Map<String, String>? headers,
   }) async {
+    if (headers != null) {
+      headers.addAll(await userAgentClientHintsHeader());
+    }
     Options _options = Options(headers: headers);
 
     final response = await _safeCallApi(
@@ -61,6 +65,9 @@ abstract class NetworkModule {
     Map<String, dynamic>? body,
     Map<String, dynamic>? param,
   }) async {
+    if (headers != null) {
+      headers.addAll(await userAgentClientHintsHeader());
+    }
     Options _options = Options(headers: headers);
     final response = await _safeCallApi(
       _dio.post(
@@ -79,6 +86,9 @@ abstract class NetworkModule {
     Map<String, dynamic>? headers,
     Map<String, dynamic>? body,
   }) async {
+    if (headers != null) {
+      headers.addAll(await userAgentClientHintsHeader());
+    }
     Options _options = Options(headers: headers);
 
     final response = await _safeCallApi(
@@ -98,6 +108,9 @@ abstract class NetworkModule {
     Map<String, String>? headers,
     FormData? body,
   }) async {
+    if (headers != null) {
+      headers.addAll(await userAgentClientHintsHeader());
+    }
     Options _options = Options(headers: headers);
     Dio dio = DioModule.getInstance(
       BaseOptions(

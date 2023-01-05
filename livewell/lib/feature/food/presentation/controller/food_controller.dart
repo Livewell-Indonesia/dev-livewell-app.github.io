@@ -472,7 +472,7 @@ class FoodController extends GetxController {
         .where(
             (p0) => p0.mealType?.toUpperCase() == mealTime.name.toUpperCase())
         .toList();
-    var updatedItem = lists[index];
+    var updatedItem = lists[index].toOneServings();
     updatedItem.servingSize = servingSize;
     if (servingSize == 0.0) {
       onDeleteHistory(mealTime, index);

@@ -114,9 +114,9 @@ class _FoodScreenState extends State<FoodScreen> {
                                         "date": DateTime.now()
                                       });
                                 },
-                                onUpdate: (index, size) {
+                                onUpdate: (indexs, size) {
                                   controller.onUpdateTapped(
-                                      MealTime.values[index], index, size);
+                                      MealTime.values[index], indexs, size);
                                 },
                                 onDelete: (item) {
                                   controller.onDeleteHistory(
