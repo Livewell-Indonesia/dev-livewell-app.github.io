@@ -28,6 +28,7 @@ class AddFoodController extends GetxController {
     super.onInit();
     numberOfServing.addListener(() {
       if (numberOfServing.text.isNotEmpty && numberOfServing.text.isNum) {
+        numberOfServing.text.trim().replaceAll(',', '.');
         update();
       }
     });
@@ -45,7 +46,10 @@ class AddFoodController extends GetxController {
     await EasyLoading.show();
     inspect(food);
     inspect(AddMealParams.asParams(
-        food, numberOfServing.text, mealTime, selectedTime.value));
+        food,
+        numberOfServing.text.trim().replaceAll(',', '.'),
+        mealTime,
+        selectedTime.value));
     final result = await addMeal.call(AddMealParams.asParams(
         food,
         numberOfServing.text.trim().replaceAll(',', '.'),
@@ -78,7 +82,8 @@ class AddFoodController extends GetxController {
   Rx<double> getTotalCalByServings(num cal) {
     var totalCal = 0.0;
     if (numberOfServing.text.isNotEmpty) {
-      totalCal = cal * double.parse(numberOfServing.text);
+      totalCal =
+          cal * double.parse(numberOfServing.text.trim().replaceAll(',', '.'));
     }
     return totalCal.obs;
   }
@@ -86,7 +91,8 @@ class AddFoodController extends GetxController {
   Rx<double> getTotalCarbsByServings(num carbs) {
     var totalCarbs = 0.0;
     if (numberOfServing.text.isNotEmpty) {
-      totalCarbs = carbs * double.parse(numberOfServing.text);
+      totalCarbs = carbs *
+          double.parse(numberOfServing.text.trim().replaceAll(',', '.'));
     }
     return totalCarbs.obs;
   }
@@ -94,15 +100,17 @@ class AddFoodController extends GetxController {
   Rx<double> getTotalFatByServings(num fat) {
     var totalFat = 0.0;
     if (numberOfServing.text.isNotEmpty) {
-      totalFat = fat * double.parse(numberOfServing.text);
+      totalFat =
+          fat * double.parse(numberOfServing.text.trim().replaceAll(',', '.'));
     }
     return totalFat.obs;
   }
 
   Rx<double> getTotalProteinByServings(num protein) {
     var totalProtein = 0.0;
-    if (numberOfServing.text.isNotEmpty) {
-      totalProtein = protein * double.parse(numberOfServing.text);
+    var servings = numberOfServing.text.trim().replaceAll(',', '.');
+    if (servings.isNotEmpty) {
+      totalProtein = protein * double.parse(servings);
     }
     return totalProtein.obs;
   }

@@ -347,33 +347,48 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                           children: [
                             Row(
                               children: [
-                                Text(
-                                    "${controller.percentOfDailyGoals(num.parse(widget.food.servings?[0].calories ?? "0.0"))}% of your daily goals",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 11.sp,
-                                        fontWeight: FontWeight.w600)),
+                                GetBuilder<AddFoodController>(
+                                  builder: ((controller) {
+                                    return Text(
+                                        "${controller.percentOfDailyGoals(controller.getTotalCalByServings(num.parse(widget.food.servings?[0].calories ?? "0")).round().toInt())}% of your daily goals",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 11.sp,
+                                            fontWeight: FontWeight.w600));
+                                  }),
+                                ),
                                 const Spacer(),
-                                Text(
-                                    ("${widget.food.servings?[0].calories ?? "0"} cal"),
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 11.sp,
-                                        fontWeight: FontWeight.w600)),
+                                GetBuilder<AddFoodController>(
+                                    builder: (controller) {
+                                  return Text(
+                                      ("${controller.getTotalCalByServings(num.parse(widget.food.servings?[0].calories ?? "0")).round().toInt()} cal"),
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w600));
+                                }),
                               ],
                             ),
                             7.verticalSpace,
-                            LinearPercentIndicator(
-                              padding: EdgeInsets.zero,
-                              lineHeight: 7.0,
-                              percent: controller.percentOfDailyGoals(num.parse(
-                                      widget.food.servings?[0].calories ??
-                                          "0")) /
-                                  100,
-                              barRadius: const Radius.circular(4.0),
-                              backgroundColor: const Color(0xFFF2F1F9),
-                              progressColor: const Color(0xFFDDF235),
-                            )
+                            GetBuilder<AddFoodController>(
+                                builder: (controller) {
+                              return LinearPercentIndicator(
+                                padding: EdgeInsets.zero,
+                                lineHeight: 7.0,
+                                percent: controller.percentOfDailyGoals(
+                                        controller
+                                            .getTotalCalByServings(num.parse(
+                                                widget.food.servings?[0]
+                                                        .calories ??
+                                                    "0"))
+                                            .round()
+                                            .toInt()) /
+                                    100,
+                                barRadius: const Radius.circular(4.0),
+                                backgroundColor: const Color(0xFFF2F1F9),
+                                progressColor: const Color(0xFFDDF235),
+                              );
+                            })
                           ],
                         ),
                       ),

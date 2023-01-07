@@ -111,7 +111,13 @@ class _LiveWellTextFieldState extends State<LiveWellTextField> {
                   widget.keyboardType ==
                       TextInputType.numberWithOptions(decimal: true)
               ? Platform.isIOS
-                  ? []
+                  ? [
+                      TextInputFormatter.withFunction((oldValue, newValue) {
+                        return newValue.copyWith(
+                          text: newValue.text.replaceAll(RegExp(r"\,"), "."),
+                        );
+                      }),
+                    ]
                   : [
                       FilteringTextInputFormatter.allow(
                           RegExp(r'^\d+\.?\d{0,2}')),
