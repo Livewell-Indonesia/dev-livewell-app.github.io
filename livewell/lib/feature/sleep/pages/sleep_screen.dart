@@ -3,7 +3,9 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/feature/sleep/controller/sleep_controller.dart';
 import 'package:livewell/widgets/chart/circular_nutrition.dart';
 
 class SleepScreen extends StatefulWidget {
@@ -14,6 +16,7 @@ class SleepScreen extends StatefulWidget {
 }
 
 class _SleepScreenState extends State<SleepScreen> {
+  final SleepController controller = Get.put(SleepController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,39 +113,41 @@ class _SleepScreenState extends State<SleepScreen> {
             ),
             20.verticalSpace,
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 40),
-              decoration: BoxDecoration(
-                color: const Color(0xFF171433).withOpacity(0.1),
-              ),
-              child: GridView(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 1,
-                  crossAxisSpacing: 1,
-                  childAspectRatio: 2,
+                margin: const EdgeInsets.symmetric(horizontal: 40),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF171433).withOpacity(0.1),
                 ),
-                children: [
-                  DailyBreakdownItem(
-                      image: Constant.icWentToSleep2,
-                      time: "11:00 AM",
-                      label: "Went to sleep"),
-                  DailyBreakdownItem(
-                      image: Constant.icWokeUp,
-                      time: "11:00 AM",
-                      label: "Woke up"),
-                  DailyBreakdownItem(
-                      image: Constant.icFeelASleep,
-                      time: "11:00 AM",
-                      label: "Feel a sleep"),
-                  DailyBreakdownItem(
-                      image: Constant.icDeepSleep,
-                      time: "11:00 AM",
-                      label: "Deep Sleep"),
-                ],
-              ),
-            )
+                child: Obx(() {
+                  return GridView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 1,
+                      crossAxisSpacing: 1,
+                      childAspectRatio: 2,
+                    ),
+                    children: [
+                      DailyBreakdownItem(
+                          image: Constant.icWentToSleep2,
+                          time: controller.wentToSleep.value,
+                          label: "Went to sleep"),
+                      DailyBreakdownItem(
+                          image: Constant.icWokeUp,
+                          time: controller.wokeUp.value,
+                          label: "Woke up"),
+                      DailyBreakdownItem(
+                          image: Constant.icFeelASleep,
+                          time: controller.feelASleep.value,
+                          label: "Feel a sleep"),
+                      DailyBreakdownItem(
+                          image: Constant.icDeepSleep,
+                          time: controller.deepSleep.value,
+                          label: "Deep Sleep"),
+                    ],
+                  );
+                }))
           ],
         ),
       ),

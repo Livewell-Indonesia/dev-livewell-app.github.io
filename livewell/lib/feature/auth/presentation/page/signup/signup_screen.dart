@@ -96,7 +96,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: SignInButton(
                   Buttons.Google,
                   onPressed: () {
-                    Get.find<LoginController>().onGoogleLoginTapped();
+                    controller.onGoogleLoginTapped();
                   },
                   text: "Sign up with Google",
                 ),

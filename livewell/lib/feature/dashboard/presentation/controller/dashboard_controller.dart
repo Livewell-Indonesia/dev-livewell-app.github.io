@@ -37,14 +37,10 @@ class DashboardController extends GetxController {
   var types = [
     HealthDataType.STEPS,
     HealthDataType.ACTIVE_ENERGY_BURNED,
-    HealthDataType.SLEEP_ASLEEP,
-    HealthDataType.SLEEP_AWAKE,
     HealthDataType.SLEEP_IN_BED,
   ];
 
   var permissions = [
-    HealthDataAccess.READ,
-    HealthDataAccess.READ,
     HealthDataAccess.READ,
     HealthDataAccess.READ,
     HealthDataAccess.READ,
@@ -68,8 +64,19 @@ class DashboardController extends GetxController {
           permissions: permissions);
       if (isAllowed) {
         fetchHealthDataFromTypes();
+        fetchSleepData();
       }
     }
+  }
+
+  Future<List<HealthDataPoint>> fetchSleepData() async {
+    var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day - 1, 12, 0, 0, 0, 0);
+    var dateTill = currentDate.add(const Duration(days: 1));
+    List<HealthDataPoint> healthData = await healthFactory
+        .getHealthDataFromTypes(
+            currentDate, dateTill, [HealthDataType.SLEEP_IN_BED]);
+    return healthData;
   }
 
   void fetchHealthDataFromTypes() async {
@@ -78,9 +85,11 @@ class DashboardController extends GetxController {
     var dateTill = DateTime(DateTime.now().year, DateTime.now().month,
         DateTime.now().day, 23, 59, 59, 0, 0);
     List<HealthDataPoint> healthData = await healthFactory
-        .getHealthDataFromTypes(currentDate, dateTill, types);
+        .getHealthDataFromTypes(currentDate, dateTill,
+            [HealthDataType.STEPS, HealthDataType.ACTIVE_ENERGY_BURNED]);
     Log.info(jsonEncode(healthData));
     inspect(healthData);
+    healthData.add(await fetchSleepData().then((value) => value.first));
     PostExerciseData postExerciseData = PostExerciseData.instance();
     var lastSyncHealth = user.value.lastSyncedAt;
     // if user ever synced data
