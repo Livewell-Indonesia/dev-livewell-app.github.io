@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -108,9 +110,12 @@ class _LiveWellTextFieldState extends State<LiveWellTextField> {
           inputFormatters: widget.keyboardType == TextInputType.number ||
                   widget.keyboardType ==
                       TextInputType.numberWithOptions(decimal: true)
-              ? [
-                  FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
-                ]
+              ? Platform.isIOS
+                  ? []
+                  : [
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d+\.?\d{0,2}')),
+                    ]
               : [],
           enabled: widget.enabled,
           onTap: widget.onTap,
