@@ -22,7 +22,9 @@ class _SleepScreenState extends State<SleepScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF1F1F1),
       body: RefreshIndicator(
-        onRefresh: () async {},
+        onRefresh: () async {
+          controller.onInit();
+        },
         child: ListView(
           children: [
             40.verticalSpace,
@@ -36,67 +38,77 @@ class _SleepScreenState extends State<SleepScreen> {
             )),
             38.verticalSpace,
             Container(
-              padding: EdgeInsets.symmetric(vertical: 20.h),
-              child: Center(
-                child: MultipleColorCircle(
-                  colorOccurrences: {
-                    const Color(0xFF8F01DF): 60,
-                    const Color(0xFFDDF235): 30,
-                    Colors.white: 10,
-                  },
-                  height: 200,
-                  strokeWidth: 32,
-                  child:
-                      // crete circular container
-                      Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    decoration: const BoxDecoration(
-                        shape: BoxShape.circle, color: Color(0xFF171433)),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            Constant.icWentToSleep,
-                            color: const Color(0xFF8F01DF),
+                padding: EdgeInsets.symmetric(vertical: 20.h),
+                child: Obx(() {
+                  return Center(
+                    child: MultipleColorCircle(
+                      colorOccurrences: {
+                        const Color(0xFF8F01DF):
+                            controller.lightSleepPercentage.value,
+                        const Color(0xFFDDF235):
+                            controller.deepSleepPercentage.value,
+                        Colors.white: controller.remainingSleepPercentage.value,
+                      },
+                      height: 200,
+                      strokeWidth: 32,
+                      child:
+                          // crete circular container
+                          Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.circle, color: Color(0xFF171433)),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                Constant.icWentToSleep,
+                                color: const Color(0xFF8F01DF),
+                              ),
+                              10.verticalSpace,
+                              Text(
+                                "${(controller.totalSleepPercentage.value)}%",
+                                style: TextStyle(
+                                    fontSize: 43.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white),
+                              ),
+                              4.verticalSpace,
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 30),
+                                child: Text(
+                                  'of daily goals',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 17.sp,
+                                      color: Colors.white.withOpacity(0.63)),
+                                ),
+                              ),
+                            ],
                           ),
-                          10.verticalSpace,
-                          Text(
-                            '90%',
-                            style: TextStyle(
-                                fontSize: 43.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white),
-                          ),
-                          4.verticalSpace,
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: Text(
-                              'of daily goals',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 17.sp,
-                                  color: Colors.white.withOpacity(0.63)),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-            ),
+                  );
+                })),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 60),
               child: Row(
-                children: const [
-                  SmallerSleepCircular(
-                      color: Color(0xFFDDF235), value: 50, label: 'Deep Sleep'),
-                  Spacer(),
-                  SmallerSleepCircular(
-                      color: Color(0xFF8F01DF),
-                      value: 50,
-                      label: "Light Sleep"),
+                children: [
+                  Obx(() {
+                    return SmallerSleepCircular(
+                        color: const Color(0xFFDDF235),
+                        value: controller.deepSleepPercentage.value,
+                        label: 'Deep Sleep');
+                  }),
+                  const Spacer(),
+                  Obx(() {
+                    return SmallerSleepCircular(
+                        color: const Color(0xFF8F01DF),
+                        value: controller.lightSleepPercentage.value,
+                        label: "Light Sleep");
+                  })
                 ],
               ),
             ),

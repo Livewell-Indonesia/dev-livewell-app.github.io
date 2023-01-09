@@ -53,6 +53,12 @@ class DashboardController extends GetxController {
           permissions: permissions);
       if (isAllowed) {
         fetchHealthDataFromTypes();
+        var checkSleepPermission = await healthFactory.requestAuthorization(
+            [HealthDataType.SLEEP_IN_BED],
+            permissions: [HealthDataAccess.READ]);
+        if (checkSleepPermission) {
+          fetchSleepData();
+        }
       }
       Log.colorGreen("Permission granted");
     } else {
@@ -64,7 +70,12 @@ class DashboardController extends GetxController {
           permissions: permissions);
       if (isAllowed) {
         fetchHealthDataFromTypes();
-        fetchSleepData();
+        var checkSleepPermission = await healthFactory.requestAuthorization(
+            [HealthDataType.SLEEP_IN_BED],
+            permissions: [HealthDataAccess.READ]);
+        if (checkSleepPermission) {
+          fetchSleepData();
+        }
       }
     }
   }
@@ -89,7 +100,11 @@ class DashboardController extends GetxController {
             [HealthDataType.STEPS, HealthDataType.ACTIVE_ENERGY_BURNED]);
     Log.info(jsonEncode(healthData));
     inspect(healthData);
-    healthData.add(await fetchSleepData().then((value) => value.first));
+    await fetchSleepData().then((value) {
+      if (value.isNotEmpty) {
+        healthData.add(value.first);
+      }
+    });
     PostExerciseData postExerciseData = PostExerciseData.instance();
     var lastSyncHealth = user.value.lastSyncedAt;
     // if user ever synced data
