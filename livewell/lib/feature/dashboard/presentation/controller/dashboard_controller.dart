@@ -56,6 +56,12 @@ class DashboardController extends GetxController {
           permissions: permissions);
       if (isAllowed) {
         fetchHealthDataFromTypes();
+        var checkSleepPermission = await healthFactory.requestAuthorization(
+            [HealthDataType.SLEEP_IN_BED],
+            permissions: [HealthDataAccess.READ]);
+        if (checkSleepPermission) {
+          fetchSleepData();
+        }
       }
       Log.colorGreen("Permission granted");
     } else {

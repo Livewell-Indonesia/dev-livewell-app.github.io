@@ -22,7 +22,9 @@ class _SleepScreenState extends State<SleepScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF1F1F1),
       body: RefreshIndicator(
-        onRefresh: () async {},
+        onRefresh: () async {
+          controller.onInit();
+        },
         child: ListView(
           children: [
             40.verticalSpace,
@@ -56,33 +58,33 @@ class _SleepScreenState extends State<SleepScreen> {
                         shape: BoxShape.circle, color: Color(0xFF171433)),
                     child: Center(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            Constant.icWentToSleep,
-                            color: const Color(0xFF8F01DF),
-                          ),
-                          10.verticalSpace,
-                          Text(
-                            "${controller.totalSleepPercent.value.toInt()}%",
-                            style: TextStyle(
-                                fontSize: 43.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white),
-                          ),
-                          4.verticalSpace,
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: Text(
-                              'of daily goals',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 17.sp,
-                                  color: Colors.white.withOpacity(0.63)),
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              Constant.icWentToSleep,
+                              color: const Color(0xFF8F01DF),
                             ),
-                          ),
-                        ],
-                      ),
+                            10.verticalSpace,
+                            Text(
+                              "${controller.totalSleepPercent.value.toInt()}%",
+                              style: TextStyle(
+                                  fontSize: 43.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
+                            ),
+                            4.verticalSpace,
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 30),
+                              child: Text(
+                                'of daily goals',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 17.sp,
+                                    color: Colors.white.withOpacity(0.63)),
+                              ),
+                            ),
+                          ]),
                     ),
                   ),
                 );

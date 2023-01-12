@@ -27,12 +27,10 @@ class SleepController extends GetxController {
     HealthDataType.STEPS,
     HealthDataType.ACTIVE_ENERGY_BURNED,
     HealthDataType.SLEEP_ASLEEP,
-    HealthDataType.SLEEP_AWAKE,
     HealthDataType.SLEEP_IN_BED,
   ];
 
   var permissions = [
-    HealthDataAccess.READ,
     HealthDataAccess.READ,
     HealthDataAccess.READ,
     HealthDataAccess.READ,
