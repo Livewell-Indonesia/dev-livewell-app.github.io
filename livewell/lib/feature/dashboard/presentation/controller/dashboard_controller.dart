@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter_health_fit/flutter_health_fit.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,6 +22,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../../diary/domain/entity/user_meal_history_model.dart';
 import '../../../exercise/domain/usecase/post_exercise_data.dart';
+import 'dart:core';
 
 class DashboardController extends GetxController {
   GetUser getUser = GetUser.instance();
@@ -33,6 +35,7 @@ class DashboardController extends GetxController {
   RxList<MealHistoryModel> mealHistoryList = <MealHistoryModel>[].obs;
 
   HealthFactory healthFactory = HealthFactory();
+  FlutterHealthFit healthFit = FlutterHealthFit();
 
   var types = [
     HealthDataType.STEPS,
@@ -64,7 +67,7 @@ class DashboardController extends GetxController {
           permissions: permissions);
       if (isAllowed) {
         fetchHealthDataFromTypes();
-        fetchSleepData();
+        testingSleepNew();
       }
     }
   }
@@ -89,7 +92,6 @@ class DashboardController extends GetxController {
             [HealthDataType.STEPS, HealthDataType.ACTIVE_ENERGY_BURNED]);
     Log.info(jsonEncode(healthData));
     inspect(healthData);
-    healthData.add(await fetchSleepData().then((value) => value.first));
     PostExerciseData postExerciseData = PostExerciseData.instance();
     var lastSyncHealth = user.value.lastSyncedAt;
     // if user ever synced data
@@ -142,6 +144,106 @@ class DashboardController extends GetxController {
     getDashBoardData();
     getMealHistories();
     super.onInit();
+  }
+
+  void testingSleepNew() async {
+    if (await healthFit.isSleepAuthorized()) {
+      var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
+          DateTime.now().day - 1, 12, 0, 0, 0, 0);
+      var dateTill = currentDate.add(const Duration(days: 1));
+      List<CustomHealthDataPoint> newData = [];
+      if (Platform.isIOS) {
+        var data = await healthFit.getSleepIOS(
+            currentDate.millisecondsSinceEpoch,
+            dateTill.millisecondsSinceEpoch);
+        if (data != null) {
+          var filteredData = data.where((element) =>
+              element.type == SleepSampleType.asleepCore ||
+              element.type == SleepSampleType.asleepDeep);
+          for (var item in filteredData) {
+            newData.add(item.toCustomHealthDataPoint(
+                Platform.isAndroid ? PlatformType.ANDROID : PlatformType.IOS,
+                item.type == SleepSampleType.asleepCore
+                    ? "LIGHT_SLEEP"
+                    : "DEEP_SLEEP"));
+          }
+          var lastSyncHealth = user.value.lastSyncedAt;
+          if (lastSyncHealth != null && newData.isNotEmpty) {
+            newData.sort((a, b) => a.startDate.compareTo(b.startDate));
+            var lastSyncDate = DateTime.parse(lastSyncHealth);
+            if (lastSyncDate.isBefore(newData.last.endDate)) {
+              var filteredHealth = newData
+                  .where((element) => element.endDate.isAfter(lastSyncDate))
+                  .toList();
+              if (filteredHealth.isNotEmpty) {
+                var postSleepData = PostExerciseData.instance();
+                final result = await postSleepData
+                    .call(PostExerciseParams.fromCustomHealth(filteredHealth));
+                result.fold((l) {
+                  Log.error(l);
+                }, (r) async {});
+              }
+            } else {
+              Log.info("no new data");
+            }
+          } else if (newData.isNotEmpty && lastSyncHealth == null) {
+            newData.sort((a, b) => a.startDate.compareTo(b.startDate));
+            var postSleepData = PostExerciseData.instance();
+            final result = await postSleepData
+                .call(PostExerciseParams.fromCustomHealth(newData));
+            result.fold((l) {
+              Log.error(l);
+            }, (r) async {});
+          }
+        }
+      } else {
+        var data = await healthFit.getSleepAndroid(
+            currentDate.millisecondsSinceEpoch,
+            dateTill.millisecondsSinceEpoch);
+        if (data != null) {
+          var filteredData = data.where((element) =>
+              element.gfSleepSampleType == SleepSampleType.asleepCore ||
+              element.gfSleepSampleType == SleepSampleType.asleepDeep);
+          for (var item in filteredData) {
+            newData.add(item.toCustomHealthDataPoint(
+                Platform.isAndroid ? PlatformType.ANDROID : PlatformType.IOS,
+                item.gfSleepSampleType == SleepSampleType.asleepCore
+                    ? "LIGHT_SLEEP"
+                    : "DEEP_SLEEP"));
+          }
+          var lastSyncHealth = user.value.lastSyncedAt;
+          if (lastSyncHealth != null && newData.isNotEmpty) {
+            newData.sort((a, b) => a.startDate.compareTo(b.startDate));
+            var lastSyncDate = DateTime.parse(lastSyncHealth);
+            if (lastSyncDate.isBefore(newData.last.endDate)) {
+              var filteredHealth = newData
+                  .where((element) => element.endDate.isAfter(lastSyncDate))
+                  .toList();
+              if (filteredHealth.isNotEmpty) {
+                var postSleepData = PostExerciseData.instance();
+                final result = await postSleepData
+                    .call(PostExerciseParams.fromCustomHealth(filteredHealth));
+                result.fold((l) {
+                  Log.error(l);
+                }, (r) async {});
+              }
+            } else {
+              Log.info("no new data");
+            }
+          } else if (newData.isNotEmpty) {
+            var postSleepData = PostExerciseData.instance();
+            final result = await postSleepData
+                .call(PostExerciseParams.fromCustomHealth(newData));
+            result.fold((l) {
+              Log.error(l);
+            }, (r) async {
+              Log.info(r);
+            });
+            return;
+          }
+        }
+      }
+    }
   }
 
   void getMealHistories() async {
@@ -282,5 +384,75 @@ class DashboardController extends GetxController {
       total = ((0.3 * bmr) / 9).obs;
       return total;
     }
+  }
+}
+
+extension on SleepSample {
+  HealthDataPoint toHealthDataPoint(PlatformType platformType) {
+    var value = end.difference(start).inMinutes;
+    return HealthDataPoint(
+        NumericHealthValue(value),
+        HealthDataType.SLEEP_IN_BED,
+        HealthDataUnit.MINUTE,
+        start,
+        end,
+        platformType,
+        "",
+        source,
+        source);
+  }
+
+  CustomHealthDataPoint toCustomHealthDataPoint(
+      PlatformType platformType, String type) {
+    var value = end.difference(start).inMinutes;
+    return CustomHealthDataPoint(
+        value: value,
+        type: type,
+        unit: 'MINUTES',
+        startDate: start,
+        endDate: end,
+        source: source);
+  }
+}
+
+extension on GFSleepSample {
+  CustomHealthDataPoint toCustomHealthDataPoint(
+      PlatformType platformType, String type) {
+    var value = end.difference(start).inMinutes;
+    return CustomHealthDataPoint(
+        value: value,
+        type: type,
+        unit: 'MINUTES',
+        startDate: start,
+        endDate: end,
+        source: source);
+  }
+}
+
+class CustomHealthDataPoint {
+  num value;
+  String type;
+  String unit;
+  DateTime startDate;
+  DateTime endDate;
+  String source;
+
+  CustomHealthDataPoint(
+      {required this.value,
+      required this.type,
+      required this.unit,
+      required this.startDate,
+      required this.endDate,
+      required this.source});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'value': value,
+      'data_type': type,
+      'unit': unit,
+      'date_from': startDate.toIso8601String(),
+      'date_to': endDate.toIso8601String(),
+      'source_name': source,
+    };
   }
 }

@@ -37,12 +37,14 @@ class _SleepScreenState extends State<SleepScreen> {
             38.verticalSpace,
             Container(
               padding: EdgeInsets.symmetric(vertical: 20.h),
-              child: Center(
-                child: MultipleColorCircle(
+              child: Center(child: Obx(() {
+                return MultipleColorCircle(
                   colorOccurrences: {
-                    const Color(0xFF8F01DF): 60,
-                    const Color(0xFFDDF235): 30,
-                    Colors.white: 10,
+                    const Color(0xFF8F01DF):
+                        controller.lightSleepPercent.value.round() * 100,
+                    const Color(0xFFDDF235):
+                        controller.deepSleepPercent.value.round() * 100,
+                    Colors.white: controller.leftSleepPercent.value.round(),
                   },
                   height: 200,
                   strokeWidth: 32,
@@ -62,7 +64,7 @@ class _SleepScreenState extends State<SleepScreen> {
                           ),
                           10.verticalSpace,
                           Text(
-                            '90%',
+                            "${controller.totalSleepPercent.value.toInt()}%",
                             style: TextStyle(
                                 fontSize: 43.sp,
                                 fontWeight: FontWeight.w500,
@@ -83,20 +85,49 @@ class _SleepScreenState extends State<SleepScreen> {
                       ),
                     ),
                   ),
-                ),
-              ),
+                );
+              })),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 60),
               child: Row(
-                children: const [
-                  SmallerSleepCircular(
-                      color: Color(0xFFDDF235), value: 50, label: 'Deep Sleep'),
-                  Spacer(),
-                  SmallerSleepCircular(
-                      color: Color(0xFF8F01DF),
-                      value: 50,
-                      label: "Light Sleep"),
+                children: [
+                  Obx(() {
+                    return SmallerSleepCircular(
+                        color: const Color(0xFFDDF235),
+                        label: 'Deep Sleep',
+                        circleColors: {
+                          const Color(0xFFDDF235):
+                              (controller.deepSleepPercent.value * 100).round(),
+                          Colors.white:
+                              (controller.deepSleepPercent.value * 100)
+                                          .round() >
+                                      100
+                                  ? 0
+                                  : 100 -
+                                      (controller.deepSleepPercent.value * 100)
+                                          .round(),
+                        });
+                  }),
+                  const Spacer(),
+                  Obx(() {
+                    return SmallerSleepCircular(
+                        color: const Color(0xFF8F01DF),
+                        circleColors: {
+                          Color(0xFF8F01DF):
+                              (controller.lightSleepPercent.value * 100)
+                                  .round(),
+                          Colors.white:
+                              (controller.lightSleepPercent.value * 100)
+                                          .round() >
+                                      100
+                                  ? 0
+                                  : 100 -
+                                      (controller.lightSleepPercent.value * 100)
+                                          .round(),
+                        },
+                        label: "Light Sleep");
+                  })
                 ],
               ),
             ),
@@ -140,7 +171,7 @@ class _SleepScreenState extends State<SleepScreen> {
                       DailyBreakdownItem(
                           image: Constant.icFeelASleep,
                           time: controller.feelASleep.value,
-                          label: "Feel a sleep"),
+                          label: "Light sleep"),
                       DailyBreakdownItem(
                           image: Constant.icDeepSleep,
                           time: controller.deepSleep.value,
@@ -157,12 +188,12 @@ class _SleepScreenState extends State<SleepScreen> {
 
 class SmallerSleepCircular extends StatelessWidget {
   final Color color;
-  final int value;
   final String label;
+  final Map<Color, int> circleColors;
   const SmallerSleepCircular({
     required this.color,
-    required this.value,
     required this.label,
+    required this.circleColors,
     Key? key,
   }) : super(key: key);
 
@@ -174,10 +205,7 @@ class SmallerSleepCircular extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 20.h),
           child: Center(
             child: MultipleColorCircle(
-              colorOccurrences: {
-                color: value,
-                Colors.white: 100 - value,
-              },
+              colorOccurrences: circleColors,
               height: 50,
               strokeWidth: 8,
               child:

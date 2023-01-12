@@ -86,7 +86,12 @@ class ExerciseController extends GetxController
     result.fold((l) => Log.error(l), (r) {
       Get.find<DashboardController>().getUsersData();
       Get.back();
-      checkShouldShowKYC();
+      getStepsData();
+      getBurntCaloriesData();
+      tabController = TabController(length: 2, vsync: this);
+      tabController.addListener(() {
+        changeTab(ExerciseTab.values[tabController.index]);
+      });
     });
   }
 
