@@ -56,31 +56,32 @@ class DashboardController extends GetxController {
           permissions: permissions);
       if (isAllowed) {
         fetchHealthDataFromTypes();
-        var checkSleepPermission = await healthFactory.requestAuthorization(
-            [HealthDataType.SLEEP_IN_BED],
-            permissions: [HealthDataAccess.READ]);
-        if (checkSleepPermission) {
-          fetchSleepData();
-        }
+        testingSleepNew();
+        // var checkSleepPermission = await healthFactory.requestAuthorization(
+        //     [HealthDataType.SLEEP_IN_BED],
+        //     permissions: [HealthDataAccess.READ]);
+        // if (checkSleepPermission) {
+        //   fetchSleepData();
+        // }
       }
       Log.colorGreen("Permission granted");
     } else {
       Log.error("Permission denied");
     }
-    if (Platform.isAndroid) {
-    } else {
-      var isAllowed = await healthFactory.requestAuthorization(types,
-          permissions: permissions);
-      if (isAllowed) {
-        fetchHealthDataFromTypes();
-        testingSleepNew();
-      }
-    }
+    // if (Platform.isAndroid) {
+    // } else {
+    //   var isAllowed = await healthFactory.requestAuthorization(types,
+    //       permissions: permissions);
+    //   if (isAllowed) {
+    //     fetchHealthDataFromTypes();
+    //     testingSleepNew();
+    //   }
+    // }
   }
 
   Future<List<HealthDataPoint>> fetchSleepData() async {
     var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
-        DateTime.now().day - 1, 12, 0, 0, 0, 0);
+        DateTime.now().day - 7, 12, 0, 0, 0, 0);
     var dateTill = currentDate.add(const Duration(days: 1));
     List<HealthDataPoint> healthData = await healthFactory
         .getHealthDataFromTypes(
@@ -155,8 +156,8 @@ class DashboardController extends GetxController {
   void testingSleepNew() async {
     if (await healthFit.isSleepAuthorized()) {
       var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
-          DateTime.now().day - 1, 12, 0, 0, 0, 0);
-      var dateTill = currentDate.add(const Duration(days: 1));
+          DateTime.now().day - 1, 0, 0, 0, 0, 0);
+      var dateTill = currentDate.add(const Duration(days: 2));
       List<CustomHealthDataPoint> newData = [];
       if (Platform.isIOS) {
         var data = await healthFit.getSleepIOS(
@@ -204,6 +205,9 @@ class DashboardController extends GetxController {
         }
       } else {
         var data = await healthFit.getSleepAndroid(
+            currentDate.millisecondsSinceEpoch,
+            dateTill.millisecondsSinceEpoch);
+        var data2 = await healthFit.getRawSleepDataInRange(
             currentDate.millisecondsSinceEpoch,
             dateTill.millisecondsSinceEpoch);
         if (data != null) {
