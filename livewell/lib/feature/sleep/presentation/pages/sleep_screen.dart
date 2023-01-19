@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
-import 'package:livewell/feature/sleep/controller/sleep_controller.dart';
+import 'package:livewell/feature/sleep/presentation/controller/sleep_controller.dart';
 import 'package:livewell/widgets/chart/circular_nutrition.dart';
 
 class SleepScreen extends StatefulWidget {
@@ -46,6 +46,8 @@ class _SleepScreenState extends State<SleepScreen> {
                         controller.lightSleepPercent.value.round() * 100,
                     const Color(0xFFDDF235):
                         controller.deepSleepPercent.value.round() * 100,
+                    const Color(0xFF34EAB2):
+                        controller.sleepInBedPercent.value.round() * 100,
                     Colors.white: controller.leftSleepPercent.value.round(),
                   },
                   height: 200,
@@ -95,40 +97,51 @@ class _SleepScreenState extends State<SleepScreen> {
               child: Row(
                 children: [
                   Obx(() {
-                    return SmallerSleepCircular(
-                        color: const Color(0xFFDDF235),
-                        label: 'Deep Sleep',
-                        circleColors: {
-                          const Color(0xFFDDF235):
-                              (controller.deepSleepPercent.value * 100).round(),
-                          Colors.white:
-                              (controller.deepSleepPercent.value * 100)
-                                          .round() >
-                                      100
-                                  ? 0
-                                  : 100 -
-                                      (controller.deepSleepPercent.value * 100)
-                                          .round(),
-                        });
+                    if (controller.deepSleepPercent.value == 0 &&
+                        controller.lightSleepPercent.value == 0) {
+                      return const SizedBox(height: 40);
+                    } else {
+                      return SmallerSleepCircular(
+                          color: const Color(0xFFDDF235),
+                          label: 'Deep Sleep',
+                          circleColors: {
+                            const Color(0xFFDDF235):
+                                (controller.deepSleepPercent.value * 100)
+                                    .round(),
+                            Colors.white: (controller.deepSleepPercent.value *
+                                            100)
+                                        .round() >
+                                    100
+                                ? 0
+                                : 100 -
+                                    (controller.deepSleepPercent.value * 100)
+                                        .round(),
+                          });
+                    }
                   }),
                   const Spacer(),
                   Obx(() {
-                    return SmallerSleepCircular(
-                        color: const Color(0xFF8F01DF),
-                        circleColors: {
-                          Color(0xFF8F01DF):
-                              (controller.lightSleepPercent.value * 100)
-                                  .round(),
-                          Colors.white:
-                              (controller.lightSleepPercent.value * 100)
-                                          .round() >
-                                      100
-                                  ? 0
-                                  : 100 -
-                                      (controller.lightSleepPercent.value * 100)
-                                          .round(),
-                        },
-                        label: "Light Sleep");
+                    if (controller.deepSleepPercent.value == 0 &&
+                        controller.lightSleepPercent.value == 0) {
+                      return const SizedBox(height: 40);
+                    } else {
+                      return SmallerSleepCircular(
+                          color: const Color(0xFF8F01DF),
+                          circleColors: {
+                            Color(0xFF8F01DF):
+                                (controller.lightSleepPercent.value * 100)
+                                    .round(),
+                            Colors.white: (controller.lightSleepPercent.value *
+                                            100)
+                                        .round() >
+                                    100
+                                ? 0
+                                : 100 -
+                                    (controller.lightSleepPercent.value * 100)
+                                        .round(),
+                          },
+                          label: "Light Sleep");
+                    }
                   })
                 ],
               ),

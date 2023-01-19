@@ -320,7 +320,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                       child: LiveWellTextField(
                         controller: controller.time,
                         hintText: null,
-                        labelText: "time",
+                        labelText: "Time",
                         errorText: null,
                         obscureText: false,
                         enabled: false,

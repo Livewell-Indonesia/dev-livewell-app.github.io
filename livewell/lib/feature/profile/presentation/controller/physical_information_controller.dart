@@ -3,7 +3,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/questionnaire/domain/usecase/post_questionnaire.dart';
+import 'package:livewell/routes/app_navigator.dart';
 
 import '../../../questionnaire/presentation/controller/questionnaire_controller.dart';
 
@@ -121,6 +123,8 @@ class PhysicalInformationController extends GetxController {
     }, (r) {
       dashboardController.getUsersData();
       Get.snackbar("Success", "Physical Information updated");
+      AppNavigator.popUntil(routeName: AppPages.home);
+      Get.find<HomeController>().currentMenu.value = HomeTab.home;
     });
   }
 }

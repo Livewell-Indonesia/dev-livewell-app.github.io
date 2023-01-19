@@ -156,103 +156,150 @@ class DashboardController extends GetxController {
   void testingSleepNew() async {
     if (await healthFit.isSleepAuthorized()) {
       var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
-          DateTime.now().day - 1, 0, 0, 0, 0, 0);
-      var dateTill = currentDate.add(const Duration(days: 2));
+          DateTime.now().day - 1, 12, 0, 0, 0, 0);
+      var dateTill = currentDate.add(const Duration(days: 1));
       List<CustomHealthDataPoint> newData = [];
       if (Platform.isIOS) {
-        var data = await healthFit.getSleepIOS(
-            currentDate.millisecondsSinceEpoch,
-            dateTill.millisecondsSinceEpoch);
-        if (data != null) {
-          var filteredData = data.where((element) =>
-              element.type == SleepSampleType.asleepCore ||
-              element.type == SleepSampleType.asleepDeep);
-          for (var item in filteredData) {
-            newData.add(item.toCustomHealthDataPoint(
-                Platform.isAndroid ? PlatformType.ANDROID : PlatformType.IOS,
-                item.type == SleepSampleType.asleepCore
-                    ? "LIGHT_SLEEP"
-                    : "DEEP_SLEEP"));
-          }
-          var lastSyncHealth = user.value.lastSyncedAt;
-          if (lastSyncHealth != null && newData.isNotEmpty) {
-            newData.sort((a, b) => a.startDate.compareTo(b.startDate));
-            var lastSyncDate = DateTime.parse(lastSyncHealth);
-            if (lastSyncDate.isBefore(newData.last.endDate)) {
-              var filteredHealth = newData
-                  .where((element) => element.endDate.isAfter(lastSyncDate))
-                  .toList();
-              if (filteredHealth.isNotEmpty) {
-                var postSleepData = PostExerciseData.instance();
-                final result = await postSleepData
-                    .call(PostExerciseParams.fromCustomHealth(filteredHealth));
-                result.fold((l) {
-                  Log.error(l);
-                }, (r) async {});
-              }
-            } else {
-              Log.info("no new data");
-            }
-          } else if (newData.isNotEmpty && lastSyncHealth == null) {
-            newData.sort((a, b) => a.startDate.compareTo(b.startDate));
-            var postSleepData = PostExerciseData.instance();
-            final result = await postSleepData
-                .call(PostExerciseParams.fromCustomHealth(newData));
-            result.fold((l) {
-              Log.error(l);
-            }, (r) async {});
-          }
-        }
+        await fetchSleepIOS(currentDate, dateTill, newData);
       } else {
-        var data = await healthFit.getSleepAndroid(
-            currentDate.millisecondsSinceEpoch,
-            dateTill.millisecondsSinceEpoch);
-        var data2 = await healthFit.getRawSleepDataInRange(
-            currentDate.millisecondsSinceEpoch,
-            dateTill.millisecondsSinceEpoch);
-        if (data != null) {
-          var filteredData = data.where((element) =>
-              element.gfSleepSampleType == SleepSampleType.asleepCore ||
-              element.gfSleepSampleType == SleepSampleType.asleepDeep);
-          for (var item in filteredData) {
-            newData.add(item.toCustomHealthDataPoint(
-                Platform.isAndroid ? PlatformType.ANDROID : PlatformType.IOS,
-                item.gfSleepSampleType == SleepSampleType.asleepCore
-                    ? "LIGHT_SLEEP"
-                    : "DEEP_SLEEP"));
-          }
-          var lastSyncHealth = user.value.lastSyncedAt;
-          if (lastSyncHealth != null && newData.isNotEmpty) {
-            newData.sort((a, b) => a.startDate.compareTo(b.startDate));
-            var lastSyncDate = DateTime.parse(lastSyncHealth);
-            if (lastSyncDate.isBefore(newData.last.endDate)) {
-              var filteredHealth = newData
-                  .where((element) => element.endDate.isAfter(lastSyncDate))
-                  .toList();
-              if (filteredHealth.isNotEmpty) {
-                var postSleepData = PostExerciseData.instance();
-                final result = await postSleepData
-                    .call(PostExerciseParams.fromCustomHealth(filteredHealth));
-                result.fold((l) {
-                  Log.error(l);
-                }, (r) async {});
-              }
-            } else {
-              Log.info("no new data");
+        await fetchSleepAndroid(currentDate, dateTill, newData);
+      }
+    }
+  }
+
+  Future<void> fetchSleepIOS(DateTime currentDate, DateTime dateTill,
+      List<CustomHealthDataPoint> newData) async {
+    var data = await healthFit.getSleepIOS(
+        currentDate.millisecondsSinceEpoch, dateTill.millisecondsSinceEpoch);
+    if (data != null) {
+      var filteredData = data.where((element) =>
+          element.type == SleepSampleType.asleepCore ||
+          element.type == SleepSampleType.asleepDeep);
+      if (filteredData.isNotEmpty) {
+        for (var item in filteredData) {
+          newData.add(item.toCustomHealthDataPoint(
+              Platform.isAndroid ? PlatformType.ANDROID : PlatformType.IOS,
+              item.type == SleepSampleType.asleepCore
+                  ? "LIGHT_SLEEP"
+                  : "DEEP_SLEEP"));
+        }
+        await saveData(newData);
+      } else {
+        var filteredData2 = data.where((element) =>
+            element.type == SleepSampleType.inBed ||
+            element.type == SleepSampleType.asleepUnspecified);
+        if (filteredData.isNotEmpty) {
+          for (var item in filteredData2) {
+            if (item.type == SleepSampleType.asleepUnspecified ||
+                item.type == SleepSampleType.inBed) {
+              // split sleep value to deep and light sleep
+              var sleepValue = item.end.difference(item.start).inMinutes;
+              newData.add(CustomHealthDataPoint(
+                  value: sleepValue,
+                  type: "SLEEP_IN_BED",
+                  unit: "MINUTES",
+                  startDate: item.start,
+                  endDate: item.end,
+                  source: item.source));
             }
-          } else if (newData.isNotEmpty) {
-            var postSleepData = PostExerciseData.instance();
-            final result = await postSleepData
-                .call(PostExerciseParams.fromCustomHealth(newData));
-            result.fold((l) {
-              Log.error(l);
-            }, (r) async {
-              Log.info(r);
-            });
-            return;
           }
+          await saveData(newData);
         }
       }
+    }
+  }
+
+  Future<void> fetchSleepAndroid(DateTime currentDate, DateTime dateTill,
+      List<CustomHealthDataPoint> newData) async {
+    var data = await healthFit.getSleepAndroid(
+        currentDate.millisecondsSinceEpoch, dateTill.millisecondsSinceEpoch);
+    if (data != null) {
+      var filteredData = data
+          .where((element) =>
+              element.gfSleepSampleType == GFSleepSampleType.sleepLight ||
+              element.gfSleepSampleType == GFSleepSampleType.sleepDeep)
+          .toList();
+      if (filteredData.isNotEmpty) {
+        for (var item in filteredData) {
+          newData.add(item.toCustomHealthDataPoint(
+              Platform.isAndroid ? PlatformType.ANDROID : PlatformType.IOS,
+              item.gfSleepSampleType == GFSleepSampleType.sleepLight
+                  ? "LIGHT_SLEEP"
+                  : "DEEP_SLEEP"));
+        }
+        await saveData(newData);
+      } else {
+        var filteredData2 = data
+            .where((element) =>
+                element.gfSleepSampleType == GFSleepSampleType.unspecified)
+            .toList();
+        Log.info(filteredData2);
+        if (filteredData2.isNotEmpty) {
+          for (var item in filteredData2) {
+            if (item.gfSleepSampleType == GFSleepSampleType.unspecified) {
+              // split sleep value to deep and light sleep
+              var sleepValue = item.end.difference(item.start).inMinutes;
+              newData.add(CustomHealthDataPoint(
+                  value: sleepValue,
+                  type: "SLEEP_IN_BED",
+                  unit: "MINUTES",
+                  startDate: item.start,
+                  endDate: item.end,
+                  source: item.source));
+              // var lightSleep = sleepValue * 0.8;
+              // var deepSleep = sleepValue * 0.2;
+              // newData.add(CustomHealthDataPoint(
+              //     value: lightSleep,
+              //     type: 'LIGHT_SLEEP',
+              //     unit: 'MINUTES',
+              //     startDate: item.start,
+              //     endDate:
+              //         item.start.add(Duration(minutes: lightSleep.toInt())),
+              //     source: item.source));
+              // newData.add(CustomHealthDataPoint(
+              //     value: deepSleep,
+              //     type: 'DEEP_SLEEP',
+              //     unit: 'MINUTES',
+              //     startDate:
+              //         item.end.subtract(Duration(minutes: deepSleep.toInt())),
+              //     endDate: item.end,
+              //     source: item.source));
+            }
+          }
+          await saveData(newData);
+        }
+      }
+    }
+  }
+
+  Future<void> saveData(List<CustomHealthDataPoint> newData) async {
+    var lastSyncHealth = user.value.lastSyncedAt;
+    if (lastSyncHealth != null && newData.isNotEmpty) {
+      newData.sort((a, b) => a.startDate.compareTo(b.startDate));
+      var lastSyncDate = DateTime.parse(lastSyncHealth);
+      if (lastSyncDate.isBefore(newData.last.endDate)) {
+        var filteredHealth = newData
+            .where((element) => element.endDate.isAfter(lastSyncDate))
+            .toList();
+        if (filteredHealth.isNotEmpty) {
+          var postSleepData = PostExerciseData.instance();
+          final result = await postSleepData
+              .call(PostExerciseParams.fromCustomHealth(filteredHealth));
+          result.fold((l) {
+            Log.error(l);
+          }, (r) async {});
+        }
+      } else {
+        Log.info("no new data");
+      }
+    } else if (newData.isNotEmpty && lastSyncHealth == null) {
+      newData.sort((a, b) => a.startDate.compareTo(b.startDate));
+      var postSleepData = PostExerciseData.instance();
+      final result = await postSleepData
+          .call(PostExerciseParams.fromCustomHealth(newData));
+      result.fold((l) {
+        Log.error(l);
+      }, (r) async {});
     }
   }
 

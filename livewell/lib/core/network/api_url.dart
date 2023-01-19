@@ -41,4 +41,7 @@ class Endpoint {
   ///Exercise
   static const String postBulkActivities = "activities/bulk-create";
   static const String getActivities = "activities/list";
+
+  /// Sleep
+  static const String getSleeps = "activities/lists";
 }

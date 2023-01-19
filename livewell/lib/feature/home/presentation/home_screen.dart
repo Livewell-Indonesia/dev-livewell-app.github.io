@@ -1,12 +1,10 @@
-import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
-import 'package:livewell/feature/profile/presentation/page/account_settings_screen.dart';
-import 'package:livewell/feature/sleep/pages/sleep_screen.dart';
+import 'package:livewell/feature/sleep/presentation/pages/sleep_screen.dart';
 
 import '../../../core/constant/constant.dart';
 import '../../dashboard/presentation/pages/dashboard_screen.dart';
