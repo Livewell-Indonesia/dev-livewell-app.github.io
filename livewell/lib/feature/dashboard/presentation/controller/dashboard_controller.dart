@@ -68,15 +68,15 @@ class DashboardController extends GetxController {
     } else {
       Log.error("Permission denied");
     }
-    // if (Platform.isAndroid) {
-    // } else {
-    //   var isAllowed = await healthFactory.requestAuthorization(types,
-    //       permissions: permissions);
-    //   if (isAllowed) {
-    //     fetchHealthDataFromTypes();
-    //     testingSleepNew();
-    //   }
-    // }
+    if (Platform.isAndroid) {
+    } else {
+      var isAllowed = await healthFactory.requestAuthorization(types,
+          permissions: permissions);
+      if (isAllowed) {
+        fetchHealthDataFromTypes();
+        testingSleepNew();
+      }
+    }
   }
 
   Future<List<HealthDataPoint>> fetchSleepData() async {
@@ -188,7 +188,7 @@ class DashboardController extends GetxController {
         var filteredData2 = data.where((element) =>
             element.type == SleepSampleType.inBed ||
             element.type == SleepSampleType.asleepUnspecified);
-        if (filteredData.isNotEmpty) {
+        if (filteredData2.isNotEmpty) {
           for (var item in filteredData2) {
             if (item.type == SleepSampleType.asleepUnspecified ||
                 item.type == SleepSampleType.inBed) {
