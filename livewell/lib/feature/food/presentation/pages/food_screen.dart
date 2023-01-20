@@ -69,13 +69,13 @@ class _FoodScreenState extends State<FoodScreen> {
                     child: NutritionProgressDescription(
                       data: [
                         NutrtionProgressModel(
-                            name: 'Macro nut',
+                            name: 'Macro Nut',
                             color: const Color(0xFF34EAB2),
                             total: "",
                             consumed:
                                 "${(controller.getPercentMacroNut().value * 100).round()}%"),
                         NutrtionProgressModel(
-                            name: 'Micro nut',
+                            name: 'Micro Nut',
                             color: const Color(0xFF8F01DF),
                             total: "",
                             consumed:

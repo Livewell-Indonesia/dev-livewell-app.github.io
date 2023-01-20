@@ -75,7 +75,9 @@ class LoginController extends BaseController {
   }
 
   void onGoogleLoginTapped() async {
+    EasyLoading.show();
     var result = await postAuthGoogle();
+    EasyLoading.dismiss();
     result.fold((l) {
       if (l.message!.contains("404")) {
         Get.snackbar('Error', 'Please verify your email first');

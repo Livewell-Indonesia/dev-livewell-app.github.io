@@ -57,8 +57,11 @@ class PhysicalInformationScreen extends StatelessWidget {
                     12.verticalSpace,
                     Expanded(
                       child: Container(
-                        padding:
-                            EdgeInsets.only(left: 20.w, right: 20.w, top: 39.h),
+                        padding: EdgeInsets.only(
+                            left: 20.w,
+                            right: 20.w,
+                            top: 39.h,
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
                         color: const Color(0xFFF1F1F1),
                         child: SingleChildScrollView(
                           child: Column(
@@ -265,6 +268,15 @@ class PhysicalInformationScreen extends StatelessWidget {
                                   hintText: 'Specific Goal',
                                   enabled: false,
                                 ),
+                              ),
+                              20.verticalSpace,
+                              AccountSettingsTextField(
+                                textEditingController: controller.sleep,
+                                hintText: 'Sleep (Hours)',
+                                enabled: true,
+                                inputType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: true),
                               ),
                               20.verticalSpace,
                               AccountSettingsTextField(

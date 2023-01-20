@@ -3,6 +3,7 @@ import 'package:health/health.dart';
 import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/core/error/failures.dart';
 import 'package:livewell/feature/auth/data/model/register_model.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/exercise/domain/repository/exercise_repository.dart';
 
 import '../../data/repository/exercise_repository_impl.dart';
@@ -34,6 +35,10 @@ class PostExerciseParams {
 
   PostExerciseParams.fromHealth(List<HealthDataPoint> data) {
     activities = data.map((e) => Activities.fromHealth(e)).toList();
+  }
+
+  PostExerciseParams.fromCustomHealth(List<CustomHealthDataPoint> data) {
+    activities = data.map((e) => Activities.fromCustomHealth(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -89,6 +94,18 @@ class Activities {
     deviceId = data.deviceId.toString();
     sourceId = data.sourceId.toString();
     sourceName = data.sourceName.toString();
+  }
+
+  Activities.fromCustomHealth(CustomHealthDataPoint data) {
+    value = double.tryParse(data.value.toString()) ?? 0.0;
+    type = data.type;
+    unit = data.unit;
+    dateFrom = data.startDate.toIso8601String();
+    dateTo = data.endDate.toIso8601String();
+    platformType = "";
+    deviceId = "";
+    sourceId = "";
+    sourceName = data.source;
   }
 
   Map<String, dynamic> toJson() {

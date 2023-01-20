@@ -45,6 +45,11 @@ class Constant {
   static const String icPhysicalInfo = '$assetsIcons/ic_physical_info.png';
   static const String icKey = '$assetsIcons/ic_key.png';
   static const String icHomeAccount = '$assetsIcons/ic_home_account.svg';
+  static const String icWentToSleep = '$assetsIcons/ic_went_to_sleep.svg';
+  static const String icWentToSleep2 = '$assetsIcons/ic_went_to_sleep_2.svg';
+  static const String icWokeUp = '$assetsIcons/ic_woke_up.svg';
+  static const String icFeelASleep = '$assetsIcons/ic_feel_a_sleep.svg';
+  static const String icDeepSleep = '$assetsIcons/ic_deep_sleep.svg';
 
   // image Assets
   static const String assetsImages = 'assets/images';
