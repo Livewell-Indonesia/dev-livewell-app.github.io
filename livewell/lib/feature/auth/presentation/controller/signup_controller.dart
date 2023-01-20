@@ -84,23 +84,4 @@ class SignUpController extends GetxController {
       Get.snackbar("Success Register", "Verify your email");
     });
   }
-
-  void onGoogleLoginTapped() async {
-    PostAuthGoogle postAuthGoogle = PostAuthGoogle.instance();
-    EasyLoading.show();
-    var result = await postAuthGoogle();
-    EasyLoading.dismiss();
-    result.fold((l) {
-      if (l.message!.contains("404")) {
-        Get.snackbar('Error', 'Please verify your email first');
-      } else {
-        Get.snackbar('Authentication Failed',
-            'Your authentication information is incorrect. Please try again.');
-      }
-    }, (r) {
-      SharedPref.saveToken(r.accessToken!);
-      SharedPref.saveRefreshToken(r.refreshToken!);
-      AppNavigator.pushAndRemove(routeName: AppPages.home);
-    });
-  }
 }
