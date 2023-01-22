@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/sleep/presentation/pages/sleep_screen.dart';
+import 'package:livewell/feature/water/presentation/pages/water_screen.dart';
 
 import '../../../core/constant/constant.dart';
 import '../../dashboard/presentation/pages/dashboard_screen.dart';
@@ -33,16 +34,16 @@ class HomeScreen extends StatelessWidget {
               itemPadding: EdgeInsets.zero,
               // itemPadding:
               //     const EdgeInsets.symmetric(horizontal: 4, vertical: 10).r,
-              marginR: EdgeInsets.symmetric(horizontal: 70.w, vertical: 20.w),
+              marginR: EdgeInsets.symmetric(horizontal: 50.w, vertical: 20.w),
               selectedItemColor: Colors.white,
               unselectedItemColor: const Color(0xFF8F01DF),
-              // boxShadow: [
-              //   BoxShadow(
-              //     color: Colors.black,
-              //     blurRadius: 0.5,
-              //     offset: Offset(0, 0), // changes position of shadow
-              //   ),
-              // ],
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 0.5,
+                  offset: Offset(0, 0), // changes position of shadow
+                ),
+              ],
               items: [
                 DotNavigationBarItem(
                   icon: controller.currentMenu.value == HomeTab.food
@@ -87,6 +88,18 @@ class HomeScreen extends StatelessWidget {
                         )
                       : controller.customUnselectedImage(
                           Image.asset(Constant.icSleepUnselected),
+                        ),
+                  selectedColor: Colors.white,
+                  unselectedColor: const Color(0xFF8F01DF),
+                  // selectedColor: Colors.white,
+                ),
+                DotNavigationBarItem(
+                  icon: controller.currentMenu.value == HomeTab.water
+                      ? controller.customSelectedImage(
+                          Image.asset(Constant.icWaterSelected),
+                        )
+                      : controller.customUnselectedImage(
+                          Image.asset(Constant.icWaterUnselected),
                         ),
                   selectedColor: Colors.white,
                   unselectedColor: const Color(0xFF8F01DF),
@@ -141,21 +154,19 @@ class HomeScreen extends StatelessWidget {
       case HomeTab.food:
         return FoodScreen();
       case HomeTab.exercise:
-        return ExerciseScreen();
+        return const ExerciseScreen();
       case HomeTab.meditation:
         return Container(
           color: Colors.yellow,
         );
       case HomeTab.sleep:
-        return SleepScreen();
+        return const SleepScreen();
       case HomeTab.nutrition:
         return Container(
           color: Colors.yellow,
         );
       case HomeTab.water:
-        return Container(
-          color: Colors.yellow,
-        );
+        return const WaterScreen();
       case HomeTab.account:
         return UserSettingsScreen();
     }

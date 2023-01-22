@@ -147,6 +147,8 @@ class HomeController extends GetxController {
     } else if (index == 3) {
       currentMenu.value = HomeTab.sleep;
     } else if (index == 4) {
+      currentMenu.value = HomeTab.water;
+    } else if (index == 5) {
       currentMenu.value = HomeTab.account;
     }
   }
