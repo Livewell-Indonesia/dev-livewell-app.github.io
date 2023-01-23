@@ -1,15 +1,14 @@
-import 'dart:ffi';
-
-import 'package:dartz/dartz_unsafe.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:livewell/core/log.dart';
+import 'package:livewell/feature/water/data/model/water_list_model.dart';
 import 'package:livewell/feature/water/presentation/controller/water_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/floating_dots/floating_dots.dart';
+import 'package:collection/collection.dart';
 
 class WaterScreen extends StatefulWidget {
   const WaterScreen({super.key});
@@ -25,7 +24,9 @@ class _WaterScreenState extends State<WaterScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF1F1F1),
       body: RefreshIndicator(
-        onRefresh: () async {},
+        onRefresh: () async {
+          contoller.getWaterData();
+        },
         child: ListView(
           children: [
             40.verticalSpace,
@@ -38,33 +39,35 @@ class _WaterScreenState extends State<WaterScreen> {
                   color: const Color(0xFF171433)),
             )),
             48.verticalSpace,
-            RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(children: [
-                  TextSpan(
-                      text: "Today you took ",
-                      style: TextStyle(
-                          fontSize: 30.sp,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xFF171433))),
-                  TextSpan(
-                      text: "2.5",
-                      style: TextStyle(
-                          fontSize: 30.sp,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xFF8F01DF))),
-                  TextSpan(
-                      text: " ltr of water",
-                      style: TextStyle(
-                          fontSize: 30.sp,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xFF171433))),
-                ])),
+            Obx(() {
+              return RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(children: [
+                    TextSpan(
+                        text: "Today you took ",
+                        style: TextStyle(
+                            fontSize: 30.sp,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFF171433))),
+                    TextSpan(
+                        text: contoller.waterConsumed.value.toStringAsFixed(1),
+                        style: TextStyle(
+                            fontSize: 30.sp,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFF8F01DF))),
+                    TextSpan(
+                        text: " ltr of water",
+                        style: TextStyle(
+                            fontSize: 30.sp,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFF171433))),
+                  ]));
+            }),
             32.verticalSpace,
             Obx(() {
               return DrinkIndicator(
-                value: contoller.waterConsumed.value,
-                label: "2.5",
+                value: contoller.waterConsumedPercentage.value,
+                label: contoller.waterConsumed.value.toStringAsFixed(1),
               );
             }),
             Obx(() {
@@ -72,60 +75,65 @@ class _WaterScreenState extends State<WaterScreen> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 28.0, vertical: 16),
                 child: WaterRuler(
-                  value: contoller.waterConsumed.value,
+                  value: contoller.waterConsumedPercentage.value,
                 ),
               );
             }),
             32.verticalSpace,
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 18),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 18.0),
-                    child: Text("Last Update",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xFF171433))),
-                  ),
-                  ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: 2,
-                      itemBuilder: (context, index) {
-                        return Row(
-                          children: [
-                            Text('Water',
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xFF171433),
-                                )),
-                            const Spacer(),
-                            Text('50 ml',
-                                style: TextStyle(
-                                    fontSize: 16.sp,
-                                    color: const Color(0xFF171433),
-                                    fontWeight: FontWeight.w500)),
-                          ],
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8.0),
-                          child: Divider(),
-                        );
-                      }),
-                ],
-              ),
-            ),
+            Obx(() {
+              return WaterHistoriesWidget(
+                waterHistories: contoller.waterList.value,
+              );
+            }),
+            // Container(
+            //   margin: const EdgeInsets.symmetric(horizontal: 16),
+            //   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 18),
+            //   decoration: BoxDecoration(
+            //     color: Colors.white,
+            //     borderRadius: BorderRadius.circular(30),
+            //   ),
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       const Padding(
+            //         padding: EdgeInsets.only(bottom: 18.0),
+            //         child: Text("Last Update",
+            //             style: TextStyle(
+            //                 fontSize: 16,
+            //                 fontWeight: FontWeight.w700,
+            //                 color: Color(0xFF171433))),
+            //       ),
+            //       ListView.separated(
+            //           physics: const NeverScrollableScrollPhysics(),
+            //           shrinkWrap: true,
+            //           itemCount: 2,
+            //           itemBuilder: (context, index) {
+            //             return Row(
+            //               children: [
+            //                 Text('Water',
+            //                     style: TextStyle(
+            //                       fontSize: 16.sp,
+            //                       fontWeight: FontWeight.w500,
+            //                       color: const Color(0xFF171433),
+            //                     )),
+            //                 const Spacer(),
+            //                 Text('50 ml',
+            //                     style: TextStyle(
+            //                         fontSize: 16.sp,
+            //                         color: const Color(0xFF171433),
+            //                         fontWeight: FontWeight.w500)),
+            //               ],
+            //             );
+            //           },
+            //           separatorBuilder: (context, index) {
+            //             return const Padding(
+            //               padding: EdgeInsets.symmetric(vertical: 8.0),
+            //               child: Divider(),
+            //             );
+            //           }),
+            //     ],
+            //   ),
+            // ),
             40.verticalSpace,
             LiveWellButton(
                 label: 'Add Drink',
@@ -136,6 +144,59 @@ class _WaterScreenState extends State<WaterScreen> {
                 }),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class WaterHistoriesWidget extends StatelessWidget {
+  final List<WaterModel> waterHistories;
+  const WaterHistoriesWidget({super.key, required this.waterHistories});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 18),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: CarouselSlider(
+        options: CarouselOptions(
+          enableInfiniteScroll: false,
+          viewportFraction: 1.0,
+        ),
+        items: waterHistories.slices(3).map((e) {
+          return ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: e.length,
+              itemBuilder: (context, index) {
+                return Row(
+                  children: [
+                    Text(e[index].createdAt ?? "",
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xFF171433),
+                        )),
+                    const Spacer(),
+                    Text('50 ml',
+                        style: TextStyle(
+                            fontSize: 16.sp,
+                            color: const Color(0xFF171433),
+                            fontWeight: FontWeight.w500)),
+                  ],
+                );
+              },
+              separatorBuilder: (context, index) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                  child: Divider(),
+                );
+              });
+        }).toList(),
       ),
     );
   }
@@ -213,7 +274,7 @@ class _DrinkIndicatorState extends State<DrinkIndicator> {
                     color: const Color(0xFF34EAB2),
                   ),
                   child: FloatingDotGroup(
-                    number: 40,
+                    number: 50,
                     direction: Direction.up,
                     trajectory: Trajectory.random,
                     size: DotSize.small,
@@ -223,7 +284,7 @@ class _DrinkIndicatorState extends State<DrinkIndicator> {
                       Colors.white.withOpacity(0.3)
                     ],
                     opacity: 0.5,
-                    speed: DotSpeed.mixed,
+                    speed: DotSpeed.fast,
                   ),
                 );
               },

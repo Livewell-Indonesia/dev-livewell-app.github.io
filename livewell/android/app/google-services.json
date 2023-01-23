@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "649229634613",
+    "project_id": "livewell-apps",
+    "storage_bucket": "livewell-apps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:649229634613:android:e10c2d7c4ef6392265357c",
+        "android_client_info": {
+          "package_name": "com.livewellindo.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "649229634613-l8tqhjbf9o0lmu3mcs3ouhndi0aj5brk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.livewellindo.app",
+            "certificate_hash": "ebc75533a70ab9a664a9bbae20521388f7f37c67"
+          }
+        },
+        {
+          "client_id": "649229634613-rejhn5ducjmo96476hj92annk2spjbdc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.livewellindo.app",
+            "certificate_hash": "905cfdaa9a4d700043bd0d5c054be4930b7fe815"
+          }
+        },
+        {
+          "client_id": "649229634613-kd7qtn4fs682kkg6o8q711j0lr519t5u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyGPWBoAyXoiZPuOr1tVy_lhDbqiY6gVw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "649229634613-kd7qtn4fs682kkg6o8q711j0lr519t5u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
