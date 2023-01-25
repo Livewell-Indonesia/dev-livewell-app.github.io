@@ -17,6 +17,8 @@ import 'package:livewell/feature/dashboard/domain/usecase/get_user.dart';
 import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart';
 import 'package:livewell/feature/food/domain/entity/meal_history.dart';
 import 'package:livewell/feature/food/domain/usecase/get_meal_history.dart';
+import 'package:livewell/feature/water/data/model/water_list_model.dart';
+import 'package:livewell/feature/water/domain/usecase/get_water_data.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -33,6 +35,7 @@ class DashboardController extends GetxController {
   ValueNotifier<double> valueNotifier = ValueNotifier(0.0);
   GetUserMealHistory getUserMealHistory = GetUserMealHistory.instance();
   RxList<MealHistoryModel> mealHistoryList = <MealHistoryModel>[].obs;
+  Rx<double> waterConsumed = 0.0.obs;
 
   HealthFactory healthFactory = HealthFactory();
   FlutterHealthFit healthFit = FlutterHealthFit();
@@ -207,6 +210,28 @@ class DashboardController extends GetxController {
         }
       }
     }
+  }
+
+  void getWaterData() async {
+    // mock api call for 2 s
+    GetWaterData instance = GetWaterData.instance();
+    final result = await instance.call(NoParams());
+    result.fold((l) {
+      Log.error(l);
+    }, (r) {
+      if (r.response != null) {
+        var consumed = r.response
+                ?.firstWhere(
+                    (element) =>
+                        element.recordAt ==
+                        DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                    orElse: () => WaterModel(recordAt: '', value: 0))
+                .value ??
+            0;
+        waterConsumed.value = consumed.toDouble();
+      }
+      Log.colorGreen(r);
+    });
   }
 
   Future<void> fetchSleepAndroid(DateTime currentDate, DateTime dateTill,

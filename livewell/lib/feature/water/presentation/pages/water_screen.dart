@@ -18,14 +18,14 @@ class WaterScreen extends StatefulWidget {
 }
 
 class _WaterScreenState extends State<WaterScreen> {
-  final WaterContoller contoller = Get.put(WaterContoller());
+  final WaterController controller = Get.put(WaterController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF1F1F1),
       body: RefreshIndicator(
         onRefresh: () async {
-          contoller.getWaterData();
+          controller.getWaterData();
         },
         child: ListView(
           children: [
@@ -50,7 +50,7 @@ class _WaterScreenState extends State<WaterScreen> {
                             fontWeight: FontWeight.w600,
                             color: const Color(0xFF171433))),
                     TextSpan(
-                        text: contoller.waterConsumed.value.toStringAsFixed(1),
+                        text: controller.waterConsumed.value.toStringAsFixed(1),
                         style: TextStyle(
                             fontSize: 30.sp,
                             fontWeight: FontWeight.w600,
@@ -66,8 +66,8 @@ class _WaterScreenState extends State<WaterScreen> {
             32.verticalSpace,
             Obx(() {
               return DrinkIndicator(
-                value: contoller.waterConsumedPercentage.value,
-                label: contoller.waterConsumed.value.toStringAsFixed(1),
+                value: controller.waterConsumedPercentage.value,
+                label: controller.waterConsumed.value.toStringAsFixed(1),
               );
             }),
             Obx(() {
@@ -75,16 +75,16 @@ class _WaterScreenState extends State<WaterScreen> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 28.0, vertical: 16),
                 child: WaterRuler(
-                  value: contoller.waterConsumedPercentage.value,
+                  value: controller.waterConsumedPercentage.value,
                 ),
               );
             }),
             32.verticalSpace,
-            Obx(() {
-              return WaterHistoriesWidget(
-                waterHistories: contoller.waterList.value,
-              );
-            }),
+            // Obx(() {
+            //   return WaterHistoriesWidget(
+            //     waterHistories: contoller.waterList.value,
+            //   );
+            // }),
             // Container(
             //   margin: const EdgeInsets.symmetric(horizontal: 16),
             //   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 18),

@@ -129,7 +129,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 32.verticalSpace,
                 InkWell(
                   onTap: () {
-                    //AppNavigator.push(routeName: AppPages.updateWeight);
+                    AppNavigator.push(routeName: AppPages.updateWeight);
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16).r,
@@ -418,94 +418,188 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           ),
                         );
                 }),
+                20.verticalSpace,
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20).r,
                   child: Obx(() {
-                    return ListView.separated(
-                        shrinkWrap: true,
-                        physics: ClampingScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {
-                              AppNavigator.push(
-                                  routeName: AppPages.addMeal,
-                                  arguments: {
-                                    "type": controller
-                                        .user.value.dailyJournal?[index].name,
-                                    "date": DateTime.now()
-                                  });
-                            },
-                            child: Container(
-                              padding: EdgeInsets.only(left: 10.w, right: 20.w),
-                              width: 335.w,
-                              height: 72.h,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20).r),
-                              child: Row(
-                                children: [
-                                  Transform.scale(
-                                    scale: 1.2,
-                                    child: Obx(() {
-                                      return Checkbox(
-                                        value:
-                                            controller.isCompleted(index).value,
-                                        onChanged: (val) {},
-                                        fillColor:
-                                            MaterialStateProperty.resolveWith(
-                                                (states) {
-                                          if (states
-                                              .contains(MaterialState.selected)) {
-                                            return const Color(0xFFDDF235);
-                                          }
-                                          return const Color(0xFF171433);
-                                        }),
-                                        checkColor: const Color(0xFF171433),
-                                        activeColor: Colors.green,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        side: const BorderSide(
-                                            color: const Color(0xFF171433),
-                                            width: 1),
-                                      );
-                                    }),
-                                  ),
-                                  Container(
-                                    width: 43.w,
-                                    height: 43.w,
-                                    decoration: BoxDecoration(
-                                        color: Color(0xFFF1F1F1),
-                                        borderRadius:
-                                            BorderRadius.circular(10.r)),
-                                    child: Image.asset(Constant.icFoodUnselected),
-                                  ),
-                                  10.horizontalSpace,
-                                  Text(
-                                    "${controller.user.value.dailyJournal?[index].time} ${controller.user.value.dailyJournal?[index].name}",
-                                    style: TextStyle(
-                                        color: const Color(0xFF171433)
-                                            .withOpacity(0.8),
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  const Spacer(),
-                                  Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                    size: 20.r,
-                                  )
-                                ],
-                              ),
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            AppNavigator.push(
+                                routeName: AppPages.waterConsumedPage);
+                            // AppNavigator.push(
+                            //     routeName: AppPages.addMeal,
+                            //     arguments: {
+                            //       "type": controller
+                            //           .user.value.dailyJournal?[index].name,
+                            //       "date": DateTime.now()
+                            //     });
+                          },
+                          child: Container(
+                            padding: EdgeInsets.only(left: 10.w, right: 20.w),
+                            width: 335.w,
+                            height: 72.h,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20).r),
+                            child: Row(
+                              children: [
+                                Transform.scale(
+                                  scale: 1.2,
+                                  child: Obx(() {
+                                    return Checkbox(
+                                      value: controller.waterConsumed.value >=
+                                          2000,
+                                      onChanged: (val) {},
+                                      fillColor:
+                                          MaterialStateProperty.resolveWith(
+                                              (states) {
+                                        if (states
+                                            .contains(MaterialState.selected)) {
+                                          return const Color(0xFFDDF235);
+                                        }
+                                        return const Color(0xFF171433);
+                                      }),
+                                      checkColor: const Color(0xFF171433),
+                                      activeColor: Colors.green,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      side: const BorderSide(
+                                          color: const Color(0xFF171433),
+                                          width: 1),
+                                    );
+                                  }),
+                                ),
+                                Container(
+                                  width: 43.w,
+                                  height: 43.w,
+                                  decoration: BoxDecoration(
+                                      color: Color(0xFFF1F1F1),
+                                      borderRadius:
+                                          BorderRadius.circular(10.r)),
+                                  child:
+                                      Image.asset(Constant.icWaterUnselected),
+                                ),
+                                10.horizontalSpace,
+                                Text(
+                                  'Water',
+                                  style: TextStyle(
+                                      color: const Color(0xFF171433)
+                                          .withOpacity(0.8),
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                const Spacer(),
+                                Text(
+                                  "${(controller.waterConsumed.value / 1000).toStringAsFixed(1)} L",
+                                  style: TextStyle(
+                                      color: const Color(0xFF171433)
+                                          .withOpacity(0.8),
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ],
                             ),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return 10.verticalSpace;
-                        },
-                        itemCount:
-                            controller.user.value.dailyJournal?.length ?? 0);
+                          ),
+                        ),
+                        ListView.separated(
+                            padding: EdgeInsets.only(top: 10.h),
+                            shrinkWrap: true,
+                            physics: ClampingScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  AppNavigator.push(
+                                      routeName: AppPages.addMeal,
+                                      arguments: {
+                                        "type": controller.user.value
+                                            .dailyJournal?[index].name,
+                                        "date": DateTime.now()
+                                      });
+                                },
+                                child: Container(
+                                  padding:
+                                      EdgeInsets.only(left: 10.w, right: 20.w),
+                                  width: 335.w,
+                                  height: 72.h,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius:
+                                          BorderRadius.circular(20).r),
+                                  child: Row(
+                                    children: [
+                                      Transform.scale(
+                                        scale: 1.2,
+                                        child: Obx(() {
+                                          return Checkbox(
+                                            value: controller
+                                                .isCompleted(index)
+                                                .value,
+                                            onChanged: (val) {},
+                                            fillColor: MaterialStateProperty
+                                                .resolveWith((states) {
+                                              if (states.contains(
+                                                  MaterialState.selected)) {
+                                                return const Color(0xFFDDF235);
+                                              }
+                                              return const Color(0xFF171433);
+                                            }),
+                                            checkColor: const Color(0xFF171433),
+                                            activeColor: Colors.green,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            side: const BorderSide(
+                                                color: const Color(0xFF171433),
+                                                width: 1),
+                                          );
+                                        }),
+                                      ),
+                                      Container(
+                                        width: 43.w,
+                                        height: 43.w,
+                                        decoration: BoxDecoration(
+                                            color: Color(0xFFF1F1F1),
+                                            borderRadius:
+                                                BorderRadius.circular(10.r)),
+                                        child: Image.asset(
+                                            Constant.icFoodUnselected),
+                                      ),
+                                      10.horizontalSpace,
+                                      Text(
+                                        "${controller.user.value.dailyJournal?[index].time} ${controller.user.value.dailyJournal?[index].name}",
+                                        style: TextStyle(
+                                            color: const Color(0xFF171433)
+                                                .withOpacity(0.8),
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      const Spacer(),
+                                      Icon(
+                                        Icons.arrow_forward_ios_rounded,
+                                        size: 20.r,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return 10.verticalSpace;
+                            },
+                            itemCount:
+                                controller.user.value.dailyJournal?.length ??
+                                    0),
+                      ],
+                    );
                   }),
-                )
+                ),
+                80.verticalSpace,
               ],
             ),
           ),

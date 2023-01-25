@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:livewell/feature/water/presentation/controller/water_consumed_controller.dart';
 import 'package:livewell/feature/water/presentation/controller/water_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
@@ -9,7 +10,7 @@ import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 class WaterConsumedPage extends StatelessWidget {
   WaterConsumedPage({super.key});
 
-  final WaterContoller controller = Get.find();
+  final WaterConsumedController controller = Get.put(WaterConsumedController());
 
   @override
   Widget build(BuildContext context) {
