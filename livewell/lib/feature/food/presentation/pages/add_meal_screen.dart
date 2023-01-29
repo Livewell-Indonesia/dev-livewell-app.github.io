@@ -11,6 +11,7 @@ import 'package:livewell/feature/food/presentation/controller/add_meal_controlle
 import 'package:livewell/feature/food/presentation/pages/add_food_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/routes/app_navigator.dart';
+import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'dart:developer';
 
@@ -153,6 +154,148 @@ class _AddMealScreenState extends State<AddMealScreen>
         //     ),
         //   ],
         // ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              Text(
+                'Search Result',
+                style: TextStyle(
+                    fontSize: 20.sp,
+                    color: const Color(0xFF171433),
+                    fontWeight: FontWeight.w600),
+              ),
+              const Spacer(),
+              InkWell(
+                onTap: () {
+                  showModalBottomSheet<dynamic>(
+                      context: context,
+                      isScrollControlled: true,
+                      shape: ShapeBorder.lerp(
+                          const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20))),
+                          const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20))),
+                          1),
+                      builder: (BuildContext context) {
+                        return Wrap(
+                          children: [
+                            Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                ),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    child: Row(
+                                      children: [
+                                        Text('Filter',
+                                            style: TextStyle(
+                                                color: const Color(0xFF171433),
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 16.sp)),
+                                        const Spacer(),
+                                        TextButton(
+                                            onPressed: () {
+                                              addMealController.resetFilter();
+                                            },
+                                            child: Text('Reset filter',
+                                                style: TextStyle(
+                                                    color:
+                                                        const Color(0xFF8F01DF),
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 12.sp))),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    child: Text('Amount',
+                                        style: TextStyle(
+                                            color: const Color(0xFF171433),
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16.sp)),
+                                  ),
+                                  16.verticalSpace,
+                                  Obx(() {
+                                    return SearchFoodSliders(
+                                        title: 'Calories',
+                                        value: addMealController
+                                            .caloriesRange.value,
+                                        maxValue: 1500,
+                                        onChanged: (value) {
+                                          addMealController
+                                              .caloriesRange.value = value;
+                                        });
+                                  }),
+                                  24.verticalSpace,
+                                  Obx(() {
+                                    return SearchFoodSliders(
+                                        title: 'Protein',
+                                        value: addMealController
+                                            .proteinRange.value,
+                                        maxValue: 300,
+                                        onChanged: (value) {
+                                          addMealController.proteinRange.value =
+                                              value;
+                                        });
+                                  }),
+                                  24.verticalSpace,
+                                  Obx(() {
+                                    return SearchFoodSliders(
+                                        title: 'Fat',
+                                        value: addMealController.fatRange.value,
+                                        maxValue: 200,
+                                        onChanged: (value) {
+                                          addMealController.fatRange.value =
+                                              value;
+                                        });
+                                  }),
+                                  24.verticalSpace,
+                                  Obx(() {
+                                    return SearchFoodSliders(
+                                        title: 'Carbs',
+                                        value:
+                                            addMealController.carbsRange.value,
+                                        maxValue: 400,
+                                        onChanged: (value) {
+                                          addMealController.carbsRange.value =
+                                              value;
+                                        });
+                                  }),
+                                  64.verticalSpace,
+                                  LiveWellButton(
+                                      label: 'Submit',
+                                      color: const Color(0xFFDDF235),
+                                      onPressed: () {
+                                        addMealController.onSubmitFilter();
+                                        Get.back();
+                                      }),
+                                  32.verticalSpace
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      });
+                },
+                child: const Icon(Icons.filter_list),
+              )
+            ],
+          ),
+        ),
         Expanded(
           child: ListOfSearchResults(
               addMealController: addMealController, type: type, date: date),
@@ -506,5 +649,67 @@ extension ScanTypeAtt on ScanType {
       case ScanType.photo:
         return Constant.icScanMeal;
     }
+  }
+}
+
+class SearchFoodSliders extends StatefulWidget {
+  const SearchFoodSliders(
+      {super.key,
+      required this.title,
+      required this.value,
+      required this.maxValue,
+      required this.onChanged});
+
+  final String title;
+  final RangeValues value;
+  final double maxValue;
+  final ValueChanged<RangeValues> onChanged;
+
+  @override
+  State<SearchFoodSliders> createState() => _SearchFoodSlidersState();
+}
+
+class _SearchFoodSlidersState extends State<SearchFoodSliders> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(widget.title,
+              style: TextStyle(
+                  color: const Color(0xFF171433),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12.sp)),
+        ),
+        8.verticalSpace,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              Text(widget.value.start.toStringAsFixed(0)),
+              const Spacer(),
+              Text(widget.value.end.toStringAsFixed(0)),
+            ],
+          ),
+        ),
+        SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+                trackHeight: 12,
+                thumbColor: Colors.black,
+                activeTrackColor: const Color(0xFF34EAB2),
+                inactiveTrackColor: const Color(0XFFF1F1F1),
+                thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12),
+                minThumbSeparation: 0),
+            child: RangeSlider(
+                values: widget.value,
+                min: 0.0,
+                max: widget.maxValue,
+                onChanged: (value) {
+                  widget.onChanged(value);
+                })),
+      ],
+    );
   }
 }

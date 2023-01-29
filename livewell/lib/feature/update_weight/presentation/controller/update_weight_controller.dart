@@ -35,6 +35,7 @@ class UpdateWeightController extends GetxController {
         print("something went wrong");
       }, (r) {
         Get.find<DashboardController>().getUsersData();
+        Get.back();
       });
     }
   }

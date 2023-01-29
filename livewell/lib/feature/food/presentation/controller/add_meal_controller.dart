@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:algolia_helper_flutter/algolia_helper_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -29,14 +28,18 @@ class AddMealController extends GetxController
   GetUserMealHistory mealHistory = GetUserMealHistory.instance();
   late TabController tabController;
 
+  var caloriesRange = const RangeValues(0, 0).obs;
+  var fatRange = const RangeValues(0, 0).obs;
+  var carbsRange = const RangeValues(0, 0).obs;
+  var proteinRange = const RangeValues(0, 0).obs;
+
   @override
   void onInit() {
     super.onInit();
     focusNode.addListener(() {
       if (focusNode.hasFocus) {
-        state.value = SearchStates.searching;
+        state.value = SearchStates.searchingWithResults;
         hitsSearcher.query(textEditingController.text);
-        pagingController.refresh();
       } else {
         if (textEditingController.text.isEmpty) {
           state.value = SearchStates.initial;
@@ -60,6 +63,7 @@ class AddMealController extends GetxController
     });
     hitsSearcher.connectFilterState(_filterState);
     _filterState.filters.listen((event) => pagingController.refresh());
+
     tabController = TabController(length: 2, vsync: this);
     tabController.addListener(() {
       onTabChange(tabController.index);
@@ -98,6 +102,10 @@ class AddMealController extends GetxController
       Log.info("total history ${r.response?.length}");
       history.value = r.response ?? [];
     });
+  }
+
+  void onSubmitFilter() async {
+    filterByFacets();
   }
 
   void doSearchFood() async {
@@ -172,6 +180,40 @@ class AddMealController extends GetxController
       hitsSearcher.responses.map(HitsPage.fromResponse);
   final PagingController<int, Foods> pagingController =
       PagingController(firstPageKey: 0);
+
+  void filterByFacets() async {
+    pagingController.refresh();
+    hitsSearcher.applyState((state) {
+      return state.copyWith(numericFilters: generateFilters());
+    });
+  }
+
+  void resetFilter() {
+    Get.back();
+    pagingController.refresh();
+    hitsSearcher.applyState((state) {
+      return state.copyWith(numericFilters: []);
+    });
+  }
+
+  List<String> generateFilters() {
+    final filters = <String>[];
+    if (caloriesRange.value.start != 0 || caloriesRange.value.end != 0) {
+      filters.add(
+          'calories:${caloriesRange.value.start} TO ${caloriesRange.value.end}');
+    }
+    if (proteinRange.value.start != 0 || proteinRange.value.end != 0) {
+      filters.add(
+          'protein:${proteinRange.value.start} TO ${proteinRange.value.end}');
+    }
+    if (carbsRange.value.start != 0 || carbsRange.value.end != 0) {
+      filters.add('carbs:${carbsRange.value.start} TO ${carbsRange.value.end}');
+    }
+    if (fatRange.value.start != 0 || fatRange.value.end != 0) {
+      filters.add('fat:${fatRange.value.start} TO ${fatRange.value.end}');
+    }
+    return filters;
+  }
 }
 
 enum SearchStates {

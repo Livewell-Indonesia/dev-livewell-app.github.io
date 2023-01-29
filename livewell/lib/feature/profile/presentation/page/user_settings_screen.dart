@@ -103,7 +103,10 @@ class UserSettingsScreen extends StatelessWidget {
             20.verticalSpace,
             ProfileSettingsItem(
                 title: 'Physical Information',
-                icon: Image.asset(Constant.icPhysicalInfo),
+                icon: Icon(
+                  Icons.accessibility_new,
+                  size: 20.w,
+                ),
                 onPressed: () {
                   controller.physicalInformationTapped();
                 }),

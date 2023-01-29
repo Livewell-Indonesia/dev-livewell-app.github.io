@@ -44,4 +44,9 @@ class Endpoint {
 
   /// Sleep
   static const String getSleeps = "activities/lists";
+
+  /// water
+  static const String postWater = "hydration";
+
+  static const String getWater = "hydration/list";
 }

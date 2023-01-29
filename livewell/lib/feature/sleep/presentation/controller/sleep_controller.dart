@@ -66,7 +66,9 @@ class SleepController extends GetxController {
             deepSleepValue.first.details != null) {
           calculateDeepSleepAndLightSleep(lightSleepValue, deepSleepValue);
         } else if (sleepInBedValue.isNotEmpty) {
-          calculateSleepInBed(sleepInBedValue);
+          if (sleepInBedValue.first.totalValue != 0) {
+            calculateSleepInBed(sleepInBedValue);
+          }
         }
       }
     });
@@ -125,8 +127,9 @@ class SleepController extends GetxController {
   }
 
   void calculateSleepInBed(List<SleepActivityModel> sleepInBedValue) {
-    wentToSleep.value = DateFormat('hh:mm a').format(
-        DateTime.parse(sleepInBedValue.first.details?.first.dateFrom ?? ''));
+    wentToSleep.value = DateFormat('hh:mm a').format(DateTime.parse(
+        sleepInBedValue.first.details?.first.dateFrom ??
+            DateTime.now().toIso8601String()));
     wokeUp.value = DateFormat('hh:mm a').format(
         DateTime.parse(sleepInBedValue.first.details?.first.dateTo ?? ""));
     if (Get.isRegistered<DashboardController>()) {
