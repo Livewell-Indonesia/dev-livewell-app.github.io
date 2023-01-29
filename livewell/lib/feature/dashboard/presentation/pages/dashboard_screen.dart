@@ -74,7 +74,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         children: [
                           Obx(() {
                             return Text(
-                              'Hi, ${controller.user.value.firstName ?? ""}',
+                              'Hi ${controller.user.value.firstName ?? ""},',
                               style: TextStyle(
                                   color: const Color(0xFF171433),
                                   fontSize: 15.sp,
