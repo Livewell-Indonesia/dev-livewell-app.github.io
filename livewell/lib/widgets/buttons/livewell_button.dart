@@ -18,23 +18,23 @@ class LiveWellButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: Insets.paddingMedium),
+      padding: EdgeInsets.symmetric(horizontal: Insets.paddingMedium),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
             shadowColor: Colors.transparent,
-            minimumSize: Size(double.infinity, 44.w),
-            primary: color,
-            padding: const EdgeInsets.symmetric(
-                    horizontal: Insets.paddingMedium, vertical: 21.0)
-                .r,
+            fixedSize: Size(1.sw, 48.w),
+            backgroundColor: color,
+            padding: EdgeInsets.symmetric(
+                horizontal: Insets.paddingMedium,
+                vertical: Insets.paddingMedium.h),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(36.0).r)),
         child: Text(
           label,
           style: TextStyle(
               color: textColor ?? Colors.black,
-              fontSize: 18.sp,
+              fontSize: 16.sp,
               fontWeight: FontWeight.w500),
         ),
       ),

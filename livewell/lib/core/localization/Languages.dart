@@ -13,15 +13,14 @@ class Languages extends Translations {
           AppStringsKeys.alreadyHaveAccount: 'Already have account?',
           AppStringsKeys.dontHaveAccount: 'Don\'t have account?',
           AppStringsKeys.createNewAccount: 'Create New Account',
-          AppStringsKeys.enterYourDetails:
-              'Enter your details to create account',
+          AppStringsKeys.enterYourDetails: 'Enter your details to register',
           AppStringsKeys.email: 'Email Address',
           AppStringsKeys.password: 'Password',
           AppStringsKeys.fullName: 'Full Name',
-          AppStringsKeys.orSignUpWith: 'Or Sign Up With',
+          AppStringsKeys.orSignUpWith: 'Or Sign up with',
           AppStringsKeys.firstName: 'First Name',
           AppStringsKeys.lastName: 'Last Name',
-          AppStringsKeys.orSignInWith: 'Or Sign In With',
+          AppStringsKeys.orSignInWith: 'or Sign in with',
           AppStringsKeys.forgotPassword: 'Forgot Password?',
           AppStringsKeys.getStarted2: 'Get Started!',
           AppStringsKeys.youReadyToGo: 'You are ready to go!',
@@ -31,6 +30,12 @@ class Languages extends Translations {
               'Please enter your email address. You will receive a link to create a new password via email.',
           AppStringsKeys.submit: 'Submit',
           AppStringsKeys.forgotPassword2: 'Forgot Password',
+          AppStringsKeys.bySigninAbove:
+              "by Sign in above, i agree to Livewell’s\n",
+          AppStringsKeys.termsAndConditions: 'Terms & Conditions ',
+          AppStringsKeys.and: 'and ',
+          AppStringsKeys.privacyPolicy: 'Privacy Policy ',
+          AppStringsKeys.bySigningUp: 'By signing up, I agree to Livewell’s \n',
         },
         'es_ES': {
           'title': 'Hola',
@@ -66,4 +71,10 @@ class AppStringsKeys {
   static const String forgotPasswordDesc = 'forgot_password_desc';
   static const String submit = 'submit';
   static const String forgotPassword2 = 'forgot_password2';
+  static const String bySigninAbove = 'by_signin_above';
+  static const String termsAndConditions = 'terms_and_conditions';
+  static const String and = 'and';
+  static const String privacyPolicy = 'privacy_policy';
+  static const String bySigningUp = 'by_signing_up';
+  static const String or = 'or';
 }

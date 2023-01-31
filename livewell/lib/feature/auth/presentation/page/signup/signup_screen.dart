@@ -6,8 +6,10 @@ import 'package:get/get.dart';
 import 'package:livewell/core/localization/Languages.dart';
 import 'package:livewell/feature/auth/presentation/controller/login_controller.dart';
 import 'package:livewell/feature/auth/presentation/controller/signup_controller.dart';
+import 'package:livewell/feature/auth/presentation/page/login/login_screen.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
+import 'package:livewell/widgets/textfield/auth_textfield.dart';
 import 'package:livewell/widgets/textfield/livewell_textfield.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -23,56 +25,50 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: '',
+        title: 'Create New Account',
         backgroundColor: Colors.white,
         body: Expanded(child: Obx(() {
           return ListView(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Text(AppStringsKeys.createNewAccount.tr,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: const Color(0xFF171433),
-                        fontSize: 30.sp,
-                        fontWeight: FontWeight.w600)),
-              ),
-              Text(AppStringsKeys.enterYourDetails.tr,
-                  textAlign: TextAlign.center,
+              Center(
+                child: Text(
+                  AppStringsKeys.enterYourDetails.tr,
                   style: TextStyle(
-                      color: const Color(0xFF171433).withOpacity(0.7),
+                      color: const Color(0xB2171433),
                       fontSize: 16.sp,
-                      fontWeight: FontWeight.w600)),
-              20.verticalSpace,
-              LiveWellTextField(
+                      fontWeight: FontWeight.w500),
+                ),
+              ),
+              24.verticalSpace,
+              AuthTextField(
                   controller: controller.firstName,
                   hintText: null,
                   labelText: AppStringsKeys.firstName.tr,
                   errorText: controller.firstNameError.value,
                   obscureText: false),
-              20.verticalSpace,
-              LiveWellTextField(
+              16.verticalSpace,
+              AuthTextField(
                   controller: controller.lastName,
                   hintText: null,
                   labelText: AppStringsKeys.lastName.tr,
                   errorText: controller.lastNameError.value,
                   obscureText: false),
-              20.verticalSpace,
-              LiveWellTextField(
+              16.verticalSpace,
+              AuthTextField(
                   controller: controller.email,
                   hintText: null,
                   labelText: AppStringsKeys.email.tr,
                   errorText: controller.emailError.value,
                   isEmail: true,
                   obscureText: false),
-              20.verticalSpace,
-              LiveWellTextField(
+              16.verticalSpace,
+              AuthTextField(
                   controller: controller.password,
                   hintText: AppStringsKeys.password.tr,
                   labelText: AppStringsKeys.password.tr,
                   errorText: controller.passwordError.value,
                   obscureText: true),
-              20.verticalSpace,
+              32.verticalSpace,
               LiveWellButton(
                   label: AppStringsKeys.signUp.tr,
                   color: const Color(0xFFDDF235),
@@ -80,10 +76,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     controller.onRegisterTapped();
                     //AppNavigator.push(routeName: AppPages.questionnaire);
                   }),
-              20.verticalSpace,
+              32.verticalSpace,
               Center(
                 child: Text(
-                  AppStringsKeys.orSignUpWith.tr,
+                  AppStringsKeys.or.tr,
                   style: const TextStyle(
                       fontSize: 16,
                       color: Color(0xFF171433),
@@ -91,17 +87,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               16.verticalSpace,
-
-              Center(
-                child: SignInButton(
-                  Buttons.Google,
+              SigninThridPartyButton(
+                  type: SignInButtonType.googleRegister,
                   onPressed: () {
                     controller.onGoogleLoginTapped();
-                  },
-                  text: "Sign up with Google",
-                ),
-              ),
-              //Spacer(),
+                  }),
+              4.verticalSpace,
+              SigninThridPartyButton(
+                  type: SignInButtonType.appleRegister, onPressed: () {}),
+              24.verticalSpace,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -125,59 +119,57 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ))
                 ],
               ),
-              10.verticalSpace,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30.w),
+              24.verticalSpace,
+              Center(
                 child: RichText(
                     textAlign: TextAlign.center,
-                    text: TextSpan(children: [
-                      TextSpan(
-                          text:
-                              'By clicking "Sign Up / Sign up with google" above, you acknowledge that you have read and understood, and agree to LIVEWELL\'s\n ',
-                          style: TextStyle(
-                              color: const Color(0xFF171433).withOpacity(0.7),
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600)),
-                      TextSpan(
-                        text: 'Terms & condition',
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Get.to(() => const WebView(
-                                  initialUrl: 'https://livewellindo.com/terms',
-                                  javascriptMode: JavascriptMode.unrestricted,
-                                ));
-                          },
+                    text: TextSpan(
+                        text: AppStringsKeys.bySigningUp.tr,
                         style: TextStyle(
                             color: const Color(0xFF171433).withOpacity(0.7),
                             fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                            decoration: TextDecoration.underline),
-                      ),
-                      TextSpan(
-                        text: ' and ',
-                        style: TextStyle(
-                            color: const Color(0xFF171433).withOpacity(0.7),
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      TextSpan(
-                        text: 'Privacy policy',
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Get.to(() => const WebView(
-                                  initialUrl:
-                                      'https://livewellindo.com/privacy',
-                                  javascriptMode: JavascriptMode.unrestricted,
-                                ));
-                            //AppNavigator.push(routeName: AppPages.privacyPolicy);
-                          },
-                        style: TextStyle(
-                            color: const Color(0xFF171433).withOpacity(0.7),
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w500,
-                            decoration: TextDecoration.underline),
-                      )
-                    ])),
+                            fontWeight: FontWeight.w400),
+                        children: [
+                          TextSpan(
+                            text: AppStringsKeys.termsAndConditions.tr,
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Get.to(() => const WebView(
+                                      initialUrl:
+                                          'https://livewellindo.com/terms',
+                                      javascriptMode:
+                                          JavascriptMode.unrestricted,
+                                    ));
+                              },
+                            style: TextStyle(
+                                color: const Color(0xFF8F01DF),
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          TextSpan(
+                            text: AppStringsKeys.and.tr,
+                            style: TextStyle(
+                                color: const Color(0xFF171433).withOpacity(0.7),
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          TextSpan(
+                            text: AppStringsKeys.privacyPolicy.tr,
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Get.to(() => const WebView(
+                                      initialUrl:
+                                          'https://livewellindo.com/privacy',
+                                      javascriptMode:
+                                          JavascriptMode.unrestricted,
+                                    ));
+                              },
+                            style: TextStyle(
+                                color: const Color(0xFF8F01DF),
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ])),
               ),
             ],
           );
