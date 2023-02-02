@@ -191,6 +191,11 @@ class AddMealController extends GetxController
   void resetFilter() {
     Get.back();
     pagingController.refresh();
+    proteinRange.value = RangeValues(0, 0);
+    carbsRange.value = RangeValues(0, 0);
+    fatRange.value = RangeValues(0, 0);
+    caloriesRange.value = RangeValues(0, 0);
+
     hitsSearcher.applyState((state) {
       return state.copyWith(numericFilters: []);
     });

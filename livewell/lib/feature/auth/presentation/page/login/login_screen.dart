@@ -91,7 +91,6 @@ class LoginScreen extends StatelessWidget {
                       AppleIDAuthorizationScopes.email,
                       AppleIDAuthorizationScopes.fullName,
                     ]);
-                    print(credential);
                   }),
               24.verticalSpace,
               Row(
