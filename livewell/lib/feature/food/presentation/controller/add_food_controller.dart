@@ -62,9 +62,7 @@ class AddFoodController extends GetxController {
       Get.find<FoodController>().fetchUserMealHistory();
     }
     await EasyLoading.dismiss();
-    result.fold((l) {
-      print(l);
-    }, (r) {
+    result.fold((l) {}, (r) {
       AppNavigator.popUntil(routeName: AppPages.home);
     });
   }

@@ -97,7 +97,7 @@ class AddMealController extends GetxController
 
   void getFoodsHistory() async {
     final result = await mealHistory.call(UserMealHistoryParams());
-    result.fold((l) => print(l), (r) {
+    result.fold((l) {}, (r) {
       inspect(r.response);
       Log.info("total history ${r.response?.length}");
       history.value = r.response ?? [];

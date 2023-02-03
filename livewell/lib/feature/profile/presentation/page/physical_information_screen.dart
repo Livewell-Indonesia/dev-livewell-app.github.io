@@ -13,7 +13,7 @@ import '../../../../widgets/buttons/livewell_button.dart';
 import 'account_settings_screen.dart';
 
 class PhysicalInformationScreen extends StatelessWidget {
-  PhysicalInformationController controller =
+  final PhysicalInformationController controller =
       Get.put(PhysicalInformationController());
   PhysicalInformationScreen({Key? key}) : super(key: key);
 

@@ -118,7 +118,7 @@ class NutrientFactScreen extends StatelessWidget {
                 fontSize: 20.sp,
                 color: const Color(0xFF171433),
                 fontWeight: FontWeight.w600)),
-        Spacer(),
+        const Spacer(),
         Text(value ?? "-",
             style: TextStyle(
                 fontSize: 20.sp,

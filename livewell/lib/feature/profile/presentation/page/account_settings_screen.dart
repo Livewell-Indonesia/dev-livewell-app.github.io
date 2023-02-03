@@ -156,12 +156,12 @@ class AccountSettingsScreen extends StatelessWidget {
 }
 
 class AccountSettingsTextField extends StatefulWidget {
-  TextEditingController textEditingController;
-  String hintText;
-  bool enabled;
-  TextInputType inputType;
-  List<TextInputFormatter> inputFormatter;
-  AccountSettingsTextField({
+  final TextEditingController textEditingController;
+  final String hintText;
+  final bool enabled;
+  final TextInputType inputType;
+  final List<TextInputFormatter> inputFormatter;
+  const AccountSettingsTextField({
     Key? key,
     required this.textEditingController,
     required this.hintText,

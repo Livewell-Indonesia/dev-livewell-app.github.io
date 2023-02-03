@@ -266,10 +266,10 @@ class UserDiaryScreen extends StatelessWidget {
 class ExpandableDiaryItem extends StatelessWidget {
   final String title;
   final List<MealHistoryModel> data;
-  VoidCallback onTap;
+  final VoidCallback onTap;
   final void Function(int) onDelete;
   final void Function(int index, double value) onUpdate;
-  ExpandableDiaryItem(
+  const ExpandableDiaryItem(
       {Key? key,
       required this.title,
       required this.data,

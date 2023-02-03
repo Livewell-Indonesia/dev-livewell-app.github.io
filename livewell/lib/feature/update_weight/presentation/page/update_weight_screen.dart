@@ -10,7 +10,7 @@ import '../../../profile/presentation/page/account_settings_screen.dart';
 class UpdateWeightScreen extends StatelessWidget {
   UpdateWeightScreen({super.key});
 
-  UpdateWeightController controller = Get.put(UpdateWeightController());
+  final UpdateWeightController controller = Get.put(UpdateWeightController());
 
   @override
   Widget build(BuildContext context) {

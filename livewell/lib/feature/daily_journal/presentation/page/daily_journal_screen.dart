@@ -8,7 +8,7 @@ import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
 class DailyJournalScreen extends StatefulWidget {
-  DailyJournalScreen({Key? key}) : super(key: key);
+  const DailyJournalScreen({Key? key}) : super(key: key);
 
   @override
   State<DailyJournalScreen> createState() => _DailyJournalScreenState();

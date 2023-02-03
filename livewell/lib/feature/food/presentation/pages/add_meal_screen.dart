@@ -14,7 +14,7 @@ import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'dart:developer';
 
 class AddMealScreen extends StatefulWidget {
-  AddMealScreen({Key? key}) : super(key: key);
+  const AddMealScreen({Key? key}) : super(key: key);
 
   @override
   State<AddMealScreen> createState() => _AddMealScreenState();

@@ -20,7 +20,7 @@ import 'nutrient_fact_screen.dart';
 class AddFoodScreen extends StatefulWidget {
   final Foods food;
   final MealTime mealTime;
-  AddFoodScreen({required this.food, required this.mealTime, Key? key})
+  const AddFoodScreen({required this.food, required this.mealTime, Key? key})
       : super(key: key);
 
   @override

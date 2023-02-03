@@ -72,7 +72,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
             //   );
             // }),
             //40.verticalSpace,
-            ExerciseDiaryScreen(),
+            const ExerciseDiaryScreen(),
             // Expanded(
             //   child:
             //       TabBarView(controller: controller.tabController, children: [

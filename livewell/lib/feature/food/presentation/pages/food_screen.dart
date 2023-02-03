@@ -12,7 +12,7 @@ import '../../../../widgets/scaffold/livewell_scaffold.dart';
 import '../controller/food_controller.dart';
 
 class FoodScreen extends StatefulWidget {
-  FoodScreen({Key? key}) : super(key: key);
+  const FoodScreen({Key? key}) : super(key: key);
 
   @override
   State<FoodScreen> createState() => _FoodScreenState();
@@ -151,10 +151,10 @@ class NutrtionProgressModel {
 }
 
 class NutritionProgressDescription extends StatelessWidget {
-  List<NutrtionProgressModel> data;
-  Color backgroundColor;
-  Color? dividerColor;
-  NutritionProgressDescription(
+  final List<NutrtionProgressModel> data;
+  final Color backgroundColor;
+  final Color? dividerColor;
+  const NutritionProgressDescription(
       {Key? key,
       required this.data,
       this.backgroundColor = Colors.white,

@@ -5,7 +5,7 @@ import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class ScanBarcodeScreen extends StatefulWidget {
-  ScanBarcodeScreen({Key? key}) : super(key: key);
+  const ScanBarcodeScreen({Key? key}) : super(key: key);
 
   @override
   State<ScanBarcodeScreen> createState() => _ScanBarcodeScreenState();

@@ -150,8 +150,6 @@ class SleepController extends GetxController {
 
   void calculateDeepSleepAndLightSleep(List<SleepActivityModel> lightSleepValue,
       List<SleepActivityModel> deepSleepValue) {
-    var totalSleep = (lightSleepValue.first.totalValue ?? 0) +
-        (deepSleepValue.first.totalValue ?? 0);
     feelASleep.value = durationToString(lightSleepValue.first.totalValue ?? 0);
     deepSleep.value = durationToString(deepSleepValue.first.totalValue ?? 0);
     var newValue = lightSleepValue.first.details ?? [];

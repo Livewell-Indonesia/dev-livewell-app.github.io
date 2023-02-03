@@ -14,7 +14,7 @@ import '../controller/home_controller.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 
 class HomeScreen extends StatelessWidget {
-  HomeController controller = Get.put(HomeController());
+  final HomeController controller = Get.put(HomeController());
   HomeScreen({Key? key}) : super(key: key);
 
   @override
