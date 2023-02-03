@@ -4,10 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
-import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
-import 'package:livewell/widgets/horizontal_picker/horizontal_picker.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
 import '../../../../widgets/scaffold/livewell_scaffold.dart';
@@ -219,7 +217,7 @@ class NutritionProgressDescription extends StatelessWidget {
               height: 16,
               decoration: BoxDecoration(
                   color: color,
-                  borderRadius: BorderRadius.all(Radius.circular(4.0))),
+                  borderRadius: const BorderRadius.all(Radius.circular(4.0))),
             ),
           ),
           const SizedBox(
@@ -227,20 +225,16 @@ class NutritionProgressDescription extends StatelessWidget {
           ),
           Expanded(
             flex: 46,
-            child: Container(
-              child: Text(
-                name,
-                style: TextStyles.body(color: Colors.black),
-              ),
+            child: Text(
+              name,
+              style: TextStyles.body(color: Colors.black),
             ),
           ),
           Expanded(
             flex: 46,
-            child: Container(
-              child: Text(
-                total,
-                style: TextStyles.body(color: Colors.black),
-              ),
+            child: Text(
+              total,
+              style: TextStyles.body(color: Colors.black),
             ),
           ),
           Expanded(
@@ -333,7 +327,7 @@ class ButtonAddMeal extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 21.0),
+          padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 21.0),
           decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(16.0))),
@@ -361,8 +355,8 @@ class ButtonAddMeal extends StatelessWidget {
 
   Widget icons() {
     return Container(
-      padding: EdgeInsets.all(6.0),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(6.0),
+      decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(8.0))),
       child: Image.asset(type.icon()),
@@ -425,7 +419,7 @@ final customWidth01 = CustomSliderWidths(trackWidth: 4, progressBarWidth: 12);
 final customColors01 = CustomSliderColors(
     dotColor: Colors.transparent,
     trackColor: Colors.white,
-    progressBarColor: Color(0xFFDDF235),
+    progressBarColor: const Color(0xFFDDF235),
     hideShadow: true);
 
 final CircularSliderAppearance appearance01 = CircularSliderAppearance(
@@ -440,7 +434,7 @@ final customWidth02 = CustomSliderWidths(trackWidth: 4, progressBarWidth: 12);
 final customColors02 = CustomSliderColors(
     dotColor: Colors.transparent,
     trackColor: Colors.white,
-    progressBarColor: Color(0xFF8F01DF),
+    progressBarColor: const Color(0xFF8F01DF),
     hideShadow: true);
 
 final CircularSliderAppearance appearance02 = CircularSliderAppearance(
@@ -455,7 +449,7 @@ final customWidth03 = CustomSliderWidths(trackWidth: 4, progressBarWidth: 12);
 final customColors03 = CustomSliderColors(
     dotColor: Colors.transparent,
     trackColor: Colors.white,
-    progressBarColor: Color(0xFF34EAB2),
+    progressBarColor: const Color(0xFF34EAB2),
     hideShadow: true);
 
 final CircularSliderAppearance appearance03 = CircularSliderAppearance(

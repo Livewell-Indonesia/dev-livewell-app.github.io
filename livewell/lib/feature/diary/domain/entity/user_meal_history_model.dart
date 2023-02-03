@@ -9,15 +9,15 @@ class UserMealHistoryModel {
     if (json['response'] != null) {
       response = <MealHistoryModel>[];
       json['response'].forEach((v) {
-        response!.add(new MealHistoryModel.fromJson(v));
+        response!.add(MealHistoryModel.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.response != null) {
-      data['response'] = this.response!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (response != null) {
+      data['response'] = response!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -264,7 +264,7 @@ class MealHistoryModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id.toString();
     data['meal_name'] = mealName;
     data['meal_brand'] = mealBrand;
@@ -274,62 +274,42 @@ class MealHistoryModel {
     data['updated_at'] = updatedAt;
     data['calories_in_g'] = (caloriesInG ?? 0) * (servingSize ?? 1);
     data['carbohydrates_in_g'] = (carbohydratesInG ?? 0) * (servingSize ?? 1);
-    data['protein_in_g'] = (this.proteinInG ?? 0) * (this.servingSize ?? 1);
-    data['fat_in_g'] = (this.fatInG ?? 0) * (this.servingSize ?? 1);
-    data['saturated_fat_in_g'] =
-        (this.saturatedFatInG ?? 0) * (this.servingSize ?? 1);
-    data['transfat_in_g'] = (this.transfatInG ?? 0) * (this.servingSize ?? 1);
+    data['protein_in_g'] = (proteinInG ?? 0) * (servingSize ?? 1);
+    data['fat_in_g'] = (fatInG ?? 0) * (servingSize ?? 1);
+    data['saturated_fat_in_g'] = (saturatedFatInG ?? 0) * (servingSize ?? 1);
+    data['transfat_in_g'] = (transfatInG ?? 0) * (servingSize ?? 1);
     data['monosaturated_fat_in_g'] =
-        (this.monosaturatedFatInG ?? 0) * (this.servingSize ?? 1);
+        (monosaturatedFatInG ?? 0) * (servingSize ?? 1);
     data['polyunsaturated_fat_in_g'] =
-        (this.polyunsaturatedFatInG ?? 0) * (this.servingSize ?? 1);
-    data['vitamin_a_in_mcg'] =
-        (this.vitaminAInMcg ?? 0) * (this.servingSize ?? 1);
-    data['vitamin_c_in_mg'] =
-        (this.vitaminCInMg ?? 0) * (this.servingSize ?? 1);
-    data['vitamin_d_in_mcg'] =
-        (this.vitaminDInMcg ?? 0) * (this.servingSize ?? 1);
-    data['vitamin_e_in_mg'] =
-        (this.vitaminEInMg ?? 0) * (this.servingSize ?? 1);
-    data['vitamin_k_in_mcg'] =
-        (this.vitaminKInMcg ?? 0) * (this.servingSize ?? 1);
-    data['vitamin_b1_in_mg'] =
-        (this.vitaminB1InMg ?? 0) * (this.servingSize ?? 1);
-    data['vitamin_b2_in_mg'] =
-        (this.vitaminB2InMg ?? 0) * (this.servingSize ?? 1);
-    data['vitamin_b3_in_mg'] =
-        (this.vitaminB3InMg ?? 0) * (this.servingSize ?? 1);
-    data['vitamin_b5_in_mg'] =
-        (this.vitaminB5InMg ?? 0) * (this.servingSize ?? 1);
-    data['vitamin_b6_in_mg'] =
-        (this.vitaminB6InMg ?? 0) * (this.servingSize ?? 1);
-    data['vitamin_b7_in_mcg'] =
-        (this.vitaminB7InMcg ?? 0) * (this.servingSize ?? 1);
-    data['vitamin_b9_in_mcg'] =
-        (this.vitaminB9InMcg ?? 0) * (this.servingSize ?? 1);
-    data['vitamin_b12_in_mcg'] =
-        (this.vitaminB12InMcg ?? 0) * (this.servingSize ?? 1);
-    data['calcium_in_mg'] = (this.calciumInMg ?? 0) * (this.servingSize ?? 1);
-    data['phosphorus_in_mg'] =
-        (this.phosphorusInMg ?? 0) * (this.servingSize ?? 1);
-    data['magnesium_in_mg'] =
-        (this.magnesiumInMg ?? 0) * (this.servingSize ?? 1);
-    data['sodium_in_mg'] = (this.sodiumInMg ?? 0) * (this.servingSize ?? 1);
-    data['potassium_in_mg'] =
-        (this.potassiumInMg ?? 0) * (this.servingSize ?? 1);
-    data['chloride_in_mg'] = (this.chlorideInMg ?? 0) * (this.servingSize ?? 1);
-    data['iron_in_mg'] = (this.ironInMg ?? 0) * (this.servingSize ?? 1);
-    data['iodine_in_mcg'] = (this.iodineInMcg ?? 0) * (this.servingSize ?? 1);
-    data['zinc_in_mg'] = (this.zincInMg ?? 0) * (this.servingSize ?? 1);
-    data['selenium_in_mcg'] =
-        (this.seleniumInMcg ?? 0) * (this.servingSize ?? 1);
-    data['fluoride_in_mg'] = (this.fluorideInMg ?? 0) * (this.servingSize ?? 1);
-    data['chromium_in_mcg'] =
-        (this.chromiumInMcg ?? 0) * (this.servingSize ?? 1);
-    data['molybdenum_in_mcg'] =
-        (this.molybdenumInMcg ?? 0) * (this.servingSize ?? 1);
-    data['meal_at'] = this.mealAt;
-    data['serving_size'] = this.servingSize;
+        (polyunsaturatedFatInG ?? 0) * (servingSize ?? 1);
+    data['vitamin_a_in_mcg'] = (vitaminAInMcg ?? 0) * (servingSize ?? 1);
+    data['vitamin_c_in_mg'] = (vitaminCInMg ?? 0) * (servingSize ?? 1);
+    data['vitamin_d_in_mcg'] = (vitaminDInMcg ?? 0) * (servingSize ?? 1);
+    data['vitamin_e_in_mg'] = (vitaminEInMg ?? 0) * (servingSize ?? 1);
+    data['vitamin_k_in_mcg'] = (vitaminKInMcg ?? 0) * (servingSize ?? 1);
+    data['vitamin_b1_in_mg'] = (vitaminB1InMg ?? 0) * (servingSize ?? 1);
+    data['vitamin_b2_in_mg'] = (vitaminB2InMg ?? 0) * (servingSize ?? 1);
+    data['vitamin_b3_in_mg'] = (vitaminB3InMg ?? 0) * (servingSize ?? 1);
+    data['vitamin_b5_in_mg'] = (vitaminB5InMg ?? 0) * (servingSize ?? 1);
+    data['vitamin_b6_in_mg'] = (vitaminB6InMg ?? 0) * (servingSize ?? 1);
+    data['vitamin_b7_in_mcg'] = (vitaminB7InMcg ?? 0) * (servingSize ?? 1);
+    data['vitamin_b9_in_mcg'] = (vitaminB9InMcg ?? 0) * (servingSize ?? 1);
+    data['vitamin_b12_in_mcg'] = (vitaminB12InMcg ?? 0) * (servingSize ?? 1);
+    data['calcium_in_mg'] = (calciumInMg ?? 0) * (servingSize ?? 1);
+    data['phosphorus_in_mg'] = (phosphorusInMg ?? 0) * (servingSize ?? 1);
+    data['magnesium_in_mg'] = (magnesiumInMg ?? 0) * (servingSize ?? 1);
+    data['sodium_in_mg'] = (sodiumInMg ?? 0) * (servingSize ?? 1);
+    data['potassium_in_mg'] = (potassiumInMg ?? 0) * (servingSize ?? 1);
+    data['chloride_in_mg'] = (chlorideInMg ?? 0) * (servingSize ?? 1);
+    data['iron_in_mg'] = (ironInMg ?? 0) * (servingSize ?? 1);
+    data['iodine_in_mcg'] = (iodineInMcg ?? 0) * (servingSize ?? 1);
+    data['zinc_in_mg'] = (zincInMg ?? 0) * (servingSize ?? 1);
+    data['selenium_in_mcg'] = (seleniumInMcg ?? 0) * (servingSize ?? 1);
+    data['fluoride_in_mg'] = (fluorideInMg ?? 0) * (servingSize ?? 1);
+    data['chromium_in_mcg'] = (chromiumInMcg ?? 0) * (servingSize ?? 1);
+    data['molybdenum_in_mcg'] = (molybdenumInMcg ?? 0) * (servingSize ?? 1);
+    data['meal_at'] = mealAt;
+    data['serving_size'] = servingSize;
     return data;
   }
 }

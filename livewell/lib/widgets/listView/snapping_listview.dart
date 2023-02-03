@@ -28,7 +28,8 @@ class SnappingListView extends StatefulWidget {
         super(key: key);
 
   const SnappingListView.builder(
-      {this.scrollDirection = Axis.vertical,
+      {super.key,
+      this.scrollDirection = Axis.vertical,
       this.controller,
       required this.itemBuilder,
       this.itemCount,

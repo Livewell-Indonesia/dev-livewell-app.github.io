@@ -1,5 +1,3 @@
-import 'package:algolia_helper_flutter/algolia_helper_flutter.dart';
-import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -574,7 +572,7 @@ class SearchHistoryItem extends StatelessWidget {
       onTap: callback,
       child: Container(
         width: double.infinity,
-        margin: EdgeInsets.symmetric(horizontal: 16),
+        margin: const EdgeInsets.symmetric(horizontal: 16),
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -590,7 +588,7 @@ class SearchHistoryItem extends StatelessWidget {
                   Text(
                     title,
                     style: TextStyle(
-                        color: Color(0xFF171433).withOpacity(0.8),
+                        color: const Color(0xFF171433).withOpacity(0.8),
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w600),
                   ),
@@ -600,7 +598,7 @@ class SearchHistoryItem extends StatelessWidget {
                           description,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                              color: Color(0xFF171433).withOpacity(0.5),
+                              color: const Color(0xFF171433).withOpacity(0.5),
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w500),
                         ),
@@ -611,10 +609,10 @@ class SearchHistoryItem extends StatelessWidget {
               width: 35,
               height: 35,
               decoration: BoxDecoration(
-                color: Color(0xFFF1F1F1),
+                color: const Color(0xFFF1F1F1),
                 borderRadius: BorderRadius.circular(14),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.arrow_forward_ios,
                 color: Colors.black,
                 size: 16,

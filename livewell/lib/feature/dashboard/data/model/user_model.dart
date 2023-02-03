@@ -61,11 +61,11 @@ class UserModel {
     if (json['daily_journal'] != null) {
       dailyJournal = <DailyJournal>[];
       json['daily_journal'].forEach((v) {
-        dailyJournal!.add(new DailyJournal.fromJson(v));
+        dailyJournal!.add(DailyJournal.fromJson(v));
       });
     }
     onboardingQuestionnaire = json['onboarding_questionnaire'] != null
-        ? new OnboardingQuestionnaire.fromJson(json['onboarding_questionnaire'])
+        ? OnboardingQuestionnaire.fromJson(json['onboarding_questionnaire'])
         : null;
   }
 
@@ -116,27 +116,26 @@ class UserModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['email'] = this.email;
-    data['mcc'] = this.mcc;
-    data['phone_number'] = this.phoneNumber;
-    data['reference_id'] = this.referenceId;
-    data['status'] = this.status;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['birth_date'] = this.birthDate;
-    data['gender'] = this.gender;
-    data['height'] = this.height;
-    data['weight'] = this.weight;
-    data['bmi'] = this.bmi;
-    data['bmr'] = this.bmr;
-    data['weight_target'] = this.weightTarget;
-    if (this.dailyJournal != null) {
-      data['daily_journal'] =
-          this.dailyJournal!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['email'] = email;
+    data['mcc'] = mcc;
+    data['phone_number'] = phoneNumber;
+    data['reference_id'] = referenceId;
+    data['status'] = status;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['birth_date'] = birthDate;
+    data['gender'] = gender;
+    data['height'] = height;
+    data['weight'] = weight;
+    data['bmi'] = bmi;
+    data['bmr'] = bmr;
+    data['weight_target'] = weightTarget;
+    if (dailyJournal != null) {
+      data['daily_journal'] = dailyJournal!.map((v) => v.toJson()).toList();
     }
-    if (this.onboardingQuestionnaire != null) {
-      data['onboarding_questionnaire'] = this.onboardingQuestionnaire!.toJson();
+    if (onboardingQuestionnaire != null) {
+      data['onboarding_questionnaire'] = onboardingQuestionnaire!.toJson();
     }
     return data;
   }
@@ -154,9 +153,9 @@ class DailyJournal {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['time'] = this.time;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['time'] = time;
     return data;
   }
 }
@@ -207,19 +206,19 @@ class OnboardingQuestionnaire {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['describe_physical_health'] = this.describePhysicalHealth;
-    data['dietary_restrictions'] = this.dietaryRestrictions;
-    data['eating_habits'] = this.eatingHabits;
-    data['exercise_per_week'] = this.exercisePerWeek;
-    data['feel_about_change'] = this.feelAboutChange;
-    data['glasses_of_water_daily'] = this.glassesOfWaterDaily;
-    data['meal_type'] = this.mealType;
-    data['sleep_duration'] = this.sleepDuration;
-    data['sleep_problem'] = this.sleepProblem;
-    data['source_of_carbs'] = this.sourceOfCarbs;
-    data['target_improvement'] = this.targetImprovement;
-    data['user_raw_food_material'] = this.userRawFoodMaterial;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['describe_physical_health'] = describePhysicalHealth;
+    data['dietary_restrictions'] = dietaryRestrictions;
+    data['eating_habits'] = eatingHabits;
+    data['exercise_per_week'] = exercisePerWeek;
+    data['feel_about_change'] = feelAboutChange;
+    data['glasses_of_water_daily'] = glassesOfWaterDaily;
+    data['meal_type'] = mealType;
+    data['sleep_duration'] = sleepDuration;
+    data['sleep_problem'] = sleepProblem;
+    data['source_of_carbs'] = sourceOfCarbs;
+    data['target_improvement'] = targetImprovement;
+    data['user_raw_food_material'] = userRawFoodMaterial;
     return data;
   }
 }

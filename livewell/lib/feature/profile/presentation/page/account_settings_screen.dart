@@ -7,8 +7,6 @@ import 'package:livewell/feature/profile/presentation/controller/account_setting
 import 'package:livewell/feature/profile/presentation/page/user_settings_screen.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 
-import '../controller/user_settings_controller.dart';
-
 class AccountSettingsScreen extends StatelessWidget {
   final AccountSettingsController controller =
       Get.put(AccountSettingsController());
@@ -186,7 +184,8 @@ class _AccountSettingsTextFieldState extends State<AccountSettingsTextField> {
       keyboardBarColor: Colors.grey[200],
       nextFocus: false,
       actions: widget.inputType == TextInputType.number ||
-              widget.inputType == TextInputType.numberWithOptions(decimal: true)
+              widget.inputType ==
+                  const TextInputType.numberWithOptions(decimal: true)
           ? [
               KeyboardActionsItem(
                 focusNode: _focusNode,
@@ -246,7 +245,7 @@ class _AccountSettingsTextFieldState extends State<AccountSettingsTextField> {
                   widget.hintText,
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                      color: Color(0xFF171433).withOpacity(0.5),
+                      color: const Color(0xFF171433).withOpacity(0.5),
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w500),
                 ),

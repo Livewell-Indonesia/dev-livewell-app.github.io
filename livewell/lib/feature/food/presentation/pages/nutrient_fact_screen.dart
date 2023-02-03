@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
@@ -119,13 +116,13 @@ class NutrientFactScreen extends StatelessWidget {
         Text(name,
             style: TextStyle(
                 fontSize: 20.sp,
-                color: Color(0xFF171433),
+                color: const Color(0xFF171433),
                 fontWeight: FontWeight.w600)),
         Spacer(),
         Text(value ?? "-",
             style: TextStyle(
                 fontSize: 20.sp,
-                color: Color(0xFF171433),
+                color: const Color(0xFF171433),
                 fontWeight: FontWeight.w600)),
       ],
     );
@@ -149,20 +146,20 @@ class NutrientFactScreen extends StatelessWidget {
         Container(
           width: 8.w,
           height: 8.w,
-          decoration:
-              BoxDecoration(shape: BoxShape.circle, color: Color(0xFFDDF235)),
+          decoration: const BoxDecoration(
+              shape: BoxShape.circle, color: Color(0xFFDDF235)),
         ),
         11.horizontalSpace,
         Text(name,
             style: TextStyle(
                 fontSize: 16.sp,
-                color: Color(0xFF171433),
+                color: const Color(0xFF171433),
                 fontWeight: FontWeight.w500)),
         const Spacer(),
         Text(value == null ? '-' : "$value g",
             style: TextStyle(
                 fontSize: 16.sp,
-                color: Color(0xFF171433),
+                color: const Color(0xFF171433),
                 fontWeight: FontWeight.w500)),
       ],
     );

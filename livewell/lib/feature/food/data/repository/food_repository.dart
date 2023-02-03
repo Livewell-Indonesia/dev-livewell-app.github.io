@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:camera_platform_interface/src/types/camera_description.dart';
 import 'package:dartz/dartz.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/network/network_module.dart';

@@ -2,15 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/core/constant/constant.dart';
-import 'package:livewell/core/localization/Languages.dart';
-import 'package:livewell/feature/auth/presentation/page/signup/signup_screen.dart';
-import 'package:livewell/feature/food/domain/usecase/get_food_history.dart';
+import 'package:livewell/core/localization/languages.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
-
-import '../login/login_screen.dart';
 
 class LandingAuthScreen extends StatelessWidget {
   const LandingAuthScreen({Key? key}) : super(key: key);
@@ -43,14 +38,12 @@ class LandingAuthScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             40.verticalSpace,
-                            Container(
-                              child: AspectRatio(
-                                aspectRatio: 4,
-                                child: SvgPicture.asset(
-                                  "assets/images/FA_Livewell_Logo.svg",
-                                  fit: BoxFit.cover,
-                                  color: const Color(0xFF34EAB2),
-                                ),
+                            AspectRatio(
+                              aspectRatio: 4,
+                              child: SvgPicture.asset(
+                                "assets/images/FA_Livewell_Logo.svg",
+                                fit: BoxFit.cover,
+                                color: const Color(0xFF34EAB2),
                               ),
                             ),
                             // Image.asset(

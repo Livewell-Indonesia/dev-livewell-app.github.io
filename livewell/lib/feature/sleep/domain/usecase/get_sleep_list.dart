@@ -31,8 +31,8 @@ class GetSleepParams {
   });
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['types'] = this.type;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['types'] = type;
     data['dateFrom'] = DateFormat('yyyy-MM-dd HH:mm:ss.sss').format(dateFrom);
     data['dateTo'] = DateFormat('yyyy-MM-dd HH:mm:ss.sss').format(dateTo);
     return data;

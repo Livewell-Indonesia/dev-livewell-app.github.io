@@ -21,7 +21,7 @@ class PrimaryButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
             minimumSize: const Size(double.infinity, 44),
-            primary: color,
+            backgroundColor: color,
             padding: const EdgeInsets.symmetric(
                 horizontal: Insets.paddingMedium,
                 vertical: Insets.paddingMedium),

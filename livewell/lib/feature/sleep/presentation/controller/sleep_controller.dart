@@ -1,12 +1,10 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:health/health.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
-import 'package:livewell/feature/exercise/domain/usecase/get_exercise_list.dart';
 import 'package:livewell/feature/sleep/data/model/sleep_activity_model.dart';
 import 'package:livewell/feature/sleep/domain/usecase/get_sleep_list.dart';
 

@@ -19,7 +19,8 @@ class HorizontalPicker extends StatefulWidget {
   final Color passiveItemsTextColor;
   final String suffix;
 
-  HorizontalPicker({
+  const HorizontalPicker({
+    super.key,
     required this.minValue,
     required this.maxValue,
     required this.divisions,
@@ -35,10 +36,10 @@ class HorizontalPicker extends StatefulWidget {
   }) : assert(minValue < maxValue);
 
   @override
-  _HorizontalPickerState createState() => _HorizontalPickerState();
+  HorizontalPickerState createState() => HorizontalPickerState();
 }
 
-class _HorizontalPickerState extends State<HorizontalPicker> {
+class HorizontalPickerState extends State<HorizontalPicker> {
   late FixedExtentScrollController _scrollController;
   late int curItem;
   List<Map> valueMap = [];

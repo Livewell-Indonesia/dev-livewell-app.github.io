@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/feature/auth/data/model/register_model.dart';
-import 'package:livewell/feature/dashboard/data/model/user_model.dart';
 import 'package:livewell/feature/questionnaire/data/repository/questionnaire_repository_impl.dart';
 import 'package:livewell/feature/questionnaire/domain/repository/questionnaire_repository.dart';
 

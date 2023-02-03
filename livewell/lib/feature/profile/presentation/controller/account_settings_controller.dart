@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/profile/domain/usecase/update_user_info.dart';
-import 'package:livewell/feature/profile/presentation/controller/user_settings_controller.dart';
 
 class AccountSettingsController extends GetxController {
   TextEditingController firstName = TextEditingController();

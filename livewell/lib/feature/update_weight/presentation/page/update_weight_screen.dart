@@ -26,7 +26,7 @@ class UpdateWeightScreen extends StatelessWidget {
                 enabled: true,
                 inputType: const TextInputType.numberWithOptions(),
               ),
-              Spacer(),
+              const Spacer(),
               LiveWellButton(
                   label: "Update",
                   color: const Color(0xFF8F01DF),

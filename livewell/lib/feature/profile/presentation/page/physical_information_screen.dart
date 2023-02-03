@@ -1,14 +1,10 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:livewell/feature/daily_journal/presentation/page/daily_journal_screen.dart';
 import 'package:livewell/feature/profile/presentation/controller/physical_information_controller.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
@@ -50,7 +46,7 @@ class PhysicalInformationScreen extends StatelessWidget {
                                 fontSize: 18.sp, fontWeight: FontWeight.w600),
                           ),
                           const Spacer(),
-                          Text("edit")
+                          const Text("edit")
                         ],
                       ),
                     ),
@@ -71,13 +67,14 @@ class PhysicalInformationScreen extends StatelessWidget {
                                   // show dialog with radio button to select gender
                                   Get.dialog(
                                       Dialog(
-                                          child: Container(
+                                          child: SizedBox(
                                               height: 200.h,
                                               child: Obx(() {
                                                 return Column(
                                                   children: [
                                                     ListTile(
-                                                      leading: Text('Male'),
+                                                      leading:
+                                                          const Text('Male'),
                                                       trailing: Radio(
                                                           value: 'Male',
                                                           groupValue: controller
@@ -90,7 +87,8 @@ class PhysicalInformationScreen extends StatelessWidget {
                                                           }),
                                                     ),
                                                     ListTile(
-                                                      leading: Text('Female'),
+                                                      leading:
+                                                          const Text('Female'),
                                                       trailing: Radio(
                                                           value: 'Female',
                                                           groupValue: controller

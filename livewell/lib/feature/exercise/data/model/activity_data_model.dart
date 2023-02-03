@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_this
+
 import 'dart:convert';
 
 List<ActivityDataModel> activityDataModelFromJson(String str) =>
@@ -32,13 +34,13 @@ class ActivityDataModel {
     if (json['details'] != null) {
       details = <Details>[];
       json['details'].forEach((v) {
-        details!.add(new Details.fromJson(v));
+        details!.add(Details.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['total_value'] = this.totalValue;
     data['type'] = this.type;
     data['unit'] = this.unit;
@@ -69,7 +71,7 @@ class Details {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['value'] = this.value;
     data['type'] = this.type;
     data['unit'] = this.unit;

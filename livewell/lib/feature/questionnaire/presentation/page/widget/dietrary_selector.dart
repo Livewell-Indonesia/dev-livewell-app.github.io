@@ -9,7 +9,7 @@ class DietrarySelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 298.h,
       child: ListView.separated(
         itemBuilder: (context, index) {
@@ -68,7 +68,7 @@ class DietrarySelector extends StatelessWidget {
                               },
                               style: ElevatedButton.styleFrom(
                                   elevation: 0.0,
-                                  primary: Colors.white,
+                                  backgroundColor: Colors.white,
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(40),
                                       side: BorderSide(

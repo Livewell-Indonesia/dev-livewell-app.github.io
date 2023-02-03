@@ -14,9 +14,9 @@ class FoodsModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.foods != null) {
-      data['foods'] = this.foods!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (foods != null) {
+      data['foods'] = foods!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -52,9 +52,7 @@ class Foods {
       this.provider});
 
   factory Foods.fromJson(Map<String, dynamic> json) {
-    if (json['servings'] == null) {
-      print("andi ganteng ${json}");
-    }
+    if (json['servings'] == null) {}
     return Foods(
       foodName: json['food_name'],
       foodDescription: json['food_description'],
@@ -82,15 +80,15 @@ class Foods {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['food_name'] = this.foodName;
-    data['food_description'] = this.foodDescription;
-    data['food_type'] = this.foodType;
-    data['brand_name'] = this.brandName;
-    if (this.servings != null) {
-      data['servings'] = this.servings!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['food_name'] = foodName;
+    data['food_description'] = foodDescription;
+    data['food_type'] = foodType;
+    data['brand_name'] = brandName;
+    if (servings != null) {
+      data['servings'] = servings!.map((v) => v.toJson()).toList();
     }
-    data['provider'] = this.provider;
+    data['provider'] = provider;
     return data;
   }
 }
@@ -259,32 +257,32 @@ class Servings {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['calcium'] = this.calcium;
-    data['calories'] = this.calories;
-    data['carbohydrate'] = this.carbohydrate;
-    data['cholesterol'] = this.cholesterol;
-    data['fat'] = this.fat;
-    data['fiber'] = this.fiber;
-    data['iron'] = this.iron;
-    data['measurement_description'] = this.measurementDescription;
-    data['metric_serving_amount'] = this.metricServingAmount;
-    data['metric_serving_unit'] = this.metricServingUnit;
-    data['monounsaturated_fat'] = this.monounsaturatedFat;
-    data['number_of_units'] = this.numberOfUnits;
-    data['polyunsaturated_fat'] = this.polyunsaturatedFat;
-    data['potassium'] = this.potassium;
-    data['protein'] = this.protein;
-    data['saturated_fat'] = this.saturatedFat;
-    data['serving_description'] = this.servingDescription;
-    data['serving_id'] = this.servingId;
-    data['serving_url'] = this.servingUrl;
-    data['sodium'] = this.sodium;
-    data['sugar'] = this.sugar;
-    data['trans_fat'] = this.transFat;
-    data['vitamin_a'] = this.vitaminA;
-    data['vitamin_c'] = this.vitaminC;
-    data['vitamin_d'] = this.vitaminD;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['calcium'] = calcium;
+    data['calories'] = calories;
+    data['carbohydrate'] = carbohydrate;
+    data['cholesterol'] = cholesterol;
+    data['fat'] = fat;
+    data['fiber'] = fiber;
+    data['iron'] = iron;
+    data['measurement_description'] = measurementDescription;
+    data['metric_serving_amount'] = metricServingAmount;
+    data['metric_serving_unit'] = metricServingUnit;
+    data['monounsaturated_fat'] = monounsaturatedFat;
+    data['number_of_units'] = numberOfUnits;
+    data['polyunsaturated_fat'] = polyunsaturatedFat;
+    data['potassium'] = potassium;
+    data['protein'] = protein;
+    data['saturated_fat'] = saturatedFat;
+    data['serving_description'] = servingDescription;
+    data['serving_id'] = servingId;
+    data['serving_url'] = servingUrl;
+    data['sodium'] = sodium;
+    data['sugar'] = sugar;
+    data['trans_fat'] = transFat;
+    data['vitamin_a'] = vitaminA;
+    data['vitamin_c'] = vitaminC;
+    data['vitamin_d'] = vitaminD;
     return data;
   }
 }

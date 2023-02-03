@@ -1,9 +1,5 @@
-import 'dart:ffi';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -34,10 +30,8 @@ class _ScanFoodScreenState extends State<ScanFoodScreen> {
       if (e is CameraException) {
         switch (e.code) {
           case 'CameraAccessDenied':
-            print('User denied camera access.');
             break;
           default:
-            print('Handle other errors.');
             break;
         }
       }
@@ -132,7 +126,7 @@ class _ScanFoodScreenState extends State<ScanFoodScreen> {
             Text(
               'Processing...',
               style: TextStyle(
-                  color: Color(0xFF171433),
+                  color: const Color(0xFF171433),
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600),
             ),

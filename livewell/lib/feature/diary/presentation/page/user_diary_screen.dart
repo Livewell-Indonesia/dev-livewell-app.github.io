@@ -1,19 +1,15 @@
 import 'dart:io';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
 import 'package:livewell/feature/diary/presentation/controller/user_diary_controller.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
-import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
-import 'package:livewell/widgets/textfield/livewell_textfield.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../../../routes/app_navigator.dart';
@@ -50,8 +46,8 @@ class UserDiaryScreen extends StatelessWidget {
                                 Icons.arrow_back_ios_new_rounded,
                                 size: 20.r,
                                 color: controller.selectedIndex.value == 0
-                                    ? Color(0xFF171433).withOpacity(0.5)
-                                    : Color(0xFF171433),
+                                    ? const Color(0xFF171433).withOpacity(0.5)
+                                    : const Color(0xFF171433),
                               )),
                           Column(
                             children: [
@@ -82,8 +78,8 @@ class UserDiaryScreen extends StatelessWidget {
                                 size: 20.r,
                                 color: controller.selectedIndex.value ==
                                         controller.dateList.length - 1
-                                    ? Color(0xFF171433).withOpacity(0.5)
-                                    : Color(0xFF171433),
+                                    ? const Color(0xFF171433).withOpacity(0.5)
+                                    : const Color(0xFF171433),
                               )),
                           const Spacer()
                         ],
@@ -412,7 +408,7 @@ class HistoryContent extends StatefulWidget {
 
 class _HistoryContentState extends State<HistoryContent> {
   bool isExpanded = false;
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
 
   KeyboardActionsConfig _buildConfig(BuildContext context) {
@@ -592,8 +588,8 @@ class LiveWellSmallButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
             shadowColor: Colors.transparent,
+            backgroundColor: color,
             minimumSize: Size(double.infinity, 22.w),
-            primary: color,
             padding: const EdgeInsets.symmetric(
                     horizontal: Insets.paddingMedium, vertical: 12.0)
                 .r,

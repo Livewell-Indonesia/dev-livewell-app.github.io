@@ -6,23 +6,23 @@ class DashboardModel {
 
   DashboardModel.fromJson(Map<String, dynamic> json) {
     dashboard = json['dashboard'] != null
-        ? new Dashboard.fromJson(json['dashboard'])
+        ? Dashboard.fromJson(json['dashboard'])
         : null;
     if (json['details'] != null) {
       details = <Details>[];
       json['details'].forEach((v) {
-        details!.add(new Details.fromJson(v));
+        details!.add(Details.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.dashboard != null) {
-      data['dashboard'] = this.dashboard!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (dashboard != null) {
+      data['dashboard'] = dashboard!.toJson();
     }
-    if (this.details != null) {
-      data['details'] = this.details!.map((v) => v.toJson()).toList();
+    if (details != null) {
+      data['details'] = details!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -57,14 +57,14 @@ class Dashboard {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['target'] = this.target;
-    data['calories_left'] = this.caloriesLeft;
-    data['calories_taken'] = this.caloriesTaken;
-    data['total_carbs_in_g'] = this.totalCarbsInG;
-    data['total_fats_in_g'] = this.totalFatsInG;
-    data['total_protein_in_g'] = this.totalProteinInG;
-    data['total_calories'] = this.totalCalories;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['target'] = target;
+    data['calories_left'] = caloriesLeft;
+    data['calories_taken'] = caloriesTaken;
+    data['total_carbs_in_g'] = totalCarbsInG;
+    data['total_fats_in_g'] = totalFatsInG;
+    data['total_protein_in_g'] = totalProteinInG;
+    data['total_calories'] = totalCalories;
     return data;
   }
 }
@@ -203,49 +203,49 @@ class Details {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['meal_name'] = this.mealName;
-    data['meal_brand'] = this.mealBrand;
-    data['meal_type'] = this.mealType;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['carbohydrates_in_g'] = this.carbohydratesInG;
-    data['protein_in_g'] = this.proteinInG;
-    data['fat_in_g'] = this.fatInG;
-    data['saturated_fat_in_g'] = this.saturatedFatInG;
-    data['transfat_in_g'] = this.transfatInG;
-    data['monosaturated_fat_in_g'] = this.monosaturatedFatInG;
-    data['polyunsaturated_fat_in_g'] = this.polyunsaturatedFatInG;
-    data['vitamin_a_in_mcg'] = this.vitaminAInMcg;
-    data['vitamin_c_in_mg'] = this.vitaminCInMg;
-    data['vitamin_d_in_mcg'] = this.vitaminDInMcg;
-    data['vitamin_e_in_mg'] = this.vitaminEInMg;
-    data['vitamin_k_in_mcg'] = this.vitaminKInMcg;
-    data['vitamin_b1_in_mg'] = this.vitaminB1InMg;
-    data['vitamin_b2_in_mg'] = this.vitaminB2InMg;
-    data['vitamin_b3_in_mg'] = this.vitaminB3InMg;
-    data['vitamin_b5_in_mg'] = this.vitaminB5InMg;
-    data['vitamin_b6_in_mg'] = this.vitaminB6InMg;
-    data['vitamin_b7_in_mcg'] = this.vitaminB7InMcg;
-    data['vitamin_b9_in_mcg'] = this.vitaminB9InMcg;
-    data['vitamin_b12_in_mcg'] = this.vitaminB12InMcg;
-    data['calcium_in_mg'] = this.calciumInMg;
-    data['phosphorus_in_mg'] = this.phosphorusInMg;
-    data['magnesium_in_mg'] = this.magnesiumInMg;
-    data['sodium_in_mg'] = this.sodiumInMg;
-    data['potassium_in_mg'] = this.potassiumInMg;
-    data['chloride_in_mg'] = this.chlorideInMg;
-    data['iron_in_mg'] = this.ironInMg;
-    data['iodine_in_mcg'] = this.iodineInMcg;
-    data['zinc_in_mg'] = this.zincInMg;
-    data['selenium_in_mcg'] = this.seleniumInMcg;
-    data['fluoride_in_mg'] = this.fluorideInMg;
-    data['chromium_in_mcg'] = this.chromiumInMcg;
-    data['molybdenum_in_mcg'] = this.molybdenumInMcg;
-    data['meal_at'] = this.mealAt;
-    data['user_reference_id'] = this.userReferenceId;
-    data['restaurant'] = this.restaurant;
-    data['calories_in_g'] = this.caloriesInG;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['meal_name'] = mealName;
+    data['meal_brand'] = mealBrand;
+    data['meal_type'] = mealType;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['carbohydrates_in_g'] = carbohydratesInG;
+    data['protein_in_g'] = proteinInG;
+    data['fat_in_g'] = fatInG;
+    data['saturated_fat_in_g'] = saturatedFatInG;
+    data['transfat_in_g'] = transfatInG;
+    data['monosaturated_fat_in_g'] = monosaturatedFatInG;
+    data['polyunsaturated_fat_in_g'] = polyunsaturatedFatInG;
+    data['vitamin_a_in_mcg'] = vitaminAInMcg;
+    data['vitamin_c_in_mg'] = vitaminCInMg;
+    data['vitamin_d_in_mcg'] = vitaminDInMcg;
+    data['vitamin_e_in_mg'] = vitaminEInMg;
+    data['vitamin_k_in_mcg'] = vitaminKInMcg;
+    data['vitamin_b1_in_mg'] = vitaminB1InMg;
+    data['vitamin_b2_in_mg'] = vitaminB2InMg;
+    data['vitamin_b3_in_mg'] = vitaminB3InMg;
+    data['vitamin_b5_in_mg'] = vitaminB5InMg;
+    data['vitamin_b6_in_mg'] = vitaminB6InMg;
+    data['vitamin_b7_in_mcg'] = vitaminB7InMcg;
+    data['vitamin_b9_in_mcg'] = vitaminB9InMcg;
+    data['vitamin_b12_in_mcg'] = vitaminB12InMcg;
+    data['calcium_in_mg'] = calciumInMg;
+    data['phosphorus_in_mg'] = phosphorusInMg;
+    data['magnesium_in_mg'] = magnesiumInMg;
+    data['sodium_in_mg'] = sodiumInMg;
+    data['potassium_in_mg'] = potassiumInMg;
+    data['chloride_in_mg'] = chlorideInMg;
+    data['iron_in_mg'] = ironInMg;
+    data['iodine_in_mcg'] = iodineInMcg;
+    data['zinc_in_mg'] = zincInMg;
+    data['selenium_in_mcg'] = seleniumInMcg;
+    data['fluoride_in_mg'] = fluorideInMg;
+    data['chromium_in_mcg'] = chromiumInMcg;
+    data['molybdenum_in_mcg'] = molybdenumInMcg;
+    data['meal_at'] = mealAt;
+    data['user_reference_id'] = userReferenceId;
+    data['restaurant'] = restaurant;
+    data['calories_in_g'] = caloriesInG;
     return data;
   }
 }

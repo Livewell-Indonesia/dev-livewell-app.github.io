@@ -15,10 +15,10 @@ class ItemWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ItemWidgetState createState() => _ItemWidgetState();
+  ItemWidgetState createState() => ItemWidgetState();
 }
 
-class _ItemWidgetState extends State<ItemWidget> {
+class ItemWidgetState extends State<ItemWidget> {
   late List<String> textParts;
   late String leftText, rightText;
 

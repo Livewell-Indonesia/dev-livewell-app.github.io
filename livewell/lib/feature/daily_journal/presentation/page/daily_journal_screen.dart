@@ -45,7 +45,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                               fontSize: 18.sp, fontWeight: FontWeight.w600),
                         ),
                         const Spacer(),
-                        Text("edit")
+                        const Text("edit")
                       ],
                     ),
                   ),
@@ -199,7 +199,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w600),
                   ),
-                  Container(
+                  SizedBox(
                     height: 274.h,
                     child: CupertinoDatePicker(
                       use24hFormat: true,

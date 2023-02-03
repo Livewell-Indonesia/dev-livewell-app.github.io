@@ -1,7 +1,5 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:livewell/main.dart';
 
@@ -28,10 +26,8 @@ class _LiveWellCameraState extends State<LiveWellCamera> {
       if (e is CameraException) {
         switch (e.code) {
           case 'CameraAccessDenied':
-            print('User denied camera access.');
             break;
           default:
-            print('Handle other errors.');
             break;
         }
       }

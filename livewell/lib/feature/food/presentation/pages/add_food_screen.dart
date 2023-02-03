@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,11 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:livewell/core/equation/formula.dart';
 import 'package:livewell/feature/food/presentation/controller/add_food_controller.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
-import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/chart/circular_nutrition.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -199,8 +196,8 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                     Expanded(
                       child: LiveWellTextField(
                         controller: controller.numberOfServing,
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
                         hintText: null,
                         labelText: "Serving Size",
                         errorText: null,
@@ -231,7 +228,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                           fontSize: 18.sp,
                                           fontWeight: FontWeight.w600),
                                     ),
-                                    Container(
+                                    SizedBox(
                                       height: 274.h,
                                       child: CupertinoDatePicker(
                                         mode: CupertinoDatePickerMode.time,
