@@ -20,7 +20,7 @@ class WaterConsumedPage extends StatelessWidget {
             20.verticalSpace,
             Center(
                 child: Text(
-              "Water Consumed",
+              "Water Consumed".tr,
               style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600,

@@ -11,7 +11,7 @@ class NutriScoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: 'NutriScore Details',
+        title: 'NutriScore Details'.tr,
         backgroundColor: Colors.white,
         body: Expanded(
           child: Padding(

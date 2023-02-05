@@ -22,7 +22,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: 'Create New Account',
+        title: 'Create New Account'.tr,
         backgroundColor: Colors.white,
         body: Expanded(child: Obx(() {
           return ListView(

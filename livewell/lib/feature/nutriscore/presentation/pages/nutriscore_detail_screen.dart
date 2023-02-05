@@ -1,6 +1,7 @@
 import 'package:charts_painter/chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
 class NutriScoreDetailsScreen extends StatelessWidget {
@@ -10,7 +11,7 @@ class NutriScoreDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return LiveWellScaffold(
         backgroundColor: Colors.white,
-        title: 'NutriScore Details',
+        title: 'NutriScore Details'.tr,
         body: Expanded(
           child: SingleChildScrollView(
             child: Column(

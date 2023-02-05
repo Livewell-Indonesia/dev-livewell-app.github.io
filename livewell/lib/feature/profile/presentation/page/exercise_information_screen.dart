@@ -15,7 +15,7 @@ class ExerciseInformationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: 'Exercise Information',
+        title: 'Exercise Information'.tr,
         body: Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -36,12 +36,12 @@ class ExerciseInformationScreen extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              "Exercise Information",
+                              "Exercise Information".tr,
                               style: TextStyle(
                                   fontSize: 18.sp, fontWeight: FontWeight.w600),
                             ),
                             const Spacer(),
-                            const Text("edit")
+                            Text("edit".tr)
                           ],
                         ),
                       ),
@@ -78,7 +78,7 @@ class ExerciseInformationScreen extends StatelessWidget {
                 ),
                 20.verticalSpace,
                 LiveWellButton(
-                    label: 'Save',
+                    label: 'save'.tr,
                     color: const Color(0xFF8F01DF),
                     textColor: Colors.white,
                     onPressed: () {

@@ -22,7 +22,7 @@ class UserDiaryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: "Diary",
+        title: "Diary".tr,
         body: Expanded(
           child: RefreshIndicator(
             onRefresh: () async {
@@ -151,7 +151,7 @@ class UserDiaryScreen extends StatelessWidget {
                         : Column(
                             children: [
                               ExpandableDiaryItem(
-                                title: "Breakfast",
+                                title: "Breakfast".tr,
                                 data: controller.filteredMealHistory
                                     .where((p0) =>
                                         p0.mealType?.toUpperCase() ==
@@ -177,7 +177,7 @@ class UserDiaryScreen extends StatelessWidget {
                               ),
                               20.verticalSpace,
                               ExpandableDiaryItem(
-                                title: "Lunch",
+                                title: "Lunch".tr,
                                 data: controller.filteredMealHistory
                                     .where((p0) =>
                                         p0.mealType?.toUpperCase() ==
@@ -203,7 +203,7 @@ class UserDiaryScreen extends StatelessWidget {
                               ),
                               20.verticalSpace,
                               ExpandableDiaryItem(
-                                title: "Dinner",
+                                title: "Dinner".tr,
                                 data: controller.filteredMealHistory
                                     .where((p0) =>
                                         p0.mealType?.toUpperCase() ==
@@ -229,7 +229,7 @@ class UserDiaryScreen extends StatelessWidget {
                               ),
                               20.verticalSpace,
                               ExpandableDiaryItem(
-                                title: "Snack",
+                                title: "Snack".tr,
                                 data: controller.filteredMealHistory
                                     .where((p0) =>
                                         p0.mealType?.toUpperCase() ==
@@ -423,9 +423,9 @@ class _HistoryContentState extends State<HistoryContent> {
             (node) {
               return GestureDetector(
                 onTap: () => node.unfocus(),
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text("Done"),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("done".tr),
                 ),
               );
             }

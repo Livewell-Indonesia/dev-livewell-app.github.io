@@ -47,7 +47,7 @@ class _ScanFoodScreenState extends State<ScanFoodScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: "Scan Food",
+        title: "Scan Food".tr,
         body: Column(
           children: [
             20.verticalSpace,
@@ -124,7 +124,7 @@ class _ScanFoodScreenState extends State<ScanFoodScreen> {
                 : Container(),
             20.verticalSpace,
             Text(
-              'Processing...',
+              'Processing...'.tr,
               style: TextStyle(
                   color: const Color(0xFF171433),
                   fontSize: 18.sp,
@@ -132,7 +132,8 @@ class _ScanFoodScreenState extends State<ScanFoodScreen> {
             ),
             7.verticalSpace,
             Text(
-              'We’ll redirect you to another screen once we got the scanning result',
+              'We’ll redirect you to another screen once we got the scanning result'
+                  .tr,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 13.sp),
             )

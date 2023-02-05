@@ -170,16 +170,16 @@ class ChangePageIndicator extends StatelessWidget {
             color: const Color(0xFF8F01DF),
             borderRadius: BorderRadius.circular(16)),
         child: Row(
-          children: const [
+          children: [
             Text(
-              'Next',
-              style: TextStyle(
+              'Next'.tr,
+              style: const TextStyle(
                   color: Colors.white,
                   fontSize: 14,
                   fontWeight: FontWeight.w500),
             ),
-            Spacer(),
-            Icon(
+            const Spacer(),
+            const Icon(
               Icons.arrow_forward_ios,
               color: Colors.white,
               size: 12,
@@ -211,7 +211,7 @@ class ChangePageIndicator extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              'Pre',
+              'Pre'.tr,
               style: TextStyle(
                   color: const Color(0xFF171433),
                   fontSize: 14.sp,

@@ -55,7 +55,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: 'Add Food',
+        title: 'Add Food'.tr,
         body: Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -173,7 +173,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                   );
                 }),
                 SearchHistoryItem(
-                    title: 'Show nutrient facts',
+                    title: 'Show nutrient facts'.tr,
                     description: "",
                     callback: () {
                       Get.to(() => NutrientFactScreen(
@@ -187,7 +187,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                       child: LiveWellTextField(
                         controller: controller.servingSize,
                         hintText: null,
-                        labelText: "Serving Size",
+                        labelText: "Serving Size".tr,
                         errorText: null,
                         obscureText: false,
                         enabled: false,
@@ -199,7 +199,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                         keyboardType: const TextInputType.numberWithOptions(
                             decimal: true),
                         hintText: null,
-                        labelText: "Serving Size",
+                        labelText: "Serving Size".tr,
                         errorText: null,
                         obscureText: false,
                         enabled: true,
@@ -222,7 +222,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                 child: Column(
                                   children: [
                                     Text(
-                                      'Time',
+                                      'Time'.tr,
                                       style: TextStyle(
                                           color: const Color(0xFF171433),
                                           fontSize: 18.sp,
@@ -268,7 +268,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                                 Get.back();
                                               },
                                               child: Text(
-                                                'Cancel',
+                                                'Cancel'.tr,
                                                 style: TextStyle(
                                                     color:
                                                         const Color(0xFF171433),
@@ -297,7 +297,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                                 Get.back();
                                               },
                                               child: Text(
-                                                'Save',
+                                                'save'.tr,
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 14.sp,

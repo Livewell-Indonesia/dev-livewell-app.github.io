@@ -24,7 +24,7 @@ class _FoodScreenState extends State<FoodScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-      title: 'Food',
+      title: 'Food'.tr,
       body: Expanded(
         child: RefreshIndicator(
           onRefresh: () async {
@@ -42,7 +42,7 @@ class _FoodScreenState extends State<FoodScreen> {
                         textAlign: TextAlign.center,
                         text: TextSpan(children: [
                           TextSpan(
-                            text: 'Today you have consumed ',
+                            text: 'Today you have consumed '.tr,
                             style: TextStyles.titleHiEm(color: Colors.black),
                           ),
                           TextSpan(
@@ -296,7 +296,7 @@ class NutritionCircularProgress extends StatelessWidget {
                             style: TextStyles.titleHiEm(color: Colors.black),
                           ),
                           Text(
-                            'of daily goals',
+                            'of daily goals'.tr,
                             style: TextStyles.body(color: AppColors.textLoEm),
                           )
                         ],
@@ -375,18 +375,18 @@ extension MealTimeAttribute on MealTime {
   String text() {
     switch (this) {
       case MealTime.breakfast:
-        return 'Breakfast';
+        return 'Breakfast'.tr;
       case MealTime.lunch:
-        return 'Lunch';
+        return 'Lunch'.tr;
       case MealTime.dinner:
-        return 'Dinner';
+        return 'Dinner'.tr;
       case MealTime.snack:
-        return 'Snack';
+        return 'Snack'.tr;
     }
   }
 
   String appBarTitle() {
-    return 'Add ${text()}';
+    return 'Add '.tr + text();
   }
 
   String icon() {

@@ -20,7 +20,7 @@ class PhysicalInformationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-      title: 'Physical Information',
+      title: 'Physical Information'.tr,
       body: Expanded(
         child: SingleChildScrollView(
           child: Column(
@@ -41,12 +41,12 @@ class PhysicalInformationScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           Text(
-                            "Physical Information",
+                            "Physical Information".tr,
                             style: TextStyle(
                                 fontSize: 18.sp, fontWeight: FontWeight.w600),
                           ),
                           const Spacer(),
-                          const Text("edit")
+                          Text("edit".tr)
                         ],
                       ),
                     ),
@@ -73,8 +73,7 @@ class PhysicalInformationScreen extends StatelessWidget {
                                                 return Column(
                                                   children: [
                                                     ListTile(
-                                                      leading:
-                                                          const Text('Male'),
+                                                      leading: Text('Male'.tr),
                                                       trailing: Radio(
                                                           value: 'Male',
                                                           groupValue: controller
@@ -88,7 +87,7 @@ class PhysicalInformationScreen extends StatelessWidget {
                                                     ),
                                                     ListTile(
                                                       leading:
-                                                          const Text('Female'),
+                                                          Text('Female'.tr),
                                                       trailing: Radio(
                                                           value: 'Female',
                                                           groupValue: controller
@@ -101,7 +100,8 @@ class PhysicalInformationScreen extends StatelessWidget {
                                                           }),
                                                     ),
                                                     LiveWellButton(
-                                                        label: 'Save Changes',
+                                                        label:
+                                                            'Save Changes'.tr,
                                                         color: const Color(
                                                             0xFF8F01DF),
                                                         textColor: Colors.white,
@@ -117,7 +117,7 @@ class PhysicalInformationScreen extends StatelessWidget {
                                 },
                                 child: AccountSettingsTextField(
                                   textEditingController: controller.gender,
-                                  hintText: 'Gender',
+                                  hintText: 'Gender'.tr,
                                   enabled: false,
                                 ),
                               ),
@@ -158,7 +158,7 @@ class PhysicalInformationScreen extends StatelessWidget {
                                           }),
                                           30.verticalSpace,
                                           LiveWellButton(
-                                              label: 'Save Changes',
+                                              label: 'Save Changes'.tr,
                                               color: const Color(0xFF8F01DF),
                                               textColor: Colors.white,
                                               onPressed: () {
@@ -172,21 +172,21 @@ class PhysicalInformationScreen extends StatelessWidget {
                                 },
                                 child: AccountSettingsTextField(
                                   textEditingController: controller.age,
-                                  hintText: 'Age',
+                                  hintText: 'Age'.tr,
                                   enabled: false,
                                 ),
                               ),
                               20.verticalSpace,
                               AccountSettingsTextField(
                                 textEditingController: controller.height,
-                                hintText: 'Height (cm)',
+                                hintText: 'Height (cm)'.tr,
                                 enabled: true,
                                 inputType: TextInputType.number,
                               ),
                               20.verticalSpace,
                               AccountSettingsTextField(
                                 textEditingController: controller.weight,
-                                hintText: 'Weight (kg)',
+                                hintText: 'Weight (kg)'.tr,
                                 enabled: true,
                                 inputFormatter: Platform.isIOS
                                     ? []
@@ -201,7 +201,7 @@ class PhysicalInformationScreen extends StatelessWidget {
                               20.verticalSpace,
                               AccountSettingsTextField(
                                 textEditingController: controller.drink,
-                                hintText: 'Drink',
+                                hintText: 'Drink'.tr,
                                 enabled: true,
                                 inputType: TextInputType.number,
                               ),
@@ -209,7 +209,7 @@ class PhysicalInformationScreen extends StatelessWidget {
                               AccountSettingsTextField(
                                 textEditingController:
                                     controller.dietaryResitriction,
-                                hintText: 'Dietary Restriction',
+                                hintText: 'Dietary Restriction'.tr,
                                 enabled: true,
                               ),
                               20.verticalSpace,
@@ -245,7 +245,7 @@ class PhysicalInformationScreen extends StatelessWidget {
                                               ),
                                               30.verticalSpace,
                                               LiveWellButton(
-                                                  label: 'Save Changes',
+                                                  label: 'Save Changes'.tr,
                                                   color:
                                                       const Color(0xFF8F01DF),
                                                   textColor: Colors.white,
@@ -263,14 +263,14 @@ class PhysicalInformationScreen extends StatelessWidget {
                                 child: AccountSettingsTextField(
                                   textEditingController:
                                       controller.specificGoal,
-                                  hintText: 'Specific Goal',
+                                  hintText: 'Specific Goal'.tr,
                                   enabled: false,
                                 ),
                               ),
                               20.verticalSpace,
                               AccountSettingsTextField(
                                 textEditingController: controller.sleep,
-                                hintText: 'Sleep (Hours)',
+                                hintText: 'Sleep (Hours)'.tr,
                                 enabled: true,
                                 inputType:
                                     const TextInputType.numberWithOptions(
@@ -279,7 +279,7 @@ class PhysicalInformationScreen extends StatelessWidget {
                               20.verticalSpace,
                               AccountSettingsTextField(
                                 textEditingController: controller.targetWeight,
-                                hintText: 'Target Weight (kg)',
+                                hintText: 'Target Weight (kg)'.tr,
                                 enabled: true,
                                 inputFormatter: Platform.isIOS
                                     ? []
@@ -302,7 +302,7 @@ class PhysicalInformationScreen extends StatelessWidget {
               ),
               20.verticalSpace,
               LiveWellButton(
-                  label: 'Save',
+                  label: 'save'.tr,
                   color: const Color(0xFF8F01DF),
                   textColor: Colors.white,
                   onPressed: () {

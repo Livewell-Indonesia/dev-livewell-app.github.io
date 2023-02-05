@@ -15,14 +15,14 @@ class UpdateWeightScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: "Update Weight",
+        title: "Update Weight".tr,
         body: Expanded(
           child: Column(
             children: [
               40.verticalSpace,
               AccountSettingsTextField(
                 textEditingController: controller.weightController,
-                hintText: 'Current Weight (Kg)',
+                hintText: 'Current Weight (Kg)'.tr,
                 enabled: true,
                 inputType: const TextInputType.numberWithOptions(),
               ),

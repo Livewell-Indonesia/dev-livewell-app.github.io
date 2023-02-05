@@ -18,7 +18,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: 'Sign In',
+        title: 'Sign In'.tr,
         backgroundColor: Colors.white,
         body: Expanded(
           child: Column(

@@ -84,14 +84,14 @@ class UserSettingsScreen extends StatelessWidget {
             ),
             57.verticalSpace,
             ProfileSettingsItem(
-                title: 'Account Settings',
+                title: 'Account Settings'.tr,
                 icon: Image.asset(Constant.icAccountSetting),
                 onPressed: () {
                   controller.accountSettingsTap();
                 }),
             20.verticalSpace,
             ProfileSettingsItem(
-                title: 'Daily Journal',
+                title: 'Daily Journal'.tr,
                 icon: Icon(
                   Icons.class_outlined,
                   size: 20.w,
@@ -101,7 +101,7 @@ class UserSettingsScreen extends StatelessWidget {
                 }),
             20.verticalSpace,
             ProfileSettingsItem(
-                title: 'Physical Information',
+                title: 'Physical Information'.tr,
                 icon: Icon(
                   Icons.accessibility_new,
                   size: 20.w,
@@ -111,14 +111,14 @@ class UserSettingsScreen extends StatelessWidget {
                 }),
             20.verticalSpace,
             ProfileSettingsItem(
-                title: 'Exercise',
+                title: 'Exercise'.tr,
                 icon: Image.asset(Constant.icExerciseBlack3),
                 onPressed: () {
                   controller.exerciseInformationTapped();
                 }),
             20.verticalSpace,
             ProfileSettingsItem(
-              title: 'Logout',
+              title: 'Logout'.tr,
               icon: Image.asset(Constant.icLogout),
               onPressed: () {
                 controller.logoutTapped();
