@@ -1,9 +1,5 @@
-import 'dart:ffi';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -34,10 +30,8 @@ class _ScanFoodScreenState extends State<ScanFoodScreen> {
       if (e is CameraException) {
         switch (e.code) {
           case 'CameraAccessDenied':
-            print('User denied camera access.');
             break;
           default:
-            print('Handle other errors.');
             break;
         }
       }
@@ -53,7 +47,7 @@ class _ScanFoodScreenState extends State<ScanFoodScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: "Scan Food",
+        title: "Scan Food".tr,
         body: Column(
           children: [
             20.verticalSpace,
@@ -130,15 +124,16 @@ class _ScanFoodScreenState extends State<ScanFoodScreen> {
                 : Container(),
             20.verticalSpace,
             Text(
-              'Processing...',
+              'Processing...'.tr,
               style: TextStyle(
-                  color: Color(0xFF171433),
+                  color: const Color(0xFF171433),
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600),
             ),
             7.verticalSpace,
             Text(
-              'We’ll redirect you to another screen once we got the scanning result',
+              'We’ll redirect you to another screen once we got the scanning result'
+                  .tr,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 13.sp),
             )

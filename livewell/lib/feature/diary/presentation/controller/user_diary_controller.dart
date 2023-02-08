@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
 import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart';
@@ -155,7 +154,7 @@ class UserDiaryController extends GetxController {
     // );
     itemScrollController.scrollTo(
         index: selectedIndex.value,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         alignment: 0.4);
     generateMealToShow(dateList[selectedIndex.value]);
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/profile/presentation/controller/user_settings_controller.dart';
@@ -85,14 +84,14 @@ class UserSettingsScreen extends StatelessWidget {
             ),
             57.verticalSpace,
             ProfileSettingsItem(
-                title: 'Account Settings',
+                title: 'Account Settings'.tr,
                 icon: Image.asset(Constant.icAccountSetting),
                 onPressed: () {
                   controller.accountSettingsTap();
                 }),
             20.verticalSpace,
             ProfileSettingsItem(
-                title: 'Daily Journal',
+                title: 'Daily Journal'.tr,
                 icon: Icon(
                   Icons.class_outlined,
                   size: 20.w,
@@ -102,7 +101,7 @@ class UserSettingsScreen extends StatelessWidget {
                 }),
             20.verticalSpace,
             ProfileSettingsItem(
-                title: 'Physical Information',
+                title: 'Physical Information'.tr,
                 icon: Icon(
                   Icons.accessibility_new,
                   size: 20.w,
@@ -112,14 +111,14 @@ class UserSettingsScreen extends StatelessWidget {
                 }),
             20.verticalSpace,
             ProfileSettingsItem(
-                title: 'Exercise',
+                title: 'Exercise'.tr,
                 icon: Image.asset(Constant.icExerciseBlack3),
                 onPressed: () {
                   controller.exerciseInformationTapped();
                 }),
             20.verticalSpace,
             ProfileSettingsItem(
-              title: 'Logout',
+              title: 'Logout'.tr,
               icon: Image.asset(Constant.icLogout),
               onPressed: () {
                 controller.logoutTapped();
@@ -199,7 +198,7 @@ class ProfileBackground extends StatelessWidget {
     return Stack(
       alignment: Alignment.topCenter,
       children: [
-        Container(
+        SizedBox(
           height: 380.h,
           width: 1.sw,
           child: Stack(
@@ -207,7 +206,7 @@ class ProfileBackground extends StatelessWidget {
               Container(
                 height: 380.h,
                 decoration: BoxDecoration(
-                  color: Color(0xFF34EAB2),
+                  color: const Color(0xFF34EAB2),
                   borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(30.r),
                   ),
@@ -218,7 +217,7 @@ class ProfileBackground extends StatelessWidget {
                 child: Container(
                   height: 209.h,
                   decoration: BoxDecoration(
-                    color: Color(0xFF8F01DF),
+                    color: const Color(0xFF8F01DF),
                     borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(30.r),
                     ),

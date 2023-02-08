@@ -412,11 +412,6 @@ class FoodController extends GetxController {
         Formula.molybdenumPercentage(totalMolybdenum ?? 0),
       );
 
-      var averageMicroPercent = (averageEssentialVitamins +
-              averageMajorMinerals +
-              averageMicroMinerals) /
-          3;
-
       var totalMicroNuts = (totalVitA ?? 0.0) +
           (totalVitC ?? 0.0) +
           (totalVitD ?? 0.0) +

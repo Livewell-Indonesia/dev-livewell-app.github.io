@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -11,7 +9,7 @@ import 'package:livewell/feature/exercise/presentation/controller/exercise_contr
 import '../../../../widgets/chart/circular_calories.dart';
 
 class ExerciseDiaryScreen extends StatefulWidget {
-  ExerciseDiaryScreen({Key? key}) : super(key: key);
+  const ExerciseDiaryScreen({Key? key}) : super(key: key);
 
   @override
   State<ExerciseDiaryScreen> createState() => _ExerciseDiaryScreenState();

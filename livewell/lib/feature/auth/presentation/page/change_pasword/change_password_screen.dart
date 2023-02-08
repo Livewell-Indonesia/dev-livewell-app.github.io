@@ -28,14 +28,14 @@ class ChangePasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: "Change Password",
+        title: "Change Password".tr,
         backgroundColor: const Color(0xFFFFFFFF),
         body: SingleChildScrollView(
           child: Column(
             children: [
               50.verticalSpace,
               Text(
-                'Enter Your OTP',
+                'Enter Your OTP'.tr,
                 style: TextStyle(
                     fontSize: 16.sp,
                     color: const Color(0xFF171433).withOpacity(0.7),
@@ -54,7 +54,7 @@ class ChangePasswordScreen extends StatelessWidget {
               ),
               20.verticalSpace,
               Text(
-                'Enter new password',
+                'Enter new password'.tr,
                 style: TextStyle(
                     fontSize: 16.sp,
                     color: const Color(0xFF171433).withOpacity(0.7),
@@ -64,7 +64,7 @@ class ChangePasswordScreen extends StatelessWidget {
               LiveWellTextField(
                   controller: controller.newPassword,
                   hintText: null,
-                  labelText: "New Password",
+                  labelText: "New Password".tr,
                   errorText: null,
                   obscureText: true,
                   isEmail: false),
@@ -72,13 +72,13 @@ class ChangePasswordScreen extends StatelessWidget {
               LiveWellTextField(
                   controller: controller.confirmPassword,
                   hintText: null,
-                  labelText: "Confirm Password",
+                  labelText: "Confirm Password".tr,
                   errorText: null,
                   obscureText: true,
                   isEmail: false),
               36.verticalSpace,
               LiveWellButton(
-                  label: "Change",
+                  label: "Change".tr,
                   color: const Color(0xFFDDF235),
                   onPressed: () {
                     controller.onChangePressed();

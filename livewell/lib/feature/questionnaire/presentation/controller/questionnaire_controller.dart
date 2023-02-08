@@ -200,11 +200,11 @@ extension DietrarySelectionContent on DietrarySelection {
   String title() {
     switch (this) {
       case DietrarySelection.yes:
-        return 'Yes';
+        return 'Yes'.tr;
       case DietrarySelection.no:
-        return 'No';
+        return 'No'.tr;
       case DietrarySelection.none:
-        return 'None';
+        return 'None'.tr;
     }
   }
 }
@@ -222,17 +222,17 @@ extension GoalSelectionContent on GoalSelection {
   String title() {
     switch (this) {
       case GoalSelection.getFitter:
-        return "Get Fitter";
+        return "Get Fitter".tr;
       case GoalSelection.betterSleeping:
-        return "Better Sleeping";
+        return "Better Sleeping".tr;
       case GoalSelection.weightLoss:
-        return "Weight Loss";
+        return "Weight Loss".tr;
       case GoalSelection.trackNutrition:
-        return "Track Nutrition";
+        return "Track Nutrition".tr;
       case GoalSelection.improveOverallFitness:
-        return "Improve Overall Fitness";
+        return "Improve Overall Fitness".tr;
       case GoalSelection.none:
-        return "None";
+        return "None".tr;
     }
   }
 }

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -128,7 +126,7 @@ class _SleepScreenState extends State<SleepScreen> {
                       return SmallerSleepCircular(
                           color: const Color(0xFF8F01DF),
                           circleColors: {
-                            Color(0xFF8F01DF):
+                            const Color(0xFF8F01DF):
                                 (controller.lightSleepPercent.value * 100)
                                     .round(),
                             Colors.white: (controller.lightSleepPercent.value *
@@ -247,7 +245,7 @@ class SmallerSleepCircular extends StatelessWidget {
         Text(label,
             style: TextStyle(
                 fontSize: 14.sp,
-                color: Color(0xFF171433),
+                color: const Color(0xFF171433),
                 fontWeight: FontWeight.w600)),
       ],
     );

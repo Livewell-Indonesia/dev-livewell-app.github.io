@@ -7,9 +7,6 @@ import 'package:livewell/feature/auth/domain/usecase/post_register.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/feature/auth/presentation/controller/login_controller.dart';
 
-import '../../../../core/local_storage/shared_pref.dart';
-import '../../domain/usecase/post_google_auth.dart';
-
 class SignUpController extends GetxController {
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();

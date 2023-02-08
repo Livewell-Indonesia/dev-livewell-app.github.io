@@ -70,10 +70,10 @@ class SlideSwitcher extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SlideSwitcherState createState() => _SlideSwitcherState();
+  SlideSwitcherState createState() => SlideSwitcherState();
 }
 
-class _SlideSwitcherState extends State<SlideSwitcher>
+class SlideSwitcherState extends State<SlideSwitcher>
     with SingleTickerProviderStateMixin {
   late final double sliderBorderRadius;
   late final double slidersHeight;

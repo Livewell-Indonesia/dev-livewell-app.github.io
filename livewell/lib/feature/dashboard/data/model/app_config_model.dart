@@ -15,11 +15,11 @@ class AppConfigModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['quick_add'] = this.quickAdd;
-    data['upc_search'] = this.upcSearch;
-    data['scan_meal'] = this.scanMeal;
-    data['recipe_to_nutrition'] = this.recipeToNutrition;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['quick_add'] = quickAdd;
+    data['upc_search'] = upcSearch;
+    data['scan_meal'] = scanMeal;
+    data['recipe_to_nutrition'] = recipeToNutrition;
     return data;
   }
 }

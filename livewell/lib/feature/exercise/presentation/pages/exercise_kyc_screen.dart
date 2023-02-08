@@ -70,7 +70,7 @@ class ExerciseKYCScreen extends StatelessWidget {
                                 },
                                 style: ElevatedButton.styleFrom(
                                     elevation: 0.0,
-                                    primary: Colors.white,
+                                    backgroundColor: Colors.white,
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(40),
                                         side: BorderSide(

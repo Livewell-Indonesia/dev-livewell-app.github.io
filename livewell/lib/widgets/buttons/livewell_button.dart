@@ -18,7 +18,7 @@ class LiveWellButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: Insets.paddingMedium),
+      padding: const EdgeInsets.symmetric(horizontal: Insets.paddingMedium),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(

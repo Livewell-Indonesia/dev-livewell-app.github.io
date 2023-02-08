@@ -30,8 +30,8 @@ class GetExerciseParams {
   });
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['type'] = this.type;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['type'] = type;
     data['dateFrom'] = DateFormat('yyyy-MM-dd HH:mm:ss.sss').format(dateFrom);
     data['dateTo'] = DateFormat('yyyy-MM-dd HH:mm:ss.sss').format(dateTo);
     return data;

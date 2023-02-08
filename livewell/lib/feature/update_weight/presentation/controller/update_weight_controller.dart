@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:intl/intl.dart';
+
 import 'package:livewell/feature/update_weight/domain/usecase/update_user_weight.dart';
 
 import '../../../dashboard/presentation/controller/dashboard_controller.dart';
-import '../../../questionnaire/domain/usecase/post_questionnaire.dart';
 
 class UpdateWeightController extends GetxController {
   TextEditingController weightController = TextEditingController();
@@ -31,9 +29,7 @@ class UpdateWeightController extends GetxController {
       final result = await updateUserWeight(
           UpdateWeightParams(weight: num.parse(weightController.text)));
       EasyLoading.dismiss();
-      result.fold((l) {
-        print("something went wrong");
-      }, (r) {
+      result.fold((l) {}, (r) {
         Get.find<DashboardController>().getUsersData();
         Get.back();
       });

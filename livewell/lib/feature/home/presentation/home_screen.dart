@@ -14,7 +14,7 @@ import '../controller/home_controller.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 
 class HomeScreen extends StatelessWidget {
-  HomeController controller = Get.put(HomeController());
+  final HomeController controller = Get.put(HomeController());
   HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -41,7 +41,7 @@ class HomeScreen extends StatelessWidget {
                 BoxShadow(
                   color: Colors.black.withOpacity(0.2),
                   blurRadius: 0.5,
-                  offset: Offset(0, 0), // changes position of shadow
+                  offset: const Offset(0, 0), // changes position of shadow
                 ),
               ],
               items: [
@@ -107,7 +107,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 DotNavigationBarItem(
                   icon: controller.currentMenu.value == HomeTab.account
-                      ? controller.customSelectedImage(Container(
+                      ? controller.customSelectedImage(SizedBox(
                           width: 20.w,
                           height: 20.w,
                           child: SvgPicture.asset(
@@ -118,7 +118,7 @@ class HomeScreen extends StatelessWidget {
                             color: Colors.white,
                           ),
                         ))
-                      : controller.customUnselectedImage(Container(
+                      : controller.customUnselectedImage(SizedBox(
                           width: 20.w,
                           height: 20.w,
                           child: SvgPicture.asset(
@@ -126,7 +126,7 @@ class HomeScreen extends StatelessWidget {
                             width: 20.w,
                             height: 20.w,
                             fit: BoxFit.scaleDown,
-                            color: Color(0xFF8F01DF),
+                            color: const Color(0xFF8F01DF),
                           ),
                         )),
                   selectedColor: Colors.white,

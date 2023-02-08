@@ -16,7 +16,7 @@ class LoginModel extends Login {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['access_token'] = accessToken;
     data['refresh_token'] = refreshToken;
     return data;

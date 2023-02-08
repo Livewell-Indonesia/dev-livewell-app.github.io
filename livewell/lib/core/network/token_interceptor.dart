@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
@@ -9,7 +8,6 @@ import 'package:livewell/feature/auth/data/model/login_model.dart';
 import 'package:livewell/feature/auth/domain/entity/login.dart';
 import 'package:livewell/routes/app_navigator.dart';
 
-import '../../feature/auth/presentation/page/landing/landing_auth_screen.dart';
 import '../error/failures.dart';
 import 'network_module.dart';
 

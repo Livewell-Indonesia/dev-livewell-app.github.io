@@ -1,18 +1,12 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_forgot_password.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_google_auth.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_login.dart';
-import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/routes/app_navigator.dart';
-
-import '../../../../core/log.dart';
 
 class LoginController extends BaseController {
   TextEditingController email = TextEditingController();

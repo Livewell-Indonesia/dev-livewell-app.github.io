@@ -1,5 +1,3 @@
-import 'package:algolia_helper_flutter/algolia_helper_flutter.dart';
-import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,7 +14,7 @@ import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'dart:developer';
 
 class AddMealScreen extends StatefulWidget {
-  AddMealScreen({Key? key}) : super(key: key);
+  const AddMealScreen({Key? key}) : super(key: key);
 
   @override
   State<AddMealScreen> createState() => _AddMealScreenState();
@@ -159,7 +157,7 @@ class _AddMealScreenState extends State<AddMealScreen>
           child: Row(
             children: [
               Text(
-                'Search Result',
+                'Search Result'.tr,
                 style: TextStyle(
                     fontSize: 20.sp,
                     color: const Color(0xFF171433),
@@ -200,7 +198,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                                         horizontal: 16),
                                     child: Row(
                                       children: [
-                                        Text('Filter',
+                                        Text('Filter'.tr,
                                             style: TextStyle(
                                                 color: const Color(0xFF171433),
                                                 fontWeight: FontWeight.w700,
@@ -210,7 +208,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                                             onPressed: () {
                                               addMealController.resetFilter();
                                             },
-                                            child: Text('Reset filter',
+                                            child: Text('Reset filter'.tr,
                                                 style: TextStyle(
                                                     color:
                                                         const Color(0xFF8F01DF),
@@ -222,7 +220,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 16),
-                                    child: Text('Amount',
+                                    child: Text('Amount'.tr,
                                         style: TextStyle(
                                             color: const Color(0xFF171433),
                                             fontWeight: FontWeight.w700,
@@ -231,7 +229,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                                   16.verticalSpace,
                                   Obx(() {
                                     return SearchFoodSliders(
-                                        title: 'Calories',
+                                        title: 'Calories'.tr,
                                         value: addMealController
                                             .caloriesRange.value,
                                         maxValue: 1500,
@@ -243,7 +241,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                                   24.verticalSpace,
                                   Obx(() {
                                     return SearchFoodSliders(
-                                        title: 'Protein',
+                                        title: 'Protein'.tr,
                                         value: addMealController
                                             .proteinRange.value,
                                         maxValue: 300,
@@ -255,7 +253,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                                   24.verticalSpace,
                                   Obx(() {
                                     return SearchFoodSliders(
-                                        title: 'Fat',
+                                        title: 'Fat'.tr,
                                         value: addMealController.fatRange.value,
                                         maxValue: 200,
                                         onChanged: (value) {
@@ -266,7 +264,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                                   24.verticalSpace,
                                   Obx(() {
                                     return SearchFoodSliders(
-                                        title: 'Carbs',
+                                        title: 'Carbs'.tr,
                                         value:
                                             addMealController.carbsRange.value,
                                         maxValue: 400,
@@ -277,7 +275,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                                   }),
                                   64.verticalSpace,
                                   LiveWellButton(
-                                      label: 'Submit',
+                                      label: 'Submit'.tr,
                                       color: const Color(0xFFDDF235),
                                       onPressed: () {
                                         addMealController.onSubmitFilter();
@@ -481,8 +479,8 @@ class ListOfSearchResults extends StatelessWidget {
   Widget _hits(BuildContext context) => PagedListView<int, Foods>(
       pagingController: addMealController.pagingController,
       builderDelegate: PagedChildBuilderDelegate<Foods>(
-          noItemsFoundIndicatorBuilder: (_) => const Center(
-                child: Text('No results found'),
+          noItemsFoundIndicatorBuilder: (_) => Center(
+                child: Text('No results found'.tr),
               ),
           itemBuilder: (_, item, __) => Column(
                 children: [
@@ -538,7 +536,7 @@ class SearchBar extends StatelessWidget {
         decoration: InputDecoration(
             contentPadding: const EdgeInsets.only(top: 20, bottom: 16),
             border: InputBorder.none,
-            hintText: 'Search here...',
+            hintText: 'Search here...'.tr,
             hintStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
             prefixIcon: Image.asset(
               Constant.icSearch,
@@ -574,7 +572,7 @@ class SearchHistoryItem extends StatelessWidget {
       onTap: callback,
       child: Container(
         width: double.infinity,
-        margin: EdgeInsets.symmetric(horizontal: 16),
+        margin: const EdgeInsets.symmetric(horizontal: 16),
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -590,7 +588,7 @@ class SearchHistoryItem extends StatelessWidget {
                   Text(
                     title,
                     style: TextStyle(
-                        color: Color(0xFF171433).withOpacity(0.8),
+                        color: const Color(0xFF171433).withOpacity(0.8),
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w600),
                   ),
@@ -600,7 +598,7 @@ class SearchHistoryItem extends StatelessWidget {
                           description,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                              color: Color(0xFF171433).withOpacity(0.5),
+                              color: const Color(0xFF171433).withOpacity(0.5),
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w500),
                         ),
@@ -611,10 +609,10 @@ class SearchHistoryItem extends StatelessWidget {
               width: 35,
               height: 35,
               decoration: BoxDecoration(
-                color: Color(0xFFF1F1F1),
+                color: const Color(0xFFF1F1F1),
                 borderRadius: BorderRadius.circular(14),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.arrow_forward_ios,
                 color: Colors.black,
                 size: 16,
@@ -636,9 +634,9 @@ extension ScanTypeAtt on ScanType {
   String title() {
     switch (this) {
       case ScanType.barcode:
-        return 'Scan a barcode';
+        return 'Scan a barcode'.tr;
       case ScanType.photo:
-        return 'Scan a meal';
+        return 'Scan a meal'.tr;
     }
   }
 

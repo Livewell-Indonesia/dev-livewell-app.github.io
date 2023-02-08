@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
@@ -11,13 +12,13 @@ class SuccessRequestFoodScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: "Food Request Completed",
+        title: "Food Request Completed".tr,
         body: Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Thank You!',
+                'Thank You!'.tr,
                 style: TextStyle(
                     color: const Color(0xFF171433),
                     fontSize: 40.sp,
@@ -25,7 +26,7 @@ class SuccessRequestFoodScreen extends StatelessWidget {
               ),
               30.verticalSpace,
               Text(
-                'Our team is working on your request.',
+                'Our team is working on your request.'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: const Color(0xFF171433).withOpacity(0.8),
@@ -34,7 +35,7 @@ class SuccessRequestFoodScreen extends StatelessWidget {
               ),
               50.verticalSpace,
               LiveWellButton(
-                  label: 'Back To Dashboard',
+                  label: 'Back To Dashboard'.tr,
                   color: const Color(0xFF8F01DF),
                   textColor: Colors.white,
                   onPressed: () {

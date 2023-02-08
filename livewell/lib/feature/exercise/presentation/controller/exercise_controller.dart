@@ -1,21 +1,13 @@
-import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:health/health.dart';
 import 'package:intl/intl.dart';
-import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_exercise_list.dart';
-import 'package:livewell/feature/exercise/domain/usecase/post_exercise_data.dart';
 import 'package:livewell/feature/profile/domain/usecase/update_user_info.dart';
 import 'package:livewell/routes/app_navigator.dart';
-import 'package:livewell/widgets/switcher/slide_switcher.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../../questionnaire/presentation/controller/questionnaire_controller.dart';
 

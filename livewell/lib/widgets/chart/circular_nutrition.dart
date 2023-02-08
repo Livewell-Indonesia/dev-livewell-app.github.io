@@ -7,22 +7,24 @@ class MultipleColorCircle extends StatelessWidget {
   final Widget? child;
   final double strokeWidth;
   @override
-  MultipleColorCircle(
-      {required this.colorOccurrences,
+  const MultipleColorCircle(
+      {super.key,
+      required this.colorOccurrences,
       this.height = 20,
       this.strokeWidth = 20,
       this.child});
-  Widget build(BuildContext context) => Container(
+  @override
+  Widget build(BuildContext context) => SizedBox(
         height: height,
         width: height,
         child: CustomPaint(
             size: Size(height, height),
-            child: Center(child: child),
             painter: _MultipleColorCirclePainter(
               colorOccurrences: colorOccurrences,
               height: height,
               strokeWidth: strokeWidth,
-            )),
+            ),
+            child: Center(child: child)),
       );
 }
 
