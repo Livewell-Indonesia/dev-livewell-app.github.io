@@ -71,6 +71,7 @@ dependencies:
   firebase_core: ^2.4.1
   firebase_analytics: ^10.1.0
   sign_in_with_apple: ^4.3.0
+  firebase_auth: ^4.1.1
   charts_painter: ^3.0.0
   flutter_health_fit:
     git:

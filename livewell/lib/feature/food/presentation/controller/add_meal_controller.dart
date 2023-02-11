@@ -1,14 +1,17 @@
 import 'dart:developer';
+import 'dart:math';
 import 'package:algolia_helper_flutter/algolia_helper_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/log.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
 import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart';
 import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/feature/food/domain/usecase/post_search_food.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
+import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
 import '../../../home/controller/home_controller.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -22,6 +25,7 @@ class AddMealController extends GetxController
   var filteredResult = <Foods>[].obs;
   var localFnBResult = <Foods>[].obs;
   var brandNameResult = <Foods>[].obs;
+  var addedFoods = <Foods>[].obs;
   var isLoading = false.obs;
 
   PostSearchFood searchFood = PostSearchFood.instance();
@@ -32,6 +36,8 @@ class AddMealController extends GetxController
   var fatRange = const RangeValues(0, 0).obs;
   var carbsRange = const RangeValues(0, 0).obs;
   var proteinRange = const RangeValues(0, 0).obs;
+
+  Rx<bool> showRecommendationWidget = false.obs;
 
   @override
   void onInit() {
@@ -79,6 +85,47 @@ class AddMealController extends GetxController
 
   void onTapSearchBar() {
     state.value = SearchStates.searching;
+  }
+
+  void onDoneInput() {
+    showRecommendationWidget.value = true;
+  }
+
+  void onRecommendationWidgetTapped() {
+    state.value = SearchStates.searchingWithRecommendation;
+    var user = Get.find<DashboardController>().user.value;
+    var dashboardData = Get.find<DashboardController>().dashboard.value;
+    if (user.onboardingQuestionnaire != null) {
+      var goals = user.onboardingQuestionnaire!.targetImprovement;
+      if (goals!.contains(GoalSelection.weightLoss.value())) {
+        if (dashboardData.dashboard != null) {
+          var calories = (dashboardData.dashboard?.caloriesTaken ?? 0);
+          var totalCalories = (dashboardData.dashboard?.totalCalories ?? 0);
+          var remainingCalories = totalCalories - calories;
+          var remainingCaloriesMin = remainingCalories - 300;
+          var fat = (dashboardData.dashboard?.totalFatsInG ?? 0);
+          var recommendFat = ((0.3 * totalCalories) / 9);
+          var remainingFat = recommendFat - fat;
+          var remainingFatMin = 0;
+          var fatMax = remainingFat < 22 ? remainingFat : 22;
+
+          hitsSearcher.applyState((state) => state.copyWith(numericFilters: [
+                'calories:0 TO $remainingCaloriesMin',
+                'fat:$remainingFatMin TO $fatMax'
+              ]));
+        }
+      } else {
+        var bmr = (dashboardData.dashboard?.totalCalories ?? 0);
+        var userFat = (dashboardData.dashboard?.totalFatsInG ?? 0);
+        var recommendFat = ((0.3 * bmr) / 9);
+        var remainingFat = recommendFat - userFat;
+        var remainingFatMin = max(remainingFat, 22);
+        hitsSearcher.applyState((state) => state.copyWith(numericFilters: [
+              'protein:5 TO 150',
+              'fat: 0 to $remainingFatMin'
+            ]));
+      }
+    }
   }
 
   void onTabChange(int index) {
@@ -225,6 +272,7 @@ enum SearchStates {
   initial,
   searching,
   searchingWithResults,
+  searchingWithRecommendation,
 }
 
 class SearchMetadata {

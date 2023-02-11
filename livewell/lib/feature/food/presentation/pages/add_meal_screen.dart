@@ -42,9 +42,7 @@ class _AddMealScreenState extends State<AddMealScreen>
       body: Expanded(
         child: Column(
           children: [
-            const SizedBox(
-              height: 48,
-            ),
+            24.verticalSpace,
             GetBuilder<AddMealController>(builder: (controller) {
               return SizedBox(
                 width: 1.sw,
@@ -58,7 +56,10 @@ class _AddMealScreenState extends State<AddMealScreen>
                         focusNode: addMealController.focusNode,
                         onEditingComplete: () {
                           // addMealController.doSearchFood();
+                          addMealController.onDoneInput();
                           addMealController.focusNode.unfocus();
+                          addMealController.state.value =
+                              SearchStates.searchingWithResults;
                         },
                         onChanged: (val) => controller.hitsSearcher.query(val),
                       ),
@@ -78,8 +79,8 @@ class _AddMealScreenState extends State<AddMealScreen>
                                             .textEditingController.text);
                                   },
                                   child: Container(
-                                    width: 50,
-                                    height: 50,
+                                    width: 50.w,
+                                    height: 50.h,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(10),
@@ -101,14 +102,33 @@ class _AddMealScreenState extends State<AddMealScreen>
                 ),
               );
             }),
-            const SizedBox(
-              height: 20,
-            ),
             Expanded(
               child: Obx(() {
                 return mapState(addMealController.tabController);
               }),
             ),
+            Obx(() {
+              return addMealController.state.value ==
+                          SearchStates.searchingWithResults ||
+                      addMealController.state.value ==
+                          SearchStates.searchingWithRecommendation
+                  ? Column(
+                      children: [
+                        24.verticalSpace,
+                        LiveWellButton(
+                            label: 'Done',
+                            color: const Color(0xFFDDF235),
+                            onPressed: addMealController.addedFoods.isEmpty
+                                ? null
+                                : () {
+                                    AppNavigator.popUntil(
+                                        routeName: AppPages.home);
+                                  }),
+                        20.verticalSpace,
+                      ],
+                    )
+                  : Container();
+            })
           ],
         ),
       ),
@@ -124,6 +144,8 @@ class _AddMealScreenState extends State<AddMealScreen>
             addMealController: addMealController, type: type, date: date);
       case SearchStates.searchingWithResults:
         return searchResult(controller);
+      case SearchStates.searchingWithRecommendation:
+        return recommendationResults();
     }
   }
 
@@ -152,6 +174,78 @@ class _AddMealScreenState extends State<AddMealScreen>
         //     ),
         //   ],
         // ),
+        Obx(() {
+          if (addMealController.showRecommendationWidget.isTrue) {
+            return InkWell(
+              onTap: () {
+                addMealController.onRecommendationWidgetTapped();
+              },
+              child: Column(
+                children: [
+                  24.verticalSpace,
+                  Container(
+                    width: 1.sw,
+                    margin: EdgeInsets.symmetric(horizontal: 16.w),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF171433),
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 8.w, vertical: 8.h),
+                          width: 40.w,
+                          height: 40.h,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Image.asset(Constant.icLunch),
+                        ),
+                        16.horizontalSpace,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Food Recommendation'.tr,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Text(
+                              'Based on your nutritional needs'.tr,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w300),
+                            )
+                          ],
+                        ),
+                        const Spacer(),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 8.w, vertical: 8.h),
+                          child: const Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            color: Colors.white,
+                            size: 16,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return Container();
+          }
+        }),
+        24.verticalSpace,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
@@ -313,6 +407,175 @@ class _AddMealScreenState extends State<AddMealScreen>
     );
   }
 
+  Column recommendationResults() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        24.verticalSpace,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                children: [
+                  Text(
+                    'Your Recommended Foods'.tr,
+                    style: TextStyle(
+                        fontSize: 20.sp,
+                        color: const Color(0xFF171433),
+                        fontWeight: FontWeight.w600),
+                  ),
+                  4.verticalSpace,
+                  Text(
+                    'Picked based on your nutritional needs'.tr,
+                    style: TextStyle(
+                      color: const Color(0xFF171433),
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              InkWell(
+                onTap: () {
+                  showModalBottomSheet<dynamic>(
+                      context: context,
+                      isScrollControlled: true,
+                      shape: ShapeBorder.lerp(
+                          const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20))),
+                          const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20))),
+                          1),
+                      builder: (BuildContext context) {
+                        return Wrap(
+                          children: [
+                            Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                ),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    child: Row(
+                                      children: [
+                                        Text('Filter'.tr,
+                                            style: TextStyle(
+                                                color: const Color(0xFF171433),
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 16.sp)),
+                                        const Spacer(),
+                                        TextButton(
+                                            onPressed: () {
+                                              addMealController.resetFilter();
+                                            },
+                                            child: Text('Reset filter'.tr,
+                                                style: TextStyle(
+                                                    color:
+                                                        const Color(0xFF8F01DF),
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 12.sp))),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    child: Text('Amount'.tr,
+                                        style: TextStyle(
+                                            color: const Color(0xFF171433),
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16.sp)),
+                                  ),
+                                  16.verticalSpace,
+                                  Obx(() {
+                                    return SearchFoodSliders(
+                                        title: 'Calories'.tr,
+                                        value: addMealController
+                                            .caloriesRange.value,
+                                        maxValue: 1500,
+                                        onChanged: (value) {
+                                          addMealController
+                                              .caloriesRange.value = value;
+                                        });
+                                  }),
+                                  24.verticalSpace,
+                                  Obx(() {
+                                    return SearchFoodSliders(
+                                        title: 'Protein'.tr,
+                                        value: addMealController
+                                            .proteinRange.value,
+                                        maxValue: 300,
+                                        onChanged: (value) {
+                                          addMealController.proteinRange.value =
+                                              value;
+                                        });
+                                  }),
+                                  24.verticalSpace,
+                                  Obx(() {
+                                    return SearchFoodSliders(
+                                        title: 'Fat'.tr,
+                                        value: addMealController.fatRange.value,
+                                        maxValue: 200,
+                                        onChanged: (value) {
+                                          addMealController.fatRange.value =
+                                              value;
+                                        });
+                                  }),
+                                  24.verticalSpace,
+                                  Obx(() {
+                                    return SearchFoodSliders(
+                                        title: 'Carbs'.tr,
+                                        value:
+                                            addMealController.carbsRange.value,
+                                        maxValue: 400,
+                                        onChanged: (value) {
+                                          addMealController.carbsRange.value =
+                                              value;
+                                        });
+                                  }),
+                                  64.verticalSpace,
+                                  LiveWellButton(
+                                      label: 'Submit'.tr,
+                                      color: const Color(0xFFDDF235),
+                                      onPressed: () {
+                                        addMealController.onSubmitFilter();
+                                        Get.back();
+                                      }),
+                                  32.verticalSpace
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      });
+                },
+                child: const Icon(Icons.filter_list),
+              )
+            ],
+          ),
+        ),
+        Expanded(
+          child: ListOfSearchResults(
+              addMealController: addMealController, type: type, date: date),
+        ),
+      ],
+    );
+  }
+
   SingleChildScrollView searchInitial() {
     return SingleChildScrollView(
       child: Column(
@@ -377,24 +640,27 @@ class _AddMealScreenState extends State<AddMealScreen>
                       ? 5
                       : addMealController.history.length,
                   itemBuilder: (context, index) {
-                    return SearchHistoryItem(
-                      title: addMealController.history[index].mealName ?? "",
-                      description:
-                          "${addMealController.history[index].mealServings}",
-                      callback: () {
-                        inspect(addMealController.history[index]);
-                        Get.to(
-                            () => AddFoodScreen(
-                                  food: addMealController.history[index]
-                                      .toFoodsObject(),
-                                  mealTime: MealTime.values.byName(
-                                      (type ?? MealTime.breakfast.name)
-                                          .toLowerCase()),
-                                ),
-                            transition: Transition.cupertino,
-                            arguments: date);
-                      },
-                    );
+                    return Obx(() {
+                      return SearchHistoryItem(
+                        title: addMealController.history[index].mealName ?? "",
+                        description:
+                            "${addMealController.history[index].mealServings}",
+                        isAdded: false,
+                        callback: () {
+                          inspect(addMealController.history[index]);
+                          Get.to(
+                              () => AddFoodScreen(
+                                    food: addMealController.history[index]
+                                        .toFoodsObject(),
+                                    mealTime: MealTime.values.byName(
+                                        (type ?? MealTime.breakfast.name)
+                                            .toLowerCase()),
+                                  ),
+                              transition: Transition.cupertino,
+                              arguments: date);
+                        },
+                      );
+                    });
                   },
                   separatorBuilder: (context, index) {
                     return 16.verticalSpace;
@@ -484,21 +750,27 @@ class ListOfSearchResults extends StatelessWidget {
               ),
           itemBuilder: (_, item, __) => Column(
                 children: [
-                  SearchHistoryItem(
-                      title: item.foodName ?? "",
-                      description: item.foodDesc,
-                      callback: () {
-                        Get.to(
-                            () => AddFoodScreen(
-                                  food: item,
-                                  mealTime: MealTime.values.byName(
-                                      (type ?? MealTime.breakfast.name)
-                                          .toLowerCase()),
-                                ),
-                            transition: Transition.cupertino,
-                            arguments: date);
-                      }),
-                  20.verticalSpace,
+                  Obx(() {
+                    return SearchHistoryItem(
+                        title: item.foodName ?? "",
+                        description: item.foodDesc,
+                        isAdded: addMealController.addedFoods.firstWhereOrNull(
+                                (element) =>
+                                    element.foodName == item.foodName) !=
+                            null,
+                        callback: () {
+                          Get.to(
+                              () => AddFoodScreen(
+                                    food: item,
+                                    mealTime: MealTime.values.byName(
+                                        (type ?? MealTime.breakfast.name)
+                                            .toLowerCase()),
+                                  ),
+                              transition: Transition.cupertino,
+                              arguments: date);
+                        });
+                  }),
+                  8.verticalSpace,
                 ],
               )));
 }
@@ -520,7 +792,7 @@ class SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      margin: EdgeInsets.symmetric(horizontal: 16.w),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -534,7 +806,7 @@ class SearchBar extends StatelessWidget {
         style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
         focusNode: focusNode,
         decoration: InputDecoration(
-            contentPadding: const EdgeInsets.only(top: 20, bottom: 16),
+            contentPadding: EdgeInsets.only(top: 20.h, bottom: 16.h),
             border: InputBorder.none,
             hintText: 'Search here...'.tr,
             hintStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
@@ -557,12 +829,14 @@ class SearchBar extends StatelessWidget {
 class SearchHistoryItem extends StatelessWidget {
   final String title;
   final String description;
+  final bool isAdded;
   final VoidCallback callback;
 
   const SearchHistoryItem(
       {Key? key,
       required this.title,
       required this.description,
+      required this.isAdded,
       required this.callback})
       : super(key: key);
 
@@ -573,11 +847,12 @@ class SearchHistoryItem extends StatelessWidget {
       child: Container(
         width: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 16),
-        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
+        padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-        ),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+                color: isAdded ? const Color(0xFF8F01DF) : Colors.transparent)),
         child: Row(
           children: [
             Expanded(

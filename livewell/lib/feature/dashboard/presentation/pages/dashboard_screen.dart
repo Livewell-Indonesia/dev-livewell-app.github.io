@@ -624,7 +624,7 @@ class MyTooltip extends StatelessWidget {
   final Widget child;
   final String message;
 
-  MyTooltip({super.key, required this.message, required this.child});
+  const MyTooltip({super.key, required this.message, required this.child});
 
   @override
   Widget build(BuildContext context) {

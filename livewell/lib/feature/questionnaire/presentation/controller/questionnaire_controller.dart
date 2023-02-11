@@ -88,7 +88,7 @@ class QuestionnaireController extends GetxController {
         drink.value.toString(),
         sleep.value.toString(),
         selectedDietraryText.text,
-        selectedGoals.value.title());
+        selectedGoals.value.value());
     inspect(params);
     Log.info(params.toJson());
     inspect(params.toJson());
@@ -233,6 +233,23 @@ extension GoalSelectionContent on GoalSelection {
         return "Improve Overall Fitness".tr;
       case GoalSelection.none:
         return "None".tr;
+    }
+  }
+
+  String value() {
+    switch (this) {
+      case GoalSelection.getFitter:
+        return "Get Fitter";
+      case GoalSelection.betterSleeping:
+        return "Better Sleeping";
+      case GoalSelection.weightLoss:
+        return "Weight Loss";
+      case GoalSelection.trackNutrition:
+        return "Track Nutrition";
+      case GoalSelection.improveOverallFitness:
+        return "Improve Overall Fitness";
+      case GoalSelection.none:
+        return "None";
     }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -82,11 +83,19 @@ class LoginScreen extends StatelessWidget {
               SigninThridPartyButton(
                   type: SignInButtonType.apple,
                   onPressed: () async {
-                    final credential =
-                        await SignInWithApple.getAppleIDCredential(scopes: [
-                      AppleIDAuthorizationScopes.email,
-                      AppleIDAuthorizationScopes.fullName,
-                    ]);
+                    final credential = await SignInWithApple.getAppleIDCredential(
+                        scopes: [
+                          AppleIDAuthorizationScopes.email,
+                          AppleIDAuthorizationScopes.fullName,
+                        ],
+                        webAuthenticationOptions: WebAuthenticationOptions(
+                            clientId: 'com.livewell.signon',
+                            redirectUri: Uri.parse(
+                                'https://api.livewellindo.com/api/v1/auth/apple')));
+                    var data = OAuthProvider('apple.com').credential(
+                        idToken: credential.identityToken,
+                        accessToken: credential.authorizationCode);
+                    print(data);
                   }),
               24.verticalSpace,
               Row(

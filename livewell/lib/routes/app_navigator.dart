@@ -58,11 +58,11 @@ class AppNavigator {
         transition: Transition.cupertino),
     GetPage(
         name: AppPages.food,
-        page: () => FoodScreen(),
+        page: () => const FoodScreen(),
         transition: Transition.cupertino),
     GetPage(
         name: AppPages.addMeal,
-        page: () => AddMealScreen(),
+        page: () => const AddMealScreen(),
         transition: Transition.cupertino),
     GetPage(
         name: AppPages.profile,
@@ -70,7 +70,7 @@ class AppNavigator {
         transition: Transition.cupertino),
     GetPage(
       name: AppPages.dailyJournal,
-      page: () => DailyJournalScreen(),
+      page: () => const DailyJournalScreen(),
       transition: Transition.cupertino,
     ),
     GetPage(
@@ -79,7 +79,7 @@ class AppNavigator {
         transition: Transition.cupertino),
     GetPage(
       name: "${AppPages.scanFood}/:type",
-      page: () => ScanBarcodeScreen(),
+      page: () => const ScanBarcodeScreen(),
       transition: Transition.cupertino,
     ),
     GetPage(

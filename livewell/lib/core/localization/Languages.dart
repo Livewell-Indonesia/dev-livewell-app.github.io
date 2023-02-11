@@ -10,6 +10,7 @@ class Languages extends Translations {
           AppStringsKeys.getStarted: 'Get Started',
           'Sign In': 'Sign In',
           AppStringsKeys.signUp: 'Sign Up',
+          AppStringsKeys.signIn: 'Sign In',
           AppStringsKeys.alreadyHaveAccount: 'Already have account?',
           AppStringsKeys.dontHaveAccount: 'Don\'t have account?',
           'Create New Account': 'Create New Account',

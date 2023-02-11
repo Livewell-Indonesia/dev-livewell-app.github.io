@@ -5,12 +5,12 @@ import '../../theme/design_system.dart';
 class LiveWellButton extends StatelessWidget {
   final String label;
   final Color color;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final Color? textColor;
   const LiveWellButton(
       {required this.label,
       required this.color,
-      required this.onPressed,
+      this.onPressed,
       this.textColor,
       Key? key})
       : super(key: key);
@@ -25,6 +25,7 @@ class LiveWellButton extends StatelessWidget {
             shadowColor: Colors.transparent,
             fixedSize: Size(1.sw, 48.w),
             backgroundColor: color,
+            disabledBackgroundColor: const Color(0xFFEBEBEB),
             padding: EdgeInsets.symmetric(
                 horizontal: Insets.paddingMedium,
                 vertical: Insets.paddingMedium.h),
@@ -33,7 +34,9 @@ class LiveWellButton extends StatelessWidget {
         child: Text(
           label,
           style: TextStyle(
-              color: textColor ?? Colors.black,
+              color: onPressed == null
+                  ? const Color(0xFF808080)
+                  : textColor ?? Colors.black,
               fontSize: 16.sp,
               fontWeight: FontWeight.w500),
         ),
