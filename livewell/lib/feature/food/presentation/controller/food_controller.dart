@@ -16,6 +16,10 @@ class FoodController extends GetxController {
   var thirdValue = 0.0.obs;
   var dashboardData = Get.find<DashboardController>().dashboard;
 
+  var macroNutValue = 0.obs;
+  var microNutValue = 0.obs;
+  var totalCalValue = 0.obs;
+
   GetUserMealHistory getUserMealHistory = GetUserMealHistory.instance();
   RxList<MealHistoryModel> mealHistory = <MealHistoryModel>[].obs;
   Rx<bool> isLoadingHistory = false.obs;
@@ -109,7 +113,6 @@ class FoodController extends GetxController {
           dashboardData.value.dashboard!.totalFatsInG ?? 0,
           dashboardData.value.dashboard?.target ?? 0);
       var average = (carbs + protein + fat) / 3;
-      Log.colorGreen('total: $average');
       return average >= 1 ? 1.0.obs : average.obs;
     } else {
       return 0.0.obs;

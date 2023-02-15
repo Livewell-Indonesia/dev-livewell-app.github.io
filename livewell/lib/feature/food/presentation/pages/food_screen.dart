@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
@@ -38,18 +39,20 @@ class _FoodScreenState extends State<FoodScreen> {
                 const SizedBox(height: 40),
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(children: [
-                          TextSpan(
-                            text: 'Today you have consumed '.tr,
-                            style: TextStyles.titleHiEm(color: Colors.black),
-                          ),
-                          TextSpan(
-                              text:
-                                  "${controller.dashboardData.value.dashboard?.caloriesTaken.toString()} Cal",
-                              style: TextStyles.titleHiEm(color: Colors.orange))
-                        ]))),
+                    child: Obx(() {
+                      return RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(children: [
+                            TextSpan(
+                              text: 'Today you have consumed '.tr,
+                              style: TextStyles.titleHiEm(color: Colors.black),
+                            ),
+                            TextSpan(
+                                text: "${controller.getTotalCal().value} Cal",
+                                style: TextStyles.titleHiEm(
+                                    color: const Color(0xFF8F01DF)))
+                          ]));
+                    })),
                 const SizedBox(height: 20),
                 Center(child: Obx(() {
                   return NutritionCircularProgress(
@@ -69,19 +72,19 @@ class _FoodScreenState extends State<FoodScreen> {
                         NutrtionProgressModel(
                             name: 'Macro Nut',
                             color: const Color(0xFF34EAB2),
-                            total: "",
+                            total: '${controller.getTotalMacroNut().value} g',
                             consumed:
                                 "${(controller.getPercentMacroNut().value * 100).round()}%"),
                         NutrtionProgressModel(
                             name: 'Micro Nut',
                             color: const Color(0xFF8F01DF),
-                            total: "",
+                            total: '${controller.getTotalMicroNut().value} g',
                             consumed:
                                 "${(controller.getPercentMicroNut().value * 100).round()}%"),
                         NutrtionProgressModel(
                             name: 'Total Cal',
                             color: const Color(0xFFDDF235),
-                            total: "",
+                            total: '${controller.getTotalCal().value} g',
                             consumed:
                                 '${Get.find<FoodController>().percentageOfDailyGoals().value}%'),
                       ],
@@ -96,8 +99,10 @@ class _FoodScreenState extends State<FoodScreen> {
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             return Obx(() {
-                              return ExpandableDiaryItem(
-                                title: MealTime.values[index].appBarTitle(),
+                              return ExpandableDiaryItemV2(
+                                title: MealTime.values[index].text(),
+                                leadingImage:
+                                    MealTime.values[index].leadingImage(),
                                 data: controller.mealHistory
                                     .where((p0) =>
                                         p0.mealType?.toUpperCase() ==
@@ -124,7 +129,7 @@ class _FoodScreenState extends State<FoodScreen> {
                             });
                           },
                           separatorBuilder: (context, index) {
-                            return 10.verticalSpace;
+                            return 8.verticalSpace;
                           },
                           itemCount: MealTime.values.length);
                 })
@@ -385,6 +390,19 @@ extension MealTimeAttribute on MealTime {
     }
   }
 
+  String leadingImage() {
+    switch (this) {
+      case MealTime.breakfast:
+        return Constant.icBreakfast;
+      case MealTime.lunch:
+        return Constant.icLunch;
+      case MealTime.dinner:
+        return Constant.icDinner;
+      case MealTime.snack:
+        return Constant.icSnack;
+    }
+  }
+
   String appBarTitle() {
     return 'Add '.tr + text();
   }
@@ -459,3 +477,135 @@ final CircularSliderAppearance appearance03 = CircularSliderAppearance(
     angleRange: 360,
     size: 198.0,
     animationEnabled: true);
+
+class ExpandableDiaryItemV2 extends StatelessWidget {
+  final String title;
+  final String leadingImage;
+  final List<MealHistoryModel> data;
+  final VoidCallback onTap;
+  final void Function(int) onDelete;
+  final void Function(int index, double value) onUpdate;
+  const ExpandableDiaryItemV2(
+      {Key? key,
+      required this.title,
+      required this.leadingImage,
+      required this.data,
+      required this.onTap,
+      required this.onUpdate,
+      required this.onDelete})
+      : super(key: key);
+
+  num getTotalCal(List<MealHistoryModel> mealHistory) {
+    num totalCal = 0;
+    for (var element in mealHistory) {
+      totalCal += element.caloriesInG!;
+    }
+    if (totalCal > 0) {
+      totalCal = (totalCal).round();
+    }
+    return totalCal;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          InkWell(
+            onTap: onTap,
+            child: Container(
+              height: 72.h,
+              padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30.r),
+                  topRight: Radius.circular(30.r),
+                  bottomLeft: data.isNotEmpty
+                      ? Radius.circular(0.r)
+                      : Radius.circular(30.r),
+                  bottomRight: data.isNotEmpty
+                      ? Radius.circular(0.r)
+                      : Radius.circular(30.r),
+                ),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                textBaseline: TextBaseline.alphabetic,
+                children: [
+                  Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+                    width: 40.w,
+                    height: 40.h,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF1F1F1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Image.asset(leadingImage),
+                  ),
+                  16.horizontalSpace,
+                  Text(
+                    title,
+                    style: TextStyle(
+                        color: const Color(0xFF505050),
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  8.horizontalSpace,
+                  RichText(
+                      text: TextSpan(children: [
+                    TextSpan(
+                        text: '${getTotalCal(data)} cal',
+                        style: TextStyle(
+                            color: const Color(0xFF8F01DF),
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600)),
+                  ])),
+                  const Spacer(),
+                  Container(
+                    width: 35.w,
+                    height: 35.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                    child: Icon(
+                      Icons.add,
+                      color: const Color(0xFF171433).withOpacity(0.7),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          data.isNotEmpty
+              ? Flexible(
+                  child: ListView.separated(
+                    padding: EdgeInsets.only(top: 20.h),
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, item) {
+                      return HistoryContent(
+                        onDelete: onDelete,
+                        onUpdate: onUpdate,
+                        data: data,
+                        index: item,
+                      );
+                    },
+                    separatorBuilder: (context, item) {
+                      return Padding(
+                        padding: EdgeInsets.only(top: 7.5.h, bottom: 7.5.h),
+                        child: const Divider(),
+                      );
+                    },
+                    itemCount: data.length,
+                  ),
+                )
+              : const SizedBox.shrink()
+        ],
+      ),
+    );
+  }
+}
