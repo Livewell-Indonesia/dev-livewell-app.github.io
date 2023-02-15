@@ -8,7 +8,7 @@ import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
 class DailyJournalScreen extends StatefulWidget {
-  DailyJournalScreen({Key? key}) : super(key: key);
+  const DailyJournalScreen({Key? key}) : super(key: key);
 
   @override
   State<DailyJournalScreen> createState() => _DailyJournalScreenState();
@@ -20,7 +20,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: 'Daily Journal',
+        title: 'Daily Journal'.tr,
         allowBack: (Get.arguments as bool),
         body: Column(
           children: [
@@ -40,12 +40,12 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                     child: Row(
                       children: [
                         Text(
-                          "Eating",
+                          "Eating".tr,
                           style: TextStyle(
                               fontSize: 18.sp, fontWeight: FontWeight.w600),
                         ),
                         const Spacer(),
-                        Text("edit")
+                        Text("edit".tr)
                       ],
                     ),
                   ),
@@ -58,7 +58,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Set Your Meal Time',
+                          Text('Set Your Meal Time'.tr,
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                   fontSize: 16.sp,
@@ -66,7 +66,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                           20.verticalSpace,
                           Obx(() {
                             return DailyJournalEatingItem(
-                              title: 'Breakfast',
+                              title: 'Breakfast'.tr,
                               time: controller.breakfastTime.value == null
                                   ? null
                                   : DateFormat('hh:mm a')
@@ -90,7 +90,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                           20.verticalSpace,
                           Obx(() {
                             return DailyJournalEatingItem(
-                              title: 'Lunch',
+                              title: 'Lunch'.tr,
                               time: controller.lunchTime.value == null
                                   ? null
                                   : DateFormat('hh:mm a')
@@ -114,7 +114,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                           20.verticalSpace,
                           Obx(() {
                             return DailyJournalEatingItem(
-                              title: 'Dinner',
+                              title: 'Dinner'.tr,
                               time: controller.dinnerTime.value == null
                                   ? null
                                   : DateFormat('hh:mm a')
@@ -138,7 +138,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                           20.verticalSpace,
                           Obx(() {
                             return DailyJournalEatingItem(
-                              title: 'Snack',
+                              title: 'Snack'.tr,
                               time: controller.snackTime.value == null
                                   ? null
                                   : DateFormat('hh:mm a')
@@ -169,7 +169,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
             ),
             20.verticalSpace,
             LiveWellButton(
-                label: 'Save',
+                label: 'save'.tr,
                 color: const Color(0xFF8F01DF),
                 textColor: Colors.white,
                 onPressed: () {
@@ -199,7 +199,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w600),
                   ),
-                  Container(
+                  SizedBox(
                     height: 274.h,
                     child: CupertinoDatePicker(
                       use24hFormat: true,
@@ -249,7 +249,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                               Get.back();
                             },
                             child: Text(
-                              'Save',
+                              'save'.tr,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14.sp,

@@ -8,11 +8,11 @@ class PageRouteFade extends MaterialPageRoute {
   @override
   Widget buildTransitions(
     BuildContext context,
-    Animation<double> firstAnim,
-    Animation<double> secAnim,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
     Widget child,
   ) {
-    return FadeTransition(opacity: firstAnim, child: child);
+    return FadeTransition(opacity: animation, child: child);
   }
 
   @override

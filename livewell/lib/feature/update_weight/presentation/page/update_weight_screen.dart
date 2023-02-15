@@ -10,23 +10,23 @@ import '../../../profile/presentation/page/account_settings_screen.dart';
 class UpdateWeightScreen extends StatelessWidget {
   UpdateWeightScreen({super.key});
 
-  UpdateWeightController controller = Get.put(UpdateWeightController());
+  final UpdateWeightController controller = Get.put(UpdateWeightController());
 
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: "Update Weight",
+        title: "Update Weight".tr,
         body: Expanded(
           child: Column(
             children: [
               40.verticalSpace,
               AccountSettingsTextField(
                 textEditingController: controller.weightController,
-                hintText: 'Current Weight (Kg)',
+                hintText: 'Current Weight (Kg)'.tr,
                 enabled: true,
                 inputType: const TextInputType.numberWithOptions(),
               ),
-              Spacer(),
+              const Spacer(),
               LiveWellButton(
                   label: "Update",
                   color: const Color(0xFF8F01DF),

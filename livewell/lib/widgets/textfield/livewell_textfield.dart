@@ -55,7 +55,7 @@ class _LiveWellTextFieldState extends State<LiveWellTextField> {
       nextFocus: false,
       actions: widget.keyboardType == TextInputType.number ||
               widget.keyboardType ==
-                  TextInputType.numberWithOptions(decimal: true)
+                  const TextInputType.numberWithOptions(decimal: true)
           ? [
               KeyboardActionsItem(
                 focusNode: _focusNode,
@@ -109,7 +109,7 @@ class _LiveWellTextFieldState extends State<LiveWellTextField> {
           obscureText: !showPassword && widget.obscureText,
           inputFormatters: widget.keyboardType == TextInputType.number ||
                   widget.keyboardType ==
-                      TextInputType.numberWithOptions(decimal: true)
+                      const TextInputType.numberWithOptions(decimal: true)
               ? Platform.isIOS
                   ? [
                       TextInputFormatter.withFunction((oldValue, newValue) {

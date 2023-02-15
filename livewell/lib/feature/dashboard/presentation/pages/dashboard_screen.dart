@@ -6,9 +6,10 @@ import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
+import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_screen.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
-import 'package:livewell/feature/update_weight/presentation/page/update_weight_screen.dart';
 import 'package:livewell/routes/app_navigator.dart';
+import 'package:livewell/widgets/banner/nutriscore_banner.dart';
 import 'package:livewell/widgets/chart/circular_calories.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
@@ -127,6 +128,17 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   ),
                 ),
                 32.verticalSpace,
+                // Padding(
+                //   padding: const EdgeInsets.all(16),
+                //   child: InkWell(
+                //     onTap: () {
+                //       Get.to(() => const NutriScoreScreen());
+                //     },
+                //     child: const NutriscoreBanner(
+                //       value: 100,
+                //     ),
+                //   ),
+                // ),
                 InkWell(
                   onTap: () {
                     AppNavigator.push(routeName: AppPages.updateWeight);
@@ -254,7 +266,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 flex: 4,
                                 child: SimpleCircularProgressBar(
                                   backColor: Colors.white,
-                                  progressColors: [const Color(0xFFDDF235)],
+                                  progressColors: const [Color(0xFFDDF235)],
                                   mergeMode: true,
                                   backStrokeWidth: 5,
                                   progressStrokeWidth: 10,
@@ -470,8 +482,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                           borderRadius:
                                               BorderRadius.circular(10)),
                                       side: const BorderSide(
-                                          color: const Color(0xFF171433),
-                                          width: 1),
+                                          color: Color(0xFF171433), width: 1),
                                     );
                                   }),
                                 ),
@@ -479,7 +490,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                   width: 43.w,
                                   height: 43.w,
                                   decoration: BoxDecoration(
-                                      color: Color(0xFFF1F1F1),
+                                      color: const Color(0xFFF1F1F1),
                                       borderRadius:
                                           BorderRadius.circular(10.r)),
                                   child:
@@ -510,7 +521,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         ListView.separated(
                             padding: EdgeInsets.only(top: 10.h),
                             shrinkWrap: true,
-                            physics: ClampingScrollPhysics(),
+                            physics: const ClampingScrollPhysics(),
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () {
@@ -555,7 +566,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                                 borderRadius:
                                                     BorderRadius.circular(10)),
                                             side: const BorderSide(
-                                                color: const Color(0xFF171433),
+                                                color: Color(0xFF171433),
                                                 width: 1),
                                           );
                                         }),
@@ -564,7 +575,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                         width: 43.w,
                                         height: 43.w,
                                         decoration: BoxDecoration(
-                                            color: Color(0xFFF1F1F1),
+                                            color: const Color(0xFFF1F1F1),
                                             borderRadius:
                                                 BorderRadius.circular(10.r)),
                                         child: Image.asset(
@@ -613,7 +624,7 @@ class MyTooltip extends StatelessWidget {
   final Widget child;
   final String message;
 
-  MyTooltip({required this.message, required this.child});
+  const MyTooltip({super.key, required this.message, required this.child});
 
   @override
   Widget build(BuildContext context) {

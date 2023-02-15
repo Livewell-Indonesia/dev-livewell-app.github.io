@@ -7,7 +7,7 @@ class MealHistories {
     if (json['mealHistories'] != null) {
       mealHistories = <MealHistory>[];
       json['mealHistories'].forEach((v) {
-        mealHistories!.add(new MealHistory.fromJson(v));
+        mealHistories!.add(MealHistory.fromJson(v));
       });
     } else {
       mealHistories = [];
@@ -15,10 +15,9 @@ class MealHistories {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.mealHistories != null) {
-      data['mealHistories'] =
-          this.mealHistories!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (mealHistories != null) {
+      data['mealHistories'] = mealHistories!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -36,9 +35,9 @@ class MealHistory {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['date'] = this.date;
-    data['meal_type'] = this.mealType;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['date'] = date;
+    data['meal_type'] = mealType;
     return data;
   }
 }

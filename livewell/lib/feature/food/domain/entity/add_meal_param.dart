@@ -1,5 +1,3 @@
-import 'package:dartz/dartz.dart';
-import 'package:intl/intl.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 
 import '../../data/model/foods_model.dart';
@@ -270,7 +268,7 @@ class Nutritions {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (carbohydrates != null) {
       data['carbohydrates'] = carbohydrates!.toJson();
     }
@@ -320,10 +318,7 @@ class Nutrition {
 
   Nutrition({value, unit});
 
-  Nutrition.asParams(double value, {String unit = 'g'}) {
-    this.value = value;
-    this.unit = unit;
-  }
+  Nutrition.asParams(double this.value, {String this.unit = 'g'});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};

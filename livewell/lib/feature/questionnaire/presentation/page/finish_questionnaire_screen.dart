@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
-import 'package:livewell/core/localization/Languages.dart';
+import 'package:livewell/core/localization/languages.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
@@ -26,7 +26,8 @@ class FinishQuestionnaireScreen extends StatelessWidget {
                 child: SizedBox(
                     width: 280.w,
                     height: 296.h,
-                    child: SvgPicture.asset(Constant.imgFinishQuestionnaireSVG))),
+                    child:
+                        SvgPicture.asset(Constant.imgFinishQuestionnaireSVG))),
             50.verticalSpace,
             Text(
               AppStringsKeys.youReadyToGo.tr,

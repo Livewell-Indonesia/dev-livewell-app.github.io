@@ -1,15 +1,12 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
+import 'package:get/get.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:livewell/main.dart';
 
 class ScanBarcodeScreen extends StatefulWidget {
-  ScanBarcodeScreen({Key? key}) : super(key: key);
+  const ScanBarcodeScreen({Key? key}) : super(key: key);
 
   @override
   State<ScanBarcodeScreen> createState() => _ScanBarcodeScreenState();
@@ -28,7 +25,7 @@ class _ScanBarcodeScreenState extends State<ScanBarcodeScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: "scan a barcode",
+        title: "scan a barcode".tr,
         body: Expanded(
           child: Column(
             children: [
@@ -38,10 +35,7 @@ class _ScanBarcodeScreenState extends State<ScanBarcodeScreen> {
               Expanded(
                 flex: 8,
                 child: MobileScanner(
-                    controller: controller,
-                    onDetect: ((barcode, args) {
-                      print('barcode found ${barcode.rawValue}');
-                    })),
+                    controller: controller, onDetect: ((barcode, args) {})),
               ),
               Expanded(
                 flex: 4,
@@ -49,15 +43,16 @@ class _ScanBarcodeScreenState extends State<ScanBarcodeScreen> {
                   children: [
                     20.verticalSpace,
                     Text(
-                      'Processing...',
+                      'Processing...'.tr,
                       style: TextStyle(
-                          color: Color(0xFF171433),
+                          color: const Color(0xFF171433),
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w600),
                     ),
                     7.verticalSpace,
                     Text(
-                      'We’ll redirect you to another screen once we got the scanning result',
+                      'We’ll redirect you to another screen once we got the scanning result'
+                          .tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 13.sp),
                     )

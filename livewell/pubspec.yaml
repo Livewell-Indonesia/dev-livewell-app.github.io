@@ -70,6 +70,8 @@ dependencies:
   firebase_crashlytics: ^3.0.11
   firebase_core: ^2.4.1
   firebase_analytics: ^10.1.0
+  sign_in_with_apple: ^4.3.0
+  charts_painter: ^3.0.0
   flutter_health_fit:
     git:
       url: https://github.com/metaflowltd/flutter_health_fit.git

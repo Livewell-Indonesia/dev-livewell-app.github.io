@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_this
+
 import 'package:dartz/dartz.dart';
 import 'package:health/health.dart';
 import 'package:livewell/core/base/usecase.dart';
@@ -28,7 +30,7 @@ class PostExerciseParams {
     if (json['activities'] != null) {
       activities = <Activities>[];
       json['activities'].forEach((v) {
-        activities!.add(new Activities.fromJson(v));
+        activities!.add(Activities.fromJson(v));
       });
     }
   }
@@ -42,7 +44,7 @@ class PostExerciseParams {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (this.activities != null) {
       data['activities'] = this.activities!.map((v) => v.toJson()).toList();
     }
@@ -109,7 +111,7 @@ class Activities {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['value'] = this.value;
     data['type'] = this.type;
     data['unit'] = this.unit;

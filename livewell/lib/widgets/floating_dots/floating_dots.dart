@@ -75,7 +75,7 @@ class FloatingDotGroupState extends State<FloatingDotGroup> {
       } else if (widget.speed == DotSpeed.mixed) {
         time = widget.random.nextInt(45) + 7;
       }
-      dots.add(Container(
+      dots.add(SizedBox(
         width: double.infinity,
         height: double.infinity,
         child: FloatingDot(
@@ -91,8 +91,8 @@ class FloatingDotGroupState extends State<FloatingDotGroup> {
   }
 
   @override
-  Widget build(BuildContext buildContext) {
-    return Container(
+  Widget build(BuildContext context) {
+    return SizedBox(
       width: double.infinity,
       height: double.infinity,
       child: Stack(
@@ -120,7 +120,7 @@ class FloatingDot extends StatefulWidget {
   final int time;
   final Color color;
 
-  FloatingDot({
+  const FloatingDot({
     Key? key,
     required this.direction,
     required this.trajectory,

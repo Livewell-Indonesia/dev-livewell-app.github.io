@@ -29,9 +29,9 @@ class LiveWellScaffold extends StatelessWidget {
           },
           child: Column(
             children: [
-              53.verticalSpace,
+              60.verticalSpace,
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16).r,
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: Stack(
                   clipBehavior: Clip.none,
                   alignment: Alignment.centerLeft,
@@ -42,9 +42,9 @@ class LiveWellScaffold extends StatelessWidget {
                       child: Center(
                         child: Text(
                           title,
-                          style: const TextStyle(
+                          style: TextStyle(
                               color: Colors.black,
-                              fontSize: 18,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -76,7 +76,7 @@ class LiveWellScaffold extends StatelessWidget {
       },
       child: Container(
         width: 31.w,
-        height: 31.w,
+        height: 31.h,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -84,7 +84,7 @@ class LiveWellScaffold extends StatelessWidget {
         child: SizedBox(
           child: Icon(
             Icons.arrow_back_ios_new_rounded,
-            size: 18,
+            size: 18.h,
           ),
         ),
       ),

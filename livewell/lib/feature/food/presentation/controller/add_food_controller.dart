@@ -7,10 +7,10 @@ import 'package:livewell/feature/dashboard/presentation/controller/dashboard_con
 import 'package:livewell/feature/food/domain/entity/meal_history.dart';
 import 'package:livewell/feature/food/domain/usecase/add_meal.dart';
 import 'package:livewell/feature/food/domain/usecase/add_meal_history.dart';
+import 'package:livewell/feature/food/presentation/controller/add_meal_controller.dart';
 import 'package:livewell/feature/food/presentation/controller/food_controller.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 
-import '../../../../routes/app_navigator.dart';
 import '../../data/model/foods_model.dart';
 import '../../domain/entity/add_meal_param.dart';
 
@@ -62,10 +62,10 @@ class AddFoodController extends GetxController {
       Get.find<FoodController>().fetchUserMealHistory();
     }
     await EasyLoading.dismiss();
-    result.fold((l) {
-      print(l);
-    }, (r) {
-      AppNavigator.popUntil(routeName: AppPages.home);
+    result.fold((l) {}, (r) {
+      Get.back();
+      Get.find<AddMealController>().addedFoods.add(food);
+      //AppNavigator.popUntil(routeName: AppPages.home);
     });
   }
 

@@ -15,7 +15,6 @@ import 'package:livewell/feature/dashboard/data/model/user_model.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_dashboard_data.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_user.dart';
 import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart';
-import 'package:livewell/feature/food/domain/entity/meal_history.dart';
 import 'package:livewell/feature/food/domain/usecase/get_meal_history.dart';
 import 'package:livewell/feature/water/data/model/water_list_model.dart';
 import 'package:livewell/feature/water/domain/usecase/get_water_data.dart';
@@ -347,7 +346,7 @@ class DashboardController extends GetxController {
       inspect(r);
       if (r.onboardingQuestionnaire == null &&
           Get.currentRoute == AppPages.home) {
-        Future.delayed(Duration(milliseconds: 800), () {
+        Future.delayed(const Duration(milliseconds: 800), () {
           AppNavigator.push(routeName: AppPages.questionnaire);
         });
       } else {

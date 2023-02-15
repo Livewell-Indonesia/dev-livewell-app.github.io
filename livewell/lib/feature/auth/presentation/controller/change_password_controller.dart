@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_change_password.dart';
-import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/dialog/success_reset_password_dialog.dart';
 
 class ChangePasswordController extends GetxController {

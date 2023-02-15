@@ -88,7 +88,7 @@ class QuestionnaireController extends GetxController {
         drink.value.toString(),
         sleep.value.toString(),
         selectedDietraryText.text,
-        selectedGoals.value.title());
+        selectedGoals.value.value());
     inspect(params);
     Log.info(params.toJson());
     inspect(params.toJson());
@@ -200,11 +200,11 @@ extension DietrarySelectionContent on DietrarySelection {
   String title() {
     switch (this) {
       case DietrarySelection.yes:
-        return 'Yes';
+        return 'Yes'.tr;
       case DietrarySelection.no:
-        return 'No';
+        return 'No'.tr;
       case DietrarySelection.none:
-        return 'None';
+        return 'None'.tr;
     }
   }
 }
@@ -220,6 +220,23 @@ enum GoalSelection {
 
 extension GoalSelectionContent on GoalSelection {
   String title() {
+    switch (this) {
+      case GoalSelection.getFitter:
+        return "Get Fitter".tr;
+      case GoalSelection.betterSleeping:
+        return "Better Sleeping".tr;
+      case GoalSelection.weightLoss:
+        return "Weight Loss".tr;
+      case GoalSelection.trackNutrition:
+        return "Track Nutrition".tr;
+      case GoalSelection.improveOverallFitness:
+        return "Improve Overall Fitness".tr;
+      case GoalSelection.none:
+        return "None".tr;
+    }
+  }
+
+  String value() {
     switch (this) {
       case GoalSelection.getFitter:
         return "Get Fitter";

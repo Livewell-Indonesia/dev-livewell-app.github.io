@@ -116,11 +116,11 @@ class SimpleCircularProgressBar extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SimpleCircularProgressBarState createState() =>
-      _SimpleCircularProgressBarState();
+  SimpleCircularProgressBarState createState() =>
+      SimpleCircularProgressBarState();
 }
 
-class _SimpleCircularProgressBarState extends State<SimpleCircularProgressBar>
+class SimpleCircularProgressBarState extends State<SimpleCircularProgressBar>
     with SingleTickerProviderStateMixin {
   final double minSweepAngle = 0.015;
 
@@ -188,7 +188,7 @@ class _SimpleCircularProgressBarState extends State<SimpleCircularProgressBar>
 
     // Create animation.
     final animationDuration = (widget.animationDuration.inMicroseconds < 0)
-        ? Duration()
+        ? const Duration()
         : widget.animationDuration;
 
     animationController = AnimationController(
@@ -346,7 +346,7 @@ class _SimpleCircularProgressBarPainter extends CustomPainter {
       ..strokeWidth = backStrokeWidth;
 
     Paint shadowPaint = Paint()
-      ..color = Color(0xFF171433).withOpacity(0.2)
+      ..color = const Color(0xFF171433).withOpacity(0.2)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 8
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5);
@@ -443,7 +443,7 @@ class _SimpleCircularProgressBarPainter extends CustomPainter {
       ..strokeWidth = progressStrokeWidth;
 
     Paint shadowPaint = Paint()
-      ..color = Color(0xFF171433).withOpacity(0.2)
+      ..color = const Color(0xFF171433).withOpacity(0.2)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 8
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5);

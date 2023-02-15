@@ -14,20 +14,20 @@ class RequestFoodScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: "Request Food",
+        title: "Request Food".tr,
         body: Expanded(
           child: Column(
             children: [
               40.verticalSpace,
               LiveWellTextField(
                   controller: controller.foodNameText,
-                  hintText: "Food Name",
-                  labelText: "Food Name",
+                  hintText: "Food Name".tr,
+                  labelText: "Food Name".tr,
                   errorText: null,
                   obscureText: false),
               const Spacer(),
               LiveWellButton(
-                  label: 'Submit',
+                  label: 'Submit'.tr,
                   color: const Color(0xFF8F01DF),
                   textColor: Colors.white,
                   onPressed: () {

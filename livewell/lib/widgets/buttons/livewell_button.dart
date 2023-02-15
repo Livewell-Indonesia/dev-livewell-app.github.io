@@ -5,12 +5,12 @@ import '../../theme/design_system.dart';
 class LiveWellButton extends StatelessWidget {
   final String label;
   final Color color;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final Color? textColor;
   const LiveWellButton(
       {required this.label,
       required this.color,
-      required this.onPressed,
+      this.onPressed,
       this.textColor,
       Key? key})
       : super(key: key);
@@ -23,18 +23,21 @@ class LiveWellButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
             shadowColor: Colors.transparent,
-            minimumSize: Size(double.infinity, 44.w),
-            primary: color,
-            padding: const EdgeInsets.symmetric(
-                    horizontal: Insets.paddingMedium, vertical: 21.0)
-                .r,
+            fixedSize: Size(1.sw, 48.w),
+            backgroundColor: color,
+            disabledBackgroundColor: const Color(0xFFEBEBEB),
+            padding: EdgeInsets.symmetric(
+                horizontal: Insets.paddingMedium,
+                vertical: Insets.paddingMedium.h),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(36.0).r)),
         child: Text(
           label,
           style: TextStyle(
-              color: textColor ?? Colors.black,
-              fontSize: 18.sp,
+              color: onPressed == null
+                  ? const Color(0xFF808080)
+                  : textColor ?? Colors.black,
+              fontSize: 16.sp,
               fontWeight: FontWeight.w500),
         ),
       ),

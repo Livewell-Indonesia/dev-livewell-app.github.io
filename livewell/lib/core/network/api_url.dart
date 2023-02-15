@@ -9,6 +9,7 @@ class Endpoint {
   /// Login
   static const String login = "auth/login";
   static const String loginGoogle = "auth/google";
+  static const String loginApple = "auth/apple";
 
   /// Register
   static const String register = "auth/registration";

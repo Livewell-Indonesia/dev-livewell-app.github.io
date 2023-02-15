@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:livewell/feature/water/presentation/controller/water_consumed_controller.dart';
-import 'package:livewell/feature/water/presentation/controller/water_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
@@ -21,7 +20,7 @@ class WaterConsumedPage extends StatelessWidget {
             20.verticalSpace,
             Center(
                 child: Text(
-              "Water Consumed",
+              "Water Consumed".tr,
               style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
