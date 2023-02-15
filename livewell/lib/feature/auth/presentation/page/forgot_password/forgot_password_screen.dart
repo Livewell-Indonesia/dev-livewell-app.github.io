@@ -39,7 +39,7 @@ class ForgotPasswordScreen extends StatelessWidget {
               ),
               20.verticalSpace,
               LiveWellButton(
-                  label: AppStringsKeys.submit,
+                  label: 'Submit'.tr,
                   color: const Color(0xFFDDF235),
                   onPressed: () {
                     controller.sendForgotPassword();

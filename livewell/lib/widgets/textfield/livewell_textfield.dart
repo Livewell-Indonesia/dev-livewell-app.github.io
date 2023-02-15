@@ -16,6 +16,7 @@ class LiveWellTextField extends StatefulWidget {
   final bool? enabled;
   final VoidCallback? onTap;
   final TextInputType keyboardType;
+  final EdgeInsets? margin;
 
   const LiveWellTextField({
     Key? key,
@@ -27,6 +28,7 @@ class LiveWellTextField extends StatefulWidget {
     this.enabled = true,
     this.onTap,
     this.isEmail = false,
+    this.margin,
     this.keyboardType = TextInputType.text,
   }) : super(key: key);
   @override
@@ -87,7 +89,7 @@ class _LiveWellTextFieldState extends State<LiveWellTextField> {
       disableScroll: true,
       config: _buildConfig(context),
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16.0).r,
+        margin: widget.margin ?? EdgeInsets.symmetric(horizontal: 16.0.w),
         decoration: BoxDecoration(
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(36.0).r,
@@ -127,13 +129,13 @@ class _LiveWellTextFieldState extends State<LiveWellTextField> {
           onTap: widget.onTap,
           decoration: InputDecoration(
               contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8.0).r,
+                  EdgeInsets.symmetric(horizontal: 24.0.w, vertical: 8.0.h),
               //hintText: widget.hintText,
               labelText: widget.errorText ?? widget.labelText,
               floatingLabelBehavior: FloatingLabelBehavior.auto,
               labelStyle: TextStyle(
                   color: const Color(0xFF171433).withOpacity(0.5),
-                  fontSize: isFocused ? 13.sp : 17.sp),
+                  fontSize: isFocused ? 12.sp : 17.sp),
               hintStyle: TextStyle(
                   color: const Color(0xFF171433).withOpacity(0.5),
                   fontSize: 18.sp),

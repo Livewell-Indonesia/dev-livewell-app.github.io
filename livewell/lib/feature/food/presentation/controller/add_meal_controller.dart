@@ -45,12 +45,14 @@ class AddMealController extends GetxController
     focusNode.addListener(() {
       if (focusNode.hasFocus) {
         state.value = SearchStates.searchingWithResults;
+        showRecommendationWidget.value = true;
         hitsSearcher.query(textEditingController.text);
       } else {
         if (textEditingController.text.isEmpty) {
           state.value = SearchStates.initial;
         } else {
           state.value = SearchStates.searchingWithResults;
+          showRecommendationWidget.value = true;
           update();
         }
       }
@@ -85,6 +87,7 @@ class AddMealController extends GetxController
 
   void onTapSearchBar() {
     state.value = SearchStates.searching;
+    showRecommendationWidget.value = true;
   }
 
   void onDoneInput() {
