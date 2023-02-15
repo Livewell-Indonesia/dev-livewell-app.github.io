@@ -128,17 +128,17 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   ),
                 ),
                 32.verticalSpace,
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: InkWell(
-                    onTap: () {
-                      Get.to(() => const NutriScoreScreen());
-                    },
-                    child: const NutriscoreBanner(
-                      value: 100,
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.all(16),
+                //   child: InkWell(
+                //     onTap: () {
+                //       Get.to(() => const NutriScoreScreen());
+                //     },
+                //     child: const NutriscoreBanner(
+                //       value: 100,
+                //     ),
+                //   ),
+                // ),
                 InkWell(
                   onTap: () {
                     AppNavigator.push(routeName: AppPages.updateWeight);

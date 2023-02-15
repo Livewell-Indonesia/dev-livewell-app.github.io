@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
+import 'package:livewell/feature/auth/domain/usecase/post_apple_auth.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_forgot_password.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_google_auth.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_login.dart';
@@ -21,6 +22,7 @@ class LoginController extends BaseController {
   PostLogin postLogin = PostLogin.instance();
   PostForgotPassword postForgotPassword = PostForgotPassword.instance();
   PostAuthGoogle postAuthGoogle = PostAuthGoogle.instance();
+  PostAppleAuth postAuthApple = PostAppleAuth.instance();
 
   // create function when button sendveritication tapped
   void sendVerification() {
@@ -71,6 +73,24 @@ class LoginController extends BaseController {
   void onGoogleLoginTapped() async {
     EasyLoading.show();
     var result = await postAuthGoogle();
+    EasyLoading.dismiss();
+    result.fold((l) {
+      if (l.message!.contains("404")) {
+        Get.snackbar('Error', 'Please verify your email first');
+      } else {
+        Get.snackbar('Authentication Failed',
+            'Your authentication information is incorrect. Please try again.');
+      }
+    }, (r) {
+      SharedPref.saveToken(r.accessToken!);
+      SharedPref.saveRefreshToken(r.refreshToken!);
+      AppNavigator.pushAndRemove(routeName: AppPages.home);
+    });
+  }
+
+  void onAppleIdTapped() async {
+    EasyLoading.show();
+    var result = await postAuthApple();
     EasyLoading.dismiss();
     result.fold((l) {
       if (l.message!.contains("404")) {

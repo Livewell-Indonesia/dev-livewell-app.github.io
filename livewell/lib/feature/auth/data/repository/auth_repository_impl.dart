@@ -13,6 +13,7 @@ import 'package:livewell/feature/auth/domain/repository/auth_repository.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_change_password.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_forgot_password.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_register.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../domain/entity/login.dart';
 import '../../domain/usecase/post_login.dart';
@@ -97,6 +98,30 @@ class AuthRepositoryImpl extends NetworkModule implements AuthRepository {
     } catch (error) {
       Log.error(error);
       return Left(ServerFailure(message: error.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Login>> postAuthApple() async {
+    try {
+      var result = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+      try {
+        final response = await postMethod(Endpoint.loginApple,
+            body: {'token': result.authorizationCode, 'isAndroid': false});
+        final json = responseHandler(response);
+        return Right(LoginModel.fromJson(json));
+      } catch (ex) {
+        Log.error(ex);
+        return Left(ServerFailure(message: ex.toString()));
+      }
+    } catch (ex) {
+      Log.error(ex);
+      return Left(ServerFailure(message: ex.toString()));
     }
   }
 }
