@@ -10,7 +10,9 @@ import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_app_config.dart';
 import 'package:livewell/feature/exercise/domain/usecase/post_exercise_data.dart';
+import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 import '../../../core/base/usecase.dart';
 import '../../dashboard/data/model/app_config_model.dart';
@@ -23,6 +25,15 @@ class HomeController extends GetxController {
   Rx<AppConfigModel> appConfigModel = AppConfigModel().obs;
 
   HealthFactory healthFactory = HealthFactory();
+
+  GlobalKey foodKey = GlobalKey();
+  GlobalKey exerciseKey = GlobalKey();
+  GlobalKey sleepKey = GlobalKey();
+  GlobalKey homeKey = GlobalKey();
+  GlobalKey waterKey = GlobalKey();
+  GlobalKey accountKey = GlobalKey();
+
+  late TutorialCoachMark tutorialCoachMark;
 
   var types = [
     HealthDataType.STEPS,
@@ -43,85 +54,44 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     getAppConfig();
-    //requestHealthAccess();
+    createTutorial();
     super.onInit();
   }
 
-  void requestHealthAccess() async {
-    final permissionStatus = await Permission.activityRecognition.request();
-    if (permissionStatus.isGranted) {
-      var isAllowed = await healthFactory.requestAuthorization(types,
-          permissions: permissions);
-      if (isAllowed) {
-        fetchHealthDataFromTypes();
-      }
-      Log.colorGreen("Permission granted");
-    } else {
-      Log.error("Permission denied");
-    }
-    if (Platform.isAndroid) {
-    } else {
-      var isAllowed = await healthFactory.requestAuthorization(types,
-          permissions: permissions);
-      if (isAllowed) {
-        fetchHealthDataFromTypes();
-      }
-    }
+  void onFinishCoachmark() async {
+    await SharedPref.saveCoachmarkDashboard(false);
   }
 
-  void fetchHealthDataFromTypes() async {
-    var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
-        DateTime.now().day, 0, 0, 0, 0, 0);
-    var dateTill = DateTime(DateTime.now().year, DateTime.now().month,
-        DateTime.now().day, 23, 59, 59, 0, 0);
-    List<HealthDataPoint> healthData = await healthFactory
-        .getHealthDataFromTypes(currentDate, dateTill, types);
-    Log.info(jsonEncode(healthData));
-    inspect(healthData);
-    PostExerciseData postExerciseData = PostExerciseData.instance();
-    var lastSyncHealth = await SharedPref.getLastHealthSyncDate();
-    // if user ever synced data
-    if (lastSyncHealth != null && healthData.isNotEmpty) {
-      healthData.sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
-      var filteredData = healthData
-          .where((element) => element.sourceName != "com.google.android.gms")
-          .toList();
-      var lastSyncDate = DateTime.parse(lastSyncHealth);
-      if (lastSyncDate.isBefore(filteredData.last.dateTo)) {
-        var filteredHealth = filteredData
-            .where((element) => element.dateTo.isAfter(lastSyncDate))
-            .toList();
-        if (filteredHealth.isNotEmpty) {
-          final result = await postExerciseData
-              .call(PostExerciseParams.fromHealth(filteredHealth));
-          result.fold((l) {
-            Log.error(l);
-          }, (r) async {
-            if (filteredHealth.isNotEmpty) {
-              await SharedPref.saveLastHealthSyncDate(
-                  filteredHealth.last.dateTo);
-            }
-          });
-        }
-      } else {
-        Log.info("no new data");
+  createTutorial() {
+    tutorialCoachMark = TutorialCoachMark(
+        targets: createTargets(),
+        colorShadow: Colors.black,
+        textSkip: "SKIP",
+        pulseEnable: false,
+        paddingFocus: 0,
+        opacityShadow: 0.7,
+        alignSkip: Alignment.topRight,
+        focusAnimationDuration: const Duration(milliseconds: 300),
+        unFocusAnimationDuration: const Duration(milliseconds: 300),
+        onFinish: () {
+          onFinishCoachmark();
+        },
+        onSkip: () {
+          onFinishCoachmark();
+        },
+        onClickTarget: (p0) {
+          tutorialCoachMark.next();
+        },
+        onClickTargetWithTapPosition: ((p0, p1) {}));
+  }
+
+  void showCoachmark() {
+    Future.delayed(const Duration(milliseconds: 300), () async {
+      var showCoachmark = await SharedPref.getCoachmarkDashboard();
+      if (showCoachmark) {
+        tutorialCoachMark.show(context: Get.context!);
       }
-      // if user never synced data
-    } else if (healthData.isNotEmpty) {
-      healthData.sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
-      var filteredData = healthData
-          .where((element) => element.sourceName != "com.google.android.gms")
-          .toList();
-      final result = await postExerciseData
-          .call(PostExerciseParams.fromHealth(filteredData));
-      result.fold((l) {
-        Log.error(l);
-      }, (r) async {
-        if (filteredData.isNotEmpty) {
-          await SharedPref.saveLastHealthSyncDate(filteredData.last.dateTo);
-        }
-      });
-    }
+    });
   }
 
   void getAppConfig() async {
@@ -167,6 +137,462 @@ class HomeController extends GetxController {
       height: 40.w,
       child: child,
     );
+  }
+
+  List<TargetFocus> createTargets() {
+    List<TargetFocus> targets = [];
+
+    targets.add(
+      TargetFocus(
+        identify: 'Target 1',
+        keyTarget: foodKey,
+        shape: ShapeLightFocus.Circle,
+        radius: 20,
+        color: Colors.black,
+        contents: [
+          TargetContent(
+              align: ContentAlign.top,
+              builder: (context, controller) {
+                return Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Food Nutrition".tr,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 16.sp),
+                      ),
+                      4.verticalSpace,
+                      Text(
+                        'Get detailed breakdowns and edit your food intake to meet nutritional goals.',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xFF808080),
+                            height: 1.3,
+                            fontSize: 14.sp),
+                      ),
+                      20.verticalSpace,
+                      Row(
+                        children: [
+                          const CoachmarkIndicator(
+                            position: 0,
+                            length: 6,
+                          ),
+                          const Spacer(),
+                          InkWell(
+                              onTap: () {
+                                tutorialCoachMark.next();
+                              },
+                              child: Text(
+                                'Next',
+                                style: TextStyle(
+                                    color: const Color(0xFF8F01DF),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
+                              ))
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }),
+        ],
+      ),
+    );
+
+    targets.add(
+      TargetFocus(
+        identify: 'Target 2',
+        keyTarget: homeKey,
+        shape: ShapeLightFocus.Circle,
+        radius: 10,
+        color: Colors.black,
+        contents: [
+          TargetContent(
+              align: ContentAlign.top,
+              builder: (context, controller) {
+                return Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Home".tr,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 16.sp),
+                      ),
+                      4.verticalSpace,
+                      Text(
+                        'See your daily task list and current data dashboard of your nutritional intake.',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xFF808080),
+                            height: 1.3,
+                            fontSize: 14.sp),
+                      ),
+                      20.verticalSpace,
+                      Row(
+                        children: [
+                          const CoachmarkIndicator(
+                            position: 1,
+                            length: 6,
+                          ),
+                          const Spacer(),
+                          InkWell(
+                              onTap: () {
+                                tutorialCoachMark.previous();
+                              },
+                              child: Text(
+                                'Prev',
+                                style: TextStyle(
+                                    color: const Color(0xFF808080),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
+                              )),
+                          24.horizontalSpace,
+                          InkWell(
+                              onTap: () {
+                                tutorialCoachMark.next();
+                              },
+                              child: Text(
+                                'Next',
+                                style: TextStyle(
+                                    color: const Color(0xFF8F01DF),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
+                              ))
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }),
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: 'Target 3',
+        keyTarget: exerciseKey,
+        shape: ShapeLightFocus.Circle,
+        radius: 10,
+        color: Colors.black,
+        contents: [
+          TargetContent(
+              align: ContentAlign.top,
+              builder: (context, controller) {
+                return Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Exercise".tr,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 16.sp),
+                      ),
+                      4.verticalSpace,
+                      Text(
+                        'Analyze fitness progress and track steps.'.tr,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xFF808080),
+                            height: 1.3,
+                            fontSize: 14.sp),
+                      ),
+                      20.verticalSpace,
+                      Row(
+                        children: [
+                          const CoachmarkIndicator(
+                            position: 2,
+                            length: 6,
+                          ),
+                          const Spacer(),
+                          InkWell(
+                              onTap: () {
+                                tutorialCoachMark.previous();
+                              },
+                              child: Text(
+                                'Prev',
+                                style: TextStyle(
+                                    color: const Color(0xFF808080),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
+                              )),
+                          24.horizontalSpace,
+                          InkWell(
+                              onTap: () {
+                                tutorialCoachMark.next();
+                              },
+                              child: Text(
+                                'Next',
+                                style: TextStyle(
+                                    color: const Color(0xFF8F01DF),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
+                              ))
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }),
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: 'Target 4',
+        keyTarget: sleepKey,
+        shape: ShapeLightFocus.Circle,
+        radius: 10,
+        color: Colors.black,
+        contents: [
+          TargetContent(
+              align: ContentAlign.top,
+              builder: (context, controller) {
+                return Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Sleep".tr,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 16.sp),
+                      ),
+                      4.verticalSpace,
+                      Text(
+                        'Monitor and achieve your daily sleep goals.',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xFF808080),
+                            height: 1.3,
+                            fontSize: 14.sp),
+                      ),
+                      20.verticalSpace,
+                      Row(
+                        children: [
+                          const CoachmarkIndicator(
+                            position: 3,
+                            length: 6,
+                          ),
+                          const Spacer(),
+                          InkWell(
+                              onTap: () {
+                                tutorialCoachMark.previous();
+                              },
+                              child: Text(
+                                'Prev',
+                                style: TextStyle(
+                                    color: const Color(0xFF808080),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
+                              )),
+                          24.horizontalSpace,
+                          InkWell(
+                              onTap: () {
+                                tutorialCoachMark.next();
+                              },
+                              child: Text(
+                                'Next',
+                                style: TextStyle(
+                                    color: const Color(0xFF8F01DF),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
+                              ))
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }),
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: 'Target 5',
+        keyTarget: waterKey,
+        shape: ShapeLightFocus.Circle,
+        radius: 10,
+        color: Colors.black,
+        contents: [
+          TargetContent(
+              align: ContentAlign.top,
+              builder: (context, controller) {
+                return Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Water".tr,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 16.sp),
+                      ),
+                      4.verticalSpace,
+                      Text(
+                        'Track daily water intake to stay hydrated.',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xFF808080),
+                            height: 1.3,
+                            fontSize: 14.sp),
+                      ),
+                      20.verticalSpace,
+                      Row(
+                        children: [
+                          const CoachmarkIndicator(
+                            position: 4,
+                            length: 6,
+                          ),
+                          const Spacer(),
+                          InkWell(
+                              onTap: () {
+                                tutorialCoachMark.previous();
+                              },
+                              child: Text(
+                                'Prev',
+                                style: TextStyle(
+                                    color: const Color(0xFF808080),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
+                              )),
+                          24.horizontalSpace,
+                          InkWell(
+                              onTap: () {
+                                tutorialCoachMark.next();
+                              },
+                              child: Text(
+                                'Next',
+                                style: TextStyle(
+                                    color: const Color(0xFF8F01DF),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
+                              ))
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }),
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: 'Target 6',
+        keyTarget: accountKey,
+        shape: ShapeLightFocus.Circle,
+        color: Colors.black,
+        contents: [
+          TargetContent(
+              align: ContentAlign.top,
+              builder: (context, controller) {
+                return Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Account".tr,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 16.sp),
+                      ),
+                      4.verticalSpace,
+                      Text(
+                        'Edit your user details.',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xFF808080),
+                            height: 1.3,
+                            fontSize: 14.sp),
+                      ),
+                      20.verticalSpace,
+                      Row(
+                        children: [
+                          const CoachmarkIndicator(
+                            position: 5,
+                            length: 6,
+                          ),
+                          const Spacer(),
+                          InkWell(
+                              onTap: () {
+                                tutorialCoachMark.previous();
+                              },
+                              child: Text(
+                                'Prev',
+                                style: TextStyle(
+                                    color: const Color(0xFF808080),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
+                              )),
+                          24.horizontalSpace,
+                          InkWell(
+                              onTap: () {
+                                tutorialCoachMark.finish();
+                              },
+                              child: Text(
+                                'Done',
+                                style: TextStyle(
+                                    color: const Color(0xFF8F01DF),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
+                              ))
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }),
+        ],
+      ),
+    );
+    return targets;
   }
 }
 

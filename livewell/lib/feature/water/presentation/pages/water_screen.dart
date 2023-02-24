@@ -44,7 +44,7 @@ class _WaterScreenState extends State<WaterScreen> {
                   textAlign: TextAlign.center,
                   text: TextSpan(children: [
                     TextSpan(
-                        text: "Today you took ",
+                        text: "Your water intake for today ",
                         style: TextStyle(
                             fontSize: 30.sp,
                             fontWeight: FontWeight.w600,
@@ -55,12 +55,6 @@ class _WaterScreenState extends State<WaterScreen> {
                             fontSize: 30.sp,
                             fontWeight: FontWeight.w600,
                             color: const Color(0xFF8F01DF))),
-                    TextSpan(
-                        text: " ltr of water",
-                        style: TextStyle(
-                            fontSize: 30.sp,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xFF171433))),
                   ]));
             }),
             32.verticalSpace,

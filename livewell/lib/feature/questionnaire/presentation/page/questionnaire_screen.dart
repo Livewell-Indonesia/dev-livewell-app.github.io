@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/localization/languages.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
 import 'package:livewell/feature/questionnaire/presentation/page/widget/exercise_target_selector.dart';
 import 'package:livewell/feature/questionnaire/presentation/page/widget/gender_selector.dart';
 import 'package:livewell/feature/questionnaire/presentation/page/widget/target_weight_selector.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
+import 'package:livewell/widgets/textfield/auth_textfield.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '../../../../routes/app_navigator.dart';
 import 'widget/age_selector.dart';
@@ -106,6 +108,10 @@ class QuestionnaireContent extends StatelessWidget {
 
   Widget findContent() {
     switch (currentPage) {
+      case QuestionnairePage.name:
+        return NameInput(
+          controller: controller,
+        );
       case QuestionnairePage.gender:
         return GenderSelector();
       case QuestionnairePage.age:
@@ -132,6 +138,34 @@ class QuestionnaireContent extends StatelessWidget {
   }
 }
 
+class NameInput extends StatelessWidget {
+  final QuestionnaireController controller;
+  const NameInput({super.key, required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        110.verticalSpace,
+        AuthTextField(
+            controller: controller.firstName,
+            hintText: null,
+            labelText: AppStringsKeys.firstName.tr,
+            errorText: null,
+            obscureText: false),
+        16.verticalSpace,
+        AuthTextField(
+            controller: controller.lastName,
+            hintText: null,
+            labelText: AppStringsKeys.lastName.tr,
+            errorText: null,
+            obscureText: false),
+        16.verticalSpace,
+      ],
+    );
+  }
+}
+
 class ChangePageIndicator extends StatelessWidget {
   final QuestionnaireController controller;
 
@@ -143,7 +177,7 @@ class ChangePageIndicator extends StatelessWidget {
     return Row(
       children: [
         Obx(() {
-          return controller.currentPage.value == QuestionnairePage.gender
+          return controller.currentPage.value == QuestionnairePage.name
               ? Container()
               : prevButton();
         }),
