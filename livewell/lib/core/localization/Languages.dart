@@ -10,6 +10,7 @@ class Languages extends Translations {
           AppStringsKeys.getStarted: 'Get Started',
           'Sign In': 'Sign In',
           AppStringsKeys.signUp: 'Sign Up',
+          AppStringsKeys.signIn: 'Sign In',
           AppStringsKeys.alreadyHaveAccount: 'Already have account?',
           AppStringsKeys.dontHaveAccount: 'Don\'t have account?',
           'Create New Account': 'Create New Account',
@@ -28,7 +29,7 @@ class Languages extends Translations {
               'Thanks for taking your time to create account with us. Let\'s start your wellness Journey',
           AppStringsKeys.forgotPasswordDesc:
               'Please enter your email address. You will receive a link to create a new password via email.',
-          AppStringsKeys.submit: 'Submit',
+          'Submit': 'Submit',
           AppStringsKeys.forgotPassword2: 'Forgot Password',
           AppStringsKeys.bySigninAbove:
               "by Sign in above, i agree to Livewell’s\n",
@@ -82,7 +83,6 @@ class Languages extends Translations {
           'Protein': 'Protein',
           'Carbs': 'Carbs',
           'Fat': 'Fat',
-          'Submit': 'Submit',
           'Male': 'Male',
           'Female': 'Female',
           'Save Changes': 'Save Changes',
@@ -155,7 +155,6 @@ class AppStringsKeys {
   static const String youReadyToGo = 'you_ready_to_go';
   static const String thanksForTakingYourTime = 'thanks_for_taking_your_time';
   static const String forgotPasswordDesc = 'forgot_password_desc';
-  static const String submit = 'submit';
   static const String forgotPassword2 = 'forgot_password2';
   static const String bySigninAbove = 'by_signin_above';
   static const String termsAndConditions = 'terms_and_conditions';

@@ -43,16 +43,6 @@ class SignUpController extends GetxController {
   }
 
   void doRegister() async {
-    if (firstName.text.isEmpty) {
-      firstNameError.value = 'First Name Cannot Empty';
-      return;
-    }
-    firstNameError.value = null;
-    if (lastName.text.isEmpty) {
-      lastNameError.value = 'Last Name Cannot Empty';
-      return;
-    }
-    lastNameError.value = null;
     if (!email.text.isEmail) {
       emailError.value = 'Email Not Valid';
       return;

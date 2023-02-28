@@ -16,6 +16,7 @@ import 'package:livewell/feature/dashboard/domain/usecase/get_dashboard_data.dar
 import 'package:livewell/feature/dashboard/domain/usecase/get_user.dart';
 import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart';
 import 'package:livewell/feature/food/domain/usecase/get_meal_history.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/water/data/model/water_list_model.dart';
 import 'package:livewell/feature/water/domain/usecase/get_water_data.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -59,12 +60,8 @@ class DashboardController extends GetxController {
       if (isAllowed) {
         fetchHealthDataFromTypes();
         testingSleepNew();
-        // var checkSleepPermission = await healthFactory.requestAuthorization(
-        //     [HealthDataType.SLEEP_IN_BED],
-        //     permissions: [HealthDataAccess.READ]);
-        // if (checkSleepPermission) {
-        //   fetchSleepData();
-        // }
+        final HomeController homeController = Get.find();
+        homeController.showCoachmark();
       }
       Log.colorGreen("Permission granted");
     } else {
@@ -77,6 +74,8 @@ class DashboardController extends GetxController {
       if (isAllowed) {
         fetchHealthDataFromTypes();
         testingSleepNew();
+        final HomeController homeController = Get.find();
+        homeController.showCoachmark();
       }
     }
   }

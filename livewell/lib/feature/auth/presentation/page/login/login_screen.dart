@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -79,15 +81,13 @@ class LoginScreen extends StatelessWidget {
                     controller.onGoogleLoginTapped();
                   }),
               4.verticalSpace,
-              SigninThridPartyButton(
-                  type: SignInButtonType.apple,
-                  onPressed: () async {
-                    final credential =
-                        await SignInWithApple.getAppleIDCredential(scopes: [
-                      AppleIDAuthorizationScopes.email,
-                      AppleIDAuthorizationScopes.fullName,
-                    ]);
-                  }),
+              Platform.isIOS
+                  ? SigninThridPartyButton(
+                      type: SignInButtonType.apple,
+                      onPressed: () async {
+                        controller.onAppleIdTapped();
+                      })
+                  : Container(),
               24.verticalSpace,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

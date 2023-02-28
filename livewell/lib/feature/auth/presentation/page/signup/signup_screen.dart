@@ -37,20 +37,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               24.verticalSpace,
-              AuthTextField(
-                  controller: controller.firstName,
-                  hintText: null,
-                  labelText: AppStringsKeys.firstName.tr,
-                  errorText: controller.firstNameError.value,
-                  obscureText: false),
-              16.verticalSpace,
-              AuthTextField(
-                  controller: controller.lastName,
-                  hintText: null,
-                  labelText: AppStringsKeys.lastName.tr,
-                  errorText: controller.lastNameError.value,
-                  obscureText: false),
-              16.verticalSpace,
+              // AuthTextField(
+              //     controller: controller.firstName,
+              //     hintText: null,
+              //     labelText: AppStringsKeys.firstName.tr,
+              //     errorText: controller.firstNameError.value,
+              //     obscureText: false),
+              // 16.verticalSpace,
+              // AuthTextField(
+              //     controller: controller.lastName,
+              //     hintText: null,
+              //     labelText: AppStringsKeys.lastName.tr,
+              //     errorText: controller.lastNameError.value,
+              //     obscureText: false),
+              // 16.verticalSpace,
               AuthTextField(
                   controller: controller.email,
                   hintText: null,
@@ -89,9 +89,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   onPressed: () {
                     controller.onGoogleLoginTapped();
                   }),
-              4.verticalSpace,
-              SigninThridPartyButton(
-                  type: SignInButtonType.appleRegister, onPressed: () {}),
+              // 4.verticalSpace,
+              // SigninThridPartyButton(
+              //     type: SignInButtonType.appleRegister, onPressed: () {}),
               24.verticalSpace,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

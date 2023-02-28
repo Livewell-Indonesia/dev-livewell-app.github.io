@@ -12,7 +12,7 @@ import '../../../../core/log.dart';
 import '../../../../routes/app_navigator.dart';
 
 class QuestionnaireController extends GetxController {
-  Rx<QuestionnairePage> currentPage = QuestionnairePage.gender.obs;
+  Rx<QuestionnairePage> currentPage = QuestionnairePage.name.obs;
   var progress = 0.0.obs;
   var date = DateTime(1990, 1, 1).obs;
   var dateOfBirth = "".obs;
@@ -28,6 +28,8 @@ class QuestionnaireController extends GetxController {
   Rx<TargetExerciseSelection> selectedExerciseTarget =
       TargetExerciseSelection.light.obs;
   TextEditingController selectedDietraryText = TextEditingController();
+  TextEditingController firstName = TextEditingController();
+  TextEditingController lastName = TextEditingController();
 
   PostQuestionnaire postQuestionnaire = PostQuestionnaire.instance();
 
@@ -77,8 +79,8 @@ class QuestionnaireController extends GetxController {
   void sendData() async {
     var usersData = Get.find<DashboardController>().user.value;
     var params = QuestionnaireParams.asParams(
-        usersData.firstName,
-        usersData.lastName,
+        firstName.text,
+        lastName.text,
         selectedGender.value.label(),
         DateFormat('yyyy-MM-dd').format(date.value),
         weight.value,
@@ -88,7 +90,7 @@ class QuestionnaireController extends GetxController {
         drink.value.toString(),
         sleep.value.toString(),
         selectedDietraryText.text,
-        selectedGoals.value.title());
+        selectedGoals.value.value());
     inspect(params);
     Log.info(params.toJson());
     inspect(params.toJson());
@@ -103,6 +105,7 @@ class QuestionnaireController extends GetxController {
 }
 
 enum QuestionnairePage {
+  name,
   gender,
   age,
   weight,
@@ -119,6 +122,8 @@ enum QuestionnairePage {
 extension QuestionnairePageData on QuestionnairePage {
   String title() {
     switch (this) {
+      case QuestionnairePage.name:
+        return 'Name';
       case QuestionnairePage.gender:
         return 'Gender';
       case QuestionnairePage.age:
@@ -146,6 +151,8 @@ extension QuestionnairePageData on QuestionnairePage {
 
   String subtitle() {
     switch (this) {
+      case QuestionnairePage.name:
+        return 'Help us to create your personalized plan';
       case QuestionnairePage.gender:
         return 'Help us to create your personalized plan';
       case QuestionnairePage.age:
@@ -233,6 +240,23 @@ extension GoalSelectionContent on GoalSelection {
         return "Improve Overall Fitness".tr;
       case GoalSelection.none:
         return "None".tr;
+    }
+  }
+
+  String value() {
+    switch (this) {
+      case GoalSelection.getFitter:
+        return "Get Fitter";
+      case GoalSelection.betterSleeping:
+        return "Better Sleeping";
+      case GoalSelection.weightLoss:
+        return "Weight Loss";
+      case GoalSelection.trackNutrition:
+        return "Track Nutrition";
+      case GoalSelection.improveOverallFitness:
+        return "Improve Overall Fitness";
+      case GoalSelection.none:
+        return "None";
     }
   }
 }

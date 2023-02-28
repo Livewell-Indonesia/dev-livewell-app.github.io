@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -5,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
+import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_screen.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
@@ -22,6 +24,8 @@ class DashBoardScreen extends StatefulWidget {
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
   DashboardController controller = Get.put(DashboardController());
+  int current = 0;
+  final CarouselController carouselController = CarouselController();
 
   @override
   void initState() {
@@ -128,91 +132,115 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   ),
                 ),
                 32.verticalSpace,
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: InkWell(
-                    onTap: () {
-                      Get.to(() => const NutriScoreScreen());
-                    },
-                    child: const NutriscoreBanner(
-                      value: 100,
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    AppNavigator.push(routeName: AppPages.updateWeight);
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16).r,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 25, vertical: 20)
-                            .r,
-                    decoration: BoxDecoration(
-                        color: const Color(0xFF171433),
-                        borderRadius: BorderRadius.circular(30.r)),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Obx(() {
-                              return Text(
-                                "Target Weight: ${controller.user.value.weightTarget ?? 0} Kg",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500),
-                              );
-                            }),
-                            const Spacer(),
-                            Obx(() {
-                              return Text(
-                                "Current Weight: ${controller.user.value.weight ?? 0} Kg",
-                                style: TextStyle(
-                                    color: Colors.white.withOpacity(0.5),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500),
-                              );
-                            })
-                          ],
+                CarouselSlider(
+                  carouselController: carouselController,
+                  items: CarouselDashboard.values.map((e) {
+                    return InkWell(
+                      onTap: e.getOnTap(controller),
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: e.index != 0 ? 8.w : 0,
                         ),
-                        7.verticalSpace,
-                        Obx(() {
-                          return LinearPercentIndicator(
-                            padding: EdgeInsets.zero,
-                            lineHeight: 7.0,
-                            percent: controller.getWeightPercentage().value,
-                            barRadius: const Radius.circular(4.0),
-                            backgroundColor: const Color(0xFFF2F1F9),
-                            progressColor: const Color(0xFFDDF235),
-                          );
-                        })
-                      ],
-                    ),
+                        child: e.getWidget(controller),
+                      ),
+                    );
+                  }).toList(),
+                  options: CarouselOptions(
+                      height: 108.h,
+                      viewportFraction: 0.9,
+                      enableInfiniteScroll: false,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          current = index;
+                        });
+                      }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CoachmarkIndicator(
+                        position: current,
+                        length: 2,
+                      ),
+                    ],
                   ),
                 ),
-                10.verticalSpace,
-                Center(
-                  child: Text(
-                    'Keep with your plan , You are doing great!',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: const Color(0xFF171433).withOpacity(0.5),
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ),
-                10.verticalSpace,
-                Center(child: Obx(() {
-                  return Text(
-                    'Your goal: ${controller.user.value.onboardingQuestionnaire?.targetImprovement?.first ?? []}',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: const Color(0xFF171433).withOpacity(0.5),
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w500),
-                  );
-                })),
+                // InkWell(
+                //   onTap: () {
+                //     AppNavigator.push(routeName: AppPages.updateWeight);
+                //   },
+                //   child: Container(
+                //     margin: const EdgeInsets.symmetric(horizontal: 16).r,
+                //     padding:
+                //         const EdgeInsets.symmetric(horizontal: 25, vertical: 20)
+                //             .r,
+                //     decoration: BoxDecoration(
+                //         color: const Color(0xFF171433),
+                //         borderRadius: BorderRadius.circular(30.r)),
+                //     child: Column(
+                //       children: [
+                //         Row(
+                //           children: [
+                //             Obx(() {
+                //               return Text(
+                //                 "Target Weight: ${controller.user.value.weightTarget ?? 0} Kg",
+                //                 style: TextStyle(
+                //                     color: Colors.white,
+                //                     fontSize: 12.sp,
+                //                     fontWeight: FontWeight.w500),
+                //               );
+                //             }),
+                //             const Spacer(),
+                //             Obx(() {
+                //               return Text(
+                //                 "Current Weight: ${controller.user.value.weight ?? 0} Kg",
+                //                 style: TextStyle(
+                //                     color: Colors.white.withOpacity(0.5),
+                //                     fontSize: 12.sp,
+                //                     fontWeight: FontWeight.w500),
+                //               );
+                //             })
+                //           ],
+                //         ),
+                //         7.verticalSpace,
+                //         Obx(() {
+                //           return LinearPercentIndicator(
+                //             padding: EdgeInsets.zero,
+                //             lineHeight: 7.0,
+                //             percent: controller.getWeightPercentage().value,
+                //             barRadius: const Radius.circular(4.0),
+                //             backgroundColor: const Color(0xFFF2F1F9),
+                //             progressColor: const Color(0xFFDDF235),
+                //           );
+                //         })
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // 10.verticalSpace,
+                // Center(
+                //   child: Text(
+                //     'Keep with your plan , You are doing great!',
+                //     textAlign: TextAlign.center,
+                //     style: TextStyle(
+                //         color: const Color(0xFF171433).withOpacity(0.5),
+                //         fontSize: 14.sp,
+                //         fontWeight: FontWeight.w500),
+                //   ),
+                // ),
+                // 10.verticalSpace,
+                // Center(child: Obx(() {
+                //   return Text(
+                //     'Your goal: ${controller.user.value.onboardingQuestionnaire?.targetImprovement?.first ?? []}',
+                //     textAlign: TextAlign.center,
+                //     style: TextStyle(
+                //         color: const Color(0xFF171433).withOpacity(0.5),
+                //         fontSize: 14.sp,
+                //         fontWeight: FontWeight.w500),
+                //   );
+                // })),
                 32.verticalSpace,
                 InkWell(
                   onTap: () {
@@ -624,7 +652,7 @@ class MyTooltip extends StatelessWidget {
   final Widget child;
   final String message;
 
-  MyTooltip({super.key, required this.message, required this.child});
+  const MyTooltip({super.key, required this.message, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -646,5 +674,97 @@ class MyTooltip extends StatelessWidget {
   void _onTap(GlobalKey key) {
     final dynamic tooltip = key.currentState;
     tooltip?.ensureTooltipVisible();
+  }
+}
+
+enum CarouselDashboard { nutriScore, weight }
+
+extension on CarouselDashboard {
+  Widget getWidget(DashboardController controller) {
+    switch (this) {
+      case CarouselDashboard.nutriScore:
+        return const NutriscoreBanner(
+          value: 100,
+        );
+      case CarouselDashboard.weight:
+        return const YourWeightWidget();
+    }
+  }
+
+  VoidCallback? getOnTap(DashboardController controller) {
+    switch (this) {
+      case CarouselDashboard.nutriScore:
+        return () => AppNavigator.push(routeName: AppPages.nutriScore);
+      case CarouselDashboard.weight:
+        return () => AppNavigator.push(routeName: AppPages.updateWeight);
+    }
+  }
+}
+
+class YourWeightWidget extends StatelessWidget {
+  const YourWeightWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+      decoration: BoxDecoration(
+        color: const Color(0xFF171433),
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Your Weight',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600)),
+                4.verticalSpace,
+                Text('You’re doing great! Keep Your spirits up!',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w500)),
+                6.verticalSpace,
+                Expanded(
+                  child: LinearPercentIndicator(
+                    padding: EdgeInsets.zero,
+                    lineHeight: 12.h,
+                    percent: 0.5,
+                    barRadius: const Radius.circular(100.0),
+                    backgroundColor: const Color(0xFF4D4A68),
+                    progressColor: const Color(0xFFDDF235),
+                  ),
+                ),
+                4.verticalSpace,
+                Row(
+                  children: [
+                    Text(
+                      '64 kg',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w400),
+                    ),
+                    const Spacer(),
+                    Text(
+                      '64 kg',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_screen.dart';
+import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/sleep/presentation/pages/sleep_screen.dart';
 import 'package:livewell/feature/water/presentation/pages/water_screen.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 import '../../../core/constant/constant.dart';
 import '../../dashboard/presentation/pages/dashboard_screen.dart';
@@ -48,10 +50,16 @@ class HomeScreen extends StatelessWidget {
                 DotNavigationBarItem(
                   icon: controller.currentMenu.value == HomeTab.food
                       ? controller.customSelectedImage(
-                          Image.asset(Constant.icFoodSelected),
+                          Image.asset(
+                            Constant.icFoodSelected,
+                            key: controller.foodKey,
+                          ),
                         )
                       : controller.customUnselectedImage(
-                          Image.asset(Constant.icFoodUnselected),
+                          Image.asset(
+                            Constant.icFoodUnselected,
+                            key: controller.foodKey,
+                          ),
                         ),
                   selectedColor: Colors.white,
                   unselectedColor: const Color(0xFF8F01DF),
@@ -60,10 +68,16 @@ class HomeScreen extends StatelessWidget {
                 DotNavigationBarItem(
                   icon: controller.currentMenu.value == HomeTab.home
                       ? controller.customSelectedImage(
-                          Image.asset(Constant.icHomeSelected),
+                          Image.asset(
+                            Constant.icHomeSelected,
+                            key: controller.homeKey,
+                          ),
                         )
                       : controller.customUnselectedImage(
-                          Image.asset(Constant.icHomeUnselected),
+                          Image.asset(
+                            Constant.icHomeUnselected,
+                            key: controller.homeKey,
+                          ),
                         ),
                   selectedColor: Colors.white,
                   unselectedColor: const Color(0xFF8F01DF),
@@ -72,10 +86,16 @@ class HomeScreen extends StatelessWidget {
                 DotNavigationBarItem(
                   icon: controller.currentMenu.value == HomeTab.exercise
                       ? controller.customSelectedImage(
-                          Image.asset(Constant.icExerciseSelected),
+                          Image.asset(
+                            Constant.icExerciseSelected,
+                            key: controller.exerciseKey,
+                          ),
                         )
                       : controller.customUnselectedImage(
-                          Image.asset(Constant.icExerciseUnselected),
+                          Image.asset(
+                            Constant.icExerciseUnselected,
+                            key: controller.exerciseKey,
+                          ),
                         ),
                   selectedColor: Colors.white,
                   unselectedColor: const Color(0xFF8F01DF),
@@ -84,10 +104,16 @@ class HomeScreen extends StatelessWidget {
                 DotNavigationBarItem(
                   icon: controller.currentMenu.value == HomeTab.sleep
                       ? controller.customSelectedImage(
-                          Image.asset(Constant.icSleepSelected),
+                          Image.asset(
+                            Constant.icSleepSelected,
+                            key: controller.sleepKey,
+                          ),
                         )
                       : controller.customUnselectedImage(
-                          Image.asset(Constant.icSleepUnselected),
+                          Image.asset(
+                            Constant.icSleepUnselected,
+                            key: controller.sleepKey,
+                          ),
                         ),
                   selectedColor: Colors.white,
                   unselectedColor: const Color(0xFF8F01DF),
@@ -96,10 +122,16 @@ class HomeScreen extends StatelessWidget {
                 DotNavigationBarItem(
                   icon: controller.currentMenu.value == HomeTab.water
                       ? controller.customSelectedImage(
-                          Image.asset(Constant.icWaterSelected),
+                          Image.asset(
+                            Constant.icWaterSelected,
+                            key: controller.waterKey,
+                          ),
                         )
                       : controller.customUnselectedImage(
-                          Image.asset(Constant.icWaterUnselected),
+                          Image.asset(
+                            Constant.icWaterUnselected,
+                            key: controller.waterKey,
+                          ),
                         ),
                   selectedColor: Colors.white,
                   unselectedColor: const Color(0xFF8F01DF),
@@ -108,6 +140,7 @@ class HomeScreen extends StatelessWidget {
                 DotNavigationBarItem(
                   icon: controller.currentMenu.value == HomeTab.account
                       ? controller.customSelectedImage(SizedBox(
+                          key: controller.accountKey,
                           width: 20.w,
                           height: 20.w,
                           child: SvgPicture.asset(
@@ -119,6 +152,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ))
                       : controller.customUnselectedImage(SizedBox(
+                          key: controller.accountKey,
                           width: 20.w,
                           height: 20.w,
                           child: SvgPicture.asset(
