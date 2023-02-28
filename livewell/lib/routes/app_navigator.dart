@@ -12,6 +12,7 @@ import 'package:livewell/feature/food/presentation/pages/request_food_screen.dar
 import 'package:livewell/feature/food/presentation/pages/scan_barcode_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/success_request_food_screen.dart';
 import 'package:livewell/feature/home/presentation/home_screen.dart';
+import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_screen.dart';
 import 'package:livewell/feature/profile/presentation/page/account_settings_screen.dart';
 import 'package:livewell/feature/profile/presentation/page/user_settings_screen.dart';
 import 'package:livewell/feature/questionnaire/presentation/page/finish_questionnaire_screen.dart';
@@ -111,6 +112,10 @@ class AppNavigator {
         name: AppPages.waterCustomInputPage,
         page: () => WaterCustomInputPage(),
         transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.nutriScore,
+        page: () => NutriScoreScreen(),
+        transition: Transition.cupertino)
   ];
 
   static void push({required String routeName, dynamic arguments}) {
@@ -161,4 +166,5 @@ class AppPages {
   static String exerciseKYC = '/exerciseKYC';
   static String waterConsumedPage = '/waterConsumedPage';
   static String waterCustomInputPage = '/waterCustomInputPage';
+  static String nutriScore = '/nutriScorePage';
 }
