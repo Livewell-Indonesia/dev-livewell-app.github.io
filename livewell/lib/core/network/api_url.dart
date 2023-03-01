@@ -50,4 +50,8 @@ class Endpoint {
   static const String postWater = "hydration";
 
   static const String getWater = "hydration/list";
+
+  /// nutriscore
+  static const String getNutriscore = "nutrition-score";
+  static const String getNutriscoreDetail = "nutrition-score/last-7-days";
 }

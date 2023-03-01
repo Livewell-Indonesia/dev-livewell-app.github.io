@@ -1,11 +1,18 @@
 import 'package:charts_painter/chart.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:livewell/feature/nutriscore/presentation/controller/nutriscore_controller.dart';
+import 'package:livewell/feature/nutriscore/presentation/controller/nutriscore_detail_controller.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
+import 'nutriscore_screen.dart';
+
 class NutriScoreDetailsScreen extends StatelessWidget {
-  const NutriScoreDetailsScreen({super.key});
+  NutriScoreDetailsScreen({super.key});
+
+  final controller = Get.put(NutriscoreDetailController());
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +25,7 @@ class NutriScoreDetailsScreen extends StatelessWidget {
               children: [
                 24.verticalSpace,
                 Text(
-                  'Protein',
+                  controller.currentType.title(),
                   style: TextStyle(
                       fontSize: 30.sp,
                       color: Colors.black,
@@ -36,7 +43,7 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                           fontSize: 16.sp),
                     ),
                     Text(
-                      '8/10',
+                      '${controller.nutrientValue.round()}/10',
                       style: TextStyle(
                           color: const Color(0xFF171433),
                           fontWeight: FontWeight.w700,
@@ -47,11 +54,14 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                       padding:
                           EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF091ED9),
+                        color:
+                            getStatusFromScore(controller.nutrientValue.toInt())
+                                .color(),
                         borderRadius: BorderRadius.circular(100),
                       ),
                       child: Text(
-                        'Optimal',
+                        getStatusFromScore(controller.nutrientValue.toInt())
+                            .title(),
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 16.sp,
@@ -82,73 +92,129 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                       border: Border.all(color: const Color(0xFFEBEBEB))),
                   child: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.arrow_back_ios,
-                                size: 12,
-                              )),
-                          Text('January 2023',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w700)),
-                          IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.arrow_forward_ios,
-                                size: 12,
-                                color: Color(0xFF171433),
-                              ))
-                        ],
-                      ),
-                      const Divider(),
-                      16.verticalSpace,
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Last 7 Days',
+                      Text('Last 7 days',
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 14.sp,
-                              fontWeight: FontWeight.w400),
+                              fontWeight: FontWeight.w700,
+                              height: 20.sp / 14.sp)),
+                      16.verticalSpace,
+                      const Divider(),
+                      16.verticalSpace,
+                      SizedBox(
+                        height: 200.h,
+                        child: BarChart(
+                          BarChartData(
+                            maxY: controller.getMaxY(),
+                            minY: controller.getMinY(),
+                            barGroups: List.generate(7, (index) {
+                              return BarChartGroupData(
+                                x: index,
+                                barRods: [
+                                  BarChartRodData(
+                                      toY: controller
+                                          .nutrientList[index].nutrient.eaten!
+                                          .toDouble())
+                                ],
+                              );
+                            }),
+                            barTouchData: BarTouchData(
+                              enabled: true,
+                            ),
+                            borderData: FlBorderData(show: false),
+                            gridData: FlGridData(
+                                show: true,
+                                drawVerticalLine: false,
+                                horizontalInterval: 50,
+                                verticalInterval: 5,
+                                getDrawingHorizontalLine: (value) {
+                                  return FlLine(
+                                      color: const Color(0xFFebebeb),
+                                      strokeWidth: 1,
+                                      dashArray: [2, 2]);
+                                }),
+                            titlesData: FlTitlesData(
+                              show: true,
+                              rightTitles: AxisTitles(
+                                sideTitles: SideTitles(showTitles: false),
+                              ),
+                              topTitles: AxisTitles(
+                                sideTitles: SideTitles(showTitles: false),
+                              ),
+                              leftTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  reservedSize: 30,
+                                  showTitles: true,
+                                  interval: 1,
+                                  getTitlesWidget: (value, meta) {
+                                    return Text(
+                                      value.toInt().toString(),
+                                      style: TextStyle(
+                                          color: const Color(0xFF505050),
+                                          fontSize: 12.sp),
+                                    );
+                                  },
+                                ),
+                              ),
+                              bottomTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  getTitlesWidget: (value, meta) {
+                                    return Text(
+                                      controller
+                                          .nutrientList[value.toInt()].date
+                                          .substring(5)
+                                          .replaceAll('-', '/'),
+                                      style: TextStyle(
+                                          color: const Color(0xFF505050),
+                                          fontSize: 12.sp),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                      16.verticalSpace,
-                      Chart(
-                        state: ChartState<void>(
-                            data: ChartData.fromList(
-                              [10, 7, 8, 2, 9, 4, 6]
-                                  .map((e) => ChartItem<void>(e.toDouble()))
-                                  .toList(),
-                              axisMax: 11,
-                            ),
-                            itemOptions: BarItemOptions(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12.0),
-                              barItemBuilder: (_) => BarItem(
-                                  color: const Color(0xFFDDF235),
-                                  radius: BorderRadius.circular(20)),
-                              maxBarWidth: 1.0,
-                            ),
-                            backgroundDecorations: [
-                              GridDecoration(
-                                  verticalAxisStep: 5,
-                                  showVerticalGrid: false,
-                                  horizontalAxisStep: 5,
-                                  gridColor: const Color(0xFFEBEBEB),
-                                  horizontalLegendPosition:
-                                      HorizontalLegendPosition.start,
-                                  showHorizontalValues: true,
-                                  textStyle: TextStyle(
-                                      color: const Color(0xFF505050),
-                                      fontSize: 12.sp)),
-                            ],
-                            foregroundDecorations: []),
-                      ),
+                      // Chart(
+                      //   height: 200.h,
+                      //   state: ChartState<NutrientDetailData>(
+                      //       data: ChartData.fromList(
+                      //         controller.nutrientList.reversed
+                      //             .map((e) => ChartItem<NutrientDetailData>(
+                      //                 (e.nutrient.points ?? 0).toDouble()))
+                      //             .toList(),
+                      //         axisMax: 11,
+                      //       ),
+                      //       itemOptions: BarItemOptions(
+                      //         padding:
+                      //             const EdgeInsets.symmetric(horizontal: 12.0),
+                      //         barItemBuilder: (_) => BarItem(
+                      //             color: const Color(0xFFDDF235),
+                      //             radius: BorderRadius.circular(20)),
+                      //         maxBarWidth: 1.0,
+                      //       ),
+                      //       backgroundDecorations: [
+                      //         WidgetDecoration(widgetDecorationBuilder:
+                      //             (context, chartState, itemWidth,
+                      //                 verticalMultiplier) {
+                      //           return Container();
+                      //         }),
+                      //         GridDecoration(
+                      //             verticalAxisStep: 5,
+                      //             showVerticalGrid: false,
+                      //             horizontalAxisStep: 5,
+                      //             dashArray: [2, 2],
+                      //             gridColor: const Color(0xFFEBEBEB),
+                      //             horizontalLegendPosition:
+                      //                 HorizontalLegendPosition.start,
+                      //             showHorizontalValues: true,
+                      //             textStyle: TextStyle(
+                      //                 color: const Color(0xFF505050),
+                      //                 fontSize: 12.sp)),
+                      //       ],
+                      //       foregroundDecorations: []),
+                      // ),
                     ],
                   ),
                 ),
@@ -213,5 +279,15 @@ class NutriScoreDetailsScreen extends StatelessWidget {
             ),
           ),
         ));
+  }
+
+  NutrientScoreStatus getStatusFromScore(int score) {
+    if (score > 10) {
+      return NutrientScoreStatus.high;
+    }
+    if (score >= 5) {
+      return NutrientScoreStatus.optimal;
+    }
+    return NutrientScoreStatus.low;
   }
 }
