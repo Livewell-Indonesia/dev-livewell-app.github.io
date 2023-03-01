@@ -17,6 +17,8 @@ import 'package:livewell/feature/dashboard/domain/usecase/get_user.dart';
 import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart';
 import 'package:livewell/feature/food/domain/usecase/get_meal_history.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
+import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_model.dart';
+import 'package:livewell/feature/nutriscore/domain/usecase/get_nutri_score.dart';
 import 'package:livewell/feature/water/data/model/water_list_model.dart';
 import 'package:livewell/feature/water/domain/usecase/get_water_data.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -30,6 +32,7 @@ class DashboardController extends GetxController {
   GetUser getUser = GetUser.instance();
   GetMealHistory getMealHistory = GetMealHistory.instance();
   GetDashboardData getDashboardData = GetDashboardData.instance();
+  GetNutriScore getNutriScore = GetNutriScore.instance();
   Rx<UserModel> user = UserModel().obs;
   Rx<DashboardModel> dashboard = DashboardModel().obs;
   ValueNotifier<double> valueNotifier = ValueNotifier(0.0);
@@ -39,6 +42,8 @@ class DashboardController extends GetxController {
 
   HealthFactory healthFactory = HealthFactory();
   FlutterHealthFit healthFit = FlutterHealthFit();
+
+  Rx<NutriScoreModel> nutriScore = NutriScoreModel().obs;
 
   var types = [
     HealthDataType.STEPS,
@@ -151,7 +156,17 @@ class DashboardController extends GetxController {
     getUsersData();
     getDashBoardData();
     getMealHistories();
+    getNutriscoreData();
     super.onInit();
+  }
+
+  void getNutriscoreData() async {
+    final result = await getNutriScore.call(NoParams());
+    result.fold((l) {
+      Log.error(l);
+    }, (r) {
+      nutriScore.value = r;
+    });
   }
 
   void testingSleepNew() async {

@@ -8,8 +8,8 @@ import 'package:livewell/feature/dashboard/presentation/controller/dashboard_con
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
-import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_screen.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
+import 'package:livewell/feature/update_weight/presentation/page/update_current_weight_screen.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/banner/nutriscore_banner.dart';
 import 'package:livewell/widgets/chart/circular_calories.dart';
@@ -141,7 +141,16 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         padding: EdgeInsets.only(
                           left: e.index != 0 ? 8.w : 0,
                         ),
-                        child: e.getWidget(controller),
+                        child: e == CarouselDashboard.nutriScore
+                            ? Obx(() {
+                                return NutriscoreBanner(
+                                  value: (controller
+                                              .nutriScore.value.totalPoints ??
+                                          0)
+                                      .toInt(),
+                                );
+                              })
+                            : const YourWeightWidget(),
                       ),
                     );
                   }).toList(),

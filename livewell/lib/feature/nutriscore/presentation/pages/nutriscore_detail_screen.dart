@@ -126,7 +126,12 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                                 show: true,
                                 drawVerticalLine: false,
                                 horizontalInterval: 50,
-                                verticalInterval: 5,
+                                verticalInterval: controller.getMaxY() < 1 &&
+                                        controller.getMinY() < 1
+                                    ? 1
+                                    : (controller.getMaxY() -
+                                            controller.getMinY()) /
+                                        2,
                                 getDrawingHorizontalLine: (value) {
                                   return FlLine(
                                       color: const Color(0xFFebebeb),
@@ -145,7 +150,12 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                                 sideTitles: SideTitles(
                                   reservedSize: 30,
                                   showTitles: true,
-                                  interval: 1,
+                                  interval: controller.getMaxY() < 1 &&
+                                          controller.getMinY() < 1
+                                      ? 1
+                                      : (controller.getMaxY() -
+                                              controller.getMinY()) /
+                                          2,
                                   getTitlesWidget: (value, meta) {
                                     return Text(
                                       value.toInt().toString(),
@@ -160,14 +170,20 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                                 sideTitles: SideTitles(
                                   showTitles: true,
                                   getTitlesWidget: (value, meta) {
-                                    return Text(
-                                      controller
-                                          .nutrientList[value.toInt()].date
-                                          .substring(5)
-                                          .replaceAll('-', '/'),
-                                      style: TextStyle(
-                                          color: const Color(0xFF505050),
-                                          fontSize: 12.sp),
+                                    return Transform.rotate(
+                                      angle: -45,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          controller
+                                              .nutrientList[value.toInt()].date
+                                              .substring(5)
+                                              .replaceAll('-', '/'),
+                                          style: TextStyle(
+                                              color: const Color(0xFF505050),
+                                              fontSize: 12.sp),
+                                        ),
+                                      ),
                                     );
                                   },
                                 ),
@@ -176,45 +192,6 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // Chart(
-                      //   height: 200.h,
-                      //   state: ChartState<NutrientDetailData>(
-                      //       data: ChartData.fromList(
-                      //         controller.nutrientList.reversed
-                      //             .map((e) => ChartItem<NutrientDetailData>(
-                      //                 (e.nutrient.points ?? 0).toDouble()))
-                      //             .toList(),
-                      //         axisMax: 11,
-                      //       ),
-                      //       itemOptions: BarItemOptions(
-                      //         padding:
-                      //             const EdgeInsets.symmetric(horizontal: 12.0),
-                      //         barItemBuilder: (_) => BarItem(
-                      //             color: const Color(0xFFDDF235),
-                      //             radius: BorderRadius.circular(20)),
-                      //         maxBarWidth: 1.0,
-                      //       ),
-                      //       backgroundDecorations: [
-                      //         WidgetDecoration(widgetDecorationBuilder:
-                      //             (context, chartState, itemWidth,
-                      //                 verticalMultiplier) {
-                      //           return Container();
-                      //         }),
-                      //         GridDecoration(
-                      //             verticalAxisStep: 5,
-                      //             showVerticalGrid: false,
-                      //             horizontalAxisStep: 5,
-                      //             dashArray: [2, 2],
-                      //             gridColor: const Color(0xFFEBEBEB),
-                      //             horizontalLegendPosition:
-                      //                 HorizontalLegendPosition.start,
-                      //             showHorizontalValues: true,
-                      //             textStyle: TextStyle(
-                      //                 color: const Color(0xFF505050),
-                      //                 fontSize: 12.sp)),
-                      //       ],
-                      //       foregroundDecorations: []),
-                      // ),
                     ],
                   ),
                 ),
@@ -254,6 +231,7 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -271,10 +249,10 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400),
                       ),
-                      100.verticalSpace,
                     ],
                   ),
                 ),
+                32.verticalSpace,
               ],
             ),
           ),

@@ -46,7 +46,6 @@ class PhysicalInformationScreen extends StatelessWidget {
                                 fontSize: 18.sp, fontWeight: FontWeight.w600),
                           ),
                           const Spacer(),
-                          Text("edit".tr)
                         ],
                       ),
                     ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/profile/presentation/controller/user_settings_controller.dart';
+import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
 
 class UserSettingsScreen extends StatelessWidget {
   final UserSettingsController controller = Get.put(UserSettingsController());
@@ -49,18 +51,29 @@ class UserSettingsScreen extends StatelessWidget {
                           )
                         : const SizedBox(),
                     Container(
-                      width: 210.h,
+                      width: 210.w,
                       height: 210.h,
                       decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.3),
                           shape: BoxShape.circle),
                       alignment: Alignment.center,
-                      child: Container(
-                        width: 180.h,
-                        height: 180.h,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
+                      child: ClipOval(
+                        child: Container(
+                          width: 180.w,
+                          height: 180.h,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                          ),
+                          child: Obx(() {
+                            return SvgPicture.asset(
+                              (controller.user.value.gender ?? Gender.male.name)
+                                          .toLowerCase() ==
+                                      "male"
+                                  ? Constant.imgMaleSVG
+                                  : Constant.imgFemaleSVG,
+                            );
+                          }),
                         ),
                       ),
                     ),
