@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:livewell/feature/exercise/presentation/controller/exercise_controller.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_diary_screen.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
+import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 
 class ExerciseScreen extends StatefulWidget {
   const ExerciseScreen({Key? key}) : super(key: key);
@@ -25,61 +27,67 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
           controller.refresh();
         },
         child: ListView(
-          //crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            57.verticalSpace,
-            Center(
-                child: Text(
-              "Exercise",
-              style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xFF171433)),
-            )),
+            40.verticalSpace,
+            Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 18.w),
+                  child: const Icon(
+                    Icons.info_outline,
+                    color: Colors.transparent,
+                  ),
+                ),
+                const Spacer(),
+                Center(
+                    child: Text(
+                  "Exercise",
+                  style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF171433)),
+                )),
+                const Spacer(),
+                InkWell(
+                  onTap: () {
+                    HomeController controller = Get.find();
+                    var data = controller.popupAssetsModel.value.exercise;
+                    if (data != null) {
+                      showModalBottomSheet<dynamic>(
+                          context: context,
+                          isScrollControlled: true,
+                          shape: ShapeBorder.lerp(
+                              const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20))),
+                              const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20))),
+                              1),
+                          builder: (context) {
+                            return Obx(() {
+                              return PopupAssetWidget(
+                                exercise:
+                                    controller.popupAssetsModel.value.exercise!,
+                              );
+                            });
+                          });
+                    }
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 18.w),
+                    child: const Icon(
+                      Icons.info_outline,
+                      color: Color(0xFF171433),
+                    ),
+                  ),
+                ),
+              ],
+            ),
             38.verticalSpace,
-            // Obx(() {
-            //   return SlideSwitcher(
-            //     containerColor: Colors.white,
-            //     onSelect: (int index) {
-            //       controller.changeTab(ExerciseTab.values[index]);
-            //     },
-            //     valueNotifier: controller.sliderValueNotifier,
-            //     containerHeight: 35,
-            //     containerWight: 200,
-            //     slidersColors: const [
-            //       Color(0xFFDDF235),
-            //     ],
-            //     children: [
-            //       Text(
-            //         'Diary',
-            //         style: TextStyle(
-            //           fontWeight: FontWeight.w600,
-            //           color: controller.currentMenu.value.index == 0
-            //               ? const Color(0xFF171433)
-            //               : const Color(0xFF171433).withOpacity(0.3),
-            //         ),
-            //       ),
-            //       Text(
-            //         'Classes',
-            //         style: TextStyle(
-            //           fontWeight: FontWeight.w600,
-            //           color: controller.currentMenu.value.index == 1
-            //               ? const Color(0xFF171433)
-            //               : const Color(0xFF171433).withOpacity(0.3),
-            //         ),
-            //       ),
-            //     ],
-            //   );
-            // }),
-            //40.verticalSpace,
             const ExerciseDiaryScreen(),
-            // Expanded(
-            //   child:
-            //       TabBarView(controller: controller.tabController, children: [
-            //     ExerciseDiaryScreen(),
-            //     const ExerciseClassScreen(),
-            //   ]),
-            // )
           ],
         ),
       ),

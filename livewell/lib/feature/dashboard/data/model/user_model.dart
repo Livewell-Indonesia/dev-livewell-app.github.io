@@ -12,7 +12,7 @@ class UserModel {
   num? weight;
   num? bmi;
   num? bmr;
-  int? weightTarget;
+  num? weightTarget;
   List<DailyJournal>? dailyJournal;
   OnboardingQuestionnaire? onboardingQuestionnaire;
   String? lastSyncedAt;

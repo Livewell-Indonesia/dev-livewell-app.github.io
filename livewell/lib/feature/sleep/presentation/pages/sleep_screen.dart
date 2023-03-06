@@ -3,8 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/sleep/presentation/controller/sleep_controller.dart';
 import 'package:livewell/widgets/chart/circular_nutrition.dart';
+import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 
 class SleepScreen extends StatefulWidget {
   const SleepScreen({super.key});
@@ -26,14 +28,63 @@ class _SleepScreenState extends State<SleepScreen> {
         child: ListView(
           children: [
             40.verticalSpace,
-            Center(
-                child: Text(
-              "Sleep",
-              style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xFF171433)),
-            )),
+            Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 18.w),
+                  child: const Icon(
+                    Icons.info_outline,
+                    color: Colors.transparent,
+                  ),
+                ),
+                const Spacer(),
+                Center(
+                    child: Text(
+                  "Sleep",
+                  style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF171433)),
+                )),
+                const Spacer(),
+                InkWell(
+                  onTap: () {
+                    HomeController controller = Get.find();
+                    var data = controller.popupAssetsModel.value.exercise;
+                    if (data != null) {
+                      showModalBottomSheet<dynamic>(
+                          context: context,
+                          isScrollControlled: true,
+                          shape: ShapeBorder.lerp(
+                              const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20))),
+                              const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20))),
+                              1),
+                          builder: (context) {
+                            return Obx(() {
+                              return PopupAssetWidget(
+                                exercise:
+                                    controller.popupAssetsModel.value.sleep!,
+                              );
+                            });
+                          });
+                    }
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 18.w),
+                    child: const Icon(
+                      Icons.info_outline,
+                      color: Color(0xFF171433),
+                    ),
+                  ),
+                ),
+              ],
+            ),
             38.verticalSpace,
             Container(
               padding: EdgeInsets.symmetric(vertical: 20.h),

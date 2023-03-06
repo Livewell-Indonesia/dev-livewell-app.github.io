@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:livewell/feature/update_weight/presentation/controller/update_weight_controller.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
 class UpdateCurrentWeight extends StatelessWidget {
-  const UpdateCurrentWeight({super.key});
+  final UpdateWeightController controller = Get.find();
+  UpdateCurrentWeight({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +38,19 @@ class UpdateCurrentWeight extends StatelessWidget {
                     height: 20.sp / 14.sp),
               ),
               60.verticalSpace,
-              WeightSelectorWidget(onChange: (val) {
-                print("andi ganteng $val");
-              }),
+              WeightSelectorWidget(
+                onChange: (val) {
+                  controller.inputtedWeight = val;
+                },
+                initialValue: controller.inputtedWeight,
+              ),
               const Spacer(),
               LiveWellButton(
                 label: 'Update',
-                color: Color(0xFFDDF235),
-                onPressed: () {},
+                color: const Color(0xFFDDF235),
+                onPressed: () {
+                  controller.onUpdateTapped();
+                },
               ),
               32.verticalSpace,
             ],

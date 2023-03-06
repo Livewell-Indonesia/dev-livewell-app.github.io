@@ -4,7 +4,10 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:livewell/feature/dashboard/presentation/pages/dashboard_screen.dart';
 import 'package:livewell/feature/update_weight/presentation/controller/update_weight_controller.dart';
+import 'package:livewell/feature/update_weight/presentation/page/goal_setting_screen.dart';
 import 'package:livewell/feature/update_weight/presentation/page/update_current_weight_screen.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -42,7 +45,9 @@ class UpdateWeightScreen extends StatelessWidget {
               Icons.settings_outlined,
               color: Color(0xFF505050),
             ),
-            onTap: () {}),
+            onTap: () {
+              Get.to(() => GoalSettingScreen());
+            }),
         body: Expanded(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -80,32 +85,40 @@ class UpdateWeightScreen extends StatelessWidget {
                             fontWeight: FontWeight.w400),
                       ),
                       16.verticalSpace,
-                      LinearPercentIndicator(
-                        padding: EdgeInsets.zero,
-                        lineHeight: 12.h,
-                        percent: 0.5,
-                        barRadius: const Radius.circular(100.0),
-                        backgroundColor: const Color(0xFF4D4A68),
-                        progressColor: const Color(0xFFDDF235),
-                      ),
+                      Obx(() {
+                        return LinearPercentIndicator(
+                          padding: EdgeInsets.zero,
+                          lineHeight: 12.h,
+                          percent: (controller.weight.value /
+                                  controller.targetWeight.value)
+                              .maxOneOrZero,
+                          barRadius: const Radius.circular(100.0),
+                          backgroundColor: const Color(0xFF4D4A68),
+                          progressColor: const Color(0xFFDDF235),
+                        );
+                      }),
                       8.verticalSpace,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            '80kg',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w400),
-                          ),
-                          Text(
-                            '80kg',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w400),
-                          ),
+                          Obx(() {
+                            return Text(
+                              '${controller.weight.value} kg',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w400),
+                            );
+                          }),
+                          Obx(() {
+                            return Text(
+                              '${controller.targetWeight} kg',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w400),
+                            );
+                          })
                         ],
                       ),
                       16.verticalSpace,
@@ -151,7 +164,48 @@ class UpdateWeightScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(24)),
                   width: double.infinity,
                   height: 200.h,
-                  child: LineChart(mainData()),
+                  child: Obx(() {
+                    return LineChart(mainData(controller));
+                  }),
+                ),
+                32.verticalSpace,
+                Container(
+                  width: 1.sw,
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  decoration: BoxDecoration(
+                      color: const Color(0xFFD9E4E5),
+                      borderRadius: BorderRadius.circular(24)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Projected weight after 4 weeks',
+                        style: TextStyle(
+                            color: const Color(0xFF171433),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14.sp),
+                      ),
+                      8.verticalSpace,
+                      Obx(() {
+                        return Text(
+                          '${controller.weightPrediciton.value.round()} kg',
+                          style: TextStyle(
+                              color: const Color(0xFF8F01DF),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 24.sp),
+                        );
+                      }),
+                      8.verticalSpace,
+                      Text(
+                        'Disclaimer: Projection based on today\'s food intake. Estimate only.',
+                        style: TextStyle(
+                            color: const Color(0xFF171433),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14.sp),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -159,12 +213,11 @@ class UpdateWeightScreen extends StatelessWidget {
         ));
   }
 
-  LineChartData mainData() {
+  LineChartData mainData(UpdateWeightController controller) {
     return LineChartData(
-      minY: 70,
-      maxY: 85,
+      minY: 0,
       minX: 0,
-      maxX: 7,
+      maxX: 6,
       gridData: FlGridData(
         show: true,
         drawVerticalLine: false,
@@ -199,17 +252,17 @@ class UpdateWeightScreen extends StatelessWidget {
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            interval: 5,
+            interval: 15,
             getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
+            reservedSize: 32,
           ),
         ),
       ),
       borderData: FlBorderData(show: false),
       lineBarsData: [
         LineChartBarData(
-          spots: userWeightHistories.asMap().entries.map((e) {
-            return FlSpot(e.key.toDouble(), e.value);
+          spots: controller.weightHistory.asMap().entries.map((e) {
+            return FlSpot(e.key.toDouble(), (e.value.weight ?? 0).toDouble());
           }).toList(),
           isCurved: false,
           barWidth: 2,
@@ -251,20 +304,14 @@ class UpdateWeightScreen extends StatelessWidget {
       fontSize: 10.sp,
     );
     Widget text;
-    switch (value.toInt()) {
-      case 2:
-        text = Text('2', style: style);
-        break;
-      case 5:
-        text = Text('5', style: style);
-        break;
-      case 8:
-        text = Text('8', style: style);
-        break;
-      default:
-        text = Text('andi', style: style);
-        break;
-    }
+    DateFormat dateFormat = DateFormat('dd/MM');
+
+    text = controller.weightHistory.isEmpty
+        ? Text('')
+        : Text(
+            dateFormat.format(DateFormat('yyyy-MM-dd')
+                .parse(controller.weightHistory[value.toInt()].recordAt!)),
+            style: style);
 
     return SideTitleWidget(
       axisSide: meta.axisSide,

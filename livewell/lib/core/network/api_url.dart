@@ -23,6 +23,7 @@ class Endpoint {
   static const String dailyJournal = "user/daily-journal";
   static const String dashboard = "user/dashboard";
   static const String updateWeight = "user/update/weight";
+  static const String userHistory = "user/data/history";
 
   /// food
   static const String foods = "foods";
@@ -38,6 +39,7 @@ class Endpoint {
   static const String userMealHistory = "user/meal/history";
 
   static const String appConfig = "config/app";
+  static const String popupAssets = "config/pop-up-assets";
 
   ///Exercise
   static const String postBulkActivities = "activities/bulk-create";

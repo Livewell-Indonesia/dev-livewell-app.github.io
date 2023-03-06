@@ -62,4 +62,6 @@ class Constant {
   static const String imgFemaleSVG = '$assetsImages/img_female.svg';
   static const String imgFinishQuestionnaireSVG =
       '$assetsImages/img_finish_questionnaire.svg';
+  static const String imgComingSoonNutriscore =
+      '$assetsImages/img_coming_soon_nutriscore.png';
 }

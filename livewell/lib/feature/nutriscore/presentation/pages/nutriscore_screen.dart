@@ -30,9 +30,10 @@ class _NutriScoreScreenState extends State<NutriScoreScreen> {
                   24.verticalSpace,
                   Obx(() {
                     return NutriscoreBanner(
-                        value:
-                            controller.nutriScore.value.totalPoints?.toInt() ??
-                                0);
+                      value:
+                          controller.nutriScore.value.totalPoints?.toInt() ?? 0,
+                      hideSeeDetails: true,
+                    );
                   }),
                   24.verticalSpace,
                   GridView.builder(

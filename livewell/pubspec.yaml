@@ -47,7 +47,6 @@ dependencies:
   flutter_signin_button: ^2.0.0
   flutter_screenutil: ^5.5.4
   google_fonts: ^3.0.1
-  dot_navigation_bar: ^1.0.1+4
   jwt_decoder: ^2.0.1
   flutter_cupertino_date_picker_fork: ^1.0.6
   intl: ^0.17.0
@@ -78,6 +77,7 @@ dependencies:
       ref: master
   tutorial_coach_mark: ^1.2.6
   fl_chart: ^0.61.0
+  flutter_html: ^3.0.0-alpha.6
   
 
 dev_dependencies:

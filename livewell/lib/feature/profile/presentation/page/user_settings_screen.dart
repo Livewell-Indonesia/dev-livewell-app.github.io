@@ -3,11 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/feature/profile/presentation/controller/physical_information_controller.dart';
 import 'package:livewell/feature/profile/presentation/controller/user_settings_controller.dart';
+import 'package:livewell/feature/profile/presentation/page/my_goals_screen.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
 
 class UserSettingsScreen extends StatelessWidget {
   final UserSettingsController controller = Get.put(UserSettingsController());
+  final PhysicalInformationController physicalController =
+      Get.put(PhysicalInformationController());
   UserSettingsScreen({Key? key}) : super(key: key);
 
   @override
@@ -95,14 +99,14 @@ class UserSettingsScreen extends StatelessWidget {
                 ),
               ],
             ),
-            57.verticalSpace,
+            //32.verticalSpace,
             ProfileSettingsItem(
                 title: 'Account Settings'.tr,
                 icon: Image.asset(Constant.icAccountSetting),
                 onPressed: () {
                   controller.accountSettingsTap();
                 }),
-            20.verticalSpace,
+            8.verticalSpace,
             ProfileSettingsItem(
                 title: 'Daily Journal'.tr,
                 icon: Icon(
@@ -112,7 +116,7 @@ class UserSettingsScreen extends StatelessWidget {
                 onPressed: () {
                   controller.dailyJournalTapped();
                 }),
-            20.verticalSpace,
+            8.verticalSpace,
             ProfileSettingsItem(
                 title: 'Physical Information'.tr,
                 icon: Icon(
@@ -122,14 +126,22 @@ class UserSettingsScreen extends StatelessWidget {
                 onPressed: () {
                   controller.physicalInformationTapped();
                 }),
-            20.verticalSpace,
+            8.verticalSpace,
             ProfileSettingsItem(
                 title: 'Exercise'.tr,
                 icon: Image.asset(Constant.icExerciseBlack3),
                 onPressed: () {
                   controller.exerciseInformationTapped();
                 }),
-            20.verticalSpace,
+            8.verticalSpace,
+            ProfileSettingsItem(
+                title: 'My Goals'.tr,
+                icon: const Icon(Icons.ballot_outlined, size: 20),
+                onPressed: () {
+                  Get.to(() => MyGoalsScreen());
+                }),
+
+            8.verticalSpace,
             ProfileSettingsItem(
               title: 'Logout'.tr,
               icon: Image.asset(Constant.icLogout),
@@ -216,21 +228,12 @@ class ProfileBackground extends StatelessWidget {
           width: 1.sw,
           child: Stack(
             children: [
-              Container(
-                height: 380.h,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF34EAB2),
-                  borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(30.r),
-                  ),
-                ),
-              ),
               Align(
                 alignment: Alignment.topCenter,
                 child: Container(
-                  height: 209.h,
+                  height: 176.h,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF8F01DF),
+                    color: const Color(0xFFDDF235),
                     borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(30.r),
                     ),

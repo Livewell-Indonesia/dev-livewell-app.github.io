@@ -20,8 +20,8 @@ class QuestionnaireController extends GetxController {
   var height = 150.obs;
   var drink = 1.obs;
   var sleep = 1.obs;
-  var weight = 50.obs;
-  var targetWeight = 30.obs;
+  var weight = 50.0.obs;
+  var targetWeight = 50.0.obs;
   Rx<Gender> selectedGender = Gender.male.obs;
   Rx<GoalSelection> selectedGoals = GoalSelection.getFitter.obs;
   Rx<DietrarySelection> selectedDietrary = DietrarySelection.no.obs;

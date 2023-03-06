@@ -9,7 +9,6 @@ import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart'
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
-import 'package:livewell/feature/update_weight/presentation/page/update_current_weight_screen.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/banner/nutriscore_banner.dart';
 import 'package:livewell/widgets/chart/circular_calories.dart';
@@ -26,7 +25,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   DashboardController controller = Get.put(DashboardController());
   int current = 0;
   final CarouselController carouselController = CarouselController();
-
+  final HomeController homeController = Get.find();
   @override
   void initState() {
     super.initState();
@@ -136,6 +135,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   carouselController: carouselController,
                   items: CarouselDashboard.values.map((e) {
                     return InkWell(
+                      key: e.index == 0 ? homeController.cardKey : null,
                       onTap: e.getOnTap(controller),
                       child: Padding(
                         padding: EdgeInsets.only(
@@ -150,12 +150,21 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                       .toInt(),
                                 );
                               })
-                            : const YourWeightWidget(),
+                            : Obx(() {
+                                return YourWeightWidget(
+                                  weight: (controller.user.value.weight ?? 0.0)
+                                      .toDouble(),
+                                  targetWeight:
+                                      (controller.user.value.weightTarget ??
+                                              0.0)
+                                          .toDouble(),
+                                );
+                              }),
                       ),
                     );
                   }).toList(),
                   options: CarouselOptions(
-                      height: 108.h,
+                      height: 123.h,
                       viewportFraction: 0.9,
                       enableInfiniteScroll: false,
                       onPageChanged: (index, reason) {
@@ -176,80 +185,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     ],
                   ),
                 ),
-                // InkWell(
-                //   onTap: () {
-                //     AppNavigator.push(routeName: AppPages.updateWeight);
-                //   },
-                //   child: Container(
-                //     margin: const EdgeInsets.symmetric(horizontal: 16).r,
-                //     padding:
-                //         const EdgeInsets.symmetric(horizontal: 25, vertical: 20)
-                //             .r,
-                //     decoration: BoxDecoration(
-                //         color: const Color(0xFF171433),
-                //         borderRadius: BorderRadius.circular(30.r)),
-                //     child: Column(
-                //       children: [
-                //         Row(
-                //           children: [
-                //             Obx(() {
-                //               return Text(
-                //                 "Target Weight: ${controller.user.value.weightTarget ?? 0} Kg",
-                //                 style: TextStyle(
-                //                     color: Colors.white,
-                //                     fontSize: 12.sp,
-                //                     fontWeight: FontWeight.w500),
-                //               );
-                //             }),
-                //             const Spacer(),
-                //             Obx(() {
-                //               return Text(
-                //                 "Current Weight: ${controller.user.value.weight ?? 0} Kg",
-                //                 style: TextStyle(
-                //                     color: Colors.white.withOpacity(0.5),
-                //                     fontSize: 12.sp,
-                //                     fontWeight: FontWeight.w500),
-                //               );
-                //             })
-                //           ],
-                //         ),
-                //         7.verticalSpace,
-                //         Obx(() {
-                //           return LinearPercentIndicator(
-                //             padding: EdgeInsets.zero,
-                //             lineHeight: 7.0,
-                //             percent: controller.getWeightPercentage().value,
-                //             barRadius: const Radius.circular(4.0),
-                //             backgroundColor: const Color(0xFFF2F1F9),
-                //             progressColor: const Color(0xFFDDF235),
-                //           );
-                //         })
-                //       ],
-                //     ),
-                //   ),
-                // ),
-                // 10.verticalSpace,
-                // Center(
-                //   child: Text(
-                //     'Keep with your plan , You are doing great!',
-                //     textAlign: TextAlign.center,
-                //     style: TextStyle(
-                //         color: const Color(0xFF171433).withOpacity(0.5),
-                //         fontSize: 14.sp,
-                //         fontWeight: FontWeight.w500),
-                //   ),
-                // ),
-                // 10.verticalSpace,
-                // Center(child: Obx(() {
-                //   return Text(
-                //     'Your goal: ${controller.user.value.onboardingQuestionnaire?.targetImprovement?.first ?? []}',
-                //     textAlign: TextAlign.center,
-                //     style: TextStyle(
-                //         color: const Color(0xFF171433).withOpacity(0.5),
-                //         fontSize: 14.sp,
-                //         fontWeight: FontWeight.w500),
-                //   );
-                // })),
                 32.verticalSpace,
                 InkWell(
                   onTap: () {
@@ -471,186 +406,250 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20).r,
                   child: Obx(() {
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            AppNavigator.push(
-                                routeName: AppPages.waterConsumedPage);
-                            // AppNavigator.push(
-                            //     routeName: AppPages.addMeal,
-                            //     arguments: {
-                            //       "type": controller
-                            //           .user.value.dailyJournal?[index].name,
-                            //       "date": DateTime.now()
-                            //     });
-                          },
-                          child: Container(
-                            padding: EdgeInsets.only(left: 10.w, right: 20.w),
-                            width: 335.w,
-                            height: 72.h,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20).r),
-                            child: Row(
-                              children: [
-                                Transform.scale(
-                                  scale: 1.2,
-                                  child: Obx(() {
-                                    return Checkbox(
-                                      value: controller.waterConsumed.value >=
-                                          2000,
-                                      onChanged: (val) {},
-                                      fillColor:
-                                          MaterialStateProperty.resolveWith(
-                                              (states) {
-                                        if (states
-                                            .contains(MaterialState.selected)) {
-                                          return const Color(0xFFDDF235);
-                                        }
-                                        return const Color(0xFF171433);
-                                      }),
-                                      checkColor: const Color(0xFF171433),
-                                      activeColor: Colors.green,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      side: const BorderSide(
-                                          color: Color(0xFF171433), width: 1),
-                                    );
-                                  }),
-                                ),
-                                Container(
-                                  width: 43.w,
-                                  height: 43.w,
-                                  decoration: BoxDecoration(
-                                      color: const Color(0xFFF1F1F1),
-                                      borderRadius:
-                                          BorderRadius.circular(10.r)),
-                                  child:
-                                      Image.asset(Constant.icWaterUnselected),
-                                ),
-                                10.horizontalSpace,
-                                Text(
-                                  'Water',
-                                  style: TextStyle(
-                                      color: const Color(0xFF171433)
-                                          .withOpacity(0.8),
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                const Spacer(),
-                                Text(
-                                  "${(controller.waterConsumed.value / 1000).toStringAsFixed(1)} L",
-                                  style: TextStyle(
-                                      color: const Color(0xFF171433)
-                                          .withOpacity(0.8),
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ],
+                    if (homeController.isShowCoachmark.value) {
+                      return dummyTask();
+                    } else {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              AppNavigator.push(
+                                  routeName: AppPages.waterConsumedPage);
+                              // AppNavigator.push(
+                              //     routeName: AppPages.addMeal,
+                              //     arguments: {
+                              //       "type": controller
+                              //           .user.value.dailyJournal?[index].name,
+                              //       "date": DateTime.now()
+                              //     });
+                            },
+                            child: Container(
+                              padding: EdgeInsets.only(left: 10.w, right: 20.w),
+                              width: 335.w,
+                              height: 72.h,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20).r),
+                              child: Row(
+                                children: [
+                                  Transform.scale(
+                                    scale: 1.2,
+                                    child: Obx(() {
+                                      return Checkbox(
+                                        value: controller.waterConsumed.value >=
+                                            2000,
+                                        onChanged: (val) {},
+                                        fillColor:
+                                            MaterialStateProperty.resolveWith(
+                                                (states) {
+                                          if (states.contains(
+                                              MaterialState.selected)) {
+                                            return const Color(0xFFDDF235);
+                                          }
+                                          return const Color(0xFF171433);
+                                        }),
+                                        checkColor: const Color(0xFF171433),
+                                        activeColor: Colors.green,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        side: const BorderSide(
+                                            color: Color(0xFF171433), width: 1),
+                                      );
+                                    }),
+                                  ),
+                                  Container(
+                                    width: 43.w,
+                                    height: 43.w,
+                                    decoration: BoxDecoration(
+                                        color: const Color(0xFFF1F1F1),
+                                        borderRadius:
+                                            BorderRadius.circular(10.r)),
+                                    child:
+                                        Image.asset(Constant.icWaterUnselected),
+                                  ),
+                                  10.horizontalSpace,
+                                  Text(
+                                    'Water',
+                                    style: TextStyle(
+                                        color: const Color(0xFF171433)
+                                            .withOpacity(0.8),
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    "${(controller.waterConsumed.value / 1000).toStringAsFixed(1)} L",
+                                    style: TextStyle(
+                                        color: const Color(0xFF171433)
+                                            .withOpacity(0.8),
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        ListView.separated(
-                            padding: EdgeInsets.only(top: 10.h),
-                            shrinkWrap: true,
-                            physics: const ClampingScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {
-                                  AppNavigator.push(
-                                      routeName: AppPages.addMeal,
-                                      arguments: {
-                                        "type": controller.user.value
-                                            .dailyJournal?[index].name,
-                                        "date": DateTime.now()
-                                      });
-                                },
-                                child: Container(
-                                  padding:
-                                      EdgeInsets.only(left: 10.w, right: 20.w),
-                                  width: 335.w,
-                                  height: 72.h,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius:
-                                          BorderRadius.circular(20).r),
-                                  child: Row(
-                                    children: [
-                                      Transform.scale(
-                                        scale: 1.2,
-                                        child: Obx(() {
-                                          return Checkbox(
-                                            value: controller
-                                                .isCompleted(index)
-                                                .value,
-                                            onChanged: (val) {},
-                                            fillColor: MaterialStateProperty
-                                                .resolveWith((states) {
-                                              if (states.contains(
-                                                  MaterialState.selected)) {
-                                                return const Color(0xFFDDF235);
-                                              }
-                                              return const Color(0xFF171433);
-                                            }),
-                                            checkColor: const Color(0xFF171433),
-                                            activeColor: Colors.green,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            side: const BorderSide(
-                                                color: Color(0xFF171433),
-                                                width: 1),
-                                          );
-                                        }),
-                                      ),
-                                      Container(
-                                        width: 43.w,
-                                        height: 43.w,
-                                        decoration: BoxDecoration(
-                                            color: const Color(0xFFF1F1F1),
-                                            borderRadius:
-                                                BorderRadius.circular(10.r)),
-                                        child: Image.asset(
-                                            Constant.icFoodUnselected),
-                                      ),
-                                      10.horizontalSpace,
-                                      Text(
-                                        "${controller.user.value.dailyJournal?[index].time} ${controller.user.value.dailyJournal?[index].name}",
-                                        style: TextStyle(
-                                            color: const Color(0xFF171433)
-                                                .withOpacity(0.8),
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      const Spacer(),
-                                      Icon(
-                                        Icons.arrow_forward_ios_rounded,
-                                        size: 20.r,
-                                      )
-                                    ],
+                          ListView.separated(
+                              padding: EdgeInsets.only(top: 10.h),
+                              shrinkWrap: true,
+                              physics: const ClampingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    AppNavigator.push(
+                                        routeName: AppPages.addMeal,
+                                        arguments: {
+                                          "type": controller.user.value
+                                              .dailyJournal?[index].name,
+                                          "date": DateTime.now()
+                                        });
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.only(
+                                        left: 10.w, right: 20.w),
+                                    width: 335.w,
+                                    height: 72.h,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(20).r),
+                                    child: Row(
+                                      children: [
+                                        Transform.scale(
+                                          scale: 1.2,
+                                          child: Obx(() {
+                                            return Checkbox(
+                                              value: controller
+                                                  .isCompleted(index)
+                                                  .value,
+                                              onChanged: (val) {},
+                                              fillColor: MaterialStateProperty
+                                                  .resolveWith((states) {
+                                                if (states.contains(
+                                                    MaterialState.selected)) {
+                                                  return const Color(
+                                                      0xFFDDF235);
+                                                }
+                                                return const Color(0xFF171433);
+                                              }),
+                                              checkColor:
+                                                  const Color(0xFF171433),
+                                              activeColor: Colors.green,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              side: const BorderSide(
+                                                  color: Color(0xFF171433),
+                                                  width: 1),
+                                            );
+                                          }),
+                                        ),
+                                        Container(
+                                          width: 43.w,
+                                          height: 43.w,
+                                          decoration: BoxDecoration(
+                                              color: const Color(0xFFF1F1F1),
+                                              borderRadius:
+                                                  BorderRadius.circular(10.r)),
+                                          child: Image.asset(
+                                              Constant.icFoodUnselected),
+                                        ),
+                                        10.horizontalSpace,
+                                        Text(
+                                          "${controller.user.value.dailyJournal?[index].time} ${controller.user.value.dailyJournal?[index].name}",
+                                          style: TextStyle(
+                                              color: const Color(0xFF171433)
+                                                  .withOpacity(0.8),
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        const Spacer(),
+                                        Icon(
+                                          Icons.arrow_forward_ios_rounded,
+                                          size: 20.r,
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return 10.verticalSpace;
-                            },
-                            itemCount:
-                                controller.user.value.dailyJournal?.length ??
-                                    0),
-                      ],
-                    );
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return 10.verticalSpace;
+                              },
+                              itemCount:
+                                  controller.user.value.dailyJournal?.length ??
+                                      0),
+                        ],
+                      );
+                    }
                   }),
                 ),
                 80.verticalSpace,
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  InkWell dummyTask() {
+    return InkWell(
+      onTap: () {},
+      child: Container(
+        key: homeController.taskKey,
+        padding: EdgeInsets.only(left: 10.w, right: 20.w),
+        width: 335.w,
+        height: 72.h,
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(20).r),
+        child: Row(
+          children: [
+            Transform.scale(
+              scale: 1.2,
+              child: Checkbox(
+                value: false,
+                onChanged: (val) {},
+                fillColor: MaterialStateProperty.resolveWith((states) {
+                  if (states.contains(MaterialState.selected)) {
+                    return const Color(0xFFDDF235);
+                  }
+                  return const Color(0xFF171433);
+                }),
+                checkColor: const Color(0xFF171433),
+                activeColor: Colors.green,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                side: const BorderSide(color: Color(0xFF171433), width: 1),
+              ),
+            ),
+            Container(
+              width: 43.w,
+              height: 43.w,
+              decoration: BoxDecoration(
+                  color: const Color(0xFFF1F1F1),
+                  borderRadius: BorderRadius.circular(10.r)),
+              child: Image.asset(Constant.icFoodUnselected),
+            ),
+            10.horizontalSpace,
+            Text(
+              "Add Food",
+              style: TextStyle(
+                  color: const Color(0xFF171433).withOpacity(0.8),
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600),
+            ),
+            const Spacer(),
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 20.r,
+            )
+          ],
         ),
       ),
     );
@@ -689,17 +688,6 @@ class MyTooltip extends StatelessWidget {
 enum CarouselDashboard { nutriScore, weight }
 
 extension on CarouselDashboard {
-  Widget getWidget(DashboardController controller) {
-    switch (this) {
-      case CarouselDashboard.nutriScore:
-        return const NutriscoreBanner(
-          value: 100,
-        );
-      case CarouselDashboard.weight:
-        return const YourWeightWidget();
-    }
-  }
-
   VoidCallback? getOnTap(DashboardController controller) {
     switch (this) {
       case CarouselDashboard.nutriScore:
@@ -711,7 +699,10 @@ extension on CarouselDashboard {
 }
 
 class YourWeightWidget extends StatelessWidget {
-  const YourWeightWidget({super.key});
+  final double weight;
+  final double targetWeight;
+  const YourWeightWidget(
+      {super.key, required this.weight, required this.targetWeight});
 
   @override
   Widget build(BuildContext context) {
@@ -743,7 +734,7 @@ class YourWeightWidget extends StatelessWidget {
                   child: LinearPercentIndicator(
                     padding: EdgeInsets.zero,
                     lineHeight: 12.h,
-                    percent: 0.5,
+                    percent: (weight / targetWeight).maxOneOrZero,
                     barRadius: const Radius.circular(100.0),
                     backgroundColor: const Color(0xFF4D4A68),
                     progressColor: const Color(0xFFDDF235),
@@ -753,7 +744,7 @@ class YourWeightWidget extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      '64 kg',
+                      '$weight kg',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 10.sp,
@@ -761,7 +752,7 @@ class YourWeightWidget extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      '64 kg',
+                      '$targetWeight kg',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 10.sp,
@@ -775,5 +766,17 @@ class YourWeightWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+extension DoubleExtension on double {
+  double get maxOneOrZero {
+    if (this > 1) {
+      return 1;
+    } else if (this < 0) {
+      return 0;
+    } else {
+      return this;
+    }
   }
 }

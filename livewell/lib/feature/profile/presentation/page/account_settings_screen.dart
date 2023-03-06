@@ -217,7 +217,7 @@ class _AccountSettingsTextFieldState extends State<AccountSettingsTextField> {
       config: _buildConfig(context),
       disableScroll: true,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16.0).r,
+        margin: EdgeInsets.symmetric(horizontal: 16.0.w),
         padding: EdgeInsets.symmetric(horizontal: 20.0.w),
         decoration: BoxDecoration(
           color: Colors.transparent,
@@ -235,6 +235,10 @@ class _AccountSettingsTextFieldState extends State<AccountSettingsTextField> {
           focusNode: _focusNode,
           controller: widget.textEditingController,
           inputFormatters: widget.inputFormatter,
+          style: TextStyle(
+              color: const Color(0xFF8F01DF),
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w400),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.only(top: 16.h),
             prefixIcon: Column(
@@ -245,7 +249,7 @@ class _AccountSettingsTextFieldState extends State<AccountSettingsTextField> {
                   widget.hintText,
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                      color: const Color(0xFF171433).withOpacity(0.5),
+                      color: Colors.black,
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w500),
                 ),
@@ -253,7 +257,7 @@ class _AccountSettingsTextFieldState extends State<AccountSettingsTextField> {
             ),
             border: InputBorder.none,
             labelStyle: TextStyle(
-                color: const Color(0xFF171433),
+                color: const Color(0xFF8F01DF),
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600),
           ),

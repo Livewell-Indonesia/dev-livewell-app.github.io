@@ -1,17 +1,13 @@
-import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:health/health.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
+import 'package:livewell/feature/dashboard/data/model/popup_assets_model.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_app_config.dart';
-import 'package:livewell/feature/exercise/domain/usecase/post_exercise_data.dart';
+import 'package:livewell/feature/dashboard/domain/usecase/get_popup_assets.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 import '../../../core/base/usecase.dart';
@@ -22,18 +18,19 @@ class HomeController extends GetxController {
   Rx<HomeTab> currentMenu = HomeTab.home.obs;
 
   GetAppConfig appConfig = GetAppConfig.instance();
+  GetPopupAssets popupAssets = GetPopupAssets.instance();
   Rx<AppConfigModel> appConfigModel = AppConfigModel().obs;
+  Rx<PopupAssetsModel> popupAssetsModel = PopupAssetsModel().obs;
 
   HealthFactory healthFactory = HealthFactory();
 
-  GlobalKey foodKey = GlobalKey();
-  GlobalKey exerciseKey = GlobalKey();
-  GlobalKey sleepKey = GlobalKey();
-  GlobalKey homeKey = GlobalKey();
-  GlobalKey waterKey = GlobalKey();
-  GlobalKey accountKey = GlobalKey();
+  GlobalKey cardKey = GlobalKey();
+  GlobalKey taskKey = GlobalKey();
+  GlobalKey navigationKey = GlobalKey();
 
   late TutorialCoachMark tutorialCoachMark;
+
+  Rx<bool> isShowCoachmark = false.obs;
 
   var types = [
     HealthDataType.STEPS,
@@ -54,6 +51,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     getAppConfig();
+    getPopupAsset();
     createTutorial();
     super.onInit();
   }
@@ -74,9 +72,11 @@ class HomeController extends GetxController {
         focusAnimationDuration: const Duration(milliseconds: 300),
         unFocusAnimationDuration: const Duration(milliseconds: 300),
         onFinish: () {
+          isShowCoachmark.value = false;
           onFinishCoachmark();
         },
         onSkip: () {
+          isShowCoachmark.value = false;
           onFinishCoachmark();
         },
         onClickTarget: (p0) {
@@ -89,6 +89,7 @@ class HomeController extends GetxController {
     Future.delayed(const Duration(milliseconds: 300), () async {
       var showCoachmark = await SharedPref.getCoachmarkDashboard();
       if (showCoachmark) {
+        isShowCoachmark.value = true;
         tutorialCoachMark.show(context: Get.context!);
       }
     });
@@ -103,23 +104,34 @@ class HomeController extends GetxController {
     });
   }
 
+  void getPopupAsset() async {
+    final result = await popupAssets.call(NoParams());
+    result.fold((l) {
+      Log.error(l);
+    }, (r) {
+      popupAssetsModel.value = r;
+    });
+  }
+
   void changePage(HomeTab tab) {
     currentMenu.value = tab;
   }
 
   void changePageIndex(int index) {
-    if (index == 0) {
-      currentMenu.value = HomeTab.food;
-    } else if (index == 1) {
-      currentMenu.value = HomeTab.home;
-    } else if (index == 2) {
-      currentMenu.value = HomeTab.exercise;
-    } else if (index == 3) {
-      currentMenu.value = HomeTab.sleep;
-    } else if (index == 4) {
-      currentMenu.value = HomeTab.water;
-    } else if (index == 5) {
-      currentMenu.value = HomeTab.account;
+    if (!isShowCoachmark.value) {
+      if (index == 0) {
+        currentMenu.value = HomeTab.food;
+      } else if (index == 1) {
+        currentMenu.value = HomeTab.home;
+      } else if (index == 2) {
+        currentMenu.value = HomeTab.exercise;
+      } else if (index == 3) {
+        currentMenu.value = HomeTab.sleep;
+      } else if (index == 4) {
+        currentMenu.value = HomeTab.water;
+      } else if (index == 5) {
+        currentMenu.value = HomeTab.account;
+      }
     }
   }
 
@@ -145,13 +157,13 @@ class HomeController extends GetxController {
     targets.add(
       TargetFocus(
         identify: 'Target 1',
-        keyTarget: foodKey,
-        shape: ShapeLightFocus.Circle,
-        radius: 20,
+        keyTarget: cardKey,
+        shape: ShapeLightFocus.RRect,
+        radius: 24,
         color: Colors.black,
         contents: [
           TargetContent(
-              align: ContentAlign.top,
+              align: ContentAlign.bottom,
               builder: (context, controller) {
                 return Container(
                   padding:
@@ -164,7 +176,7 @@ class HomeController extends GetxController {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Food Nutrition".tr,
+                        "See Your Progress".tr,
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
@@ -172,7 +184,7 @@ class HomeController extends GetxController {
                       ),
                       4.verticalSpace,
                       Text(
-                        'Get detailed breakdowns and edit your food intake to meet nutritional goals.',
+                        'View your Nutriscore, nutrient intake, weight, and even get personalized weight forecasts to help you stay on track towards your goals.',
                         style: TextStyle(
                             fontWeight: FontWeight.w400,
                             color: const Color(0xFF808080),
@@ -184,7 +196,7 @@ class HomeController extends GetxController {
                         children: [
                           const CoachmarkIndicator(
                             position: 0,
-                            length: 6,
+                            length: 3,
                           ),
                           const Spacer(),
                           InkWell(
@@ -211,9 +223,9 @@ class HomeController extends GetxController {
     targets.add(
       TargetFocus(
         identify: 'Target 2',
-        keyTarget: homeKey,
-        shape: ShapeLightFocus.Circle,
-        radius: 10,
+        keyTarget: taskKey,
+        shape: ShapeLightFocus.RRect,
+        radius: 20,
         color: Colors.black,
         contents: [
           TargetContent(
@@ -230,7 +242,7 @@ class HomeController extends GetxController {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Home".tr,
+                        "Log Your First Meal".tr,
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
@@ -238,7 +250,7 @@ class HomeController extends GetxController {
                       ),
                       4.verticalSpace,
                       Text(
-                        'See your daily task list and current data dashboard of your nutritional intake.',
+                        'To log your first meal, simply click on any meal task list below and add your food items. It\'s that easy!',
                         style: TextStyle(
                             fontWeight: FontWeight.w400,
                             color: const Color(0xFF808080),
@@ -250,7 +262,7 @@ class HomeController extends GetxController {
                         children: [
                           const CoachmarkIndicator(
                             position: 1,
-                            length: 6,
+                            length: 3,
                           ),
                           const Spacer(),
                           InkWell(
@@ -288,9 +300,9 @@ class HomeController extends GetxController {
     targets.add(
       TargetFocus(
         identify: 'Target 3',
-        keyTarget: exerciseKey,
-        shape: ShapeLightFocus.Circle,
-        radius: 10,
+        keyTarget: navigationKey,
+        shape: ShapeLightFocus.RRect,
+        radius: 30,
         color: Colors.black,
         contents: [
           TargetContent(
@@ -307,7 +319,7 @@ class HomeController extends GetxController {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Exercise".tr,
+                        "Wellness Hub".tr,
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
@@ -315,7 +327,8 @@ class HomeController extends GetxController {
                       ),
                       4.verticalSpace,
                       Text(
-                        'Analyze fitness progress and track steps.'.tr,
+                        'Explore your personal health with just one click. Track your progress for nutrition, exercise, sleep, water, and more. Get valuable insights and discover a world of health and wellness at your fingertips!'
+                            .tr,
                         style: TextStyle(
                             fontWeight: FontWeight.w400,
                             color: const Color(0xFF808080),
@@ -327,7 +340,7 @@ class HomeController extends GetxController {
                         children: [
                           const CoachmarkIndicator(
                             position: 2,
-                            length: 6,
+                            length: 3,
                           ),
                           const Spacer(),
                           InkWell(
@@ -335,237 +348,7 @@ class HomeController extends GetxController {
                                 tutorialCoachMark.previous();
                               },
                               child: Text(
-                                'Prev',
-                                style: TextStyle(
-                                    color: const Color(0xFF808080),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600),
-                              )),
-                          24.horizontalSpace,
-                          InkWell(
-                              onTap: () {
-                                tutorialCoachMark.next();
-                              },
-                              child: Text(
-                                'Next',
-                                style: TextStyle(
-                                    color: const Color(0xFF8F01DF),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600),
-                              ))
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              }),
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: 'Target 4',
-        keyTarget: sleepKey,
-        shape: ShapeLightFocus.Circle,
-        radius: 10,
-        color: Colors.black,
-        contents: [
-          TargetContent(
-              align: ContentAlign.top,
-              builder: (context, controller) {
-                return Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Sleep".tr,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontSize: 16.sp),
-                      ),
-                      4.verticalSpace,
-                      Text(
-                        'Monitor and achieve your daily sleep goals.',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xFF808080),
-                            height: 1.3,
-                            fontSize: 14.sp),
-                      ),
-                      20.verticalSpace,
-                      Row(
-                        children: [
-                          const CoachmarkIndicator(
-                            position: 3,
-                            length: 6,
-                          ),
-                          const Spacer(),
-                          InkWell(
-                              onTap: () {
-                                tutorialCoachMark.previous();
-                              },
-                              child: Text(
-                                'Prev',
-                                style: TextStyle(
-                                    color: const Color(0xFF808080),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600),
-                              )),
-                          24.horizontalSpace,
-                          InkWell(
-                              onTap: () {
-                                tutorialCoachMark.next();
-                              },
-                              child: Text(
-                                'Next',
-                                style: TextStyle(
-                                    color: const Color(0xFF8F01DF),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600),
-                              ))
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              }),
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: 'Target 5',
-        keyTarget: waterKey,
-        shape: ShapeLightFocus.Circle,
-        radius: 10,
-        color: Colors.black,
-        contents: [
-          TargetContent(
-              align: ContentAlign.top,
-              builder: (context, controller) {
-                return Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Water".tr,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontSize: 16.sp),
-                      ),
-                      4.verticalSpace,
-                      Text(
-                        'Track daily water intake to stay hydrated.',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xFF808080),
-                            height: 1.3,
-                            fontSize: 14.sp),
-                      ),
-                      20.verticalSpace,
-                      Row(
-                        children: [
-                          const CoachmarkIndicator(
-                            position: 4,
-                            length: 6,
-                          ),
-                          const Spacer(),
-                          InkWell(
-                              onTap: () {
-                                tutorialCoachMark.previous();
-                              },
-                              child: Text(
-                                'Prev',
-                                style: TextStyle(
-                                    color: const Color(0xFF808080),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600),
-                              )),
-                          24.horizontalSpace,
-                          InkWell(
-                              onTap: () {
-                                tutorialCoachMark.next();
-                              },
-                              child: Text(
-                                'Next',
-                                style: TextStyle(
-                                    color: const Color(0xFF8F01DF),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600),
-                              ))
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              }),
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: 'Target 6',
-        keyTarget: accountKey,
-        shape: ShapeLightFocus.Circle,
-        color: Colors.black,
-        contents: [
-          TargetContent(
-              align: ContentAlign.top,
-              builder: (context, controller) {
-                return Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Account".tr,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontSize: 16.sp),
-                      ),
-                      4.verticalSpace,
-                      Text(
-                        'Edit your user details.',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xFF808080),
-                            height: 1.3,
-                            fontSize: 14.sp),
-                      ),
-                      20.verticalSpace,
-                      Row(
-                        children: [
-                          const CoachmarkIndicator(
-                            position: 5,
-                            length: 6,
-                          ),
-                          const Spacer(),
-                          InkWell(
-                              onTap: () {
-                                tutorialCoachMark.previous();
-                              },
-                              child: Text(
-                                'Prev',
+                                'Prev'.tr,
                                 style: TextStyle(
                                     color: const Color(0xFF808080),
                                     fontSize: 12.sp,
@@ -577,7 +360,7 @@ class HomeController extends GetxController {
                                 tutorialCoachMark.finish();
                               },
                               child: Text(
-                                'Done',
+                                'Done'.tr,
                                 style: TextStyle(
                                     color: const Color(0xFF8F01DF),
                                     fontSize: 12.sp,
@@ -592,6 +375,7 @@ class HomeController extends GetxController {
         ],
       ),
     );
+
     return targets;
   }
 }

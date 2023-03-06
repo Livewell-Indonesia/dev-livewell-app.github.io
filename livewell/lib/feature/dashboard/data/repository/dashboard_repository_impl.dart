@@ -3,6 +3,7 @@ import 'package:livewell/core/network/api_url.dart';
 import 'package:livewell/core/network/network_module.dart';
 import 'package:livewell/feature/dashboard/data/model/app_config_model.dart';
 import 'package:livewell/feature/dashboard/data/model/dashboard_model.dart';
+import 'package:livewell/feature/dashboard/data/model/popup_assets_model.dart';
 import 'package:livewell/feature/dashboard/domain/repository/dashboard_repository.dart';
 
 import '../../../../core/error/failures.dart';
@@ -49,6 +50,19 @@ class DashboardRepostoryImpl extends NetworkModule
       });
       final json = responseHandler(response);
       return Right(AppConfigModel.fromJson(json));
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, PopupAssetsModel>> getPopupAssets() async {
+    try {
+      final response = await getMethod(Endpoint.popupAssets, headers: {
+        authorization: await SharedPref.getToken(),
+      });
+      final json = responseHandler(response);
+      return Right(PopupAssetsModel.fromJson(json));
     } catch (ex) {
       return Left(ServerFailure(message: ex.toString()));
     }
