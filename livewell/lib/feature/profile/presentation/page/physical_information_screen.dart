@@ -13,8 +13,7 @@ import '../../../../widgets/buttons/livewell_button.dart';
 import 'account_settings_screen.dart';
 
 class PhysicalInformationScreen extends StatelessWidget {
-  final PhysicalInformationController controller =
-      Get.put(PhysicalInformationController());
+  final PhysicalInformationController controller = Get.find();
   PhysicalInformationScreen({Key? key}) : super(key: key);
 
   @override
@@ -46,7 +45,6 @@ class PhysicalInformationScreen extends StatelessWidget {
                                 fontSize: 18.sp, fontWeight: FontWeight.w600),
                           ),
                           const Spacer(),
-                          Text("edit".tr)
                         ],
                       ),
                     ),
@@ -200,96 +198,10 @@ class PhysicalInformationScreen extends StatelessWidget {
                               ),
                               20.verticalSpace,
                               AccountSettingsTextField(
-                                textEditingController: controller.drink,
-                                hintText: 'Drink'.tr,
-                                enabled: true,
-                                inputType: TextInputType.number,
-                              ),
-                              20.verticalSpace,
-                              AccountSettingsTextField(
                                 textEditingController:
                                     controller.dietaryResitriction,
                                 hintText: 'Dietary Restriction'.tr,
                                 enabled: true,
-                              ),
-                              20.verticalSpace,
-                              InkWell(
-                                onTap: () {
-                                  Get.dialog(Dialog(
-                                    child: SizedBox(
-                                        height: 500.h,
-                                        width: 0.8.sw,
-                                        child: Obx(() {
-                                          return Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Column(
-                                                children: GoalSelection.values
-                                                    .map((e) => ListTile(
-                                                          title:
-                                                              Text(e.title()),
-                                                          trailing: Radio(
-                                                              value: e,
-                                                              groupValue: controller
-                                                                  .selectedGoals
-                                                                  .value,
-                                                              onChanged: (val) {
-                                                                controller
-                                                                        .selectedGoals
-                                                                        .value =
-                                                                    val as GoalSelection;
-                                                              }),
-                                                        ))
-                                                    .toList(),
-                                              ),
-                                              30.verticalSpace,
-                                              LiveWellButton(
-                                                  label: 'Save Changes'.tr,
-                                                  color:
-                                                      const Color(0xFF8F01DF),
-                                                  textColor: Colors.white,
-                                                  onPressed: () {
-                                                    Get.back();
-                                                    controller.setGoal(
-                                                        controller.selectedGoals
-                                                            .value);
-                                                  })
-                                            ],
-                                          );
-                                        })),
-                                  ));
-                                },
-                                child: AccountSettingsTextField(
-                                  textEditingController:
-                                      controller.specificGoal,
-                                  hintText: 'Specific Goal'.tr,
-                                  enabled: false,
-                                ),
-                              ),
-                              20.verticalSpace,
-                              AccountSettingsTextField(
-                                textEditingController: controller.sleep,
-                                hintText: 'Sleep (Hours)'.tr,
-                                enabled: true,
-                                inputType:
-                                    const TextInputType.numberWithOptions(
-                                        decimal: true),
-                              ),
-                              20.verticalSpace,
-                              AccountSettingsTextField(
-                                textEditingController: controller.targetWeight,
-                                hintText: 'Target Weight (kg)'.tr,
-                                enabled: true,
-                                inputFormatter: Platform.isIOS
-                                    ? []
-                                    : [
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp(r'^\d+\.?\d{0,2}'))
-                                      ],
-                                inputType:
-                                    const TextInputType.numberWithOptions(
-                                        decimal: true),
                               ),
                               20.verticalSpace,
                             ],

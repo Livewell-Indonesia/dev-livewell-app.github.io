@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
+import 'package:livewell/feature/update_weight/presentation/page/update_current_weight_screen.dart';
 
 class WeightSelector extends StatelessWidget {
   final QuestionnaireController controller = Get.find();
@@ -11,36 +12,11 @@ class WeightSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 298.h,
-      child: CupertinoPicker(
-          scrollController: FixedExtentScrollController(
-              initialItem: controller.weight.value - 1),
-          itemExtent: 55.h,
-          onSelectedItemChanged: (index) {
-            controller.weight.value = index + 1;
+        height: 298.h,
+        child: WeightSelectorWidget(
+          onChange: (p0) {
+            controller.weight.value = p0;
           },
-          useMagnifier: true,
-          magnification: 1.3,
-          selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
-            background: Colors.transparent,
-          ),
-          children: List.generate(200, (index) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Obx(() {
-                  return Text(
-                    '${index + 1} kg',
-                    style: TextStyle(
-                        color: controller.weight.value == index + 1
-                            ? const Color(0xFF8F01DF)
-                            : const Color(0xFF171433).withOpacity(0.7),
-                        fontSize: 34.sp),
-                  );
-                })
-              ],
-            );
-          })),
-    );
+        ));
   }
 }

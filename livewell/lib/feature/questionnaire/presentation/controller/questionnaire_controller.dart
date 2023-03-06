@@ -12,7 +12,7 @@ import '../../../../core/log.dart';
 import '../../../../routes/app_navigator.dart';
 
 class QuestionnaireController extends GetxController {
-  Rx<QuestionnairePage> currentPage = QuestionnairePage.gender.obs;
+  Rx<QuestionnairePage> currentPage = QuestionnairePage.name.obs;
   var progress = 0.0.obs;
   var date = DateTime(1990, 1, 1).obs;
   var dateOfBirth = "".obs;
@@ -20,14 +20,16 @@ class QuestionnaireController extends GetxController {
   var height = 150.obs;
   var drink = 1.obs;
   var sleep = 1.obs;
-  var weight = 50.obs;
-  var targetWeight = 30.obs;
+  var weight = 50.0.obs;
+  var targetWeight = 50.0.obs;
   Rx<Gender> selectedGender = Gender.male.obs;
   Rx<GoalSelection> selectedGoals = GoalSelection.getFitter.obs;
   Rx<DietrarySelection> selectedDietrary = DietrarySelection.no.obs;
   Rx<TargetExerciseSelection> selectedExerciseTarget =
       TargetExerciseSelection.light.obs;
   TextEditingController selectedDietraryText = TextEditingController();
+  TextEditingController firstName = TextEditingController();
+  TextEditingController lastName = TextEditingController();
 
   PostQuestionnaire postQuestionnaire = PostQuestionnaire.instance();
 
@@ -77,8 +79,8 @@ class QuestionnaireController extends GetxController {
   void sendData() async {
     var usersData = Get.find<DashboardController>().user.value;
     var params = QuestionnaireParams.asParams(
-        usersData.firstName,
-        usersData.lastName,
+        firstName.text,
+        lastName.text,
         selectedGender.value.label(),
         DateFormat('yyyy-MM-dd').format(date.value),
         weight.value,
@@ -103,6 +105,7 @@ class QuestionnaireController extends GetxController {
 }
 
 enum QuestionnairePage {
+  name,
   gender,
   age,
   weight,
@@ -119,6 +122,8 @@ enum QuestionnairePage {
 extension QuestionnairePageData on QuestionnairePage {
   String title() {
     switch (this) {
+      case QuestionnairePage.name:
+        return 'Name';
       case QuestionnairePage.gender:
         return 'Gender';
       case QuestionnairePage.age:
@@ -146,6 +151,8 @@ extension QuestionnairePageData on QuestionnairePage {
 
   String subtitle() {
     switch (this) {
+      case QuestionnairePage.name:
+        return 'Help us to create your personalized plan';
       case QuestionnairePage.gender:
         return 'Help us to create your personalized plan';
       case QuestionnairePage.age:

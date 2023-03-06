@@ -1,42 +1,332 @@
+import 'dart:math';
+
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:livewell/feature/dashboard/presentation/pages/dashboard_screen.dart';
 import 'package:livewell/feature/update_weight/presentation/controller/update_weight_controller.dart';
-import 'package:livewell/widgets/buttons/livewell_button.dart';
+import 'package:livewell/feature/update_weight/presentation/page/goal_setting_screen.dart';
+import 'package:livewell/feature/update_weight/presentation/page/update_current_weight_screen.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
-import '../../../profile/presentation/page/account_settings_screen.dart';
+class WeightDataPoint {
+  final DateTime x;
+  final double y;
+
+  WeightDataPoint({required this.x, required this.y});
+}
+
+List<WeightDataPoint> _generateData(int max) {
+  final random = Random();
+
+  return List.generate(7, (index) {
+    return WeightDataPoint(
+        x: DateTime.now().subtract(Duration(days: index)),
+        y: random.nextDouble());
+  });
+}
 
 class UpdateWeightScreen extends StatelessWidget {
   UpdateWeightScreen({super.key});
 
   final UpdateWeightController controller = Get.put(UpdateWeightController());
 
+  List<double> userWeightHistories = [84, 77, 75, 70];
+
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: "Update Weight".tr,
+        title: "Weight".tr,
+        trailing: InkWell(
+            child: const Icon(
+              Icons.settings_outlined,
+              color: Color(0xFF505050),
+            ),
+            onTap: () {
+              Get.to(() => GoalSettingScreen());
+            }),
         body: Expanded(
-          child: Column(
-            children: [
-              40.verticalSpace,
-              AccountSettingsTextField(
-                textEditingController: controller.weightController,
-                hintText: 'Current Weight (Kg)'.tr,
-                enabled: true,
-                inputType: const TextInputType.numberWithOptions(),
-              ),
-              const Spacer(),
-              LiveWellButton(
-                  label: "Update",
-                  color: const Color(0xFF8F01DF),
-                  textColor: Colors.white,
-                  onPressed: () {
-                    controller.onUpdateTapped();
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                32.verticalSpace,
+                Text(
+                  'Goal',
+                  style: TextStyle(
+                      color: const Color(0xFF171433),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20.sp),
+                ),
+                16.verticalSpace,
+                Container(
+                  padding: EdgeInsets.fromLTRB(24.w, 16.h, 24.w, 14.h),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF171433),
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  child: Column(
+                    children: [
+                      Text('You have lost 0,5kg',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600)),
+                      4.verticalSpace,
+                      Text(
+                        'You\'re doing great! Keep Your spirits up!',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      16.verticalSpace,
+                      Obx(() {
+                        return LinearPercentIndicator(
+                          padding: EdgeInsets.zero,
+                          lineHeight: 12.h,
+                          percent: (controller.weight.value /
+                                  controller.targetWeight.value)
+                              .maxOneOrZero,
+                          barRadius: const Radius.circular(100.0),
+                          backgroundColor: const Color(0xFF4D4A68),
+                          progressColor: const Color(0xFFDDF235),
+                        );
+                      }),
+                      8.verticalSpace,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Obx(() {
+                            return Text(
+                              '${controller.weight.value} kg',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w400),
+                            );
+                          }),
+                          Obx(() {
+                            return Text(
+                              '${controller.targetWeight} kg',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w400),
+                            );
+                          })
+                        ],
+                      ),
+                      16.verticalSpace,
+                      const Divider(
+                        color: Color(0xFF4D4A68),
+                      ),
+                      12.verticalSpace,
+                      InkWell(
+                        onTap: () {
+                          Get.to(() => UpdateCurrentWeight());
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Update Your weight',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600)),
+                            13.horizontalSpace,
+                            Icon(Icons.arrow_forward_ios,
+                                color: Colors.white, size: 14.sp),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                32.verticalSpace,
+                Text(
+                  'Weight Progress',
+                  style: TextStyle(
+                      color: const Color(0xFF171433),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20.sp),
+                ),
+                16.verticalSpace,
+                Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(24)),
+                  width: double.infinity,
+                  height: 200.h,
+                  child: Obx(() {
+                    return LineChart(mainData(controller));
                   }),
-              40.verticalSpace,
-            ],
+                ),
+                32.verticalSpace,
+                Container(
+                  width: 1.sw,
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  decoration: BoxDecoration(
+                      color: const Color(0xFFD9E4E5),
+                      borderRadius: BorderRadius.circular(24)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Projected weight after 4 weeks',
+                        style: TextStyle(
+                            color: const Color(0xFF171433),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14.sp),
+                      ),
+                      8.verticalSpace,
+                      Obx(() {
+                        return Text(
+                          '${controller.weightPrediciton.value.round()} kg',
+                          style: TextStyle(
+                              color: const Color(0xFF8F01DF),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 24.sp),
+                        );
+                      }),
+                      8.verticalSpace,
+                      Text(
+                        'Disclaimer: Projection based on today\'s food intake. Estimate only.',
+                        style: TextStyle(
+                            color: const Color(0xFF171433),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14.sp),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ));
+  }
+
+  LineChartData mainData(UpdateWeightController controller) {
+    return LineChartData(
+      minY: 0,
+      minX: 0,
+      maxX: 6,
+      gridData: FlGridData(
+        show: true,
+        drawVerticalLine: false,
+        horizontalInterval: 4,
+        verticalInterval: 5,
+        // getDrawingVerticalLine: (value) {
+        //   return FlLine(color: Colors.transparent, strokeWidth: 1);
+        // },
+        getDrawingHorizontalLine: (value) {
+          return FlLine(
+              color: const Color(0xFFebebeb),
+              strokeWidth: 1,
+              dashArray: [2, 2]);
+        },
+      ),
+      titlesData: FlTitlesData(
+        show: true,
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 30,
+            interval: 1,
+            getTitlesWidget: bottomTitleWidgets,
+          ),
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            interval: 15,
+            getTitlesWidget: leftTitleWidgets,
+            reservedSize: 32,
+          ),
+        ),
+      ),
+      borderData: FlBorderData(show: false),
+      lineBarsData: [
+        LineChartBarData(
+          spots: controller.weightHistory.asMap().entries.map((e) {
+            return FlSpot(e.key.toDouble(), (e.value.weight ?? 0).toDouble());
+          }).toList(),
+          isCurved: false,
+          barWidth: 2,
+          color: const Color(0xFFDDF235),
+          isStrokeCapRound: true,
+          dotData: FlDotData(
+            show: true,
+            getDotPainter: (p0, p1, p2, p3) {
+              return FlDotCirclePainter(
+                radius: 6,
+                color: const Color(0xFFDDF235),
+                strokeWidth: 1,
+                strokeColor: Colors.transparent,
+              );
+            },
+          ),
+          belowBarData: BarAreaData(
+            show: true,
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: gradientColors.map((color) => color).toList(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  var gradientColors = [
+    const Color(0xffDDF235).withOpacity(0.75),
+    Colors.white,
+  ];
+
+  Widget bottomTitleWidgets(double value, TitleMeta meta) {
+    var style = TextStyle(
+      fontWeight: FontWeight.w600,
+      color: const Color(0xFF505050),
+      fontSize: 10.sp,
+    );
+    Widget text;
+    DateFormat dateFormat = DateFormat('dd/MM');
+
+    text = controller.weightHistory.isEmpty
+        ? Text('')
+        : Text(
+            dateFormat.format(DateFormat('yyyy-MM-dd')
+                .parse(controller.weightHistory[value.toInt()].recordAt!)),
+            style: style);
+
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: text,
+    );
+  }
+
+  Widget leftTitleWidgets(double value, TitleMeta meta) {
+    var style = TextStyle(
+      fontWeight: FontWeight.w600,
+      color: const Color(0xFF505050),
+      fontSize: 10.sp,
+    );
+    String text;
+
+    return Text(value.toString(), style: style, textAlign: TextAlign.left);
   }
 }

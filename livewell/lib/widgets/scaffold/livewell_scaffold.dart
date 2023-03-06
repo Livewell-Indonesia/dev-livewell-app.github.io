@@ -8,11 +8,13 @@ class LiveWellScaffold extends StatelessWidget {
   final Color? backgroundColor;
   final Widget body;
   final bool allowBack;
+  final Widget? trailing;
   const LiveWellScaffold(
       {Key? key,
       required this.title,
       this.backgroundColor = const Color(0xFFF1F1F1),
       required this.body,
+      this.trailing,
       this.allowBack = true})
       : super(key: key);
 
@@ -57,6 +59,9 @@ class LiveWellScaffold extends StatelessWidget {
                             : Container(),
                       ),
                     ),
+                    Align(
+                        alignment: Alignment.centerRight,
+                        child: trailing ?? Container())
                   ],
                 ),
               ),

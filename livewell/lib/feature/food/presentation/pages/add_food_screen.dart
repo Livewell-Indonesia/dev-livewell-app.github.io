@@ -183,39 +183,6 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Row(
                     children: [
-                      // Expanded(
-                      //   child: Column(
-                      //     crossAxisAlignment: CrossAxisAlignment.start,
-                      //     children: [
-                      //       Text('Serving Size'.tr,
-                      //           style: TextStyle(
-                      //               color: const Color(0xFF171433)
-                      //                   .withOpacity(0.5),
-                      //               fontSize: 13.sp,
-                      //               fontWeight: FontWeight.w500)),
-                      //       4.verticalSpace,
-                      //       Text(controller.servingSize.text,
-                      //           style: TextStyle(
-                      //               color: const Color(0xFF171433),
-                      //               fontSize: 18.sp,
-                      //               fontWeight: FontWeight.w500)),
-                      //     ],
-                      //   ),
-                      // ),
-                      Expanded(
-                        flex: 4,
-                        child: LiveWellTextField(
-                          controller: controller.numberOfServing,
-                          keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true),
-                          hintText: null,
-                          labelText: "Serving Size".tr,
-                          errorText: null,
-                          obscureText: false,
-                          enabled: true,
-                          margin: EdgeInsets.only(right: 8.w),
-                        ),
-                      ),
                       Expanded(
                         flex: 4,
                         child: LiveWellTextField(
@@ -230,163 +197,141 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                           margin: EdgeInsets.only(left: 8.w),
                         ),
                       ),
-                      // Expanded(
-                      //   child: Column(
-                      //     crossAxisAlignment: CrossAxisAlignment.start,
-                      //     children: [
-                      //       Text('Number of Serving'.tr,
-                      //           style: TextStyle(
-                      //               color: const Color(0xFF171433)
-                      //                   .withOpacity(0.5),
-                      //               fontSize: 13.sp,
-                      //               fontWeight: FontWeight.w500)),
-                      //       4.verticalSpace,
-                      //       Text(controller.numberOfServing.text,
-                      //           style: TextStyle(
-                      //               color: const Color(0xFF171433),
-                      //               fontSize: 18.sp,
-                      //               fontWeight: FontWeight.w500)),
-                      //     ],
-                      //   ),
-                      // ),
+                      Expanded(
+                        flex: 4,
+                        child: InkWell(
+                            onTap: () {
+                              showCupertinoDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return Dialog(
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                                vertical: 20, horizontal: 20)
+                                            .r,
+                                        height: 380.h,
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              'Time'.tr,
+                                              style: TextStyle(
+                                                  color:
+                                                      const Color(0xFF171433),
+                                                  fontSize: 18.sp,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            SizedBox(
+                                              height: 274.h,
+                                              child: CupertinoDatePicker(
+                                                mode: CupertinoDatePickerMode
+                                                    .time,
+                                                onDateTimeChanged: (time) {
+                                                  if (Get.arguments != null) {
+                                                    selectedTime = DateTime(
+                                                        selectedTime.year,
+                                                        selectedTime.month,
+                                                        selectedTime.day,
+                                                        time.hour,
+                                                        time.minute);
+                                                  } else {
+                                                    selectedTime = time;
+                                                  }
+                                                },
+                                              ),
+                                            ),
+                                            // create cancel button with outline
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  flex: 2,
+                                                  child: OutlinedButton(
+                                                      style: OutlinedButton
+                                                          .styleFrom(
+                                                        side: BorderSide(
+                                                            width: 2,
+                                                            color: const Color(
+                                                                    0xFF171433)
+                                                                .withOpacity(
+                                                                    0.7)),
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      20.r),
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        Get.back();
+                                                      },
+                                                      child: Text(
+                                                        'Cancel'.tr,
+                                                        style: TextStyle(
+                                                            color: const Color(
+                                                                0xFF171433),
+                                                            fontSize: 14.sp,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      )),
+                                                ),
+                                                const Spacer(),
+                                                Expanded(
+                                                  flex: 2,
+                                                  child: TextButton(
+                                                      style:
+                                                          TextButton.styleFrom(
+                                                        backgroundColor:
+                                                            const Color(
+                                                                0xFF8F01DF),
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      20.r),
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        controller.time
+                                                            .text = DateFormat(
+                                                                'hh:mm a')
+                                                            .format(
+                                                                selectedTime);
+                                                        Get.back();
+                                                      },
+                                                      child: Text(
+                                                        'save'.tr,
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 14.sp,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      )),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  });
+                            },
+                            child: IgnorePointer(
+                              child: LiveWellTextField(
+                                controller: controller.time,
+                                hintText: null,
+                                labelText: "Time",
+                                errorText: null,
+                                obscureText: false,
+                                enabled: false,
+                              ),
+                            )),
+                      ),
                     ],
                   ),
                 ),
-                24.verticalSpace,
-                // Padding(
-                //   padding: EdgeInsets.symmetric(horizontal: 16.w),
-                //   child: Column(
-                //     crossAxisAlignment: CrossAxisAlignment.start,
-                //     children: [
-                //       Text('Time'.tr,
-                //           style: TextStyle(
-                //               color: const Color(0xFF171433).withOpacity(0.5),
-                //               fontSize: 13.sp,
-                //               fontWeight: FontWeight.w500)),
-                //       4.verticalSpace,
-                //       Text(controller.time.text,
-                //           style: TextStyle(
-                //               color: const Color(0xFF171433),
-                //               fontSize: 18.sp,
-                //               fontWeight: FontWeight.w500)),
-                //     ],
-                //   ),
-                // ),
-                InkWell(
-                    onTap: () {
-                      showCupertinoDialog(
-                          context: context,
-                          builder: (context) {
-                            return Dialog(
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                        vertical: 20, horizontal: 20)
-                                    .r,
-                                height: 380.h,
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      'Time'.tr,
-                                      style: TextStyle(
-                                          color: const Color(0xFF171433),
-                                          fontSize: 18.sp,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    SizedBox(
-                                      height: 274.h,
-                                      child: CupertinoDatePicker(
-                                        mode: CupertinoDatePickerMode.time,
-                                        onDateTimeChanged: (time) {
-                                          if (Get.arguments != null) {
-                                            selectedTime = DateTime(
-                                                selectedTime.year,
-                                                selectedTime.month,
-                                                selectedTime.day,
-                                                time.hour,
-                                                time.minute);
-                                          } else {
-                                            selectedTime = time;
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                    // create cancel button with outline
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 2,
-                                          child: OutlinedButton(
-                                              style: OutlinedButton.styleFrom(
-                                                side: BorderSide(
-                                                    width: 2,
-                                                    color:
-                                                        const Color(0xFF171433)
-                                                            .withOpacity(0.7)),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          20.r),
-                                                ),
-                                              ),
-                                              onPressed: () {
-                                                Get.back();
-                                              },
-                                              child: Text(
-                                                'Cancel'.tr,
-                                                style: TextStyle(
-                                                    color:
-                                                        const Color(0xFF171433),
-                                                    fontSize: 14.sp,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              )),
-                                        ),
-                                        const Spacer(),
-                                        Expanded(
-                                          flex: 2,
-                                          child: TextButton(
-                                              style: TextButton.styleFrom(
-                                                backgroundColor:
-                                                    const Color(0xFF8F01DF),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          20.r),
-                                                ),
-                                              ),
-                                              onPressed: () {
-                                                controller.time.text =
-                                                    DateFormat('hh:mm a')
-                                                        .format(selectedTime);
-                                                Get.back();
-                                              },
-                                              child: Text(
-                                                'save'.tr,
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              )),
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            );
-                          });
-                    },
-                    child: IgnorePointer(
-                      child: LiveWellTextField(
-                        controller: controller.time,
-                        hintText: null,
-                        labelText: "Time",
-                        errorText: null,
-                        obscureText: false,
-                        enabled: false,
-                      ),
-                    )),
                 32.verticalSpace,
                 Container(
                   width: 1.sw,

@@ -58,4 +58,24 @@ class SharedPref {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setString(PrefConstant.lastHealthSyncDate, date.toString());
   }
+
+  static Future<bool> getShowCoachmarkFood() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(PrefConstant.showCoachmarkFood) ?? true;
+  }
+
+  static Future<bool> saveShowCoachmarkFood(bool show) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setBool(PrefConstant.showCoachmarkFood, show);
+  }
+
+  static Future<bool> getCoachmarkDashboard() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(PrefConstant.showCoachmarkDashboard) ?? true;
+  }
+
+  static Future<bool> saveCoachmarkDashboard(bool show) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setBool(PrefConstant.showCoachmarkDashboard, show);
+  }
 }

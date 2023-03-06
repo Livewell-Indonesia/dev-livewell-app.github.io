@@ -4,6 +4,7 @@ import 'package:algolia_helper_flutter/algolia_helper_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
@@ -12,6 +13,7 @@ import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/feature/food/domain/usecase/post_search_food.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import '../../../home/controller/home_controller.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -38,6 +40,29 @@ class AddMealController extends GetxController
   var proteinRange = const RangeValues(0, 0).obs;
 
   Rx<bool> showRecommendationWidget = false.obs;
+
+  late TutorialCoachMark tutorialCoachMark;
+
+  GlobalKey key1 = GlobalKey();
+  GlobalKey key2 = GlobalKey();
+  GlobalKey key3 = GlobalKey();
+  GlobalKey key4 = GlobalKey();
+
+  void showTutorial(BuildContext context) async {
+    var showCoachmark = await SharedPref.getShowCoachmarkFood();
+    if (showCoachmark) {
+      state.value = SearchStates.searchingWithResults;
+      showRecommendationWidget.value = true;
+      update();
+      Future.delayed(const Duration(milliseconds: 200), () {
+        tutorialCoachMark.show(context: context);
+      });
+    }
+  }
+
+  void onFinishCoachmark() async {
+    await SharedPref.saveShowCoachmarkFood(false);
+  }
 
   @override
   void onInit() {

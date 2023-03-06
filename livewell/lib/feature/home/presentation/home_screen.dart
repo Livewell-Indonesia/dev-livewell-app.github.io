@@ -6,12 +6,13 @@ import 'package:livewell/feature/exercise/presentation/pages/exercise_screen.dar
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/sleep/presentation/pages/sleep_screen.dart';
 import 'package:livewell/feature/water/presentation/pages/water_screen.dart';
+import 'package:livewell/widgets/bottom_navbar/dot_navigation_bar.dart';
+import 'package:livewell/widgets/bottom_navbar/src/NavBars.dart';
 
 import '../../../core/constant/constant.dart';
 import '../../dashboard/presentation/pages/dashboard_screen.dart';
 import '../../profile/presentation/page/user_settings_screen.dart';
 import '../controller/home_controller.dart';
-import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   final HomeController controller = Get.put(HomeController());
@@ -26,6 +27,7 @@ class HomeScreen extends StatelessWidget {
         }),
         bottomNavigationBar: Obx(() {
           return DotNavigationBar(
+              specialKey: controller.navigationKey,
               currentIndex: controller.currentMenu.value.index,
               dotIndicatorColor: Colors.transparent,
               onTap: (p0) {
@@ -48,10 +50,14 @@ class HomeScreen extends StatelessWidget {
                 DotNavigationBarItem(
                   icon: controller.currentMenu.value == HomeTab.food
                       ? controller.customSelectedImage(
-                          Image.asset(Constant.icFoodSelected),
+                          Image.asset(
+                            Constant.icFoodSelected,
+                          ),
                         )
                       : controller.customUnselectedImage(
-                          Image.asset(Constant.icFoodUnselected),
+                          Image.asset(
+                            Constant.icFoodUnselected,
+                          ),
                         ),
                   selectedColor: Colors.white,
                   unselectedColor: const Color(0xFF8F01DF),
@@ -60,10 +66,14 @@ class HomeScreen extends StatelessWidget {
                 DotNavigationBarItem(
                   icon: controller.currentMenu.value == HomeTab.home
                       ? controller.customSelectedImage(
-                          Image.asset(Constant.icHomeSelected),
+                          Image.asset(
+                            Constant.icHomeSelected,
+                          ),
                         )
                       : controller.customUnselectedImage(
-                          Image.asset(Constant.icHomeUnselected),
+                          Image.asset(
+                            Constant.icHomeUnselected,
+                          ),
                         ),
                   selectedColor: Colors.white,
                   unselectedColor: const Color(0xFF8F01DF),
@@ -72,10 +82,14 @@ class HomeScreen extends StatelessWidget {
                 DotNavigationBarItem(
                   icon: controller.currentMenu.value == HomeTab.exercise
                       ? controller.customSelectedImage(
-                          Image.asset(Constant.icExerciseSelected),
+                          Image.asset(
+                            Constant.icExerciseSelected,
+                          ),
                         )
                       : controller.customUnselectedImage(
-                          Image.asset(Constant.icExerciseUnselected),
+                          Image.asset(
+                            Constant.icExerciseUnselected,
+                          ),
                         ),
                   selectedColor: Colors.white,
                   unselectedColor: const Color(0xFF8F01DF),
@@ -84,10 +98,14 @@ class HomeScreen extends StatelessWidget {
                 DotNavigationBarItem(
                   icon: controller.currentMenu.value == HomeTab.sleep
                       ? controller.customSelectedImage(
-                          Image.asset(Constant.icSleepSelected),
+                          Image.asset(
+                            Constant.icSleepSelected,
+                          ),
                         )
                       : controller.customUnselectedImage(
-                          Image.asset(Constant.icSleepUnselected),
+                          Image.asset(
+                            Constant.icSleepUnselected,
+                          ),
                         ),
                   selectedColor: Colors.white,
                   unselectedColor: const Color(0xFF8F01DF),
@@ -96,10 +114,14 @@ class HomeScreen extends StatelessWidget {
                 DotNavigationBarItem(
                   icon: controller.currentMenu.value == HomeTab.water
                       ? controller.customSelectedImage(
-                          Image.asset(Constant.icWaterSelected),
+                          Image.asset(
+                            Constant.icWaterSelected,
+                          ),
                         )
                       : controller.customUnselectedImage(
-                          Image.asset(Constant.icWaterUnselected),
+                          Image.asset(
+                            Constant.icWaterUnselected,
+                          ),
                         ),
                   selectedColor: Colors.white,
                   unselectedColor: const Color(0xFF8F01DF),
@@ -133,17 +155,7 @@ class HomeScreen extends StatelessWidget {
                   unselectedColor: const Color(0xFF8F01DF),
                   // selectedColor: Colors.white,
                 ),
-              ]
-              // items: HomeTab.values.map((e) {
-              //   return DotNavigationBarItem(
-              //     icon: controller.currentMenu.value == e
-              //         ? e.selectedImage()
-              //         : e.unselectedImage(),
-              //     selectedColor: Colors.white,
-              //     unselectedColor: const Color(0xFF8F01DF),
-              //   );
-              // }).toList(),
-              );
+              ]);
         }));
   }
 

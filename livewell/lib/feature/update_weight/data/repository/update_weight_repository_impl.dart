@@ -4,6 +4,7 @@ import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/network/api_url.dart';
 import 'package:livewell/core/network/network_module.dart';
 import 'package:livewell/feature/auth/data/model/register_model.dart';
+import 'package:livewell/feature/update_weight/domain/model/weight_history.dart';
 import 'package:livewell/feature/update_weight/domain/repository/update_weight_repository.dart';
 import 'package:livewell/feature/update_weight/domain/usecase/update_user_weight.dart';
 
@@ -27,6 +28,20 @@ class UpdateWeightRepositoryImpl extends NetworkModule
           headers: {authorization: await SharedPref.getToken()});
       final json = responseHandler(response);
       final data = RegisterModel.fromJson(json);
+      return Right(data);
+    } catch (ex) {
+      return const Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<WeightHistory>>> getWeightHistory() async {
+    try {
+      final response = await getMethod(Endpoint.userHistory,
+          headers: {authorization: await SharedPref.getToken()});
+      final json = responseHandler(response);
+      final data =
+          List<WeightHistory>.from(json.map((x) => WeightHistory.fromJson(x)));
       return Right(data);
     } catch (ex) {
       return const Left(ServerFailure());

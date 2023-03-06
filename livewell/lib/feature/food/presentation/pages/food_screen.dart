@@ -72,19 +72,19 @@ class _FoodScreenState extends State<FoodScreen> {
                         NutrtionProgressModel(
                             name: 'Macro Nut',
                             color: const Color(0xFF34EAB2),
-                            total: '${controller.getTotalMacroNut().value} g',
+                            total: '',
                             consumed:
                                 "${(controller.getPercentMacroNut().value * 100).round()}%"),
                         NutrtionProgressModel(
                             name: 'Micro Nut',
                             color: const Color(0xFF8F01DF),
-                            total: '${controller.getTotalMicroNut().value} g',
+                            total: '',
                             consumed:
                                 "${(controller.getPercentMicroNut().value * 100).round()}%"),
                         NutrtionProgressModel(
                             name: 'Total Cal',
                             color: const Color(0xFFDDF235),
-                            total: '${controller.getTotalCal().value} g',
+                            total: '',
                             consumed:
                                 '${Get.find<FoodController>().percentageOfDailyGoals().value}%'),
                       ],
