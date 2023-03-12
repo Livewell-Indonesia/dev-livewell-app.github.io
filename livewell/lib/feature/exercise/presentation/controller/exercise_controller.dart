@@ -5,13 +5,16 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:health/health.dart';
 import 'package:intl/intl.dart';
+import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/exercise/data/model/activity_history_model.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_exercise_list.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/profile/domain/usecase/update_user_info.dart';
 import 'package:livewell/routes/app_navigator.dart';
+import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 
 import '../../../questionnaire/presentation/controller/questionnaire_controller.dart';
 
@@ -36,6 +39,7 @@ class ExerciseController extends GetxController
   @override
   void onReady() {
     checkShouldShowKYC();
+    showInfoFirstTime();
     super.onReady();
   }
 
@@ -65,6 +69,33 @@ class ExerciseController extends GetxController
       value = DateFormat('dd/MM').format(date);
     }
     return value;
+  }
+
+  void showInfoFirstTime() async {
+    var show = await SharedPref.showInfoExercise();
+    HomeController controller = Get.find();
+    var data = controller.popupAssetsModel.value.exercise;
+    if (show && data != null) {
+      showModalBottomSheet(
+          context: Get.context!,
+          isScrollControlled: true,
+          shape: ShapeBorder.lerp(
+              const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              1),
+          builder: ((context) {
+            return PopupAssetWidget(
+              exercise: data,
+            );
+          }));
+      SharedPref.saveShowInfoExercise(false);
+    }
   }
 
   void checkShouldShowKYC() {

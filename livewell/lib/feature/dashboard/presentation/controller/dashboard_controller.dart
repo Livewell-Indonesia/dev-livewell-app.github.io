@@ -48,12 +48,10 @@ class DashboardController extends GetxController {
   var types = [
     HealthDataType.STEPS,
     HealthDataType.ACTIVE_ENERGY_BURNED,
-    HealthDataType.BASAL_ENERGY_BURNED,
     HealthDataType.SLEEP_IN_BED,
   ];
 
   var permissions = [
-    HealthDataAccess.READ,
     HealthDataAccess.READ,
     HealthDataAccess.READ,
     HealthDataAccess.READ,

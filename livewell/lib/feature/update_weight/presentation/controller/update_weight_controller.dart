@@ -99,7 +99,7 @@ class UpdateWeightController extends GetxController {
     if (Get.isRegistered<DashboardController>()) {
       var user = Get.find<DashboardController>().dashboard.value;
       var remainingKcal = user.dashboard?.caloriesLeft ?? 0;
-      weightPrediciton.value = weight.value + remainingKcal * 28 * 0.00013;
+      weightPrediciton.value = weight.value - (remainingKcal * 28 * 0.00013);
     }
   }
 

@@ -258,7 +258,9 @@ class UpdateWeightScreen extends StatelessWidget {
           ),
         ),
       ),
-      borderData: FlBorderData(show: false),
+      borderData: FlBorderData(
+        show: true,
+      ),
       lineBarsData: [
         LineChartBarData(
           spots: controller.weightHistory.asMap().entries.map((e) {

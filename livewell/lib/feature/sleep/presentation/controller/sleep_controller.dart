@@ -1,14 +1,18 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:health/health.dart';
 import 'package:intl/intl.dart';
+import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/exercise/data/model/activity_history_model.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/sleep/data/model/sleep_activity_model.dart';
 import 'package:livewell/feature/sleep/domain/usecase/get_sleep_list.dart';
+import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 
 class SleepController extends GetxController {
   Rx<String> wentToSleep = ''.obs;
@@ -28,6 +32,34 @@ class SleepController extends GetxController {
     super.onInit();
     getSleepData();
     getExerciseHistorydata();
+    showInfoFirstTime();
+  }
+
+  void showInfoFirstTime() async {
+    var show = await SharedPref.showInfoSleep();
+    HomeController controller = Get.find();
+    var data = controller.popupAssetsModel.value.sleep;
+    if (show && data != null) {
+      showModalBottomSheet(
+          context: Get.context!,
+          isScrollControlled: true,
+          shape: ShapeBorder.lerp(
+              const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              1),
+          builder: ((context) {
+            return PopupAssetWidget(
+              exercise: data,
+            );
+          }));
+      SharedPref.saveShowInfoSleep(false);
+    }
   }
 
   HealthFactory healthFactory = HealthFactory();
@@ -127,58 +159,6 @@ class SleepController extends GetxController {
         }
       }
     });
-
-    // GetExerciseData getExerciseData = GetExerciseData.instance();
-    // var deepSleepResult = await getExerciseData(GetExerciseParams(
-    //     type: "DEEP_SLEEP", dateFrom: currentDate, dateTo: dateTill));
-    // var lightSleepResult = await getExerciseData(GetExerciseParams(
-    //     type: "LIGHT_SLEEP", dateFrom: currentDate, dateTo: dateTill));
-
-    // lightSleepResult.fold((l) => Log.error(l), (r) {
-    //   // sum all value from object r and assign it to steps
-    //   if (r.details?.isEmpty ?? true) {
-    //     return;
-    //   }
-    //   var dateFormatter = DateFormat('hh:mm a');
-    //   wentToSleep.value = dateFormatter.format(DateTime.parse(
-    //       r.details?.last.dateFrom ?? DateTime.now().toString()));
-    //   feelASleep.value = durationToString((r.totalValue ?? 0).toInt());
-
-    //   deepSleepResult.fold((l) => Log.error(l), (r2) {
-    //     // sum all value from object r and assign it to steps
-    //     if (r.details?.isEmpty ?? true) {
-    //       return;
-    //     }
-    //     var dateFormatter = DateFormat('hh:mm a');
-    //     // dapet data woke up dari start light sleep + total value deep sleep and light sleep
-    //     var wokeUpDate = DateTime.parse(
-    //             r.details?.last.dateFrom ?? DateTime.now().toString())
-    //         .add(Duration(
-    //             minutes: ((r2.totalValue ?? 0).toInt() +
-    //                 (r.totalValue ?? 0).toInt())));
-    //     wokeUp.value = dateFormatter.format(wokeUpDate);
-    //     deepSleep.value = durationToString((r2.totalValue ?? 0).toInt());
-    // if (Get.isRegistered<DashboardController>()) {
-    //   var sleepValue = Get.find<DashboardController>()
-    //           .user
-    //           .value
-    //           .onboardingQuestionnaire
-    //           ?.sleepDuration ??
-    //       "7";
-    //   var sleepDuration = int.parse(sleepValue);
-
-    //       deepSleepPercent.value =
-    //           (((r2.totalValue ?? 0.0) / 60) / (sleepDuration * 0.2));
-    //       lightSleepPercent.value =
-    //           (((r.totalValue ?? 0.0) / 60) / (sleepDuration * 0.8));
-    //       totalSleepPercent.value =
-    //           ((((r2.totalValue ?? 0.0) / 60) + ((r.totalValue ?? 0.0) / 60)) /
-    //                   (sleepDuration)) *
-    //               100;
-    //       leftSleepPercent.value = 100 - totalSleepPercent.value;
-    //     }
-    //   });
-    // });
   }
 
   void calculateSleepInBed(List<SleepActivityModel> sleepInBedValue) {

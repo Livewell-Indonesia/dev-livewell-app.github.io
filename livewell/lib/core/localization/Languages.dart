@@ -12,7 +12,7 @@ class Languages extends Translations {
           AppStringsKeys.signUp: 'Sign Up',
           AppStringsKeys.signIn: 'Sign In',
           AppStringsKeys.alreadyHaveAccount: 'Already have account?',
-          AppStringsKeys.dontHaveAccount: 'Don\'t have account?',
+          AppStringsKeys.dontHaveAccount: "Don't have account?",
           'Create New Account': 'Create New Account',
           AppStringsKeys.enterYourDetails: 'Enter your details to register',
           AppStringsKeys.email: 'Email Address',
