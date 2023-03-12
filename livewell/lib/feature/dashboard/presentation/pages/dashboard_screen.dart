@@ -685,7 +685,7 @@ class MyTooltip extends StatelessWidget {
   }
 }
 
-enum CarouselDashboard { nutriScore, weight }
+enum CarouselDashboard { weight, nutriScore }
 
 extension on CarouselDashboard {
   VoidCallback? getOnTap(DashboardController controller) {
