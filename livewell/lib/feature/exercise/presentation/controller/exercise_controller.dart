@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -37,6 +39,34 @@ class ExerciseController extends GetxController
     super.onReady();
   }
 
+  double getYValue(int index) {
+    var value = 0.0;
+    if (exerciseHistoryList.isNotEmpty) {
+      var date = DateTime(DateTime.now().year, DateTime.now().month,
+          DateTime.now().day - 6 + index);
+      for (var element in exerciseHistoryList.first.details!) {
+        var currentDate =
+            DateFormat('yyyy-MM-dd HH:mm:ss').parse(element.dateFrom!);
+        if (currentDate.day == date.day &&
+            currentDate.month == date.month &&
+            currentDate.year == date.year) {
+          value += element.value!;
+        }
+      }
+    }
+    return value;
+  }
+
+  String getXValue(int index) {
+    String value = '';
+    if (exerciseHistoryList.isNotEmpty) {
+      var date = DateTime(DateTime.now().year, DateTime.now().month,
+          DateTime.now().day - 6 + index);
+      value = DateFormat('dd/MM').format(date);
+    }
+    return value;
+  }
+
   void checkShouldShowKYC() {
     if (Get.isRegistered<DashboardController>()) {
       var userData = Get.find<DashboardController>().user.value;
@@ -58,21 +88,23 @@ class ExerciseController extends GetxController
   Future<bool> refresh() async {
     await getStepsData();
     await getBurntCaloriesData();
+    await getExerciseHistorydata();
     return true;
   }
 
-  void getExerciseHistorydata() async {
-    EasyLoading.show();
+  Future<void> getExerciseHistorydata() async {
+    var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day - 7, 0, 0, 0, 0, 0);
+    var dateTill = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 23, 59, 59, 0, 0);
     GetActivityHistory getExerciseList = GetActivityHistory.instance();
     final result = await getExerciseList.call(GetActivityHistoryParam(
-        type: [
-          HealthDataType.ACTIVE_ENERGY_BURNED.name,
-        ],
-        dateFrom: DateTime.now().subtract(const Duration(days: 7)),
-        dateTo: DateTime.now()));
-    EasyLoading.dismiss();
+        type: ['ACTIVE_ENERGY_BURNED'],
+        dateFrom: currentDate,
+        dateTo: dateTill));
     result.fold((l) => Log.error(l), (r) {
       Log.info(r);
+      inspect(r);
       exerciseHistoryList.assignAll(r);
     });
   }
@@ -155,7 +187,11 @@ class ExerciseController extends GetxController
         dateTo: dateTill));
     result.fold((l) => Log.error(l), (r) {
       // sum all value from object r and assign it to burntCalories
-      burntCalories.value = (r.totalValue ?? 0).toDouble();
+      if (r.details != null) {
+        for (var element in r.details!) {
+          burntCalories.value += element.value!;
+        }
+      }
       totalCalories.value = burntCalories.value;
       caloriesValueNotifier.value = burntCalories.value.toDouble();
       goalValueNotifier.value = burntCalories.value.toDouble() /

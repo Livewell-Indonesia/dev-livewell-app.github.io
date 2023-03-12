@@ -50,7 +50,7 @@ class ExerciseRepositoryImpl extends NetworkModule
   Future<Either<Failure, List<ActivityHistoryModel>>> getActivityHistory(
       GetActivityHistoryParam params) async {
     try {
-      final response = await postMethod(Endpoint.getActivities,
+      final response = await postMethod(Endpoint.getActivityHistories,
           headers: {authorization: await SharedPref.getToken()},
           body: params.toJson());
       final json = responseHandler(response);

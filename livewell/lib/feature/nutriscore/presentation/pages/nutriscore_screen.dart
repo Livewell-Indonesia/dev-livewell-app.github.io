@@ -97,7 +97,7 @@ class NutriScoreDetailItem extends StatelessWidget {
           Text(
             name,
             style: TextStyle(
-                color: Colors.black,
+                color: Colors.black, 
                 fontWeight: FontWeight.w700,
                 fontSize: 13.sp),
           ),

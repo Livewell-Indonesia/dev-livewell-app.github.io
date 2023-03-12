@@ -1,5 +1,5 @@
 class ActivityHistoryModel {
-  int? totalValue;
+  num? totalValue;
   String? type;
   String? unit;
   String? dateFrom;
@@ -43,7 +43,7 @@ class ActivityHistoryModel {
 }
 
 class Details {
-  double? value;
+  num? value;
   String? type;
   String? unit;
   String? dateFrom;

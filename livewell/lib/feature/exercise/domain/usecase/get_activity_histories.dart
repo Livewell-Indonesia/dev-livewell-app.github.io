@@ -6,7 +6,8 @@ import 'package:livewell/feature/exercise/data/model/activity_history_model.dart
 import 'package:livewell/feature/exercise/data/repository/exercise_repository_impl.dart';
 import 'package:livewell/feature/exercise/domain/repository/exercise_repository.dart';
 
-class GetActivityHistory extends UseCase<List<ActivityHistoryModel>, GetActivityHistoryParam> {
+class GetActivityHistory
+    extends UseCase<List<ActivityHistoryModel>, GetActivityHistoryParam> {
   late ExerciseRepository repository;
   GetActivityHistory.instance() {
     repository = ExerciseRepositoryImpl.getInstance();
@@ -31,7 +32,7 @@ class GetActivityHistoryParam {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['type'] = type;
+    data['types'] = type;
     data['dateFrom'] = DateFormat('yyyy-MM-dd HH:mm:ss.sss').format(dateFrom);
     data['dateTo'] = DateFormat('yyyy-MM-dd HH:mm:ss.sss').format(dateTo);
     return data;

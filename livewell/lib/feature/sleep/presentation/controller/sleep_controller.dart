@@ -5,6 +5,8 @@ import 'package:health/health.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/exercise/data/model/activity_history_model.dart';
+import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
 import 'package:livewell/feature/sleep/data/model/sleep_activity_model.dart';
 import 'package:livewell/feature/sleep/domain/usecase/get_sleep_list.dart';
 
@@ -18,10 +20,14 @@ class SleepController extends GetxController {
   Rx<double> totalSleepPercent = 0.0.obs;
   Rx<double> leftSleepPercent = 0.0.obs;
   Rx<double> sleepInBedPercent = 0.0.obs;
+
+  RxList<ActivityHistoryModel> exerciseHistoryList =
+      <ActivityHistoryModel>[].obs;
   @override
   void onInit() {
     super.onInit();
     getSleepData();
+    getExerciseHistorydata();
   }
 
   HealthFactory healthFactory = HealthFactory();
@@ -39,6 +45,57 @@ class SleepController extends GetxController {
     HealthDataAccess.READ,
     HealthDataAccess.READ,
   ];
+
+  double getYValue(int index) {
+    var value = 0.0;
+    if (exerciseHistoryList.isNotEmpty) {
+      var date = DateTime(DateTime.now().year, DateTime.now().month,
+          DateTime.now().day - 6 + index);
+      for (var data in exerciseHistoryList) {
+        var temp = 0.0;
+        if (data.details != null) {
+          for (var element in data.details!) {
+            var currentDate =
+                DateFormat('yyyy-MM-dd HH:mm:ss').parse(element.dateFrom!);
+            if (currentDate.day == date.day &&
+                currentDate.month == date.month &&
+                currentDate.year == date.year) {
+              temp += element.value!;
+            }
+          }
+        }
+        value += temp;
+      }
+    }
+    return value;
+  }
+
+  String getXValue(int index) {
+    String value = '';
+    if (exerciseHistoryList.isNotEmpty) {
+      var date = DateTime(DateTime.now().year, DateTime.now().month,
+          DateTime.now().day - 6 + index);
+      value = DateFormat('dd/MM').format(date);
+    }
+    return value;
+  }
+
+  Future<void> getExerciseHistorydata() async {
+    var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day - 7, 0, 0, 0, 0, 0);
+    var dateTill = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 23, 59, 59, 0, 0);
+    GetActivityHistory getExerciseList = GetActivityHistory.instance();
+    final result = await getExerciseList.call(GetActivityHistoryParam(
+        type: ['SLEEP_IN_BED', 'LIGHT_SLEEP', 'DEEP_SLEEP'],
+        dateFrom: currentDate,
+        dateTo: dateTill));
+    result.fold((l) => Log.error(l), (r) {
+      Log.info(r);
+      inspect(r);
+      exerciseHistoryList.assignAll(r);
+    });
+  }
 
   Future<void> getSleepData() async {
     var getSleepData = GetSleepData.instance();

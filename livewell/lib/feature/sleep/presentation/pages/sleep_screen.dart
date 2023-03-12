@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -242,7 +243,106 @@ class _SleepScreenState extends State<SleepScreen> {
                           label: "Deep Sleep"),
                     ],
                   );
-                }))
+                })),
+            16.verticalSpace,
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 16.w),
+              padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: const Color(0xFFEBEBEB))),
+              child: Column(
+                children: [
+                  Text('Last 7 days',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                          height: 20.sp / 14.sp)),
+                  16.verticalSpace,
+                  const Divider(),
+                  16.verticalSpace,
+                  Obx(() {
+                    return SizedBox(
+                      height: 200.h,
+                      child: BarChart(
+                        BarChartData(
+                          minY: 0,
+                          barGroups: List.generate(7, (index) {
+                            return BarChartGroupData(
+                              x: index,
+                              barRods: [
+                                BarChartRodData(
+                                    color: const Color(0xFFDDF235),
+                                    width: 12.w,
+                                    toY: controller.getYValue(index))
+                              ],
+                            );
+                          }),
+                          barTouchData: BarTouchData(
+                            enabled: true,
+                          ),
+                          borderData: FlBorderData(show: false),
+                          gridData: FlGridData(
+                              show: true,
+                              drawVerticalLine: false,
+                              horizontalInterval: 50,
+                              getDrawingHorizontalLine: (value) {
+                                return FlLine(
+                                    color: const Color(0xFFebebeb),
+                                    strokeWidth: 1,
+                                    dashArray: [2, 2]);
+                              }),
+                          titlesData: FlTitlesData(
+                            show: true,
+                            rightTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                            topTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                            leftTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                reservedSize: 30,
+                                showTitles: true,
+                                getTitlesWidget: (value, meta) {
+                                  return Text(
+                                    value.toInt().toString(),
+                                    style: TextStyle(
+                                        color: const Color(0xFF505050),
+                                        fontSize: 12.sp),
+                                  );
+                                },
+                              ),
+                            ),
+                            bottomTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                showTitles: true,
+                                getTitlesWidget: (value, meta) {
+                                  return Transform.rotate(
+                                    angle: -45,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: Text(
+                                        controller.getXValue(value.toInt()),
+                                        style: TextStyle(
+                                            color: const Color(0xFF505050),
+                                            fontSize: 12.sp),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  })
+                ],
+              ),
+            ),
           ],
         ),
       ),

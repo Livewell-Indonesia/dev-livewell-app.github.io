@@ -119,79 +119,83 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                   16.verticalSpace,
                   const Divider(),
                   16.verticalSpace,
-                  SizedBox(
-                    height: 200.h,
-                    child: BarChart(
-                      BarChartData(
-                        maxY: 20,
-                        minY: 0,
-                        barGroups: List.generate(7, (index) {
-                          return BarChartGroupData(
-                            x: index,
-                            barRods: [BarChartRodData(toY: index.toDouble())],
-                          );
-                        }),
-                        barTouchData: BarTouchData(
-                          enabled: true,
-                        ),
-                        borderData: FlBorderData(show: false),
-                        gridData: FlGridData(
+                  Obx(() {
+                    return SizedBox(
+                      height: 200.h,
+                      child: BarChart(
+                        BarChartData(
+                          minY: 0,
+                          barGroups: List.generate(7, (index) {
+                            return BarChartGroupData(
+                              x: index,
+                              barRods: [
+                                BarChartRodData(
+                                    color: const Color(0xFFDDF235),
+                                    width: 12.w,
+                                    toY: controller.getYValue(index))
+                              ],
+                            );
+                          }),
+                          barTouchData: BarTouchData(
+                            enabled: true,
+                          ),
+                          borderData: FlBorderData(show: false),
+                          gridData: FlGridData(
+                              show: true,
+                              drawVerticalLine: false,
+                              horizontalInterval: 50,
+                              getDrawingHorizontalLine: (value) {
+                                return FlLine(
+                                    color: const Color(0xFFebebeb),
+                                    strokeWidth: 1,
+                                    dashArray: [2, 2]);
+                              }),
+                          titlesData: FlTitlesData(
                             show: true,
-                            drawVerticalLine: false,
-                            horizontalInterval: 50,
-                            verticalInterval: 1,
-                            getDrawingHorizontalLine: (value) {
-                              return FlLine(
-                                  color: const Color(0xFFebebeb),
-                                  strokeWidth: 1,
-                                  dashArray: [2, 2]);
-                            }),
-                        titlesData: FlTitlesData(
-                          show: true,
-                          rightTitles: AxisTitles(
-                            sideTitles: SideTitles(showTitles: false),
-                          ),
-                          topTitles: AxisTitles(
-                            sideTitles: SideTitles(showTitles: false),
-                          ),
-                          leftTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              reservedSize: 30,
-                              showTitles: true,
-                              interval: 1,
-                              getTitlesWidget: (value, meta) {
-                                return Text(
-                                  value.toInt().toString(),
-                                  style: TextStyle(
-                                      color: const Color(0xFF505050),
-                                      fontSize: 12.sp),
-                                );
-                              },
+                            rightTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
                             ),
-                          ),
-                          bottomTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              getTitlesWidget: (value, meta) {
-                                return Transform.rotate(
-                                  angle: -45,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Text(
-                                      'andi',
-                                      style: TextStyle(
-                                          color: const Color(0xFF505050),
-                                          fontSize: 12.sp),
+                            topTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                            leftTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                reservedSize: 30,
+                                showTitles: true,
+                                getTitlesWidget: (value, meta) {
+                                  return Text(
+                                    value.toInt().toString(),
+                                    style: TextStyle(
+                                        color: const Color(0xFF505050),
+                                        fontSize: 12.sp),
+                                  );
+                                },
+                              ),
+                            ),
+                            bottomTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                showTitles: true,
+                                getTitlesWidget: (value, meta) {
+                                  return Transform.rotate(
+                                    angle: -45,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: Text(
+                                        controller.getXValue(value.toInt()),
+                                        style: TextStyle(
+                                            color: const Color(0xFF505050),
+                                            fontSize: 12.sp),
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
+                                  );
+                                },
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
+                    );
+                  })
                 ],
               ),
             ),
