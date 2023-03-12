@@ -6,7 +6,9 @@ import 'package:livewell/core/network/api_url.dart';
 import 'package:livewell/core/network/network_module.dart';
 import 'package:livewell/feature/auth/data/model/register_model.dart';
 import 'package:livewell/feature/exercise/data/model/activity_data_model.dart';
+import 'package:livewell/feature/exercise/data/model/activity_history_model.dart';
 import 'package:livewell/feature/exercise/domain/repository/exercise_repository.dart';
+import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_exercise_list.dart';
 import 'package:livewell/feature/exercise/domain/usecase/post_exercise_data.dart';
 
@@ -39,6 +41,21 @@ class ExerciseRepositoryImpl extends NetworkModule
           body: params.toJson());
       final json = responseHandler(response);
       return Right(ActivityDataModel.fromJson(json));
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ActivityHistoryModel>>> getActivityHistory(
+      GetActivityHistoryParam params) async {
+    try {
+      final response = await postMethod(Endpoint.getActivities,
+          headers: {authorization: await SharedPref.getToken()},
+          body: params.toJson());
+      final json = responseHandler(response);
+      return Right(List<ActivityHistoryModel>.from(
+          json.map((x) => ActivityHistoryModel.fromJson(x))));
     } catch (ex) {
       return Left(ServerFailure(message: ex.toString()));
     }

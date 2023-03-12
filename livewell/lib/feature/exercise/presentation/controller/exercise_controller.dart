@@ -5,6 +5,8 @@ import 'package:health/health.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/exercise/data/model/activity_history_model.dart';
+import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_exercise_list.dart';
 import 'package:livewell/feature/profile/domain/usecase/update_user_info.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -23,6 +25,8 @@ class ExerciseController extends GetxController
   Rx<num> burntCalories = 0.0.obs;
   Rx<num> totalSteps = 0.0.obs;
   Rx<num> totalCalories = 0.0.obs;
+  RxList<ActivityHistoryModel> exerciseHistoryList =
+      <ActivityHistoryModel>[].obs;
   TextEditingController dataController = TextEditingController();
   Rx<TargetExerciseSelection> selectedExerciseTarget =
       TargetExerciseSelection.light.obs;
@@ -42,6 +46,7 @@ class ExerciseController extends GetxController
       } else {
         getStepsData();
         getBurntCaloriesData();
+        getExerciseHistorydata();
         tabController = TabController(length: 2, vsync: this);
         tabController.addListener(() {
           changeTab(ExerciseTab.values[tabController.index]);
@@ -54,6 +59,22 @@ class ExerciseController extends GetxController
     await getStepsData();
     await getBurntCaloriesData();
     return true;
+  }
+
+  void getExerciseHistorydata() async {
+    EasyLoading.show();
+    GetActivityHistory getExerciseList = GetActivityHistory.instance();
+    final result = await getExerciseList.call(GetActivityHistoryParam(
+        type: [
+          HealthDataType.ACTIVE_ENERGY_BURNED.name,
+        ],
+        dateFrom: DateTime.now().subtract(const Duration(days: 7)),
+        dateTo: DateTime.now()));
+    EasyLoading.dismiss();
+    result.fold((l) => Log.error(l), (r) {
+      Log.info(r);
+      exerciseHistoryList.assignAll(r);
+    });
   }
 
   void saveExerciseTarget() async {
