@@ -99,7 +99,7 @@ class SleepController extends GetxController {
         value += temp;
       }
     }
-    return value;
+    return value == 0.0 ? value : (value / 60);
   }
 
   String getXValue(int index) {

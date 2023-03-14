@@ -308,7 +308,7 @@ class _SleepScreenState extends State<SleepScreen> {
                                 showTitles: true,
                                 getTitlesWidget: (value, meta) {
                                   return Text(
-                                    value.toInt().toString(),
+                                    value.toString(),
                                     style: TextStyle(
                                         color: const Color(0xFF505050),
                                         fontSize: 12.sp),
