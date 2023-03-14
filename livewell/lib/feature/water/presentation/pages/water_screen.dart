@@ -397,7 +397,7 @@ extension on WaterRatings {
       case WaterRatings.almost:
         return 'Almost';
       case WaterRatings.perfect:
-        return 'Perfect';
+        return 'Great';
     }
   }
 }

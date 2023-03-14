@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/sleep/presentation/controller/sleep_controller.dart';
@@ -308,7 +309,7 @@ class _SleepScreenState extends State<SleepScreen> {
                                 showTitles: true,
                                 getTitlesWidget: (value, meta) {
                                   return Text(
-                                    value.toString(),
+                                    NumberFormat('#.0').format(value),
                                     style: TextStyle(
                                         color: const Color(0xFF505050),
                                         fontSize: 12.sp),
