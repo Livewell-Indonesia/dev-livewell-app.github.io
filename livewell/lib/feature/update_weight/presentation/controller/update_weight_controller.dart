@@ -22,13 +22,19 @@ class UpdateWeightController extends GetxController {
   double inputtedWeight = 0.0;
   Rx<double> weightPrediciton = 0.0.obs;
   double inputtedTargetWeight = 0.0;
+  Rx<String> title = ''.obs;
 
   @override
   void onInit() {
     getCurrentWeight();
     getWeightHistory();
     calculatePrediction();
+    generateTitle();
     super.onInit();
+  }
+
+  void generateTitle() {
+    var calculation = weight.value - targetWeight.value;
   }
 
   void getCurrentWeight() {
@@ -71,6 +77,11 @@ class UpdateWeightController extends GetxController {
           maxY.value = targetWeight.toDouble() > maxWeight
               ? targetWeight.toDouble()
               : maxWeight;
+          var initialWeight = weightHistory.last.weight!.toDouble();
+          var latestWeight = weightHistory.first.weight!.toDouble();
+          title.value = initialWeight >= latestWeight
+              ? 'You have lost ${initialWeight - latestWeight} kg'
+              : 'You have gained ${latestWeight - initialWeight} kg';
         }
         inspect(weightHistory);
         inspect(minY);

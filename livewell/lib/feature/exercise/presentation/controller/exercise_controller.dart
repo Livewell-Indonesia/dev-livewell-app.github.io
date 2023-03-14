@@ -48,13 +48,15 @@ class ExerciseController extends GetxController
     if (exerciseHistoryList.isNotEmpty) {
       var date = DateTime(DateTime.now().year, DateTime.now().month,
           DateTime.now().day - 6 + index);
-      for (var element in exerciseHistoryList.first.details!) {
-        var currentDate =
-            DateFormat('yyyy-MM-dd HH:mm:ss').parse(element.dateFrom!);
-        if (currentDate.day == date.day &&
-            currentDate.month == date.month &&
-            currentDate.year == date.year) {
-          value += element.value!;
+      if (exerciseHistoryList.first.details != null) {
+        for (var element in exerciseHistoryList.first.details!) {
+          var currentDate =
+              DateFormat('yyyy-MM-dd HH:mm:ss').parse(element.dateFrom!);
+          if (currentDate.day == date.day &&
+              currentDate.month == date.month &&
+              currentDate.year == date.year) {
+            value += element.value!;
+          }
         }
       }
     }

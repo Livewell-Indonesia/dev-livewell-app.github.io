@@ -34,8 +34,6 @@ class UpdateWeightScreen extends StatelessWidget {
 
   final UpdateWeightController controller = Get.put(UpdateWeightController());
 
-  List<double> userWeightHistories = [84, 77, 75, 70];
-
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
@@ -71,11 +69,13 @@ class UpdateWeightScreen extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      Text('You have lost 0,5kg',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600)),
+                      Obx(() {
+                        return Text(controller.title.value,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600));
+                      }),
                       4.verticalSpace,
                       Text(
                         'You\'re doing great! Keep Your spirits up!',
@@ -245,14 +245,12 @@ class UpdateWeightScreen extends StatelessWidget {
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 30,
-            interval: 1,
             getTitlesWidget: bottomTitleWidgets,
           ),
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            interval: 15,
             getTitlesWidget: leftTitleWidgets,
             reservedSize: 32,
           ),
@@ -311,8 +309,10 @@ class UpdateWeightScreen extends StatelessWidget {
     text = controller.weightHistory.isEmpty
         ? Text('')
         : Text(
-            dateFormat.format(DateFormat('yyyy-MM-dd')
-                .parse(controller.weightHistory[value.toInt()].recordAt!)),
+            dateFormat.format(DateFormat('yyyy-MM-dd').parse(controller
+                .weightHistory.reversed
+                .toList()[value.toInt()]
+                .recordAt!)),
             style: style);
 
     return SideTitleWidget(
