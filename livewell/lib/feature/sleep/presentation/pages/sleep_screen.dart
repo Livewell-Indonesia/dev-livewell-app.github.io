@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/sleep/presentation/controller/sleep_controller.dart';
+import 'package:livewell/main.dart';
 import 'package:livewell/widgets/chart/circular_nutrition.dart';
 import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 
@@ -270,6 +271,7 @@ class _SleepScreenState extends State<SleepScreen> {
                       child: BarChart(
                         BarChartData(
                           minY: 0,
+                          maxY: controller.getMaxYValue(),
                           barGroups: List.generate(7, (index) {
                             return BarChartGroupData(
                               x: index,
@@ -281,6 +283,17 @@ class _SleepScreenState extends State<SleepScreen> {
                               ],
                             );
                           }),
+                          extraLinesData: ExtraLinesData(
+                            extraLinesOnTop: true,
+                            horizontalLines: [
+                              HorizontalLine(
+                                label: HorizontalLineLabel(show: true),
+                                y: controller.userGoal.value.toDouble(),
+                                color: const Color(0xFF80A4A9),
+                                strokeWidth: 1.h,
+                              ),
+                            ],
+                          ),
                           barTouchData: BarTouchData(
                             enabled: true,
                           ),
@@ -446,6 +459,39 @@ class DailyBreakdownItem extends StatelessWidget {
           ],
         ),
       ]),
+    );
+  }
+}
+
+class customGoalWidget extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    // TODO: implement pain
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    // TODO: implement shouldRepaint
+    throw UnimplementedError();
+  }
+}
+
+class ChartGoalLebel extends StatelessWidget {
+  final String value;
+  const ChartGoalLebel({super.key, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF80A4A9),
+        borderRadius: BorderRadius.circular(100),
+      ),
+      child: Text(value,
+          style: TextStyle(
+              color: const Color(0xFFFFFFFF),
+              fontSize: 10.sp,
+              fontWeight: FontWeight.w600)),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,6 +25,7 @@ class SleepController extends GetxController {
   Rx<double> totalSleepPercent = 0.0.obs;
   Rx<double> leftSleepPercent = 0.0.obs;
   Rx<double> sleepInBedPercent = 0.0.obs;
+  Rx<int> userGoal = 0.obs;
 
   RxList<ActivityHistoryModel> exerciseHistoryList =
       <ActivityHistoryModel>[].obs;
@@ -102,6 +104,20 @@ class SleepController extends GetxController {
     return value == 0.0 ? value : (value / 60);
   }
 
+  double? getMaxYValue() {
+    // get maxY value by comparing exercisehistorylist value with user goal
+    var temp = [];
+    for (var i = 0; i < 7; i++) {
+      temp.add(getYValue(i));
+    }
+    // check if any value inside temp bigger temp user goal
+    temp.sort();
+    if (temp.last < userGoal.value) {
+      return userGoal.value.toDouble();
+    }
+    return null;
+  }
+
   String getXValue(int index) {
     String value = '';
     if (exerciseHistoryList.isNotEmpty) {
@@ -178,6 +194,7 @@ class SleepController extends GetxController {
       sleepInBedPercent.value =
           (((sleepInBedValue.first.totalValue ?? 0) / 60) / sleepDuration)
               .maxOneOrZero;
+      userGoal.value = sleepDuration;
       totalSleepPercent.value = sleepInBedPercent.value * 100;
       leftSleepPercent.value = 100 - totalSleepPercent.value;
       feelASleep.value = durationToString(0.toInt());

@@ -34,7 +34,8 @@ class UpdateWeightController extends GetxController {
   }
 
   void generateTitle() {
-    var calculation = weight.value - targetWeight.value;
+    var calculation =
+        NumberFormat('#.0').format(weight.value - targetWeight.value);
   }
 
   void getCurrentWeight() {
@@ -80,8 +81,8 @@ class UpdateWeightController extends GetxController {
           var initialWeight = weightHistory.last.weight!.toDouble();
           var latestWeight = weightHistory.first.weight!.toDouble();
           title.value = initialWeight >= latestWeight
-              ? 'You have lost ${initialWeight - latestWeight} kg'
-              : 'You have gained ${latestWeight - initialWeight} kg';
+              ? 'You have lost ${NumberFormat('0.0').format(initialWeight - latestWeight)} kg'
+              : 'You have gained ${NumberFormat('0.0').format(latestWeight - initialWeight)} kg';
         }
         inspect(weightHistory);
         inspect(minY);

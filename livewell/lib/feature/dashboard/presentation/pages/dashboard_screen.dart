@@ -718,46 +718,62 @@ class YourWeightWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Your Weight',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600)),
-                4.verticalSpace,
-                Text('You’re doing great! Keep Your spirits up!',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500)),
-                6.verticalSpace,
-                Expanded(
-                  child: LinearPercentIndicator(
-                    padding: EdgeInsets.zero,
-                    lineHeight: 12.h,
-                    percent: (weight / targetWeight).maxOneOrZero,
-                    barRadius: const Radius.circular(100.0),
-                    backgroundColor: const Color(0xFF4D4A68),
-                    progressColor: const Color(0xFFDDF235),
-                  ),
-                ),
-                4.verticalSpace,
                 Row(
                   children: [
                     Text(
-                      '$weight kg',
+                      'Target: $targetWeight Kg',
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 10.sp,
-                          fontWeight: FontWeight.w400),
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w500),
                     ),
                     const Spacer(),
                     Text(
-                      '$targetWeight kg',
+                      'Current: $weight Kg',
+                      style: TextStyle(
+                          color: Colors.white.withOpacity(0.5),
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w500),
+                    )
+                  ],
+                ),
+                8.verticalSpace,
+                LinearPercentIndicator(
+                  padding: EdgeInsets.zero,
+                  lineHeight: 7.h,
+                  percent: (weight / targetWeight).maxOneOrZero,
+                  barRadius: const Radius.circular(100.0),
+                  backgroundColor: const Color(0xFFF2F1F9),
+                  progressColor: const Color(0xFFDDF235),
+                ),
+                8.verticalSpace,
+                Text(
+                  'Keep with our plan, You are doing great!',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w500),
+                ),
+                12.verticalSpace,
+                const Divider(
+                  color: Color(0xFF4D4A68),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'See My Progress',
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 10.sp,
-                          fontWeight: FontWeight.w400),
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600),
                     ),
+                    12.horizontalSpace,
+                    Icon(
+                      Icons.arrow_forward_ios_outlined,
+                      size: 12.sp,
+                      color: Colors.white,
+                    )
                   ],
                 ),
               ],
