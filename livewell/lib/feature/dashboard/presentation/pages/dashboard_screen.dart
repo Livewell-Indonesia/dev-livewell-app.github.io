@@ -755,9 +755,12 @@ class YourWeightWidget extends StatelessWidget {
                       fontWeight: FontWeight.w500),
                 ),
                 12.verticalSpace,
-                const Divider(
+                Container(
+                  width: 1.sw,
+                  height: 1,
                   color: Color(0xFF4D4A68),
                 ),
+                12.verticalSpace,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

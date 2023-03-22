@@ -21,7 +21,7 @@ class NutriScoreDetailsScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         title: 'NutriScore Details'.tr,
         body: Expanded(
-          child: comingsoonPage(),
+          child: content(),
         ));
   }
 
@@ -80,19 +80,19 @@ class NutriScoreDetailsScreen extends StatelessWidget {
               ),
             ],
           ),
-          16.verticalSpace,
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Text(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: const Color(0xFF808080),
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
+          // 16.verticalSpace,
+          // Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 16.w),
+          //   child: Text(
+          //     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
+          //     textAlign: TextAlign.center,
+          //     style: TextStyle(
+          //       color: const Color(0xFF808080),
+          //       fontSize: 14.sp,
+          //       fontWeight: FontWeight.w500,
+          //     ),
+          //   ),
+          // ),
           24.verticalSpace,
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16.w),
@@ -115,8 +115,6 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                   height: 200.h,
                   child: BarChart(
                     BarChartData(
-                      maxY: controller.getMaxY(),
-                      minY: controller.getMinY(),
                       barGroups: List.generate(7, (index) {
                         return BarChartGroupData(
                           x: index,
@@ -204,32 +202,32 @@ class NutriScoreDetailsScreen extends StatelessWidget {
             ),
           ),
           32.verticalSpace,
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'About Protein',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w700),
-              ),
-            ),
-          ),
-          8.verticalSpace,
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Text(
-              'Protein is a vital nutrient that helps build and repair muscles, boost the immune system, and aid in weight management. You can find it in delicious foods like meat, fish, eggs, dairy, beans, and nuts. Mix it up and try different sources to make sure you\'re getting all the nutrients your body needs.',
-              style: TextStyle(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w400,
-                color: const Color(0xFF808080),
-              ),
-            ),
-          ),
-          24.verticalSpace,
+          // Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+          //   child: Align(
+          //     alignment: Alignment.centerLeft,
+          //     child: Text(
+          //       'About Protein',
+          //       style: TextStyle(
+          //           color: Colors.black,
+          //           fontSize: 20.sp,
+          //           fontWeight: FontWeight.w700),
+          //     ),
+          //   ),
+          // ),
+          // 8.verticalSpace,
+          // Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 16.w),
+          //   child: Text(
+          //     'Protein is a vital nutrient that helps build and repair muscles, boost the immune system, and aid in weight management. You can find it in delicious foods like meat, fish, eggs, dairy, beans, and nuts. Mix it up and try different sources to make sure you\'re getting all the nutrients your body needs.',
+          //     style: TextStyle(
+          //       fontSize: 14.sp,
+          //       fontWeight: FontWeight.w400,
+          //       color: const Color(0xFF808080),
+          //     ),
+          //   ),
+          // ),
+          // 24.verticalSpace,
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16.w),
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),

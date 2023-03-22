@@ -122,77 +122,92 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                   Obx(() {
                     return SizedBox(
                       height: 200.h,
-                      child: BarChart(
-                        BarChartData(
-                          minY: 0,
-                          barGroups: List.generate(7, (index) {
-                            return BarChartGroupData(
-                              x: index,
-                              barRods: [
-                                BarChartRodData(
-                                    color: const Color(0xFFDDF235),
-                                    width: 12.w,
-                                    toY: controller.getYValue(index))
-                              ],
-                            );
-                          }),
-                          barTouchData: BarTouchData(
-                            enabled: true,
-                          ),
-                          borderData: FlBorderData(show: false),
-                          gridData: FlGridData(
-                              show: true,
-                              drawVerticalLine: false,
-                              horizontalInterval: 50,
-                              getDrawingHorizontalLine: (value) {
-                                return FlLine(
-                                    color: const Color(0xFFebebeb),
-                                    strokeWidth: 1,
-                                    dashArray: [2, 2]);
+                      child: Stack(
+                        children: [
+                          BarChart(
+                            BarChartData(
+                              minY: 0,
+                              barGroups: List.generate(7, (index) {
+                                return BarChartGroupData(
+                                  x: index,
+                                  barRods: [
+                                    BarChartRodData(
+                                        color: const Color(0xFFDDF235),
+                                        width: 12.w,
+                                        toY: controller.getYValue(index))
+                                  ],
+                                );
                               }),
-                          titlesData: FlTitlesData(
-                            show: true,
-                            rightTitles: AxisTitles(
-                              sideTitles: SideTitles(showTitles: false),
-                            ),
-                            topTitles: AxisTitles(
-                              sideTitles: SideTitles(showTitles: false),
-                            ),
-                            leftTitles: AxisTitles(
-                              sideTitles: SideTitles(
-                                reservedSize: 30,
-                                showTitles: true,
-                                getTitlesWidget: (value, meta) {
-                                  return Text(
-                                    value.toInt().toString(),
-                                    style: TextStyle(
-                                        color: const Color(0xFF505050),
-                                        fontSize: 12.sp),
-                                  );
-                                },
+                              barTouchData: BarTouchData(
+                                enabled: true,
                               ),
-                            ),
-                            bottomTitles: AxisTitles(
-                              sideTitles: SideTitles(
-                                showTitles: true,
-                                getTitlesWidget: (value, meta) {
-                                  return Transform.rotate(
-                                    angle: -45,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child: Text(
-                                        controller.getXValue(value.toInt()),
+                              borderData: FlBorderData(show: false),
+                              gridData: FlGridData(
+                                  show: true,
+                                  drawVerticalLine: false,
+                                  horizontalInterval: 50,
+                                  getDrawingHorizontalLine: (value) {
+                                    return FlLine(
+                                        color: const Color(0xFFebebeb),
+                                        strokeWidth: 1,
+                                        dashArray: [2, 2]);
+                                  }),
+                              titlesData: FlTitlesData(
+                                show: true,
+                                rightTitles: AxisTitles(
+                                  sideTitles: SideTitles(showTitles: false),
+                                ),
+                                topTitles: AxisTitles(
+                                  sideTitles: SideTitles(showTitles: false),
+                                ),
+                                leftTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    reservedSize: 30,
+                                    showTitles: true,
+                                    getTitlesWidget: (value, meta) {
+                                      return Text(
+                                        value.toInt().toString(),
                                         style: TextStyle(
                                             color: const Color(0xFF505050),
                                             fontSize: 12.sp),
-                                      ),
-                                    ),
-                                  );
-                                },
+                                      );
+                                    },
+                                  ),
+                                ),
+                                bottomTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    showTitles: true,
+                                    getTitlesWidget: (value, meta) {
+                                      return Transform.rotate(
+                                        angle: -45,
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 10),
+                                          child: Text(
+                                            controller.getXValue(value.toInt()),
+                                            style: TextStyle(
+                                                color: const Color(0xFF505050),
+                                                fontSize: 12.sp),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
+                          Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text(
+                              'kcal.',
+                              style: TextStyle(
+                                  color: Color(0xFF505050),
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ],
                       ),
                     );
                   })

@@ -49,163 +49,273 @@ class UpdateWeightScreen extends StatelessWidget {
         body: Expanded(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: ListView(
+              padding: EdgeInsets.zero,
               children: [
-                32.verticalSpace,
-                Text(
-                  'Goal',
-                  style: TextStyle(
-                      color: const Color(0xFF171433),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20.sp),
-                ),
-                16.verticalSpace,
-                Container(
-                  padding: EdgeInsets.fromLTRB(24.w, 16.h, 24.w, 14.h),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF171433),
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: Column(
-                    children: [
-                      Obx(() {
-                        return Text(controller.title.value,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600));
-                      }),
-                      4.verticalSpace,
-                      Text(
-                        'You\'re doing great! Keep Your spirits up!',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    32.verticalSpace,
+                    Text(
+                      'Goal',
+                      style: TextStyle(
+                          color: const Color(0xFF171433),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20.sp),
+                    ),
+                    16.verticalSpace,
+                    Container(
+                      padding: EdgeInsets.fromLTRB(24.w, 16.h, 24.w, 14.h),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF171433),
+                        borderRadius: BorderRadius.circular(24),
                       ),
-                      16.verticalSpace,
-                      Obx(() {
-                        return LinearPercentIndicator(
-                          padding: EdgeInsets.zero,
-                          lineHeight: 12.h,
-                          percent: (controller.weight.value /
-                                  controller.targetWeight.value)
-                              .maxOneOrZero,
-                          barRadius: const Radius.circular(100.0),
-                          backgroundColor: const Color(0xFF4D4A68),
-                          progressColor: const Color(0xFFDDF235),
-                        );
-                      }),
-                      8.verticalSpace,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Column(
                         children: [
                           Obx(() {
-                            return Text(
-                              '${controller.weight.value} kg',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w400),
-                            );
-                          }),
-                          Obx(() {
-                            return Text(
-                              '${controller.targetWeight} kg',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w400),
-                            );
-                          })
-                        ],
-                      ),
-                      16.verticalSpace,
-                      const Divider(
-                        color: Color(0xFF4D4A68),
-                      ),
-                      12.verticalSpace,
-                      InkWell(
-                        onTap: () {
-                          Get.to(() => UpdateCurrentWeight());
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('Update Your weight',
+                            return Text(controller.title.value,
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600)),
-                            13.horizontalSpace,
-                            Icon(Icons.arrow_forward_ios,
-                                color: Colors.white, size: 14.sp),
-                          ],
-                        ),
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600));
+                          }),
+                          4.verticalSpace,
+                          Text(
+                            'You\'re doing great! Keep Your spirits up!',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          16.verticalSpace,
+                          Obx(() {
+                            return LinearPercentIndicator(
+                              padding: EdgeInsets.zero,
+                              lineHeight: 12.h,
+                              percent: (controller.weight.value /
+                                      controller.targetWeight.value)
+                                  .maxOneOrZero,
+                              barRadius: const Radius.circular(100.0),
+                              backgroundColor: const Color(0xFF4D4A68),
+                              progressColor: const Color(0xFFDDF235),
+                            );
+                          }),
+                          8.verticalSpace,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Obx(() {
+                                return Text(
+                                  '${controller.weight.value} kg',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.w400),
+                                );
+                              }),
+                              Obx(() {
+                                return Text(
+                                  '${controller.targetWeight} kg',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.w400),
+                                );
+                              })
+                            ],
+                          ),
+                          16.verticalSpace,
+                          const Divider(
+                            color: Color(0xFF4D4A68),
+                          ),
+                          12.verticalSpace,
+                          InkWell(
+                            onTap: () {
+                              Get.to(() => UpdateCurrentWeight());
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Update Your weight',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w600)),
+                                13.horizontalSpace,
+                                Icon(Icons.arrow_forward_ios,
+                                    color: Colors.white, size: 14.sp),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                32.verticalSpace,
-                Text(
-                  'Weight Progress',
-                  style: TextStyle(
-                      color: const Color(0xFF171433),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20.sp),
-                ),
-                16.verticalSpace,
-                Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(24)),
-                  width: double.infinity,
-                  height: 200.h,
-                  child: Obx(() {
-                    return LineChart(mainData(controller));
-                  }),
-                ),
-                32.verticalSpace,
-                Container(
-                  width: 1.sw,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                  decoration: BoxDecoration(
-                      color: const Color(0xFFD9E4E5),
-                      borderRadius: BorderRadius.circular(24)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Projected weight after 4 weeks',
-                        style: TextStyle(
-                            color: const Color(0xFF171433),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14.sp),
-                      ),
-                      8.verticalSpace,
-                      Obx(() {
-                        return Text(
-                          '${controller.weightPrediciton.value.round()} kg',
-                          style: TextStyle(
-                              color: const Color(0xFF8F01DF),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 24.sp),
-                        );
+                    ),
+                    32.verticalSpace,
+                    Text(
+                      'Weight Progress',
+                      style: TextStyle(
+                          color: const Color(0xFF171433),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20.sp),
+                    ),
+                    16.verticalSpace,
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 16.w, vertical: 16.h),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(24)),
+                      width: double.infinity,
+                      height: 200.h,
+                      child: Obx(() {
+                        return LineChart(mainData(controller));
                       }),
-                      8.verticalSpace,
-                      Text(
-                        'Disclaimer: Projection based on today\'s food intake. Estimate only.',
-                        style: TextStyle(
-                            color: const Color(0xFF171433),
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14.sp),
+                    ),
+                    32.verticalSpace,
+                    Text(
+                      'Calorie Intake',
+                      style: TextStyle(
+                          color: const Color(0xFF171433),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20.sp),
+                    ),
+                    16.verticalSpace,
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 16.w, vertical: 16.h),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(24)),
+                      width: double.infinity,
+                      height: 262.h,
+                      child: Column(
+                        children: [
+                          Text('Last 7 days'.tr,
+                              style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700)),
+                          12.verticalSpace,
+                          const Divider(),
+                          SizedBox(
+                            height: 185.h,
+                            child: Obx(() {
+                              return BarChart(BarChartData(
+                                  barTouchData: BarTouchData(
+                                    enabled: true,
+                                  ),
+                                  borderData: FlBorderData(show: false),
+                                  gridData: FlGridData(
+                                      show: true,
+                                      drawVerticalLine: false,
+                                      getDrawingHorizontalLine: (value) {
+                                        return FlLine(
+                                            color: const Color(0xFFebebeb),
+                                            strokeWidth: 1,
+                                            dashArray: [2, 2]);
+                                      }),
+                                  titlesData: FlTitlesData(
+                                    show: true,
+                                    rightTitles: AxisTitles(
+                                      sideTitles: SideTitles(showTitles: false),
+                                    ),
+                                    topTitles: AxisTitles(
+                                      sideTitles: SideTitles(showTitles: false),
+                                    ),
+                                    leftTitles: AxisTitles(
+                                      sideTitles: SideTitles(
+                                        reservedSize: 30,
+                                        showTitles: true,
+                                        getTitlesWidget: (value, meta) {
+                                          return Text(
+                                            value.toInt().toString(),
+                                            style: TextStyle(
+                                                color: const Color(0xFF505050),
+                                                fontSize: 12.sp),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    bottomTitles: AxisTitles(
+                                      sideTitles: SideTitles(
+                                        showTitles: true,
+                                        getTitlesWidget: (value, meta) {
+                                          return Transform.rotate(
+                                            angle: -45,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 10),
+                                              child: Text(
+                                                controller
+                                                    .getXValue(value.toInt()),
+                                                style: TextStyle(
+                                                    color:
+                                                        const Color(0xFF505050),
+                                                    fontSize: 12.sp),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  barGroups: List.generate(7, (index) {
+                                    return BarChartGroupData(
+                                        x: index,
+                                        barRods: [
+                                          BarChartRodData(
+                                            toY: controller.getYValue(index),
+                                            color: const Color(0xFFDDF235),
+                                            width: 12.w,
+                                          )
+                                        ]);
+                                  })));
+                            }),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    32.verticalSpace,
+                    Container(
+                      width: 1.sw,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 16.w, vertical: 16.h),
+                      decoration: BoxDecoration(
+                          color: const Color(0xFFD9E4E5),
+                          borderRadius: BorderRadius.circular(24)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Projected weight after 4 weeks',
+                            style: TextStyle(
+                                color: const Color(0xFF171433),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14.sp),
+                          ),
+                          8.verticalSpace,
+                          Obx(() {
+                            return Text(
+                              '${controller.weightPrediciton.value.round()} kg',
+                              style: TextStyle(
+                                  color: const Color(0xFF8F01DF),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 24.sp),
+                            );
+                          }),
+                          8.verticalSpace,
+                          Text(
+                            'Disclaimer: Projection based on today\'s food intake. Estimate only.',
+                            style: TextStyle(
+                                color: const Color(0xFF171433),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14.sp),
+                          ),
+                        ],
+                      ),
+                    ),
+                    32.verticalSpace,
+                  ],
                 ),
               ],
             ),
