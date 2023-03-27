@@ -44,7 +44,7 @@ class UpdateWeightController extends GetxController {
     var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
         DateTime.now().day, 23, 59, 59);
     var endDate = DateTime(DateTime.now().year, DateTime.now().month,
-        DateTime.now().day - 7, 0, 0, 0);
+        DateTime.now().day - 90, 0, 0, 0);
     if (Get.isRegistered<DashboardController>()) {
       EasyLoading.show();
       final result = await getUserMealHistory(UserMealHistoryParams(
@@ -108,11 +108,7 @@ class UpdateWeightController extends GetxController {
       final result = await getUserHistory(NoParams());
       EasyLoading.dismiss();
       result.fold((l) {}, (r) {
-        if (r.length >= 7) {
-          weightHistory.value = r.getRange(0, 7).toList();
-        } else {
-          weightHistory.value = r;
-        }
+        weightHistory.value = r;
         if (weightHistory.isNotEmpty) {
           var maxWeight = weightHistory
               .asMap()

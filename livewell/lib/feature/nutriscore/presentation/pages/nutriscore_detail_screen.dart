@@ -113,89 +113,105 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                 16.verticalSpace,
                 SizedBox(
                   height: 200.h,
-                  child: BarChart(
-                    BarChartData(
-                      barGroups: List.generate(7, (index) {
-                        return BarChartGroupData(
-                          x: index,
-                          barRods: [
-                            BarChartRodData(
-                                toY: controller
-                                    .nutrientList[index].nutrient.eaten!
-                                    .toDouble())
-                          ],
-                        );
-                      }),
-                      barTouchData: BarTouchData(
-                        enabled: true,
-                      ),
-                      borderData: FlBorderData(show: false),
-                      gridData: FlGridData(
-                          show: true,
-                          drawVerticalLine: false,
-                          horizontalInterval: 50,
-                          verticalInterval: controller.getMaxY() < 1 &&
-                                  controller.getMinY() < 1
-                              ? 1
-                              : (controller.getMaxY() - controller.getMinY()) /
-                                  2,
-                          getDrawingHorizontalLine: (value) {
-                            return FlLine(
-                                color: const Color(0xFFebebeb),
-                                strokeWidth: 1,
-                                dashArray: [2, 2]);
+                  child: Stack(
+                    children: [
+                      BarChart(
+                        BarChartData(
+                          barGroups: List.generate(7, (index) {
+                            return BarChartGroupData(
+                              x: index,
+                              barRods: [
+                                BarChartRodData(
+                                    toY: controller
+                                        .nutrientList[index].nutrient.eaten!
+                                        .toDouble())
+                              ],
+                            );
                           }),
-                      titlesData: FlTitlesData(
-                        show: true,
-                        rightTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        topTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            reservedSize: 30,
-                            showTitles: true,
-                            interval: controller.getMaxY() < 1 &&
-                                    controller.getMinY() < 1
-                                ? 1
-                                : (controller.getMaxY() -
-                                        controller.getMinY()) /
-                                    2,
-                            getTitlesWidget: (value, meta) {
-                              return Text(
-                                value.toInt().toString(),
-                                style: TextStyle(
-                                    color: const Color(0xFF505050),
-                                    fontSize: 12.sp),
-                              );
-                            },
+                          barTouchData: BarTouchData(
+                            enabled: true,
                           ),
-                        ),
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            getTitlesWidget: (value, meta) {
-                              return Transform.rotate(
-                                angle: -45,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: Text(
-                                    controller.nutrientList[value.toInt()].date
-                                        .substring(5)
-                                        .replaceAll('-', '/'),
+                          borderData: FlBorderData(show: false),
+                          gridData: FlGridData(
+                              show: true,
+                              drawVerticalLine: false,
+                              horizontalInterval: 50,
+                              verticalInterval: controller.getMaxY() < 1 &&
+                                      controller.getMinY() < 1
+                                  ? 1
+                                  : (controller.getMaxY() -
+                                          controller.getMinY()) /
+                                      2,
+                              getDrawingHorizontalLine: (value) {
+                                return FlLine(
+                                    color: const Color(0xFFebebeb),
+                                    strokeWidth: 1,
+                                    dashArray: [2, 2]);
+                              }),
+                          titlesData: FlTitlesData(
+                            show: true,
+                            rightTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                            topTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                            leftTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                reservedSize: 30,
+                                showTitles: true,
+                                interval: controller.getMaxY() < 1 &&
+                                        controller.getMinY() < 1
+                                    ? 1
+                                    : (controller.getMaxY() -
+                                            controller.getMinY()) /
+                                        2,
+                                getTitlesWidget: (value, meta) {
+                                  return Text(
+                                    value.toInt().toString(),
                                     style: TextStyle(
                                         color: const Color(0xFF505050),
                                         fontSize: 12.sp),
-                                  ),
-                                ),
-                              );
-                            },
+                                  );
+                                },
+                              ),
+                            ),
+                            bottomTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                showTitles: true,
+                                getTitlesWidget: (value, meta) {
+                                  return Transform.rotate(
+                                    angle: -45,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: Text(
+                                        controller
+                                            .nutrientList[value.toInt()].date
+                                            .substring(5)
+                                            .replaceAll('-', '/'),
+                                        style: TextStyle(
+                                            color: const Color(0xFF505050),
+                                            fontSize: 12.sp),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Text(
+                          controller.currentType.unit(),
+                          style: TextStyle(
+                              color: Color(0xFF505050),
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

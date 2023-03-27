@@ -327,7 +327,6 @@ class UpdateWeightScreen extends StatelessWidget {
     return LineChartData(
       minY: 0,
       minX: 0,
-      maxX: 6,
       gridData: FlGridData(
         show: true,
         drawVerticalLine: false,
@@ -355,6 +354,7 @@ class UpdateWeightScreen extends StatelessWidget {
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 30,
+            interval: controller.weightHistory.length - 1,
             getTitlesWidget: bottomTitleWidgets,
           ),
         ),
@@ -371,7 +371,11 @@ class UpdateWeightScreen extends StatelessWidget {
       ),
       lineBarsData: [
         LineChartBarData(
-          spots: controller.weightHistory.asMap().entries.map((e) {
+          spots: controller.weightHistory.reversed
+              .toList()
+              .asMap()
+              .entries
+              .map((e) {
             return FlSpot(e.key.toDouble(), (e.value.weight ?? 0).toDouble());
           }).toList(),
           isCurved: false,
@@ -379,7 +383,7 @@ class UpdateWeightScreen extends StatelessWidget {
           color: const Color(0xFFDDF235),
           isStrokeCapRound: true,
           dotData: FlDotData(
-            show: true,
+            show: false,
             getDotPainter: (p0, p1, p2, p3) {
               return FlDotCirclePainter(
                 radius: 6,

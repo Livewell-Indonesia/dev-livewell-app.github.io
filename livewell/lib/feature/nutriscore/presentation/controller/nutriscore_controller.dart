@@ -162,4 +162,35 @@ extension NutrientTypeAtt on NutrientType {
         return 'vitamin_c';
     }
   }
+
+  String unit() {
+    switch (this) {
+      case NutrientType.water:
+        return 'ml';
+      case NutrientType.protein:
+        return 'g';
+      case NutrientType.carb:
+        return 'g';
+      case NutrientType.fat:
+        return 'g';
+      case NutrientType.sodium:
+        return 'mg';
+      case NutrientType.saturatedFat:
+        return 'g';
+      case NutrientType.monounsaturatedFat:
+        return 'g';
+      case NutrientType.polyunsaturatedFat:
+        return 'g';
+      case NutrientType.transFat:
+        return 'g';
+      case NutrientType.potassium:
+        return 'mg';
+      case NutrientType.calcium:
+        return 'mg';
+      case NutrientType.vitaminA:
+        return 'mcg';
+      case NutrientType.vitaminC:
+        return 'mg';
+    }
+  }
 }
