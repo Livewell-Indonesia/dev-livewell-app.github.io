@@ -1,10 +1,13 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/sleep/presentation/controller/sleep_controller.dart';
+import 'package:livewell/main.dart';
 import 'package:livewell/widgets/chart/circular_nutrition.dart';
 import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 
@@ -242,7 +245,122 @@ class _SleepScreenState extends State<SleepScreen> {
                           label: "Deep Sleep"),
                     ],
                   );
-                }))
+                })),
+            16.verticalSpace,
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 16.w),
+              padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: const Color(0xFFEBEBEB))),
+              child: Column(
+                children: [
+                  Text('Last 7 days',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                          height: 20.sp / 14.sp)),
+                  16.verticalSpace,
+                  const Divider(),
+                  16.verticalSpace,
+                  Obx(() {
+                    return SizedBox(
+                      height: 200.h,
+                      child: Stack(
+                        children: [
+                          BarChart(
+                            BarChartData(
+                              minY: 0,
+                              maxY: controller.getMaxYValue(),
+                              barGroups: List.generate(7, (index) {
+                                return BarChartGroupData(
+                                  x: index,
+                                  barRods: [
+                                    BarChartRodData(
+                                        color: const Color(0xFFDDF235),
+                                        width: 12.w,
+                                        toY: controller.getYValue(index))
+                                  ],
+                                );
+                              }),
+                              barTouchData: BarTouchData(
+                                enabled: true,
+                              ),
+                              borderData: FlBorderData(show: false),
+                              gridData: FlGridData(
+                                  show: true,
+                                  drawVerticalLine: false,
+                                  horizontalInterval: 50,
+                                  getDrawingHorizontalLine: (value) {
+                                    return FlLine(
+                                        color: const Color(0xFFebebeb),
+                                        strokeWidth: 1,
+                                        dashArray: [2, 2]);
+                                  }),
+                              titlesData: FlTitlesData(
+                                show: true,
+                                rightTitles: AxisTitles(
+                                  sideTitles: SideTitles(showTitles: false),
+                                ),
+                                topTitles: AxisTitles(
+                                  sideTitles: SideTitles(showTitles: false),
+                                ),
+                                leftTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    reservedSize: 30,
+                                    showTitles: true,
+                                    getTitlesWidget: (value, meta) {
+                                      return Text(
+                                        NumberFormat('0.0').format(value),
+                                        style: TextStyle(
+                                            color: const Color(0xFF505050),
+                                            fontSize: 12.sp),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                bottomTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    showTitles: true,
+                                    getTitlesWidget: (value, meta) {
+                                      return Transform.rotate(
+                                        angle: -45,
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 10),
+                                          child: Text(
+                                            controller.getXValue(value.toInt()),
+                                            style: TextStyle(
+                                                color: const Color(0xFF505050),
+                                                fontSize: 12.sp),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text(
+                              'hrs.',
+                              style: TextStyle(
+                                  color: Color(0xFF505050),
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  })
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -345,6 +463,39 @@ class DailyBreakdownItem extends StatelessWidget {
           ],
         ),
       ]),
+    );
+  }
+}
+
+class customGoalWidget extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    // TODO: implement pain
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    // TODO: implement shouldRepaint
+    throw UnimplementedError();
+  }
+}
+
+class ChartGoalLebel extends StatelessWidget {
+  final String value;
+  const ChartGoalLebel({super.key, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF80A4A9),
+        borderRadius: BorderRadius.circular(100),
+      ),
+      child: Text(value,
+          style: TextStyle(
+              color: const Color(0xFFFFFFFF),
+              fontSize: 10.sp,
+              fontWeight: FontWeight.w600)),
     );
   }
 }

@@ -1,12 +1,19 @@
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:health/health.dart';
 import 'package:intl/intl.dart';
+import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/exercise/data/model/activity_history_model.dart';
+import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/sleep/data/model/sleep_activity_model.dart';
 import 'package:livewell/feature/sleep/domain/usecase/get_sleep_list.dart';
+import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 
 class SleepController extends GetxController {
   Rx<String> wentToSleep = ''.obs;
@@ -18,10 +25,43 @@ class SleepController extends GetxController {
   Rx<double> totalSleepPercent = 0.0.obs;
   Rx<double> leftSleepPercent = 0.0.obs;
   Rx<double> sleepInBedPercent = 0.0.obs;
+  Rx<int> userGoal = 0.obs;
+
+  RxList<ActivityHistoryModel> exerciseHistoryList =
+      <ActivityHistoryModel>[].obs;
   @override
   void onInit() {
     super.onInit();
     getSleepData();
+    getExerciseHistorydata();
+    showInfoFirstTime();
+  }
+
+  void showInfoFirstTime() async {
+    var show = await SharedPref.showInfoSleep();
+    HomeController controller = Get.find();
+    var data = controller.popupAssetsModel.value.sleep;
+    if (show && data != null) {
+      showModalBottomSheet(
+          context: Get.context!,
+          isScrollControlled: true,
+          shape: ShapeBorder.lerp(
+              const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              1),
+          builder: ((context) {
+            return PopupAssetWidget(
+              exercise: data,
+            );
+          }));
+      SharedPref.saveShowInfoSleep(false);
+    }
   }
 
   HealthFactory healthFactory = HealthFactory();
@@ -39,6 +79,71 @@ class SleepController extends GetxController {
     HealthDataAccess.READ,
     HealthDataAccess.READ,
   ];
+
+  double getYValue(int index) {
+    var value = 0.0;
+    if (exerciseHistoryList.isNotEmpty) {
+      var date = DateTime(DateTime.now().year, DateTime.now().month,
+          DateTime.now().day - 6 + index);
+      for (var data in exerciseHistoryList) {
+        var temp = 0.0;
+        if (data.details != null) {
+          for (var element in data.details!) {
+            var currentDate =
+                DateFormat('yyyy-MM-dd HH:mm:ss').parse(element.dateFrom!);
+            if (currentDate.day == date.day &&
+                currentDate.month == date.month &&
+                currentDate.year == date.year) {
+              temp += element.value!;
+            }
+          }
+        }
+        value += temp;
+      }
+    }
+    return value == 0.0 ? value : (value / 60);
+  }
+
+  double? getMaxYValue() {
+    // get maxY value by comparing exercisehistorylist value with user goal
+    var temp = [];
+    for (var i = 0; i < 7; i++) {
+      temp.add(getYValue(i));
+    }
+    // check if any value inside temp bigger temp user goal
+    temp.sort();
+    if (temp.last < userGoal.value) {
+      return userGoal.value.toDouble();
+    }
+    return null;
+  }
+
+  String getXValue(int index) {
+    String value = '';
+    if (exerciseHistoryList.isNotEmpty) {
+      var date = DateTime(DateTime.now().year, DateTime.now().month,
+          DateTime.now().day - 6 + index);
+      value = DateFormat('dd/MM').format(date);
+    }
+    return value;
+  }
+
+  Future<void> getExerciseHistorydata() async {
+    var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day - 7, 0, 0, 0, 0, 0);
+    var dateTill = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 23, 59, 59, 0, 0);
+    GetActivityHistory getExerciseList = GetActivityHistory.instance();
+    final result = await getExerciseList.call(GetActivityHistoryParam(
+        type: ['SLEEP_IN_BED', 'LIGHT_SLEEP', 'DEEP_SLEEP'],
+        dateFrom: currentDate,
+        dateTo: dateTill));
+    result.fold((l) => Log.error(l), (r) {
+      Log.info(r);
+      inspect(r);
+      exerciseHistoryList.assignAll(r);
+    });
+  }
 
   Future<void> getSleepData() async {
     var getSleepData = GetSleepData.instance();
@@ -70,58 +175,6 @@ class SleepController extends GetxController {
         }
       }
     });
-
-    // GetExerciseData getExerciseData = GetExerciseData.instance();
-    // var deepSleepResult = await getExerciseData(GetExerciseParams(
-    //     type: "DEEP_SLEEP", dateFrom: currentDate, dateTo: dateTill));
-    // var lightSleepResult = await getExerciseData(GetExerciseParams(
-    //     type: "LIGHT_SLEEP", dateFrom: currentDate, dateTo: dateTill));
-
-    // lightSleepResult.fold((l) => Log.error(l), (r) {
-    //   // sum all value from object r and assign it to steps
-    //   if (r.details?.isEmpty ?? true) {
-    //     return;
-    //   }
-    //   var dateFormatter = DateFormat('hh:mm a');
-    //   wentToSleep.value = dateFormatter.format(DateTime.parse(
-    //       r.details?.last.dateFrom ?? DateTime.now().toString()));
-    //   feelASleep.value = durationToString((r.totalValue ?? 0).toInt());
-
-    //   deepSleepResult.fold((l) => Log.error(l), (r2) {
-    //     // sum all value from object r and assign it to steps
-    //     if (r.details?.isEmpty ?? true) {
-    //       return;
-    //     }
-    //     var dateFormatter = DateFormat('hh:mm a');
-    //     // dapet data woke up dari start light sleep + total value deep sleep and light sleep
-    //     var wokeUpDate = DateTime.parse(
-    //             r.details?.last.dateFrom ?? DateTime.now().toString())
-    //         .add(Duration(
-    //             minutes: ((r2.totalValue ?? 0).toInt() +
-    //                 (r.totalValue ?? 0).toInt())));
-    //     wokeUp.value = dateFormatter.format(wokeUpDate);
-    //     deepSleep.value = durationToString((r2.totalValue ?? 0).toInt());
-    // if (Get.isRegistered<DashboardController>()) {
-    //   var sleepValue = Get.find<DashboardController>()
-    //           .user
-    //           .value
-    //           .onboardingQuestionnaire
-    //           ?.sleepDuration ??
-    //       "7";
-    //   var sleepDuration = int.parse(sleepValue);
-
-    //       deepSleepPercent.value =
-    //           (((r2.totalValue ?? 0.0) / 60) / (sleepDuration * 0.2));
-    //       lightSleepPercent.value =
-    //           (((r.totalValue ?? 0.0) / 60) / (sleepDuration * 0.8));
-    //       totalSleepPercent.value =
-    //           ((((r2.totalValue ?? 0.0) / 60) + ((r.totalValue ?? 0.0) / 60)) /
-    //                   (sleepDuration)) *
-    //               100;
-    //       leftSleepPercent.value = 100 - totalSleepPercent.value;
-    //     }
-    //   });
-    // });
   }
 
   void calculateSleepInBed(List<SleepActivityModel> sleepInBedValue) {
@@ -141,6 +194,7 @@ class SleepController extends GetxController {
       sleepInBedPercent.value =
           (((sleepInBedValue.first.totalValue ?? 0) / 60) / sleepDuration)
               .maxOneOrZero;
+      userGoal.value = sleepDuration;
       totalSleepPercent.value = sleepInBedPercent.value * 100;
       leftSleepPercent.value = 100 - totalSleepPercent.value;
       feelASleep.value = durationToString(0.toInt());

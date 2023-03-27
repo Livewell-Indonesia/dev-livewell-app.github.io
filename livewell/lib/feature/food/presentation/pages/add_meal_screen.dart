@@ -1095,7 +1095,7 @@ class ListOfSearchResults extends StatelessWidget {
                   Obx(() {
                     return SearchHistoryItem(
                         title: item.foodName ?? "",
-                        description: item.foodDesc,
+                        description: item.desc(),
                         isAdded: addMealController.addedFoods.firstWhereOrNull(
                                 (element) =>
                                     element.foodName == item.foodName) !=

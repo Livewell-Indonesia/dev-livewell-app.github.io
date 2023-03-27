@@ -30,8 +30,15 @@ class Foods {
   List<Servings>? servings;
   String? provider;
 
-  String get foodDesc {
-    return "${(servings?[0].calories ?? "0")} cal, ${(servings?[0].servingDescription ?? "")} ${brandName ?? ""}";
+  String desc() {
+    final calories = servings?[0].calories ?? "0";
+    final servingDescription = servings?[0].servingDescription == null
+        ? ""
+        : ", ${servings?[0].servingDescription}";
+    final brand = brandName == null || brandName == "nan" || brandName!.isEmpty
+        ? ""
+        : ", $brandName";
+    return "$calories cal$servingDescription";
   }
 
   Foods.copyWith(Foods food) {

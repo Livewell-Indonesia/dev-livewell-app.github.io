@@ -78,4 +78,34 @@ class SharedPref {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setBool(PrefConstant.showCoachmarkDashboard, show);
   }
+
+  static Future<bool> showInfoExercise() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(PrefConstant.showInfoExercise) ?? true;
+  }
+
+  static Future<bool> saveShowInfoExercise(bool show) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setBool(PrefConstant.showInfoExercise, show);
+  }
+
+  static Future<bool> showInfoWater() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(PrefConstant.showInfoWater) ?? true;
+  }
+
+  static Future<bool> saveShowInfoWater(bool show) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setBool(PrefConstant.showInfoWater, show);
+  }
+
+  static Future<bool> showInfoSleep() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(PrefConstant.showInfoSleep) ?? true;
+  }
+
+  static Future<bool> saveShowInfoSleep(bool show) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setBool(PrefConstant.showInfoSleep, show);
+  }
 }

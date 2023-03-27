@@ -5,6 +5,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/core/base/usecase.dart';
+import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
+import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart';
+import 'package:livewell/feature/food/domain/usecase/get_meal_history.dart';
 import 'package:livewell/feature/questionnaire/domain/usecase/post_questionnaire.dart';
 import 'package:livewell/feature/update_weight/domain/model/weight_history.dart';
 import 'package:livewell/feature/update_weight/domain/usecase/get_user_history.dart';
@@ -22,13 +25,70 @@ class UpdateWeightController extends GetxController {
   double inputtedWeight = 0.0;
   Rx<double> weightPrediciton = 0.0.obs;
   double inputtedTargetWeight = 0.0;
+  Rx<String> title = ''.obs;
+  GetUserMealHistory getUserMealHistory = GetUserMealHistory.instance();
+  RxList<MealHistoryModel> mealHistoryList = <MealHistoryModel>[].obs;
 
   @override
   void onInit() {
     getCurrentWeight();
     getWeightHistory();
     calculatePrediction();
+    generateTitle();
+    getMealHistory();
     super.onInit();
+  }
+
+  void getMealHistory() async {
+    GetUserMealHistory getUserMealHistory = GetUserMealHistory.instance();
+    var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 23, 59, 59);
+    var endDate = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day - 90, 0, 0, 0);
+    if (Get.isRegistered<DashboardController>()) {
+      EasyLoading.show();
+      final result = await getUserMealHistory(UserMealHistoryParams(
+          filter: Filter(
+        startDate: currentDate,
+        endDate: endDate,
+      )));
+      EasyLoading.dismiss();
+      result.fold((l) {}, (r) {
+        inspect(r.response);
+        mealHistoryList.value = r.response!;
+      });
+    }
+  }
+
+  String getXValue(int index) {
+    String value = '';
+    if (mealHistoryList.isNotEmpty) {
+      var date = DateTime(DateTime.now().year, DateTime.now().month,
+          DateTime.now().day - 6 + index);
+      value = DateFormat('dd/MM').format(date);
+    }
+    return value;
+  }
+
+  double getYValue(int index) {
+    var value = 0.0;
+    if (mealHistoryList.isNotEmpty) {
+      var date = DateTime(DateTime.now().year, DateTime.now().month,
+          DateTime.now().day - 6 + index);
+      for (var data in mealHistoryList) {
+        if (DateTime.parse(data.mealAt!).year == date.year &&
+            DateTime.parse(data.mealAt!).month == date.month &&
+            DateTime.parse(data.mealAt!).day == date.day) {
+          value += data.caloriesInG!;
+        }
+      }
+    }
+    return value;
+  }
+
+  void generateTitle() {
+    var calculation =
+        NumberFormat('#.0').format(weight.value - targetWeight.value);
   }
 
   void getCurrentWeight() {
@@ -48,11 +108,7 @@ class UpdateWeightController extends GetxController {
       final result = await getUserHistory(NoParams());
       EasyLoading.dismiss();
       result.fold((l) {}, (r) {
-        if (r.length >= 7) {
-          weightHistory.value = r.getRange(0, 7).toList();
-        } else {
-          weightHistory.value = r;
-        }
+        weightHistory.value = r;
         if (weightHistory.isNotEmpty) {
           var maxWeight = weightHistory
               .asMap()
@@ -71,6 +127,11 @@ class UpdateWeightController extends GetxController {
           maxY.value = targetWeight.toDouble() > maxWeight
               ? targetWeight.toDouble()
               : maxWeight;
+          var initialWeight = weightHistory.last.weight!.toDouble();
+          var latestWeight = weightHistory.first.weight!.toDouble();
+          title.value = initialWeight >= latestWeight
+              ? 'You have lost ${NumberFormat('0.0').format(initialWeight - latestWeight)} kg'
+              : 'You have gained ${NumberFormat('0.0').format(latestWeight - initialWeight)} kg';
         }
         inspect(weightHistory);
         inspect(minY);
@@ -99,7 +160,7 @@ class UpdateWeightController extends GetxController {
     if (Get.isRegistered<DashboardController>()) {
       var user = Get.find<DashboardController>().dashboard.value;
       var remainingKcal = user.dashboard?.caloriesLeft ?? 0;
-      weightPrediciton.value = weight.value + remainingKcal * 28 * 0.00013;
+      weightPrediciton.value = weight.value - (remainingKcal * 28 * 0.00013);
     }
   }
 

@@ -1,4 +1,3 @@
-import 'package:charts_painter/chart.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,7 +21,7 @@ class NutriScoreDetailsScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         title: 'NutriScore Details'.tr,
         body: Expanded(
-          child: comingsoonPage(),
+          child: content(),
         ));
   }
 
@@ -81,19 +80,19 @@ class NutriScoreDetailsScreen extends StatelessWidget {
               ),
             ],
           ),
-          16.verticalSpace,
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Text(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: const Color(0xFF808080),
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
+          // 16.verticalSpace,
+          // Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 16.w),
+          //   child: Text(
+          //     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
+          //     textAlign: TextAlign.center,
+          //     style: TextStyle(
+          //       color: const Color(0xFF808080),
+          //       fontSize: 14.sp,
+          //       fontWeight: FontWeight.w500,
+          //     ),
+          //   ),
+          // ),
           24.verticalSpace,
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16.w),
@@ -114,123 +113,137 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                 16.verticalSpace,
                 SizedBox(
                   height: 200.h,
-                  child: BarChart(
-                    BarChartData(
-                      maxY: controller.getMaxY(),
-                      minY: controller.getMinY(),
-                      barGroups: List.generate(7, (index) {
-                        return BarChartGroupData(
-                          x: index,
-                          barRods: [
-                            BarChartRodData(
-                                toY: controller
-                                    .nutrientList[index].nutrient.eaten!
-                                    .toDouble())
-                          ],
-                        );
-                      }),
-                      barTouchData: BarTouchData(
-                        enabled: true,
-                      ),
-                      borderData: FlBorderData(show: false),
-                      gridData: FlGridData(
-                          show: true,
-                          drawVerticalLine: false,
-                          horizontalInterval: 50,
-                          verticalInterval: controller.getMaxY() < 1 &&
-                                  controller.getMinY() < 1
-                              ? 1
-                              : (controller.getMaxY() - controller.getMinY()) /
-                                  2,
-                          getDrawingHorizontalLine: (value) {
-                            return FlLine(
-                                color: const Color(0xFFebebeb),
-                                strokeWidth: 1,
-                                dashArray: [2, 2]);
+                  child: Stack(
+                    children: [
+                      BarChart(
+                        BarChartData(
+                          barGroups: List.generate(7, (index) {
+                            return BarChartGroupData(
+                              x: index,
+                              barRods: [
+                                BarChartRodData(
+                                    toY: controller
+                                        .nutrientList[index].nutrient.eaten!
+                                        .toDouble())
+                              ],
+                            );
                           }),
-                      titlesData: FlTitlesData(
-                        show: true,
-                        rightTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        topTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            reservedSize: 30,
-                            showTitles: true,
-                            interval: controller.getMaxY() < 1 &&
-                                    controller.getMinY() < 1
-                                ? 1
-                                : (controller.getMaxY() -
-                                        controller.getMinY()) /
-                                    2,
-                            getTitlesWidget: (value, meta) {
-                              return Text(
-                                value.toInt().toString(),
-                                style: TextStyle(
-                                    color: const Color(0xFF505050),
-                                    fontSize: 12.sp),
-                              );
-                            },
+                          barTouchData: BarTouchData(
+                            enabled: true,
                           ),
-                        ),
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            getTitlesWidget: (value, meta) {
-                              return Transform.rotate(
-                                angle: -45,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: Text(
-                                    controller.nutrientList[value.toInt()].date
-                                        .substring(5)
-                                        .replaceAll('-', '/'),
+                          borderData: FlBorderData(show: false),
+                          gridData: FlGridData(
+                              show: true,
+                              drawVerticalLine: false,
+                              horizontalInterval: 50,
+                              verticalInterval: controller.getMaxY() < 1 &&
+                                      controller.getMinY() < 1
+                                  ? 1
+                                  : (controller.getMaxY() -
+                                          controller.getMinY()) /
+                                      2,
+                              getDrawingHorizontalLine: (value) {
+                                return FlLine(
+                                    color: const Color(0xFFebebeb),
+                                    strokeWidth: 1,
+                                    dashArray: [2, 2]);
+                              }),
+                          titlesData: FlTitlesData(
+                            show: true,
+                            rightTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                            topTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                            leftTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                reservedSize: 30,
+                                showTitles: true,
+                                interval: controller.getMaxY() < 1 &&
+                                        controller.getMinY() < 1
+                                    ? 1
+                                    : (controller.getMaxY() -
+                                            controller.getMinY()) /
+                                        2,
+                                getTitlesWidget: (value, meta) {
+                                  return Text(
+                                    value.toInt().toString(),
                                     style: TextStyle(
                                         color: const Color(0xFF505050),
                                         fontSize: 12.sp),
-                                  ),
-                                ),
-                              );
-                            },
+                                  );
+                                },
+                              ),
+                            ),
+                            bottomTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                showTitles: true,
+                                getTitlesWidget: (value, meta) {
+                                  return Transform.rotate(
+                                    angle: -45,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: Text(
+                                        controller
+                                            .nutrientList[value.toInt()].date
+                                            .substring(5)
+                                            .replaceAll('-', '/'),
+                                        style: TextStyle(
+                                            color: const Color(0xFF505050),
+                                            fontSize: 12.sp),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Text(
+                          controller.currentType.unit(),
+                          style: TextStyle(
+                              color: Color(0xFF505050),
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
           32.verticalSpace,
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'About Protein',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w700),
-              ),
-            ),
-          ),
-          8.verticalSpace,
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Text(
-              'Protein is a vital nutrient that helps build and repair muscles, boost the immune system, and aid in weight management. You can find it in delicious foods like meat, fish, eggs, dairy, beans, and nuts. Mix it up and try different sources to make sure you\'re getting all the nutrients your body needs.',
-              style: TextStyle(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w400,
-                color: const Color(0xFF808080),
-              ),
-            ),
-          ),
-          24.verticalSpace,
+          // Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+          //   child: Align(
+          //     alignment: Alignment.centerLeft,
+          //     child: Text(
+          //       'About Protein',
+          //       style: TextStyle(
+          //           color: Colors.black,
+          //           fontSize: 20.sp,
+          //           fontWeight: FontWeight.w700),
+          //     ),
+          //   ),
+          // ),
+          // 8.verticalSpace,
+          // Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 16.w),
+          //   child: Text(
+          //     'Protein is a vital nutrient that helps build and repair muscles, boost the immune system, and aid in weight management. You can find it in delicious foods like meat, fish, eggs, dairy, beans, and nuts. Mix it up and try different sources to make sure you\'re getting all the nutrients your body needs.',
+          //     style: TextStyle(
+          //       fontSize: 14.sp,
+          //       fontWeight: FontWeight.w400,
+          //       color: const Color(0xFF808080),
+          //     ),
+          //   ),
+          // ),
+          // 24.verticalSpace,
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16.w),
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),

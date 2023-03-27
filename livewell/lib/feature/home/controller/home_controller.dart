@@ -219,84 +219,6 @@ class HomeController extends GetxController {
         ],
       ),
     );
-
-    targets.add(
-      TargetFocus(
-        identify: 'Target 2',
-        keyTarget: taskKey,
-        shape: ShapeLightFocus.RRect,
-        radius: 20,
-        color: Colors.black,
-        contents: [
-          TargetContent(
-              align: ContentAlign.top,
-              builder: (context, controller) {
-                return Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Log Your First Meal".tr,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontSize: 16.sp),
-                      ),
-                      4.verticalSpace,
-                      Text(
-                        'To log your first meal, simply click on any meal task list below and add your food items. It\'s that easy!',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xFF808080),
-                            height: 1.3,
-                            fontSize: 14.sp),
-                      ),
-                      20.verticalSpace,
-                      Row(
-                        children: [
-                          const CoachmarkIndicator(
-                            position: 1,
-                            length: 3,
-                          ),
-                          const Spacer(),
-                          InkWell(
-                              onTap: () {
-                                tutorialCoachMark.previous();
-                              },
-                              child: Text(
-                                'Prev',
-                                style: TextStyle(
-                                    color: const Color(0xFF808080),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600),
-                              )),
-                          24.horizontalSpace,
-                          InkWell(
-                              onTap: () {
-                                tutorialCoachMark.next();
-                              },
-                              child: Text(
-                                'Next',
-                                style: TextStyle(
-                                    color: const Color(0xFF8F01DF),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600),
-                              ))
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              }),
-        ],
-      ),
-    );
     targets.add(
       TargetFocus(
         identify: 'Target 3',
@@ -357,10 +279,87 @@ class HomeController extends GetxController {
                           24.horizontalSpace,
                           InkWell(
                               onTap: () {
+                                tutorialCoachMark.next();
+                              },
+                              child: Text(
+                                'Next'.tr,
+                                style: TextStyle(
+                                    color: const Color(0xFF8F01DF),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
+                              ))
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }),
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: 'Target 2',
+        keyTarget: taskKey,
+        shape: ShapeLightFocus.RRect,
+        radius: 20,
+        color: Colors.black,
+        contents: [
+          TargetContent(
+              align: ContentAlign.top,
+              builder: (context, controller) {
+                return Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Log Your First Meal".tr,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 16.sp),
+                      ),
+                      4.verticalSpace,
+                      Text(
+                        'To log your first meal, simply click on any meal task list below and add your food items. It\'s that easy!',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xFF808080),
+                            height: 1.3,
+                            fontSize: 14.sp),
+                      ),
+                      20.verticalSpace,
+                      Row(
+                        children: [
+                          const CoachmarkIndicator(
+                            position: 1,
+                            length: 3,
+                          ),
+                          const Spacer(),
+                          InkWell(
+                              onTap: () {
+                                tutorialCoachMark.previous();
+                              },
+                              child: Text(
+                                'Prev',
+                                style: TextStyle(
+                                    color: const Color(0xFF808080),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
+                              )),
+                          24.horizontalSpace,
+                          InkWell(
+                              onTap: () {
                                 tutorialCoachMark.finish();
                               },
                               child: Text(
-                                'Done'.tr,
+                                'Done',
                                 style: TextStyle(
                                     color: const Color(0xFF8F01DF),
                                     fontSize: 12.sp,
