@@ -80,6 +80,37 @@ class NutriScoreDetailsScreen extends StatelessWidget {
               ),
             ],
           ),
+          20.verticalSpace,
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+            margin: EdgeInsets.symmetric(horizontal: 16.w),
+            decoration: BoxDecoration(
+                color: const Color(0xFFD9E4E5),
+                borderRadius: BorderRadius.circular(100)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Obx(() {
+                  return Text(
+                    "today's amount: ${controller.todaysAmount}${controller.currentType.unit()} ",
+                    style: TextStyle(
+                        color: const Color(0xFF171433),
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600),
+                  );
+                }),
+                Obx(() {
+                  return Text(
+                    "weekly average: ${controller.weeklyAverage}${controller.currentType.unit()}",
+                    style: TextStyle(
+                        color: const Color(0xFF171433),
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600),
+                  );
+                })
+              ],
+            ),
+          ),
           // 16.verticalSpace,
           // Padding(
           //   padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -206,7 +237,7 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                         child: Text(
                           controller.currentType.unit(),
                           style: TextStyle(
-                              color: Color(0xFF505050),
+                              color: const Color(0xFF505050),
                               fontSize: 10.sp,
                               fontWeight: FontWeight.w600),
                         ),

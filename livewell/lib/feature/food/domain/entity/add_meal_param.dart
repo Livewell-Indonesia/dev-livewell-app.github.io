@@ -14,14 +14,14 @@ class AddMealParams {
   String? numberOfUnits;
 
   AddMealParams(
-      {mealName,
-      mealBrand,
-      mealNutritions,
-      mealType,
-      nutritions,
-      mealAt,
-      mealServings,
-      numberOfUnits});
+      {this.mealName,
+      this.mealBrand,
+      this.mealNutritions,
+      this.mealType,
+      this.nutritions,
+      this.mealAt,
+      this.mealServings,
+      this.numberOfUnits});
 
   AddMealParams.asParams(
       Foods food, String numberOfServings, MealTime mealTime, String time) {
@@ -90,40 +90,40 @@ class Nutritions {
   Nutrition? molybdenum;
 
   Nutritions({
-    carbohydrates,
-    protein,
-    fat,
-    saturatedFat,
-    transfat,
-    monosaturatedFat,
-    polyunsaturatedFat,
-    vitaminA,
-    vitaminC,
-    vitaminD,
-    calcium,
-    sodium,
-    iron,
-    calories,
-    potassium,
-    vitaminE,
-    vitaminK,
-    vitaminB1,
-    vitaminB2,
-    vitaminB3,
-    vitaminB5,
-    vitaminB6,
-    vitaminB12,
-    vitaminB7,
-    vitaminB9,
-    phosphorus,
-    magnesium,
-    chloride,
-    iodine,
-    zinc,
-    selenium,
-    fluoride,
-    chromium,
-    molybdenum,
+    this.carbohydrates,
+    this.protein,
+    this.fat,
+    this.saturatedFat,
+    this.transfat,
+    this.monosaturatedFat,
+    this.polyunsaturatedFat,
+    this.vitaminA,
+    this.vitaminC,
+    this.vitaminD,
+    this.calcium,
+    this.sodium,
+    this.iron,
+    this.calories,
+    this.potassium,
+    this.vitaminE,
+    this.vitaminK,
+    this.vitaminB1,
+    this.vitaminB2,
+    this.vitaminB3,
+    this.vitaminB5,
+    this.vitaminB6,
+    this.vitaminB12,
+    this.vitaminB7,
+    this.vitaminB9,
+    this.phosphorus,
+    this.magnesium,
+    this.chloride,
+    this.iodine,
+    this.zinc,
+    this.selenium,
+    this.fluoride,
+    this.chromium,
+    this.molybdenum,
   });
 
   Nutritions.asParams(Servings servings, String numberOfServings) {
@@ -316,7 +316,7 @@ class Nutrition {
   num? value;
   String? unit;
 
-  Nutrition({value, unit});
+  Nutrition({this.value, this.unit});
 
   Nutrition.asParams(double this.value, {String this.unit = 'g'});
 

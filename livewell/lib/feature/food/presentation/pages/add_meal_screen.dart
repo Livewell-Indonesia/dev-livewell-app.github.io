@@ -924,37 +924,34 @@ class _AddMealScreenState extends State<AddMealScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Obx(() {
-                return SizedBox(
-                  height: addMealController.showScanMenu().value ? 159.h : 0.h,
-                  child: ListView.separated(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return addMealController
-                                .checkAvailability(ScanType.values[index])
-                                .value
-                            ? Expanded(
-                                child: scanButton(ScanType.values[index],
-                                    () async {
-                                AppNavigator.push(
-                                    routeName:
-                                        "${AppPages.scanFood}/${ScanType.values[index].name}");
-                              }))
-                            : Container();
-                      },
-                      separatorBuilder: (context, index) {
-                        return addMealController
-                                .checkAvailability(ScanType.values[index])
-                                .value
-                            ? 20.horizontalSpace
-                            : Container();
-                      },
-                      itemCount: ScanType.values.length),
-                );
-              })),
+          Obx(() {
+            return SizedBox(
+              height:
+                  addMealController.showScanMenu().value ? 92.h + 24.h : 0.h,
+              child: ListView.separated(
+                  padding: EdgeInsets.fromLTRB(16.w, 24.h, 16.w, 0),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return addMealController
+                            .checkAvailability(ScanType.values[index])
+                            .value
+                        ? Expanded(
+                            child: scanButton(ScanType.values[index], () async {
+                            ScanType.values[index].navigation(type);
+                          }))
+                        : Container();
+                  },
+                  separatorBuilder: (context, index) {
+                    return addMealController
+                            .checkAvailability(ScanType.values[index])
+                            .value
+                        ? 8.horizontalSpace
+                        : Container();
+                  },
+                  itemCount: ScanType.values.length - 1),
+            );
+          }),
           const SizedBox(height: 32),
           Obx(() {
             if (addMealController.history.isNotEmpty) {
@@ -1021,41 +1018,73 @@ class _AddMealScreenState extends State<AddMealScreen>
   Widget scanButton(ScanType type, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        width: 153.w,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        padding:
-            const EdgeInsets.only(top: 15, left: 18, bottom: 12, right: 18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 72,
-              height: 72,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: SvgPicture.asset(
-                type.asset(),
-                width: 30,
-                height: 30,
-                fit: BoxFit.scaleDown,
-              ),
+      child: Stack(
+        alignment: Alignment.topRight,
+        children: [
+          Container(
+            width: 109.w,
+            height: 92.h,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
             ),
-            const SizedBox(height: 32),
-            Text(
-              type.title(),
-              style: TextStyle(
-                  fontSize: 16.sp,
-                  color: const Color(0xFF171433),
-                  fontWeight: FontWeight.w600),
-            )
-          ],
-        ),
+            padding: EdgeInsets.only(
+                top: 16.h, left: 14.w, bottom: 16.h, right: 14.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: SvgPicture.asset(
+                    type.asset(),
+                    width: 30,
+                    height: 30,
+                    fit: BoxFit.scaleDown,
+                  ),
+                ),
+                12.verticalSpace,
+                Text(
+                  type.title(),
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      color: const Color(0xFF171433),
+                      fontWeight: FontWeight.w600),
+                )
+              ],
+            ),
+          ),
+          type.isBeta()
+              ? const Align(
+                  alignment: Alignment.topRight,
+                  child: BetaTags(),
+                )
+              : Container()
+        ],
+      ),
+    );
+  }
+}
+
+class BetaTags extends StatelessWidget {
+  const BetaTags({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+      decoration: const BoxDecoration(
+        color: Color(0xFF8F01DF),
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(8), bottomLeft: Radius.circular(8)),
+      ),
+      child: Text(
+        'Beta',
+        style: TextStyle(
+            color: Colors.white, fontSize: 10.sp, fontWeight: FontWeight.w500),
       ),
     );
   }
@@ -1246,26 +1275,57 @@ class SearchHistoryItem extends StatelessWidget {
 }
 
 enum ScanType {
-  barcode,
-  photo,
+  nutrico,
+  quickAdd,
+  scanMeal,
 }
 
 extension ScanTypeAtt on ScanType {
   String title() {
     switch (this) {
-      case ScanType.barcode:
-        return 'Scan a barcode'.tr;
-      case ScanType.photo:
+      case ScanType.nutrico:
+        return 'NutriCo'.tr;
+      case ScanType.scanMeal:
         return 'Scan a meal'.tr;
+      case ScanType.quickAdd:
+        return 'Quick Add';
+    }
+  }
+
+  bool isBeta() {
+    switch (this) {
+      case ScanType.nutrico:
+        return true;
+      case ScanType.scanMeal:
+        return false;
+      case ScanType.quickAdd:
+        return false;
     }
   }
 
   String asset() {
     switch (this) {
-      case ScanType.barcode:
+      case ScanType.nutrico:
         return Constant.icBarcode;
-      case ScanType.photo:
+      case ScanType.scanMeal:
         return Constant.icScanMeal;
+      case ScanType.quickAdd:
+        return Constant.icQuickAdd;
+    }
+  }
+
+  void navigation(String? type) {
+    switch (this) {
+      case ScanType.nutrico:
+        return AppNavigator.push(routeName: AppPages.nutriCoScreen, arguments: {
+          'type': type?.toLowerCase(),
+        });
+      case ScanType.quickAdd:
+        return AppNavigator.push(routeName: AppPages.quickAdd, arguments: {
+          'type': type?.toLowerCase(),
+        });
+      case ScanType.scanMeal:
+        return AppNavigator.push(routeName: AppPages.scanFood);
     }
   }
 }

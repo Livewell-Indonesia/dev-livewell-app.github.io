@@ -161,12 +161,16 @@ class AccountSettingsTextField extends StatefulWidget {
   final bool enabled;
   final TextInputType inputType;
   final List<TextInputFormatter> inputFormatter;
+  final Color textColor;
+  final Color labelColor;
   const AccountSettingsTextField({
     Key? key,
     required this.textEditingController,
     required this.hintText,
     this.enabled = true,
     this.inputType = TextInputType.text,
+    this.textColor = const Color(0xFF8F01DF),
+    this.labelColor = const Color(0xFF000000),
     this.inputFormatter = const [],
   }) : super(key: key);
 
@@ -236,7 +240,7 @@ class _AccountSettingsTextFieldState extends State<AccountSettingsTextField> {
           controller: widget.textEditingController,
           inputFormatters: widget.inputFormatter,
           style: TextStyle(
-              color: const Color(0xFF8F01DF),
+              color: widget.textColor,
               fontSize: 16.sp,
               fontWeight: FontWeight.w400),
           decoration: InputDecoration(
@@ -249,8 +253,8 @@ class _AccountSettingsTextFieldState extends State<AccountSettingsTextField> {
                   widget.hintText,
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14.sp,
+                      color: widget.labelColor,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w500),
                 ),
               ],
@@ -258,7 +262,7 @@ class _AccountSettingsTextFieldState extends State<AccountSettingsTextField> {
             border: InputBorder.none,
             labelStyle: TextStyle(
                 color: const Color(0xFF8F01DF),
-                fontSize: 14.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w600),
           ),
         ),

@@ -3,18 +3,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'dart:io' show Platform;
 
+import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
+
 class LiveWellScaffold extends StatelessWidget {
   final String title;
   final Color? backgroundColor;
   final Widget body;
   final bool allowBack;
   final Widget? trailing;
+  final bool beta;
   const LiveWellScaffold(
       {Key? key,
       required this.title,
       this.backgroundColor = const Color(0xFFF1F1F1),
       required this.body,
       this.trailing,
+      this.beta = false,
       this.allowBack = true})
       : super(key: key);
 
@@ -42,12 +46,19 @@ class LiveWellScaffold extends StatelessWidget {
                       width: double.infinity,
                       //color: Colors.red,
                       child: Center(
-                        child: Text(
-                          title,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              title,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            beta ? 8.horizontalSpace : 0.verticalSpace,
+                            beta ? const BetaTags() : Container(),
+                          ],
                         ),
                       ),
                     ),
