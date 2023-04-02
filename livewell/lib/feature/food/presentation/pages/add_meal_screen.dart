@@ -925,31 +925,41 @@ class _AddMealScreenState extends State<AddMealScreen>
         mainAxisSize: MainAxisSize.min,
         children: [
           Obx(() {
-            return SizedBox(
+            return Container(
+              padding: EdgeInsets.fromLTRB(16.w, 24.h, 16.w, 0),
               height:
                   addMealController.showScanMenu().value ? 92.h + 24.h : 0.h,
-              child: ListView.separated(
-                  padding: EdgeInsets.fromLTRB(16.w, 24.h, 16.w, 0),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return addMealController
-                            .checkAvailability(ScanType.values[index])
-                            .value
-                        ? Expanded(
-                            child: scanButton(ScanType.values[index], () async {
-                            ScanType.values[index].navigation(type);
-                          }))
-                        : Container();
-                  },
-                  separatorBuilder: (context, index) {
-                    return addMealController
-                            .checkAvailability(ScanType.values[index])
-                            .value
-                        ? 8.horizontalSpace
-                        : Container();
-                  },
-                  itemCount: ScanType.values.length - 1),
+              child: Row(children: [
+                scanButton(ScanType.values[0], () {
+                  ScanType.values[0].navigation(type);
+                }),
+                8.horizontalSpace,
+                scanButton(ScanType.values[1], () {
+                  ScanType.values[1].navigation(type);
+                }),
+              ]),
+              // child: ListView.separated(
+              //     padding: EdgeInsets.fromLTRB(16.w, 24.h, 16.w, 0),
+              //     shrinkWrap: true,
+              //     scrollDirection: Axis.horizontal,
+              //     itemBuilder: (context, index) {
+              //       return addMealController
+              //               .checkAvailability(ScanType.values[index])
+              //               .value
+              //           ? Expanded(
+              //               child: scanButton(ScanType.values[index], () async {
+              //               ScanType.values[index].navigation(type);
+              //             }))
+              //           : Container();
+              //     },
+              //     separatorBuilder: (context, index) {
+              //       return addMealController
+              //               .checkAvailability(ScanType.values[index])
+              //               .value
+              //           ? 8.horizontalSpace
+              //           : Container();
+              //     },
+              //     itemCount: ScanType.values.length - 1),
             );
           }),
           const SizedBox(height: 32),
