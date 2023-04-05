@@ -302,12 +302,77 @@ class Nutritions {
     if (calcium != null) {
       data['calcium'] = calcium!.toJson();
     }
+    if (sodium != null) {
+      data['calories'] = sodium!.toJson();
+    }
     if (iron != null) {
       data['iron'] = iron!.toJson();
     }
     if (calories != null) {
       data['calories'] = calories!.toJson();
     }
+    if (potassium != null) {
+      data['potassium'] = potassium!.toJson();
+    }
+    if (vitaminE != null) {
+      data['vitamin_e'] = vitaminE!.toJson();
+    }
+    if (vitaminK != null) {
+      data['vitamin_k'] = vitaminK!.toJson();
+    }
+    if (vitaminB1 != null) {
+      data['vitamin_b1'] = vitaminB1!.toJson();
+    }
+    if (vitaminB2 != null) {
+      data['vitamin_b2'] = vitaminB2!.toJson();
+    }
+    if (vitaminB3 != null) {
+      data['vitamin_b3'] = vitaminB3!.toJson();
+    }
+    if (vitaminB5 != null) {
+      data['vitamin_b5'] = vitaminB5!.toJson();
+    }
+    if (vitaminB6 != null) {
+      data['vitamin_b6'] = vitaminB6!.toJson();
+    }
+    if (vitaminB12 != null) {
+      data['vitamin_b12'] = vitaminB12!.toJson();
+    }
+    if (vitaminB7 != null) {
+      data['vitamin_b7'] = vitaminB7!.toJson();
+    }
+    if (vitaminB9 != null) {
+      data['vitamin_b9'] = vitaminB9!.toJson();
+    }
+    if (phosphorus != null) {
+      data['phosphorus'] = phosphorus!.toJson();
+    }
+    if (magnesium != null) {
+      data['magnesium'] = magnesium!.toJson();
+    }
+
+    if (chloride != null) {
+      data['chloride'] = chloride!.toJson();
+    }
+    if (iodine != null) {
+      data['iodine'] = iodine!.toJson();
+    }
+    if (zinc != null) {
+      data['zinc'] = zinc!.toJson();
+    }
+    if (selenium != null) {
+      data['selenium'] = selenium!.toJson();
+    }
+    if (fluoride != null) {
+      data['fluoride'] = fluoride!.toJson();
+    }
+    if (chromium != null) {
+      data['chromium'] = chromium!.toJson();
+    }
+    if (molybdenum != null) {
+      data['molybdenum'] = molybdenum!.toJson();
+    }
+
     return data;
   }
 }

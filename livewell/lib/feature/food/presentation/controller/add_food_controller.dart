@@ -52,11 +52,12 @@ class AddFoodController extends GetxController {
         numberOfServing.text.trim().replaceAll(',', '.'),
         mealTime,
         selectedTime.value));
-    final result = await addMeal.call(AddMealParams.asParams(
+    final param = AddMealParams.asParams(
         food,
         numberOfServing.text.trim().replaceAll(',', '.'),
         mealTime,
-        selectedTime.value));
+        selectedTime.value);
+    final result = await addMeal.call(param);
     await addMealHistory
         .call(MealHistory(date: selectedTime.value, mealType: mealTime.name));
     Get.find<DashboardController>().onInit();
