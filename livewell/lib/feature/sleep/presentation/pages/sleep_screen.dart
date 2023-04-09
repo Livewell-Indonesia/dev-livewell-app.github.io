@@ -279,7 +279,9 @@ class _SleepScreenState extends State<SleepScreen> {
                                   x: index,
                                   barRods: [
                                     BarChartRodData(
-                                        color: const Color(0xFFDDF235),
+                                        color: controller.isYValueOptimal(index)
+                                            ? const Color(0xFFDDF235)
+                                            : const Color(0xFFFA6F6F),
                                         width: 12.w,
                                         toY: controller.getYValue(index))
                                   ],
@@ -287,6 +289,20 @@ class _SleepScreenState extends State<SleepScreen> {
                               }),
                               barTouchData: BarTouchData(
                                 enabled: true,
+                                touchTooltipData: BarTouchTooltipData(
+                                  getTooltipItem:
+                                      (group, groupIndex, rod, rodIndex) {
+                                    return BarTooltipItem(
+                                      NumberFormat('0.0')
+                                          .format(rod.toY)
+                                          .toString(),
+                                      TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14.sp),
+                                    );
+                                  },
+                                ),
                               ),
                               borderData: FlBorderData(show: false),
                               gridData: FlGridData(
@@ -349,7 +365,7 @@ class _SleepScreenState extends State<SleepScreen> {
                             child: Text(
                               'hrs.',
                               style: TextStyle(
-                                  color: Color(0xFF505050),
+                                  color: const Color(0xFF505050),
                                   fontSize: 10.sp,
                                   fontWeight: FontWeight.w600),
                             ),

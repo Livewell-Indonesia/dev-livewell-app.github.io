@@ -18,6 +18,19 @@ class NutriscoreDetailController extends GetxController {
     super.onInit();
   }
 
+  bool isYValueOptimal(int index) {
+    var target = nutrientList[index].nutrient.optimizedNutrient!;
+    var minimum = target * 0.8;
+    var maximum = target * 1.2;
+
+    if (nutrientList[index].nutrient.eaten! >= minimum &&
+        nutrientList[index].nutrient.eaten! <= maximum) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   void getDetailData() {
     NutriScoreController nutriScoreController = Get.find();
     var data = nutriScoreController.nutriScoreDetail;

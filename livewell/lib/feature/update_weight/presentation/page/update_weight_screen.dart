@@ -203,6 +203,18 @@ class UpdateWeightScreen extends StatelessWidget {
                               return BarChart(BarChartData(
                                   barTouchData: BarTouchData(
                                     enabled: true,
+                                    touchTooltipData: BarTouchTooltipData(
+                                      getTooltipItem:
+                                          (group, groupIndex, rod, rodIndex) {
+                                        return BarTooltipItem(
+                                          '${NumberFormat('0.0').format(rod.toY)} kcal',
+                                          TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14.sp),
+                                        );
+                                      },
+                                    ),
                                   ),
                                   borderData: FlBorderData(show: false),
                                   gridData: FlGridData(

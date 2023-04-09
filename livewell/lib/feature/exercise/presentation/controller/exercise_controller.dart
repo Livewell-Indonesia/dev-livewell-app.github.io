@@ -63,6 +63,15 @@ class ExerciseController extends GetxController
     return value;
   }
 
+  bool isYValueOptimal(int index) {
+    var userData = Get.find<DashboardController>().user.value;
+    var goal = userData.exerciseGoalKcal ?? 0;
+    var value = getYValue(index);
+    var minimum = goal * 0.8;
+    var maximum = goal * 1.2;
+    return value >= minimum && value <= maximum;
+  }
+
   String getXValue(int index) {
     String value = '';
     if (exerciseHistoryList.isNotEmpty) {

@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/nutriscore/presentation/controller/nutriscore_controller.dart';
 import 'package:livewell/feature/nutriscore/presentation/controller/nutriscore_detail_controller.dart';
@@ -92,7 +93,7 @@ class NutriScoreDetailsScreen extends StatelessWidget {
               children: [
                 Obx(() {
                   return Text(
-                    "today's amount: ${controller.todaysAmount}${controller.currentType.unit()} ",
+                    "Today’s Amount: ${controller.todaysAmount}${controller.currentType.unit()} ",
                     style: TextStyle(
                         color: const Color(0xFF171433),
                         fontSize: 14.sp,
@@ -101,7 +102,7 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                 }),
                 Obx(() {
                   return Text(
-                    "weekly average: ${controller.weeklyAverage}${controller.currentType.unit()}",
+                    "Weekly Average: ${controller.weeklyAverage}${controller.currentType.unit()}",
                     style: TextStyle(
                         color: const Color(0xFF171433),
                         fontSize: 14.sp,
@@ -153,6 +154,10 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                               x: index,
                               barRods: [
                                 BarChartRodData(
+                                    color: controller.isYValueOptimal(index)
+                                        ? const Color(0xFFDDF235)
+                                        : const Color(0xFFFA6F6F),
+                                    width: 12.w,
                                     toY: controller
                                         .nutrientList[index].nutrient.eaten!
                                         .toDouble())
@@ -161,6 +166,21 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                           }),
                           barTouchData: BarTouchData(
                             enabled: true,
+                            touchTooltipData: BarTouchTooltipData(
+                              getTooltipItem:
+                                  (group, groupIndex, rod, rodIndex) {
+                                return BarTooltipItem(
+                                  NumberFormat('0.0')
+                                          .format(rod.toY)
+                                          .toString() +
+                                      controller.currentType.unit(),
+                                  TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14.sp),
+                                );
+                              },
+                            ),
                           ),
                           borderData: FlBorderData(show: false),
                           gridData: FlGridData(
