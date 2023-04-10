@@ -303,7 +303,7 @@ class Nutritions {
       data['calcium'] = calcium!.toJson();
     }
     if (sodium != null) {
-      data['calories'] = sodium!.toJson();
+      data['sodium'] = sodium!.toJson();
     }
     if (iron != null) {
       data['iron'] = iron!.toJson();
