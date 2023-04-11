@@ -293,9 +293,7 @@ class _SleepScreenState extends State<SleepScreen> {
                                   getTooltipItem:
                                       (group, groupIndex, rod, rodIndex) {
                                     return BarTooltipItem(
-                                      NumberFormat('0.0')
-                                          .format(rod.toY)
-                                          .toString(),
+                                      '${NumberFormat('0.0').format(rod.toY)}hrs',
                                       TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w500,

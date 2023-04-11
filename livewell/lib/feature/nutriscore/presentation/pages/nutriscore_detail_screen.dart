@@ -93,7 +93,7 @@ class NutriScoreDetailsScreen extends StatelessWidget {
               children: [
                 Obx(() {
                   return Text(
-                    "Today’s Amount: ${controller.todaysAmount}${controller.currentType.unit()} ",
+                    "Today’s Amount: ${NumberFormat('0.0').format(controller.todaysAmount.value).toString()}${controller.currentType.unit()} ",
                     style: TextStyle(
                         color: const Color(0xFF171433),
                         fontSize: 14.sp,
@@ -102,7 +102,7 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                 }),
                 Obx(() {
                   return Text(
-                    "Weekly Average: ${controller.weeklyAverage}${controller.currentType.unit()}",
+                    "Weekly Average: ${NumberFormat('0.0').format(controller.weeklyAverage.value).toString()}${controller.currentType.unit()}",
                     style: TextStyle(
                         color: const Color(0xFF171433),
                         fontSize: 14.sp,

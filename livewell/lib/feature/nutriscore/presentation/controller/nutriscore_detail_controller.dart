@@ -8,8 +8,8 @@ class NutriscoreDetailController extends GetxController {
   List<NutrientDetailData> nutrientList = [];
   late NutrientType currentType;
   late num nutrientValue;
-  Rx<num> todaysAmount = 0.obs;
-  Rx<num> weeklyAverage = 0.obs;
+  Rx<double> todaysAmount = 0.0.obs;
+  Rx<double> weeklyAverage = 0.0.obs;
   @override
   void onInit() {
     currentType = Get.arguments['type'];
@@ -42,13 +42,13 @@ class NutriscoreDetailController extends GetxController {
         date: element.date!,
       ));
     }
-    todaysAmount.value = nutrientList[0].nutrient.eaten!;
+    todaysAmount.value = nutrientList[0].nutrient.eaten!.toDouble();
     nutrientList = nutrientList.reversed.toList();
     num temp = 0;
     for (var element in nutrientList) {
       temp += element.nutrient.eaten!;
     }
-    weeklyAverage.value = (temp / nutrientList.length).round();
+    weeklyAverage.value = (temp / nutrientList.length);
   }
 
   double getMaxY() {
