@@ -8,6 +8,7 @@ import 'package:livewell/core/log.dart';
 import 'package:livewell/core/network/api_url.dart';
 import 'package:livewell/core/network/network_module.dart';
 import 'package:livewell/feature/food/data/model/foods_model.dart';
+import 'package:livewell/feature/nutrico/data/model/nutrico_asset_model.dart';
 import 'package:livewell/feature/nutrico/domain/repository/nutrico_repository.dart';
 import 'package:livewell/feature/nutrico/domain/usecase/post_nutrico.dart';
 
@@ -37,6 +38,19 @@ class NutricoRepositoryImpl extends NetworkModule implements NutricoRepository {
           provider: nyoba.provider);
       inspect(data);
       return Right(data);
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, NutricoAsset>> getNutricoAsset() async {
+    try {
+      final response = await getMethod(
+        Endpoint.nutriCoAsset,
+      );
+      final json = responseHandler(response);
+      return Right(NutricoAsset.fromJson(json));
     } catch (ex) {
       return Left(ServerFailure(message: ex.toString()));
     }

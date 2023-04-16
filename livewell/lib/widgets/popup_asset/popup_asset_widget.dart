@@ -31,7 +31,7 @@ class PopupAssetWidget extends StatelessWidget {
                     Text('Info',
                         style: TextStyle(
                             fontSize: 16.sp, fontWeight: FontWeight.w600)),
-                    Spacer(),
+                    const Spacer(),
                     InkWell(
                       onTap: () {
                         Navigator.pop(context);
