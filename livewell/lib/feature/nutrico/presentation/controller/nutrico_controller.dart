@@ -10,6 +10,14 @@ import 'package:lottie/lottie.dart';
 
 class NutriCoController extends GetxController {
   TextEditingController foodDescription = TextEditingController();
+  Rx<bool> buttonEnabled = false.obs;
+  @override
+  void onInit() {
+    foodDescription.addListener(() {
+      buttonEnabled.value = foodDescription.text.isNotEmpty;
+    });
+    super.onInit();
+  }
 
   void postData() async {
     Get.dialog(Center(

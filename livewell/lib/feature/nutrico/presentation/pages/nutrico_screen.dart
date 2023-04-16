@@ -78,13 +78,17 @@ class NutriCoScreen extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            LiveWellButton(
-              label: 'Submit',
-              color: const Color(0xFFDDF235),
-              onPressed: () {
-                controller.postData();
-              },
-            ),
+            Obx(() {
+              return LiveWellButton(
+                label: 'Submit',
+                color: const Color(0xFFDDF235),
+                onPressed: controller.buttonEnabled.value
+                    ? () {
+                        controller.postData();
+                      }
+                    : null,
+              );
+            }),
             32.verticalSpace,
           ],
         ),

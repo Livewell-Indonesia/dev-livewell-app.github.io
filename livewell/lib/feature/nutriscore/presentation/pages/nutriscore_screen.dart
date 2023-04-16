@@ -54,6 +54,11 @@ class _NutriScoreScreenState extends State<NutriScoreScreen> {
                             value: controller
                                     .getNutrientByType(
                                         NutrientType.values[index])
+                                    ?.eaten ??
+                                0,
+                            score: controller
+                                    .getNutrientByType(
+                                        NutrientType.values[index])
                                     ?.points ??
                                 0,
                           );
@@ -78,10 +83,12 @@ class _NutriScoreScreenState extends State<NutriScoreScreen> {
 class NutriScoreDetailItem extends StatelessWidget {
   final String name;
   final num value;
+  final num score;
   const NutriScoreDetailItem({
     super.key,
     required this.name,
     required this.value,
+    required this.score,
   });
 
   @override
@@ -97,7 +104,7 @@ class NutriScoreDetailItem extends StatelessWidget {
           Text(
             name,
             style: TextStyle(
-                color: Colors.black, 
+                color: Colors.black,
                 fontWeight: FontWeight.w700,
                 fontSize: 13.sp),
           ),
@@ -105,7 +112,7 @@ class NutriScoreDetailItem extends StatelessWidget {
           Row(
             children: [
               Text(
-                '${value.toInt()}/10',
+                '${score.toInt()}/10',
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w700,
@@ -114,11 +121,11 @@ class NutriScoreDetailItem extends StatelessWidget {
               8.horizontalSpace,
               Container(
                 decoration: BoxDecoration(
-                    color: getStatusFromScore(value.toInt()).color(),
+                    color: getStatusFromScore(score.toInt()).color(),
                     borderRadius: BorderRadius.circular(100)),
                 padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
                 child: Text(
-                  getStatusFromScore(value.toInt()).title(),
+                  getStatusFromScore(score.toInt()).title(),
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 8.sp,

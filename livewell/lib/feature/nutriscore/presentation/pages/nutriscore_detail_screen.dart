@@ -45,7 +45,8 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                 color: Colors.black,
                 fontWeight: FontWeight.w700),
           ),
-          24.verticalSpace,
+          8.verticalSpace,
+          NutriScoreScale(),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -56,23 +57,24 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                     fontSize: 16.sp),
               ),
-              Text(
-                '${controller.nutrientValue.round()}/10',
-                style: TextStyle(
-                    color: const Color(0xFF171433),
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16.sp),
-              ),
+              Obx(() {
+                return Text(
+                  '${NumberFormat('0.0').format(controller.todaysAmount.value).toString()}${controller.currentType.unit()}',
+                  style: TextStyle(
+                      color: const Color(0xFF171433),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16.sp),
+                );
+              }),
               16.horizontalSpace,
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                 decoration: BoxDecoration(
-                  color: getStatusFromScore(controller.nutrientValue.toInt())
-                      .color(),
+                  color: controller.getNutriScoreStatus().color(),
                   borderRadius: BorderRadius.circular(100),
                 ),
                 child: Text(
-                  getStatusFromScore(controller.nutrientValue.toInt()).title(),
+                  controller.getNutriScoreStatus().title(),
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 16.sp,
@@ -89,24 +91,48 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                 color: const Color(0xFFD9E4E5),
                 borderRadius: BorderRadius.circular(100)),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Obx(() {
-                  return Text(
-                    "Today’s Amount: ${NumberFormat('0.0').format(controller.todaysAmount.value).toString()}${controller.currentType.unit()} ",
-                    style: TextStyle(
-                        color: const Color(0xFF171433),
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600),
+                  return Column(
+                    children: [
+                      Text(
+                        "Today’s Amount",
+                        style: TextStyle(
+                            color: const Color(0xFF808080),
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      4.verticalSpace,
+                      Text(
+                        '${NumberFormat('0.0').format(controller.todaysAmount.value).toString()}${controller.currentType.unit()}',
+                        style: TextStyle(
+                            color: const Color(0xFF171433),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600),
+                      )
+                    ],
                   );
                 }),
                 Obx(() {
-                  return Text(
-                    "Weekly Average: ${NumberFormat('0.0').format(controller.weeklyAverage.value).toString()}${controller.currentType.unit()}",
-                    style: TextStyle(
-                        color: const Color(0xFF171433),
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600),
+                  return Column(
+                    children: [
+                      Text(
+                        "Weekly Average",
+                        style: TextStyle(
+                            color: const Color(0xFF808080),
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      4.verticalSpace,
+                      Text(
+                        '${NumberFormat('0.0').format(controller.weeklyAverage.value).toString()}${controller.currentType.unit()}',
+                        style: TextStyle(
+                            color: const Color(0xFF171433),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600),
+                      )
+                    ],
                   );
                 })
               ],
@@ -338,5 +364,182 @@ class NutriScoreDetailsScreen extends StatelessWidget {
       return NutrientScoreStatus.optimal;
     }
     return NutrientScoreStatus.low;
+  }
+}
+
+class NutriScoreScale extends StatefulWidget {
+  NutriScoreScale({super.key});
+
+  @override
+  State<NutriScoreScale> createState() => _NutriScoreScaleState();
+}
+
+class _NutriScoreScaleState extends State<NutriScoreScale> {
+  final GlobalKey _key = GlobalKey();
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+      child: Stack(
+        children: [
+          Container(
+            key: _key,
+            width: 1.sw,
+            height: 100.h,
+            child: Builder(builder: (context) {
+              return Column(
+                children: [
+                  const Spacer(),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 12.h,
+                              decoration: const BoxDecoration(
+                                color: Color(0xFF808080),
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(8),
+                                    bottomLeft: Radius.circular(8)),
+                              ),
+                            ),
+                            8.verticalSpace,
+                            Text(
+                              'Low',
+                              style: TextStyle(
+                                  color: const Color(0xFF808080),
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 12.h,
+                              decoration: const BoxDecoration(
+                                color: Color(0xFF80A4A9),
+                              ),
+                            ),
+                            8.verticalSpace,
+                            Text(
+                              'Optimal',
+                              style: TextStyle(
+                                  color: const Color(0xFF808080),
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 12.h,
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFFA6F6F),
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(8),
+                                    bottomRight: Radius.circular(8)),
+                              ),
+                            ),
+                            8.verticalSpace,
+                            Text(
+                              'High',
+                              style: TextStyle(
+                                  color: const Color(0xFF808080),
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            }),
+          ),
+          Positioned(
+            left: (1.sw - 48.w),
+            top: 48.h,
+            child: _buildIndicator(360 - 114.w),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildIndicator(double value) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Text('Your Value ${32.w}',
+          //     style:
+          //         TextStyle(color: const Color(0xFF808080), fontSize: 10.sp)),
+          // 2.verticalSpace,
+          // Text('9888,8mg',
+          //     style: TextStyle(
+          //         color: Colors.black,
+          //         fontSize: 16.sp,
+          //         fontWeight: FontWeight.w700)),
+          Column(
+            children: [
+              Container(
+                height: 16.h,
+                width: 2.w,
+                decoration: const BoxDecoration(
+                  color: Color(0xFF808080),
+                ),
+              ),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    height: 16.h,
+                    width: 16.w,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF808080),
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                    ),
+                  ),
+                  Container(
+                    height: 12.h,
+                    width: 12.w,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  double getWidth() {
+    if (_key.currentContext == null) {
+      return 0;
+    }
+    final RenderBox renderBox =
+        _key.currentContext?.findRenderObject() as RenderBox;
+    return renderBox.size.width;
+  }
+
+  double getHeight() {
+    if (_key.currentContext == null) {
+      return 0;
+    }
+    final RenderBox renderBox =
+        _key.currentContext?.findRenderObject() as RenderBox;
+    return renderBox.size.height;
   }
 }

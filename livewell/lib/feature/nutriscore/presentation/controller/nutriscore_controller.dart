@@ -47,7 +47,7 @@ class NutriScoreController extends GetxController {
     if (nutriScoreDetail.isNotEmpty) {
       AppNavigator.push(
           routeName: AppPages.nutriScoreDetail,
-          arguments: {'type': type, 'value': getNutrientByType(type)!.points});
+          arguments: {'type': type, 'value': getNutrientByType(type)!.eaten});
     }
   }
 
