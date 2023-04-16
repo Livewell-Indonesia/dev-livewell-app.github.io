@@ -157,6 +157,7 @@ class DashboardController extends GetxController {
     getDashBoardData();
     getMealHistories();
     getNutriscoreData();
+    getWaterData();
     super.onInit();
   }
 
