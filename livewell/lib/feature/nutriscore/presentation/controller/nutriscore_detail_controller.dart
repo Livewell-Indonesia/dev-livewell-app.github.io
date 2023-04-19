@@ -11,6 +11,7 @@ class NutriscoreDetailController extends GetxController {
   late num nutrientValue;
   Rx<double> todaysAmount = 0.0.obs;
   Rx<double> weeklyAverage = 0.0.obs;
+  Rx<int> nutrientScore = 0.obs;
   @override
   void onInit() {
     currentType = Get.arguments['type'];
@@ -44,6 +45,11 @@ class NutriscoreDetailController extends GetxController {
       ));
     }
     todaysAmount.value = nutrientList[0].nutrient.eaten!.toDouble();
+    nutrientScore.value = ((nutrientList[0].nutrient.eaten!.toDouble() /
+                nutrientList[0].nutrient.optimizedNutrient!.toDouble()) *
+            100)
+        .round()
+        .max169();
     nutrientList = nutrientList.reversed.toList();
     num temp = 0;
     for (var element in nutrientList) {
@@ -90,4 +96,10 @@ class NutrientDetailData {
   String date;
 
   NutrientDetailData({required this.nutrient, required this.date});
+}
+
+extension on int {
+  int max169() {
+    return this > 169 ? 169 : this;
+  }
 }

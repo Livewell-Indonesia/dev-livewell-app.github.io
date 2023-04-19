@@ -47,7 +47,7 @@ class NutriScoreDetailsScreen extends StatelessWidget {
           ),
           8.verticalSpace,
           NutriScoreScale(
-            score: 141,
+            score: controller.nutrientScore.value,
             value:
                 '${NumberFormat('0.0').format(controller.todaysAmount.value).toString()}${controller.currentType.unit()}',
           ),
