@@ -67,6 +67,7 @@ class DashboardController extends GetxController {
       if (isAllowed) {
         fetchHealthDataFromTypes();
         testingSleepNew();
+        getExerciseHistorydata();
         final HomeController homeController = Get.find();
         homeController.showCoachmark();
       }
@@ -81,6 +82,7 @@ class DashboardController extends GetxController {
       if (isAllowed) {
         fetchHealthDataFromTypes();
         testingSleepNew();
+        getExerciseHistorydata();
         final HomeController homeController = Get.find();
         homeController.showCoachmark();
       }
@@ -114,7 +116,7 @@ class DashboardController extends GetxController {
       for (var data in r.first.details!) {
         total += data.value ?? 0;
       }
-      totalExercise.value = total;
+      totalExercise.value = total.round();
     });
   }
 
