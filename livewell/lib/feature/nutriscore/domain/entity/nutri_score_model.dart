@@ -48,6 +48,9 @@ class Details {
   Nutrient? vitaminA;
   Nutrient? vitaminC;
   Nutrient? water;
+  Nutrient? sugar;
+  Nutrient? fiber;
+  Nutrient? cholesterol;
 
   Details(
       {this.calcium,
@@ -62,7 +65,10 @@ class Details {
       this.transFat,
       this.vitaminA,
       this.vitaminC,
-      this.water});
+      this.water,
+      this.sugar,
+      this.fiber,
+      this.cholesterol});
 
   Details.fromJson(Map<String, dynamic> json) {
     calcium =
@@ -90,6 +96,11 @@ class Details {
     vitaminC =
         json['vitamin_c'] != null ? Nutrient.fromJson(json['vitamin_c']) : null;
     water = json['water'] != null ? Nutrient.fromJson(json['water']) : null;
+    sugar = json['sugar'] != null ? Nutrient.fromJson(json['sugar']) : null;
+    fiber = json['fiber'] != null ? Nutrient.fromJson(json['fiber']) : null;
+    cholesterol = json['cholesterol'] != null
+        ? Nutrient.fromJson(json['cholesterol'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {

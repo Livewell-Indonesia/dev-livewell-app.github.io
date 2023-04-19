@@ -46,7 +46,11 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                 fontWeight: FontWeight.w700),
           ),
           8.verticalSpace,
-          NutriScoreScale(),
+          NutriScoreScale(
+            score: 141,
+            value:
+                '${NumberFormat('0.0').format(controller.todaysAmount.value).toString()}${controller.currentType.unit()}',
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -368,7 +372,9 @@ class NutriScoreDetailsScreen extends StatelessWidget {
 }
 
 class NutriScoreScale extends StatefulWidget {
-  NutriScoreScale({super.key});
+  final int score;
+  final String value;
+  const NutriScoreScale({super.key, required this.score, required this.value});
 
   @override
   State<NutriScoreScale> createState() => _NutriScoreScaleState();
@@ -376,170 +382,279 @@ class NutriScoreScale extends StatefulWidget {
 
 class _NutriScoreScaleState extends State<NutriScoreScale> {
   final GlobalKey _key = GlobalKey();
+  var width = 0.0;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final RenderBox renderBoxRed =
+          _key.currentContext!.findRenderObject() as RenderBox;
+      setState(() {
+        width = renderBoxRed.size.width;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+      //margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       child: Stack(
         children: [
           Container(
-            key: _key,
-            width: 1.sw,
+            width: 114.3.w * 3,
             height: 100.h,
-            child: Builder(builder: (context) {
-              return Column(
-                children: [
-                  const Spacer(),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 12.h,
-                              decoration: const BoxDecoration(
-                                color: Color(0xFF808080),
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(8),
-                                    bottomLeft: Radius.circular(8)),
-                              ),
-                            ),
-                            8.verticalSpace,
-                            Text(
-                              'Low',
-                              style: TextStyle(
-                                  color: const Color(0xFF808080),
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 12.h,
-                              decoration: const BoxDecoration(
-                                color: Color(0xFF80A4A9),
-                              ),
-                            ),
-                            8.verticalSpace,
-                            Text(
-                              'Optimal',
-                              style: TextStyle(
-                                  color: const Color(0xFF808080),
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 12.h,
-                              decoration: const BoxDecoration(
-                                color: Color(0xFFFA6F6F),
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(8),
-                                    bottomRight: Radius.circular(8)),
-                              ),
-                            ),
-                            8.verticalSpace,
-                            Text(
-                              'High',
-                              style: TextStyle(
-                                  color: const Color(0xFF808080),
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            }),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    LowIndicator(
+                      showCursor: getStatusFromScore(widget.score) ==
+                          NutrientScoreStatus.low,
+                      value: widget.score,
+                    ),
+                    OptimalIndicator(
+                      showCursor: getStatusFromScore(widget.score) ==
+                          NutrientScoreStatus.optimal,
+                      value: widget.score,
+                    ),
+                    HighIndicator(
+                      showCursor: getStatusFromScore(widget.score) ==
+                          NutrientScoreStatus.high,
+                      value: widget.score,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
           Positioned(
-            left: (1.sw - 48.w),
-            top: 48.h,
-            child: _buildIndicator(360 - 114.w),
+            left: getLeftPadding(widget.score),
+            bottom: 19.h,
+            child: BuildIndicator(
+                key: _key, value: widget.score, banner: widget.value),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildIndicator(double value) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Text('Your Value ${32.w}',
-          //     style:
-          //         TextStyle(color: const Color(0xFF808080), fontSize: 10.sp)),
-          // 2.verticalSpace,
-          // Text('9888,8mg',
-          //     style: TextStyle(
-          //         color: Colors.black,
-          //         fontSize: 16.sp,
-          //         fontWeight: FontWeight.w700)),
-          Column(
-            children: [
-              Container(
-                height: 16.h,
-                width: 2.w,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF808080),
+  double getLeftPadding(int score) {
+    switch (getStatusFromScore(score)) {
+      case NutrientScoreStatus.low:
+        return score < 20 ? (score * 1.4.w) : (score * 1.4.w) - width / 2;
+      case NutrientScoreStatus.optimal:
+        return ((79 * 1.4.w) + ((114.3.w / 60) * (score - 80)) - width / 2);
+      case NutrientScoreStatus.high:
+        return ((79 * 1.4.w) + ((114.3.w / 60) * (score - 80)) - width / 2);
+      // return ((score - 141) * 1.937.w) - (score > 90 ? 16.w : 0);
+    }
+  }
+}
+
+NutrientScoreStatus getStatusFromScore(int score) {
+  if (score > 140) {
+    return NutrientScoreStatus.high;
+  }
+  if (score >= 80) {
+    return NutrientScoreStatus.optimal;
+  }
+  return NutrientScoreStatus.low;
+}
+
+class BuildIndicator extends StatelessWidget {
+  final int value;
+  final String banner;
+  const BuildIndicator({
+    Key? key,
+    required this.value,
+    required this.banner,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment:
+          value < 20 ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+      children: [
+        Text('Your Value',
+            style: TextStyle(color: const Color(0xFF808080), fontSize: 10.sp)),
+        2.verticalSpace,
+        Text(banner,
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w700)),
+        Column(
+          children: [
+            Container(
+              height: 16.h,
+              width: 2.w,
+              decoration: BoxDecoration(
+                color: getStatusFromScore(value).color(),
+              ),
+            ),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  height: 16.h,
+                  width: 16.w,
+                  decoration: BoxDecoration(
+                    color: getStatusFromScore(value).color(),
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  ),
                 ),
-              ),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    height: 16.h,
-                    width: 16.w,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF808080),
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                    ),
+                Container(
+                  height: 12.h,
+                  width: 12.w,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
                   ),
-                  Container(
-                    height: 12.h,
-                    width: 12.w,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          )
-        ],
-      ),
+                ),
+              ],
+            ),
+          ],
+        )
+      ],
     );
   }
+}
 
-  double getWidth() {
-    if (_key.currentContext == null) {
-      return 0;
-    }
-    final RenderBox renderBox =
-        _key.currentContext?.findRenderObject() as RenderBox;
-    return renderBox.size.width;
+class HighIndicator extends StatelessWidget {
+  final bool showCursor;
+  final int value;
+  const HighIndicator({
+    Key? key,
+    required this.showCursor,
+    required this.value,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          height: 100.h,
+          width: 114.3.w,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                height: 12.h,
+                decoration: const BoxDecoration(
+                  color: Color(0xFFFA6F6F),
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(8),
+                      bottomRight: Radius.circular(8)),
+                ),
+              ),
+              8.verticalSpace,
+              Text(
+                'Low',
+                style: TextStyle(
+                    color: const Color(0xFF808080),
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
+}
 
-  double getHeight() {
-    if (_key.currentContext == null) {
-      return 0;
-    }
-    final RenderBox renderBox =
-        _key.currentContext?.findRenderObject() as RenderBox;
-    return renderBox.size.height;
+class OptimalIndicator extends StatelessWidget {
+  final bool showCursor;
+  final int value;
+  const OptimalIndicator({
+    Key? key,
+    required this.showCursor,
+    required this.value,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          height: 100.h,
+          width: 114.3.w,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                height: 12.h,
+                decoration: const BoxDecoration(
+                  color: Color(0xFF80A4A9),
+                  // borderRadius: BorderRadius.only(
+                  //     topLeft: Radius.circular(8),
+                  //     bottomLeft: Radius.circular(8)),
+                ),
+              ),
+              8.verticalSpace,
+              Text(
+                'Low',
+                style: TextStyle(
+                    color: const Color(0xFF808080),
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class LowIndicator extends StatelessWidget {
+  final bool showCursor;
+  final int value;
+  const LowIndicator({
+    Key? key,
+    required this.showCursor,
+    required this.value,
+  }) : super(key: key);
+
+  // low 0 - 79
+  // optimal 80 - 140
+  // high 141 - 200
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          height: 100.h,
+          width: 114.3.w,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                height: 12.h,
+                decoration: const BoxDecoration(
+                  color: Color(0xFF808080),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      bottomLeft: Radius.circular(8)),
+                ),
+              ),
+              8.verticalSpace,
+              Text(
+                'Low',
+                style: TextStyle(
+                    color: const Color(0xFF808080),
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

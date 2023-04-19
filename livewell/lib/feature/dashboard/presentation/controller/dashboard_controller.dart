@@ -15,6 +15,7 @@ import 'package:livewell/feature/dashboard/data/model/user_model.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_dashboard_data.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_user.dart';
 import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart';
+import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
 import 'package:livewell/feature/food/domain/usecase/get_meal_history.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_model.dart';
@@ -44,6 +45,7 @@ class DashboardController extends GetxController {
   FlutterHealthFit healthFit = FlutterHealthFit();
 
   Rx<NutriScoreModel> nutriScore = NutriScoreModel().obs;
+  Rx<num> totalExercise = 0.obs;
 
   var types = [
     HealthDataType.STEPS,
@@ -93,6 +95,27 @@ class DashboardController extends GetxController {
         .getHealthDataFromTypes(
             currentDate, dateTill, [HealthDataType.SLEEP_IN_BED]);
     return healthData;
+  }
+
+  Future<void> getExerciseHistorydata() async {
+    var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 0, 0, 0, 0, 0);
+    var dateTill = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 23, 59, 59, 0, 0);
+    GetActivityHistory getExerciseList = GetActivityHistory.instance();
+    final result = await getExerciseList.call(GetActivityHistoryParam(
+        type: ['ACTIVE_ENERGY_BURNED'],
+        dateFrom: currentDate,
+        dateTo: dateTill));
+    result.fold((l) => Log.error(l), (r) {
+      Log.info(r);
+      inspect(r);
+      num total = 0.0;
+      for (var data in r.first.details!) {
+        total += data.value ?? 0;
+      }
+      totalExercise.value = total;
+    });
   }
 
   void fetchHealthDataFromTypes() async {

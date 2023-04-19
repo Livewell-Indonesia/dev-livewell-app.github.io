@@ -88,6 +88,9 @@ class Nutritions {
   Nutrition? fluoride;
   Nutrition? chromium;
   Nutrition? molybdenum;
+  Nutrition? sugar;
+  Nutrition? cholesterol;
+  Nutrition? fiber;
 
   Nutritions({
     this.carbohydrates,
@@ -124,6 +127,9 @@ class Nutritions {
     this.fluoride,
     this.chromium,
     this.molybdenum,
+    this.sugar,
+    this.cholesterol,
+    this.fiber,
   });
 
   Nutritions.asParams(Servings servings, String numberOfServings) {
@@ -265,6 +271,18 @@ class Nutritions {
         (double.tryParse(servings.molybdenum ?? "0") ?? 0) *
             num.parse(numberOfServings),
         unit: 'mcg');
+    sugar = Nutrition.asParams(
+        (double.tryParse(servings.sugar ?? "0") ?? 0) *
+            num.parse(numberOfServings),
+        unit: 'g');
+    cholesterol = Nutrition.asParams(
+        (double.tryParse(servings.cholesterol ?? "0") ?? 0) *
+            num.parse(numberOfServings),
+        unit: 'mcg');
+    fiber = Nutrition.asParams(
+        (double.tryParse(servings.fiber ?? "0") ?? 0) *
+            num.parse(numberOfServings),
+        unit: 'g');
   }
 
   Map<String, dynamic> toJson() {
@@ -371,6 +389,17 @@ class Nutritions {
     }
     if (molybdenum != null) {
       data['molybdenum'] = molybdenum!.toJson();
+    }
+
+    if (sugar != null) {
+      data['sugar'] = sugar!.toJson();
+    }
+    if (cholesterol != null) {
+      data['cholesterol'] = cholesterol!.toJson();
+    }
+
+    if (fiber != null) {
+      data['fiber'] = fiber!.toJson();
     }
 
     return data;
