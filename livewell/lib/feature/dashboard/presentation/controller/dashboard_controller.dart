@@ -113,9 +113,12 @@ class DashboardController extends GetxController {
       Log.info(r);
       inspect(r);
       num total = 0.0;
-      for (var data in r.first.details!) {
-        total += data.value ?? 0;
+      if (r.first.details != null) {
+        for (var data in r.first.details!) {
+          total += data.value ?? 0;
+        }
       }
+
       totalExercise.value = total.round();
     });
   }

@@ -144,6 +144,15 @@ class Details {
     if (water != null) {
       data['water'] = water!.toJson();
     }
+    if (sugar != null) {
+      data['sugar'] = sugar!.toJson();
+    }
+    if (fiber != null) {
+      data['fiber'] = fiber!.toJson();
+    }
+    if (cholesterol != null) {
+      data['cholesterol'] = cholesterol!.toJson();
+    }
     return data;
   }
 }
