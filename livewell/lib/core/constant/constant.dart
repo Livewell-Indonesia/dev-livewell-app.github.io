@@ -12,6 +12,7 @@ class Constant {
   static const String icSearch = '$assetsIcons/ic_search.png';
   static const String icBarcode = '$assetsIcons/ic_barcode.svg';
   static const String icScanMeal = '$assetsIcons/ic_scanmeal.svg';
+  static const String icQuickAdd = '$assetsIcons/ic_quickadd.svg';
   static const String icAvatarPlaceholder =
       '$assetsIcons/ic_avatar_placeholder.svg';
   static const String icCalories = '$assetsIcons/ic_calories.svg';

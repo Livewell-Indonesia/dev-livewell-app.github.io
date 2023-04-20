@@ -104,6 +104,16 @@ class SleepController extends GetxController {
     return value == 0.0 ? value : (value / 60);
   }
 
+  bool isYValueOptimal(int index) {
+    var value = getYValue(index);
+    var minimum = userGoal.value * 0.8;
+    var maximum = userGoal.value * 1.2;
+    if (value >= minimum && value <= maximum) {
+      return true;
+    }
+    return false;
+  }
+
   double? getMaxYValue() {
     // get maxY value by comparing exercisehistorylist value with user goal
     var temp = [];

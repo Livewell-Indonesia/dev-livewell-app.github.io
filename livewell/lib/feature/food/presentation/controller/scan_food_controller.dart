@@ -9,7 +9,7 @@ class ScanFoodController extends GetxController {
       MobileScannerController();
 
   GetCameras getCameras = GetCameras.instance();
-  Rx<ScanType> scanType = ScanType.barcode.obs;
+  Rx<ScanType> scanType = ScanType.nutrico.obs;
 
   @override
   void onInit() {

@@ -47,7 +47,7 @@ class NutriScoreController extends GetxController {
     if (nutriScoreDetail.isNotEmpty) {
       AppNavigator.push(
           routeName: AppPages.nutriScoreDetail,
-          arguments: {'type': type, 'value': getNutrientByType(type)!.points});
+          arguments: {'type': type, 'value': getNutrientByType(type)!.eaten});
     }
   }
 
@@ -79,6 +79,12 @@ class NutriScoreController extends GetxController {
         return nutriScore.value.details?.potassium;
       case NutrientType.transFat:
         return nutriScore.value.details?.transFat;
+      case NutrientType.sugar:
+        return nutriScore.value.details?.sugar;
+      case NutrientType.fiber:
+        return nutriScore.value.details?.fiber;
+      case NutrientType.cholesterol:
+        return nutriScore.value.details?.cholesterol;
     }
   }
 }
@@ -97,6 +103,9 @@ enum NutrientType {
   calcium,
   vitaminA,
   vitaminC,
+  sugar,
+  fiber,
+  cholesterol,
 }
 
 extension NutrientTypeAtt on NutrientType {
@@ -129,6 +138,12 @@ extension NutrientTypeAtt on NutrientType {
         return "Potassium";
       case NutrientType.transFat:
         return "Trans Fat";
+      case NutrientType.sugar:
+        return "Sugar";
+      case NutrientType.fiber:
+        return "Fiber";
+      case NutrientType.cholesterol:
+        return "Cholesterol";
     }
   }
 
@@ -160,6 +175,12 @@ extension NutrientTypeAtt on NutrientType {
         return 'vitamin_a';
       case NutrientType.vitaminC:
         return 'vitamin_c';
+      case NutrientType.sugar:
+        return 'sugar';
+      case NutrientType.fiber:
+        return 'fiber';
+      case NutrientType.cholesterol:
+        return 'cholesterol';
     }
   }
 
@@ -191,6 +212,12 @@ extension NutrientTypeAtt on NutrientType {
         return 'mcg';
       case NutrientType.vitaminC:
         return 'mg';
+      case NutrientType.sugar:
+        return 'g';
+      case NutrientType.fiber:
+        return 'g';
+      case NutrientType.cholesterol:
+        return 'mcg';
     }
   }
 }

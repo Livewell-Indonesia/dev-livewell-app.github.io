@@ -277,14 +277,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                   child: Column(
                                     children: [
                                       Text(
-                                        "${controller.dashboard.value.dashboard?.target ?? 0}",
+                                        "${controller.totalExercise.value}",
                                         style: TextStyle(
                                             fontSize: 24.sp,
                                             color: const Color(0xFF171433),
                                             fontWeight: FontWeight.w500),
                                       ),
                                       Text(
-                                        "BMR",
+                                        "Burned",
                                         style: TextStyle(
                                             fontSize: 12.sp,
                                             color: const Color(0xFF171433)

@@ -14,14 +14,14 @@ class AddMealParams {
   String? numberOfUnits;
 
   AddMealParams(
-      {mealName,
-      mealBrand,
-      mealNutritions,
-      mealType,
-      nutritions,
-      mealAt,
-      mealServings,
-      numberOfUnits});
+      {this.mealName,
+      this.mealBrand,
+      this.mealNutritions,
+      this.mealType,
+      this.nutritions,
+      this.mealAt,
+      this.mealServings,
+      this.numberOfUnits});
 
   AddMealParams.asParams(
       Foods food, String numberOfServings, MealTime mealTime, String time) {
@@ -88,42 +88,48 @@ class Nutritions {
   Nutrition? fluoride;
   Nutrition? chromium;
   Nutrition? molybdenum;
+  Nutrition? sugar;
+  Nutrition? cholesterol;
+  Nutrition? fiber;
 
   Nutritions({
-    carbohydrates,
-    protein,
-    fat,
-    saturatedFat,
-    transfat,
-    monosaturatedFat,
-    polyunsaturatedFat,
-    vitaminA,
-    vitaminC,
-    vitaminD,
-    calcium,
-    sodium,
-    iron,
-    calories,
-    potassium,
-    vitaminE,
-    vitaminK,
-    vitaminB1,
-    vitaminB2,
-    vitaminB3,
-    vitaminB5,
-    vitaminB6,
-    vitaminB12,
-    vitaminB7,
-    vitaminB9,
-    phosphorus,
-    magnesium,
-    chloride,
-    iodine,
-    zinc,
-    selenium,
-    fluoride,
-    chromium,
-    molybdenum,
+    this.carbohydrates,
+    this.protein,
+    this.fat,
+    this.saturatedFat,
+    this.transfat,
+    this.monosaturatedFat,
+    this.polyunsaturatedFat,
+    this.vitaminA,
+    this.vitaminC,
+    this.vitaminD,
+    this.calcium,
+    this.sodium,
+    this.iron,
+    this.calories,
+    this.potassium,
+    this.vitaminE,
+    this.vitaminK,
+    this.vitaminB1,
+    this.vitaminB2,
+    this.vitaminB3,
+    this.vitaminB5,
+    this.vitaminB6,
+    this.vitaminB12,
+    this.vitaminB7,
+    this.vitaminB9,
+    this.phosphorus,
+    this.magnesium,
+    this.chloride,
+    this.iodine,
+    this.zinc,
+    this.selenium,
+    this.fluoride,
+    this.chromium,
+    this.molybdenum,
+    this.sugar,
+    this.cholesterol,
+    this.fiber,
   });
 
   Nutritions.asParams(Servings servings, String numberOfServings) {
@@ -265,6 +271,18 @@ class Nutritions {
         (double.tryParse(servings.molybdenum ?? "0") ?? 0) *
             num.parse(numberOfServings),
         unit: 'mcg');
+    sugar = Nutrition.asParams(
+        (double.tryParse(servings.sugar ?? "0") ?? 0) *
+            num.parse(numberOfServings),
+        unit: 'g');
+    cholesterol = Nutrition.asParams(
+        (double.tryParse(servings.cholesterol ?? "0") ?? 0) *
+            num.parse(numberOfServings),
+        unit: 'mcg');
+    fiber = Nutrition.asParams(
+        (double.tryParse(servings.fiber ?? "0") ?? 0) *
+            num.parse(numberOfServings),
+        unit: 'g');
   }
 
   Map<String, dynamic> toJson() {
@@ -302,12 +320,88 @@ class Nutritions {
     if (calcium != null) {
       data['calcium'] = calcium!.toJson();
     }
+    if (sodium != null) {
+      data['sodium'] = sodium!.toJson();
+    }
     if (iron != null) {
       data['iron'] = iron!.toJson();
     }
     if (calories != null) {
       data['calories'] = calories!.toJson();
     }
+    if (potassium != null) {
+      data['potassium'] = potassium!.toJson();
+    }
+    if (vitaminE != null) {
+      data['vitamin_e'] = vitaminE!.toJson();
+    }
+    if (vitaminK != null) {
+      data['vitamin_k'] = vitaminK!.toJson();
+    }
+    if (vitaminB1 != null) {
+      data['vitamin_b1'] = vitaminB1!.toJson();
+    }
+    if (vitaminB2 != null) {
+      data['vitamin_b2'] = vitaminB2!.toJson();
+    }
+    if (vitaminB3 != null) {
+      data['vitamin_b3'] = vitaminB3!.toJson();
+    }
+    if (vitaminB5 != null) {
+      data['vitamin_b5'] = vitaminB5!.toJson();
+    }
+    if (vitaminB6 != null) {
+      data['vitamin_b6'] = vitaminB6!.toJson();
+    }
+    if (vitaminB12 != null) {
+      data['vitamin_b12'] = vitaminB12!.toJson();
+    }
+    if (vitaminB7 != null) {
+      data['vitamin_b7'] = vitaminB7!.toJson();
+    }
+    if (vitaminB9 != null) {
+      data['vitamin_b9'] = vitaminB9!.toJson();
+    }
+    if (phosphorus != null) {
+      data['phosphorus'] = phosphorus!.toJson();
+    }
+    if (magnesium != null) {
+      data['magnesium'] = magnesium!.toJson();
+    }
+
+    if (chloride != null) {
+      data['chloride'] = chloride!.toJson();
+    }
+    if (iodine != null) {
+      data['iodine'] = iodine!.toJson();
+    }
+    if (zinc != null) {
+      data['zinc'] = zinc!.toJson();
+    }
+    if (selenium != null) {
+      data['selenium'] = selenium!.toJson();
+    }
+    if (fluoride != null) {
+      data['fluoride'] = fluoride!.toJson();
+    }
+    if (chromium != null) {
+      data['chromium'] = chromium!.toJson();
+    }
+    if (molybdenum != null) {
+      data['molybdenum'] = molybdenum!.toJson();
+    }
+
+    if (sugar != null) {
+      data['sugar'] = sugar!.toJson();
+    }
+    if (cholesterol != null) {
+      data['cholesterol'] = cholesterol!.toJson();
+    }
+
+    if (fiber != null) {
+      data['fiber'] = fiber!.toJson();
+    }
+
     return data;
   }
 }
@@ -316,7 +410,7 @@ class Nutrition {
   num? value;
   String? unit;
 
-  Nutrition({value, unit});
+  Nutrition({this.value, this.unit});
 
   Nutrition.asParams(double this.value, {String this.unit = 'g'});
 

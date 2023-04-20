@@ -3,17 +3,34 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_model.dart';
 import 'package:livewell/feature/nutriscore/presentation/controller/nutriscore_controller.dart';
+import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_screen.dart';
 
 class NutriscoreDetailController extends GetxController {
   List<NutrientDetailData> nutrientList = [];
   late NutrientType currentType;
   late num nutrientValue;
+  Rx<double> todaysAmount = 0.0.obs;
+  Rx<double> weeklyAverage = 0.0.obs;
+  Rx<int> nutrientScore = 0.obs;
   @override
   void onInit() {
     currentType = Get.arguments['type'];
     nutrientValue = Get.arguments['value'];
     getDetailData();
     super.onInit();
+  }
+
+  bool isYValueOptimal(int index) {
+    var target = nutrientList[index].nutrient.optimizedNutrient!;
+    var minimum = target * 0.8;
+    var maximum = target * 1.2;
+
+    if (nutrientList[index].nutrient.eaten! >= minimum &&
+        nutrientList[index].nutrient.eaten! <= maximum) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   void getDetailData() {
@@ -27,7 +44,30 @@ class NutriscoreDetailController extends GetxController {
         date: element.date!,
       ));
     }
+    todaysAmount.value = nutrientList[0].nutrient.eaten!.toDouble();
+    nutrientScore.value = ((nutrientList[0].nutrient.eaten!.toDouble() /
+                nutrientList[0].nutrient.optimizedNutrient!.toDouble()) *
+            100)
+        .round()
+        .max169();
     nutrientList = nutrientList.reversed.toList();
+    num temp = 0;
+    for (var element in nutrientList) {
+      temp += element.nutrient.eaten!;
+    }
+    weeklyAverage.value = (temp / nutrientList.length);
+  }
+
+  NutrientScoreStatus getNutriScoreStatus() {
+    var value = todaysAmount.value;
+    var optimal = nutrientList[0].nutrient.optimizedNutrient!;
+    if (value >= optimal * 0.8 && value <= optimal * 1.4) {
+      return NutrientScoreStatus.optimal;
+    } else if (value < optimal * 0.8) {
+      return NutrientScoreStatus.low;
+    } else {
+      return NutrientScoreStatus.high;
+    }
   }
 
   double getMaxY() {
@@ -56,4 +96,10 @@ class NutrientDetailData {
   String date;
 
   NutrientDetailData({required this.nutrient, required this.date});
+}
+
+extension on int {
+  int max169() {
+    return this > 169 ? 169 : this;
+  }
 }

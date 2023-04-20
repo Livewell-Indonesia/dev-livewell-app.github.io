@@ -12,12 +12,14 @@ import 'package:livewell/feature/food/presentation/pages/request_food_screen.dar
 import 'package:livewell/feature/food/presentation/pages/scan_barcode_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/success_request_food_screen.dart';
 import 'package:livewell/feature/home/presentation/home_screen.dart';
+import 'package:livewell/feature/nutrico/presentation/pages/nutrico_screen.dart';
 import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_detail_screen.dart';
 import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_screen.dart';
 import 'package:livewell/feature/profile/presentation/page/account_settings_screen.dart';
 import 'package:livewell/feature/profile/presentation/page/user_settings_screen.dart';
 import 'package:livewell/feature/questionnaire/presentation/page/finish_questionnaire_screen.dart';
 import 'package:livewell/feature/questionnaire/presentation/page/questionnaire_screen.dart';
+import 'package:livewell/feature/quick_add/presentation/page/quick_add_screen.dart';
 import 'package:livewell/feature/splash/presentation/splash_screen.dart';
 import 'package:livewell/feature/update_weight/presentation/page/update_weight_screen.dart';
 import 'package:livewell/feature/water/presentation/pages/water_consumed_page.dart';
@@ -120,7 +122,15 @@ class AppNavigator {
     GetPage(
         name: AppPages.nutriScoreDetail,
         page: () => NutriScoreDetailsScreen(),
-        transition: Transition.cupertino)
+        transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.nutriCoScreen,
+        page: () => NutriCoScreen(),
+        transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.quickAdd,
+        page: () => QuickAddScreen(),
+        transition: Transition.cupertino),
   ];
 
   static void push({required String routeName, dynamic arguments}) {
@@ -173,4 +183,6 @@ class AppPages {
   static String waterCustomInputPage = '/waterCustomInputPage';
   static String nutriScore = '/nutriScorePage';
   static String nutriScoreDetail = '/nutriScoreDetailPage';
+  static String nutriCoScreen = '/nutriCoScreen';
+  static String quickAdd = '/quickAdd';
 }

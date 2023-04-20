@@ -10,6 +10,8 @@ import 'package:livewell/feature/food/domain/usecase/add_meal_history.dart';
 import 'package:livewell/feature/food/presentation/controller/add_meal_controller.dart';
 import 'package:livewell/feature/food/presentation/controller/food_controller.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
+import 'package:livewell/feature/nutrico/presentation/controller/nutrico_controller.dart';
+import 'package:livewell/routes/app_navigator.dart';
 
 import '../../data/model/foods_model.dart';
 import '../../domain/entity/add_meal_param.dart';
@@ -50,11 +52,12 @@ class AddFoodController extends GetxController {
         numberOfServing.text.trim().replaceAll(',', '.'),
         mealTime,
         selectedTime.value));
-    final result = await addMeal.call(AddMealParams.asParams(
+    final param = AddMealParams.asParams(
         food,
         numberOfServing.text.trim().replaceAll(',', '.'),
         mealTime,
-        selectedTime.value));
+        selectedTime.value);
+    final result = await addMeal.call(param);
     await addMealHistory
         .call(MealHistory(date: selectedTime.value, mealType: mealTime.name));
     Get.find<DashboardController>().onInit();
@@ -63,9 +66,12 @@ class AddFoodController extends GetxController {
     }
     await EasyLoading.dismiss();
     result.fold((l) {}, (r) {
-      Get.back();
       Get.find<AddMealController>().addedFoods.add(food);
-      //AppNavigator.popUntil(routeName: AppPages.home);
+      if (Get.isRegistered<NutriCoController>()) {
+        AppNavigator.popUntil(routeName: AppPages.home);
+      } else {
+        Get.back();
+      }
     });
   }
 

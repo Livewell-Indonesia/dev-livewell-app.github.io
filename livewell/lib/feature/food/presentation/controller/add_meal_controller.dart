@@ -205,9 +205,10 @@ class AddMealController extends GetxController
   }
 
   Rx<bool> checkAvailability(ScanType type) {
-    if (type == ScanType.barcode) {
+    return true.obs;
+    if (type == ScanType.nutrico) {
       return isUpcScanActive();
-    } else if (type == ScanType.photo) {
+    } else if (type == ScanType.scanMeal) {
       return isScanMealActive();
     } else {
       return false.obs;
@@ -216,13 +217,15 @@ class AddMealController extends GetxController
 
   Rx<bool> isQuickAddActive() {
     if (Get.isRegistered<HomeController>()) {
+      return true.obs;
       return Get.find<HomeController>().appConfigModel.value.quickAdd!.obs;
     } else {
-      return false.obs;
+      return true.obs;
     }
   }
 
   Rx<bool> showScanMenu() {
+    return true.obs;
     return ((isQuickAddActive().value ||
             isUpcScanActive().value ||
             isScanMealActive().value))
@@ -276,22 +279,42 @@ class AddMealController extends GetxController
     });
   }
 
+  // This function generates a list of filters from the range values of the range sliders
   List<String> generateFilters() {
+    // Create an empty list to store the filters
     final filters = <String>[];
-    if (caloriesRange.value.start != 0 || caloriesRange.value.end != 0) {
+
+    // Calories
+    // Check if either the start or end value of the range is greater than 0
+    if (caloriesRange.value.start > 0 || caloriesRange.value.end > 0) {
+      // Add the range to the list of filters
       filters.add(
           'calories:${caloriesRange.value.start} TO ${caloriesRange.value.end}');
     }
-    if (proteinRange.value.start != 0 || proteinRange.value.end != 0) {
+
+    // Protein
+    // Check if either the start or end value of the range is greater than 0
+    if (proteinRange.value.start > 0 || proteinRange.value.end > 0) {
+      // Add the range to the list of filters
       filters.add(
           'protein:${proteinRange.value.start} TO ${proteinRange.value.end}');
     }
-    if (carbsRange.value.start != 0 || carbsRange.value.end != 0) {
+
+    // Carbs
+    // Check if either the start or end value of the range is greater than 0
+    if (carbsRange.value.start > 0 || carbsRange.value.end > 0) {
+      // Add the range to the list of filters
       filters.add('carbs:${carbsRange.value.start} TO ${carbsRange.value.end}');
     }
-    if (fatRange.value.start != 0 || fatRange.value.end != 0) {
+
+    // Fat
+    // Check if either the start or end value of the range is greater than 0
+    if (fatRange.value.start > 0 || fatRange.value.end > 0) {
+      // Add the range to the list of filters
       filters.add('fat:${fatRange.value.start} TO ${fatRange.value.end}');
     }
+
+    // Return the list of filters
     return filters;
   }
 }

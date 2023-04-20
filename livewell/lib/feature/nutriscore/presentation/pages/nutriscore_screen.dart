@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:livewell/feature/nutriscore/presentation/controller/nutriscore_controller.dart';
 import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_detail_screen.dart';
 import 'package:livewell/widgets/banner/nutriscore_banner.dart';
@@ -54,8 +55,14 @@ class _NutriScoreScreenState extends State<NutriScoreScreen> {
                             value: controller
                                     .getNutrientByType(
                                         NutrientType.values[index])
-                                    ?.points ??
+                                    ?.eaten ??
                                 0,
+                            score: controller
+                                    .getNutrientByType(
+                                        NutrientType.values[index])
+                                    ?.optimizedNutrient ??
+                                0,
+                            unit: NutrientType.values[index].unit(),
                           );
                         }),
                         onTap: () {
@@ -78,10 +85,14 @@ class _NutriScoreScreenState extends State<NutriScoreScreen> {
 class NutriScoreDetailItem extends StatelessWidget {
   final String name;
   final num value;
+  final num score;
+  final String unit;
   const NutriScoreDetailItem({
     super.key,
     required this.name,
     required this.value,
+    required this.score,
+    required this.unit,
   });
 
   @override
@@ -97,7 +108,7 @@ class NutriScoreDetailItem extends StatelessWidget {
           Text(
             name,
             style: TextStyle(
-                color: Colors.black, 
+                color: Colors.black,
                 fontWeight: FontWeight.w700,
                 fontSize: 13.sp),
           ),
@@ -105,7 +116,7 @@ class NutriScoreDetailItem extends StatelessWidget {
           Row(
             children: [
               Text(
-                '${value.toInt()}/10',
+                '${NumberFormat('0.0').format(value)}$unit',
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w700,
@@ -114,11 +125,11 @@ class NutriScoreDetailItem extends StatelessWidget {
               8.horizontalSpace,
               Container(
                 decoration: BoxDecoration(
-                    color: getStatusFromScore(value.toInt()).color(),
+                    color: getStatusFromScore().color(),
                     borderRadius: BorderRadius.circular(100)),
                 padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
                 child: Text(
-                  getStatusFromScore(value.toInt()).title(),
+                  getStatusFromScore().title(),
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 8.sp,
@@ -137,11 +148,12 @@ class NutriScoreDetailItem extends StatelessWidget {
     );
   }
 
-  NutrientScoreStatus getStatusFromScore(int score) {
-    if (score > 10) {
+  NutrientScoreStatus getStatusFromScore() {
+    var scores = (value / score) * 100;
+    if (scores > 140) {
       return NutrientScoreStatus.high;
     }
-    if (score >= 5) {
+    if (scores >= 80) {
       return NutrientScoreStatus.optimal;
     }
     return NutrientScoreStatus.low;

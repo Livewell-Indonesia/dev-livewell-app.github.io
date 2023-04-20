@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:livewell/feature/exercise/presentation/controller/exercise_controller.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_diary_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
@@ -132,7 +133,9 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                   x: index,
                                   barRods: [
                                     BarChartRodData(
-                                        color: const Color(0xFFDDF235),
+                                        color: controller.isYValueOptimal(index)
+                                            ? const Color(0xFFDDF235)
+                                            : const Color(0xFFFA6F6F),
                                         width: 12.w,
                                         toY: controller.getYValue(index))
                                   ],
@@ -140,6 +143,21 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                               }),
                               barTouchData: BarTouchData(
                                 enabled: true,
+                                touchTooltipData: BarTouchTooltipData(
+                                  getTooltipItem:
+                                      (group, groupIndex, rod, rodIndex) {
+                                    return BarTooltipItem(
+                                      NumberFormat('0.0')
+                                              .format(rod.toY)
+                                              .toString() +
+                                          ' kcal',
+                                      TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14.sp),
+                                    );
+                                  },
+                                ),
                               ),
                               borderData: FlBorderData(show: false),
                               gridData: FlGridData(
