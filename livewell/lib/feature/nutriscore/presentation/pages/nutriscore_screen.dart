@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/feature/nutriscore/presentation/controller/nutriscore_controller.dart';
 import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_detail_screen.dart';
+import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_score_detail_screen.dart';
 import 'package:livewell/widgets/banner/nutriscore_banner.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
@@ -30,10 +31,16 @@ class _NutriScoreScreenState extends State<NutriScoreScreen> {
                 children: [
                   24.verticalSpace,
                   Obx(() {
-                    return NutriscoreBanner(
-                      value:
-                          controller.nutriScore.value.totalPoints?.toInt() ?? 0,
-                      hideSeeDetails: true,
+                    return InkWell(
+                      onTap: () {
+                        Get.to(() => NutriscoreScoreDetailScreen());
+                      },
+                      child: NutriscoreBanner(
+                        value:
+                            controller.nutriScore.value.totalPoints?.toInt() ??
+                                0,
+                        hideSeeDetails: true,
+                      ),
                     );
                   }),
                   24.verticalSpace,

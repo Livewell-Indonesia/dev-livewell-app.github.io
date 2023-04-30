@@ -985,8 +985,8 @@ class _AddMealScreenState extends State<AddMealScreen>
                 return ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: addMealController.history.length >= 5
-                      ? 5
+                  itemCount: addMealController.history.length >= 15
+                      ? 15
                       : addMealController.history.length,
                   itemBuilder: (context, index) {
                     return Obx(() {
