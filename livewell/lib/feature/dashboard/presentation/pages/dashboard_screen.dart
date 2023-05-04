@@ -271,28 +271,24 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               const Spacer(),
                               Expanded(
                                 flex: 2,
-                                child: MyTooltip(
-                                  message:
-                                      "Basal Metabolic Rate (BMR) is the number of calories you burn as your body performs basic (basal) life-sustaining function, such as breathing, circulation, nutrient processing and cell production.",
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        "${controller.totalExercise.value}",
-                                        style: TextStyle(
-                                            fontSize: 24.sp,
-                                            color: const Color(0xFF171433),
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      Text(
-                                        "Burned",
-                                        style: TextStyle(
-                                            fontSize: 12.sp,
-                                            color: const Color(0xFF171433)
-                                                .withOpacity(0.6),
-                                            fontWeight: FontWeight.w500),
-                                      )
-                                    ],
-                                  ),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "${controller.totalExercise.value}",
+                                      style: TextStyle(
+                                          fontSize: 24.sp,
+                                          color: const Color(0xFF171433),
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      "Burned",
+                                      style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: const Color(0xFF171433)
+                                              .withOpacity(0.6),
+                                          fontWeight: FontWeight.w500),
+                                    )
+                                  ],
                                 ),
                               ),
                             ],
