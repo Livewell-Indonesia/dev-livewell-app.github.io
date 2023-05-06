@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:livewell/core/error/failures.dart';
 import 'package:dartz/dartz.dart';
+import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/core/network/api_url.dart';
 import 'package:livewell/core/network/network_module.dart';
@@ -119,6 +120,20 @@ class AuthRepositoryImpl extends NetworkModule implements AuthRepository {
         Log.error(ex);
         return Left(ServerFailure(message: ex.toString()));
       }
+    } catch (ex) {
+      Log.error(ex);
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Login>> deleteAccount() async {
+    try {
+      var result = await postMethod(Endpoint.deleteAccount, headers: {
+        'Authorization': await SharedPref.getToken(),
+      });
+      final json = responseHandler(result);
+      return Right(LoginModel.fromJson(json));
     } catch (ex) {
       Log.error(ex);
       return Left(ServerFailure(message: ex.toString()));

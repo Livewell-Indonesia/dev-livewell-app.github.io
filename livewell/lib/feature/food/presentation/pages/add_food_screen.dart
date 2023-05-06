@@ -176,6 +176,8 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                     callback: () {
                       Get.to(() => NutrientFactScreen(
                             servings: widget.food.servings![0],
+                            numberOfServings:
+                                double.parse(controller.numberOfServing.text),
                           ));
                     }),
                 15.verticalSpace,

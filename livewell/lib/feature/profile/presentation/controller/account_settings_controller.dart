@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:livewell/feature/auth/domain/usecase/delete_account.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/profile/domain/usecase/update_user_info.dart';
+import 'package:livewell/routes/app_navigator.dart';
 
 class AccountSettingsController extends GetxController {
   TextEditingController firstName = TextEditingController();
@@ -44,6 +46,17 @@ class AccountSettingsController extends GetxController {
     }, (r) {
       Get.snackbar('Success', 'Success Update User Info');
       dashboardController.getUsersData();
+    });
+  }
+
+  void requestAccountDeletion() async {
+    final deleteAccount = DeleteAccount.instance();
+    final result = await deleteAccount.call();
+    result.fold((l) {
+      Get.snackbar('Failed', 'Failed Delete Account');
+    }, (r) {
+      Get.snackbar('Success', 'Request To Delete Account Successful');
+      Get.offAllNamed(AppPages.landingLogin);
     });
   }
 }

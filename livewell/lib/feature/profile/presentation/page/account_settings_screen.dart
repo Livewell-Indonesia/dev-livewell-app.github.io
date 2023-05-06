@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,7 +22,6 @@ class AccountSettingsScreen extends StatelessWidget {
         },
         child: SingleChildScrollView(
           child: Container(
-            height: 1.sh,
             color: const Color(0xFFF1F1F1),
             child: Column(
               children: [
@@ -75,6 +75,36 @@ class AccountSettingsScreen extends StatelessWidget {
                       ],
                     ),
                   ],
+                ),
+                LiveWellButton(
+                  label: 'Request Delete Account',
+                  color: Colors.red,
+                  textColor: Colors.white,
+                  onPressed: () {
+                    showCupertinoModalPopup(
+                        context: context,
+                        builder: (context) {
+                          return CupertinoAlertDialog(
+                            title: const Text('Delete Account Permanently'),
+                            content: const Text(
+                                'You account and content will be deleted permanently. You may cancel the deletion request by log in your account within 30 days.'),
+                            actions: [
+                              CupertinoDialogAction(
+                                child: const Text('Cancel'),
+                                onPressed: () {
+                                  Get.back();
+                                },
+                              ),
+                              CupertinoDialogAction(
+                                child: const Text('Confirm'),
+                                onPressed: () {
+                                  controller.requestAccountDeletion();
+                                },
+                              ),
+                            ],
+                          );
+                        });
+                  },
                 ),
                 30.verticalSpace,
                 Container(

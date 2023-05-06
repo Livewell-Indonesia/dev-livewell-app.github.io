@@ -14,6 +14,9 @@ class Endpoint {
   /// Register
   static const String register = "auth/registration";
 
+  /// delete account
+  static const String deleteAccount = "user/request-account-deletion";
+
   /// forgot password
   static const String forgotPassword = "auth/forgot-password";
   static const String changePassword = "auth/verify-forgot-password";

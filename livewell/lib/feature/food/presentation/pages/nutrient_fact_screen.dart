@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
 class NutrientFactScreen extends StatelessWidget {
   final Servings servings;
-  const NutrientFactScreen({Key? key, required this.servings})
+  final num numberOfServings;
+  const NutrientFactScreen(
+      {Key? key, required this.servings, required this.numberOfServings})
       : super(key: key);
 
   @override
@@ -141,7 +144,7 @@ class NutrientFactScreen extends StatelessWidget {
     if (metricServingUnit == null) {
       return "-";
     }
-    return "$servingAmountInt $metricServingUnit";
+    return "${NumberFormat('0.0').format(double.parse(servingAmountInt) * numberOfServings.toDouble())} $metricServingUnit";
   }
 
   Widget childNutrient(String name, String? value) {
