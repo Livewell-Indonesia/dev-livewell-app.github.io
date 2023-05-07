@@ -77,7 +77,7 @@ class AccountSettingsScreen extends StatelessWidget {
                   ],
                 ),
                 LiveWellButton(
-                  label: 'Request Delete Account',
+                  label: 'Request To Delete Account',
                   color: Colors.red,
                   textColor: Colors.white,
                   onPressed: () {
@@ -87,7 +87,7 @@ class AccountSettingsScreen extends StatelessWidget {
                           return CupertinoAlertDialog(
                             title: const Text('Delete Account Permanently'),
                             content: const Text(
-                                'You account and content will be deleted permanently. You may cancel the deletion request by log in your account within 30 days.'),
+                                'You account and content will be deleted permanently. You may cancel the deletion request by logging in your account within 30 days.'),
                             actions: [
                               CupertinoDialogAction(
                                 child: const Text('Cancel'),
