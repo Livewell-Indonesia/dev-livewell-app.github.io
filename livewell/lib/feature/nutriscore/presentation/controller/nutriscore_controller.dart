@@ -220,4 +220,63 @@ extension NutrientTypeAtt on NutrientType {
         return 'mcg';
     }
   }
+
+  Color lowColor() {
+    return const Color(0xFF808080);
+  }
+
+  Color highColor() {
+    switch (this) {
+      case NutrientType.protein:
+        return const Color(0xFFDDF235);
+      case NutrientType.water:
+        return const Color(0xFFDDF235);
+      default:
+        return const Color(0xFFFA6F6F);
+    }
+  }
+
+  Color optimalColor() {
+    switch (this) {
+      case NutrientType.protein:
+        return const Color(0xFFDDF235);
+      case NutrientType.water:
+        return const Color(0xFFDDF235);
+      default:
+        return const Color(0xFF80A4A9);
+    }
+  }
+
+  String lowTitle() {
+    switch (this) {
+      case NutrientType.water:
+        return 'Below Target';
+      case NutrientType.protein:
+        return 'Below Targer';
+      default:
+        return 'Low';
+    }
+  }
+
+  String optimalTitle() {
+    switch (this) {
+      case NutrientType.water:
+        return 'On Track';
+      case NutrientType.protein:
+        return 'On Track';
+      default:
+        return 'Optimal';
+    }
+  }
+
+  String highTitle() {
+    switch (this) {
+      case NutrientType.water:
+        return 'Excellent';
+      case NutrientType.protein:
+        return 'Excellent';
+      default:
+        return 'High';
+    }
+  }
 }

@@ -131,13 +131,17 @@ extension on NutriScoreType {
   String description() {
     switch (this) {
       case NutriScoreType.zero:
-        return 'Let’s make today count, put your meal to track your progress';
+        return 'Let’s make today count, put your meal to track your progress'
+            .tr;
       case NutriScoreType.fifty:
-        return 'Don’t worry, We can definitely improve your nutrition together!';
+        return 'Don’t worry, We can definitely improve your nutrition together!'
+            .tr;
       case NutriScoreType.seventyFive:
-        return 'You’re doing great! Let’s make sure we push it a little further';
+        return 'You’re doing great! Let’s make sure we push it a little further'
+            .tr;
       case NutriScoreType.hundred:
-        return 'Great Job! Your nutrition is on point. Keep up the good work!';
+        return 'Great Job! Your nutrition is on point. Keep up the good work!'
+            .tr;
     }
   }
 

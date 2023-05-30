@@ -131,7 +131,7 @@ class _SleepScreenState extends State<SleepScreen> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 30),
                               child: Text(
-                                'of daily goals',
+                                'of daily goals'.tr,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 17.sp,
@@ -202,7 +202,7 @@ class _SleepScreenState extends State<SleepScreen> {
             Padding(
               padding: const EdgeInsets.only(left: 40),
               child: Text(
-                "Daily Breakdown",
+                "Daily Breakdown".tr,
                 style: TextStyle(
                     color: const Color(0xFF171433),
                     fontWeight: FontWeight.w600,
@@ -256,7 +256,7 @@ class _SleepScreenState extends State<SleepScreen> {
                   border: Border.all(color: const Color(0xFFEBEBEB))),
               child: Column(
                 children: [
-                  Text('Last 7 days',
+                  Text('Last 7 days'.tr,
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 14.sp,

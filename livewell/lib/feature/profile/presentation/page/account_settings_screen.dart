@@ -2,15 +2,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
+import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/profile/presentation/controller/account_settings_controller.dart';
+import 'package:livewell/feature/profile/presentation/controller/physical_information_controller.dart';
+import 'package:livewell/feature/profile/presentation/controller/user_settings_controller.dart';
 import 'package:livewell/feature/profile/presentation/page/user_settings_screen.dart';
+import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 
 class AccountSettingsScreen extends StatelessWidget {
   final AccountSettingsController controller =
       Get.put(AccountSettingsController());
+  final UserSettingsController userController = Get.find();
+  final PhysicalInformationController physicalController = Get.find();
   AccountSettingsScreen({Key? key}) : super(key: key);
 
   @override
@@ -56,19 +63,69 @@ class AccountSettingsScreen extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: 210.h,
+                          width: 210.w,
                           height: 210.h,
                           decoration: BoxDecoration(
                               color: Colors.white.withOpacity(0.3),
                               shape: BoxShape.circle),
                           alignment: Alignment.center,
-                          child: Container(
-                            width: 180.h,
-                            height: 180.h,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                            ),
+                          child: Stack(
+                            alignment: Alignment.bottomRight,
+                            children: [
+                              ClipOval(
+                                  child: InkWell(
+                                onTap: () async {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return ImagePickerBottomSheet(
+                                            onImageSelected: (img) {
+                                          physicalController.pickImages(img);
+                                        });
+                                      });
+                                },
+                                child: Container(
+                                  width: 180.w,
+                                  height: 180.h,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
+                                  ),
+                                  child: Obx(() {
+                                    if (userController.user.value.avatarUrl !=
+                                            null &&
+                                        userController
+                                            .user.value.avatarUrl!.isNotEmpty) {
+                                      return Image.network(
+                                        userController.user.value.avatarUrl!,
+                                        fit: BoxFit.cover,
+                                      );
+                                    } else {
+                                      return SvgPicture.asset(
+                                        (userController.user.value.gender ??
+                                                        Gender.male.name)
+                                                    .toLowerCase() ==
+                                                "male"
+                                            ? Constant.imgMaleSVG
+                                            : Constant.imgFemaleSVG,
+                                      );
+                                    }
+                                  }),
+                                ),
+                              )),
+                              Container(
+                                width: 40.w,
+                                height: 40.h,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                ),
+                                child: const Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         13.verticalSpace,
@@ -77,7 +134,7 @@ class AccountSettingsScreen extends StatelessWidget {
                   ],
                 ),
                 LiveWellButton(
-                  label: 'Request To Delete Account',
+                  label: 'Request To Delete Account'.tr,
                   color: Colors.red,
                   textColor: Colors.white,
                   onPressed: () {
@@ -90,13 +147,13 @@ class AccountSettingsScreen extends StatelessWidget {
                                 'You account and content will be deleted permanently. You may cancel the deletion request by logging in your account within 30 days.'),
                             actions: [
                               CupertinoDialogAction(
-                                child: const Text('Cancel'),
+                                child: Text('Cancel'.tr),
                                 onPressed: () {
                                   Get.back();
                                 },
                               ),
                               CupertinoDialogAction(
-                                child: const Text('Confirm'),
+                                child: Text('Confirm'.tr),
                                 onPressed: () {
                                   controller.requestAccountDeletion();
                                 },
@@ -127,7 +184,7 @@ class AccountSettingsScreen extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              'Personal Information',
+                              'Personal Information'.tr,
                               style: TextStyle(
                                   color: const Color(0xFF171433),
                                   fontSize: 18.sp,
@@ -139,30 +196,23 @@ class AccountSettingsScreen extends StatelessWidget {
                               size: 15.h,
                               color: const Color(0xFF8F01DF),
                             ),
-                            Text(
-                              ' Edit',
-                              style: TextStyle(
-                                  color: const Color(0xFF8401DF),
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w600),
-                            )
                           ],
                         ),
                       ),
                       30.verticalSpace,
                       AccountSettingsTextField(
                         textEditingController: controller.firstName,
-                        hintText: 'First Name',
+                        hintText: 'First Name'.tr,
                       ),
                       20.verticalSpace,
                       AccountSettingsTextField(
                         textEditingController: controller.lastName,
-                        hintText: 'Last Name',
+                        hintText: 'Last Name'.tr,
                       ),
                       20.verticalSpace,
                       AccountSettingsTextField(
                         textEditingController: controller.email,
-                        hintText: 'Email',
+                        hintText: 'Email'.tr,
                         enabled: false,
                       )
                     ],
@@ -170,12 +220,13 @@ class AccountSettingsScreen extends StatelessWidget {
                 ),
                 20.verticalSpace,
                 LiveWellButton(
-                    label: 'Update',
+                    label: 'Update'.tr,
                     color: const Color(0xFF8F01DF),
                     textColor: Colors.white,
                     onPressed: () {
                       controller.validate();
-                    })
+                    }),
+                20.verticalSpace,
               ],
             ),
           ),

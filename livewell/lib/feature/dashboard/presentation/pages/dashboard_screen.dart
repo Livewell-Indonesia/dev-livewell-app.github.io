@@ -61,13 +61,22 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             shape: BoxShape.rectangle,
                           ),
                           child: Obx(() {
-                            return SvgPicture.asset(
-                              (controller.user.value.gender ?? Gender.male.name)
-                                          .toLowerCase() ==
-                                      "male"
-                                  ? Constant.imgMaleSVG
-                                  : Constant.imgFemaleSVG,
-                            );
+                            if (controller.user.value.avatarUrl != null &&
+                                controller.user.value.avatarUrl!.isNotEmpty) {
+                              return Image.network(
+                                controller.user.value.avatarUrl!,
+                                fit: BoxFit.cover,
+                              );
+                            } else {
+                              return SvgPicture.asset(
+                                (controller.user.value.gender ??
+                                                Gender.male.name)
+                                            .toLowerCase() ==
+                                        "male"
+                                    ? Constant.imgMaleSVG
+                                    : Constant.imgFemaleSVG,
+                              );
+                            }
                           }),
                         ),
                       ),
@@ -223,7 +232,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                           fontWeight: FontWeight.w500),
                                     ),
                                     Text(
-                                      "Eaten",
+                                      "Eaten".tr,
                                       style: TextStyle(
                                           fontSize: 12.sp,
                                           color: const Color(0xFF171433)
@@ -256,7 +265,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                               fontWeight: FontWeight.w500),
                                         ),
                                         Text(
-                                          'Remaining',
+                                          'Remaining'.tr,
                                           style: TextStyle(
                                               color: const Color(0xFF171433)
                                                   .withOpacity(0.63),
@@ -281,7 +290,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                           fontWeight: FontWeight.w500),
                                     ),
                                     Text(
-                                      "Burned",
+                                      "Burned".tr,
                                       style: TextStyle(
                                           fontSize: 12.sp,
                                           color: const Color(0xFF171433)
@@ -390,7 +399,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       : Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20).r,
                           child: Text(
-                            "Task List",
+                            "Task List".tr,
                             style: TextStyle(
                                 color: const Color(0xFF171433),
                                 fontSize: 20.sp,
@@ -744,7 +753,7 @@ class YourWeightWidget extends StatelessWidget {
                 ),
                 8.verticalSpace,
                 Text(
-                  'Keep with our plan, You are doing great!',
+                  'Keep with our plan, You are doing great!'.tr,
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 12.sp,
@@ -761,7 +770,7 @@ class YourWeightWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'See My Progress',
+                      'See My Progress'.tr,
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 12.sp,

@@ -111,7 +111,7 @@ class _NutriscoreScoreDetailScreenState
                   return Column(
                     children: [
                       Text(
-                        "Today’s Amount",
+                        "Today’s Amount".tr,
                         style: TextStyle(
                             color: const Color(0xFF808080),
                             fontSize: 10.sp,
@@ -134,7 +134,7 @@ class _NutriscoreScoreDetailScreenState
                   return Column(
                     children: [
                       Text(
-                        "Weekly Average",
+                        "Weekly Average".tr,
                         style: TextStyle(
                             color: const Color(0xFF808080),
                             fontSize: 10.sp,
@@ -165,7 +165,7 @@ class _NutriscoreScoreDetailScreenState
                 border: Border.all(color: const Color(0xFFEBEBEB))),
             child: Column(
               children: [
-                Text('Last 7 days',
+                Text('Last 7 days'.tr,
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 14.sp,
@@ -293,7 +293,7 @@ class _NutriscoreScoreDetailScreenState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Disclaimer',
+                  'Disclaimer'.tr,
                   style: TextStyle(
                       color: const Color(0xFF171433),
                       fontSize: 14.sp,
@@ -427,11 +427,11 @@ extension on NutriScoreStatus {
   String title() {
     switch (this) {
       case NutriScoreStatus.low:
-        return 'Low';
+        return 'Low'.tr;
       case NutriScoreStatus.mid:
-        return 'Mid';
+        return 'Mid'.tr;
       case NutriScoreStatus.optimal:
-        return 'Optimal';
+        return 'Optimal'.tr;
     }
   }
 }
@@ -454,7 +454,7 @@ class BuildDetailIndicator extends StatelessWidget {
               ? CrossAxisAlignment.end
               : CrossAxisAlignment.center,
       children: [
-        Text('Your Value',
+        Text('Your Value'.tr,
             style: TextStyle(color: const Color(0xFF808080), fontSize: 10.sp)),
         2.verticalSpace,
         Text(banner,
@@ -529,7 +529,7 @@ class NutriscoreOptimalIndicator extends StatelessWidget {
               ),
               8.verticalSpace,
               Text(
-                'Optimal',
+                'Optimal'.tr,
                 style: TextStyle(
                     color: const Color(0xFF808080),
                     fontSize: 12.sp,
@@ -570,7 +570,7 @@ class NutriscoreMidIndicator extends StatelessWidget {
               ),
               8.verticalSpace,
               Text(
-                'Mid',
+                'Mid'.tr,
                 style: TextStyle(
                     color: const Color(0xFF808080),
                     fontSize: 12.sp,
@@ -618,7 +618,7 @@ class NutriscoreLowIndicator extends StatelessWidget {
               ),
               8.verticalSpace,
               Text(
-                'Low',
+                'Low'.tr,
                 style: TextStyle(
                     color: const Color(0xFF808080),
                     fontSize: 12.sp,

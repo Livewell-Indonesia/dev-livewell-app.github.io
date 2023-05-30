@@ -29,7 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             children: [
               Center(
                 child: Text(
-                  AppStringsKeys.enterYourDetails.tr,
+                  'Enter your details to register'.tr,
                   style: TextStyle(
                       color: const Color(0xB2171433),
                       fontSize: 16.sp,
@@ -40,34 +40,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
               // AuthTextField(
               //     controller: controller.firstName,
               //     hintText: null,
-              //     labelText: AppStringsKeys.firstName.tr,
+              //     labelText: 'First Name'.tr,
               //     errorText: controller.firstNameError.value,
               //     obscureText: false),
               // 16.verticalSpace,
               // AuthTextField(
               //     controller: controller.lastName,
               //     hintText: null,
-              //     labelText: AppStringsKeys.lastName.tr,
+              //     labelText: 'Last Name'.tr,
               //     errorText: controller.lastNameError.value,
               //     obscureText: false),
               // 16.verticalSpace,
               AuthTextField(
                   controller: controller.email,
                   hintText: null,
-                  labelText: AppStringsKeys.email.tr,
+                  labelText: 'Email Address'.tr,
                   errorText: controller.emailError.value,
                   isEmail: true,
                   obscureText: false),
               16.verticalSpace,
               AuthTextField(
                   controller: controller.password,
-                  hintText: AppStringsKeys.password.tr,
-                  labelText: AppStringsKeys.password.tr,
+                  hintText: 'Password'.tr,
+                  labelText: 'Password'.tr,
                   errorText: controller.passwordError.value,
                   obscureText: true),
               32.verticalSpace,
               LiveWellButton(
-                  label: AppStringsKeys.signUp.tr,
+                  label: 'Sign Up'.tr,
                   color: const Color(0xFFDDF235),
                   onPressed: () {
                     controller.onRegisterTapped();
@@ -76,7 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               32.verticalSpace,
               Center(
                 child: Text(
-                  AppStringsKeys.or.tr,
+                  'Or '.tr,
                   style: const TextStyle(
                       fontSize: 16,
                       color: Color(0xFF171433),
@@ -97,7 +97,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    AppStringsKeys.alreadyHaveAccount.tr,
+                    'Already have account?'.tr,
                     style: const TextStyle(
                         fontSize: 16,
                         color: Color(0xFF171433),
@@ -108,7 +108,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Get.back();
                       },
                       child: Text(
-                        AppStringsKeys.signIn.tr,
+                        'Sign In'.tr,
                         style: const TextStyle(
                             fontSize: 16,
                             color: Color(0xFF8F01DF),
@@ -121,14 +121,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                        text: AppStringsKeys.bySigningUp.tr,
+                        text: 'By signing up, I agree to Livewell’s \n'.tr,
                         style: TextStyle(
                             color: const Color(0xFF171433).withOpacity(0.7),
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400),
                         children: [
                           TextSpan(
-                            text: AppStringsKeys.termsAndConditions.tr,
+                            text: 'Terms & Conditions '.tr,
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Get.to(() => const WebView(
@@ -144,14 +144,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 fontWeight: FontWeight.w500),
                           ),
                           TextSpan(
-                            text: AppStringsKeys.and.tr,
+                            text: "and".tr,
                             style: TextStyle(
                                 color: const Color(0xFF171433).withOpacity(0.7),
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w400),
                           ),
                           TextSpan(
-                            text: AppStringsKeys.privacyPolicy.tr,
+                            text: 'Privacy Policy '.tr,
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Get.to(() => const WebView(

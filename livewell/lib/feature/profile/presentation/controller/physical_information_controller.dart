@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
+import 'package:livewell/feature/profile/domain/usecase/upload_photo.dart';
 import 'package:livewell/feature/questionnaire/domain/usecase/post_questionnaire.dart';
 import 'package:livewell/routes/app_navigator.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../questionnaire/presentation/controller/questionnaire_controller.dart';
 
@@ -24,6 +29,7 @@ class PhysicalInformationController extends GetxController {
   Rxn<DateTime> birthDate = Rxn<DateTime>();
   PostQuestionnaire postQuestionnaire = PostQuestionnaire.instance();
   Rx<GoalSelection> selectedGoals = GoalSelection.getFitter.obs;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void onInit() {
@@ -86,6 +92,24 @@ class PhysicalInformationController extends GetxController {
 
   void setGenderTextField() {
     gender.text = genderValue.value;
+  }
+
+  Future<void> pickImages(File source) async {
+    // pick image from gallery
+    try {
+      UploadPhoto uploadPhoto = UploadPhoto.instance();
+      final data = await uploadPhoto.call(source);
+      data.fold((l) {
+        Log.error(l);
+      }, (r) async {
+        DashboardController controller = Get.find();
+        await controller.getUsersData().then((value) {
+          onInit();
+        });
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   void setGoal(GoalSelection value) {

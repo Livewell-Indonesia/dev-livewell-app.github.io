@@ -15,7 +15,7 @@ class ForgotPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return LiveWellScaffold(
         backgroundColor: Colors.white,
-        title: AppStringsKeys.forgotPassword2.tr,
+        title: 'Forgot Password'.tr,
         body: Expanded(
           child: Column(
             children: [
@@ -23,7 +23,8 @@ class ForgotPasswordScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20).r,
                 child: Text(
-                  AppStringsKeys.forgotPasswordDesc.tr,
+                  'Please enter your email address. You will receive a link to create a new password via email.'
+                      .tr,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16.sp, color: Colors.black),
                 ),
@@ -32,7 +33,7 @@ class ForgotPasswordScreen extends StatelessWidget {
               LiveWellTextField(
                 controller: controller.email,
                 hintText: null,
-                labelText: AppStringsKeys.email,
+                labelText: 'Email Address'.tr,
                 errorText: null,
                 obscureText: false,
                 isEmail: true,

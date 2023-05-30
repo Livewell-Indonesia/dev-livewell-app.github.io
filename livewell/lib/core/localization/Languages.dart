@@ -4,46 +4,47 @@ class Languages extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_US': {
-          AppStringsKeys.welcomeToLiveWell: 'Welcome to Livewell',
-          AppStringsKeys.letsYourNewHealth:
+          'Welcome to Livewell': 'Welcome to Livewell',
+          'Better Health Through Better Living':
               'Better Health Through Better Living',
-          AppStringsKeys.getStarted: 'Get Started',
+          'Get Started': 'Get Started',
           'Sign In': 'Sign In',
-          AppStringsKeys.signUp: 'Sign Up',
-          AppStringsKeys.signIn: 'Sign In',
-          AppStringsKeys.alreadyHaveAccount: 'Already have account?',
-          AppStringsKeys.dontHaveAccount: "Don't have account?",
+          'Sign Up': 'Sign Up',
+          'Already have account?': 'Already have account?',
+          "Don't have account?": "Don't have account?",
           'Create New Account': 'Create New Account',
-          AppStringsKeys.enterYourDetails: 'Enter your details to register',
-          AppStringsKeys.email: 'Email Address',
-          AppStringsKeys.password: 'Password',
-          AppStringsKeys.fullName: 'Full Name',
-          AppStringsKeys.orSignUpWith: 'Or Sign up with',
-          AppStringsKeys.firstName: 'First Name',
-          AppStringsKeys.lastName: 'Last Name',
-          AppStringsKeys.orSignInWith: 'or Sign in with',
-          AppStringsKeys.forgotPassword: 'Forgot Password?',
-          AppStringsKeys.getStarted2: 'Get Started!',
-          AppStringsKeys.youReadyToGo: 'You are ready to go!',
-          AppStringsKeys.thanksForTakingYourTime:
+          'Enter your details to register': 'Enter your details to register',
+          'Email Address': 'Email Address',
+          'Password': 'Password',
+          'Full Name': 'Full Name',
+          'Or Sign up with': 'Or Sign up with',
+          'First Name': 'First Name',
+          'Last Name': 'Last Name',
+          'or Sign in with': 'or Sign in with',
+          'Forgot Password?': 'Forgot Password?',
+          'Get Started!': 'Get Started!',
+          'You are ready to go!': 'You are ready to go!',
+          'Thanks for taking your time to create account with us. Let\'s start your wellness Journey':
               'Thanks for taking your time to create account with us. Let\'s start your wellness Journey',
-          AppStringsKeys.forgotPasswordDesc:
+          'Please enter your email address. You will receive a link to create a new password via email.':
               'Please enter your email address. You will receive a link to create a new password via email.',
           'Submit': 'Submit',
-          AppStringsKeys.forgotPassword2: 'Forgot Password',
-          AppStringsKeys.bySigninAbove:
+          'Forgot Password': 'Forgot Password',
+          "by Sign in above, i agree to Livewell’s\n":
               "by Sign in above, i agree to Livewell’s\n",
-          AppStringsKeys.termsAndConditions: 'Terms & Conditions ',
-          AppStringsKeys.and: 'and ',
-          AppStringsKeys.privacyPolicy: 'Privacy Policy ',
-          AppStringsKeys.bySigningUp: 'By signing up, I agree to Livewell’s \n',
-          'done': 'Done',
-          'edit': 'Edit',
-          'save': 'Save',
+          'Terms & Conditions ': 'Terms & Conditions ',
+          'and ': 'and ',
+          'Privacy Policy ': 'Privacy Policy ',
+          'By signing up, I agree to Livewell’s \n':
+              'By signing up, I agree to Livewell’s \n',
+          'Done': 'Done',
+          'Edit': 'Edit',
+          'Save': 'Save',
           'Account Settings': 'Account Settings',
           'Daily Journal': 'Daily Journal',
           'Physical Information': 'Physical Information',
           'Exercise': 'Exercise',
+          'My Goals': 'My Goals',
           'Logout': 'Logout',
           'Set Your Meal Time': 'Set Your Meal Time',
           'Breakfast': 'Breakfast',
@@ -54,6 +55,12 @@ class Languages extends Translations {
           'Change Password': 'Change Password',
           'Update Weight': 'Update Weight',
           'Yes': 'Yes',
+          'Your Recommended Foods': 'Your Recommended Foods',
+          'Picked based on your nutritional needs':
+              'Picked based on your nutritional needs',
+          "Food Recommendation": "Food Recommendation",
+          'Discover personalized food recommendations that match your nutritional needs. Filter franchise restaurants with ease and enjoy your meals to the fullest!':
+              'Discover personalized food recommendations that match your nutritional needs. Filter franchise restaurants with ease and enjoy your meals to the fullest!',
           'No': 'No',
           'None': 'None',
           'Get Fitter': 'Get Fitter',
@@ -79,6 +86,7 @@ class Languages extends Translations {
           'Filter': 'Filter',
           'Reset Filter': 'Reset Filter',
           'Amount': 'Amount',
+          "Number Of Serving": "Number Of Serving",
           'Calories': 'Calories',
           'Protein': 'Protein',
           'Carbs': 'Carbs',
@@ -122,6 +130,54 @@ class Languages extends Translations {
           'Custom': 'Custom',
           'Water Tracking': 'Water Tracking',
           'Add Drink': 'Add Drink',
+          'See Details': 'See Details',
+          'Low': 'Low',
+          'Optimal': 'Optimal',
+          'High': 'High',
+          'Mid': 'Mid',
+          'Below Target': 'Below Target',
+          'On Track': 'On Track',
+          'Excellent': 'Excellent',
+          "Today’s Amount": "Today’s Amount",
+          'Weekly Average': 'Weekly Average',
+          'Last 7 days': 'Last 7 days',
+          'Disclaimer': 'Disclaimer',
+          'Your Value': 'Your Value',
+          'Eaten': 'Eaten',
+          'Burned': 'Burned',
+          'Remaining': 'Remaining',
+          'Task List': 'Task List',
+          'Morning': 'Morning',
+          'Afternoon': 'Afternoon',
+          'Evening': 'Evening',
+          'Keep with our plan, You are doing great!':
+              'Keep with our plan, You are doing great!',
+          'See My Progress': 'See My Progress',
+          "You have reached ": "You have reached ",
+          " of your goal!": " of your goal!",
+          'Exercise habit': 'Exercise habit',
+          "Daily Breakdown": "Daily Breakdown",
+          'Poor': 'Poor',
+          'Good': 'Good',
+          'Almost': 'Almost',
+          'Great': 'Great',
+          'Goals Setting': 'Goals Setting',
+          'Personal Information': 'Personal Information',
+          'Request To Delete Account': 'Request To Delete Account',
+          'Delete Account Permanently': 'Delete Account Permanently',
+          'You account and content will be deleted permanently. You may cancel the deletion request by logging in your account within 30 days.':
+              'You account and content will be deleted permanently. You may cancel the deletion request by logging in your account within 30 days.',
+          "Your water intake for today ": "Your water intake for today ",
+          'Livewell nutritional data is for general fitness and wellness use. May contain inaccuracies. Consult a professional for personalized advice.':
+              'Livewell nutritional data is for general fitness and wellness use. May contain inaccuracies. Consult a professional for personalized advice.',
+          'Let’s make today count, put your meal to track your progress':
+              'Let’s make today count, put your meal to track your progress',
+          'Don’t worry, We can definitely improve your nutrition together!':
+              'Don’t worry, We can definitely improve your nutrition together!',
+          'You’re doing great! Let’s make sure we push it a little further':
+              'You’re doing great! Let’s make sure we push it a little further',
+          'Great Job! Your nutrition is on point. Keep up the good work!':
+              'Great Job! Your nutrition is on point. Keep up the good work!'
         },
         'es_ES': {
           'title': 'Hola',
@@ -130,37 +186,4 @@ class Languages extends Translations {
           'title': 'Olá',
         },
       };
-}
-
-//create class for constant strings
-class AppStringsKeys {
-  static const String welcomeToLiveWell = 'welcome_to_live_well';
-  static const String letsYourNewHealth = 'lets_your_new_health';
-  static const String getStarted = 'get_started';
-  static const String alreadyHaveAccount = 'already_have_account';
-  static const String signIn = 'signIn';
-  static const String signUp = 'signUp';
-  static const String createNewAccount = 'create_new_account';
-  static const String enterYourDetails = 'enter_your_details';
-  static const String dontHaveAccount = 'dont_have_account';
-  static const String email = 'email';
-  static const String password = 'password';
-  static const String fullName = 'full_name';
-  static const String orSignUpWith = 'or_sign_up_with';
-  static const String firstName = 'first_name';
-  static const String lastName = 'last_name';
-  static const String orSignInWith = 'or_sign_in_with';
-  static const String forgotPassword = 'forgot_password';
-  static const String getStarted2 = 'get_started2';
-  static const String youReadyToGo = 'you_ready_to_go';
-  static const String thanksForTakingYourTime = 'thanks_for_taking_your_time';
-  static const String forgotPasswordDesc = 'forgot_password_desc';
-  static const String forgotPassword2 = 'forgot_password2';
-  static const String bySigninAbove = 'by_signin_above';
-  static const String termsAndConditions = 'terms_and_conditions';
-  static const String and = 'and';
-  static const String privacyPolicy = 'privacy_policy';
-  static const String bySigningUp = 'by_signing_up';
-  static const String or = 'or';
-  static const String done = 'done';
 }

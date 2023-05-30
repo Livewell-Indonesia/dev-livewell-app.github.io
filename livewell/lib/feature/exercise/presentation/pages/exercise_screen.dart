@@ -111,7 +111,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                   border: Border.all(color: const Color(0xFFEBEBEB))),
               child: Column(
                 children: [
-                  Text('Last 7 days',
+                  Text('Last 7 days'.tr,
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 14.sp,

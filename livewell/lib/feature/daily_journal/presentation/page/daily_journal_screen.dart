@@ -168,7 +168,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
             ),
             20.verticalSpace,
             LiveWellButton(
-                label: 'save'.tr,
+                label: 'Save'.tr,
                 color: const Color(0xFF8F01DF),
                 textColor: Colors.white,
                 onPressed: () {

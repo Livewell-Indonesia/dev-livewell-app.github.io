@@ -37,7 +37,7 @@ class LoginScreen extends StatelessWidget {
               AuthTextField(
                   controller: controller.email,
                   hintText: null,
-                  labelText: AppStringsKeys.email.tr,
+                  labelText: 'Email Address'.tr,
                   errorText: null,
                   obscureText: false,
                   isEmail: true),
@@ -46,7 +46,7 @@ class LoginScreen extends StatelessWidget {
                 return AuthTextField(
                     controller: controller.password,
                     hintText: null,
-                    labelText: AppStringsKeys.password.tr,
+                    labelText: 'Password'.tr,
                     errorText: controller.passwordError.isEmpty
                         ? null
                         : controller.passwordError.value,
@@ -54,7 +54,7 @@ class LoginScreen extends StatelessWidget {
               }),
               32.verticalSpace,
               LiveWellButton(
-                  label: AppStringsKeys.signIn.tr,
+                  label: 'Sign In'.tr,
                   color: const Color(0xFFDDF235),
                   onPressed: () {
                     controller.doLogin();
@@ -65,15 +65,14 @@ class LoginScreen extends StatelessWidget {
                     AppNavigator.push(routeName: AppPages.forgotPassword);
                   },
                   child: Text(
-                    AppStringsKeys.forgotPassword.tr,
+                    'Forgot Password?'.tr,
                     style: TextStyle(
                         color: const Color(0xFF8F01DF),
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500),
                   )),
               20.verticalSpace,
-              Text(AppStringsKeys.orSignInWith.tr,
-                  style: TextStyle(fontSize: 16.sp)),
+              Text('or Sign in with'.tr, style: TextStyle(fontSize: 16.sp)),
               20.verticalSpace,
               SigninThridPartyButton(
                   type: SignInButtonType.google,
@@ -92,7 +91,7 @@ class LoginScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(AppStringsKeys.dontHaveAccount.tr,
+                  Text("Don't have account?".tr,
                       style: TextStyle(
                           color: const Color(0xFF171433).withOpacity(0.7),
                           fontSize: 16.sp,
@@ -102,7 +101,7 @@ class LoginScreen extends StatelessWidget {
                         AppNavigator.push(routeName: AppPages.signup);
                       },
                       child: Text(
-                        AppStringsKeys.signUp.tr,
+                        'Sign Up'.tr,
                         style: TextStyle(
                             color: const Color(0xFF8F01DF),
                             fontSize: 16.sp,
@@ -115,14 +114,14 @@ class LoginScreen extends StatelessWidget {
                 child: RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                        text: AppStringsKeys.bySigninAbove.tr,
+                        text: "by Sign in above, i agree to Livewell’s\n".tr,
                         style: TextStyle(
                             color: const Color(0xFF171433).withOpacity(0.7),
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400),
                         children: [
                           TextSpan(
-                            text: AppStringsKeys.termsAndConditions.tr,
+                            text: 'Terms & Conditions '.tr,
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Get.to(() => const WebView(
@@ -138,14 +137,14 @@ class LoginScreen extends StatelessWidget {
                                 fontWeight: FontWeight.w500),
                           ),
                           TextSpan(
-                            text: AppStringsKeys.and.tr,
+                            text: "and".tr,
                             style: TextStyle(
                                 color: const Color(0xFF171433).withOpacity(0.7),
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w400),
                           ),
                           TextSpan(
-                            text: AppStringsKeys.privacyPolicy.tr,
+                            text: 'Privacy Policy '.tr,
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Get.to(() => const WebView(

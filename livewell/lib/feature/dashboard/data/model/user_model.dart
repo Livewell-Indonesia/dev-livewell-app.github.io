@@ -18,6 +18,7 @@ class UserModel {
   String? lastSyncedAt;
   int? exerciseGoalKcal;
   int? stepsGoalCount;
+  String? avatarUrl;
 
   UserModel(
       {this.email,
@@ -38,6 +39,7 @@ class UserModel {
       this.onboardingQuestionnaire,
       this.lastSyncedAt,
       this.exerciseGoalKcal,
+      this.avatarUrl,
       this.stepsGoalCount});
 
   UserModel.fromJson(Map<String, dynamic> json) {
@@ -58,6 +60,7 @@ class UserModel {
     exerciseGoalKcal = json['exercise_goal_kcal'];
     stepsGoalCount = json['steps_goal_count'];
     weightTarget = json['weight_target'];
+    avatarUrl = json['avatar_url'];
     if (json['daily_journal'] != null) {
       dailyJournal = <DailyJournal>[];
       json['daily_journal'].forEach((v) {
@@ -90,6 +93,7 @@ class UserModel {
     String? lastSyncedAt,
     int? exerciseGoalKcal,
     int? stepsGoalCount,
+    String? avatarUrl,
   }) {
     return UserModel(
       email: email ?? this.email,
@@ -112,6 +116,7 @@ class UserModel {
       lastSyncedAt: lastSyncedAt ?? this.lastSyncedAt,
       exerciseGoalKcal: exerciseGoalKcal ?? this.exerciseGoalKcal,
       stepsGoalCount: stepsGoalCount ?? this.stepsGoalCount,
+      avatarUrl: avatarUrl ?? this.avatarUrl,
     );
   }
 
@@ -131,6 +136,7 @@ class UserModel {
     data['bmi'] = bmi;
     data['bmr'] = bmr;
     data['weight_target'] = weightTarget;
+    data['avatar_url'] = avatarUrl;
     if (dailyJournal != null) {
       data['daily_journal'] = dailyJournal!.map((v) => v.toJson()).toList();
     }

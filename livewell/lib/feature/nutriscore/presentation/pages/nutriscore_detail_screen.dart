@@ -50,7 +50,10 @@ class NutriScoreDetailsScreen extends StatelessWidget {
             score: controller.nutrientScore.value,
             value:
                 '${NumberFormat('0.0').format(controller.todaysAmount.value).toString()}${controller.currentType.unit()}',
+            status: controller.getNutriScoreStatus(),
+            type: controller.currentType,
           ),
+          20.verticalSpace,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -173,7 +176,12 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                                 BarChartRodData(
                                     color: controller.isYValueOptimal(index)
                                         ? const Color(0xFFDDF235)
-                                        : const Color(0xFFFA6F6F),
+                                        : controller.currentType ==
+                                                    NutrientType.protein ||
+                                                controller.currentType ==
+                                                    NutrientType.water
+                                            ? const Color(0xFFDDF235)
+                                            : const Color(0xFFFA6F6F),
                                     width: 12.w,
                                     toY: controller
                                         .nutrientList[index].nutrient.eaten!
@@ -335,7 +343,14 @@ class NutriScoreDetailsScreen extends StatelessWidget {
 class NutriScoreScale extends StatefulWidget {
   final int score;
   final String value;
-  const NutriScoreScale({super.key, required this.score, required this.value});
+  final NutrientScoreStatus status;
+  final NutrientType type;
+  const NutriScoreScale(
+      {super.key,
+      required this.score,
+      required this.value,
+      required this.status,
+      required this.type});
 
   @override
   State<NutriScoreScale> createState() => _NutriScoreScaleState();
@@ -374,16 +389,19 @@ class _NutriScoreScaleState extends State<NutriScoreScale> {
                       showCursor: getStatusFromScore(widget.score) ==
                           NutrientScoreStatus.low,
                       value: widget.score,
+                      type: widget.type,
                     ),
                     OptimalIndicator(
                       showCursor: getStatusFromScore(widget.score) ==
                           NutrientScoreStatus.optimal,
                       value: widget.score,
+                      type: widget.type,
                     ),
                     HighIndicator(
                       showCursor: getStatusFromScore(widget.score) ==
                           NutrientScoreStatus.high,
                       value: widget.score,
+                      type: widget.type,
                     ),
                   ],
                 ),
@@ -394,7 +412,12 @@ class _NutriScoreScaleState extends State<NutriScoreScale> {
             left: getLeftPadding(widget.score),
             bottom: 19.h,
             child: BuildIndicator(
-                key: _key, value: widget.score, banner: widget.value),
+              key: _key,
+              value: widget.score,
+              banner: widget.value,
+              status: widget.status,
+              type: widget.type,
+            ),
           ),
         ],
       ),
@@ -404,10 +427,13 @@ class _NutriScoreScaleState extends State<NutriScoreScale> {
   double getLeftPadding(int score) {
     switch (getStatusFromScore(score)) {
       case NutrientScoreStatus.low:
+      case NutrientScoreStatus.belowTarget:
         return score < 20 ? (score * 1.4.w) : (score * 1.4.w) - width / 2;
       case NutrientScoreStatus.optimal:
+      case NutrientScoreStatus.ontrack:
         return ((79 * 1.4.w) + ((114.3.w / 60) * (score - 80)) - width / 2);
       case NutrientScoreStatus.high:
+      case NutrientScoreStatus.excellent:
         return ((79 * 1.4.w) + ((114.3.w / 60) * (score - 80)) - width / 2);
       // return ((score - 141) * 1.937.w) - (score > 90 ? 16.w : 0);
     }
@@ -427,10 +453,14 @@ NutrientScoreStatus getStatusFromScore(int score) {
 class BuildIndicator extends StatelessWidget {
   final int value;
   final String banner;
+  final NutrientScoreStatus status;
+  final NutrientType type;
   const BuildIndicator({
     Key? key,
     required this.value,
     required this.banner,
+    required this.status,
+    required this.type,
   }) : super(key: key);
 
   @override
@@ -439,7 +469,7 @@ class BuildIndicator extends StatelessWidget {
       crossAxisAlignment:
           value < 20 ? CrossAxisAlignment.start : CrossAxisAlignment.center,
       children: [
-        Text('Your Value',
+        Text('Your Value'.tr,
             style: TextStyle(color: const Color(0xFF808080), fontSize: 10.sp)),
         2.verticalSpace,
         Text(banner,
@@ -453,7 +483,7 @@ class BuildIndicator extends StatelessWidget {
               height: 16.h,
               width: 2.w,
               decoration: BoxDecoration(
-                color: getStatusFromScore(value).color(),
+                color: status.color(),
               ),
             ),
             Stack(
@@ -463,7 +493,7 @@ class BuildIndicator extends StatelessWidget {
                   height: 16.h,
                   width: 16.w,
                   decoration: BoxDecoration(
-                    color: getStatusFromScore(value).color(),
+                    color: status.color(),
                     borderRadius: const BorderRadius.all(Radius.circular(8)),
                   ),
                 ),
@@ -487,10 +517,12 @@ class BuildIndicator extends StatelessWidget {
 class HighIndicator extends StatelessWidget {
   final bool showCursor;
   final int value;
+  final NutrientType type;
   const HighIndicator({
     Key? key,
     required this.showCursor,
     required this.value,
+    required this.type,
   }) : super(key: key);
 
   @override
@@ -505,16 +537,16 @@ class HighIndicator extends StatelessWidget {
             children: [
               Container(
                 height: 12.h,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFFA6F6F),
-                  borderRadius: BorderRadius.only(
+                decoration: BoxDecoration(
+                  color: type.highColor(),
+                  borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(8),
                       bottomRight: Radius.circular(8)),
                 ),
               ),
               8.verticalSpace,
               Text(
-                'High',
+                type.highTitle(),
                 style: TextStyle(
                     color: const Color(0xFF808080),
                     fontSize: 12.sp,
@@ -531,10 +563,12 @@ class HighIndicator extends StatelessWidget {
 class OptimalIndicator extends StatelessWidget {
   final bool showCursor;
   final int value;
+  final NutrientType type;
   const OptimalIndicator({
     Key? key,
     required this.showCursor,
     required this.value,
+    required this.type,
   }) : super(key: key);
 
   @override
@@ -549,8 +583,8 @@ class OptimalIndicator extends StatelessWidget {
             children: [
               Container(
                 height: 12.h,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF80A4A9),
+                decoration: BoxDecoration(
+                  color: type.optimalColor(),
                   // borderRadius: BorderRadius.only(
                   //     topLeft: Radius.circular(8),
                   //     bottomLeft: Radius.circular(8)),
@@ -558,7 +592,7 @@ class OptimalIndicator extends StatelessWidget {
               ),
               8.verticalSpace,
               Text(
-                'Optimal',
+                type.optimalTitle(),
                 style: TextStyle(
                     color: const Color(0xFF808080),
                     fontSize: 12.sp,
@@ -575,10 +609,12 @@ class OptimalIndicator extends StatelessWidget {
 class LowIndicator extends StatelessWidget {
   final bool showCursor;
   final int value;
+  final NutrientType type;
   const LowIndicator({
     Key? key,
     required this.showCursor,
     required this.value,
+    required this.type,
   }) : super(key: key);
 
   // low 0 - 79
@@ -597,16 +633,16 @@ class LowIndicator extends StatelessWidget {
             children: [
               Container(
                 height: 12.h,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF808080),
-                  borderRadius: BorderRadius.only(
+                decoration: BoxDecoration(
+                  color: type.lowColor(),
+                  borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(8),
                       bottomLeft: Radius.circular(8)),
                 ),
               ),
               8.verticalSpace,
               Text(
-                'Low',
+                type.lowTitle(),
                 style: TextStyle(
                     color: const Color(0xFF808080),
                     fontSize: 12.sp,

@@ -69,7 +69,7 @@ class ExerciseController extends GetxController
     var value = getYValue(index);
     var minimum = goal * 0.8;
     var maximum = goal * 1.2;
-    return value >= minimum && value <= maximum;
+    return value >= minimum;
   }
 
   String getXValue(int index) {

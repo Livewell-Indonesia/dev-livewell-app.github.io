@@ -51,13 +51,13 @@ class LandingAuthScreen extends StatelessWidget {
                             //   width: 165.w,
                             //   height: 80.h,
                             // ),
-                            Text(AppStringsKeys.welcomeToLiveWell.tr,
+                            Text('Welcome to Livewell'.tr,
                                 style: TextStyle(
                                     fontSize: 24.sp,
                                     fontWeight: FontWeight.w600,
                                     color: const Color(0xFF171433))),
                             8.verticalSpace,
-                            Text(AppStringsKeys.letsYourNewHealth.tr,
+                            Text('Better Health Through Better Living'.tr,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 16.sp,
@@ -75,7 +75,7 @@ class LandingAuthScreen extends StatelessWidget {
               child: Column(
                 children: [
                   LiveWellButton(
-                      label: AppStringsKeys.getStarted.tr,
+                      label: 'Get Started'.tr,
                       color: const Color(0xFFDDF235),
                       onPressed: () {
                         AppNavigator.push(routeName: AppPages.signup);
@@ -83,7 +83,7 @@ class LandingAuthScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(AppStringsKeys.alreadyHaveAccount.tr,
+                      Text('Already have account?'.tr,
                           style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
@@ -93,7 +93,7 @@ class LandingAuthScreen extends StatelessWidget {
                             AppNavigator.push(routeName: AppPages.login);
                           },
                           child: Text(
-                            AppStringsKeys.signIn.tr,
+                            'Sign In'.tr,
                             style: TextStyle(
                               color: const Color(0xFF8F01DF),
                               fontSize: 16.sp,

@@ -150,14 +150,14 @@ class NameInput extends StatelessWidget {
         AuthTextField(
             controller: controller.firstName,
             hintText: null,
-            labelText: AppStringsKeys.firstName.tr,
+            labelText: 'First Name'.tr,
             errorText: null,
             obscureText: false),
         16.verticalSpace,
         AuthTextField(
             controller: controller.lastName,
             hintText: null,
-            labelText: AppStringsKeys.lastName.tr,
+            labelText: 'Last Name'.tr,
             errorText: null,
             obscureText: false),
         16.verticalSpace,

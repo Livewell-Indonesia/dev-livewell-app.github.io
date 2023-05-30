@@ -30,7 +30,7 @@ class FinishQuestionnaireScreen extends StatelessWidget {
                         SvgPicture.asset(Constant.imgFinishQuestionnaireSVG))),
             50.verticalSpace,
             Text(
-              AppStringsKeys.youReadyToGo.tr,
+              'You are ready to go!'.tr,
               style: TextStyle(
                   color: const Color(0xFF171433),
                   fontSize: 24.sp,
@@ -40,7 +40,8 @@ class FinishQuestionnaireScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24).r,
               child: Text(
-                AppStringsKeys.thanksForTakingYourTime.tr,
+                'Thanks for taking your time to create account with us. Let\'s start your wellness Journey'
+                    .tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: const Color(0xFF171433).withOpacity(0.7),
@@ -50,7 +51,7 @@ class FinishQuestionnaireScreen extends StatelessWidget {
             ),
             50.verticalSpace,
             LiveWellButton(
-                label: AppStringsKeys.getStarted2.tr,
+                label: 'Get Started!'.tr,
                 color: const Color(0xFF8F01DF),
                 textColor: Colors.white,
                 onPressed: () {

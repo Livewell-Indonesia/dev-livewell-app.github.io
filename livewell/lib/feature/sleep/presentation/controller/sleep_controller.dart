@@ -108,7 +108,7 @@ class SleepController extends GetxController {
     var value = getYValue(index);
     var minimum = userGoal.value * 0.8;
     var maximum = userGoal.value * 1.2;
-    if (value >= minimum && value <= maximum) {
+    if (value >= minimum) {
       return true;
     }
     return false;

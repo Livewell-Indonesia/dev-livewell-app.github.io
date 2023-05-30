@@ -382,7 +382,7 @@ class DashboardController extends GetxController {
     });
   }
 
-  void getUsersData() async {
+  Future<void> getUsersData() async {
     var result = await getUser(NoParams());
     result.fold((l) => print(l), (r) {
       user.value = r;
@@ -420,12 +420,12 @@ class DashboardController extends GetxController {
   String greeting() {
     var hour = DateTime.now().hour;
     if (hour < 12) {
-      return 'Morning';
+      return 'Morning'.tr;
     }
     if (hour < 17) {
-      return 'Afternoon';
+      return 'Afternoon'.tr;
     }
-    return 'Evening';
+    return 'Evening'.tr;
   }
 
   Rx<double> getWeightPercentage() {

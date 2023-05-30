@@ -70,6 +70,7 @@ class _NutriScoreScreenState extends State<NutriScoreScreen> {
                                     ?.optimizedNutrient ??
                                 0,
                             unit: NutrientType.values[index].unit(),
+                            type: NutrientType.values[index],
                           );
                         }),
                         onTap: () {
@@ -94,12 +95,14 @@ class NutriScoreDetailItem extends StatelessWidget {
   final num value;
   final num score;
   final String unit;
+  final NutrientType type;
   const NutriScoreDetailItem({
     super.key,
     required this.name,
     required this.value,
     required this.score,
     required this.unit,
+    required this.type,
   });
 
   @override
@@ -132,11 +135,11 @@ class NutriScoreDetailItem extends StatelessWidget {
               8.horizontalSpace,
               Container(
                 decoration: BoxDecoration(
-                    color: getStatusFromScore().color(),
+                    color: getCustomStatusByType(type).color(),
                     borderRadius: BorderRadius.circular(100)),
                 padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
                 child: Text(
-                  getStatusFromScore().title(),
+                  getCustomStatusByType(type).title(),
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 8.sp,
@@ -165,20 +168,43 @@ class NutriScoreDetailItem extends StatelessWidget {
     }
     return NutrientScoreStatus.low;
   }
+
+  NutrientScoreStatus getCustomStatusByType(NutrientType type) {
+    if (type == NutrientType.water || type == NutrientType.protein) {
+      switch (getStatusFromScore()) {
+        case NutrientScoreStatus.low:
+          return NutrientScoreStatus.belowTarget;
+        case NutrientScoreStatus.optimal:
+          return NutrientScoreStatus.ontrack;
+        case NutrientScoreStatus.high:
+          return NutrientScoreStatus.excellent;
+        default:
+          return getStatusFromScore();
+      }
+    } else {
+      return getStatusFromScore();
+    }
+  }
 }
 
-enum NutrientScoreStatus { low, optimal, high }
+enum NutrientScoreStatus { low, optimal, high, ontrack, belowTarget, excellent }
 
 extension NutrientScoreStatusAtt on NutrientScoreStatus {
   // create getter for title
   String title() {
     switch (this) {
       case NutrientScoreStatus.low:
-        return "Low";
+        return 'Low'.tr;
       case NutrientScoreStatus.optimal:
-        return "Optimal";
+        return "Optimal".tr;
       case NutrientScoreStatus.high:
-        return "High";
+        return "High".tr;
+      case NutrientScoreStatus.ontrack:
+        return "On Track".tr;
+      case NutrientScoreStatus.belowTarget:
+        return "Below Target".tr;
+      case NutrientScoreStatus.excellent:
+        return "Excellent".tr;
     }
   }
 
@@ -190,6 +216,12 @@ extension NutrientScoreStatusAtt on NutrientScoreStatus {
         return const Color(0xFF80A4A9);
       case NutrientScoreStatus.high:
         return const Color(0xFFFA6F6F);
+      case NutrientScoreStatus.ontrack:
+        return const Color(0xFFDDF235);
+      case NutrientScoreStatus.belowTarget:
+        return const Color(0xff808080);
+      case NutrientScoreStatus.excellent:
+        return const Color(0xFFDDF235);
     }
   }
 }

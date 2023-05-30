@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_model.dart';
 import 'package:livewell/feature/nutriscore/presentation/controller/nutriscore_controller.dart';
+import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_score_detail_screen.dart';
 import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_screen.dart';
 
 class NutriscoreDetailController extends GetxController {
@@ -62,11 +63,29 @@ class NutriscoreDetailController extends GetxController {
     var value = todaysAmount.value;
     var optimal = nutrientList[0].nutrient.optimizedNutrient!;
     if (value >= optimal * 0.8 && value <= optimal * 1.4) {
-      return NutrientScoreStatus.optimal;
+      return convertCustomStatus(NutrientScoreStatus.optimal);
     } else if (value < optimal * 0.8) {
-      return NutrientScoreStatus.low;
+      return convertCustomStatus(NutrientScoreStatus.low);
     } else {
-      return NutrientScoreStatus.high;
+      return convertCustomStatus(NutrientScoreStatus.high);
+    }
+  }
+
+  NutrientScoreStatus convertCustomStatus(NutrientScoreStatus status) {
+    if (currentType == NutrientType.protein ||
+        currentType == NutrientType.water) {
+      switch (status) {
+        case NutrientScoreStatus.optimal:
+          return NutrientScoreStatus.ontrack;
+        case NutrientScoreStatus.low:
+          return NutrientScoreStatus.belowTarget;
+        case NutrientScoreStatus.high:
+          return NutrientScoreStatus.excellent;
+        default:
+          return status;
+      }
+    } else {
+      return status;
     }
   }
 

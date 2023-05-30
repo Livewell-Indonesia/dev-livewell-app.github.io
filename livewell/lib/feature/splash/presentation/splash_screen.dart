@@ -28,7 +28,7 @@ class SplashScreen extends StatelessWidget {
                   color: const Color(0xFF34EAB2),
                 ),
               ),
-              Text(AppStringsKeys.letsYourNewHealth.tr,
+              Text('Better Health Through Better Living'.tr,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 16.sp,

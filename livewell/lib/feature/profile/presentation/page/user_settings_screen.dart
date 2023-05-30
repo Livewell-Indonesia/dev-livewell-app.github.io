@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/profile/presentation/controller/physical_information_controller.dart';
 import 'package:livewell/feature/profile/presentation/controller/user_settings_controller.dart';
@@ -61,24 +64,63 @@ class UserSettingsScreen extends StatelessWidget {
                           color: Colors.white.withOpacity(0.3),
                           shape: BoxShape.circle),
                       alignment: Alignment.center,
-                      child: ClipOval(
-                        child: Container(
-                          width: 180.w,
-                          height: 180.h,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
+                      child: Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          ClipOval(
+                              child: InkWell(
+                            onTap: () async {
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) {
+                                    return ImagePickerBottomSheet(
+                                        onImageSelected: (img) {
+                                      physicalController.pickImages(img);
+                                    });
+                                  });
+                            },
+                            child: Container(
+                              width: 180.w,
+                              height: 180.h,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                              ),
+                              child: Obx(() {
+                                if (controller.user.value.avatarUrl != null &&
+                                    controller
+                                        .user.value.avatarUrl!.isNotEmpty) {
+                                  return Image.network(
+                                    controller.user.value.avatarUrl!,
+                                    fit: BoxFit.cover,
+                                  );
+                                } else {
+                                  return SvgPicture.asset(
+                                    (controller.user.value.gender ??
+                                                    Gender.male.name)
+                                                .toLowerCase() ==
+                                            "male"
+                                        ? Constant.imgMaleSVG
+                                        : Constant.imgFemaleSVG,
+                                  );
+                                }
+                              }),
+                            ),
+                          )),
+                          // create plus button
+                          Container(
+                            width: 40.w,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                            child: const Icon(
+                              Icons.camera_alt,
+                              color: Colors.black,
+                            ),
                           ),
-                          child: Obx(() {
-                            return SvgPicture.asset(
-                              (controller.user.value.gender ?? Gender.male.name)
-                                          .toLowerCase() ==
-                                      "male"
-                                  ? Constant.imgMaleSVG
-                                  : Constant.imgFemaleSVG,
-                            );
-                          }),
-                        ),
+                        ],
                       ),
                     ),
                     13.verticalSpace,
@@ -256,4 +298,44 @@ String flagEmoji(String country) {
   offset = country.codeUnitAt(1) - a;
   int second = base + offset;
   return String.fromCharCode(first) + String.fromCharCode(second);
+}
+
+class ImagePickerBottomSheet extends StatelessWidget {
+  final Function(File) onImageSelected;
+
+  ImagePickerBottomSheet({required this.onImageSelected});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Wrap(
+        children: <Widget>[
+          ListTile(
+            leading: Icon(Icons.photo_library),
+            title: Text('Pick from Gallery'),
+            onTap: () {
+              _pickImage(ImageSource.gallery, context);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.camera_alt),
+            title: Text('Take a Photo'),
+            onTap: () {
+              _pickImage(ImageSource.camera, context);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _pickImage(ImageSource source, BuildContext context) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: source);
+    if (pickedFile != null) {
+      final selectedImage = File(pickedFile.path);
+      onImageSelected(selectedImage);
+    }
+    Navigator.of(context).pop();
+  }
 }

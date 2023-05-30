@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:livewell/core/network/api_url.dart';
 import 'package:livewell/core/network/network_module.dart';
 
@@ -24,6 +28,23 @@ class UserProfileRepositoryImpl extends NetworkModule
           headers: {authorization: await SharedPref.getToken()});
       final data = responseHandler(response);
       return Right(RegisterModel.fromJson(data));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, RegisterModel>> uploadPhoto(File file) async {
+    try {
+      String fileName = file.path.split('/').last;
+      FormData formData = FormData.fromMap({
+        "document": await MultipartFile.fromFile(file.path,
+            filename: fileName, contentType: MediaType.parse('image/png')),
+      });
+      await postUploadDocument(Endpoint.uploadPhoto, Endpoint.api,
+          headers: {authorization: await SharedPref.getToken()},
+          body: formData);
+      return Right(RegisterModel());
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }

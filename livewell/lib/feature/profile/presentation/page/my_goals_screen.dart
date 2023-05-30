@@ -36,7 +36,7 @@ class MyGoalsScreen extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 24.w),
                       child: Text(
-                        'Goals Setting',
+                        'Goals Setting'.tr,
                         style: TextStyle(
                             color: Color(0xFF171433),
                             fontSize: 20.sp,
@@ -125,7 +125,7 @@ class MyGoalsScreen extends StatelessWidget {
               ),
               const Spacer(),
               LiveWellButton(
-                label: 'Save',
+                label: 'Save'.tr,
                 textColor: Colors.white,
                 color: const Color(0xFF8F01DF),
                 onPressed: () {
