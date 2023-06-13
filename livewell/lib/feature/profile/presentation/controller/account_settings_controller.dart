@@ -6,8 +6,9 @@ import 'package:livewell/feature/auth/domain/usecase/delete_account.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/profile/domain/usecase/update_user_info.dart';
 import 'package:livewell/routes/app_navigator.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class AccountSettingsController extends GetxController {
+class AccountSettingsController extends BaseController {
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
   TextEditingController email = TextEditingController();

@@ -6,9 +6,10 @@ import 'package:livewell/feature/profile/presentation/page/exercise_information_
 import 'package:livewell/routes/app_navigator.dart';
 
 import '../page/physical_information_screen.dart';
+import 'package:livewell/core/base/base_controller.dart';
 import 'dart:io' show Platform;
 
-class UserSettingsController extends GetxController {
+class UserSettingsController extends BaseController {
   var state = UserSettingsState.initial.obs;
   var user = Get.find<DashboardController>().user;
 

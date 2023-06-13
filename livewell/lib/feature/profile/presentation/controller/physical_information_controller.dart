@@ -11,10 +11,11 @@ import 'package:livewell/feature/profile/domain/usecase/upload_photo.dart';
 import 'package:livewell/feature/questionnaire/domain/usecase/post_questionnaire.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
 import '../../../questionnaire/presentation/controller/questionnaire_controller.dart';
 
-class PhysicalInformationController extends GetxController {
+class PhysicalInformationController extends BaseController {
   TextEditingController gender = TextEditingController();
   TextEditingController height = TextEditingController();
   TextEditingController weight = TextEditingController();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:health/health.dart';
+import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
@@ -14,7 +15,7 @@ import '../../../core/base/usecase.dart';
 import '../../dashboard/data/model/app_config_model.dart';
 import 'package:get/get.dart';
 
-class HomeController extends GetxController {
+class HomeController extends BaseController {
   Rx<HomeTab> currentMenu = HomeTab.home.obs;
 
   GetAppConfig appConfig = GetAppConfig.instance();

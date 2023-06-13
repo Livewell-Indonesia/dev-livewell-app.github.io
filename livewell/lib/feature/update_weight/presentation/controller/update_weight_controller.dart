@@ -15,8 +15,9 @@ import 'package:livewell/feature/update_weight/domain/usecase/get_user_history.d
 import 'package:livewell/feature/update_weight/domain/usecase/update_user_weight.dart';
 
 import '../../../dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class UpdateWeightController extends GetxController {
+class UpdateWeightController extends BaseController {
   Rx<double> targetWeight = 0.0.obs;
   Rx<double> weight = 0.0.obs;
   RxList<WeightHistory> weightHistory = <WeightHistory>[].obs;

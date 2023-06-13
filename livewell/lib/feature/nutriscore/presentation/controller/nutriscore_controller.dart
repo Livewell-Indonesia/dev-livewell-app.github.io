@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_detail_model.dart';
 import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_model.dart';
@@ -8,7 +9,7 @@ import 'package:livewell/feature/nutriscore/domain/usecase/get_nutri_score.dart'
 import 'package:livewell/feature/nutriscore/domain/usecase/get_nutri_score_detail.dart';
 import 'package:livewell/routes/app_navigator.dart';
 
-class NutriScoreController extends GetxController {
+class NutriScoreController extends BaseController {
   Rx<NutriScoreModel> nutriScore = NutriScoreModel().obs;
   RxList<NutriscoreDetailModel> nutriScoreDetail =
       <NutriscoreDetailModel>[].obs;

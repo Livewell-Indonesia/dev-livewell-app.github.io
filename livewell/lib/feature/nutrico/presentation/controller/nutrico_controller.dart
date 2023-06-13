@@ -10,8 +10,9 @@ import 'package:livewell/feature/nutrico/domain/usecase/get_nutrico_asset.dart';
 import 'package:livewell/feature/nutrico/domain/usecase/post_nutrico.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:lottie/lottie.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class NutriCoController extends GetxController {
+class NutriCoController extends BaseController {
   TextEditingController foodDescription = TextEditingController();
   Rx<bool> buttonEnabled = false.obs;
   Rxn<NutricoAsset> nutricoAssets = Rxn<NutricoAsset>();

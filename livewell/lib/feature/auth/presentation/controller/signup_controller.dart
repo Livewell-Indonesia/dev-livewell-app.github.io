@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_google_auth.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_register.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/feature/auth/presentation/controller/login_controller.dart';
 
-class SignUpController extends GetxController {
+class SignUpController extends BaseController {
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
   TextEditingController email = TextEditingController();

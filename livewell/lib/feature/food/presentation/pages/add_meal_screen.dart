@@ -149,7 +149,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Food Recommendation".tr,
+                        addMealController.localization.foodRecommendation!,
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
@@ -333,7 +333,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                                 addMealController.tutorialCoachMark.finish();
                               },
                               child: Text(
-                                'Done',
+                                addMealController.localization.done!,
                                 style: TextStyle(
                                     color: const Color(0xFF8F01DF),
                                     fontSize: 12.sp,
@@ -550,7 +550,8 @@ class _AddMealScreenState extends State<AddMealScreen>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Food Recommendation'.tr,
+                                addMealController
+                                    .localization.foodRecommendation!,
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 16.sp,
@@ -558,6 +559,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                               ),
                               Text(
                                 'Based on your nutritional needs'.tr,
+                                softWrap: false,
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 14.sp,
@@ -592,7 +594,7 @@ class _AddMealScreenState extends State<AddMealScreen>
           child: Row(
             children: [
               Text(
-                'Search Result'.tr,
+                addMealController.localization.searchResult!,
                 style: TextStyle(
                     fontSize: 20.sp,
                     color: const Color(0xFF171433),
@@ -634,7 +636,9 @@ class _AddMealScreenState extends State<AddMealScreen>
                                         horizontal: 16),
                                     child: Row(
                                       children: [
-                                        Text('Filter'.tr,
+                                        Text(
+                                            addMealController
+                                                .localization.filter!,
                                             style: TextStyle(
                                                 color: const Color(0xFF171433),
                                                 fontWeight: FontWeight.w700,
@@ -644,7 +648,9 @@ class _AddMealScreenState extends State<AddMealScreen>
                                             onPressed: () {
                                               addMealController.resetFilter();
                                             },
-                                            child: Text('Reset filter'.tr,
+                                            child: Text(
+                                                addMealController
+                                                    .localization.resetFilter!,
                                                 style: TextStyle(
                                                     color:
                                                         const Color(0xFF8F01DF),
@@ -656,7 +662,8 @@ class _AddMealScreenState extends State<AddMealScreen>
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 16),
-                                    child: Text('Amount'.tr,
+                                    child: Text(
+                                        addMealController.localization.amount!,
                                         style: TextStyle(
                                             color: const Color(0xFF171433),
                                             fontWeight: FontWeight.w700,
@@ -711,7 +718,8 @@ class _AddMealScreenState extends State<AddMealScreen>
                                   }),
                                   64.verticalSpace,
                                   LiveWellButton(
-                                      label: 'Submit'.tr,
+                                      label: addMealController
+                                          .localization.submit!,
                                       color: const Color(0xFFDDF235),
                                       onPressed: () {
                                         addMealController.onSubmitFilter();
@@ -762,7 +770,7 @@ class _AddMealScreenState extends State<AddMealScreen>
               Column(
                 children: [
                   Text(
-                    'Your Recommended Foods'.tr,
+                    addMealController.localization.yourRecommendedFoods!,
                     style: TextStyle(
                         fontSize: 20.sp,
                         color: const Color(0xFF171433),
@@ -770,7 +778,8 @@ class _AddMealScreenState extends State<AddMealScreen>
                   ),
                   4.verticalSpace,
                   Text(
-                    'Picked based on your nutritional needs'.tr,
+                    addMealController
+                        .localization.pickedBasedOnYourNutritionalNeeds!,
                     style: TextStyle(
                       color: const Color(0xFF171433),
                       fontSize: 14.sp,

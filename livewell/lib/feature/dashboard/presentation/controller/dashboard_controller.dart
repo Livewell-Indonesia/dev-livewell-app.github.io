@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:health/health.dart';
 import 'package:intl/intl.dart';
+import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
@@ -29,7 +30,7 @@ import '../../../diary/domain/entity/user_meal_history_model.dart';
 import '../../../exercise/domain/usecase/post_exercise_data.dart';
 import 'dart:core';
 
-class DashboardController extends GetxController {
+class DashboardController extends BaseController {
   GetUser getUser = GetUser.instance();
   GetMealHistory getMealHistory = GetMealHistory.instance();
   GetDashboardData getDashboardData = GetDashboardData.instance();

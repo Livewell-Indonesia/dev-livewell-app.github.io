@@ -22,14 +22,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: 'Create New Account'.tr,
+        title: controller.localization.createNewAccount!,
         backgroundColor: Colors.white,
         body: Expanded(child: Obx(() {
           return ListView(
             children: [
               Center(
                 child: Text(
-                  'Enter your details to register'.tr,
+                  controller.localization.enterYourDetailsToRegister!,
                   style: TextStyle(
                       color: const Color(0xB2171433),
                       fontSize: 16.sp,
@@ -54,20 +54,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
               AuthTextField(
                   controller: controller.email,
                   hintText: null,
-                  labelText: 'Email Address'.tr,
+                  labelText: controller.localization.emailAddress!,
                   errorText: controller.emailError.value,
                   isEmail: true,
                   obscureText: false),
               16.verticalSpace,
               AuthTextField(
                   controller: controller.password,
-                  hintText: 'Password'.tr,
-                  labelText: 'Password'.tr,
+                  hintText: controller.localization.password!,
+                  labelText: controller.localization.password!,
                   errorText: controller.passwordError.value,
                   obscureText: true),
               32.verticalSpace,
               LiveWellButton(
-                  label: 'Sign Up'.tr,
+                  label: controller.localization.signUp!,
                   color: const Color(0xFFDDF235),
                   onPressed: () {
                     controller.onRegisterTapped();
@@ -97,7 +97,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Already have account?'.tr,
+                    controller.localization.alreadyHaveAccount!,
                     style: const TextStyle(
                         fontSize: 16,
                         color: Color(0xFF171433),
@@ -108,7 +108,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Get.back();
                       },
                       child: Text(
-                        'Sign In'.tr,
+                        controller.localization.signIn!,
                         style: const TextStyle(
                             fontSize: 16,
                             color: Color(0xFF8F01DF),
@@ -121,14 +121,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                        text: 'By signing up, I agree to Livewell’s \n'.tr,
+                        text: controller
+                            .localization.bySigningUpAgreeToTermsAndConditions,
                         style: TextStyle(
                             color: const Color(0xFF171433).withOpacity(0.7),
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400),
                         children: [
                           TextSpan(
-                            text: 'Terms & Conditions '.tr,
+                            text: controller.localization.termsAndConditions!,
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Get.to(() => const WebView(
@@ -144,14 +145,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 fontWeight: FontWeight.w500),
                           ),
                           TextSpan(
-                            text: "and".tr,
+                            text: controller.localization.and!,
                             style: TextStyle(
                                 color: const Color(0xFF171433).withOpacity(0.7),
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w400),
                           ),
                           TextSpan(
-                            text: 'Privacy Policy '.tr,
+                            text: controller.localization.privacyPolicy!,
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Get.to(() => const WebView(

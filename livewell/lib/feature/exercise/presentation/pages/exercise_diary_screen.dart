@@ -29,7 +29,7 @@ class _ExerciseDiaryScreenState extends State<ExerciseDiaryScreen> {
             return RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
-                text: "You have reached ".tr,
+                text: controller.localization.youHaveReached!,
                 style: TextStyle(
                     fontSize: 30.sp,
                     fontWeight: FontWeight.w600,
@@ -42,7 +42,7 @@ class _ExerciseDiaryScreenState extends State<ExerciseDiaryScreen> {
                           fontWeight: FontWeight.w600,
                           color: const Color(0xFF8F01DF))),
                   TextSpan(
-                      text: " of your goal!".tr,
+                      text: controller.localization.ofYourGoal!,
                       style: TextStyle(
                           fontSize: 30.sp,
                           fontWeight: FontWeight.w600,

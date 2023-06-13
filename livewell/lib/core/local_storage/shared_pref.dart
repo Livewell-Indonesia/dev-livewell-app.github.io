@@ -108,4 +108,27 @@ class SharedPref {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setBool(PrefConstant.showInfoSleep, show);
   }
+
+  // save user locale
+  static Future<String> saveUserLocale(String locale) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(PrefConstant.userLocale, locale);
+    return locale;
+  }
+
+  static Future<String> getUserLocale() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(PrefConstant.userLocale) ?? '';
+  }
+
+  static Future<String> saveLocalizationJson(String data) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(PrefConstant.localizationJSON, data);
+    return data;
+  }
+
+  static Future<String?> getLocalizationJson() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(PrefConstant.localizationJSON);
+  }
 }

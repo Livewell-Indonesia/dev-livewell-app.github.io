@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:livewell/feature/splash/presentation/controller/splash_controller.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'package:pinput/pinput.dart';
 
@@ -35,7 +36,8 @@ class ChangePasswordScreen extends StatelessWidget {
             children: [
               50.verticalSpace,
               Text(
-                'Enter Your OTP'.tr,
+                controller
+                    .localization.yourAccountAndContentDeletedPermanently!.tr,
                 style: TextStyle(
                     fontSize: 16.sp,
                     color: const Color(0xFF171433).withOpacity(0.7),

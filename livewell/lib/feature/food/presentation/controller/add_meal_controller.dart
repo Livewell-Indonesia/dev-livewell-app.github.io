@@ -16,8 +16,9 @@ import 'package:livewell/feature/questionnaire/presentation/controller/questionn
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import '../../../home/controller/home_controller.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class AddMealController extends GetxController
+class AddMealController extends BaseController
     with GetTickerProviderStateMixin {
   final FocusNode focusNode = FocusNode();
   final TextEditingController textEditingController = TextEditingController();

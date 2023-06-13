@@ -15,8 +15,9 @@ import 'package:livewell/routes/app_navigator.dart';
 
 import '../../data/model/foods_model.dart';
 import '../../domain/entity/add_meal_param.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class AddFoodController extends GetxController {
+class AddFoodController extends BaseController {
   TextEditingController numberOfServing = TextEditingController();
   TextEditingController servingSize = TextEditingController();
   TextEditingController time = TextEditingController();

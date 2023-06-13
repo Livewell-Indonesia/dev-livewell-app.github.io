@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
+import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
 import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart';
 import 'package:livewell/feature/food/domain/usecase/update_food_history.dart';
@@ -12,7 +13,7 @@ import '../../../dashboard/presentation/controller/dashboard_controller.dart';
 import '../../../food/domain/usecase/delete_meal_history.dart';
 import '../../../food/presentation/pages/food_screen.dart';
 
-class UserDiaryController extends GetxController {
+class UserDiaryController extends BaseController {
   Rx<DiaryType> diaryType = DiaryType.food.obs;
   // create a varaible that contains list of datetime
   RxList<DateTime> dateList = <DateTime>[].obs;

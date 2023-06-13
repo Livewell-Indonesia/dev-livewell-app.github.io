@@ -4,11 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/localization/languages.dart';
+import 'package:livewell/feature/auth/presentation/controller/landing_auth_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 
 class LandingAuthScreen extends StatelessWidget {
-  const LandingAuthScreen({Key? key}) : super(key: key);
+  final LandingAuthController controller = Get.put(LandingAuthController());
+  LandingAuthScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,13 +53,15 @@ class LandingAuthScreen extends StatelessWidget {
                             //   width: 165.w,
                             //   height: 80.h,
                             // ),
-                            Text('Welcome to Livewell'.tr,
+                            Text(controller.localization.welcomeToLivewell!,
                                 style: TextStyle(
                                     fontSize: 24.sp,
                                     fontWeight: FontWeight.w600,
                                     color: const Color(0xFF171433))),
                             8.verticalSpace,
-                            Text('Better Health Through Better Living'.tr,
+                            Text(
+                                controller.localization
+                                    .betterHealthThroughBetterLiving!,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 16.sp,
@@ -75,7 +79,7 @@ class LandingAuthScreen extends StatelessWidget {
               child: Column(
                 children: [
                   LiveWellButton(
-                      label: 'Get Started'.tr,
+                      label: controller.localization.getStartedExclamation!,
                       color: const Color(0xFFDDF235),
                       onPressed: () {
                         AppNavigator.push(routeName: AppPages.signup);
@@ -83,7 +87,7 @@ class LandingAuthScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Already have account?'.tr,
+                      Text(controller.localization.alreadyHaveAccount!,
                           style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
@@ -93,7 +97,7 @@ class LandingAuthScreen extends StatelessWidget {
                             AppNavigator.push(routeName: AppPages.login);
                           },
                           child: Text(
-                            'Sign In'.tr,
+                            controller.localization.signIn!,
                             style: TextStyle(
                               color: const Color(0xFF8F01DF),
                               fontSize: 16.sp,

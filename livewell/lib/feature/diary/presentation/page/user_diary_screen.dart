@@ -22,7 +22,7 @@ class UserDiaryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: "Diary".tr,
+        title: controller.localization.diary!,
         body: Expanded(
           child: RefreshIndicator(
             onRefresh: () async {
@@ -151,7 +151,7 @@ class UserDiaryScreen extends StatelessWidget {
                         : Column(
                             children: [
                               ExpandableDiaryItem(
-                                title: "Breakfast".tr,
+                                title: controller.localization.breakfast!,
                                 data: controller.filteredMealHistory
                                     .where((p0) =>
                                         p0.mealType?.toUpperCase() ==
@@ -177,7 +177,7 @@ class UserDiaryScreen extends StatelessWidget {
                               ),
                               20.verticalSpace,
                               ExpandableDiaryItem(
-                                title: "Lunch".tr,
+                                title: controller.localization.lunch!,
                                 data: controller.filteredMealHistory
                                     .where((p0) =>
                                         p0.mealType?.toUpperCase() ==
@@ -203,7 +203,7 @@ class UserDiaryScreen extends StatelessWidget {
                               ),
                               20.verticalSpace,
                               ExpandableDiaryItem(
-                                title: "Dinner".tr,
+                                title: controller.localization.dinner!,
                                 data: controller.filteredMealHistory
                                     .where((p0) =>
                                         p0.mealType?.toUpperCase() ==
@@ -229,7 +229,7 @@ class UserDiaryScreen extends StatelessWidget {
                               ),
                               20.verticalSpace,
                               ExpandableDiaryItem(
-                                title: "Snack".tr,
+                                title: controller.localization.snack!,
                                 data: controller.filteredMealHistory
                                     .where((p0) =>
                                         p0.mealType?.toUpperCase() ==

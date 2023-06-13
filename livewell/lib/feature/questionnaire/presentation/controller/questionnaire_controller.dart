@@ -10,8 +10,9 @@ import 'package:livewell/feature/questionnaire/domain/usecase/post_questionnaire
 
 import '../../../../core/log.dart';
 import '../../../../routes/app_navigator.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class QuestionnaireController extends GetxController {
+class QuestionnaireController extends BaseController {
   Rx<QuestionnairePage> currentPage = QuestionnairePage.name.obs;
   var progress = 0.0.obs;
   var date = DateTime(1990, 1, 1).obs;

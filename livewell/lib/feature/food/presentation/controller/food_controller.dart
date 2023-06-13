@@ -9,8 +9,9 @@ import 'package:livewell/feature/food/domain/usecase/delete_meal_history.dart';
 import '../../../diary/domain/entity/user_meal_history_model.dart';
 import '../../domain/usecase/update_food_history.dart';
 import '../pages/food_screen.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class FoodController extends GetxController {
+class FoodController extends BaseController {
   var firstValue = 0.0.obs;
   var secondValue = 0.0.obs;
   var thirdValue = 0.0.obs;

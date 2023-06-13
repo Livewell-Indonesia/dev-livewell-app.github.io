@@ -5,8 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/profile/domain/usecase/update_user_info.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class ExerciseInformationController extends GetxController {
+class ExerciseInformationController extends BaseController {
   var exerciseController = TextEditingController();
 
   @override

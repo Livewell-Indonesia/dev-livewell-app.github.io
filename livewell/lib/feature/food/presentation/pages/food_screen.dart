@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
@@ -25,7 +26,7 @@ class _FoodScreenState extends State<FoodScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-      title: 'Food'.tr,
+      title: controller.localization.food!,
       body: Expanded(
         child: RefreshIndicator(
           onRefresh: () async {
@@ -44,7 +45,8 @@ class _FoodScreenState extends State<FoodScreen> {
                           textAlign: TextAlign.center,
                           text: TextSpan(children: [
                             TextSpan(
-                              text: 'Today you have consumed '.tr,
+                              text:
+                                  controller.localization.todayYouHaveConsumed!,
                               style: TextStyles.titleHiEm(color: Colors.black),
                             ),
                             TextSpan(
@@ -380,13 +382,13 @@ extension MealTimeAttribute on MealTime {
   String text() {
     switch (this) {
       case MealTime.breakfast:
-        return 'Breakfast'.tr;
+        return Get.find<HomeController>().localization.breakfast!;
       case MealTime.lunch:
-        return 'Lunch'.tr;
+        return Get.find<HomeController>().localization.lunch!;
       case MealTime.dinner:
-        return 'Dinner'.tr;
+        return Get.find<HomeController>().localization.dinner!;
       case MealTime.snack:
-        return 'Snack'.tr;
+        return Get.find<HomeController>().localization.snack!;
     }
   }
 
@@ -404,7 +406,7 @@ extension MealTimeAttribute on MealTime {
   }
 
   String appBarTitle() {
-    return 'Add '.tr + text();
+    return Get.find<HomeController>().localization.add! + text();
   }
 
   String icon() {

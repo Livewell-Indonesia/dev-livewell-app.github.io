@@ -17,8 +17,9 @@ import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 
 import '../../../questionnaire/presentation/controller/questionnaire_controller.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class ExerciseController extends GetxController
+class ExerciseController extends BaseController
     with GetSingleTickerProviderStateMixin {
   Rx<ExerciseTab> currentMenu = ExerciseTab.diaries.obs;
   late TabController tabController;

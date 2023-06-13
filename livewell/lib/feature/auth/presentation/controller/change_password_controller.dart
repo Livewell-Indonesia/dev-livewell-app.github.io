@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_change_password.dart';
 import 'package:livewell/widgets/dialog/success_reset_password_dialog.dart';
 
-class ChangePasswordController extends GetxController {
+class ChangePasswordController extends BaseController {
   TextEditingController newPassword = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
   var pin = ''.obs;

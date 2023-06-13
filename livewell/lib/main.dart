@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/localization/Languages.dart';
 import 'package:livewell/core/localization/languages.dart';
 import 'package:livewell/feature/splash/presentation/splash_screen.dart';
 import 'package:livewell/firebase_options.dart';
@@ -69,7 +70,6 @@ class MyApp extends StatelessWidget {
           }),
           title: 'LiveWell',
           debugShowCheckedModeBanner: false,
-          translations: Languages(),
           locale: Get.deviceLocale,
           fallbackLocale: const Locale('en', 'US'),
           initialRoute: AppNavigator.initialRoute,

@@ -53,7 +53,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: 'Add Food'.tr,
+        title: controller.localization.food!,
         body: Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -170,7 +170,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                   );
                 }),
                 SearchHistoryItem(
-                    title: 'Show nutrient facts'.tr,
+                    title: controller.localization.showNutrientFacts!,
                     description: "",
                     isAdded: false,
                     callback: () {
@@ -192,7 +192,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                           keyboardType: const TextInputType.numberWithOptions(
                               decimal: true),
                           hintText: null,
-                          labelText: "Number Of Serving".tr,
+                          labelText: controller.localization.numberOfServing!,
                           errorText: null,
                           obscureText: false,
                           enabled: true,
@@ -215,7 +215,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                         child: Column(
                                           children: [
                                             Text(
-                                              'Time'.tr,
+                                              controller.localization.time!,
                                               style: TextStyle(
                                                   color:
                                                       const Color(0xFF171433),
@@ -267,7 +267,8 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                                         Get.back();
                                                       },
                                                       child: Text(
-                                                        'Cancel'.tr,
+                                                        controller.localization
+                                                            .cancel!,
                                                         style: TextStyle(
                                                             color: const Color(
                                                                 0xFF171433),
@@ -303,7 +304,8 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                                         Get.back();
                                                       },
                                                       child: Text(
-                                                        'save'.tr,
+                                                        controller
+                                                            .localization.save!,
                                                         style: TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 14.sp,
@@ -324,7 +326,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                               child: LiveWellTextField(
                                 controller: controller.time,
                                 hintText: null,
-                                labelText: "Time",
+                                labelText: controller.localization.time!,
                                 errorText: null,
                                 obscureText: false,
                                 enabled: false,
@@ -358,7 +360,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                 GetBuilder<AddFoodController>(
                                   builder: ((controller) {
                                     return Text(
-                                        "${controller.percentOfDailyGoals(controller.getTotalCalByServings(num.parse(widget.food.servings?[0].calories ?? "0")).round().toInt())}% of your daily goals",
+                                        "${controller.percentOfDailyGoals(controller.getTotalCalByServings(num.parse(widget.food.servings?[0].calories ?? "0")).round().toInt())}% ${controller.localization.ofYourGoal}",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 11.sp,
@@ -419,7 +421,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                           ),
                           child: Center(
                             child: Text(
-                              'Submit'.tr,
+                              controller.localization.submit!,
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 12.sp,

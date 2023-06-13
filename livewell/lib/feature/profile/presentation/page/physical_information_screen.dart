@@ -19,7 +19,7 @@ class PhysicalInformationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-      title: 'Physical Information'.tr,
+      title: controller.localization.physicalInformation!,
       body: Expanded(
         child: SingleChildScrollView(
           child: Column(
@@ -40,7 +40,7 @@ class PhysicalInformationScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           Text(
-                            "Physical Information".tr,
+                            controller.localization.physicalInformation!,
                             style: TextStyle(
                                 fontSize: 18.sp, fontWeight: FontWeight.w600),
                           ),
@@ -71,7 +71,8 @@ class PhysicalInformationScreen extends StatelessWidget {
                                                 return Column(
                                                   children: [
                                                     ListTile(
-                                                      leading: Text('Male'.tr),
+                                                      leading: Text(controller
+                                                          .localization.male!),
                                                       trailing: Radio(
                                                           value: 'Male',
                                                           groupValue: controller
@@ -84,8 +85,9 @@ class PhysicalInformationScreen extends StatelessWidget {
                                                           }),
                                                     ),
                                                     ListTile(
-                                                      leading:
-                                                          Text('Female'.tr),
+                                                      leading: Text(controller
+                                                          .localization
+                                                          .female!),
                                                       trailing: Radio(
                                                           value: 'Female',
                                                           groupValue: controller
@@ -98,8 +100,9 @@ class PhysicalInformationScreen extends StatelessWidget {
                                                           }),
                                                     ),
                                                     LiveWellButton(
-                                                        label:
-                                                            'Save Changes'.tr,
+                                                        label: controller
+                                                            .localization
+                                                            .saveChanges!,
                                                         color: const Color(
                                                             0xFF8F01DF),
                                                         textColor: Colors.white,
@@ -115,7 +118,7 @@ class PhysicalInformationScreen extends StatelessWidget {
                                 },
                                 child: AccountSettingsTextField(
                                   textEditingController: controller.gender,
-                                  hintText: 'Gender'.tr,
+                                  hintText: controller.localization.gender!,
                                   enabled: false,
                                 ),
                               ),
@@ -156,7 +159,8 @@ class PhysicalInformationScreen extends StatelessWidget {
                                           }),
                                           30.verticalSpace,
                                           LiveWellButton(
-                                              label: 'Save Changes'.tr,
+                                              label: controller
+                                                  .localization.saveChanges!,
                                               color: const Color(0xFF8F01DF),
                                               textColor: Colors.white,
                                               onPressed: () {
@@ -170,21 +174,21 @@ class PhysicalInformationScreen extends StatelessWidget {
                                 },
                                 child: AccountSettingsTextField(
                                   textEditingController: controller.age,
-                                  hintText: 'Age'.tr,
+                                  hintText: controller.localization.age!,
                                   enabled: false,
                                 ),
                               ),
                               20.verticalSpace,
                               AccountSettingsTextField(
                                 textEditingController: controller.height,
-                                hintText: 'Height (cm)'.tr,
+                                hintText: controller.localization.heightCm!,
                                 enabled: true,
                                 inputType: TextInputType.number,
                               ),
                               20.verticalSpace,
                               AccountSettingsTextField(
                                 textEditingController: controller.weight,
-                                hintText: 'Weight (kg)'.tr,
+                                hintText: controller.localization.weightKg!,
                                 enabled: true,
                                 inputFormatter: Platform.isIOS
                                     ? []
@@ -200,7 +204,8 @@ class PhysicalInformationScreen extends StatelessWidget {
                               AccountSettingsTextField(
                                 textEditingController:
                                     controller.dietaryResitriction,
-                                hintText: 'Dietary Restriction'.tr,
+                                hintText:
+                                    controller.localization.dietaryRestriction!,
                                 enabled: true,
                               ),
                               20.verticalSpace,
@@ -214,7 +219,7 @@ class PhysicalInformationScreen extends StatelessWidget {
               ),
               20.verticalSpace,
               LiveWellButton(
-                  label: 'save'.tr,
+                  label: controller.localization.save!,
                   color: const Color(0xFF8F01DF),
                   textColor: Colors.white,
                   onPressed: () {

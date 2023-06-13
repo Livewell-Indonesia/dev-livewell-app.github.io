@@ -43,7 +43,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                 const Spacer(),
                 Center(
                     child: Text(
-                  "Exercise",
+                  controller.localization.exercise!,
                   style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w600,
@@ -94,7 +94,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Text(
-                'Exercise habit'.tr,
+                controller.localization.exerciseHabit!,
                 style: TextStyle(
                     color: const Color(0xFF171433),
                     fontSize: 20.sp,
@@ -111,7 +111,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                   border: Border.all(color: const Color(0xFFEBEBEB))),
               child: Column(
                 children: [
-                  Text('Last 7 days'.tr,
+                  Text(controller.localization.last7Days!,
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 14.sp,
@@ -147,10 +147,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                   getTooltipItem:
                                       (group, groupIndex, rod, rodIndex) {
                                     return BarTooltipItem(
-                                      NumberFormat('0.0')
-                                              .format(rod.toY)
-                                              .toString() +
-                                          ' kcal',
+                                      '${NumberFormat('0.0').format(rod.toY)} kcal',
                                       TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w500,
@@ -220,7 +217,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                             child: Text(
                               'kcal.',
                               style: TextStyle(
-                                  color: Color(0xFF505050),
+                                  color: const Color(0xFF505050),
                                   fontSize: 10.sp,
                                   fontWeight: FontWeight.w600),
                             ),

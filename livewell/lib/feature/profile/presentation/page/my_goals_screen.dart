@@ -17,7 +17,7 @@ class MyGoalsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: 'My Goals',
+        title: controller.localization.goalsSetting!,
         body: Expanded(
           child: Column(
             children: [
@@ -36,7 +36,7 @@ class MyGoalsScreen extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 24.w),
                       child: Text(
-                        'Goals Setting'.tr,
+                        controller.localization.goalsSetting!,
                         style: TextStyle(
                             color: Color(0xFF171433),
                             fontSize: 20.sp,
@@ -87,14 +87,14 @@ class MyGoalsScreen extends StatelessWidget {
                       },
                       child: AccountSettingsTextField(
                         textEditingController: controller.specificGoal,
-                        hintText: 'Specific Goal'.tr,
+                        hintText: controller.localization.specificGoal!,
                         enabled: false,
                       ),
                     ),
                     16.verticalSpace,
                     AccountSettingsTextField(
                       textEditingController: controller.targetWeight,
-                      hintText: 'Target Weight (kg)'.tr,
+                      hintText: controller.localization.targetWeightKg!,
                       enabled: true,
                       inputFormatter: Platform.isIOS
                           ? []
@@ -108,14 +108,14 @@ class MyGoalsScreen extends StatelessWidget {
                     16.verticalSpace,
                     AccountSettingsTextField(
                       textEditingController: controller.drink,
-                      hintText: 'Drink'.tr,
+                      hintText: controller.localization.drink!,
                       enabled: true,
                       inputType: TextInputType.number,
                     ),
                     16.verticalSpace,
                     AccountSettingsTextField(
                       textEditingController: controller.sleep,
-                      hintText: 'Sleep (Hours)'.tr,
+                      hintText: controller.localization.sleepHours!,
                       enabled: true,
                       inputType:
                           const TextInputType.numberWithOptions(decimal: true),
@@ -125,7 +125,7 @@ class MyGoalsScreen extends StatelessWidget {
               ),
               const Spacer(),
               LiveWellButton(
-                label: 'Save'.tr,
+                label: controller.localization.save!,
                 textColor: Colors.white,
                 color: const Color(0xFF8F01DF),
                 onPressed: () {

@@ -232,7 +232,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                           fontWeight: FontWeight.w500),
                                     ),
                                     Text(
-                                      "Eaten".tr,
+                                      Get.find<DashboardController>()
+                                          .localization
+                                          .eaten!,
                                       style: TextStyle(
                                           fontSize: 12.sp,
                                           color: const Color(0xFF171433)
@@ -265,7 +267,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                               fontWeight: FontWeight.w500),
                                         ),
                                         Text(
-                                          'Remaining'.tr,
+                                          Get.find<DashboardController>()
+                                              .localization
+                                              .remaining!,
                                           style: TextStyle(
                                               color: const Color(0xFF171433)
                                                   .withOpacity(0.63),
@@ -290,7 +294,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                           fontWeight: FontWeight.w500),
                                     ),
                                     Text(
-                                      "Burned".tr,
+                                      Get.find<DashboardController>()
+                                          .localization
+                                          .burned!,
                                       style: TextStyle(
                                           fontSize: 12.sp,
                                           color: const Color(0xFF171433)
@@ -399,7 +405,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       : Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20).r,
                           child: Text(
-                            "Task List".tr,
+                            controller.localization.taskList!,
                             style: TextStyle(
                                 color: const Color(0xFF171433),
                                 fontSize: 20.sp,
@@ -753,7 +759,7 @@ class YourWeightWidget extends StatelessWidget {
                 ),
                 8.verticalSpace,
                 Text(
-                  'Keep with our plan, You are doing great!'.tr,
+                  Get.find<DashboardController>().localization.keepWithOurPlan!,
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 12.sp,
@@ -770,7 +776,9 @@ class YourWeightWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'See My Progress'.tr,
+                      Get.find<DashboardController>()
+                          .localization
+                          .seeMyProgress!,
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 12.sp,

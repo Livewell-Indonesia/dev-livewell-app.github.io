@@ -143,14 +143,14 @@ class UserSettingsScreen extends StatelessWidget {
             ),
             //32.verticalSpace,
             ProfileSettingsItem(
-                title: 'Account Settings'.tr,
+                title: controller.localization.accountSettings!,
                 icon: Image.asset(Constant.icAccountSetting),
                 onPressed: () {
                   controller.accountSettingsTap();
                 }),
             8.verticalSpace,
             ProfileSettingsItem(
-                title: 'Daily Journal'.tr,
+                title: controller.localization.dailyJournal!,
                 icon: Icon(
                   Icons.class_outlined,
                   size: 20.w,
@@ -160,7 +160,7 @@ class UserSettingsScreen extends StatelessWidget {
                 }),
             8.verticalSpace,
             ProfileSettingsItem(
-                title: 'Physical Information'.tr,
+                title: controller.localization.physicalInformation!,
                 icon: Icon(
                   Icons.accessibility_new,
                   size: 20.w,
@@ -170,14 +170,14 @@ class UserSettingsScreen extends StatelessWidget {
                 }),
             8.verticalSpace,
             ProfileSettingsItem(
-                title: 'Exercise'.tr,
+                title: controller.localization.exercise!,
                 icon: Image.asset(Constant.icExerciseBlack3),
                 onPressed: () {
                   controller.exerciseInformationTapped();
                 }),
             8.verticalSpace,
             ProfileSettingsItem(
-                title: 'My Goals'.tr,
+                title: controller.localization.myGoals!,
                 icon: const Icon(Icons.ballot_outlined, size: 20),
                 onPressed: () {
                   Get.to(() => MyGoalsScreen());
@@ -185,7 +185,7 @@ class UserSettingsScreen extends StatelessWidget {
 
             8.verticalSpace,
             ProfileSettingsItem(
-              title: 'Logout'.tr,
+              title: controller.localization.logout!,
               icon: Image.asset(Constant.icLogout),
               onPressed: () {
                 controller.logoutTapped();

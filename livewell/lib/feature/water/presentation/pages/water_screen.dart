@@ -96,7 +96,7 @@ class _WaterScreenState extends State<WaterScreen> {
                   textAlign: TextAlign.center,
                   text: TextSpan(children: [
                     TextSpan(
-                        text: "Your water intake for today ".tr,
+                        text: controller.localization.yourWaterIntakeForToday!,
                         style: TextStyle(
                             fontSize: 30.sp,
                             fontWeight: FontWeight.w600,
@@ -182,7 +182,7 @@ class _WaterScreenState extends State<WaterScreen> {
             // ),
             40.verticalSpace,
             LiveWellButton(
-                label: 'Add Drink'.tr,
+                label: controller.localization.addDrink!,
                 color: const Color(0xFF8F01DF),
                 textColor: const Color(0xFFFFFFFF),
                 onPressed: () {
@@ -391,13 +391,13 @@ extension on WaterRatings {
   String get value {
     switch (this) {
       case WaterRatings.poor:
-        return 'Poor'.tr;
+        return Get.find<HomeController>().localization.poor!;
       case WaterRatings.good:
-        return 'Good'.tr;
+        return Get.find<HomeController>().localization.good!;
       case WaterRatings.almost:
-        return 'Almost'.tr;
+        return Get.find<HomeController>().localization.almost!;
       case WaterRatings.perfect:
-        return 'Great'.tr;
+        return Get.find<HomeController>().localization.great!;
     }
   }
 }

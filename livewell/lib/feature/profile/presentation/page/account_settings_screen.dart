@@ -134,7 +134,7 @@ class AccountSettingsScreen extends StatelessWidget {
                   ],
                 ),
                 LiveWellButton(
-                  label: 'Request To Delete Account'.tr,
+                  label: controller.localization.requestToDeleteAccount!,
                   color: Colors.red,
                   textColor: Colors.white,
                   onPressed: () {
@@ -143,11 +143,11 @@ class AccountSettingsScreen extends StatelessWidget {
                         builder: (context) {
                           return CupertinoAlertDialog(
                             title: const Text('Delete Account Permanently'),
-                            content: const Text(
-                                'You account and content will be deleted permanently. You may cancel the deletion request by logging in your account within 30 days.'),
+                            content: Text(controller.localization
+                                .yourAccountAndContentDeletedPermanently!),
                             actions: [
                               CupertinoDialogAction(
-                                child: Text('Cancel'.tr),
+                                child: Text(controller.localization.cancel!),
                                 onPressed: () {
                                   Get.back();
                                 },
@@ -184,7 +184,7 @@ class AccountSettingsScreen extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              'Personal Information'.tr,
+                              controller.localization.personalInformation!,
                               style: TextStyle(
                                   color: const Color(0xFF171433),
                                   fontSize: 18.sp,
@@ -202,17 +202,17 @@ class AccountSettingsScreen extends StatelessWidget {
                       30.verticalSpace,
                       AccountSettingsTextField(
                         textEditingController: controller.firstName,
-                        hintText: 'First Name'.tr,
+                        hintText: controller.localization.firstName!,
                       ),
                       20.verticalSpace,
                       AccountSettingsTextField(
                         textEditingController: controller.lastName,
-                        hintText: 'Last Name'.tr,
+                        hintText: controller.localization.lastName!,
                       ),
                       20.verticalSpace,
                       AccountSettingsTextField(
                         textEditingController: controller.email,
-                        hintText: 'Email'.tr,
+                        hintText: controller.localization.emailAddress!,
                         enabled: false,
                       )
                     ],
@@ -220,7 +220,7 @@ class AccountSettingsScreen extends StatelessWidget {
                 ),
                 20.verticalSpace,
                 LiveWellButton(
-                    label: 'Update'.tr,
+                    label: controller.localization.update!,
                     color: const Color(0xFF8F01DF),
                     textColor: Colors.white,
                     onPressed: () {

@@ -38,7 +38,7 @@ class AppNavigator {
         transition: Transition.cupertino),
     GetPage(
         name: AppPages.landingLogin,
-        page: () => const LandingAuthScreen(),
+        page: () => LandingAuthScreen(),
         transition: Transition.cupertino),
     GetPage(
         name: AppPages.login,
