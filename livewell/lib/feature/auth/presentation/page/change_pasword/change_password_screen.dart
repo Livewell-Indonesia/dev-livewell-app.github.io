@@ -29,15 +29,14 @@ class ChangePasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: "Change Password".tr,
+        title: controller.localization.changePassword!,
         backgroundColor: const Color(0xFFFFFFFF),
         body: SingleChildScrollView(
           child: Column(
             children: [
               50.verticalSpace,
               Text(
-                controller
-                    .localization.yourAccountAndContentDeletedPermanently!.tr,
+                controller.localization.enterYourOtp!,
                 style: TextStyle(
                     fontSize: 16.sp,
                     color: const Color(0xFF171433).withOpacity(0.7),
@@ -56,7 +55,7 @@ class ChangePasswordScreen extends StatelessWidget {
               ),
               20.verticalSpace,
               Text(
-                'Enter new password'.tr,
+                controller.localization.enterNewPassword!,
                 style: TextStyle(
                     fontSize: 16.sp,
                     color: const Color(0xFF171433).withOpacity(0.7),
@@ -66,7 +65,7 @@ class ChangePasswordScreen extends StatelessWidget {
               LiveWellTextField(
                   controller: controller.newPassword,
                   hintText: null,
-                  labelText: "New Password".tr,
+                  labelText: controller.localization.newPassword!,
                   errorText: null,
                   obscureText: true,
                   isEmail: false),
@@ -74,13 +73,13 @@ class ChangePasswordScreen extends StatelessWidget {
               LiveWellTextField(
                   controller: controller.confirmPassword,
                   hintText: null,
-                  labelText: "Confirm Password".tr,
+                  labelText: controller.localization.confirmPassword!,
                   errorText: null,
                   obscureText: true,
                   isEmail: false),
               36.verticalSpace,
               LiveWellButton(
-                  label: "Change".tr,
+                  label: controller.localization.change!,
                   color: const Color(0xFFDDF235),
                   onPressed: () {
                     controller.onChangePressed();

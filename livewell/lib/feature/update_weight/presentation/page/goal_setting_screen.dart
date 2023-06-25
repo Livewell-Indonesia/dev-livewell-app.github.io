@@ -16,7 +16,7 @@ class GoalSettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-      title: 'Goal Setting'.tr,
+      title: controller.localization.goalsSetting!,
       body: Expanded(
         child: Column(
           children: [
@@ -47,7 +47,7 @@ class GoalSettingScreen extends StatelessWidget {
             ),
             const Spacer(),
             LiveWellButton(
-              label: 'Update',
+              label: controller.localization.update!,
               color: const Color(0xFFDDF235),
               onPressed: () {
                 controller.onUpdateTargetTapped();

@@ -177,7 +177,7 @@ class HomeController extends BaseController {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "See Your Progress".tr,
+                        localization.seeYourProgress ?? "",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
@@ -185,7 +185,7 @@ class HomeController extends BaseController {
                       ),
                       4.verticalSpace,
                       Text(
-                        'View your Nutriscore, nutrient intake, weight, and even get personalized weight forecasts to help you stay on track towards your goals.',
+                        localization.viewYourNutriscore ?? "",
                         style: TextStyle(
                             fontWeight: FontWeight.w400,
                             color: const Color(0xFF808080),
@@ -205,7 +205,7 @@ class HomeController extends BaseController {
                                 tutorialCoachMark.next();
                               },
                               child: Text(
-                                'Next',
+                                localization.next ?? "",
                                 style: TextStyle(
                                     color: const Color(0xFF8F01DF),
                                     fontSize: 12.sp,
@@ -242,7 +242,7 @@ class HomeController extends BaseController {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Wellness Hub".tr,
+                        localization.wellnessHub ?? "",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
@@ -250,8 +250,7 @@ class HomeController extends BaseController {
                       ),
                       4.verticalSpace,
                       Text(
-                        'Explore your personal health with just one click. Track your progress for nutrition, exercise, sleep, water, and more. Get valuable insights and discover a world of health and wellness at your fingertips!'
-                            .tr,
+                        localization.exploreYourPersonalHealth ?? "",
                         style: TextStyle(
                             fontWeight: FontWeight.w400,
                             color: const Color(0xFF808080),
@@ -271,7 +270,7 @@ class HomeController extends BaseController {
                                 tutorialCoachMark.previous();
                               },
                               child: Text(
-                                'Prev'.tr,
+                                localization.prev ?? "",
                                 style: TextStyle(
                                     color: const Color(0xFF808080),
                                     fontSize: 12.sp,
@@ -283,7 +282,7 @@ class HomeController extends BaseController {
                                 tutorialCoachMark.next();
                               },
                               child: Text(
-                                'Next'.tr,
+                                localization.next ?? "",
                                 style: TextStyle(
                                     color: const Color(0xFF8F01DF),
                                     fontSize: 12.sp,
@@ -320,7 +319,7 @@ class HomeController extends BaseController {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Log Your First Meal".tr,
+                        localization.logYourFirstMeal ?? "",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
@@ -328,7 +327,7 @@ class HomeController extends BaseController {
                       ),
                       4.verticalSpace,
                       Text(
-                        'To log your first meal, simply click on any meal task list below and add your food items. It\'s that easy!',
+                        localization.toLogYourFirstMealSimply ?? "",
                         style: TextStyle(
                             fontWeight: FontWeight.w400,
                             color: const Color(0xFF808080),
@@ -348,7 +347,7 @@ class HomeController extends BaseController {
                                 tutorialCoachMark.previous();
                               },
                               child: Text(
-                                'Prev',
+                                localization.prev ?? "",
                                 style: TextStyle(
                                     color: const Color(0xFF808080),
                                     fontSize: 12.sp,
@@ -360,7 +359,7 @@ class HomeController extends BaseController {
                                 tutorialCoachMark.finish();
                               },
                               child: Text(
-                                'Done',
+                                localization.done!,
                                 style: TextStyle(
                                     color: const Color(0xFF8F01DF),
                                     fontSize: 12.sp,

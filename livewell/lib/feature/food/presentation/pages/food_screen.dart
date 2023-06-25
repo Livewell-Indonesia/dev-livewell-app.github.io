@@ -303,7 +303,7 @@ class NutritionCircularProgress extends StatelessWidget {
                             style: TextStyles.titleHiEm(color: Colors.black),
                           ),
                           Text(
-                            'of daily goals'.tr,
+                            Get.find<HomeController>().localization.ofYourGoal!,
                             style: TextStyles.body(color: AppColors.textLoEm),
                           )
                         ],

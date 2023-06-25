@@ -9,6 +9,7 @@ import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/feature/food/presentation/controller/add_meal_controller.dart';
 import 'package:livewell/feature/food/presentation/pages/add_food_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
@@ -87,7 +88,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Search Bar".tr,
+                        addMealController.localization.searchBar ?? "",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
@@ -95,7 +96,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                       ),
                       4.verticalSpace,
                       Text(
-                        'Use the search bar to find nutritional details for your foods, brands, and franchises. If a specific brand is unavailable, simply add the word \'generic\' to find typical nutritional values for your desired food.',
+                        addMealController.localization.useTheSearchbarTo ?? "",
                         style: TextStyle(
                             fontWeight: FontWeight.w400,
                             color: const Color(0xFF808080),
@@ -112,7 +113,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                                 addMealController.tutorialCoachMark.next();
                               },
                               child: Text(
-                                'Next',
+                                addMealController.localization.next ?? "",
                                 style: TextStyle(
                                     color: const Color(0xFF8F01DF),
                                     fontSize: 12.sp,
@@ -157,7 +158,9 @@ class _AddMealScreenState extends State<AddMealScreen>
                       ),
                       4.verticalSpace,
                       Text(
-                        'Discover personalized food recommendations that match your nutritional needs. Filter franchise restaurants with ease and enjoy your meals to the fullest!',
+                        addMealController
+                                .localization.discoverPersonalizedFood ??
+                            "",
                         style: TextStyle(
                             fontWeight: FontWeight.w400,
                             color: const Color(0xFF808080),
@@ -174,7 +177,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                                 addMealController.tutorialCoachMark.previous();
                               },
                               child: Text(
-                                'Prev',
+                                addMealController.localization.prev ?? "",
                                 style: TextStyle(
                                     color: const Color(0xFF808080),
                                     fontSize: 12.sp,
@@ -186,7 +189,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                                 addMealController.tutorialCoachMark.next();
                               },
                               child: Text(
-                                'Next',
+                                addMealController.localization.next ?? "",
                                 style: TextStyle(
                                     color: const Color(0xFF8F01DF),
                                     fontSize: 12.sp,
@@ -223,7 +226,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Request New Food".tr,
+                        addMealController.localization.requestNewFood ?? "",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
@@ -231,7 +234,8 @@ class _AddMealScreenState extends State<AddMealScreen>
                       ),
                       4.verticalSpace,
                       Text(
-                        'Found a food that is not listed in our database? Simply request for it to be added by clicking on the \'Add Food\' button. We are always updating our database to make it better for you.',
+                        addMealController.localization.foundAFoodThatIsNot ??
+                            "",
                         style: TextStyle(
                             fontWeight: FontWeight.w400,
                             color: const Color(0xFF808080),
@@ -248,7 +252,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                                 addMealController.tutorialCoachMark.previous();
                               },
                               child: Text(
-                                'Prev',
+                                addMealController.localization.prev ?? "",
                                 style: TextStyle(
                                     color: const Color(0xFF808080),
                                     fontSize: 12.sp,
@@ -260,7 +264,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                                 addMealController.tutorialCoachMark.next();
                               },
                               child: Text(
-                                'Next',
+                                addMealController.localization.next ?? "",
                                 style: TextStyle(
                                     color: const Color(0xFF8F01DF),
                                     fontSize: 12.sp,
@@ -296,7 +300,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Food Filter".tr,
+                        addMealController.localization.foodFilter ?? "",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
@@ -304,7 +308,9 @@ class _AddMealScreenState extends State<AddMealScreen>
                       ),
                       4.verticalSpace,
                       Text(
-                        'Filter restaurant/brands by calories, protein, carbs, and fat.',
+                        addMealController
+                                .localization.filterRestaurantBrandsBy ??
+                            "",
                         style: TextStyle(
                             fontWeight: FontWeight.w400,
                             color: const Color(0xFF808080),
@@ -321,7 +327,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                                 addMealController.tutorialCoachMark.previous();
                               },
                               child: Text(
-                                'Prev',
+                                addMealController.localization.prev ?? "",
                                 style: TextStyle(
                                     color: const Color(0xFF808080),
                                     fontSize: 12.sp,
@@ -453,7 +459,7 @@ class _AddMealScreenState extends State<AddMealScreen>
                         children: [
                           24.verticalSpace,
                           LiveWellButton(
-                              label: 'Done',
+                              label: addMealController.localization.done!,
                               color: const Color(0xFFDDF235),
                               onPressed: addMealController.addedFoods.isEmpty
                                   ? null
@@ -558,7 +564,9 @@ class _AddMealScreenState extends State<AddMealScreen>
                                     fontWeight: FontWeight.w600),
                               ),
                               Text(
-                                'Based on your nutritional needs'.tr,
+                                addMealController.localization
+                                        .basedOnYourNutritionalNeeds ??
+                                    "",
                                 softWrap: false,
                                 style: TextStyle(
                                     color: Colors.white,
@@ -1201,7 +1209,7 @@ class SearchBar extends StatelessWidget {
         decoration: InputDecoration(
             contentPadding: EdgeInsets.only(top: 20.h, bottom: 16.h),
             border: InputBorder.none,
-            hintText: 'Search here...'.tr,
+            hintText: Get.find<HomeController>().localization.searchHere!,
             hintStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
             prefixIcon: Image.asset(
               Constant.icSearch,

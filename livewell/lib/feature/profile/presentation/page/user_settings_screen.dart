@@ -5,11 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/profile/presentation/controller/physical_information_controller.dart';
 import 'package:livewell/feature/profile/presentation/controller/user_settings_controller.dart';
 import 'package:livewell/feature/profile/presentation/page/my_goals_screen.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
+import 'package:livewell/widgets/buttons/livewell_button.dart';
 
 class UserSettingsScreen extends StatelessWidget {
   final UserSettingsController controller = Get.put(UserSettingsController());
@@ -183,6 +185,52 @@ class UserSettingsScreen extends StatelessWidget {
                   Get.to(() => MyGoalsScreen());
                 }),
 
+            8.verticalSpace,
+            ProfileSettingsItem(
+                title: controller.localization.languages ?? "",
+                icon: const Icon(Icons.language, size: 20),
+                onPressed: () {
+                  Get.dialog(
+                      Dialog(
+                          child: SizedBox(
+                              height: 200.h,
+                              child: Obx(() {
+                                return Column(
+                                  children: [
+                                    ListTile(
+                                      leading: Text(AvailableLanguage.en.title),
+                                      trailing: Radio(
+                                          value: AvailableLanguage.en.locale,
+                                          groupValue:
+                                              controller.language.value.locale,
+                                          onChanged: (val) {
+                                            controller.setValue(val as String);
+                                          }),
+                                    ),
+                                    ListTile(
+                                      leading: Text(AvailableLanguage.id.title),
+                                      trailing: Radio(
+                                          value: AvailableLanguage.id.locale,
+                                          groupValue:
+                                              controller.language.value.locale,
+                                          onChanged: (val) {
+                                            controller.setValue(val as String);
+                                          }),
+                                    ),
+                                    LiveWellButton(
+                                        label: controller
+                                            .localization.saveChanges!,
+                                        color: const Color(0xFF8F01DF),
+                                        textColor: Colors.white,
+                                        onPressed: () {
+                                          Get.back();
+                                          controller.updateData();
+                                        })
+                                  ],
+                                );
+                              }))),
+                      barrierDismissible: false);
+                }),
             8.verticalSpace,
             ProfileSettingsItem(
               title: controller.localization.logout!,

@@ -81,7 +81,9 @@ class UpdateWeightScreen extends StatelessWidget {
                           }),
                           4.verticalSpace,
                           Text(
-                            'You\'re doing great! Keep Your spirits up!',
+                            controller.localization
+                                    .youreDoingGreatKeepYourSpirit ??
+                                "",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14.sp,
@@ -136,7 +138,9 @@ class UpdateWeightScreen extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('Update Your weight',
+                                Text(
+                                    controller.localization.updateYourWeight ??
+                                        "",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 12.sp,
@@ -152,7 +156,7 @@ class UpdateWeightScreen extends StatelessWidget {
                     ),
                     32.verticalSpace,
                     Text(
-                      'Weight Progress',
+                      controller.localization.weightProgress ?? "",
                       style: TextStyle(
                           color: const Color(0xFF171433),
                           fontWeight: FontWeight.w600,
@@ -173,7 +177,7 @@ class UpdateWeightScreen extends StatelessWidget {
                     ),
                     32.verticalSpace,
                     Text(
-                      'Calorie Intake',
+                      controller.localization.calorieIntake ?? "",
                       style: TextStyle(
                           color: const Color(0xFF171433),
                           fontWeight: FontWeight.w600,
@@ -190,7 +194,7 @@ class UpdateWeightScreen extends StatelessWidget {
                       height: 262.h,
                       child: Column(
                         children: [
-                          Text('Last 7 days'.tr,
+                          Text(controller.localization.last7Days!,
                               style: TextStyle(
                                   fontSize: 14.sp,
                                   color: Colors.black,
@@ -299,7 +303,9 @@ class UpdateWeightScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Projected weight after 4 weeks',
+                            controller
+                                    .localization.projectedWeightAfter4Weeks ??
+                                "",
                             style: TextStyle(
                                 color: const Color(0xFF171433),
                                 fontWeight: FontWeight.w600,
@@ -317,7 +323,9 @@ class UpdateWeightScreen extends StatelessWidget {
                           }),
                           8.verticalSpace,
                           Text(
-                            'Disclaimer: Projection based on today\'s food intake. Estimate only.',
+                            controller.localization
+                                    .disclaimerProjectionBasedOnTodays ??
+                                "",
                             style: TextStyle(
                                 color: const Color(0xFF171433),
                                 fontWeight: FontWeight.w400,

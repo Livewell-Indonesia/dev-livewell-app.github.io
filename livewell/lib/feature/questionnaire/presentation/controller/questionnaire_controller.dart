@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/questionnaire/domain/usecase/post_questionnaire.dart';
 
 import '../../../../core/log.dart';
@@ -161,21 +162,21 @@ extension QuestionnairePageData on QuestionnairePage {
       case QuestionnairePage.weight:
         return 'Help us to create your personalized plan';
       case QuestionnairePage.height:
-        return 'Help us to create your personalized plan';
+        return 'Help us to create your personalized plan'.tr;
       case QuestionnairePage.drink:
-        return 'How Many Glasses of Water Do you Drink Per day?';
+        return 'How Many Glasses of Water Do you Drink Per day?'.tr;
       case QuestionnairePage.sleep:
-        return 'How Many Hours Of Sleep Do You Usually Have?';
+        return 'How Many Hours Of Sleep Do You Usually Have?'.tr;
       case QuestionnairePage.dieatary:
-        return 'Help us to create your personalized plan';
+        return 'Help us to create your personalized plan'.tr;
       case QuestionnairePage.goal:
-        return 'You can always change this later';
+        return 'You can always change this later'.tr;
       case QuestionnairePage.exercise:
-        return 'Set your fitness goals';
+        return 'Set your fitness goals'.tr;
       case QuestionnairePage.targetWeight:
-        return 'Help us to create your personalized plan';
+        return 'Help us to create your personalized plan'.tr;
       case QuestionnairePage.finish:
-        return 'finish';
+        return 'finish'.tr;
     }
   }
 }
@@ -195,9 +196,9 @@ extension GenderContent on Gender {
   String label() {
     switch (this) {
       case Gender.female:
-        return "Female";
+        return Get.find<HomeController>().localization.female!;
       case Gender.male:
-        return "Male";
+        return Get.find<HomeController>().localization.male!;
     }
   }
 }
@@ -208,11 +209,11 @@ extension DietrarySelectionContent on DietrarySelection {
   String title() {
     switch (this) {
       case DietrarySelection.yes:
-        return 'Yes'.tr;
+        return Get.find<HomeController>().localization.yes!;
       case DietrarySelection.no:
-        return 'No'.tr;
+        return Get.find<HomeController>().localization.no!;
       case DietrarySelection.none:
-        return 'None'.tr;
+        return Get.find<HomeController>().localization.none!;
     }
   }
 }
@@ -230,24 +231,24 @@ extension GoalSelectionContent on GoalSelection {
   String title() {
     switch (this) {
       case GoalSelection.getFitter:
-        return "Get Fitter".tr;
+        return Get.find<HomeController>().localization.getFitter!;
       case GoalSelection.betterSleeping:
-        return "Better Sleeping".tr;
+        return Get.find<HomeController>().localization.betterSleeping!;
       case GoalSelection.weightLoss:
-        return "Weight Loss".tr;
+        return Get.find<HomeController>().localization.weightLoss!;
       case GoalSelection.trackNutrition:
-        return "Track Nutrition".tr;
+        return Get.find<HomeController>().localization.trackNutrition!;
       case GoalSelection.improveOverallFitness:
-        return "Improve Overall Fitness".tr;
+        return Get.find<HomeController>().localization.improveOverallFitness!;
       case GoalSelection.none:
-        return "None".tr;
+        return Get.find<HomeController>().localization.none!;
     }
   }
 
   String value() {
     switch (this) {
       case GoalSelection.getFitter:
-        return "Get Fitter";
+        return 'Get Fitter';
       case GoalSelection.betterSleeping:
         return "Better Sleeping";
       case GoalSelection.weightLoss:
@@ -257,7 +258,7 @@ extension GoalSelectionContent on GoalSelection {
       case GoalSelection.improveOverallFitness:
         return "Improve Overall Fitness";
       case GoalSelection.none:
-        return "None";
+        return "none";
     }
   }
 }

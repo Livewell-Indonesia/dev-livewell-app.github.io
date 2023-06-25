@@ -43,7 +43,7 @@ class _SleepScreenState extends State<SleepScreen> {
                 const Spacer(),
                 Center(
                     child: Text(
-                  "Sleep",
+                  controller.localization.sleep ?? "",
                   style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w600,
@@ -155,7 +155,7 @@ class _SleepScreenState extends State<SleepScreen> {
                     } else {
                       return SmallerSleepCircular(
                           color: const Color(0xFFDDF235),
-                          label: 'Deep Sleep',
+                          label: controller.localization.deepSleep ?? "",
                           circleColors: {
                             const Color(0xFFDDF235):
                                 (controller.deepSleepPercent.value * 100)
@@ -192,7 +192,7 @@ class _SleepScreenState extends State<SleepScreen> {
                                     (controller.lightSleepPercent.value * 100)
                                         .round(),
                           },
-                          label: "Light Sleep");
+                          label: controller.localization.lightSleep ?? "");
                     }
                   })
                 ],
@@ -230,19 +230,19 @@ class _SleepScreenState extends State<SleepScreen> {
                       DailyBreakdownItem(
                           image: Constant.icWentToSleep2,
                           time: controller.wentToSleep.value,
-                          label: "Went to sleep"),
+                          label: controller.localization.wentToSleep ?? ""),
                       DailyBreakdownItem(
                           image: Constant.icWokeUp,
                           time: controller.wokeUp.value,
-                          label: "Woke up"),
+                          label: controller.localization.wokeUp ?? ""),
                       DailyBreakdownItem(
                           image: Constant.icFeelASleep,
                           time: controller.feelASleep.value,
-                          label: "Light sleep"),
+                          label: controller.localization.lightSleep ?? ""),
                       DailyBreakdownItem(
                           image: Constant.icDeepSleep,
                           time: controller.deepSleep.value,
-                          label: "Deep Sleep"),
+                          label: controller.localization.deepSleep ?? ""),
                     ],
                   );
                 })),

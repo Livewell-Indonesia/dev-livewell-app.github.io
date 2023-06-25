@@ -25,12 +25,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final controller = Get.put(LoginController());
 
   @override
-  void initState() {
-    print("KONTOLLLLLL");
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
         title: controller.localization.signIn!,

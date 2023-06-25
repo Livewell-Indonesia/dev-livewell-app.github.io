@@ -20,7 +20,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: 'Daily Journal'.tr,
+        title: controller.localization.dailyJournal!,
         allowBack: (Get.arguments as bool),
         body: Column(
           children: [
@@ -40,7 +40,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                     child: Row(
                       children: [
                         Text(
-                          "Eating".tr,
+                          controller.localization.eating!,
                           style: TextStyle(
                               fontSize: 18.sp, fontWeight: FontWeight.w600),
                         ),
@@ -57,7 +57,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Set Your Meal Time'.tr,
+                          Text(controller.localization.setYourMealTime!,
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                   fontSize: 16.sp,
@@ -65,7 +65,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                           20.verticalSpace,
                           Obx(() {
                             return DailyJournalEatingItem(
-                              title: 'Breakfast'.tr,
+                              title: controller.localization.breakfast!,
                               time: controller.breakfastTime.value == null
                                   ? null
                                   : DateFormat('hh:mm a')
@@ -89,7 +89,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                           20.verticalSpace,
                           Obx(() {
                             return DailyJournalEatingItem(
-                              title: 'Lunch'.tr,
+                              title: controller.localization.lunch!,
                               time: controller.lunchTime.value == null
                                   ? null
                                   : DateFormat('hh:mm a')
@@ -113,7 +113,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                           20.verticalSpace,
                           Obx(() {
                             return DailyJournalEatingItem(
-                              title: 'Dinner'.tr,
+                              title: controller.localization.dinner!,
                               time: controller.dinnerTime.value == null
                                   ? null
                                   : DateFormat('hh:mm a')
@@ -137,7 +137,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                           20.verticalSpace,
                           Obx(() {
                             return DailyJournalEatingItem(
-                              title: 'Snack'.tr,
+                              title: controller.localization.snack!,
                               time: controller.snackTime.value == null
                                   ? null
                                   : DateFormat('hh:mm a')
@@ -168,7 +168,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
             ),
             20.verticalSpace,
             LiveWellButton(
-                label: 'Save'.tr,
+                label: controller.localization.save!,
                 color: const Color(0xFF8F01DF),
                 textColor: Colors.white,
                 onPressed: () {
@@ -192,7 +192,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
               child: Column(
                 children: [
                   Text(
-                    'Time',
+                    controller.localization.time!,
                     style: TextStyle(
                         color: const Color(0xFF171433),
                         fontSize: 18.sp,
@@ -226,7 +226,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                               Get.back();
                             },
                             child: Text(
-                              'Cancel',
+                              controller.localization.cancel!,
                               style: TextStyle(
                                   color: const Color(0xFF171433),
                                   fontSize: 14.sp,
@@ -248,7 +248,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                               Get.back();
                             },
                             child: Text(
-                              'save'.tr,
+                              controller.localization.save!,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14.sp,

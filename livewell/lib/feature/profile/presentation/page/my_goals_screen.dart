@@ -23,102 +23,120 @@ class MyGoalsScreen extends StatelessWidget {
             children: [
               32.verticalSpace,
               Container(
-                padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 8.w),
-                margin: EdgeInsets.symmetric(horizontal: 16.w),
+                height: 570.h,
+                width: 342.w,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(30).r,
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24.w),
-                      child: Text(
-                        controller.localization.goalsSetting!,
-                        style: TextStyle(
-                            color: Color(0xFF171433),
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w600),
+                      padding:
+                          EdgeInsets.only(top: 18.h, left: 24.w, right: 24.w),
+                      child: Row(
+                        children: [
+                          Text(
+                            controller.localization.goalsSetting!,
+                            style: TextStyle(
+                                color: Color(0xFF171433),
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
                       ),
                     ),
-                    24.verticalSpace,
-                    InkWell(
-                      onTap: () {
-                        Get.dialog(Dialog(
-                          child: SizedBox(
-                              height: 500.h,
-                              width: 0.8.sw,
-                              child: Obx(() {
-                                return Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Column(
-                                      children: GoalSelection.values
-                                          .map((e) => ListTile(
-                                                title: Text(e.title()),
-                                                trailing: Radio(
-                                                    value: e,
-                                                    groupValue: controller
-                                                        .selectedGoals.value,
-                                                    onChanged: (val) {
-                                                      controller.selectedGoals
-                                                              .value =
-                                                          val as GoalSelection;
-                                                    }),
-                                              ))
-                                          .toList(),
-                                    ),
-                                    30.verticalSpace,
-                                    LiveWellButton(
-                                        label: 'Save Changes'.tr,
-                                        color: const Color(0xFF8F01DF),
-                                        textColor: Colors.white,
-                                        onPressed: () {
-                                          Get.back();
-                                          controller.setGoal(
-                                              controller.selectedGoals.value);
-                                        })
-                                  ],
-                                );
-                              })),
-                        ));
-                      },
-                      child: AccountSettingsTextField(
-                        textEditingController: controller.specificGoal,
-                        hintText: controller.localization.specificGoal!,
-                        enabled: false,
+                    12.verticalSpace,
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.only(top: 39.h),
+                        color: const Color(0xFFF1F1F1),
+                        child: Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Get.dialog(Dialog(
+                                  child: SizedBox(
+                                      height: 500.h,
+                                      width: 0.8.sw,
+                                      child: Obx(() {
+                                        return Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Column(
+                                              children: GoalSelection.values
+                                                  .map((e) => ListTile(
+                                                        title: Text(e.title()),
+                                                        trailing: Radio(
+                                                            value: e,
+                                                            groupValue: controller
+                                                                .selectedGoals
+                                                                .value,
+                                                            onChanged: (val) {
+                                                              controller
+                                                                      .selectedGoals
+                                                                      .value =
+                                                                  val as GoalSelection;
+                                                            }),
+                                                      ))
+                                                  .toList(),
+                                            ),
+                                            30.verticalSpace,
+                                            LiveWellButton(
+                                                label: 'Save Changes'.tr,
+                                                color: const Color(0xFF8F01DF),
+                                                textColor: Colors.white,
+                                                onPressed: () {
+                                                  Get.back();
+                                                  controller.setGoal(controller
+                                                      .selectedGoals.value);
+                                                })
+                                          ],
+                                        );
+                                      })),
+                                ));
+                              },
+                              child: AccountSettingsTextField(
+                                textEditingController: controller.specificGoal,
+                                hintText: controller.localization.specificGoal!,
+                                enabled: false,
+                              ),
+                            ),
+                            16.verticalSpace,
+                            AccountSettingsTextField(
+                              textEditingController: controller.targetWeight,
+                              hintText: controller.localization.targetWeightKg!,
+                              enabled: true,
+                              inputFormatter: Platform.isIOS
+                                  ? []
+                                  : [
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp(r'^\d+\.?\d{0,2}'))
+                                    ],
+                              inputType: const TextInputType.numberWithOptions(
+                                  decimal: true),
+                            ),
+                            16.verticalSpace,
+                            AccountSettingsTextField(
+                              textEditingController: controller.drink,
+                              hintText: controller.localization.drink!,
+                              enabled: true,
+                              inputType: TextInputType.number,
+                            ),
+                            16.verticalSpace,
+                            AccountSettingsTextField(
+                              textEditingController: controller.sleep,
+                              hintText: controller.localization.sleepHours!,
+                              enabled: true,
+                              inputType: const TextInputType.numberWithOptions(
+                                  decimal: true),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    16.verticalSpace,
-                    AccountSettingsTextField(
-                      textEditingController: controller.targetWeight,
-                      hintText: controller.localization.targetWeightKg!,
-                      enabled: true,
-                      inputFormatter: Platform.isIOS
-                          ? []
-                          : [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'^\d+\.?\d{0,2}'))
-                            ],
-                      inputType:
-                          const TextInputType.numberWithOptions(decimal: true),
-                    ),
-                    16.verticalSpace,
-                    AccountSettingsTextField(
-                      textEditingController: controller.drink,
-                      hintText: controller.localization.drink!,
-                      enabled: true,
-                      inputType: TextInputType.number,
-                    ),
-                    16.verticalSpace,
-                    AccountSettingsTextField(
-                      textEditingController: controller.sleep,
-                      hintText: controller.localization.sleepHours!,
-                      enabled: true,
-                      inputType:
-                          const TextInputType.numberWithOptions(decimal: true),
                     ),
                   ],
                 ),

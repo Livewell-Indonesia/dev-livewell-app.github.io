@@ -160,15 +160,17 @@ class ExerciseController extends BaseController
     EasyLoading.show();
     final result = await updateUserInfo.call(
       UpdateUserInfoParams(
-          firstName: newUserData.firstName ?? "",
-          lastName: newUserData.lastName ?? "",
-          height: newUserData.height ?? 0,
-          weight: newUserData.weight ?? 0,
-          gender: newUserData.gender ?? "",
-          dob: DateFormat('yyyy-MM-dd')
-              .format(DateTime.parse(newUserData.birthDate ?? "")),
-          weightTarget: newUserData.weightTarget ?? 0,
-          exerciseGoalKcal: newUserData.exerciseGoalKcal ?? 0),
+        firstName: newUserData.firstName ?? "",
+        lastName: newUserData.lastName ?? "",
+        height: newUserData.height ?? 0,
+        weight: newUserData.weight ?? 0,
+        gender: newUserData.gender ?? "",
+        dob: DateFormat('yyyy-MM-dd')
+            .format(DateTime.parse(newUserData.birthDate ?? "")),
+        weightTarget: newUserData.weightTarget ?? 0,
+        exerciseGoalKcal: newUserData.exerciseGoalKcal ?? 0,
+        language: newUserData.language ?? "",
+      ),
     );
     EasyLoading.dismiss();
     result.fold((l) => Log.error(l), (r) {

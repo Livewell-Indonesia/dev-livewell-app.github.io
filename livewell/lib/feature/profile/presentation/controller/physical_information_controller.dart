@@ -59,12 +59,15 @@ class PhysicalInformationController extends BaseController {
     var specificGoalTemp = dashboardController
             .user.value.onboardingQuestionnaire?.targetImprovement ??
         [];
-    specificGoal.text =
-        specificGoalTemp.isEmpty ? "No" : specificGoalTemp.first;
+    specificGoal.text = specificGoalTemp.isEmpty
+        ? "No"
+        : GoalSelection.values
+            .firstWhere((element) => element.value() == specificGoalTemp.first)
+            .title();
     selectedGoals.value = specificGoalTemp.isEmpty
         ? GoalSelection.getFitter
         : GoalSelection.values
-            .firstWhere((element) => element.title() == specificGoalTemp.first);
+            .firstWhere((element) => element.value() == specificGoalTemp.first);
     ("${dashboardController.user.value.weightTarget ?? ""}");
     var dietaryRestrictionTemp = dashboardController
             .user.value.onboardingQuestionnaire?.dietaryRestrictions ??

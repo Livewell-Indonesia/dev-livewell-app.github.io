@@ -184,6 +184,39 @@ class LocalizationKey {
   String? yourValue;
   String? yourWaterIntakeForToday;
   String? youreDoingGreat;
+  String? goodGreeting;
+  String? current;
+  String? sleep;
+  String? wentToSleep;
+  String? wokeUp;
+  String? lightSleep;
+  String? deepSleep;
+  String? languages;
+  String? caloriesBurnt;
+  String? steps;
+  String? searchBar;
+  String? useTheSearchbarTo;
+  String? discoverPersonalizedFood;
+  String? prev;
+  String? requestNewFood;
+  String? foundAFoodThatIsNot;
+  String? foodFilter;
+  String? filterRestaurantBrandsBy;
+  String? basedOnYourNutritionalNeeds;
+  String? seeYourProgress;
+  String? viewYourNutriscore;
+  String? wellnessHub;
+  String? exploreYourPersonalHealth;
+  String? logYourFirstMeal;
+  String? toLogYourFirstMealSimply;
+  String? youHaveLost;
+  String? youHaveGained;
+  String? youreDoingGreatKeepYourSpirit;
+  String? updateYourWeight;
+  String? weightProgress;
+  String? calorieIntake;
+  String? projectedWeightAfter4Weeks;
+  String? disclaimerProjectionBasedOnTodays;
 
   LocalizationKey(
       {this.accountSettings,
@@ -343,7 +376,40 @@ class LocalizationKey {
       this.yourRecommendedFoods,
       this.yourValue,
       this.yourWaterIntakeForToday,
-      this.youreDoingGreat});
+      this.youreDoingGreat,
+      this.goodGreeting,
+      this.current,
+      this.sleep,
+      this.wentToSleep,
+      this.wokeUp,
+      this.lightSleep,
+      this.deepSleep,
+      this.languages,
+      this.caloriesBurnt,
+      this.steps,
+      this.searchBar,
+      this.useTheSearchbarTo,
+      this.discoverPersonalizedFood,
+      this.prev,
+      this.requestNewFood,
+      this.foundAFoodThatIsNot,
+      this.foodFilter,
+      this.filterRestaurantBrandsBy,
+      this.basedOnYourNutritionalNeeds,
+      this.seeYourProgress,
+      this.viewYourNutriscore,
+      this.wellnessHub,
+      this.exploreYourPersonalHealth,
+      this.logYourFirstMeal,
+      this.toLogYourFirstMealSimply,
+      this.youHaveLost,
+      this.youHaveGained,
+      this.youreDoingGreatKeepYourSpirit,
+      this.updateYourWeight,
+      this.weightProgress,
+      this.calorieIntake,
+      this.projectedWeightAfter4Weeks,
+      this.disclaimerProjectionBasedOnTodays});
 
   LocalizationKey.fromJson(Map<String, dynamic> json) {
     accountSettings = json['account_settings'];
@@ -514,6 +580,40 @@ class LocalizationKey {
     yourValue = json['your_value'];
     yourWaterIntakeForToday = json['your_water_intake_for_today'];
     youreDoingGreat = json['youre_doing_great'];
+    goodGreeting = json['good_greeting'];
+    current = json['current'];
+    sleep = json['sleep'];
+    wentToSleep = json['went_to_sleep'];
+    wokeUp = json['woke_up'];
+    lightSleep = json['light_sleep'];
+    deepSleep = json['deep_sleep'];
+    languages = json['languages'];
+    caloriesBurnt = json['calories_burnt'];
+    steps = json['steps'];
+    searchBar = json['search_bar'];
+    useTheSearchbarTo = json['use_the_searchbar_to'];
+    discoverPersonalizedFood = json['discover_personalized_food'];
+    prev = json['prev'];
+    requestNewFood = json['request_new_food'];
+    foundAFoodThatIsNot = json['found_a_food_that_is_not'];
+    foodFilter = json['food_filter'];
+    filterRestaurantBrandsBy = json['filter_restaurant_brands_by'];
+    basedOnYourNutritionalNeeds = json['based_on_your_nutritional_needs'];
+    seeYourProgress = json['see_your_progress'];
+    viewYourNutriscore = json['view_your_nutriscore'];
+    wellnessHub = json['wellness_hub'];
+    exploreYourPersonalHealth = json['explore_your_personal_health'];
+    logYourFirstMeal = json['log_your_first_meal'];
+    toLogYourFirstMealSimply = json['to_log_your_first_meal_simply'];
+    youHaveLost = json['you_have_lost'];
+    youHaveGained = json['you_have_gained'];
+    youreDoingGreatKeepYourSpirit = json['youre_doing_great_keep_your_spirit'];
+    updateYourWeight = json['update_your_weight'];
+    weightProgress = json['weight_progress'];
+    calorieIntake = json['calorie_intake'];
+    projectedWeightAfter4Weeks = json['projected_weight_after_4_weeks'];
+    disclaimerProjectionBasedOnTodays =
+        json['disclaimer_projection_based_on_todays'];
   }
 
   Map<String, dynamic> toJson() {

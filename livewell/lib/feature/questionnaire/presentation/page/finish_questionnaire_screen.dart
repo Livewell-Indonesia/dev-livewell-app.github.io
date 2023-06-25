@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/localization/languages.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 
@@ -30,7 +31,7 @@ class FinishQuestionnaireScreen extends StatelessWidget {
                         SvgPicture.asset(Constant.imgFinishQuestionnaireSVG))),
             50.verticalSpace,
             Text(
-              'You are ready to go!'.tr,
+              Get.find<HomeController>().localization.youAreReadyToGo!,
               style: TextStyle(
                   color: const Color(0xFF171433),
                   fontSize: 24.sp,
@@ -40,8 +41,9 @@ class FinishQuestionnaireScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24).r,
               child: Text(
-                'Thanks for taking your time to create account with us. Let\'s start your wellness Journey'
-                    .tr,
+                Get.find<HomeController>()
+                    .localization
+                    .thanksForCreatingAccount!,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: const Color(0xFF171433).withOpacity(0.7),
@@ -51,7 +53,7 @@ class FinishQuestionnaireScreen extends StatelessWidget {
             ),
             50.verticalSpace,
             LiveWellButton(
-                label: 'Get Started!'.tr,
+                label: Get.find<HomeController>().localization.getStarted!,
                 color: const Color(0xFF8F01DF),
                 textColor: Colors.white,
                 onPressed: () {

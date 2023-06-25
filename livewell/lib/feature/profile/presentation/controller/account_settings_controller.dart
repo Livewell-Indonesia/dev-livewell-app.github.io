@@ -38,7 +38,8 @@ class AccountSettingsController extends BaseController {
               DateTime.parse(dashboardController.user.value.birthDate ?? "")),
           weightTarget: dashboardController.user.value.weightTarget ?? 0,
           exerciseGoalKcal:
-              dashboardController.user.value.exerciseGoalKcal ?? 0),
+              dashboardController.user.value.exerciseGoalKcal ?? 0,
+          language: dashboardController.user.value.language ?? "en_US"),
     );
     EasyLoading.dismiss();
     Get.back();

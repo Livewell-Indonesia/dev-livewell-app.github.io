@@ -20,7 +20,7 @@ class WaterConsumedPage extends StatelessWidget {
             20.verticalSpace,
             Center(
                 child: Text(
-              "Water Consumed".tr,
+              controller.localization.waterConsumed!,
               style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
@@ -52,7 +52,7 @@ class WaterConsumedPage extends StatelessWidget {
                 }),
             20.verticalSpace,
             LiveWellButton(
-                label: 'Custom',
+                label: controller.localization.custom!,
                 color: const Color(0xFF8F01DF),
                 textColor: const Color(0xFFFFFFFF),
                 onPressed: () {

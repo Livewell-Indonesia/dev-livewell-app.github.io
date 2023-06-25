@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/nutriscore/presentation/controller/nutriscore_controller.dart';
 import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_detail_screen.dart';
 import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_score_detail_screen.dart';
@@ -21,7 +22,7 @@ class _NutriScoreScreenState extends State<NutriScoreScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: 'NutriScore Details'.tr,
+        title: controller.localization.nutriscoreDetails!,
         backgroundColor: Colors.white,
         body: Expanded(
           child: Padding(
@@ -194,17 +195,17 @@ extension NutrientScoreStatusAtt on NutrientScoreStatus {
   String title() {
     switch (this) {
       case NutrientScoreStatus.low:
-        return 'Low'.tr;
+        return Get.find<HomeController>().localization.low!;
       case NutrientScoreStatus.optimal:
-        return "Optimal".tr;
+        return Get.find<HomeController>().localization.optimal!;
       case NutrientScoreStatus.high:
-        return "High".tr;
+        return Get.find<HomeController>().localization.high!;
       case NutrientScoreStatus.ontrack:
-        return "On Track".tr;
+        return Get.find<HomeController>().localization.onTrack!;
       case NutrientScoreStatus.belowTarget:
-        return "Below Target".tr;
+        return Get.find<HomeController>().localization.belowTarget!;
       case NutrientScoreStatus.excellent:
-        return "Excellent".tr;
+        return Get.find<HomeController>().localization.excellent!;
     }
   }
 

@@ -131,8 +131,8 @@ class UpdateWeightController extends BaseController {
           var initialWeight = weightHistory.last.weight!.toDouble();
           var latestWeight = weightHistory.first.weight!.toDouble();
           title.value = initialWeight >= latestWeight
-              ? 'You have lost ${NumberFormat('0.0').format(initialWeight - latestWeight)} kg'
-              : 'You have gained ${NumberFormat('0.0').format(latestWeight - initialWeight)} kg';
+              ? '${localization.youHaveLost ?? ""} ${NumberFormat('0.0').format(initialWeight - latestWeight)} kg'
+              : '${localization.youHaveGained ?? ""} ${NumberFormat('0.0').format(latestWeight - initialWeight)} kg';
         }
         inspect(weightHistory);
         inspect(minY);

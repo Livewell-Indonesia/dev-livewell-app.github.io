@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/feature/food/data/model/foods_model.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
 class NutrientFactScreen extends StatelessWidget {
@@ -15,7 +16,7 @@ class NutrientFactScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: 'Nutrient Fact'.tr,
+        title: Get.find<HomeController>().localization.nutrientFact!,
         body: Expanded(
           child: SingleChildScrollView(
             child: Padding(

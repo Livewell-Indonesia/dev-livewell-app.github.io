@@ -7,6 +7,7 @@ import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
+import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -95,7 +96,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             );
                           }),
                           Text(
-                            'Good ${controller.greeting()}',
+                            '${controller.localization.goodGreeting ?? ""} ${controller.greeting()}',
                             style: TextStyle(
                                 color: const Color(0xFF171433),
                                 fontSize: 24.sp,
@@ -572,7 +573,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                         ),
                                         10.horizontalSpace,
                                         Text(
-                                          "${controller.user.value.dailyJournal?[index].time} ${controller.user.value.dailyJournal?[index].name}",
+                                          "${controller.user.value.dailyJournal?[index].time} ${MealTime.values.firstWhere((element) => element.name == controller.user.value.dailyJournal?[index].name?.toLowerCase()).text()}",
                                           style: TextStyle(
                                               color: const Color(0xFF171433)
                                                   .withOpacity(0.8),
@@ -649,7 +650,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             ),
             10.horizontalSpace,
             Text(
-              "Add Food",
+              controller.localization.addFood!,
               style: TextStyle(
                   color: const Color(0xFF171433).withOpacity(0.8),
                   fontSize: 16.sp,
@@ -740,7 +741,7 @@ class YourWeightWidget extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      'Current: $weight Kg',
+                      '${Get.find<HomeController>().localization.current ?? ""}: $weight Kg',
                       style: TextStyle(
                           color: Colors.white.withOpacity(0.5),
                           fontSize: 12.sp,

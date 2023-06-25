@@ -8,6 +8,7 @@ class UserModel {
   String? lastName;
   String? birthDate;
   String? gender;
+  String? language;
   num? height;
   num? weight;
   num? bmi;
@@ -20,27 +21,29 @@ class UserModel {
   int? stepsGoalCount;
   String? avatarUrl;
 
-  UserModel(
-      {this.email,
-      this.mcc,
-      this.phoneNumber,
-      this.referenceId,
-      this.status,
-      this.firstName,
-      this.lastName,
-      this.birthDate,
-      this.gender,
-      this.height,
-      this.weight,
-      this.bmi,
-      this.bmr,
-      this.weightTarget,
-      this.dailyJournal,
-      this.onboardingQuestionnaire,
-      this.lastSyncedAt,
-      this.exerciseGoalKcal,
-      this.avatarUrl,
-      this.stepsGoalCount});
+  UserModel({
+    this.email,
+    this.mcc,
+    this.phoneNumber,
+    this.referenceId,
+    this.status,
+    this.firstName,
+    this.lastName,
+    this.birthDate,
+    this.gender,
+    this.height,
+    this.weight,
+    this.bmi,
+    this.bmr,
+    this.weightTarget,
+    this.dailyJournal,
+    this.onboardingQuestionnaire,
+    this.lastSyncedAt,
+    this.exerciseGoalKcal,
+    this.avatarUrl,
+    this.stepsGoalCount,
+    this.language,
+  });
 
   UserModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];
@@ -61,6 +64,7 @@ class UserModel {
     stepsGoalCount = json['steps_goal_count'];
     weightTarget = json['weight_target'];
     avatarUrl = json['avatar_url'];
+    language = json['language'];
     if (json['daily_journal'] != null) {
       dailyJournal = <DailyJournal>[];
       json['daily_journal'].forEach((v) {
@@ -94,6 +98,7 @@ class UserModel {
     int? exerciseGoalKcal,
     int? stepsGoalCount,
     String? avatarUrl,
+    String? language,
   }) {
     return UserModel(
       email: email ?? this.email,
@@ -117,6 +122,7 @@ class UserModel {
       exerciseGoalKcal: exerciseGoalKcal ?? this.exerciseGoalKcal,
       stepsGoalCount: stepsGoalCount ?? this.stepsGoalCount,
       avatarUrl: avatarUrl ?? this.avatarUrl,
+      language: language ?? this.language,
     );
   }
 
@@ -137,6 +143,7 @@ class UserModel {
     data['bmr'] = bmr;
     data['weight_target'] = weightTarget;
     data['avatar_url'] = avatarUrl;
+    data['language'] = language;
     if (dailyJournal != null) {
       data['daily_journal'] = dailyJournal!.map((v) => v.toJson()).toList();
     }

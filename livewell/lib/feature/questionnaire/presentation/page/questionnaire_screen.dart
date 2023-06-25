@@ -150,14 +150,14 @@ class NameInput extends StatelessWidget {
         AuthTextField(
             controller: controller.firstName,
             hintText: null,
-            labelText: 'First Name'.tr,
+            labelText: controller.localization.firstName!,
             errorText: null,
             obscureText: false),
         16.verticalSpace,
         AuthTextField(
             controller: controller.lastName,
             hintText: null,
-            labelText: 'Last Name'.tr,
+            labelText: controller.localization.lastName!,
             errorText: null,
             obscureText: false),
         16.verticalSpace,
@@ -206,7 +206,7 @@ class ChangePageIndicator extends StatelessWidget {
         child: Row(
           children: [
             Text(
-              'Next'.tr,
+              controller.localization.next!,
               style: const TextStyle(
                   color: Colors.white,
                   fontSize: 14,
@@ -245,7 +245,7 @@ class ChangePageIndicator extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              'Pre'.tr,
+              controller.localization.pre!,
               style: TextStyle(
                   color: const Color(0xFF171433),
                   fontSize: 14.sp,

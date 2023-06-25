@@ -39,7 +39,8 @@ class ExerciseInformationController extends BaseController {
             dob: DateFormat('yyyy-MM-dd')
                 .format(DateTime.parse(newUserData.birthDate ?? "")),
             weightTarget: newUserData.weightTarget ?? 0,
-            exerciseGoalKcal: newUserData.exerciseGoalKcal ?? 0),
+            exerciseGoalKcal: newUserData.exerciseGoalKcal ?? 0,
+            language: newUserData.language ?? "en_US"),
       );
       EasyLoading.dismiss();
       result.fold((l) => Log.error(l), (r) {

@@ -16,23 +16,37 @@ class BaseController extends GetxController {
   void getLocalizationDatas() async {
     if (Get.isRegistered<LanguageController>()) {
       LanguageController languageController = Get.find<LanguageController>();
-      localization = languageController.parentLocalization.value.idID!;
+      localization = languageController.localization.value;
       inspect(localization);
     } else {
       LanguageController languageController = Get.put(LanguageController());
-      localization = languageController.parentLocalization.value.idID!;
+      localization = languageController.localization.value;
     }
   }
 
-  void changeLocalization() async {
+  Future<void> changeLocalization(AvailableLanguage lang) async {
     if (Get.isRegistered<LanguageController>()) {
       LanguageController languageController = Get.find<LanguageController>();
-      localization = languageController.parentLocalization.value.enUS!;
+      languageController.changeLocalization(lang);
     } else {
       LanguageController languageController = Get.put(LanguageController());
-      localization = languageController.parentLocalization.value.enUS!;
+      languageController.changeLocalization(lang);
       update();
     }
+  }
+
+  AvailableLanguage? LanguagefromString(String? locale) {
+    if (locale == null) return null;
+    return AvailableLanguage.values.firstWhere(
+        (element) => element.languageCode == locale,
+        orElse: () => AvailableLanguage.en);
+  }
+
+  AvailableLanguage? LanguagefromLocale(String? locale) {
+    if (locale == null) return null;
+    return AvailableLanguage.values.firstWhere(
+        (element) => element.locale == locale,
+        orElse: () => AvailableLanguage.en);
   }
 }
 
@@ -42,7 +56,7 @@ class LanguageController extends GetxController {
   GetLocalizationData getLocalizationData = GetLocalizationData.instance();
   @override
   void onInit() {
-    getLocalizationDatas();
+    //getLocalizationDatas();
     super.onInit();
   }
 
@@ -53,10 +67,48 @@ class LanguageController extends GetxController {
     });
   }
 
-  void changeLocalization() async {
+  Future<void> changeLocalization(AvailableLanguage lang) async {
     final result = await getLocalizationData.call(NoParams());
     result.fold((l) {}, (r) {
       parentLocalization.value = r;
+      switch (lang) {
+        case AvailableLanguage.en:
+          localization.value = r.enUS!;
+          break;
+        case AvailableLanguage.id:
+          localization.value = r.idID!;
+          break;
+      }
     });
+  }
+
+  AvailableLanguage? LanguagefromString(String? locale) {
+    if (locale == null) return null;
+    return AvailableLanguage.values.firstWhere(
+        (element) => element.languageCode == locale,
+        orElse: () => AvailableLanguage.en);
+  }
+
+  AvailableLanguage? LanguagefromLocale(String? locale) {
+    if (locale == null) return null;
+    return AvailableLanguage.values.firstWhere(
+        (element) => element.locale == locale,
+        orElse: () => AvailableLanguage.en);
+  }
+}
+
+enum AvailableLanguage { en, id }
+
+extension AvailableLanguageExtension on AvailableLanguage {
+  String get languageCode => ['en', 'id'][index];
+  String get countryCode => ['US', 'ID'][index];
+  String get locale => '${languageCode}_$countryCode';
+  String get title {
+    switch (this) {
+      case AvailableLanguage.en:
+        return 'English';
+      case AvailableLanguage.id:
+        return 'Indonesia';
+    }
   }
 }
