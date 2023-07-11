@@ -99,6 +99,17 @@ class LanguageController extends GetxController {
 
 enum AvailableLanguage { en, id }
 
+extension AvailableLanguageContent on AvailableLanguage {
+  String code() {
+    switch (this) {
+      case AvailableLanguage.en:
+        return 'en_US';
+      case AvailableLanguage.id:
+        return 'id_ID';
+    }
+  }
+}
+
 extension AvailableLanguageExtension on AvailableLanguage {
   String get languageCode => ['en', 'id'][index];
   String get countryCode => ['US', 'ID'][index];

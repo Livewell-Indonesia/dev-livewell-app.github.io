@@ -144,7 +144,8 @@ class PhysicalInformationController extends BaseController {
         drink.text,
         sleep.text,
         dietaryResitriction.text,
-        specificGoal.text));
+        specificGoal.text,
+        dashboardController.user.value.language));
     EasyLoading.dismiss();
     result.fold((l) {
       Get.snackbar("Failed", "Failed to update Physical Information");

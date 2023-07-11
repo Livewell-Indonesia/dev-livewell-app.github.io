@@ -186,6 +186,7 @@ class UpdateWeightController extends BaseController {
           .user.value.onboardingQuestionnaire!.dietaryRestrictions!.first,
       dashboardController
           .user.value.onboardingQuestionnaire!.targetImprovement!.first,
+      dashboardController.user.value.language,
     );
     inspect(params);
     final result = await postQuestionnaire.call(params);

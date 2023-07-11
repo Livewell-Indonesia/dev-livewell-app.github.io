@@ -14,7 +14,7 @@ import '../../../../routes/app_navigator.dart';
 import 'package:livewell/core/base/base_controller.dart';
 
 class QuestionnaireController extends BaseController {
-  Rx<QuestionnairePage> currentPage = QuestionnairePage.name.obs;
+  Rx<QuestionnairePage> currentPage = QuestionnairePage.language.obs;
   var progress = 0.0.obs;
   var date = DateTime(1990, 1, 1).obs;
   var dateOfBirth = "".obs;
@@ -29,6 +29,7 @@ class QuestionnaireController extends BaseController {
   Rx<DietrarySelection> selectedDietrary = DietrarySelection.no.obs;
   Rx<TargetExerciseSelection> selectedExerciseTarget =
       TargetExerciseSelection.light.obs;
+  Rx<AvailableLanguage> selectedLanguage = AvailableLanguage.en.obs;
   TextEditingController selectedDietraryText = TextEditingController();
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
@@ -71,28 +72,26 @@ class QuestionnaireController extends BaseController {
   }
 
   void onBackPressed() {
-    if (currentPage.value == QuestionnairePage.gender) {
-      Get.back();
-    } else {
-      currentPage.value = findPreviousPage();
-    }
+    currentPage.value = findPreviousPage();
   }
 
   void sendData() async {
     var usersData = Get.find<DashboardController>().user.value;
     var params = QuestionnaireParams.asParams(
-        firstName.text,
-        lastName.text,
-        selectedGender.value.label(),
-        DateFormat('yyyy-MM-dd').format(date.value),
-        weight.value,
-        height.value,
-        targetWeight.value,
-        selectedExerciseTarget.value.value(),
-        drink.value.toString(),
-        sleep.value.toString(),
-        selectedDietraryText.text,
-        selectedGoals.value.value());
+      firstName.text,
+      lastName.text,
+      selectedGender.value.label(),
+      DateFormat('yyyy-MM-dd').format(date.value),
+      weight.value,
+      height.value,
+      targetWeight.value,
+      selectedExerciseTarget.value.value(),
+      drink.value.toString(),
+      sleep.value.toString(),
+      selectedDietraryText.text,
+      selectedGoals.value.value(),
+      selectedLanguage.value.code(),
+    );
     inspect(params);
     Log.info(params.toJson());
     inspect(params.toJson());
@@ -107,6 +106,7 @@ class QuestionnaireController extends BaseController {
 }
 
 enum QuestionnairePage {
+  language,
   name,
   gender,
   age,
@@ -124,6 +124,8 @@ enum QuestionnairePage {
 extension QuestionnairePageData on QuestionnairePage {
   String title() {
     switch (this) {
+      case QuestionnairePage.language:
+        return 'Language';
       case QuestionnairePage.name:
         return 'Name';
       case QuestionnairePage.gender:
@@ -153,6 +155,8 @@ extension QuestionnairePageData on QuestionnairePage {
 
   String subtitle() {
     switch (this) {
+      case QuestionnairePage.language:
+        return 'Select your preferred Language';
       case QuestionnairePage.name:
         return 'Help us to create your personalized plan';
       case QuestionnairePage.gender:
@@ -214,6 +218,28 @@ extension DietrarySelectionContent on DietrarySelection {
         return Get.find<HomeController>().localization.no!;
       case DietrarySelection.none:
         return Get.find<HomeController>().localization.none!;
+    }
+  }
+}
+
+enum LanguageSelection { english, indonesia }
+
+extension LangaugeSelectionContent on LanguageSelection {
+  String title() {
+    switch (this) {
+      case LanguageSelection.english:
+        return 'English';
+      case LanguageSelection.indonesia:
+        return 'Indonesia';
+    }
+  }
+
+  String code() {
+    switch (this) {
+      case LanguageSelection.english:
+        return 'en_US';
+      case LanguageSelection.indonesia:
+        return 'id_ID';
     }
   }
 }
