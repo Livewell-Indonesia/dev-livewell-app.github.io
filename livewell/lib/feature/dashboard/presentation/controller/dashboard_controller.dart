@@ -394,7 +394,13 @@ class DashboardController extends BaseController {
           AppNavigator.push(routeName: AppPages.questionnaire);
         });
       } else {
-        requestHealthAccess();
+        final HomeController homeController = Get.find();
+        if (Platform.isAndroid &&
+            homeController.appConfigModel.value.googleHealth!) {
+          homeController.showCoachmark();
+        } else {
+          requestHealthAccess();
+        }
       }
     });
   }

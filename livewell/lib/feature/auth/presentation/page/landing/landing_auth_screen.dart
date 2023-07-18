@@ -106,6 +106,16 @@ class LandingAuthScreen extends StatelessWidget {
                           ))
                     ],
                   ),
+                  const Spacer(),
+                  Obx(() {
+                    return Text(
+                        "${controller.appVersion.value} (${controller.buildNumber.value})",
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                            color: const Color(0xFF171433).withOpacity(0.7)));
+                  }),
+                  16.verticalSpace,
                 ],
               ),
             ),
