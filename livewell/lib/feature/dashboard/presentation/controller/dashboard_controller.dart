@@ -396,7 +396,8 @@ class DashboardController extends BaseController {
       } else {
         final HomeController homeController = Get.find();
         if (Platform.isAndroid &&
-            homeController.appConfigModel.value.googleHealth!) {
+            (homeController.appConfigModel.value.googleHealth ?? false) ==
+                false) {
           homeController.showCoachmark();
         } else {
           requestHealthAccess();

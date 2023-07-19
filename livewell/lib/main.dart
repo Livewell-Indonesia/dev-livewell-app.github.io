@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:sentry/sentry.dart';
 
 List<CameraDescription> cameras = [];
 void main() async {
@@ -25,13 +28,26 @@ void main() async {
     FirebaseCrashlytics.instance.recordError(error, stack);
     return true;
   };
-  cameras = await availableCameras();
-  SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarBrightness: Brightness.light));
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  await ScreenUtil.ensureScreenSize();
-  configLoading();
-  runApp(const MyApp());
+  runZonedGuarded(() async {
+    Sentry.init(
+      (p0) {
+        p0.dsn =
+            'https://344e610591e04e998dda24b51c38c4e0@o4505522504400896.ingest.sentry.io/4505545112616960';
+      },
+      appRunner: () async {
+        cameras = await availableCameras();
+        SystemChrome.setSystemUIOverlayStyle(
+            const SystemUiOverlayStyle(statusBarBrightness: Brightness.light));
+        SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+        await ScreenUtil.ensureScreenSize();
+        configLoading();
+
+        runApp(const MyApp());
+      },
+    );
+  }, (error, stackTrace) async {
+    await Sentry.captureException(error, stackTrace: stackTrace);
+  });
 }
 
 void configLoading() {
