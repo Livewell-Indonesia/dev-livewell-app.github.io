@@ -125,62 +125,78 @@ extension QuestionnairePageData on QuestionnairePage {
   String title() {
     switch (this) {
       case QuestionnairePage.language:
-        return 'Language';
+        return Get.find<HomeController>().localization.language!;
       case QuestionnairePage.name:
-        return 'Name';
+        return Get.find<HomeController>().localization.name!;
       case QuestionnairePage.gender:
-        return 'Gender';
+        return Get.find<HomeController>().localization.gender!;
       case QuestionnairePage.age:
-        return 'How old are you?';
+        return Get.find<HomeController>().localization.howOldAreYou!;
       case QuestionnairePage.weight:
-        return 'What\'s your weight?';
+        return Get.find<HomeController>().localization.whatsYourWeight!;
       case QuestionnairePage.height:
-        return 'What\'s your height?';
+        return Get.find<HomeController>().localization.whatsYourHeight!;
       case QuestionnairePage.drink:
-        return 'Drink';
+        return Get.find<HomeController>().localization.drink!;
       case QuestionnairePage.sleep:
-        return 'Sleep';
+        return Get.find<HomeController>().localization.sleep!;
       case QuestionnairePage.dieatary:
-        return 'Any dietary restriction?';
+        return Get.find<HomeController>().localization.anyDietaryRestrictions!;
       case QuestionnairePage.goal:
-        return 'Your specific goal?';
+        return Get.find<HomeController>().localization.yourSpecificGoal!;
       case QuestionnairePage.exercise:
-        return 'Exercise';
+        return Get.find<HomeController>().localization.exercise!;
       case QuestionnairePage.targetWeight:
-        return 'Target weight';
+        return Get.find<HomeController>().localization.targetWeight!;
       case QuestionnairePage.finish:
-        return 'finish';
+        return Get.find<HomeController>().localization.finish!;
     }
   }
 
   String subtitle() {
     switch (this) {
       case QuestionnairePage.language:
-        return 'Select your preferred Language';
+        return Get.find<HomeController>().localization.selectYourPreferred!;
       case QuestionnairePage.name:
-        return 'Help us to create your personalized plan';
+        return Get.find<HomeController>()
+            .localization
+            .helpUsToCreatePersonalize!;
       case QuestionnairePage.gender:
-        return 'Help us to create your personalized plan';
+        return Get.find<HomeController>()
+            .localization
+            .helpUsToCreatePersonalize!;
       case QuestionnairePage.age:
-        return 'Help us to create your personalized plan';
+        return Get.find<HomeController>()
+            .localization
+            .helpUsToCreatePersonalize!;
       case QuestionnairePage.weight:
-        return 'Help us to create your personalized plan';
+        return Get.find<HomeController>()
+            .localization
+            .helpUsToCreatePersonalize!;
       case QuestionnairePage.height:
-        return 'Help us to create your personalized plan'.tr;
+        return Get.find<HomeController>()
+            .localization
+            .helpUsToCreatePersonalize!;
       case QuestionnairePage.drink:
-        return 'How Many Glasses of Water Do you Drink Per day?'.tr;
+        return Get.find<HomeController>().localization.howManyGlassesOfWater!;
       case QuestionnairePage.sleep:
-        return 'How Many Hours Of Sleep Do You Usually Have?'.tr;
+        return Get.find<HomeController>().localization.howManyHoursOfSleeps!;
       case QuestionnairePage.dieatary:
-        return 'Help us to create your personalized plan'.tr;
+        return Get.find<HomeController>()
+            .localization
+            .helpUsToCreatePersonalize!;
       case QuestionnairePage.goal:
-        return 'You can always change this later'.tr;
+        return Get.find<HomeController>()
+            .localization
+            .youCanAlwaysChangeThisLater!;
       case QuestionnairePage.exercise:
-        return 'Set your fitness goals'.tr;
+        return Get.find<HomeController>().localization.setYourFitnessGoals!;
       case QuestionnairePage.targetWeight:
-        return 'Help us to create your personalized plan'.tr;
+        return Get.find<HomeController>()
+            .localization
+            .helpUsToCreatePersonalize!;
       case QuestionnairePage.finish:
-        return 'finish'.tr;
+        return Get.find<HomeController>().localization.finish!;
     }
   }
 }
@@ -295,11 +311,11 @@ extension TargetExerciseContent on TargetExerciseSelection {
   String title() {
     switch (this) {
       case TargetExerciseSelection.light:
-        return "200 Kcal - Light";
+        return Get.find<HomeController>().localization.s200kcal!;
       case TargetExerciseSelection.moderate:
-        return "300 Kcal - Moderate";
+        return Get.find<HomeController>().localization.s300kcal!;
       case TargetExerciseSelection.active:
-        return "400 Kcal - Active";
+        return Get.find<HomeController>().localization.s400kcal!;
     }
   }
 

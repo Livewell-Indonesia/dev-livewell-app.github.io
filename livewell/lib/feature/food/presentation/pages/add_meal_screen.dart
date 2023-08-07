@@ -1322,7 +1322,7 @@ extension ScanTypeAtt on ScanType {
   bool isBeta() {
     switch (this) {
       case ScanType.nutrico:
-        return true;
+        return false;
       case ScanType.scanMeal:
         return false;
       case ScanType.quickAdd:

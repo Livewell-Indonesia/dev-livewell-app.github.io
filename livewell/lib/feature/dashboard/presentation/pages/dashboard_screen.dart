@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/banner/nutriscore_banner.dart';
 import 'package:livewell/widgets/chart/circular_calories.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({super.key});
@@ -130,7 +132,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       ),
                       8.horizontalSpace,
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          NotificationTesting().scheduleDailyNotification();
+                        },
                         child: Icon(
                           Icons.notifications_outlined,
                           color: const Color(0xFF171433).withOpacity(0.7),
@@ -811,5 +815,63 @@ extension DoubleExtension on double {
     } else {
       return this;
     }
+  }
+}
+
+class NotificationTesting {
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  Future<void> initNotification() async {
+    AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettingsIOS = DarwinInitializationSettings(
+        requestAlertPermission: true,
+        requestBadgePermission: true,
+        requestSoundPermission: true,
+        onDidReceiveLocalNotification: (id, title, body, payload) async {});
+
+    var initializationSettings = InitializationSettings(
+        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onDidReceiveNotificationResponse: (payload) async {
+      print("andi ganteng $payload");
+    });
+  }
+
+  notificationDetails() {
+    return const NotificationDetails(
+        android: AndroidNotificationDetails("channelId", "channelName",
+            importance: Importance.max, icon: '@mipmap/ic_launcher'),
+        iOS: DarwinNotificationDetails());
+  }
+
+  Future showNotification(
+      {int id = 0, String? title, String? body, String? payload}) async {
+    return flutterLocalNotificationsPlugin.show(
+        id, title, body, notificationDetails());
+  }
+
+  tz.TZDateTime _nextInstanceOfTenAM(DateTime time) {
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduledDate = tz.TZDateTime(
+        tz.local, now.year, now.month, now.day, time.hour, time.minute);
+    if (scheduledDate.isBefore(now)) {
+      scheduledDate = scheduledDate.add(const Duration(days: 1));
+    }
+    return scheduledDate;
+  }
+
+  Future<void> scheduleDailyNotification() async {
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        0,
+        'dailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydaily',
+        'dailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydaily',
+        _nextInstanceOfTenAM(DateTime.now().add(const Duration(minutes: 2))),
+        notificationDetails(),
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.time,
+        payload: "testing timed notification");
   }
 }
