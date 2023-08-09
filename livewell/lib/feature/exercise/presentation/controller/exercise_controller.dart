@@ -1,5 +1,7 @@
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:davinci/davinci.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -19,6 +21,8 @@ import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 import '../../../questionnaire/presentation/controller/questionnaire_controller.dart';
 import 'package:livewell/core/base/base_controller.dart';
 
+import '../pages/exercise_screen.dart';
+
 class ExerciseController extends BaseController
     with GetSingleTickerProviderStateMixin {
   Rx<ExerciseTab> currentMenu = ExerciseTab.diaries.obs;
@@ -36,6 +40,11 @@ class ExerciseController extends BaseController
   TextEditingController dataController = TextEditingController();
   Rx<TargetExerciseSelection> selectedExerciseTarget =
       TargetExerciseSelection.light.obs;
+
+  Rxn<File> file = Rxn<File>();
+  TextEditingController titleController = TextEditingController();
+  Rxn<String> titleError = Rxn<String>();
+  TextEditingController locationController = TextEditingController();
 
   @override
   void onReady() {
@@ -133,6 +142,10 @@ class ExerciseController extends BaseController
     await getBurntCaloriesData();
     await getExerciseHistorydata();
     return true;
+  }
+
+  double calculateDistance(int numberOfSteps, double strideLength) {
+    return (numberOfSteps * strideLength) / 1000;
   }
 
   Future<void> getExerciseHistorydata() async {

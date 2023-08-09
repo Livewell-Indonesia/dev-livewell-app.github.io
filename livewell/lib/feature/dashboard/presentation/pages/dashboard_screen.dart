@@ -133,7 +133,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       8.horizontalSpace,
                       InkWell(
                         onTap: () {
-                          NotificationTesting().scheduleDailyNotification();
+                          //NotificationTesting().scheduleDailyNotification();
                         },
                         child: Icon(
                           Icons.notifications_outlined,
@@ -155,25 +155,25 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         padding: EdgeInsets.only(
                           left: e.index != 0 ? 8.w : 0,
                         ),
-                        child: e == CarouselDashboard.nutriScore
-                            ? Obx(() {
-                                return NutriscoreBanner(
-                                  value: (controller
-                                              .nutriScore.value.totalPoints ??
-                                          0)
-                                      .toInt(),
-                                );
-                              })
-                            : Obx(() {
-                                return YourWeightWidget(
-                                  weight: (controller.user.value.weight ?? 0.0)
-                                      .toDouble(),
-                                  targetWeight:
-                                      (controller.user.value.weightTarget ??
-                                              0.0)
-                                          .toDouble(),
-                                );
-                              }),
+                        // child: e == CarouselDashboard.nutriScore
+                        //     ? Obx(() {
+                        //         return NutriscoreBanner(
+                        //           value: (controller
+                        //                       .nutriScore.value.totalPoints ??
+                        //                   0)
+                        //               .toInt(),
+                        //         );
+                        //       })
+                        //     :
+                        child: Obx(() {
+                          return YourWeightWidget(
+                            weight: (controller.user.value.weight ?? 0.0)
+                                .toDouble(),
+                            targetWeight:
+                                (controller.user.value.weightTarget ?? 0.0)
+                                    .toDouble(),
+                          );
+                        }),
                       ),
                     );
                   }).toList(),
@@ -187,18 +187,18 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         });
                       }),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CoachmarkIndicator(
-                        position: current,
-                        length: 2,
-                      ),
-                    ],
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       CoachmarkIndicator(
+                //         position: current,
+                //         length: 2,
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 32.verticalSpace,
                 InkWell(
                   onTap: () {
@@ -701,13 +701,13 @@ class MyTooltip extends StatelessWidget {
   }
 }
 
-enum CarouselDashboard { weight, nutriScore }
+enum CarouselDashboard { weight }
 
 extension on CarouselDashboard {
   VoidCallback? getOnTap(DashboardController controller) {
     switch (this) {
-      case CarouselDashboard.nutriScore:
-        return () => AppNavigator.push(routeName: AppPages.nutriScore);
+      // case CarouselDashboard.nutriScore:
+      //   return () => AppNavigator.push(routeName: AppPages.nutriScore);
       case CarouselDashboard.weight:
         return () => AppNavigator.push(routeName: AppPages.updateWeight);
     }

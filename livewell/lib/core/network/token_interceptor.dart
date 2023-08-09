@@ -4,6 +4,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/core/network/api_url.dart';
+import 'package:livewell/core/network/result.dart';
 import 'package:livewell/feature/auth/data/model/login_model.dart';
 import 'package:livewell/feature/auth/domain/entity/login.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -11,7 +12,7 @@ import 'package:livewell/routes/app_navigator.dart';
 import '../error/failures.dart';
 import 'network_module.dart';
 
-class TokenInterceptor extends Interceptor with NetworkModule {
+class TokenInterceptor extends Interceptor implements NetworkModule {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     var statusCode = err.response!.statusCode;
@@ -21,9 +22,66 @@ class TokenInterceptor extends Interceptor with NetworkModule {
             err.response?.data['message'] == 'missing or malformed jwt')) {}
     super.onError(err, handler);
   }
+
+  @override
+  // TODO: implement authorization
+  String get authorization => throw UnimplementedError();
+
+  @override
+  Future<Result> deleteMethod(String endpoint,
+      {Map<String, String>? headers, Map<String, dynamic>? body}) {
+    // TODO: implement deleteMethod
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Result> getMethod(String endpoint,
+      {Map<String, dynamic>? param, Map<String, String>? headers}) {
+    // TODO: implement getMethod
+    throw UnimplementedError();
+  }
+
+  @override
+  String handleError(ex) {
+    // TODO: implement handleError
+    throw UnimplementedError();
+  }
+
+  @override
+  // TODO: implement header
+  Map<String, String> get header => throw UnimplementedError();
+
+  @override
+  Future<Result> postMethod(String endpoint,
+      {Map<String, dynamic>? headers,
+      Map<String, dynamic>? body,
+      Map<String, dynamic>? param}) {
+    // TODO: implement postMethod
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Result> postUploadDocument(String endpoint, String url,
+      {Map<String, String>? headers, FormData? body}) {
+    // TODO: implement postUploadDocument
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Result> putMethod(String endpoint,
+      {Map<String, dynamic>? headers, Map<String, dynamic>? body}) {
+    // TODO: implement putMethod
+    throw UnimplementedError();
+  }
+
+  @override
+  responseHandler(Result result) {
+    // TODO: implement responseHandler
+    throw UnimplementedError();
+  }
 }
 
-class NewTokenInteceptor extends Interceptor with NetworkModule {
+class NewTokenInteceptor extends Interceptor implements NetworkModule {
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
@@ -66,5 +124,62 @@ class NewTokenInteceptor extends Interceptor with NetworkModule {
     } catch (ex) {
       return Left(ServerFailure(message: ex.toString()));
     }
+  }
+
+  @override
+  // TODO: implement authorization
+  String get authorization => throw UnimplementedError();
+
+  @override
+  Future<Result> deleteMethod(String endpoint,
+      {Map<String, String>? headers, Map<String, dynamic>? body}) {
+    // TODO: implement deleteMethod
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Result> getMethod(String endpoint,
+      {Map<String, dynamic>? param, Map<String, String>? headers}) {
+    // TODO: implement getMethod
+    throw UnimplementedError();
+  }
+
+  @override
+  String handleError(ex) {
+    // TODO: implement handleError
+    throw UnimplementedError();
+  }
+
+  @override
+  // TODO: implement header
+  Map<String, String> get header => throw UnimplementedError();
+
+  @override
+  Future<Result> postMethod(String endpoint,
+      {Map<String, dynamic>? headers,
+      Map<String, dynamic>? body,
+      Map<String, dynamic>? param}) {
+    // TODO: implement postMethod
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Result> postUploadDocument(String endpoint, String url,
+      {Map<String, String>? headers, FormData? body}) {
+    // TODO: implement postUploadDocument
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Result> putMethod(String endpoint,
+      {Map<String, dynamic>? headers, Map<String, dynamic>? body}) {
+    // TODO: implement putMethod
+    throw UnimplementedError();
+  }
+
+  @override
+  responseHandler(Result result) {
+    // TODO: implement responseHandler
+    throw UnimplementedError();
   }
 }

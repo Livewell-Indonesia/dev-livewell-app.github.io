@@ -125,7 +125,7 @@ extension QuestionnairePageData on QuestionnairePage {
   String title() {
     switch (this) {
       case QuestionnairePage.language:
-        return Get.find<HomeController>().localization.language!;
+        return Get.find<HomeController>().localization.language ?? "Language";
       case QuestionnairePage.name:
         return Get.find<HomeController>().localization.name!;
       case QuestionnairePage.gender:
@@ -265,7 +265,6 @@ enum GoalSelection {
   betterSleeping,
   weightLoss,
   trackNutrition,
-  improveOverallFitness,
   none
 }
 
@@ -280,8 +279,6 @@ extension GoalSelectionContent on GoalSelection {
         return Get.find<HomeController>().localization.weightLoss!;
       case GoalSelection.trackNutrition:
         return Get.find<HomeController>().localization.trackNutrition!;
-      case GoalSelection.improveOverallFitness:
-        return Get.find<HomeController>().localization.improveOverallFitness!;
       case GoalSelection.none:
         return Get.find<HomeController>().localization.none!;
     }
@@ -297,8 +294,6 @@ extension GoalSelectionContent on GoalSelection {
         return "Weight Loss";
       case GoalSelection.trackNutrition:
         return "Track Nutrition";
-      case GoalSelection.improveOverallFitness:
-        return "Improve Overall Fitness";
       case GoalSelection.none:
         return "none";
     }

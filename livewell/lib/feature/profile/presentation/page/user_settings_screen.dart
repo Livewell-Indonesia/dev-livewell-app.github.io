@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -356,22 +357,30 @@ class ImagePickerBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(bottom: 40),
       child: Wrap(
         children: <Widget>[
           ListTile(
             leading: Icon(Icons.photo_library),
-            title: Text('Pick from Gallery'),
+            title: Text(
+              'Pick from Gallery',
+              style: TextStyle(color: Colors.black),
+            ),
             onTap: () {
               _pickImage(ImageSource.gallery, context);
             },
           ),
           ListTile(
             leading: Icon(Icons.camera_alt),
-            title: Text('Take a Photo'),
+            title: Text(
+              'Take a Photo',
+              style: TextStyle(color: Colors.black),
+            ),
             onTap: () {
               _pickImage(ImageSource.camera, context);
             },
           ),
+          40.verticalSpace,
         ],
       ),
     );
@@ -379,11 +388,15 @@ class ImagePickerBottomSheet extends StatelessWidget {
 
   void _pickImage(ImageSource source, BuildContext context) async {
     final picker = ImagePicker();
-    final pickedFile = await picker.getImage(source: source);
-    if (pickedFile != null) {
-      final selectedImage = File(pickedFile.path);
-      onImageSelected(selectedImage);
+    //final pickedFile = await picker.pickImage(source: source);
+    FilePickerResult? file =
+        await FilePicker.platform.pickFiles(type: FileType.image);
+    if (file != null) {
+      final selectedImage = file.paths.map(
+        (e) => File(e!),
+      );
+      onImageSelected(selectedImage.first);
     }
-    Navigator.of(context).pop();
+    //Navigator.of(context).pop();
   }
 }

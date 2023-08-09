@@ -128,6 +128,7 @@ class LocalizationKey {
   String? myGoals;
   String? newPassword;
   String? next;
+  String? nutrition;
   String? no;
   String? noResultsFound;
   String? none;
@@ -344,6 +345,7 @@ class LocalizationKey {
       this.noResultsFound,
       this.none,
       this.numberOfServing,
+      this.nutrition,
       this.nutrientFact,
       this.nutriscoreDetails,
       this.ofDailyGoals,
@@ -563,6 +565,7 @@ class LocalizationKey {
     noResultsFound = json['no_results_found'];
     none = json['none'];
     numberOfServing = json['number_of_serving'];
+    nutrition = json['nutrition'];
     nutrientFact = json['nutrient_fact'];
     nutriscoreDetails = json['nutriscore_details'];
     ofDailyGoals = json['of_daily_goals'];
@@ -789,6 +792,7 @@ class LocalizationKey {
     data['no_results_found'] = this.noResultsFound;
     data['none'] = this.none;
     data['number_of_serving'] = this.numberOfServing;
+    data['nutrition'] = this.nutrition;
     data['nutrient_fact'] = this.nutrientFact;
     data['nutriscore_details'] = this.nutriscoreDetails;
     data['of_daily_goals'] = this.ofDailyGoals;

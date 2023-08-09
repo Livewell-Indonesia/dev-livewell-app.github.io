@@ -9,7 +9,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_share/flutter_share.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:livewell/feature/profile/presentation/page/user_settings_screen.dart';
 import 'package:livewell/feature/splash/presentation/splash_screen.dart';
 import 'package:livewell/firebase_options.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -25,6 +27,8 @@ import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'dart:ui' as ui;
 import 'package:share_plus/share_plus.dart';
+
+import 'core/constant/constant.dart';
 
 List<CameraDescription> cameras = [];
 void main() async {
@@ -113,101 +117,25 @@ class MyApp extends StatelessWidget {
               primarySwatch: mycolor,
               textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
               brightness: Brightness.light),
-          home: YourPage(),
+          home: SplashScreen(),
         );
       },
     );
   }
 }
 
-class ImageWithOverlay extends StatelessWidget {
-  final String imageUrl;
-  final String overlayText;
-  final double aspectRatio;
 
-  ImageWithOverlay({
-    required this.imageUrl,
-    required this.overlayText,
-    required this.aspectRatio,
-  });
 
-  Future<Uint8List> _captureWidgetToImage(GlobalKey key) async {
-    try {
-      RenderRepaintBoundary boundary =
-          key.currentContext!.findRenderObject() as RenderRepaintBoundary;
-      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-      ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
-      return byteData!.buffer.asUint8List();
-    } catch (e) {
-      print(e);
-      return Uint8List(0);
-    }
-  }
-
-  // ... existing code ...
+class YourPage extends StatefulWidget {
+  YourPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final GlobalKey key = GlobalKey();
-    // ... existing code ...
-
-    return RepaintBoundary(
-      key: key,
-      child: AspectRatio(
-        aspectRatio: aspectRatio,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Image.network(
-              imageUrl,
-              fit: BoxFit.cover,
-            ),
-            Positioned.fill(
-              child: Container(
-                color: Colors.black54,
-                alignment: Alignment.center,
-                child: Text(
-                  overlayText,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  State<YourPage> createState() => _YourPageState();
 }
 
-Future<void> shareToInstagramStory(BuildContext context, GlobalKey key) async {
-  try {
-    Uint8List imageBytes = await ImageWithOverlay(
-      aspectRatio: 16 / 9,
-      overlayText: "andi",
-      imageUrl:
-          "https://pusakadunia.com/wp-content/uploads/2016/12/sabuk-beladiri-warna-abu-abu.jpg",
-    )._captureWidgetToImage(key);
-    final tempDir = await getTemporaryDirectory();
-    final file = File('${tempDir.path}/andi_asrafil.png');
-    await file.writeAsBytes(imageBytes);
-    await Share.shareXFiles(
-      [XFile(file.path)],
-      text: 'andi asrafil',
-      subject: 'Share to Instagram Story',
-    );
-  } catch (e) {
-    print('Error sharing to Instagram: $e');
-  }
-}
-
-class YourPage extends StatelessWidget {
+class _YourPageState extends State<YourPage> {
   final GlobalKey _key1 = GlobalKey();
-  final GlobalKey _key2 = GlobalKey();
+  File? file;
 
   @override
   Widget build(BuildContext context) {
@@ -217,31 +145,11 @@ class YourPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          RepaintBoundary(
-            key: _key1,
-            child: ImageWithOverlay(
-              imageUrl:
-                  'https://pusakadunia.com/wp-content/uploads/2016/12/sabuk-beladiri-warna-abu-abu.jpg',
-              overlayText: 'andi asrafil',
-              aspectRatio: 1.0,
-            ),
-          ),
-          RepaintBoundary(
-            key: _key2,
-            child: ImageWithOverlay(
-              imageUrl:
-                  'https://pusakadunia.com/wp-content/uploads/2016/12/sabuk-beladiri-warna-abu-abu.jpg',
-              overlayText: 'andi asrafil',
-              aspectRatio: 16.0 / 9.0,
-            ),
-          ),
           ElevatedButton(
-            onPressed: () => shareToInstagramStory(context, _key1),
+            onPressed: () async {
+              
+            },
             child: Text('Share 1:1 to Instagram Story'),
-          ),
-          ElevatedButton(
-            onPressed: () => shareToInstagramStory(context, _key2),
-            child: Text('Share 16:9 to Instagram Story'),
           ),
         ],
       ),

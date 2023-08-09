@@ -69,7 +69,12 @@ class MyGoalsScreen extends StatelessWidget {
                                             Column(
                                               children: GoalSelection.values
                                                   .map((e) => ListTile(
-                                                        title: Text(e.title()),
+                                                        title: Text(
+                                                          e.title(),
+                                                          style: TextStyle(
+                                                              color: Color(
+                                                                  0xFF171433)),
+                                                        ),
                                                         trailing: Radio(
                                                             value: e,
                                                             groupValue: controller

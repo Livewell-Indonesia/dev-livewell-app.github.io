@@ -1,12 +1,24 @@
+import 'dart:io';
+import 'package:davinci/davinci.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/feature/exercise/presentation/controller/exercise_controller.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_diary_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
+import 'package:livewell/widgets/textfield/livewell_textfield.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'dart:ui' as ui;
+
+import '../../../profile/presentation/page/user_settings_screen.dart';
 
 class ExerciseScreen extends StatefulWidget {
   const ExerciseScreen({Key? key}) : super(key: key);
@@ -20,10 +32,15 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
 
   ExerciseController controller = Get.put(ExerciseController());
 
+  final GlobalKey _key1 = GlobalKey();
+  File? file;
+  bool showShareSheet = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF1F1F1),
+      resizeToAvoidBottomInset: true,
       body: RefreshIndicator(
         onRefresh: () async {
           controller.refresh();
@@ -33,6 +50,10 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
             40.verticalSpace,
             Row(
               children: [
+                const Icon(
+                  Icons.ios_share,
+                  color: Colors.transparent,
+                ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 18.w),
                   child: const Icon(
@@ -50,6 +71,205 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                       color: const Color(0xFF171433)),
                 )),
                 const Spacer(),
+                InkWell(
+                  onTap: () async {
+                    await showModalBottomSheet(
+                        context: context,
+                        shape: ShapeBorder.lerp(
+                            const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20))),
+                            const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20))),
+                            1),
+                        builder: (context) {
+                          return ImagePickerBottomSheet(
+                              onImageSelected: (img) async {
+                            setState(() {
+                              file = img;
+                            });
+                            Navigator.of(context).pop();
+                          });
+                        });
+
+                    await showModalBottomSheet(
+                        context: Get.context!,
+                        isScrollControlled: true,
+                        shape: ShapeBorder.lerp(
+                            const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20))),
+                            const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20))),
+                            1),
+                        builder: (context) {
+                          return Padding(
+                            padding: MediaQuery.of(context).viewInsets,
+                            child: Container(
+                              height: 0.45.sh,
+                              child: Column(
+                                children: [
+                                  20.verticalSpace,
+                                  Text(
+                                    'Share',
+                                    style: TextStyle(
+                                        color: Color(0xff171433),
+                                        fontSize: 24.sp,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                  20.verticalSpace,
+                                  Obx(() {
+                                    return LiveWellTextField(
+                                        controller: controller.titleController,
+                                        hintText: null,
+                                        labelText: "Activity Name",
+                                        errorText: controller.titleError.value,
+                                        obscureText: false);
+                                  }),
+                                  20.verticalSpace,
+                                  LiveWellTextField(
+                                      controller: controller.locationController,
+                                      hintText: null,
+                                      labelText: "Location Name",
+                                      errorText: null,
+                                      obscureText: false),
+                                  20.verticalSpace,
+                                  Text(
+                                    'Pick an Image Ratio:',
+                                    style: TextStyle(
+                                        color: Color(0xff171433),
+                                        fontSize: 24.sp,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                  20.verticalSpace,
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 16.w),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Expanded(
+                                          child: ElevatedButton(
+                                              onPressed: () async {
+                                                if (controller.titleController
+                                                    .text.isNotEmpty) {
+                                                  final result =
+                                                      await DavinciCapture
+                                                          .offStage(
+                                                              context: Get
+                                                                  .context!,
+                                                              Obx(() {
+                                                    return ImageWithOverlay(
+                                                        file: file!,
+                                                        overlayText: "andi",
+                                                        title: controller
+                                                            .titleController.text,
+                                                        steps: controller
+                                                            .steps.value
+                                                            .toInt(),
+                                                        calories:
+                                                            controller
+                                                                .burntCalories
+                                                                .toInt(),
+                                                        distance: controller
+                                                            .calculateDistance(
+                                                                controller
+                                                                    .steps.value
+                                                                    .toInt(),
+                                                                0.76),
+                                                        location: controller
+                                                            .locationController
+                                                            .text,
+                                                        aspectRatio: 9 / 16);
+                                                  }),
+                                                              returnImageUint8List:
+                                                                  true,
+                                                              openFilePreview:
+                                                                  false,
+                                                              pixelRatio: Get
+                                                                  .pixelRatio,
+                                                              wait: Duration(
+                                                                  seconds: 2));
+                                                  controller.titleError.value =
+                                                      null;
+                                                  shareToInstagramStory(result);
+                                                } else {
+                                                  controller.titleError.value =
+                                                      "Activity name is required";
+                                                }
+                                              },
+                                              child: const Text('16:9')),
+                                        ),
+                                        20.horizontalSpace,
+                                        Expanded(
+                                          child: ElevatedButton(
+                                              onPressed: () async {
+                                                if (controller.titleController
+                                                    .text.isNotEmpty) {
+                                                  final result =
+                                                      await DavinciCapture
+                                                          .offStage(
+                                                              context: Get
+                                                                  .context!,
+                                                              Obx(() {
+                                                    return ImageWithOverlay(
+                                                        file: file!,
+                                                        overlayText: "andi",
+                                                        title: controller
+                                                            .titleController
+                                                            .text,
+                                                        steps: controller
+                                                            .steps.value
+                                                            .toInt(),
+                                                        calories: controller
+                                                            .burntCalories
+                                                            .toInt(),
+                                                        location: controller
+                                                            .locationController
+                                                            .text,
+                                                        distance: 1000,
+                                                        aspectRatio: 1);
+                                                  }),
+                                                              returnImageUint8List:
+                                                                  true,
+                                                              openFilePreview:
+                                                                  false,
+                                                              pixelRatio: Get
+                                                                  .pixelRatio,
+                                                              wait: Duration(
+                                                                  seconds: 2));
+                                                  controller.titleError.value =
+                                                      null;
+                                                  shareToInstagramStory(result);
+                                                } else {
+                                                  controller.titleError.value =
+                                                      "Activity name is required";
+                                                }
+                                              },
+                                              child: const Text('1:1')),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  30.verticalSpace,
+                                ],
+                              ),
+                            ),
+                          );
+                        });
+                  },
+                  child: const Icon(
+                    Icons.ios_share,
+                    color: Color(0xFF171433),
+                  ),
+                ),
                 InkWell(
                   onTap: () {
                     HomeController controller = Get.find();
@@ -233,5 +453,224 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
         ),
       ),
     );
+  }
+}
+
+class ImageWithOverlay extends StatelessWidget {
+  final File file;
+  final String overlayText;
+  final double aspectRatio;
+  final String title;
+  final int steps;
+  final double distance;
+  final int calories;
+  final String location;
+
+  ImageWithOverlay(
+      {required this.file,
+      required this.overlayText,
+      required this.aspectRatio,
+      required this.title,
+      required this.steps,
+      required this.distance,
+      required this.calories,
+      required this.location});
+
+  Future<Uint8List> _captureWidgetToImage(GlobalKey key) async {
+    try {
+      RenderRepaintBoundary boundary =
+          key.currentContext!.findRenderObject() as RenderRepaintBoundary;
+      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+      ByteData? byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
+      return byteData!.buffer.asUint8List();
+    } catch (e) {
+      print(e);
+      return Uint8List(0);
+    }
+  }
+
+  // ... existing code ...
+
+  @override
+  Widget build(BuildContext context) {
+    // ... existing code ...
+
+    return RepaintBoundary(
+      key: key,
+      child: AspectRatio(
+        aspectRatio: aspectRatio,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Image.file(
+              file,
+              fit: BoxFit.cover,
+            ),
+            Positioned.fill(
+                top: 30,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(left: 20),
+                      child: SvgPicture.asset(
+                        "assets/images/FA_Livewell_Logo_2.svg",
+                        fit: BoxFit.cover,
+                        color: const Color(0xFF8F01DF),
+                        width: 112.w,
+                        height: 30.h,
+                      ),
+                    ),
+                    20.verticalSpace,
+                    Container(
+                      decoration: const BoxDecoration(
+                          color: Color(0xFFDDF235),
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(100),
+                              bottomRight: Radius.circular(100))),
+                      padding: EdgeInsets.only(
+                          left: 20.w, right: 60.w, top: 20.h, bottom: 20.h),
+                      margin: EdgeInsets.only(right: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.calendar_month,
+                                color: Color(0xFF8F01DF),
+                              ),
+                              Text(
+                                'Monday, 20th August 2023',
+                                style: TextStyle(
+                                    color: Color(0xFF8F01DF), fontSize: 14.sp),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.location_on,
+                                color: Color(0xFF8F01DF),
+                              ),
+                              Text(
+                                location,
+                                style: TextStyle(
+                                    color: Color(0xFF8F01DF), fontSize: 14.sp),
+                              ),
+                            ],
+                          ),
+                          10.verticalSpace,
+                          Text(
+                            title,
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 24.sp,
+                              color: Color(0xFF8F01DF),
+                            ),
+                          ),
+                          10.verticalSpace,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "$steps",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 24.sp,
+                                      color: Color(0xFF8F01DF),
+                                    ),
+                                  ),
+                                  Text(
+                                    "steps",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12.sp,
+                                      color: Color(0xFF8F01DF),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "$distance KM",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 24.sp,
+                                      color: Color(0xFF8F01DF),
+                                    ),
+                                  ),
+                                  Text(
+                                    "distance",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12.sp,
+                                      color: Color(0xFF8F01DF),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "$calories kcal",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 24.sp,
+                                      color: Color(0xFF8F01DF),
+                                    ),
+                                  ),
+                                  Text(
+                                    "calories burnt",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12.sp,
+                                      color: Color(0xFF8F01DF),
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                )),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+Future<void> shareToInstagramStory(Uint8List imageBytes) async {
+  try {
+    final tempDir = await getTemporaryDirectory();
+    final file = File('${tempDir.path}/testing.jpg');
+    await file.writeAsBytes(imageBytes);
+    await Share.shareXFiles([XFile(file.path)]);
+  } catch (e) {
+    print('Error sharing to Instagram: $e');
+  }
+}
+
+extension ContextExtensions on BuildContext {
+  bool get mounted {
+    try {
+      widget;
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

@@ -51,7 +51,7 @@ class DashboardController extends BaseController {
   var types = [
     HealthDataType.STEPS,
     HealthDataType.ACTIVE_ENERGY_BURNED,
-    HealthDataType.SLEEP_IN_BED,
+    HealthDataType.SLEEP_IN_BED
   ];
 
   var permissions = [
