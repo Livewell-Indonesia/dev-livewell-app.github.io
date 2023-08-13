@@ -124,8 +124,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
-
 class YourPage extends StatefulWidget {
   YourPage({super.key});
 
@@ -146,9 +144,7 @@ class _YourPageState extends State<YourPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ElevatedButton(
-            onPressed: () async {
-              
-            },
+            onPressed: () async {},
             child: Text('Share 1:1 to Instagram Story'),
           ),
         ],

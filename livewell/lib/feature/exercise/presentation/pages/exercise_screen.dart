@@ -95,175 +95,185 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                           });
                         });
 
-                    await showModalBottomSheet(
-                        context: Get.context!,
-                        isScrollControlled: true,
-                        shape: ShapeBorder.lerp(
-                            const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20))),
-                            const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20))),
-                            1),
-                        builder: (context) {
-                          return Padding(
-                            padding: MediaQuery.of(context).viewInsets,
-                            child: Container(
-                              height: 0.45.sh,
-                              child: Column(
-                                children: [
-                                  20.verticalSpace,
-                                  Text(
-                                    'Share',
-                                    style: TextStyle(
-                                        color: Color(0xff171433),
-                                        fontSize: 24.sp,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                  20.verticalSpace,
-                                  Obx(() {
-                                    return LiveWellTextField(
-                                        controller: controller.titleController,
-                                        hintText: null,
-                                        labelText: "Activity Name",
-                                        errorText: controller.titleError.value,
-                                        obscureText: false);
-                                  }),
-                                  20.verticalSpace,
-                                  LiveWellTextField(
-                                      controller: controller.locationController,
-                                      hintText: null,
-                                      labelText: "Location Name",
-                                      errorText: null,
-                                      obscureText: false),
-                                  20.verticalSpace,
-                                  Text(
-                                    'Pick an Image Ratio:',
-                                    style: TextStyle(
-                                        color: Color(0xff171433),
-                                        fontSize: 24.sp,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                  20.verticalSpace,
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 16.w),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Expanded(
-                                          child: ElevatedButton(
-                                              onPressed: () async {
-                                                if (controller.titleController
-                                                    .text.isNotEmpty) {
-                                                  final result =
-                                                      await DavinciCapture
-                                                          .offStage(
-                                                              context: Get
-                                                                  .context!,
-                                                              Obx(() {
-                                                    return ImageWithOverlay(
-                                                        file: file!,
-                                                        overlayText: "andi",
-                                                        title: controller
-                                                            .titleController.text,
-                                                        steps: controller
-                                                            .steps.value
-                                                            .toInt(),
-                                                        calories:
-                                                            controller
-                                                                .burntCalories
-                                                                .toInt(),
-                                                        distance: controller
-                                                            .calculateDistance(
-                                                                controller
-                                                                    .steps.value
-                                                                    .toInt(),
-                                                                0.76),
-                                                        location: controller
-                                                            .locationController
-                                                            .text,
-                                                        aspectRatio: 9 / 16);
-                                                  }),
-                                                              returnImageUint8List:
-                                                                  true,
-                                                              openFilePreview:
-                                                                  false,
-                                                              pixelRatio: Get
-                                                                  .pixelRatio,
-                                                              wait: Duration(
-                                                                  seconds: 2));
-                                                  controller.titleError.value =
-                                                      null;
-                                                  shareToInstagramStory(result);
-                                                } else {
-                                                  controller.titleError.value =
-                                                      "Activity name is required";
-                                                }
-                                              },
-                                              child: const Text('16:9')),
-                                        ),
-                                        20.horizontalSpace,
-                                        Expanded(
-                                          child: ElevatedButton(
-                                              onPressed: () async {
-                                                if (controller.titleController
-                                                    .text.isNotEmpty) {
-                                                  final result =
-                                                      await DavinciCapture
-                                                          .offStage(
-                                                              context: Get
-                                                                  .context!,
-                                                              Obx(() {
-                                                    return ImageWithOverlay(
-                                                        file: file!,
-                                                        overlayText: "andi",
-                                                        title: controller
-                                                            .titleController
-                                                            .text,
-                                                        steps: controller
-                                                            .steps.value
-                                                            .toInt(),
-                                                        calories: controller
-                                                            .burntCalories
-                                                            .toInt(),
-                                                        location: controller
-                                                            .locationController
-                                                            .text,
-                                                        distance: 1000,
-                                                        aspectRatio: 1);
-                                                  }),
-                                                              returnImageUint8List:
-                                                                  true,
-                                                              openFilePreview:
-                                                                  false,
-                                                              pixelRatio: Get
-                                                                  .pixelRatio,
-                                                              wait: Duration(
-                                                                  seconds: 2));
-                                                  controller.titleError.value =
-                                                      null;
-                                                  shareToInstagramStory(result);
-                                                } else {
-                                                  controller.titleError.value =
-                                                      "Activity name is required";
-                                                }
-                                              },
-                                              child: const Text('1:1')),
-                                        ),
-                                      ],
+                    if (file != null) {
+                      await showModalBottomSheet(
+                          context: Get.context!,
+                          isScrollControlled: true,
+                          shape: ShapeBorder.lerp(
+                              const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20))),
+                              const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20))),
+                              1),
+                          builder: (context) {
+                            return Padding(
+                              padding: MediaQuery.of(context).viewInsets,
+                              child: Container(
+                                height: 0.45.sh,
+                                child: Column(
+                                  children: [
+                                    20.verticalSpace,
+                                    Text(
+                                      'Share',
+                                      style: TextStyle(
+                                          color: Color(0xff171433),
+                                          fontSize: 24.sp,
+                                          fontWeight: FontWeight.w700),
                                     ),
-                                  ),
-                                  30.verticalSpace,
-                                ],
+                                    20.verticalSpace,
+                                    Obx(() {
+                                      return LiveWellTextField(
+                                          controller:
+                                              controller.titleController,
+                                          hintText: null,
+                                          labelText: "Activity Name",
+                                          errorText:
+                                              controller.titleError.value,
+                                          obscureText: false);
+                                    }),
+                                    20.verticalSpace,
+                                    LiveWellTextField(
+                                        controller:
+                                            controller.locationController,
+                                        hintText: null,
+                                        labelText: "Location Name",
+                                        errorText: null,
+                                        obscureText: false),
+                                    20.verticalSpace,
+                                    Text(
+                                      'Pick an Image Ratio:',
+                                      style: TextStyle(
+                                          color: Color(0xff171433),
+                                          fontSize: 24.sp,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                    20.verticalSpace,
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16.w),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Expanded(
+                                            child: ElevatedButton(
+                                                onPressed: () async {
+                                                  if (controller.titleController
+                                                      .text.isNotEmpty) {
+                                                    final result =
+                                                        await DavinciCapture.offStage(
+                                                            context: Get
+                                                                .context!,
+                                                            Obx(() {
+                                                      return ImageWithOverlay(
+                                                          file: file!,
+                                                          overlayText: "andi",
+                                                          title: controller
+                                                              .titleController
+                                                              .text,
+                                                          steps: controller
+                                                              .steps.value
+                                                              .toInt(),
+                                                          calories: controller
+                                                              .burntCalories
+                                                              .toInt(),
+                                                          distance: controller
+                                                              .calculateDistance(
+                                                                  controller
+                                                                      .steps
+                                                                      .value
+                                                                      .toInt(),
+                                                                  0.76),
+                                                          location: controller
+                                                              .locationController
+                                                              .text,
+                                                          aspectRatio: 9 / 16);
+                                                    }),
+                                                            returnImageUint8List:
+                                                                true,
+                                                            openFilePreview:
+                                                                false,
+                                                            pixelRatio: Get
+                                                                .pixelRatio,
+                                                            wait:
+                                                                const Duration(
+                                                                    seconds:
+                                                                        2));
+                                                    controller.titleError
+                                                        .value = null;
+                                                    shareToInstagramStory(
+                                                        result);
+                                                  } else {
+                                                    controller
+                                                            .titleError.value =
+                                                        "Activity name is required";
+                                                  }
+                                                },
+                                                child: const Text('16:9')),
+                                          ),
+                                          20.horizontalSpace,
+                                          Expanded(
+                                            child: ElevatedButton(
+                                                onPressed: () async {
+                                                  if (controller.titleController
+                                                      .text.isNotEmpty) {
+                                                    final result =
+                                                        await DavinciCapture.offStage(
+                                                            context:
+                                                                Get.context!,
+                                                            Obx(() {
+                                                      return ImageWithOverlay(
+                                                          file: file!,
+                                                          overlayText: "andi",
+                                                          title: controller
+                                                              .titleController
+                                                              .text,
+                                                          steps: controller
+                                                              .steps.value
+                                                              .toInt(),
+                                                          calories: controller
+                                                              .burntCalories
+                                                              .toInt(),
+                                                          location: controller
+                                                              .locationController
+                                                              .text,
+                                                          distance: 1000,
+                                                          aspectRatio: 1);
+                                                    }),
+                                                            returnImageUint8List:
+                                                                true,
+                                                            openFilePreview:
+                                                                false,
+                                                            pixelRatio:
+                                                                Get.pixelRatio,
+                                                            wait: Duration(
+                                                                seconds: 2));
+                                                    controller.titleError
+                                                        .value = null;
+                                                    shareToInstagramStory(
+                                                        result);
+                                                  } else {
+                                                    controller
+                                                            .titleError.value =
+                                                        "Activity name is required";
+                                                  }
+                                                },
+                                                child: const Text('1:1')),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    30.verticalSpace,
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        });
+                            );
+                          });
+                    }
                   },
                   child: const Icon(
                     Icons.ios_share,
@@ -542,7 +552,8 @@ class ImageWithOverlay extends StatelessWidget {
                                 color: Color(0xFF8F01DF),
                               ),
                               Text(
-                                'Monday, 20th August 2023',
+                                DateFormat('EEEE, dd MMMM yyyy')
+                                    .format(DateTime.now()),
                                 style: TextStyle(
                                     color: Color(0xFF8F01DF), fontSize: 14.sp),
                               ),
@@ -656,7 +667,7 @@ class ImageWithOverlay extends StatelessWidget {
 Future<void> shareToInstagramStory(Uint8List imageBytes) async {
   try {
     final tempDir = await getTemporaryDirectory();
-    final file = File('${tempDir.path}/testing.jpg');
+    final file = File('${tempDir.path}/livewell.jpg');
     await file.writeAsBytes(imageBytes);
     await Share.shareXFiles([XFile(file.path)]);
   } catch (e) {

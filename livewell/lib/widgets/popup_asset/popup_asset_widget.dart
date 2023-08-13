@@ -30,7 +30,9 @@ class PopupAssetWidget extends StatelessWidget {
                   children: [
                     Text('Info',
                         style: TextStyle(
-                            fontSize: 16.sp, fontWeight: FontWeight.w600)),
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFF171433))),
                     const Spacer(),
                     InkWell(
                       onTap: () {
@@ -41,13 +43,40 @@ class PopupAssetWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              Html(data: exercise.abovePicture),
+              Html(
+                data: exercise.abovePicture,
+                style: {
+                  "body": Style(
+                    fontSize: FontSize(14.sp),
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF171433),
+                  )
+                },
+              ),
               8.verticalSpace,
               Image.network(exercise.picture!),
               8.verticalSpace,
-              Html(data: exercise.belowPicture),
+              Html(
+                data: exercise.belowPicture,
+                style: {
+                  "body": Style(
+                    fontSize: FontSize(14.sp),
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF171433),
+                  )
+                },
+              ),
               8.verticalSpace,
-              Html(data: exercise.extrasBelow)
+              Html(
+                data: exercise.extrasBelow,
+                style: {
+                  "body": Style(
+                    fontSize: FontSize(14.sp),
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF171433),
+                  )
+                },
+              )
             ],
           ),
         ),

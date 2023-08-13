@@ -199,7 +199,12 @@ class UserSettingsScreen extends StatelessWidget {
                                 return Column(
                                   children: [
                                     ListTile(
-                                      leading: Text(AvailableLanguage.en.title),
+                                      leading: Text(
+                                        AvailableLanguage.en.title,
+                                        style: TextStyle(
+                                            color: Color(0xFF171433),
+                                            fontSize: 14.sp),
+                                      ),
                                       trailing: Radio(
                                           value: AvailableLanguage.en.locale,
                                           groupValue:
@@ -209,7 +214,12 @@ class UserSettingsScreen extends StatelessWidget {
                                           }),
                                     ),
                                     ListTile(
-                                      leading: Text(AvailableLanguage.id.title),
+                                      leading: Text(
+                                        AvailableLanguage.id.title,
+                                        style: TextStyle(
+                                            color: Color(0xFF171433),
+                                            fontSize: 14.sp),
+                                      ),
                                       trailing: Radio(
                                           value: AvailableLanguage.id.locale,
                                           groupValue:
@@ -388,14 +398,15 @@ class ImagePickerBottomSheet extends StatelessWidget {
 
   void _pickImage(ImageSource source, BuildContext context) async {
     final picker = ImagePicker();
-    //final pickedFile = await picker.pickImage(source: source);
-    FilePickerResult? file =
-        await FilePicker.platform.pickFiles(type: FileType.image);
-    if (file != null) {
-      final selectedImage = file.paths.map(
-        (e) => File(e!),
-      );
-      onImageSelected(selectedImage.first);
+    final pickedFile = await picker.pickImage(source: source);
+    // FilePickerResult? file =
+    //     await FilePicker.platform.pickFiles(type: FileType.image);
+    if (pickedFile != null) {
+      onImageSelected(File(pickedFile.path));
+      // final selectedImage = file.paths.map(
+      //   (e) => File(e!),
+      // );
+      // onImageSelected(selectedImage.first);
     }
     //Navigator.of(context).pop();
   }

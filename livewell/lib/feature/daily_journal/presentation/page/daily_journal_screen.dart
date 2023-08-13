@@ -42,7 +42,10 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                         Text(
                           controller.localization.eating!,
                           style: TextStyle(
-                              fontSize: 18.sp, fontWeight: FontWeight.w600),
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFF171433),
+                          ),
                         ),
                         const Spacer(),
                       ],
@@ -60,6 +63,7 @@ class _DailyJournalScreenState extends State<DailyJournalScreen> {
                           Text(controller.localization.setYourMealTime!,
                               textAlign: TextAlign.start,
                               style: TextStyle(
+                                  color: const Color(0xFF171433),
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w600)),
                           20.verticalSpace,
