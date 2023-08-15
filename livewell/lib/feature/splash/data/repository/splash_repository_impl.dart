@@ -7,7 +7,7 @@ import 'package:dartz/dartz.dart';
 import 'package:livewell/core/network/network_module.dart';
 import 'package:livewell/feature/splash/domain/repository/splash_repository.dart';
 
-class SplashRepositoryImpl extends NetworkModule implements SplashRepository {
+class SplashRepositoryImpl with NetworkModule implements SplashRepository {
   SplashRepositoryImpl._();
 
   static SplashRepositoryImpl getInstance() => SplashRepositoryImpl._();

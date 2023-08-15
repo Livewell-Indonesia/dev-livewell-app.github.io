@@ -10,7 +10,7 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/local_storage/shared_pref.dart';
 import '../model/user_model.dart';
 
-class DashboardRepostoryImpl extends NetworkModule
+class DashboardRepostoryImpl with NetworkModule
     implements DashBoardRepository {
   DashboardRepostoryImpl._();
 

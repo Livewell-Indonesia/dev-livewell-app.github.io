@@ -10,7 +10,7 @@ import 'api_exception.dart';
 import 'dio_module.dart';
 import 'result.dart';
 
-abstract class NetworkModule {
+mixin NetworkModule {
   Dio get _dio => DioModule.getInstance();
 
   BaseOptions? _baseOptions;

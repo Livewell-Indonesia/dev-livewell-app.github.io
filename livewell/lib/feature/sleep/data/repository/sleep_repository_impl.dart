@@ -7,7 +7,7 @@ import 'package:livewell/feature/sleep/data/model/sleep_activity_model.dart';
 import 'package:livewell/feature/sleep/domain/repository/sleep_repository.dart';
 import 'package:livewell/feature/sleep/domain/usecase/get_sleep_list.dart';
 
-class SleepRepositoryImpl extends NetworkModule implements SleepRepository {
+class SleepRepositoryImpl with NetworkModule implements SleepRepository {
   SleepRepositoryImpl._();
 
   static SleepRepositoryImpl getInstance() => SleepRepositoryImpl._();

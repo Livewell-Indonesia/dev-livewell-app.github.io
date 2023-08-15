@@ -12,7 +12,7 @@ import 'package:livewell/feature/nutrico/data/model/nutrico_asset_model.dart';
 import 'package:livewell/feature/nutrico/domain/repository/nutrico_repository.dart';
 import 'package:livewell/feature/nutrico/domain/usecase/post_nutrico.dart';
 
-class NutricoRepositoryImpl extends NetworkModule implements NutricoRepository {
+class NutricoRepositoryImpl with NetworkModule implements NutricoRepository {
   NutricoRepositoryImpl._();
 
   static NutricoRepositoryImpl getInstance() => NutricoRepositoryImpl._();

@@ -8,7 +8,7 @@ import 'package:livewell/feature/update_weight/domain/model/weight_history.dart'
 import 'package:livewell/feature/update_weight/domain/repository/update_weight_repository.dart';
 import 'package:livewell/feature/update_weight/domain/usecase/update_user_weight.dart';
 
-class UpdateWeightRepositoryImpl extends NetworkModule
+class UpdateWeightRepositoryImpl with NetworkModule
     implements UpdateWeightRepository {
   static UpdateWeightRepositoryImpl? _instance;
 
