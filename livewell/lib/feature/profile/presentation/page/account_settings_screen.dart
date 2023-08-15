@@ -142,18 +142,29 @@ class AccountSettingsScreen extends StatelessWidget {
                         context: context,
                         builder: (context) {
                           return CupertinoAlertDialog(
-                            title: const Text('Delete Account Permanently'),
-                            content: Text(controller.localization
-                                .yourAccountAndContentDeletedPermanently!),
+                            title: const Text(
+                              'Delete Account Permanently',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            content: Text(
+                                controller.localization
+                                    .yourAccountAndContentDeletedPermanently!,
+                                style: TextStyle(color: Colors.black)),
                             actions: [
                               CupertinoDialogAction(
-                                child: Text(controller.localization.cancel!),
+                                child: Text(
+                                  controller.localization.cancel!,
+                                  style: TextStyle(color: Colors.black),
+                                ),
                                 onPressed: () {
                                   Get.back();
                                 },
                               ),
                               CupertinoDialogAction(
-                                child: Text('Confirm'.tr),
+                                child: Text(
+                                  'Confirm'.tr,
+                                  style: TextStyle(color: Colors.red),
+                                ),
                                 onPressed: () {
                                   controller.requestAccountDeletion();
                                 },

@@ -42,7 +42,9 @@ class PhysicalInformationScreen extends StatelessWidget {
                           Text(
                             controller.localization.physicalInformation!,
                             style: TextStyle(
-                                fontSize: 18.sp, fontWeight: FontWeight.w600),
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black),
                           ),
                           const Spacer(),
                         ],
@@ -71,8 +73,13 @@ class PhysicalInformationScreen extends StatelessWidget {
                                                 return Column(
                                                   children: [
                                                     ListTile(
-                                                      leading: Text(controller
-                                                          .localization.male!),
+                                                      leading: Text(
+                                                        controller
+                                                            .localization.male!,
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.black),
+                                                      ),
                                                       trailing: Radio(
                                                           value: 'Male',
                                                           groupValue: controller
@@ -85,9 +92,13 @@ class PhysicalInformationScreen extends StatelessWidget {
                                                           }),
                                                     ),
                                                     ListTile(
-                                                      leading: Text(controller
-                                                          .localization
-                                                          .female!),
+                                                      leading: Text(
+                                                        controller.localization
+                                                            .female!,
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.black),
+                                                      ),
                                                       trailing: Radio(
                                                           value: 'Female',
                                                           groupValue: controller

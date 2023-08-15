@@ -127,12 +127,14 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                   '${controller.getTotalCalByServings(num.parse(widget.food.servings?[0].calories ?? "0")).round().toInt()}',
                                   style: TextStyle(
                                       fontSize: 24.sp,
-                                      fontWeight: FontWeight.w500),
+                                      fontWeight: FontWeight.w500,
+                                      color: Color(0xFF171433)),
                                 );
                               }),
                               Text(
                                 'Cal',
-                                style: TextStyle(fontSize: 11.sp),
+                                style: TextStyle(
+                                    fontSize: 11.sp, color: Color(0xFF171433)),
                               ),
                             ],
                           ),

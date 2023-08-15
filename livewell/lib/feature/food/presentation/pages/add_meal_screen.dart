@@ -1144,7 +1144,11 @@ class ListOfSearchResults extends StatelessWidget {
       pagingController: addMealController.pagingController,
       builderDelegate: PagedChildBuilderDelegate<Foods>(
           noItemsFoundIndicatorBuilder: (_) => Center(
-                child: Text('No results found'.tr),
+                child: Text('No results found'.tr,
+                    style: TextStyle(
+                        fontSize: 18.sp,
+                        color: const Color(0xFF171433),
+                        fontWeight: FontWeight.w600)),
               ),
           itemBuilder: (_, item, __) => Column(
                 children: [
@@ -1204,7 +1208,10 @@ class SearchBar extends StatelessWidget {
           onEditingComplete();
         },
         onChanged: onChanged,
-        style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
+        style: TextStyle(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w500,
+            color: Color(0xFF171433)),
         focusNode: focusNode,
         decoration: InputDecoration(
             contentPadding: EdgeInsets.only(top: 20.h, bottom: 16.h),
@@ -1393,9 +1400,11 @@ class _SearchFoodSlidersState extends State<SearchFoodSliders> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
             children: [
-              Text(widget.value.start.toStringAsFixed(0)),
+              Text(widget.value.start.toStringAsFixed(0),
+                  style: const TextStyle(color: Color(0xFF171433))),
               const Spacer(),
-              Text(widget.value.end.toStringAsFixed(0)),
+              Text(widget.value.end.toStringAsFixed(0),
+                  style: const TextStyle(color: Color(0xFF171433))),
             ],
           ),
         ),

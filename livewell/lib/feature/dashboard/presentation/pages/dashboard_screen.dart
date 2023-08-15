@@ -231,8 +231,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                   children: [
                                     Text(
                                       "${controller.dashboard.value.dashboard?.caloriesTaken ?? 0}",
+                                      maxLines: 1,
                                       style: TextStyle(
-                                          fontSize: 24.sp,
+                                          fontSize: 22.sp,
                                           color: const Color(0xFF171433),
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -240,6 +241,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                       Get.find<DashboardController>()
                                           .localization
                                           .eaten!,
+                                      maxLines: 1,
                                       style: TextStyle(
                                           fontSize: 12.sp,
                                           color: const Color(0xFF171433)
@@ -293,8 +295,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                   children: [
                                     Text(
                                       "${controller.totalExercise.value}",
+                                      maxLines: 1,
                                       style: TextStyle(
-                                          fontSize: 24.sp,
+                                          fontSize: 22.sp,
                                           color: const Color(0xFF171433),
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -302,6 +305,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                       Get.find<DashboardController>()
                                           .localization
                                           .burned!,
+                                      maxLines: 1,
                                       style: TextStyle(
                                           fontSize: 12.sp,
                                           color: const Color(0xFF171433)

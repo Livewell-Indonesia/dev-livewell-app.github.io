@@ -7,6 +7,7 @@ import 'package:livewell/feature/dashboard/presentation/controller/dashboard_con
 import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
+import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_score_detail_screen.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
 import 'package:livewell/widgets/banner/nutriscore_banner.dart';
@@ -71,13 +72,18 @@ class _FoodScreenState extends State<FoodScreen> {
                 Padding(
                   padding: const EdgeInsets.all(16.0).r,
                   child: Obx(() {
-                    return NutriscoreBanner(
-                        value: (Get.find<DashboardController>()
-                                    .nutriScore
-                                    .value
-                                    .totalPoints ??
-                                0)
-                            .toInt());
+                    return InkWell(
+                      onTap: () {
+                        Get.to(() => NutriscoreScoreDetailScreen());
+                      },
+                      child: NutriscoreBanner(
+                          value: (Get.find<DashboardController>()
+                                      .nutriScore
+                                      .value
+                                      .totalPoints ??
+                                  0)
+                              .toInt()),
+                    );
                   }),
                 ),
                 Obx(() {
