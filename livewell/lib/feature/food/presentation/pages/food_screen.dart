@@ -74,7 +74,7 @@ class _FoodScreenState extends State<FoodScreen> {
                   child: Obx(() {
                     return InkWell(
                       onTap: () {
-                        Get.to(() => NutriscoreScoreDetailScreen());
+                        AppNavigator.push(routeName: AppPages.nutriScore);
                       },
                       child: NutriscoreBanner(
                           value: (Get.find<DashboardController>()
