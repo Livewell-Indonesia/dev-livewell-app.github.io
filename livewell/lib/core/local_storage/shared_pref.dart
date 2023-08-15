@@ -109,6 +109,16 @@ class SharedPref {
     return prefs.setBool(PrefConstant.showInfoSleep, show);
   }
 
+  static Future<bool> showInfoNutrico() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(PrefConstant.showInfoNutrico) ?? true;
+  }
+
+  static Future<bool> saveShowInfoNutrico(bool show) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setBool(PrefConstant.showInfoNutrico, show);
+  }
+
   // save user locale
   static Future<String> saveUserLocale(String locale) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

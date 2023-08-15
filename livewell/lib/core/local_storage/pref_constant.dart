@@ -10,4 +10,5 @@ class PrefConstant {
   static const String showInfoWater = "show_info_water";
   static const String userLocale = "user_locale";
   static const String localizationJSON = "localization_json";
+  static const String showInfoNutrico = "show_info_nutrico";
 }
