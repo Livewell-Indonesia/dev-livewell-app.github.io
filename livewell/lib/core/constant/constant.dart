@@ -51,6 +51,12 @@ class Constant {
   static const String icWokeUp = '$assetsIcons/ic_woke_up.svg';
   static const String icFeelASleep = '$assetsIcons/ic_feel_a_sleep.svg';
   static const String icDeepSleep = '$assetsIcons/ic_deep_sleep.svg';
+  static const String icFacebook = '$assetsIcons/facebook.svg';
+  static const String icInstagram = '$assetsIcons/instagram.svg';
+  static const String icWhatsapp = '$assetsIcons/whatsapp.svg';
+  static const String icFacebookPng = '$assetsIcons/facebook.png';
+  static const String icInstagramPng = '$assetsIcons/instagram.png';
+  static const String icWhatsappPng = '$assetsIcons/whatsapp.png';
 
   // image Assets
   static const String assetsImages = 'assets/images';

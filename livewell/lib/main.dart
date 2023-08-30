@@ -113,42 +113,14 @@ class MyApp extends StatelessWidget {
           initialRoute: AppNavigator.initialRoute,
           getPages: AppNavigator.pages,
           theme: ThemeData(
-              fontFamily: GoogleFonts.archivo().fontFamily,
               primarySwatch: mycolor,
-              textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
+              textTheme: GoogleFonts.archivoTextTheme(
+                Theme.of(context).textTheme,
+              ),
               brightness: Brightness.light),
           home: SplashScreen(),
         );
       },
-    );
-  }
-}
-
-class YourPage extends StatefulWidget {
-  YourPage({super.key});
-
-  @override
-  State<YourPage> createState() => _YourPageState();
-}
-
-class _YourPageState extends State<YourPage> {
-  final GlobalKey _key1 = GlobalKey();
-  File? file;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Image Overlay Example')),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ElevatedButton(
-            onPressed: () async {},
-            child: Text('Share 1:1 to Instagram Story'),
-          ),
-        ],
-      ),
     );
   }
 }

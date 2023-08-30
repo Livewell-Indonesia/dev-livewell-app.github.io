@@ -137,7 +137,11 @@ class ExerciseController extends BaseController
     }
   }
 
-  Future<bool> refresh() async {
+  Future<bool> refreshList() async {
+    steps.value = 0;
+    burntCalories.value = 0;
+    totalSteps.value = 0;
+    totalCalories.value = 0;
     await getStepsData();
     await getBurntCaloriesData();
     await getExerciseHistorydata();

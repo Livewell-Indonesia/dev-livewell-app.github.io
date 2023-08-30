@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:davinci/davinci.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
@@ -24,6 +25,7 @@ import 'package:share_plus/share_plus.dart';
 import 'dart:ui' as ui;
 
 import '../../../profile/presentation/page/user_settings_screen.dart';
+import 'exercise_share_page.dart';
 
 class ExerciseScreen extends StatefulWidget {
   const ExerciseScreen({Key? key}) : super(key: key);
@@ -48,7 +50,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
       resizeToAvoidBottomInset: true,
       body: RefreshIndicator(
         onRefresh: () async {
-          controller.refresh();
+          controller.refreshList();
         },
         child: ListView(
           children: [
@@ -377,8 +379,11 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                                     controller.titleError
                                                         .value = null;
                                                     EasyLoading.dismiss();
-                                                    shareToInstagramStory(
-                                                        result);
+                                                    Get.back();
+                                                    _showFullScreenDialog(
+                                                        context, file!);
+                                                    // shareToInstagramStory(
+                                                    //     result);
                                                   } else {
                                                     controller
                                                             .titleError.value =
@@ -649,6 +654,24 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
       ),
     );
   }
+
+  _showFullScreenDialog(BuildContext context, File file) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Obx(() {
+            return ExerciseSharePage(
+                file: file,
+                title: controller.titleController.text,
+                steps: controller.steps.value.round().toInt(),
+                calories: controller.burntCalories.round().toInt(),
+                distance: controller.calculateDistance(
+                    controller.steps.value.round().toInt(), 0.76),
+                location: controller.locationController.text,
+                aspectRatio: 9 / 16);
+          });
+        });
+  }
 }
 
 class ImageWithOverlay extends StatelessWidget {
@@ -685,6 +708,8 @@ class ImageWithOverlay extends StatelessWidget {
     }
   }
 
+  var myGroup = AutoSizeGroup();
+
   // ... existing code ...
 
   @override
@@ -693,8 +718,9 @@ class ImageWithOverlay extends StatelessWidget {
 
     return RepaintBoundary(
       key: key,
-      child: AspectRatio(
-        aspectRatio: aspectRatio,
+      child: Container(
+        width: aspectRatio == 1 ? 1.sw : 295.w,
+        height: aspectRatio == 1 ? 1.sw : 524.h,
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -736,11 +762,15 @@ class ImageWithOverlay extends StatelessWidget {
                                 Icons.calendar_month,
                                 color: Color(0xFF8F01DF),
                               ),
-                              Text(
-                                DateFormat('EEEE, dd MMMM yyyy')
-                                    .format(DateTime.now()),
-                                style: TextStyle(
-                                    color: Color(0xFF8F01DF), fontSize: 14.sp),
+                              Expanded(
+                                child: AutoSizeText(
+                                  DateFormat('EEEE, dd MMMM yyyy')
+                                      .format(DateTime.now()),
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      color: Color(0xFF8F01DF),
+                                      fontSize: 14.sp),
+                                ),
                               ),
                             ],
                           ),
@@ -778,68 +808,83 @@ class ImageWithOverlay extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "$steps",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 20.sp,
-                                      color: Color(0xFF8F01DF),
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    AutoSizeText(
+                                      "$steps",
+                                      maxLines: 1,
+                                      group: myGroup,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 20.sp,
+                                        color: Color(0xFF8F01DF),
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    "steps",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12.sp,
-                                      color: Color(0xFF8F01DF),
-                                    ),
-                                  )
-                                ],
+                                    Text(
+                                      "steps",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12.sp,
+                                        color: Color(0xFF8F01DF),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "${NumberFormat("0.0").format(distance)} KM",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 20.sp,
-                                      color: Color(0xFF8F01DF),
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    AutoSizeText(
+                                      "${NumberFormat("0.0").format(distance)} KM",
+                                      maxLines: 1,
+                                      group: myGroup,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 20.sp,
+                                        color: Color(0xFF8F01DF),
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    "distance",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12.sp,
-                                      color: Color(0xFF8F01DF),
-                                    ),
-                                  )
-                                ],
+                                    Text(
+                                      "distance",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12.sp,
+                                        color: Color(0xFF8F01DF),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "$calories kcal",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 20.sp,
-                                      color: Color(0xFF8F01DF),
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    AutoSizeText(
+                                      "$calories kcal",
+                                      maxLines: 1,
+                                      group: myGroup,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 20.sp,
+                                        color: Color(0xFF8F01DF),
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    "calories burnt",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12.sp,
-                                      color: Color(0xFF8F01DF),
-                                    ),
-                                  )
-                                ],
+                                    Text(
+                                      "calories burnt",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12.sp,
+                                        color: Color(0xFF8F01DF),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               )
                             ],
                           )

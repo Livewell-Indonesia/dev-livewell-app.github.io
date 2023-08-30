@@ -50,12 +50,17 @@ class _FoodScreenState extends State<FoodScreen> {
                             TextSpan(
                               text:
                                   controller.localization.todayYouHaveConsumed!,
-                              style: TextStyles.titleHiEm(color: Colors.black),
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.w600),
                             ),
                             TextSpan(
                                 text: "${controller.getTotalCal().value} Cal",
-                                style: TextStyles.titleHiEm(
-                                    color: const Color(0xFF8F01DF)))
+                                style: TextStyle(
+                                    color: const Color(0xFF8F01DF),
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.w600))
                           ]));
                     })),
                 const SizedBox(height: 20),
@@ -317,14 +322,23 @@ class NutritionCircularProgress extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SvgPicture.asset(Constant.icCalories),
-                          Text(
-                            '${Get.find<FoodController>().percentageOfDailyGoals().value}%',
-                            style: TextStyles.titleHiEm(color: Colors.black),
+                          SvgPicture.asset(
+                            Constant.icCalories,
+                            width: 14.w,
+                            height: 18.h,
                           ),
                           Text(
+                              '${Get.find<FoodController>().percentageOfDailyGoals().value}%',
+                              style: TextStyle(
+                                  color: const Color(0xFF171433),
+                                  fontSize: 24.sp,
+                                  fontWeight: FontWeight.w600)),
+                          Text(
                             Get.find<HomeController>().localization.ofYourGoal!,
-                            style: TextStyles.body(color: AppColors.textLoEm),
+                            style: TextStyle(
+                                color: Color(0xFF171433),
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w500),
                           )
                         ],
                       ),
@@ -467,7 +481,7 @@ final CircularSliderAppearance appearance01 = CircularSliderAppearance(
     customColors: customColors01,
     startAngle: 270,
     angleRange: 360,
-    size: 282.0,
+    size: 222.0,
     animationEnabled: true);
 
 final customWidth02 = CustomSliderWidths(trackWidth: 4, progressBarWidth: 12);
@@ -482,7 +496,7 @@ final CircularSliderAppearance appearance02 = CircularSliderAppearance(
     customColors: customColors02,
     startAngle: 270,
     angleRange: 360,
-    size: 242.0,
+    size: 182.0,
     animationEnabled: true);
 
 final customWidth03 = CustomSliderWidths(trackWidth: 4, progressBarWidth: 12);
@@ -497,7 +511,7 @@ final CircularSliderAppearance appearance03 = CircularSliderAppearance(
     customColors: customColors03,
     startAngle: 270,
     angleRange: 360,
-    size: 198.0,
+    size: 138.0,
     animationEnabled: true);
 
 class ExpandableDiaryItemV2 extends StatelessWidget {
