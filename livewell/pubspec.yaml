@@ -92,6 +92,7 @@ dependencies:
   google_places_flutter: ^2.0.6
   auto_size_text: ^3.0.0
   appinio_social_share: ^0.2.4
+  firebase_messaging: ^14.6.7
   
 
 dev_dependencies:

@@ -11,4 +11,5 @@ class PrefConstant {
   static const String userLocale = "user_locale";
   static const String localizationJSON = "localization_json";
   static const String showInfoNutrico = "show_info_nutrico";
+  static const String fcmToken = "show_info_nutrico2";
 }

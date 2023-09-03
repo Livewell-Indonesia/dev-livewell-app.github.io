@@ -15,6 +15,7 @@ import 'package:livewell/feature/dashboard/data/model/dashboard_model.dart';
 import 'package:livewell/feature/dashboard/data/model/user_model.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_dashboard_data.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_user.dart';
+import 'package:livewell/feature/dashboard/domain/usecase/register_device_token.dart';
 import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
 import 'package:livewell/feature/food/domain/usecase/get_meal_history.dart';
@@ -187,7 +188,19 @@ class DashboardController extends BaseController {
     getMealHistories();
     getNutriscoreData();
     getWaterData();
+    registerDeviceToken();
     super.onInit();
+  }
+
+  void registerDeviceToken() async {
+    RegisterDevice registerDevice = RegisterDevice.instance();
+    final token = await SharedPref.getFCMToken();
+    final result = await registerDevice.call(token ?? "");
+    result.fold((l) {
+      Log.error(l);
+    }, (r) {
+      Log.colorGreen(r);
+    });
   }
 
   void getNutriscoreData() async {

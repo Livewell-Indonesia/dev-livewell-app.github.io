@@ -141,4 +141,19 @@ class SharedPref {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(PrefConstant.localizationJSON);
   }
+
+  static Future<String?> getFCMToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(PrefConstant.fcmToken);
+  }
+
+  static Future<bool> saveFCMToken(String token) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setString(PrefConstant.fcmToken, token);
+  }
+
+  static Future<bool> clearFCMToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.remove(PrefConstant.fcmToken);
+  }
 }

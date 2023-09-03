@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:livewell/core/network/api_url.dart';
 import 'package:livewell/core/network/network_module.dart';
+import 'package:livewell/feature/auth/data/model/register_model.dart';
 import 'package:livewell/feature/dashboard/data/model/app_config_model.dart';
 import 'package:livewell/feature/dashboard/data/model/dashboard_model.dart';
 import 'package:livewell/feature/dashboard/data/model/popup_assets_model.dart';
@@ -10,8 +11,7 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/local_storage/shared_pref.dart';
 import '../model/user_model.dart';
 
-class DashboardRepostoryImpl with NetworkModule
-    implements DashBoardRepository {
+class DashboardRepostoryImpl with NetworkModule implements DashBoardRepository {
   DashboardRepostoryImpl._();
 
   static DashboardRepostoryImpl getInstance() => DashboardRepostoryImpl._();
@@ -63,6 +63,21 @@ class DashboardRepostoryImpl with NetworkModule
       });
       final json = responseHandler(response);
       return Right(PopupAssetsModel.fromJson(json));
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, RegisterModel>> registerDevice(String fcmToken) async {
+    try {
+      final response = await postMethod(Endpoint.registerDevice, body: {
+        "fcm_token": fcmToken,
+      }, headers: {
+        authorization: await SharedPref.getToken(),
+      });
+      final json = responseHandler(response);
+      return Right(RegisterModel.fromJson(json));
     } catch (ex) {
       return Left(ServerFailure(message: ex.toString()));
     }

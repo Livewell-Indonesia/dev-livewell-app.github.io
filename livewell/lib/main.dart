@@ -7,11 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_share/flutter_share.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:livewell/feature/profile/presentation/page/user_settings_screen.dart';
+import 'package:livewell/core/notification/firebase_notification.dart';
 import 'package:livewell/feature/splash/presentation/splash_screen.dart';
 import 'package:livewell/firebase_options.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -20,21 +17,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sentry/sentry.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'dart:ui' as ui;
-import 'package:share_plus/share_plus.dart';
-
-import 'core/constant/constant.dart';
 
 List<CameraDescription> cameras = [];
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await _configureLocalTimeZone();
+  await LivewellNotification().init();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   PlatformDispatcher.instance.onError = (error, stack) {

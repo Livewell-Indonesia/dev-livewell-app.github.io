@@ -333,55 +333,9 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                                 onPressed: () async {
                                                   if (controller.titleController
                                                       .text.isNotEmpty) {
-                                                    EasyLoading.show();
-                                                    final result =
-                                                        await DavinciCapture.offStage(
-                                                            context: Get
-                                                                .context!,
-                                                            Obx(() {
-                                                      return ImageWithOverlay(
-                                                          file: file!,
-                                                          overlayText: "andi",
-                                                          title: controller
-                                                              .titleController
-                                                              .text,
-                                                          steps: controller
-                                                              .steps.value
-                                                              .round()
-                                                              .toInt(),
-                                                          calories: controller
-                                                              .burntCalories
-                                                              .round()
-                                                              .toInt(),
-                                                          distance: controller
-                                                              .calculateDistance(
-                                                                  controller
-                                                                      .steps
-                                                                      .value
-                                                                      .round()
-                                                                      .toInt(),
-                                                                  0.76),
-                                                          location: controller
-                                                              .locationController
-                                                              .text,
-                                                          aspectRatio: 9 / 16);
-                                                    }),
-                                                            returnImageUint8List:
-                                                                true,
-                                                            openFilePreview:
-                                                                false,
-                                                            pixelRatio: Get
-                                                                .pixelRatio,
-                                                            wait:
-                                                                const Duration(
-                                                                    seconds:
-                                                                        2));
-                                                    controller.titleError
-                                                        .value = null;
-                                                    EasyLoading.dismiss();
                                                     Get.back();
                                                     _showFullScreenDialog(
-                                                        context, file!);
+                                                        context, file!, 9 / 16);
                                                     // shareToInstagramStory(
                                                     //     result);
                                                   } else {
@@ -399,53 +353,9 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                                   if (controller.titleController
                                                       .text.isNotEmpty) {
                                                     EasyLoading.show();
-                                                    final result =
-                                                        await DavinciCapture.offStage(
-                                                            context: Get
-                                                                .context!,
-                                                            Obx(() {
-                                                      return ImageWithOverlay(
-                                                          file: file!,
-                                                          overlayText: "andi",
-                                                          title: controller
-                                                              .titleController
-                                                              .text,
-                                                          steps: controller
-                                                              .steps.value
-                                                              .round()
-                                                              .toInt(),
-                                                          calories: controller
-                                                              .burntCalories
-                                                              .round()
-                                                              .toInt(),
-                                                          distance: controller
-                                                              .calculateDistance(
-                                                                  controller
-                                                                      .steps
-                                                                      .value
-                                                                      .round()
-                                                                      .toInt(),
-                                                                  0.76),
-                                                          location: controller
-                                                              .locationController
-                                                              .text,
-                                                          aspectRatio: 1);
-                                                    }),
-                                                            returnImageUint8List:
-                                                                true,
-                                                            openFilePreview:
-                                                                false,
-                                                            pixelRatio: Get
-                                                                .pixelRatio,
-                                                            wait:
-                                                                const Duration(
-                                                                    seconds:
-                                                                        2));
-                                                    controller.titleError
-                                                        .value = null;
-                                                    EasyLoading.dismiss();
-                                                    shareToInstagramStory(
-                                                        result);
+                                                    Get.back();
+                                                    _showFullScreenDialog(
+                                                        context, file!, 9 / 16);
                                                   } else {
                                                     controller
                                                             .titleError.value =
@@ -655,7 +565,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
     );
   }
 
-  _showFullScreenDialog(BuildContext context, File file) {
+  _showFullScreenDialog(BuildContext context, File file, double aspectRatio) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -668,7 +578,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                 distance: controller.calculateDistance(
                     controller.steps.value.round().toInt(), 0.76),
                 location: controller.locationController.text,
-                aspectRatio: 9 / 16);
+                aspectRatio: aspectRatio);
           });
         });
   }
