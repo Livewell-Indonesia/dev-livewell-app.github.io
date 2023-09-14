@@ -64,16 +64,190 @@ class _FoodScreenState extends State<FoodScreen> {
                           ]));
                     })),
                 const SizedBox(height: 20),
-                Center(child: Obx(() {
-                  return NutritionCircularProgress(
-                    firstValue: Get.find<FoodController>()
-                        .percentageOfDailyGoals()
-                        .value
-                        .toDouble(),
-                    secondValue: (controller.getPercentMicroNut().value * 100),
-                    thirdValue: (controller.getPercentMacroNut().value * 100),
-                  );
-                })),
+                Padding(
+                  padding: const EdgeInsets.all(16.0).r,
+                  child: Container(
+                    padding:
+                        EdgeInsets.only(right: 20.w, top: 20.h, bottom: 20.h),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(24.r),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        20.horizontalSpace,
+                        Center(
+                          child: Obx(() {
+                            return NutritionCircularProgress(
+                              firstValue:
+                                  controller.getPercentageProtein().value,
+                              secondValue:
+                                  controller.getPercentageCarbs().value,
+                              thirdValue: controller.getPercentageFat().value,
+                            );
+                          }),
+                        ),
+                        20.horizontalSpace,
+                        Expanded(
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ListTile(
+                                  dense: true,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 0.0, vertical: 0.0),
+                                  visualDensity: const VisualDensity(
+                                      horizontal: 0, vertical: -4),
+                                  leading: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                        width: 8.w,
+                                        height: 8.w,
+                                        decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Color(0xFF8122D2)),
+                                      ),
+                                      8.horizontalSpace,
+                                      Text(
+                                        'Protein',
+                                        style: TextStyle(
+                                            color: const Color(0xFF171433),
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w500),
+                                      )
+                                    ],
+                                  ),
+                                  trailing: Obx(() {
+                                    return RichText(
+                                        text: TextSpan(children: [
+                                      TextSpan(
+                                          text: controller
+                                              .getConsumedProtein()
+                                              .value
+                                              .toString(),
+                                          style: TextStyle(
+                                              color: const Color(0xFF171433),
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w400)),
+                                      TextSpan(
+                                          text:
+                                              ' ${controller.localization.of ?? "of"} ${controller.getTargetProtein().value.toString()}',
+                                          style: TextStyle(
+                                              color: const Color(0xFF808080),
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w400)),
+                                    ]));
+                                  }),
+                                ),
+                                ListTile(
+                                  dense: true,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 0.0, vertical: 0.0),
+                                  visualDensity: const VisualDensity(
+                                      horizontal: 0, vertical: -4),
+                                  leading: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                        width: 8.w,
+                                        height: 8.w,
+                                        decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Color(0xFFE15E2C)),
+                                      ),
+                                      8.horizontalSpace,
+                                      Text(
+                                        'Carbs',
+                                        style: TextStyle(
+                                            color: const Color(0xFF171433),
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w500),
+                                      )
+                                    ],
+                                  ),
+                                  trailing: Obx(() {
+                                    return RichText(
+                                        text: TextSpan(children: [
+                                      TextSpan(
+                                          text: controller
+                                              .getConsumedCarbs()
+                                              .value
+                                              .toString(),
+                                          style: TextStyle(
+                                              color: const Color(0xFF171433),
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w400)),
+                                      TextSpan(
+                                          text:
+                                              ' ${controller.localization.of ?? "of"} ${controller.getTargetCarbs().value.toString()}',
+                                          style: TextStyle(
+                                              color: const Color(0xFF808080),
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w400)),
+                                    ]));
+                                  }),
+                                ),
+                                ListTile(
+                                  dense: true,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 0.0, vertical: 0.0),
+                                  visualDensity: const VisualDensity(
+                                      horizontal: 0, vertical: -4),
+                                  leading: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                        width: 8.w,
+                                        height: 8.w,
+                                        decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Color(0xFF34EAB2)),
+                                      ),
+                                      8.horizontalSpace,
+                                      Text(
+                                        'Fat',
+                                        style: TextStyle(
+                                            color: const Color(0xFF171433),
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w500),
+                                      )
+                                    ],
+                                  ),
+                                  trailing: Obx(() {
+                                    return RichText(
+                                        text: TextSpan(children: [
+                                      TextSpan(
+                                          text: controller
+                                              .getConsumedFat()
+                                              .value
+                                              .toString(),
+                                          style: TextStyle(
+                                              color: const Color(0xFF171433),
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w400)),
+                                      TextSpan(
+                                          text:
+                                              ' ${controller.localization.of ?? "of"} ${controller.getTargetFat().value.toString()}',
+                                          style: TextStyle(
+                                              color: const Color(0xFF808080),
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w400)),
+                                    ]));
+                                  }),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(16.0).r,
                   child: Obx(() {
@@ -91,9 +265,10 @@ class _FoodScreenState extends State<FoodScreen> {
                     );
                   }),
                 ),
+                20.verticalSpace,
                 Obx(() {
                   return Padding(
-                    padding: const EdgeInsets.all(16.0).r,
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0).r,
                     child: NutritionProgressDescription(
                       data: [
                         NutrtionProgressModel(
@@ -118,6 +293,7 @@ class _FoodScreenState extends State<FoodScreen> {
                     ),
                   );
                 }),
+                10.verticalSpace,
                 Obx(() {
                   return controller.isLoadingHistory.value
                       ? Container()
@@ -159,7 +335,8 @@ class _FoodScreenState extends State<FoodScreen> {
                             return 8.verticalSpace;
                           },
                           itemCount: MealTime.values.length);
-                })
+                }),
+                40.verticalSpace,
               ],
             ),
           ),
@@ -318,31 +495,32 @@ class NutritionCircularProgress extends StatelessWidget {
                   max: 100,
                   initialValue: thirdValue,
                   innerWidget: (double value) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            Constant.icCalories,
-                            width: 14.w,
-                            height: 18.h,
-                          ),
-                          Text(
-                              '${Get.find<FoodController>().percentageOfDailyGoals().value}%',
-                              style: TextStyle(
-                                  color: const Color(0xFF171433),
-                                  fontSize: 24.sp,
-                                  fontWeight: FontWeight.w600)),
-                          Text(
-                            Get.find<HomeController>().localization.ofYourGoal!,
-                            style: TextStyle(
-                                color: Color(0xFF171433),
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w500),
-                          )
-                        ],
-                      ),
-                    );
+                    return Container();
+                    // return Center(
+                    //   child: Column(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     children: [
+                    //       SvgPicture.asset(
+                    //         Constant.icCalories,
+                    //         width: 14.w,
+                    //         height: 18.h,
+                    //       ),
+                    //       Text(
+                    //           '${Get.find<FoodController>().percentageOfDailyGoals().value}%',
+                    //           style: TextStyle(
+                    //               color: const Color(0xFF171433),
+                    //               fontSize: 24.sp,
+                    //               fontWeight: FontWeight.w600)),
+                    //       Text(
+                    //         Get.find<HomeController>().localization.ofYourGoal!,
+                    //         style: TextStyle(
+                    //             color: Color(0xFF171433),
+                    //             fontSize: 12.sp,
+                    //             fontWeight: FontWeight.w500),
+                    //       )
+                    //     ],
+                    //   ),
+                    // );
                   },
                 ),
               );
@@ -469,11 +647,11 @@ class HexColor extends Color {
   HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
 }
 
-final customWidth01 = CustomSliderWidths(trackWidth: 4, progressBarWidth: 12);
+final customWidth01 = CustomSliderWidths(trackWidth: 1, progressBarWidth: 8);
 final customColors01 = CustomSliderColors(
     dotColor: Colors.transparent,
-    trackColor: Colors.white,
-    progressBarColor: const Color(0xFFDDF235),
+    trackColor: const Color(0xFFEBEBEB),
+    progressBarColor: const Color(0xFF8122D2),
     hideShadow: true);
 
 final CircularSliderAppearance appearance01 = CircularSliderAppearance(
@@ -481,14 +659,14 @@ final CircularSliderAppearance appearance01 = CircularSliderAppearance(
     customColors: customColors01,
     startAngle: 270,
     angleRange: 360,
-    size: 222.0,
+    size: 132.0,
     animationEnabled: true);
 
-final customWidth02 = CustomSliderWidths(trackWidth: 4, progressBarWidth: 12);
+final customWidth02 = CustomSliderWidths(trackWidth: 1, progressBarWidth: 8);
 final customColors02 = CustomSliderColors(
     dotColor: Colors.transparent,
-    trackColor: Colors.white,
-    progressBarColor: const Color(0xFF8F01DF),
+    trackColor: const Color(0xFFEBEBEB),
+    progressBarColor: const Color(0xFFE15E2C),
     hideShadow: true);
 
 final CircularSliderAppearance appearance02 = CircularSliderAppearance(
@@ -496,13 +674,13 @@ final CircularSliderAppearance appearance02 = CircularSliderAppearance(
     customColors: customColors02,
     startAngle: 270,
     angleRange: 360,
-    size: 182.0,
+    size: 92.0,
     animationEnabled: true);
 
-final customWidth03 = CustomSliderWidths(trackWidth: 4, progressBarWidth: 12);
+final customWidth03 = CustomSliderWidths(trackWidth: 1, progressBarWidth: 8);
 final customColors03 = CustomSliderColors(
     dotColor: Colors.transparent,
-    trackColor: Colors.white,
+    trackColor: const Color(0xFFEBEBEB),
     progressBarColor: const Color(0xFF34EAB2),
     hideShadow: true);
 
@@ -511,7 +689,7 @@ final CircularSliderAppearance appearance03 = CircularSliderAppearance(
     customColors: customColors03,
     startAngle: 270,
     angleRange: 360,
-    size: 138.0,
+    size: 48.0,
     animationEnabled: true);
 
 class ExpandableDiaryItemV2 extends StatelessWidget {

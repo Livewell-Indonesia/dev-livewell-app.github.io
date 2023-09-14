@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
+import 'package:livewell/feature/profile/domain/usecase/update_user_info.dart';
 import 'package:livewell/feature/profile/domain/usecase/upload_photo.dart';
 import 'package:livewell/feature/questionnaire/domain/usecase/post_questionnaire.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -14,6 +15,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:livewell/core/base/base_controller.dart';
 
 import '../../../questionnaire/presentation/controller/questionnaire_controller.dart';
+import 'exercise_information_controller.dart';
 
 class PhysicalInformationController extends BaseController {
   TextEditingController gender = TextEditingController();
@@ -61,13 +63,15 @@ class PhysicalInformationController extends BaseController {
         [];
     specificGoal.text = specificGoalTemp.isEmpty
         ? "No"
-        : GoalSelection.values
-            .firstWhere((element) => element.value() == specificGoalTemp.first)
+        : (GoalSelection.values.firstWhereOrNull(
+                    (element) => element.value() == specificGoalTemp.first) ??
+                GoalSelection.none)
             .title();
     selectedGoals.value = specificGoalTemp.isEmpty
         ? GoalSelection.getFitter
-        : GoalSelection.values
-            .firstWhere((element) => element.value() == specificGoalTemp.first);
+        : GoalSelection.values.firstWhereOrNull(
+                (element) => element.value() == specificGoalTemp.first) ??
+            GoalSelection.none;
     ("${dashboardController.user.value.weightTarget ?? ""}");
     var dietaryRestrictionTemp = dashboardController
             .user.value.onboardingQuestionnaire?.dietaryRestrictions ??
@@ -118,6 +122,7 @@ class PhysicalInformationController extends BaseController {
 
   void setGoal(GoalSelection value) {
     specificGoal.text = value.title();
+    selectedGoals.value = value;
   }
 
   void setAgeTextField() {
@@ -128,7 +133,7 @@ class PhysicalInformationController extends BaseController {
             .toString();
   }
 
-  void onUpdateTapped() async {
+  void onUpdateTapped(ExerciseInformationController controller) async {
     DashboardController dashboardController = Get.find();
     EasyLoading.show();
 
@@ -144,16 +149,43 @@ class PhysicalInformationController extends BaseController {
         drink.text,
         sleep.text,
         dietaryResitriction.text,
-        specificGoal.text,
+        selectedGoals.value.value(),
         dashboardController.user.value.language));
     EasyLoading.dismiss();
     result.fold((l) {
       Get.snackbar("Failed", "Failed to update Physical Information");
-    }, (r) {
-      dashboardController.getUsersData();
+    }, (r) async {
+      await dashboardController.getUsersData();
+      await saveExercise(controller);
+      await dashboardController.getUsersData();
       Get.snackbar("Success", "Physical Information updated");
       AppNavigator.popUntil(routeName: AppPages.home);
       Get.find<HomeController>().currentMenu.value = HomeTab.home;
     });
+  }
+
+  Future<void> saveExercise(ExerciseInformationController controller) async {
+    if (Get.isRegistered<DashboardController>()) {
+      var newUserData = Get.find<DashboardController>().user.value;
+      newUserData.exerciseGoalKcal =
+          int.parse(controller.exerciseController.text);
+      UpdateUserInfo updateUserInfo = UpdateUserInfo.instance();
+      EasyLoading.show();
+      final result = await updateUserInfo.call(
+        UpdateUserInfoParams(
+            firstName: newUserData.firstName ?? "",
+            lastName: newUserData.lastName ?? "",
+            height: newUserData.height ?? 0,
+            weight: newUserData.weight ?? 0,
+            gender: newUserData.gender ?? "",
+            dob: DateFormat('yyyy-MM-dd')
+                .format(DateTime.parse(newUserData.birthDate ?? "")),
+            weightTarget: newUserData.weightTarget ?? 0,
+            exerciseGoalKcal: newUserData.exerciseGoalKcal ?? 0,
+            language: newUserData.language ?? "en_US"),
+      );
+      EasyLoading.dismiss();
+      result.fold((l) => Log.error(l), (r) {});
+    }
   }
 }

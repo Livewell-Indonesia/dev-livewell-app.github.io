@@ -234,7 +234,7 @@ class PhysicalInformationScreen extends StatelessWidget {
                   color: const Color(0xFF8F01DF),
                   textColor: Colors.white,
                   onPressed: () {
-                    controller.onUpdateTapped();
+                    // controller.onUpdateTapped();
                   })
             ],
           ),

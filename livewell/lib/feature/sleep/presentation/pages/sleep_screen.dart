@@ -10,6 +10,7 @@ import 'package:livewell/feature/sleep/presentation/controller/sleep_controller.
 import 'package:livewell/main.dart';
 import 'package:livewell/widgets/chart/circular_nutrition.dart';
 import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
+import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
 class SleepScreen extends StatefulWidget {
   const SleepScreen({super.key});
@@ -22,360 +23,345 @@ class _SleepScreenState extends State<SleepScreen> {
   final SleepController controller = Get.put(SleepController());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF1F1F1),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          controller.onInit();
+    return LiveWellScaffold(
+      title: controller.localization.sleep!,
+      trailing: InkWell(
+        onTap: () {
+          HomeController controller = Get.find();
+          var data = controller.popupAssetsModel.value.exercise;
+          if (data != null) {
+            showModalBottomSheet<dynamic>(
+                context: context,
+                isScrollControlled: true,
+                shape: ShapeBorder.lerp(
+                    const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20))),
+                    const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20))),
+                    1),
+                builder: (context) {
+                  return Obx(() {
+                    return PopupAssetWidget(
+                      exercise: controller.popupAssetsModel.value.sleep!,
+                    );
+                  });
+                });
+          }
         },
-        child: ListView(
-          children: [
-            40.verticalSpace,
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 18.w),
-                  child: const Icon(
-                    Icons.info_outline,
-                    color: Colors.transparent,
-                  ),
-                ),
-                const Spacer(),
-                Center(
-                    child: Text(
-                  controller.localization.sleep ?? "",
-                  style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF171433)),
-                )),
-                const Spacer(),
-                InkWell(
-                  onTap: () {
-                    HomeController controller = Get.find();
-                    var data = controller.popupAssetsModel.value.exercise;
-                    if (data != null) {
-                      showModalBottomSheet<dynamic>(
-                          context: context,
-                          isScrollControlled: true,
-                          shape: ShapeBorder.lerp(
-                              const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20))),
-                              const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20))),
-                              1),
-                          builder: (context) {
-                            return Obx(() {
-                              return PopupAssetWidget(
-                                exercise:
-                                    controller.popupAssetsModel.value.sleep!,
-                              );
-                            });
-                          });
-                    }
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 18.w),
-                    child: const Icon(
-                      Icons.info_outline,
-                      color: Color(0xFF171433),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            38.verticalSpace,
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 20.h),
-              child: Center(child: Obx(() {
-                return MultipleColorCircle(
-                  colorOccurrences: {
-                    const Color(0xFF8F01DF):
-                        controller.lightSleepPercent.value.round() * 100,
-                    const Color(0xFFDDF235):
-                        controller.deepSleepPercent.value.round() * 100,
-                    const Color(0xFF34EAB2):
-                        controller.sleepInBedPercent.value.round() * 100,
-                    Colors.white: controller.leftSleepPercent.value.round(),
-                  },
-                  height: 200,
-                  strokeWidth: 32,
-                  child:
-                      // crete circular container
-                      Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    decoration: const BoxDecoration(
-                        shape: BoxShape.circle, color: Color(0xFF171433)),
-                    child: Center(
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              Constant.icWentToSleep,
-                              color: const Color(0xFF8F01DF),
-                            ),
-                            10.verticalSpace,
-                            Text(
-                              "${controller.totalSleepPercent.value.toInt()}%",
-                              style: TextStyle(
-                                  fontSize: 43.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white),
-                            ),
-                            4.verticalSpace,
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 30),
-                              child: Text(
-                                controller.localization.ofDailyGoals!,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 17.sp,
-                                    color: Colors.white.withOpacity(0.63)),
+        child: Padding(
+          padding: EdgeInsets.only(left: 16.w),
+          child: const Icon(
+            Icons.info_outline,
+            color: Color(0xFF171433),
+          ),
+        ),
+      ),
+      backgroundColor: const Color(0xFFF1F1F1),
+      body: Expanded(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            controller.onInit();
+          },
+          child: ListView(
+            children: [
+              40.verticalSpace,
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 20.h),
+                child: Center(child: Obx(() {
+                  return MultipleColorCircle(
+                    colorOccurrences: {
+                      const Color(0xFF8F01DF):
+                          controller.lightSleepPercent.value.round() * 100,
+                      const Color(0xFFDDF235):
+                          controller.deepSleepPercent.value.round() * 100,
+                      const Color(0xFF34EAB2):
+                          controller.sleepInBedPercent.value.round() * 100,
+                      Colors.white: controller.leftSleepPercent.value.round(),
+                    },
+                    height: 200,
+                    strokeWidth: 32,
+                    child:
+                        // crete circular container
+                        Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      decoration: const BoxDecoration(
+                          shape: BoxShape.circle, color: Color(0xFF171433)),
+                      child: Center(
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                Constant.icWentToSleep,
+                                color: const Color(0xFF8F01DF),
                               ),
-                            ),
-                          ]),
+                              10.verticalSpace,
+                              Text(
+                                "${controller.totalSleepPercent.value.toInt()}%",
+                                style: TextStyle(
+                                    fontSize: 43.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white),
+                              ),
+                              4.verticalSpace,
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 30),
+                                child: Text(
+                                  controller.localization.ofDailyGoals!,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 17.sp,
+                                      color: Colors.white.withOpacity(0.63)),
+                                ),
+                              ),
+                            ]),
+                      ),
                     ),
-                  ),
-                );
-              })),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 60),
-              child: Row(
-                children: [
-                  Obx(() {
-                    if (controller.deepSleepPercent.value == 0 &&
-                        controller.lightSleepPercent.value == 0) {
-                      return const SizedBox(height: 40);
-                    } else {
-                      return SmallerSleepCircular(
-                          color: const Color(0xFFDDF235),
-                          label: controller.localization.deepSleep ?? "",
-                          circleColors: {
-                            const Color(0xFFDDF235):
-                                (controller.deepSleepPercent.value * 100)
-                                    .round(),
-                            Colors.white: (controller.deepSleepPercent.value *
-                                            100)
-                                        .round() >
-                                    100
-                                ? 0
-                                : 100 -
-                                    (controller.deepSleepPercent.value * 100)
-                                        .round(),
-                          });
-                    }
-                  }),
-                  const Spacer(),
-                  Obx(() {
-                    if (controller.deepSleepPercent.value == 0 &&
-                        controller.lightSleepPercent.value == 0) {
-                      return const SizedBox(height: 40);
-                    } else {
-                      return SmallerSleepCircular(
-                          color: const Color(0xFF8F01DF),
-                          circleColors: {
-                            const Color(0xFF8F01DF):
-                                (controller.lightSleepPercent.value * 100)
-                                    .round(),
-                            Colors.white: (controller.lightSleepPercent.value *
-                                            100)
-                                        .round() >
-                                    100
-                                ? 0
-                                : 100 -
-                                    (controller.lightSleepPercent.value * 100)
-                                        .round(),
-                          },
-                          label: controller.localization.lightSleep ?? "");
-                    }
-                  })
-                ],
-              ),
-            ),
-            20.verticalSpace,
-            Padding(
-              padding: const EdgeInsets.only(left: 40),
-              child: Text(
-                controller.localization.dailyBreakdown!,
-                style: TextStyle(
-                    color: const Color(0xFF171433),
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16.sp),
-              ),
-            ),
-            20.verticalSpace,
-            Container(
-                margin: const EdgeInsets.symmetric(horizontal: 40),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF171433).withOpacity(0.1),
-                ),
-                child: Obx(() {
-                  return GridView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 1,
-                      crossAxisSpacing: 1,
-                      childAspectRatio: 2,
-                    ),
-                    children: [
-                      DailyBreakdownItem(
-                          image: Constant.icWentToSleep2,
-                          time: controller.wentToSleep.value,
-                          label: controller.localization.wentToSleep ?? ""),
-                      DailyBreakdownItem(
-                          image: Constant.icWokeUp,
-                          time: controller.wokeUp.value,
-                          label: controller.localization.wokeUp ?? ""),
-                      DailyBreakdownItem(
-                          image: Constant.icFeelASleep,
-                          time: controller.feelASleep.value,
-                          label: controller.localization.lightSleep ?? ""),
-                      DailyBreakdownItem(
-                          image: Constant.icDeepSleep,
-                          time: controller.deepSleep.value,
-                          label: controller.localization.deepSleep ?? ""),
-                    ],
                   );
                 })),
-            16.verticalSpace,
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 16.w),
-              padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: const Color(0xFFEBEBEB))),
-              child: Column(
-                children: [
-                  Text(controller.localization.last7Days!,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w700,
-                          height: 20.sp / 14.sp)),
-                  16.verticalSpace,
-                  const Divider(),
-                  16.verticalSpace,
-                  Obx(() {
-                    return SizedBox(
-                      height: 200.h,
-                      child: Stack(
-                        children: [
-                          BarChart(
-                            BarChartData(
-                              minY: 0,
-                              maxY: controller.getMaxYValue(),
-                              barGroups: List.generate(7, (index) {
-                                return BarChartGroupData(
-                                  x: index,
-                                  barRods: [
-                                    BarChartRodData(
-                                        color: controller.isYValueOptimal(index)
-                                            ? const Color(0xFFDDF235)
-                                            : const Color(0xFFFA6F6F),
-                                        width: 12.w,
-                                        toY: controller.getYValue(index))
-                                  ],
-                                );
-                              }),
-                              barTouchData: BarTouchData(
-                                enabled: true,
-                                touchTooltipData: BarTouchTooltipData(
-                                  getTooltipItem:
-                                      (group, groupIndex, rod, rodIndex) {
-                                    return BarTooltipItem(
-                                      '${NumberFormat('0.0').format(rod.toY)}hrs',
-                                      TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14.sp),
-                                    );
-                                  },
-                                ),
-                              ),
-                              borderData: FlBorderData(show: false),
-                              gridData: FlGridData(
-                                  show: true,
-                                  drawVerticalLine: false,
-                                  horizontalInterval: 50,
-                                  getDrawingHorizontalLine: (value) {
-                                    return FlLine(
-                                        color: const Color(0xFFebebeb),
-                                        strokeWidth: 1,
-                                        dashArray: [2, 2]);
-                                  }),
-                              titlesData: FlTitlesData(
-                                show: true,
-                                rightTitles: AxisTitles(
-                                  sideTitles: SideTitles(showTitles: false),
-                                ),
-                                topTitles: AxisTitles(
-                                  sideTitles: SideTitles(showTitles: false),
-                                ),
-                                leftTitles: AxisTitles(
-                                  sideTitles: SideTitles(
-                                    reservedSize: 30,
-                                    showTitles: true,
-                                    getTitlesWidget: (value, meta) {
-                                      return Text(
-                                        NumberFormat('0.0').format(value),
-                                        style: TextStyle(
-                                            color: const Color(0xFF505050),
-                                            fontSize: 12.sp),
-                                      );
-                                    },
-                                  ),
-                                ),
-                                bottomTitles: AxisTitles(
-                                  sideTitles: SideTitles(
-                                    showTitles: true,
-                                    getTitlesWidget: (value, meta) {
-                                      return Transform.rotate(
-                                        angle: -45,
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 10),
-                                          child: Text(
-                                            controller.getXValue(value.toInt()),
-                                            style: TextStyle(
-                                                color: const Color(0xFF505050),
-                                                fontSize: 12.sp),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Text(
-                              'hrs.',
-                              style: TextStyle(
-                                  color: const Color(0xFF505050),
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  })
-                ],
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 60),
+                child: Row(
+                  children: [
+                    Obx(() {
+                      if (controller.deepSleepPercent.value == 0 &&
+                          controller.lightSleepPercent.value == 0) {
+                        return const SizedBox(height: 40);
+                      } else {
+                        return SmallerSleepCircular(
+                            color: const Color(0xFFDDF235),
+                            label: controller.localization.deepSleep ?? "",
+                            circleColors: {
+                              const Color(0xFFDDF235):
+                                  (controller.deepSleepPercent.value * 100)
+                                      .round(),
+                              Colors.white: (controller.deepSleepPercent.value *
+                                              100)
+                                          .round() >
+                                      100
+                                  ? 0
+                                  : 100 -
+                                      (controller.deepSleepPercent.value * 100)
+                                          .round(),
+                            });
+                      }
+                    }),
+                    const Spacer(),
+                    Obx(() {
+                      if (controller.deepSleepPercent.value == 0 &&
+                          controller.lightSleepPercent.value == 0) {
+                        return const SizedBox(height: 40);
+                      } else {
+                        return SmallerSleepCircular(
+                            color: const Color(0xFF8F01DF),
+                            circleColors: {
+                              const Color(0xFF8F01DF):
+                                  (controller.lightSleepPercent.value * 100)
+                                      .round(),
+                              Colors.white:
+                                  (controller.lightSleepPercent.value * 100)
+                                              .round() >
+                                          100
+                                      ? 0
+                                      : 100 -
+                                          (controller.lightSleepPercent.value *
+                                                  100)
+                                              .round(),
+                            },
+                            label: controller.localization.lightSleep ?? "");
+                      }
+                    })
+                  ],
+                ),
+              ),
+              20.verticalSpace,
+              Padding(
+                padding: const EdgeInsets.only(left: 40),
+                child: Text(
+                  controller.localization.dailyBreakdown!,
+                  style: TextStyle(
+                      color: const Color(0xFF171433),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16.sp),
+                ),
+              ),
+              20.verticalSpace,
+              Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 40),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF171433).withOpacity(0.1),
+                  ),
+                  child: Obx(() {
+                    return GridView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 1,
+                        crossAxisSpacing: 1,
+                        childAspectRatio: 2,
+                      ),
+                      children: [
+                        DailyBreakdownItem(
+                            image: Constant.icWentToSleep2,
+                            time: controller.wentToSleep.value,
+                            label: controller.localization.wentToSleep ?? ""),
+                        DailyBreakdownItem(
+                            image: Constant.icWokeUp,
+                            time: controller.wokeUp.value,
+                            label: controller.localization.wokeUp ?? ""),
+                        DailyBreakdownItem(
+                            image: Constant.icFeelASleep,
+                            time: controller.feelASleep.value,
+                            label: controller.localization.lightSleep ?? ""),
+                        DailyBreakdownItem(
+                            image: Constant.icDeepSleep,
+                            time: controller.deepSleep.value,
+                            label: controller.localization.deepSleep ?? ""),
+                      ],
+                    );
+                  })),
+              16.verticalSpace,
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 16.w),
+                padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: const Color(0xFFEBEBEB))),
+                child: Column(
+                  children: [
+                    Text(controller.localization.last7Days!,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w700,
+                            height: 20.sp / 14.sp)),
+                    16.verticalSpace,
+                    const Divider(),
+                    16.verticalSpace,
+                    Obx(() {
+                      return SizedBox(
+                        height: 200.h,
+                        child: Stack(
+                          children: [
+                            BarChart(
+                              BarChartData(
+                                minY: 0,
+                                maxY: controller.getMaxYValue(),
+                                barGroups: List.generate(7, (index) {
+                                  return BarChartGroupData(
+                                    x: index,
+                                    barRods: [
+                                      BarChartRodData(
+                                          color:
+                                              controller.isYValueOptimal(index)
+                                                  ? const Color(0xFFDDF235)
+                                                  : const Color(0xFFFA6F6F),
+                                          width: 12.w,
+                                          toY: controller.getYValue(index))
+                                    ],
+                                  );
+                                }),
+                                barTouchData: BarTouchData(
+                                  enabled: true,
+                                  touchTooltipData: BarTouchTooltipData(
+                                    getTooltipItem:
+                                        (group, groupIndex, rod, rodIndex) {
+                                      return BarTooltipItem(
+                                        '${NumberFormat('0.0').format(rod.toY)}hrs',
+                                        TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14.sp),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                borderData: FlBorderData(show: false),
+                                gridData: FlGridData(
+                                    show: true,
+                                    drawVerticalLine: false,
+                                    horizontalInterval: 50,
+                                    getDrawingHorizontalLine: (value) {
+                                      return FlLine(
+                                          color: const Color(0xFFebebeb),
+                                          strokeWidth: 1,
+                                          dashArray: [2, 2]);
+                                    }),
+                                titlesData: FlTitlesData(
+                                  show: true,
+                                  rightTitles: AxisTitles(
+                                    sideTitles: SideTitles(showTitles: false),
+                                  ),
+                                  topTitles: AxisTitles(
+                                    sideTitles: SideTitles(showTitles: false),
+                                  ),
+                                  leftTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      reservedSize: 30,
+                                      showTitles: true,
+                                      getTitlesWidget: (value, meta) {
+                                        return Text(
+                                          NumberFormat('0.0').format(value),
+                                          style: TextStyle(
+                                              color: const Color(0xFF505050),
+                                              fontSize: 12.sp),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  bottomTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      showTitles: true,
+                                      getTitlesWidget: (value, meta) {
+                                        return Transform.rotate(
+                                          angle: -45,
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Text(
+                                              controller
+                                                  .getXValue(value.toInt()),
+                                              style: TextStyle(
+                                                  color:
+                                                      const Color(0xFF505050),
+                                                  fontSize: 12.sp),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Text(
+                                'hrs.',
+                                style: TextStyle(
+                                    color: const Color(0xFF505050),
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    })
+                  ],
+                ),
+              ),
+              40.verticalSpace,
+            ],
+          ),
         ),
       ),
     );

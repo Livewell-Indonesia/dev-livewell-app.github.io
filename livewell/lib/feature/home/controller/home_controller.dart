@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:health/health.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
+import 'package:livewell/core/notification/firebase_notification.dart';
 import 'package:livewell/feature/dashboard/data/model/popup_assets_model.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_app_config.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_popup_assets.dart';
@@ -54,6 +56,7 @@ class HomeController extends BaseController {
     getAppConfig();
     getPopupAsset();
     createTutorial();
+    LivewellNotification().handleTermintated();
     super.onInit();
   }
 
@@ -121,27 +124,26 @@ class HomeController extends BaseController {
   void changePageIndex(int index) {
     if (!isShowCoachmark.value) {
       if (index == 0) {
-        currentMenu.value = HomeTab.food;
-      } else if (index == 1) {
         currentMenu.value = HomeTab.home;
+      } else if (index == 1) {
+        currentMenu.value = HomeTab.dailyJournal;
       } else if (index == 2) {
-        currentMenu.value = HomeTab.exercise;
-      } else if (index == 3) {
-        currentMenu.value = HomeTab.sleep;
-      } else if (index == 4) {
-        currentMenu.value = HomeTab.water;
-      } else if (index == 5) {
         currentMenu.value = HomeTab.account;
       }
+      //  else if (index == 3) {
+      //   currentMenu.value = HomeTab.acc;
+      // } else if (index == 4) {
+      //   currentMenu.value = HomeTab.water;
+      // } else if (index == 5) {
+      //   currentMenu.value = HomeTab.account;
+      // }
     }
   }
 
   Widget customSelectedImage(Widget child) {
-    return ClipOval(
-      child: Material(
-          color: const Color(0xFF8F01DF), // button color
-          child: SizedBox(width: 40.w, height: 40.w, child: child)),
-    );
+    return Material(
+        color: Colors.white, // button color
+        child: SizedBox(width: 40.w, height: 40.w, child: child));
   }
 
   Widget customUnselectedImage(Widget child) {
@@ -381,12 +383,8 @@ class HomeController extends BaseController {
 
 enum HomeTab {
   home,
-  food,
-  exercise,
-  sleep,
-  water,
-  meditation,
-  nutrition,
+  dailyJournal,
+
   account
 }
 
@@ -394,42 +392,145 @@ extension HomeTabIcons on HomeTab {
   String selectedAssets() {
     switch (this) {
       case HomeTab.home:
-        return Constant.icHomeSelected;
-      case HomeTab.food:
+        return Constant.icHomeUnselected;
+      case HomeTab.dailyJournal:
         return Constant.icFoodSelected;
-      case HomeTab.exercise:
-        return Constant.icExerciseSelected;
-      case HomeTab.sleep:
-        return Constant.icSleepSelected;
-      case HomeTab.water:
-        return Constant.icWaterSelected;
-      case HomeTab.meditation:
-        return Constant.icMeditationSelected;
-      case HomeTab.nutrition:
-        return Constant.icBloodSelected;
+      // case HomeTab.exercise:
+      //   return Constant.icExerciseSelected;
+      // case HomeTab.sleep:
+      //   return Constant.icSleepSelected;
+      // case HomeTab.water:
+      //   return Constant.icWaterSelected;
+      // case HomeTab.meditation:
+      //   return Constant.icMeditationSelected;
+      // case HomeTab.nutrition:
+      //   return Constant.icBloodSelected;
       case HomeTab.account:
         return Constant.icBloodSelected;
+    }
+  }
+
+  String title() {
+    switch (this) {
+      case HomeTab.home:
+        return "Home";
+      case HomeTab.dailyJournal:
+        return "Journal";
+      // case HomeTab.exercise:
+      //   return localization.exercise;
+      // case HomeTab.sleep:
+      //   return localization.sleep;
+      // case HomeTab.water:
+      //   return localization.water;
+      // case HomeTab.meditation:
+      //   return localization.meditation;
+      // case HomeTab.nutrition:
+      //   return localization.nutrition;
+      case HomeTab.account:
+        return "Account";
     }
   }
 
   String unselectedAssets() {
     switch (this) {
       case HomeTab.home:
-        return Constant.icHomeUnselected;
-      case HomeTab.food:
+        return Constant.icHomeSelected;
+      case HomeTab.dailyJournal:
         return Constant.icFoodUnselected;
-      case HomeTab.exercise:
-        return Constant.icExerciseUnselected;
-      case HomeTab.sleep:
-        return Constant.icSleepUnselected;
-      case HomeTab.water:
-        return Constant.icWaterUnselected;
-      case HomeTab.meditation:
-        return Constant.icMeditationUnselected;
-      case HomeTab.nutrition:
-        return Constant.icBloodUnselected;
+      // case HomeTab.exercise:
+      //   return Constant.icExerciseUnselected;
+      // case HomeTab.sleep:
+      //   return Constant.icSleepUnselected;
+      // case HomeTab.water:
+      //   return Constant.icWaterUnselected;
+      // case HomeTab.meditation:
+      //   return Constant.icMeditationUnselected;
+      // case HomeTab.nutrition:
+      //   return Constant.icBloodUnselected;
       case HomeTab.account:
-        return Constant.icBloodUnselected;
+        return Constant.icAccountSetting;
+    }
+  }
+
+  Widget unselectedAssetWidget() {
+    switch (this) {
+      case HomeTab.home:
+        return SizedBox(
+          width: 24.w,
+          height: 24.w,
+          child: SvgPicture.asset(
+            Constant.home,
+            width: 24.w,
+            height: 24.w,
+            fit: BoxFit.scaleDown,
+            color: const Color(0xFF171433).withOpacity(0.8),
+          ),
+        );
+      case HomeTab.dailyJournal:
+        return SizedBox(
+          width: 24.w,
+          height: 24.w,
+          child: SvgPicture.asset(
+            Constant.dailyJournal,
+            width: 24.w,
+            height: 24.w,
+            fit: BoxFit.scaleDown,
+            color: const Color(0xFF171433).withOpacity(0.8),
+          ),
+        );
+      case HomeTab.account:
+        return SizedBox(
+          width: 24.w,
+          height: 24.w,
+          child: SvgPicture.asset(
+            Constant.accountCircle,
+            width: 24.w,
+            height: 24.w,
+            fit: BoxFit.scaleDown,
+            color: const Color(0xFF171433).withOpacity(0.8),
+          ),
+        );
+    }
+  }
+
+  Widget selectedAssetWidget() {
+    switch (this) {
+      case HomeTab.home:
+        return SizedBox(
+          width: 24.w,
+          height: 24.w,
+          child: SvgPicture.asset(
+            Constant.home,
+            width: 24.w,
+            height: 24.w,
+            fit: BoxFit.scaleDown,
+            color: const Color(0xFF8F01DF),
+          ),
+        );
+      case HomeTab.dailyJournal:
+        return SizedBox(
+          width: 24.w,
+          height: 24.w,
+          child: SvgPicture.asset(
+            Constant.dailyJournal,
+            width: 24.w,
+            height: 24.w,
+            fit: BoxFit.scaleDown,
+            color: const Color(0xFF8F01DF),
+          ),
+        );
+      case HomeTab.account:
+        return SizedBox(
+          width: 24.w,
+          height: 24.w,
+          child: SvgPicture.asset(
+            Constant.accountCircle,
+            width: 24.w,
+            height: 24.w,
+            fit: BoxFit.scaleDown,
+            color: const Color(0xFF8F01DF),
+          ),
+        );
     }
   }
 

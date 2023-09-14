@@ -237,6 +237,7 @@ class LocalizationKey {
   String? setYourFitnessGoals;
   String? howManyHoursOfSleeps;
   String? whatsYourHeight;
+  String? of;
 
   LocalizationKey(
       {this.accountSettings,
@@ -449,7 +450,8 @@ class LocalizationKey {
       this.youCanAlwaysChangeThisLater,
       this.setYourFitnessGoals,
       this.howManyHoursOfSleeps,
-      this.whatsYourHeight});
+      this.whatsYourHeight,
+      this.of});
 
   LocalizationKey.fromJson(Map<String, dynamic> json) {
     accountSettings = json['account_settings'];
@@ -675,6 +677,7 @@ class LocalizationKey {
     setYourFitnessGoals = json['set_your_fitness_goals'];
     howManyHoursOfSleeps = json['how_many_hours_of_sleeps'];
     whatsYourHeight = json['whats_your_height'];
+    of = json['of'];
   }
 
   Map<String, dynamic> toJson() {

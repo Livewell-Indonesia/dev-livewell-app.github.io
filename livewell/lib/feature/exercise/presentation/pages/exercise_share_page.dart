@@ -10,6 +10,8 @@ import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_screen.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:social_share/social_share.dart';
 
 class ExerciseSharePage extends StatelessWidget {
   final File file;
@@ -79,7 +81,7 @@ class ExerciseSharePage extends StatelessWidget {
                 ),
                 42.verticalSpace,
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: ShareButtonType.values.map((e) {
                     return InkWell(
                       onTap: () async {
@@ -106,29 +108,15 @@ class ExerciseSharePage extends StatelessWidget {
                           await files.writeAsBytes(result!);
                           switch (e) {
                             case ShareButtonType.instagram:
-                              AppinioSocialShare().shareToInstagramStory(
-                                  "andi asrafil",
-                                  backgroundImage: files.path);
+                              SocialShare.shareInstagramStory(
+                                  appId: "108487895683370",
+                                  imagePath: files.path);
                             case ShareButtonType.facebook:
-                              AppinioSocialShare().shareToFacebookStory(
-                                  "andi asrafil",
-                                  backgroundImage: files.path);
-                            case ShareButtonType.whatsapp:
-                              AppinioSocialShare().shareToWhatsapp(
-                                  "andi asrafil",
-                                  filePath: files.path);
-                            case ShareButtonType.telegram:
-                              AppinioSocialShare().shareToTelegram(
-                                  "andi asrafil",
-                                  filePath: files.path);
-                            case ShareButtonType.twitter:
-                              AppinioSocialShare().shareToTwitter(
-                                  "andi asrafil",
-                                  filePath: files.path);
-                            case ShareButtonType.other:
-                              AppinioSocialShare().shareToSystem(
-                                  "Share Exercise", "Share Exercise",
-                                  filePath: files.path);
+                              SocialShare.shareFacebookStory(
+                                  appId: "108487895683370",
+                                  imagePath: files.path);
+                            default:
+                              Share.shareXFiles([XFile(file.path)]);
                           }
                         }
                       },
@@ -140,11 +128,7 @@ class ExerciseSharePage extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SizedBox(
-                              width: 24.h,
-                              height: 24.h,
-                              child: e.widget(),
-                            ),
+                            e.widget(),
                           ],
                         ),
                       ),
@@ -172,9 +156,9 @@ class ExerciseSharePage extends StatelessWidget {
 enum ShareButtonType {
   instagram,
   facebook,
-  twitter,
-  whatsapp,
-  telegram,
+  // twitter,
+  // whatsapp,
+  // telegram,
   other,
 }
 
@@ -182,32 +166,44 @@ extension ShareButtonTypeData on ShareButtonType {
   Widget widget() {
     switch (this) {
       case ShareButtonType.instagram:
-        return Image.asset(Constant.icInstagramPng);
+        return SizedBox(
+            width: 24.h,
+            height: 24.h,
+            child: Image.asset(Constant.icInstagramPng));
       case ShareButtonType.facebook:
-        return Image.asset(Constant.icFacebookPng);
-      case ShareButtonType.whatsapp:
-        return Image.asset(
-          Constant.icWhatsappPng,
-          width: 24.h,
-          height: 24.h,
-          fit: BoxFit.cover,
-        );
-      case ShareButtonType.telegram:
-        return Image.asset(
-          Constant.icWhatsappPng,
-          width: 24.h,
-          height: 24.h,
-          fit: BoxFit.cover,
-        );
-      case ShareButtonType.twitter:
-        return Image.asset(
-          Constant.icWhatsappPng,
-          width: 24.h,
-          height: 24.h,
-          fit: BoxFit.cover,
-        );
+        return SizedBox(
+            width: 24.h,
+            height: 24.h,
+            child: Image.asset(Constant.icFacebookPng));
+      // case ShareButtonType.whatsapp:
+      //   return Container();
+      // // return Image.asset(
+      // //   Constant.icWhatsappPng,
+      // //   width: 24.h,
+      // //   height: 24.h,
+      // //   fit: BoxFit.cover,
+      // // );
+      // case ShareButtonType.telegram:
+      //   return Container();
+      // // return Image.asset(
+      // //   Constant.icWhatsappPng,
+      // //   width: 24.h,
+      // //   height: 24.h,
+      // //   fit: BoxFit.cover,
+      // // );
+      // case ShareButtonType.twitter:
+      //   return Container();
+      // // return Image.asset(
+      // //   Constant.icWhatsappPng,
+      // //   width: 24.h,
+      // //   height: 24.h,
+      // //   fit: BoxFit.cover,
+      // // );
       case ShareButtonType.other:
-        return Icon(Icons.more_horiz, color: Colors.black, size: 24.sp);
+        return SizedBox(
+            width: 24.h,
+            height: 24.h,
+            child: Icon(Icons.more_horiz, color: Colors.black, size: 24.sp));
     }
   }
 }

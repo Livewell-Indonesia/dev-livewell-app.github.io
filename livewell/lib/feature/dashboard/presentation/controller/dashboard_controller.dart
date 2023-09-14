@@ -188,19 +188,7 @@ class DashboardController extends BaseController {
     getMealHistories();
     getNutriscoreData();
     getWaterData();
-    registerDeviceToken();
     super.onInit();
-  }
-
-  void registerDeviceToken() async {
-    RegisterDevice registerDevice = RegisterDevice.instance();
-    final token = await SharedPref.getFCMToken();
-    final result = await registerDevice.call(token ?? "");
-    result.fold((l) {
-      Log.error(l);
-    }, (r) {
-      Log.colorGreen(r);
-    });
   }
 
   void getNutriscoreData() async {
@@ -407,14 +395,7 @@ class DashboardController extends BaseController {
           AppNavigator.push(routeName: AppPages.questionnaire);
         });
       } else {
-        final HomeController homeController = Get.find();
-        if (Platform.isAndroid &&
-            (homeController.appConfigModel.value.googleHealth ?? false) ==
-                false) {
-          homeController.showCoachmark();
-        } else {
-          requestHealthAccess();
-        }
+        requestHealthAccess();
       }
     });
   }

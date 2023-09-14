@@ -255,7 +255,8 @@ class UserDiaryScreen extends StatelessWidget {
                               20.verticalSpace,
                             ],
                           );
-                  })
+                  }),
+                  80.verticalSpace,
                 ],
               ),
             ),

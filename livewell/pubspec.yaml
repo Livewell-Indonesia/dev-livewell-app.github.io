@@ -91,8 +91,9 @@ dependencies:
   davinci: ^2.1.1
   google_places_flutter: ^2.0.6
   auto_size_text: ^3.0.0
-  appinio_social_share: ^0.2.4
+  appinio_social_share: ^0.2.5
   firebase_messaging: ^14.6.7
+  social_share: ^2.3.1
   
 
 dev_dependencies:

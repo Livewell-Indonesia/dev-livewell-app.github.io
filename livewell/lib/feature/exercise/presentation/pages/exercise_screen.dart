@@ -1,7 +1,5 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:davinci/davinci.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -11,14 +9,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
-import 'package:google_places_flutter/model/prediction.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/feature/exercise/presentation/controller/exercise_controller.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_diary_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
+import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'package:livewell/widgets/textfield/livewell_textfield.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -45,521 +41,481 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return LiveWellScaffold(
+      title: controller.localization.exercise ?? "",
       backgroundColor: const Color(0xFFF1F1F1),
-      resizeToAvoidBottomInset: true,
-      body: RefreshIndicator(
-        onRefresh: () async {
-          controller.refreshList();
-        },
-        child: ListView(
-          children: [
-            40.verticalSpace,
-            Row(
-              children: [
-                const Icon(
-                  Icons.ios_share,
-                  color: Colors.transparent,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 18.w),
-                  child: const Icon(
-                    Icons.info_outline,
-                    color: Colors.transparent,
-                  ),
-                ),
-                const Spacer(),
-                Center(
-                    child: Text(
-                  controller.localization.exercise!,
-                  style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF171433)),
-                )),
-                const Spacer(),
-                InkWell(
-                  onTap: () async {
-                    await showModalBottomSheet(
-                        context: context,
-                        shape: ShapeBorder.lerp(
-                            const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20))),
-                            const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20))),
-                            1),
-                        builder: (context) {
-                          return ImagePickerBottomSheet(
-                              onImageSelected: (img) async {
-                            setState(() {
-                              file = img;
-                            });
-                            Navigator.of(context).pop();
-                          });
-                        });
+      trailing: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Spacer(),
+          InkWell(
+            onTap: () async {
+              await showModalBottomSheet(
+                  context: context,
+                  shape: ShapeBorder.lerp(
+                      const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20))),
+                      const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20))),
+                      1),
+                  builder: (context) {
+                    return ImagePickerBottomSheet(onImageSelected: (img) async {
+                      setState(() {
+                        file = img;
+                      });
+                      Navigator.of(context).pop();
+                    });
+                  });
 
-                    if (file != null) {
-                      await showModalBottomSheet(
-                          context: Get.context!,
-                          isScrollControlled: true,
-                          shape: ShapeBorder.lerp(
-                              const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20))),
-                              const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20))),
-                              1),
-                          builder: (context) {
-                            return Padding(
-                              padding: MediaQuery.of(context).viewInsets,
-                              child: Container(
-                                height: 0.45.sh,
-                                child: Column(
-                                  children: [
-                                    20.verticalSpace,
-                                    Text(
-                                      'Share',
-                                      style: TextStyle(
-                                          color: Color(0xff171433),
-                                          fontSize: 24.sp,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                    20.verticalSpace,
-                                    Obx(() {
-                                      return LiveWellTextField(
-                                          controller:
-                                              controller.titleController,
-                                          hintText: null,
-                                          labelText: "Activity Name",
-                                          errorText:
-                                              controller.titleError.value,
-                                          obscureText: false);
-                                    }),
-                                    20.verticalSpace,
-                                    InkWell(
-                                      onTap: () {
-                                        showModalBottomSheet(
-                                            context: Get.context!,
-                                            isScrollControlled: true,
-                                            shape: ShapeBorder.lerp(
-                                                const RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius
-                                                        .only(
-                                                            topLeft:
-                                                                Radius.circular(
-                                                                    20),
-                                                            topRight:
-                                                                Radius.circular(
-                                                                    20))),
-                                                const RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius
-                                                        .only(
-                                                            topLeft:
-                                                                Radius.circular(
-                                                                    20),
-                                                            topRight:
-                                                                Radius.circular(
-                                                                    20))),
-                                                1),
-                                            builder: (BuildContext context) {
-                                              return Container(
-                                                height: 0.8.sh,
-                                                child: Column(
-                                                  children: [
-                                                    20.verticalSpace,
-                                                    Text(
-                                                      'Location',
-                                                      style: TextStyle(
-                                                          color:
-                                                              Color(0xFF171433),
-                                                          fontSize: 24.sp,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                    20.verticalSpace,
-                                                    Container(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 16.w,
-                                                              vertical: 16.h),
-                                                      child:
-                                                          GooglePlaceAutoCompleteTextField(
-                                                        textEditingController:
-                                                            controller
-                                                                .locationController,
-                                                        googleAPIKey: Platform
-                                                                .isAndroid
-                                                            ? "AIzaSyAyGPWBoAyXoiZPuOr1tVy_lhDbqiY6gVw"
-                                                            : "AIzaSyAxbnqu8icKNHauUZveyBjG5srd7f1GQIA",
-                                                        textStyle: TextStyle(
-                                                            color: const Color(
-                                                                0xFF171433),
-                                                            fontSize: 14.sp),
-                                                        boxDecoration: BoxDecoration(
-                                                            color: const Color(
-                                                                0xFFF2F6F6),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        100)),
-                                                        inputDecoration:
-                                                            const InputDecoration(
-                                                                icon: Icon(Icons
-                                                                    .search),
-                                                                hintText:
-                                                                    "Search here...",
-                                                                border:
-                                                                    InputBorder
-                                                                        .none,
-                                                                enabledBorder:
-                                                                    InputBorder
-                                                                        .none,
-                                                                focusedBorder:
-                                                                    InputBorder
-                                                                        .none),
-                                                        debounceTime: 400,
-                                                        countries: ["id"],
-                                                        isLatLngRequired: false,
-                                                        itemBuilder: (context,
-                                                            index, prediction) {
-                                                          return Container(
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text(
-                                                                  prediction
-                                                                          .terms
-                                                                          ?.first
-                                                                          .value ??
-                                                                      "",
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .start,
-                                                                  style: TextStyle(
-                                                                      color: const Color(
-                                                                          0xFF505050),
-                                                                      fontSize:
-                                                                          16.sp,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600),
-                                                                ),
-                                                                4.verticalSpace,
-                                                                Text(
-                                                                  prediction
-                                                                          .description ??
-                                                                      "",
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .start,
-                                                                  maxLines: 1,
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  style: TextStyle(
-                                                                      color: const Color(
-                                                                          0xFF808080),
-                                                                      fontSize:
-                                                                          12.sp),
-                                                                )
-                                                              ],
-                                                            ),
-                                                          );
-                                                        },
-                                                        itemClick:
-                                                            (prediction) {
-                                                          if (prediction
-                                                                      .terms !=
-                                                                  null &&
-                                                              prediction.terms!
-                                                                  .isNotEmpty) {
-                                                            controller
-                                                                .locationController
-                                                                .text = prediction
-                                                                    .terms!
-                                                                    .first
-                                                                    .value ??
-                                                                "";
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          }
-                                                        },
-                                                        seperatedBuilder:
-                                                            20.verticalSpace,
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              );
-                                            });
-                                      },
-                                      child: LiveWellTextField(
-                                          controller:
-                                              controller.locationController,
-                                          hintText: null,
-                                          labelText: "Location Name",
-                                          errorText: null,
-                                          enabled: false,
-                                          obscureText: false),
-                                    ),
-                                    20.verticalSpace,
-                                    Text(
-                                      'Pick an Image Ratio:',
-                                      style: TextStyle(
-                                          color: Color(0xff171433),
-                                          fontSize: 24.sp,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                    20.verticalSpace,
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 16.w),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Expanded(
-                                            child: ElevatedButton(
-                                                onPressed: () async {
-                                                  if (controller.titleController
-                                                      .text.isNotEmpty) {
-                                                    Get.back();
-                                                    _showFullScreenDialog(
-                                                        context, file!, 9 / 16);
-                                                    // shareToInstagramStory(
-                                                    //     result);
-                                                  } else {
-                                                    controller
-                                                            .titleError.value =
-                                                        "Activity name is required";
-                                                  }
-                                                },
-                                                child: const Text('16:9')),
-                                          ),
-                                          20.horizontalSpace,
-                                          Expanded(
-                                            child: ElevatedButton(
-                                                onPressed: () async {
-                                                  if (controller.titleController
-                                                      .text.isNotEmpty) {
-                                                    EasyLoading.show();
-                                                    Get.back();
-                                                    _showFullScreenDialog(
-                                                        context, file!, 9 / 16);
-                                                  } else {
-                                                    controller
-                                                            .titleError.value =
-                                                        "Activity name is required";
-                                                  }
-                                                },
-                                                child: const Text('1:1')),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    30.verticalSpace,
-                                  ],
-                                ),
+              if (file != null) {
+                await showModalBottomSheet(
+                    context: Get.context!,
+                    isScrollControlled: true,
+                    shape: ShapeBorder.lerp(
+                        const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20))),
+                        const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20))),
+                        1),
+                    builder: (context) {
+                      return Padding(
+                        padding: MediaQuery.of(context).viewInsets,
+                        child: Container(
+                          height: 0.45.sh,
+                          child: Column(
+                            children: [
+                              20.verticalSpace,
+                              Text(
+                                'Share',
+                                style: TextStyle(
+                                    color: Color(0xff171433),
+                                    fontSize: 24.sp,
+                                    fontWeight: FontWeight.w700),
                               ),
-                            );
-                          });
-                    }
-                  },
-                  child: const Icon(
-                    Icons.ios_share,
-                    color: Color(0xFF171433),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    HomeController controller = Get.find();
-                    var data = controller.popupAssetsModel.value.exercise;
-                    if (data != null) {
-                      showModalBottomSheet<dynamic>(
-                          context: context,
-                          isScrollControlled: true,
-                          shape: ShapeBorder.lerp(
-                              const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20))),
-                              const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20))),
-                              1),
-                          builder: (context) {
-                            return Obx(() {
-                              return PopupAssetWidget(
-                                exercise:
-                                    controller.popupAssetsModel.value.exercise!,
-                              );
-                            });
-                          });
-                    }
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 18.w),
-                    child: const Icon(
-                      Icons.info_outline,
-                      color: Color(0xFF171433),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            38.verticalSpace,
-            const ExerciseDiaryScreen(),
-            32.verticalSpace,
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Text(
-                controller.localization.exerciseHabit!,
-                style: TextStyle(
-                    color: const Color(0xFF171433),
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
-            16.verticalSpace,
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 16.w),
-              padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: const Color(0xFFEBEBEB))),
-              child: Column(
-                children: [
-                  Text(controller.localization.last7Days!,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w700,
-                          height: 20.sp / 14.sp)),
-                  16.verticalSpace,
-                  const Divider(),
-                  16.verticalSpace,
-                  Obx(() {
-                    return SizedBox(
-                      height: 200.h,
-                      child: Stack(
-                        children: [
-                          BarChart(
-                            BarChartData(
-                              minY: 0,
-                              barGroups: List.generate(7, (index) {
-                                return BarChartGroupData(
-                                  x: index,
-                                  barRods: [
-                                    BarChartRodData(
-                                        color: controller.isYValueOptimal(index)
-                                            ? const Color(0xFFDDF235)
-                                            : const Color(0xFFFA6F6F),
-                                        width: 12.w,
-                                        toY: controller.getYValue(index))
-                                  ],
-                                );
+                              20.verticalSpace,
+                              Obx(() {
+                                return LiveWellTextField(
+                                    controller: controller.titleController,
+                                    hintText: null,
+                                    labelText: "Activity Name",
+                                    errorText: controller.titleError.value,
+                                    obscureText: false);
                               }),
-                              barTouchData: BarTouchData(
-                                enabled: true,
-                                touchTooltipData: BarTouchTooltipData(
-                                  getTooltipItem:
-                                      (group, groupIndex, rod, rodIndex) {
-                                    return BarTooltipItem(
-                                      '${NumberFormat('0.0').format(rod.toY)} kcal',
-                                      TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14.sp),
-                                    );
-                                  },
-                                ),
-                              ),
-                              borderData: FlBorderData(show: false),
-                              gridData: FlGridData(
-                                  show: true,
-                                  drawVerticalLine: false,
-                                  horizontalInterval: 50,
-                                  getDrawingHorizontalLine: (value) {
-                                    return FlLine(
-                                        color: const Color(0xFFebebeb),
-                                        strokeWidth: 1,
-                                        dashArray: [2, 2]);
-                                  }),
-                              titlesData: FlTitlesData(
-                                show: true,
-                                rightTitles: AxisTitles(
-                                  sideTitles: SideTitles(showTitles: false),
-                                ),
-                                topTitles: AxisTitles(
-                                  sideTitles: SideTitles(showTitles: false),
-                                ),
-                                leftTitles: AxisTitles(
-                                  sideTitles: SideTitles(
-                                    reservedSize: 30,
-                                    showTitles: true,
-                                    getTitlesWidget: (value, meta) {
-                                      return Text(
-                                        value.toInt().toString(),
-                                        style: TextStyle(
-                                            color: const Color(0xFF505050),
-                                            fontSize: 12.sp),
-                                      );
-                                    },
-                                  ),
-                                ),
-                                bottomTitles: AxisTitles(
-                                  sideTitles: SideTitles(
-                                    showTitles: true,
-                                    getTitlesWidget: (value, meta) {
-                                      return Transform.rotate(
-                                        angle: -45,
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 10),
-                                          child: Text(
-                                            controller.getXValue(value.toInt()),
-                                            style: TextStyle(
-                                                color: const Color(0xFF505050),
-                                                fontSize: 12.sp),
+                              20.verticalSpace,
+                              InkWell(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                      context: Get.context!,
+                                      isScrollControlled: true,
+                                      shape: ShapeBorder.lerp(
+                                          const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(20),
+                                                  topRight:
+                                                      Radius.circular(20))),
+                                          const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(20),
+                                                  topRight:
+                                                      Radius.circular(20))),
+                                          1),
+                                      builder: (BuildContext context) {
+                                        return Container(
+                                          height: 0.8.sh,
+                                          child: Column(
+                                            children: [
+                                              20.verticalSpace,
+                                              Text(
+                                                'Location',
+                                                style: TextStyle(
+                                                    color: Color(0xFF171433),
+                                                    fontSize: 24.sp,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                              20.verticalSpace,
+                                              Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 16.w,
+                                                    vertical: 16.h),
+                                                child:
+                                                    GooglePlaceAutoCompleteTextField(
+                                                  textEditingController:
+                                                      controller
+                                                          .locationController,
+                                                  googleAPIKey: Platform
+                                                          .isAndroid
+                                                      ? "AIzaSyAyGPWBoAyXoiZPuOr1tVy_lhDbqiY6gVw"
+                                                      : "AIzaSyAxbnqu8icKNHauUZveyBjG5srd7f1GQIA",
+                                                  textStyle: TextStyle(
+                                                      color: const Color(
+                                                          0xFF171433),
+                                                      fontSize: 14.sp),
+                                                  boxDecoration: BoxDecoration(
+                                                      color: const Color(
+                                                          0xFFF2F6F6),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              100)),
+                                                  inputDecoration:
+                                                      const InputDecoration(
+                                                          icon: Icon(
+                                                              Icons.search),
+                                                          hintText:
+                                                              "Search here...",
+                                                          border:
+                                                              InputBorder.none,
+                                                          enabledBorder:
+                                                              InputBorder.none,
+                                                          focusedBorder:
+                                                              InputBorder.none),
+                                                  debounceTime: 400,
+                                                  countries: ["id"],
+                                                  isLatLngRequired: false,
+                                                  itemBuilder: (context, index,
+                                                      prediction) {
+                                                    return Container(
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            prediction
+                                                                    .terms
+                                                                    ?.first
+                                                                    .value ??
+                                                                "",
+                                                            textAlign:
+                                                                TextAlign.start,
+                                                            style: TextStyle(
+                                                                color: const Color(
+                                                                    0xFF505050),
+                                                                fontSize: 16.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
+                                                          4.verticalSpace,
+                                                          Text(
+                                                            prediction
+                                                                    .description ??
+                                                                "",
+                                                            textAlign:
+                                                                TextAlign.start,
+                                                            maxLines: 1,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: TextStyle(
+                                                                color: const Color(
+                                                                    0xFF808080),
+                                                                fontSize:
+                                                                    12.sp),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    );
+                                                  },
+                                                  itemClick: (prediction) {
+                                                    if (prediction.terms !=
+                                                            null &&
+                                                        prediction.terms!
+                                                            .isNotEmpty) {
+                                                      controller
+                                                          .locationController
+                                                          .text = prediction
+                                                              .terms!
+                                                              .first
+                                                              .value ??
+                                                          "";
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    }
+                                                  },
+                                                  seperatedBuilder:
+                                                      20.verticalSpace,
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                        ),
-                                      );
-                                    },
-                                  ),
+                                        );
+                                      });
+                                },
+                                child: LiveWellTextField(
+                                    controller: controller.locationController,
+                                    hintText: null,
+                                    labelText: "Location Name",
+                                    errorText: null,
+                                    enabled: false,
+                                    obscureText: false),
+                              ),
+                              20.verticalSpace,
+                              Text(
+                                'Pick an Image Ratio:',
+                                style: TextStyle(
+                                    color: Color(0xff171433),
+                                    fontSize: 24.sp,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              20.verticalSpace,
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Expanded(
+                                      child: ElevatedButton(
+                                          onPressed: () async {
+                                            if (controller.titleController.text
+                                                .isNotEmpty) {
+                                              Get.back();
+                                              _showFullScreenDialog(
+                                                  context, file!, 9 / 16);
+                                              // shareToInstagramStory(
+                                              //     result);
+                                            } else {
+                                              controller.titleError.value =
+                                                  "Activity name is required";
+                                            }
+                                          },
+                                          child: const Text('16:9')),
+                                    ),
+                                    20.horizontalSpace,
+                                    Expanded(
+                                      child: ElevatedButton(
+                                          onPressed: () async {
+                                            if (controller.titleController.text
+                                                .isNotEmpty) {
+                                              EasyLoading.show();
+                                              Get.back();
+                                              _showFullScreenDialog(
+                                                  context, file!, 9 / 16);
+                                            } else {
+                                              controller.titleError.value =
+                                                  "Activity name is required";
+                                            }
+                                          },
+                                          child: const Text('1:1')),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ),
+                              30.verticalSpace,
+                            ],
                           ),
-                          Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Text(
-                              'kcal.',
-                              style: TextStyle(
-                                  color: const Color(0xFF505050),
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  })
-                ],
+                        ),
+                      );
+                    });
+              }
+            },
+            child: Padding(
+              padding: EdgeInsets.only(right: 16.w),
+              child: const Icon(
+                Icons.ios_share,
+                color: Color(0xFF171433),
               ),
             ),
-          ],
+          ),
+          InkWell(
+            onTap: () {
+              HomeController controller = Get.find();
+              var data = controller.popupAssetsModel.value.exercise;
+              if (data != null) {
+                showModalBottomSheet<dynamic>(
+                    context: context,
+                    isScrollControlled: true,
+                    shape: ShapeBorder.lerp(
+                        const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20))),
+                        const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20))),
+                        1),
+                    builder: (context) {
+                      return Obx(() {
+                        return PopupAssetWidget(
+                          exercise: controller.popupAssetsModel.value.exercise!,
+                        );
+                      });
+                    });
+              }
+            },
+            child: const Icon(
+              Icons.info_outline,
+              color: Color(0xFF171433),
+            ),
+          ),
+        ],
+      ),
+      // resizeToAvoidBottomInset: true,
+      body: Expanded(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            controller.refreshList();
+          },
+          child: ListView(
+            children: [
+              40.verticalSpace,
+              const ExerciseDiaryScreen(),
+              32.verticalSpace,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: Text(
+                  controller.localization.exerciseHabit!,
+                  style: TextStyle(
+                      color: const Color(0xFF171433),
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w600),
+                ),
+              ),
+              16.verticalSpace,
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 16.w),
+                padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: const Color(0xFFEBEBEB))),
+                child: Column(
+                  children: [
+                    Text(controller.localization.last7Days!,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w700,
+                            height: 20.sp / 14.sp)),
+                    16.verticalSpace,
+                    const Divider(),
+                    16.verticalSpace,
+                    Obx(() {
+                      return SizedBox(
+                        height: 200.h,
+                        child: Stack(
+                          children: [
+                            BarChart(
+                              BarChartData(
+                                minY: 0,
+                                barGroups: List.generate(7, (index) {
+                                  return BarChartGroupData(
+                                    x: index,
+                                    barRods: [
+                                      BarChartRodData(
+                                          color:
+                                              controller.isYValueOptimal(index)
+                                                  ? const Color(0xFFDDF235)
+                                                  : const Color(0xFFFA6F6F),
+                                          width: 12.w,
+                                          toY: controller.getYValue(index))
+                                    ],
+                                  );
+                                }),
+                                barTouchData: BarTouchData(
+                                  enabled: true,
+                                  touchTooltipData: BarTouchTooltipData(
+                                    getTooltipItem:
+                                        (group, groupIndex, rod, rodIndex) {
+                                      return BarTooltipItem(
+                                        '${NumberFormat('0.0').format(rod.toY)} kcal',
+                                        TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14.sp),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                borderData: FlBorderData(show: false),
+                                gridData: FlGridData(
+                                    show: true,
+                                    drawVerticalLine: false,
+                                    horizontalInterval: 50,
+                                    getDrawingHorizontalLine: (value) {
+                                      return FlLine(
+                                          color: const Color(0xFFebebeb),
+                                          strokeWidth: 1,
+                                          dashArray: [2, 2]);
+                                    }),
+                                titlesData: FlTitlesData(
+                                  show: true,
+                                  rightTitles: AxisTitles(
+                                    sideTitles: SideTitles(showTitles: false),
+                                  ),
+                                  topTitles: AxisTitles(
+                                    sideTitles: SideTitles(showTitles: false),
+                                  ),
+                                  leftTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      reservedSize: 30,
+                                      showTitles: true,
+                                      getTitlesWidget: (value, meta) {
+                                        return Text(
+                                          value.toInt().toString(),
+                                          style: TextStyle(
+                                              color: const Color(0xFF505050),
+                                              fontSize: 12.sp),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  bottomTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      showTitles: true,
+                                      getTitlesWidget: (value, meta) {
+                                        return Transform.rotate(
+                                          angle: -45,
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Text(
+                                              controller
+                                                  .getXValue(value.toInt()),
+                                              style: TextStyle(
+                                                  color:
+                                                      const Color(0xFF505050),
+                                                  fontSize: 12.sp),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Text(
+                                'kcal.',
+                                style: TextStyle(
+                                    color: const Color(0xFF505050),
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    })
+                  ],
+                ),
+              ),
+              40.verticalSpace,
+            ],
+          ),
         ),
       ),
     );

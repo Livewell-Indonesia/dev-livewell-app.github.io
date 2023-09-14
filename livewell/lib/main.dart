@@ -1,10 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -18,18 +19,77 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:sentry/sentry.dart';
-import 'package:flutter_timezone/flutter_timezone.dart';
-import 'package:timezone/data/latest_all.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
+
+import 'core/log.dart';
+import 'feature/food/presentation/pages/food_screen.dart';
 
 List<CameraDescription> cameras = [];
+@pragma('vm:entry-point')
+Future<void> handleBackgroundMesage(RemoteMessage mesage) async {
+  Log.info('Handling a background message ${mesage.messageId}');
+  final payload = mesage.data['data'];
+  final decodedPayload = jsonDecode(payload) as Map<String, dynamic>;
+  if (decodedPayload['type'] != null) {
+    mapPayloadToRoute(decodedPayload['type']);
+  }
+}
+
+void mapPayloadToRoute(String payload) {
+  //add delay 2 sec
+  Future.delayed(const Duration(seconds: 1), () {
+    AppNavigator.push(routeName: AppPages.addMeal, arguments: {
+      'type': FeatureTypeNotification.values
+          .firstWhere((element) => element.value == payload)
+          .mealTime
+          .name,
+      'date': DateTime.now()
+    });
+  });
+}
+
+enum FeatureTypeNotification {
+  mealReminderBreakfast,
+  mealReminderSnack,
+  mealReminderLunch,
+  mealReminderDinner
+}
+
+extension MealReminderExt on FeatureTypeNotification {
+  String get value {
+    switch (this) {
+      case FeatureTypeNotification.mealReminderBreakfast:
+        return 'MEAL_REMINDER_BREAKFAST';
+      case FeatureTypeNotification.mealReminderSnack:
+        return 'MEAL_REMINDER_SNACK';
+      case FeatureTypeNotification.mealReminderLunch:
+        return 'MEAL_REMINDER_LUNCH';
+      case FeatureTypeNotification.mealReminderDinner:
+        return 'MEAL_REMINDER_DINNER';
+    }
+  }
+
+  MealTime get mealTime {
+    switch (this) {
+      case FeatureTypeNotification.mealReminderBreakfast:
+        return MealTime.breakfast;
+      case FeatureTypeNotification.mealReminderSnack:
+        return MealTime.snack;
+      case FeatureTypeNotification.mealReminderLunch:
+        return MealTime.lunch;
+      case FeatureTypeNotification.mealReminderDinner:
+        return MealTime.dinner;
+    }
+  }
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await _configureLocalTimeZone();
-  await LivewellNotification().init();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  await LivewellNotification().init();
+  FirebaseMessaging.onBackgroundMessage(handleBackgroundMesage);
+
   PlatformDispatcher.instance.onError = (error, stack) {
     FirebaseCrashlytics.instance.recordError(error, stack);
     return true;
@@ -54,15 +114,6 @@ void main() async {
   }, (error, stackTrace) async {
     await Sentry.captureException(error, stackTrace: stackTrace);
   });
-}
-
-Future<void> _configureLocalTimeZone() async {
-  if (kIsWeb || Platform.isLinux) {
-    return;
-  }
-  tz.initializeTimeZones();
-  final String? timeZoneName = await FlutterTimezone.getLocalTimezone();
-  tz.setLocalLocation(tz.getLocation(timeZoneName!));
 }
 
 void configLoading() {

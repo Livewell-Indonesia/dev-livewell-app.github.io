@@ -20,6 +20,8 @@ class DrinkSelector extends StatelessWidget {
           selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
             background: Colors.transparent,
           ),
+          scrollController: FixedExtentScrollController(
+              initialItem: controller.drink.value - 1),
           useMagnifier: true,
           magnification: 1.3,
           children: List.generate(100, (index) {

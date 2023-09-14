@@ -71,4 +71,9 @@ class Constant {
       '$assetsImages/img_finish_questionnaire.svg';
   static const String imgComingSoonNutriscore =
       '$assetsImages/img_coming_soon_nutriscore.png';
+
+  static const String accountCircle = '$assetsIcons/account_circle_24px.svg';
+  static const String dailyJournal =
+      '$assetsIcons/collections_bookmark_24px.svg';
+  static const String home = '$assetsIcons/home_24px.svg';
 }

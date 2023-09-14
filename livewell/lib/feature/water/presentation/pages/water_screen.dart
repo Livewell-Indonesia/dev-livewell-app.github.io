@@ -11,6 +11,7 @@ import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/floating_dots/floating_dots.dart';
 import 'package:collection/collection.dart';
 import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
+import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
 class WaterScreen extends StatefulWidget {
   const WaterScreen({super.key});
@@ -23,174 +24,155 @@ class _WaterScreenState extends State<WaterScreen> {
   final WaterController controller = Get.put(WaterController());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return LiveWellScaffold(
       backgroundColor: const Color(0xFFF1F1F1),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          controller.getWaterData();
+      trailing: InkWell(
+        onTap: () {
+          HomeController controller = Get.find();
+          var data = controller.popupAssetsModel.value.exercise;
+          if (data != null) {
+            showModalBottomSheet<dynamic>(
+                context: context,
+                isScrollControlled: true,
+                shape: ShapeBorder.lerp(
+                    const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20))),
+                    const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20))),
+                    1),
+                builder: (context) {
+                  return Obx(() {
+                    return PopupAssetWidget(
+                      exercise: controller.popupAssetsModel.value.water!,
+                    );
+                  });
+                });
+          }
         },
-        child: ListView(
-          children: [
-            40.verticalSpace,
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 18.w),
-                  child: const Icon(
-                    Icons.info_outline,
-                    color: Colors.transparent,
-                  ),
-                ),
-                const Spacer(),
-                Center(
-                    child: Text(
-                  "Water",
-                  style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF171433)),
-                )),
-                const Spacer(),
-                InkWell(
-                  onTap: () {
-                    HomeController controller = Get.find();
-                    var data = controller.popupAssetsModel.value.exercise;
-                    if (data != null) {
-                      showModalBottomSheet<dynamic>(
-                          context: context,
-                          isScrollControlled: true,
-                          shape: ShapeBorder.lerp(
-                              const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20))),
-                              const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20))),
-                              1),
-                          builder: (context) {
-                            return Obx(() {
-                              return PopupAssetWidget(
-                                exercise:
-                                    controller.popupAssetsModel.value.water!,
-                              );
-                            });
-                          });
-                    }
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 18.w),
-                    child: const Icon(
-                      Icons.info_outline,
-                      color: Color(0xFF171433),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-            48.verticalSpace,
-            Obx(() {
-              return RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(children: [
-                    TextSpan(
-                        text: controller.localization.yourWaterIntakeForToday!,
-                        style: TextStyle(
-                            fontSize: 30.sp,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xFF171433))),
-                    TextSpan(
-                        text: controller.waterConsumed.value.toStringAsFixed(1),
-                        style: TextStyle(
-                            fontSize: 30.sp,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xFF8F01DF))),
-                  ]));
-            }),
-            32.verticalSpace,
-            Obx(() {
-              return DrinkIndicator(
-                value: controller.waterConsumedPercentage.value,
-                label: controller.waterConsumed.value.toStringAsFixed(1),
-              );
-            }),
-            Obx(() {
-              return Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 28.0, vertical: 16),
-                child: WaterRuler(
-                  value: controller.waterConsumedPercentage.value,
-                ),
-              );
-            }),
-            32.verticalSpace,
-            // Obx(() {
-            //   return WaterHistoriesWidget(
-            //     waterHistories: contoller.waterList.value,
-            //   );
-            // }),
-            // Container(
-            //   margin: const EdgeInsets.symmetric(horizontal: 16),
-            //   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 18),
-            //   decoration: BoxDecoration(
-            //     color: Colors.white,
-            //     borderRadius: BorderRadius.circular(30),
-            //   ),
-            //   child: Column(
-            //     crossAxisAlignment: CrossAxisAlignment.start,
-            //     children: [
-            //       const Padding(
-            //         padding: EdgeInsets.only(bottom: 18.0),
-            //         child: Text("Last Update",
-            //             style: TextStyle(
-            //                 fontSize: 16,
-            //                 fontWeight: FontWeight.w700,
-            //                 color: Color(0xFF171433))),
-            //       ),
-            //       ListView.separated(
-            //           physics: const NeverScrollableScrollPhysics(),
-            //           shrinkWrap: true,
-            //           itemCount: 2,
-            //           itemBuilder: (context, index) {
-            //             return Row(
-            //               children: [
-            //                 Text('Water',
-            //                     style: TextStyle(
-            //                       fontSize: 16.sp,
-            //                       fontWeight: FontWeight.w500,
-            //                       color: const Color(0xFF171433),
-            //                     )),
-            //                 const Spacer(),
-            //                 Text('50 ml',
-            //                     style: TextStyle(
-            //                         fontSize: 16.sp,
-            //                         color: const Color(0xFF171433),
-            //                         fontWeight: FontWeight.w500)),
-            //               ],
-            //             );
-            //           },
-            //           separatorBuilder: (context, index) {
-            //             return const Padding(
-            //               padding: EdgeInsets.symmetric(vertical: 8.0),
-            //               child: Divider(),
-            //             );
-            //           }),
-            //     ],
-            //   ),
-            // ),
-            40.verticalSpace,
-            LiveWellButton(
-                label: controller.localization.addDrink!,
-                color: const Color(0xFF8F01DF),
-                textColor: const Color(0xFFFFFFFF),
-                onPressed: () {
-                  AppNavigator.push(routeName: AppPages.waterConsumedPage);
-                }),
-          ],
+        child: Padding(
+          padding: EdgeInsets.only(left: 16.w),
+          child: const Icon(
+            Icons.info_outline,
+            color: Color(0xFF171433),
+          ),
         ),
       ),
+      body: Expanded(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            controller.getWaterData();
+          },
+          child: ListView(
+            children: [
+              40.verticalSpace,
+              Obx(() {
+                return RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(children: [
+                      TextSpan(
+                          text:
+                              controller.localization.yourWaterIntakeForToday!,
+                          style: TextStyle(
+                              fontSize: 30.sp,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF171433))),
+                      TextSpan(
+                          text:
+                              controller.waterConsumed.value.toStringAsFixed(1),
+                          style: TextStyle(
+                              fontSize: 30.sp,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF8F01DF))),
+                    ]));
+              }),
+              32.verticalSpace,
+              Obx(() {
+                return DrinkIndicator(
+                  value: controller.waterConsumedPercentage.value,
+                  label: controller.waterConsumed.value.toStringAsFixed(1),
+                );
+              }),
+              Obx(() {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 28.0, vertical: 16),
+                  child: WaterRuler(
+                    value: controller.waterConsumedPercentage.value,
+                  ),
+                );
+              }),
+              32.verticalSpace,
+              // Obx(() {
+              //   return WaterHistoriesWidget(
+              //     waterHistories: contoller.waterList.value,
+              //   );
+              // }),
+              // Container(
+              //   margin: const EdgeInsets.symmetric(horizontal: 16),
+              //   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 18),
+              //   decoration: BoxDecoration(
+              //     color: Colors.white,
+              //     borderRadius: BorderRadius.circular(30),
+              //   ),
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       const Padding(
+              //         padding: EdgeInsets.only(bottom: 18.0),
+              //         child: Text("Last Update",
+              //             style: TextStyle(
+              //                 fontSize: 16,
+              //                 fontWeight: FontWeight.w700,
+              //                 color: Color(0xFF171433))),
+              //       ),
+              //       ListView.separated(
+              //           physics: const NeverScrollableScrollPhysics(),
+              //           shrinkWrap: true,
+              //           itemCount: 2,
+              //           itemBuilder: (context, index) {
+              //             return Row(
+              //               children: [
+              //                 Text('Water',
+              //                     style: TextStyle(
+              //                       fontSize: 16.sp,
+              //                       fontWeight: FontWeight.w500,
+              //                       color: const Color(0xFF171433),
+              //                     )),
+              //                 const Spacer(),
+              //                 Text('50 ml',
+              //                     style: TextStyle(
+              //                         fontSize: 16.sp,
+              //                         color: const Color(0xFF171433),
+              //                         fontWeight: FontWeight.w500)),
+              //               ],
+              //             );
+              //           },
+              //           separatorBuilder: (context, index) {
+              //             return const Padding(
+              //               padding: EdgeInsets.symmetric(vertical: 8.0),
+              //               child: Divider(),
+              //             );
+              //           }),
+              //     ],
+              //   ),
+              // ),
+              40.verticalSpace,
+              LiveWellButton(
+                  label: controller.localization.addDrink!,
+                  color: const Color(0xFF8F01DF),
+                  textColor: const Color(0xFFFFFFFF),
+                  onPressed: () {
+                    AppNavigator.push(routeName: AppPages.waterConsumedPage);
+                  }),
+            ],
+          ),
+        ),
+      ),
+      title: 'Water',
     );
   }
 }

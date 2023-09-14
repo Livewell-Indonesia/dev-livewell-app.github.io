@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:livewell/feature/dashboard/data/model/popup_assets_model.dart';
+import 'package:livewell/feature/profile/presentation/controller/exercise_information_controller.dart';
 import 'package:livewell/feature/profile/presentation/controller/physical_information_controller.dart';
 import 'package:livewell/feature/profile/presentation/page/account_settings_screen.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
@@ -12,6 +14,8 @@ import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
 class MyGoalsScreen extends StatelessWidget {
   final PhysicalInformationController controller = Get.find();
+  final ExerciseInformationController exerciseController =
+      Get.put(ExerciseInformationController());
   MyGoalsScreen({super.key});
 
   @override
@@ -139,6 +143,19 @@ class MyGoalsScreen extends StatelessWidget {
                               inputType: const TextInputType.numberWithOptions(
                                   decimal: true),
                             ),
+                            16.verticalSpace,
+                            AccountSettingsTextField(
+                              textEditingController:
+                                  exerciseController.exerciseController,
+                              hintText: 'Calories (kcal)'.tr,
+                              enabled: true,
+                              inputType:
+                                  const TextInputType.numberWithOptions(),
+                              inputFormatter: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r'[0-9]')),
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -152,7 +169,7 @@ class MyGoalsScreen extends StatelessWidget {
                 textColor: Colors.white,
                 color: const Color(0xFF8F01DF),
                 onPressed: () {
-                  controller.onUpdateTapped();
+                  controller.onUpdateTapped(exerciseController);
                 },
               ),
               32.verticalSpace

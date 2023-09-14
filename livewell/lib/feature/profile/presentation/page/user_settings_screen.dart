@@ -171,13 +171,13 @@ class UserSettingsScreen extends StatelessWidget {
                 onPressed: () {
                   controller.physicalInformationTapped();
                 }),
-            8.verticalSpace,
-            ProfileSettingsItem(
-                title: controller.localization.exercise!,
-                icon: Image.asset(Constant.icExerciseBlack3),
-                onPressed: () {
-                  controller.exerciseInformationTapped();
-                }),
+            // 8.verticalSpace,
+            // ProfileSettingsItem(
+            //     title: controller.localization.exercise!,
+            //     icon: Image.asset(Constant.icExerciseBlack3),
+            //     onPressed: () {
+            //       controller.exerciseInformationTapped();
+            //     }),
             8.verticalSpace,
             ProfileSettingsItem(
                 title: controller.localization.myGoals!,

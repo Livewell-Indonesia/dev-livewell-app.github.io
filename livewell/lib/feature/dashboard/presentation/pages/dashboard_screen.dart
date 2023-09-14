@@ -202,7 +202,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 32.verticalSpace,
                 InkWell(
                   onTap: () {
-                    Get.find<HomeController>().currentMenu.value = HomeTab.food;
+                    //Get.find<HomeController>().currentMenu.value = HomeTab.food;
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 20).r,
@@ -408,6 +408,31 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   ),
                 ),
                 30.verticalSpace,
+                QuickActionRow(
+                  onTap: (action) {
+                    switch (action) {
+                      case QuickAction.nutrition:
+                        // Get.find<HomeController>().currentMenu.value =
+                        //     HomeTab.d;
+                        AppNavigator.push(routeName: AppPages.nutritionScreen);
+                        break;
+                      case QuickAction.exercise:
+                        AppNavigator.push(routeName: AppPages.exerciseScreen);
+                        break;
+                      case QuickAction.sleep:
+                        AppNavigator.push(routeName: AppPages.sleepScreen);
+                        break;
+                      case QuickAction.water:
+                        AppNavigator.push(routeName: AppPages.waterScreen);
+                        break;
+                      case QuickAction.mood:
+                        break;
+                      default:
+                        // Handle the 'QuickAction.mood' case here
+                        break;
+                    }
+                  },
+                ),
                 Obx(() {
                   return controller.user.value.dailyJournal?.isEmpty ?? true
                       ? Container()
@@ -822,60 +847,84 @@ extension DoubleExtension on double {
   }
 }
 
-class NotificationTesting {
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+enum QuickAction { nutrition, exercise, sleep, water, mood }
 
-  Future<void> initNotification() async {
-    AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettingsIOS = DarwinInitializationSettings(
-        requestAlertPermission: true,
-        requestBadgePermission: true,
-        requestSoundPermission: true,
-        onDidReceiveLocalNotification: (id, title, body, payload) async {});
-
-    var initializationSettings = InitializationSettings(
-        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onDidReceiveNotificationResponse: (payload) async {
-      print("andi ganteng $payload");
-    });
-  }
-
-  notificationDetails() {
-    return const NotificationDetails(
-        android: AndroidNotificationDetails("channelId", "channelName",
-            importance: Importance.max, icon: '@mipmap/ic_launcher'),
-        iOS: DarwinNotificationDetails());
-  }
-
-  Future showNotification(
-      {int id = 0, String? title, String? body, String? payload}) async {
-    return flutterLocalNotificationsPlugin.show(
-        id, title, body, notificationDetails());
-  }
-
-  tz.TZDateTime _nextInstanceOfTenAM(DateTime time) {
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate = tz.TZDateTime(
-        tz.local, now.year, now.month, now.day, time.hour, time.minute);
-    if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(const Duration(days: 1));
+extension QuickActionExt on QuickAction {
+  String title() {
+    switch (this) {
+      case QuickAction.exercise:
+        return 'Exercise';
+      case QuickAction.sleep:
+        return 'Sleep';
+      case QuickAction.water:
+        return 'Water';
+      case QuickAction.mood:
+        return 'Mood';
+      case QuickAction.nutrition:
+        return 'Nutrition';
+      default:
+        return '';
     }
-    return scheduledDate;
   }
 
-  Future<void> scheduleDailyNotification() async {
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
-        'dailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydaily',
-        'dailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydailydaily',
-        _nextInstanceOfTenAM(DateTime.now().add(const Duration(minutes: 2))),
-        notificationDetails(),
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
-        matchDateTimeComponents: DateTimeComponents.time,
-        payload: "testing timed notification");
+  Image image() {
+    switch (this) {
+      case QuickAction.exercise:
+        return Image.asset(Constant.icExerciseUnselected);
+      case QuickAction.sleep:
+        return Image.asset(Constant.icSleepUnselected);
+      case QuickAction.water:
+        return Image.asset(Constant.icWaterUnselected);
+      case QuickAction.mood:
+        return Image.asset(Constant.icMeditationUnselected);
+      case QuickAction.nutrition:
+        return Image.asset(Constant.icFoodUnselected);
+      default:
+        return Image.asset(Constant.icFoodUnselected);
+    }
+  }
+}
+
+class QuickActionRow extends StatelessWidget {
+  // add on tap callback
+  final Function(QuickAction) onTap;
+  const QuickActionRow({super.key, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: QuickAction.values.map((e) {
+        return InkWell(
+          onTap: () {
+            onTap(e);
+          },
+          child: SizedBox(
+            width: 48.w,
+            height: 90.h,
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: e.image(),
+                ),
+                8.verticalSpace,
+                Text(
+                  e.title(),
+                  style: TextStyle(
+                      color: const Color(0xFF171433),
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.w400),
+                )
+              ],
+            ),
+          ),
+        );
+      }).toList(),
+    );
   }
 }
