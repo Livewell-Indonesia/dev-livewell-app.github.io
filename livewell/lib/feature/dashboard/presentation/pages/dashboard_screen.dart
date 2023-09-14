@@ -47,6 +47,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             controller.onInit();
           },
           child: SingleChildScrollView(
+            controller: homeController.scrollController,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -64,20 +65,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             shape: BoxShape.rectangle,
                           ),
                           child: Obx(() {
-                            if (controller.user.value.avatarUrl != null &&
-                                controller.user.value.avatarUrl!.isNotEmpty) {
+                            if (controller.user.value.avatarUrl != null && controller.user.value.avatarUrl!.isNotEmpty) {
                               return Image.network(
                                 controller.user.value.avatarUrl!,
                                 fit: BoxFit.cover,
                               );
                             } else {
                               return SvgPicture.asset(
-                                (controller.user.value.gender ??
-                                                Gender.male.name)
-                                            .toLowerCase() ==
-                                        "male"
-                                    ? Constant.imgMaleSVG
-                                    : Constant.imgFemaleSVG,
+                                (controller.user.value.gender ?? Gender.male.name).toLowerCase() == "male" ? Constant.imgMaleSVG : Constant.imgFemaleSVG,
                               );
                             }
                           }),
@@ -91,18 +86,12 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           Obx(() {
                             return Text(
                               'Hi ${controller.user.value.firstName ?? ""},',
-                              style: TextStyle(
-                                  color: const Color(0xFF171433),
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w500),
+                              style: TextStyle(color: const Color(0xFF171433), fontSize: 15.sp, fontWeight: FontWeight.w500),
                             );
                           }),
                           Text(
                             '${controller.localization.goodGreeting ?? ""} ${controller.greeting()}',
-                            style: TextStyle(
-                                color: const Color(0xFF171433),
-                                fontSize: 24.sp,
-                                fontWeight: FontWeight.w600),
+                            style: TextStyle(color: const Color(0xFF171433), fontSize: 24.sp, fontWeight: FontWeight.w600),
                           )
                         ],
                       ),
@@ -167,11 +156,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         //     :
                         child: Obx(() {
                           return YourWeightWidget(
-                            weight: (controller.user.value.weight ?? 0.0)
-                                .toDouble(),
-                            targetWeight:
-                                (controller.user.value.weightTarget ?? 0.0)
-                                    .toDouble(),
+                            weight: (controller.user.value.weight ?? 0.0).toDouble(),
+                            targetWeight: (controller.user.value.weightTarget ?? 0.0).toDouble(),
                           );
                         }),
                       ),
@@ -206,20 +192,13 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 20).r,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 20)
-                            .r,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20).r),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20).r,
+                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20).r),
                     child: Column(
                       children: [
                         Text(
                           'Calories',
-                          style: TextStyle(
-                              color: const Color(0xFF171433),
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.bold),
+                          style: TextStyle(color: const Color(0xFF171433), fontSize: 16.sp, fontWeight: FontWeight.bold),
                         ),
                         32.verticalSpace,
                         Obx(() {
@@ -232,21 +211,12 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                     Text(
                                       "${controller.dashboard.value.dashboard?.caloriesTaken ?? 0}",
                                       maxLines: 1,
-                                      style: TextStyle(
-                                          fontSize: 22.sp,
-                                          color: const Color(0xFF171433),
-                                          fontWeight: FontWeight.w500),
+                                      style: TextStyle(fontSize: 22.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w500),
                                     ),
                                     Text(
-                                      Get.find<DashboardController>()
-                                          .localization
-                                          .eaten!,
+                                      Get.find<DashboardController>().localization.eaten!,
                                       maxLines: 1,
-                                      style: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: const Color(0xFF171433)
-                                              .withOpacity(0.6),
-                                          fontWeight: FontWeight.w500),
+                                      style: TextStyle(fontSize: 12.sp, color: const Color(0xFF171433).withOpacity(0.6), fontWeight: FontWeight.w500),
                                     )
                                   ],
                                 ),
@@ -268,20 +238,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                       children: [
                                         Text(
                                           controller.remainingCalToShow().value,
-                                          style: TextStyle(
-                                              color: const Color(0xFF171433),
-                                              fontSize: 24.sp,
-                                              fontWeight: FontWeight.w500),
+                                          style: TextStyle(color: const Color(0xFF171433), fontSize: 24.sp, fontWeight: FontWeight.w500),
                                         ),
                                         Text(
-                                          Get.find<DashboardController>()
-                                              .localization
-                                              .remaining!,
-                                          style: TextStyle(
-                                              color: const Color(0xFF171433)
-                                                  .withOpacity(0.63),
-                                              fontSize: 11.sp,
-                                              fontWeight: FontWeight.w500),
+                                          Get.find<DashboardController>().localization.remaining!,
+                                          style: TextStyle(color: const Color(0xFF171433).withOpacity(0.63), fontSize: 11.sp, fontWeight: FontWeight.w500),
                                         )
                                       ],
                                     );
@@ -296,21 +257,12 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                     Text(
                                       "${controller.totalExercise.value}",
                                       maxLines: 1,
-                                      style: TextStyle(
-                                          fontSize: 22.sp,
-                                          color: const Color(0xFF171433),
-                                          fontWeight: FontWeight.w500),
+                                      style: TextStyle(fontSize: 22.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w500),
                                     ),
                                     Text(
-                                      Get.find<DashboardController>()
-                                          .localization
-                                          .burned!,
+                                      Get.find<DashboardController>().localization.burned!,
                                       maxLines: 1,
-                                      style: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: const Color(0xFF171433)
-                                              .withOpacity(0.6),
-                                          fontWeight: FontWeight.w500),
+                                      style: TextStyle(fontSize: 12.sp, color: const Color(0xFF171433).withOpacity(0.6), fontWeight: FontWeight.w500),
                                     )
                                   ],
                                 ),
@@ -328,10 +280,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                   children: [
                                     Text(
                                       "Carbs",
-                                      style: TextStyle(
-                                          color: const Color(0xFF171433),
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w600),
+                                      style: TextStyle(color: const Color(0xFF171433), fontSize: 12.sp, fontWeight: FontWeight.w600),
                                     ),
                                     const Divider(
                                       color: Colors.black,
@@ -340,10 +289,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                     Text(
                                       "${controller.dashboard.value.dashboard?.totalCarbsInG ?? 0} / ${controller.totalCarbs().round()} g",
                                       maxLines: 1,
-                                      style: TextStyle(
-                                          color: const Color(0xFF171433),
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w400),
+                                      style: TextStyle(color: const Color(0xFF171433), fontSize: 16.sp, fontWeight: FontWeight.w400),
                                     )
                                   ],
                                 ),
@@ -355,10 +301,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                   children: [
                                     Text(
                                       "Protein",
-                                      style: TextStyle(
-                                          color: const Color(0xFF171433),
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w600),
+                                      style: TextStyle(color: const Color(0xFF171433), fontSize: 12.sp, fontWeight: FontWeight.w600),
                                     ),
                                     const Divider(
                                       color: Colors.black,
@@ -366,10 +309,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                     ),
                                     Text(
                                       "${controller.dashboard.value.dashboard?.totalProteinInG ?? 0} / ${controller.totalProtein().round()} g",
-                                      style: TextStyle(
-                                          color: const Color(0xFF171433),
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w400),
+                                      style: TextStyle(color: const Color(0xFF171433), fontSize: 16.sp, fontWeight: FontWeight.w400),
                                     )
                                   ],
                                 ),
@@ -381,10 +321,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                   children: [
                                     Text(
                                       "Fat",
-                                      style: TextStyle(
-                                          color: const Color(0xFF171433),
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w600),
+                                      style: TextStyle(color: const Color(0xFF171433), fontSize: 12.sp, fontWeight: FontWeight.w600),
                                     ),
                                     const Divider(
                                       color: Colors.black,
@@ -392,10 +329,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                     ),
                                     Text(
                                       "${controller.dashboard.value.dashboard?.totalFatsInG ?? 0} / ${controller.totalFat().round()} g",
-                                      style: TextStyle(
-                                          color: const Color(0xFF171433),
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w400),
+                                      style: TextStyle(color: const Color(0xFF171433), fontSize: 16.sp, fontWeight: FontWeight.w400),
                                     )
                                   ],
                                 ),
@@ -409,6 +343,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 ),
                 30.verticalSpace,
                 QuickActionRow(
+                  key: homeController.navigationKey,
                   onTap: (action) {
                     switch (action) {
                       case QuickAction.nutrition:
@@ -440,10 +375,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 20).r,
                           child: Text(
                             controller.localization.taskList!,
-                            style: TextStyle(
-                                color: const Color(0xFF171433),
-                                fontSize: 20.sp,
-                                fontWeight: FontWeight.w600),
+                            style: TextStyle(color: const Color(0xFF171433), fontSize: 20.sp, fontWeight: FontWeight.w600),
                           ),
                         );
                 }),
@@ -461,8 +393,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         children: [
                           InkWell(
                             onTap: () {
-                              AppNavigator.push(
-                                  routeName: AppPages.waterConsumedPage);
+                              AppNavigator.push(routeName: AppPages.waterConsumedPage);
                               // AppNavigator.push(
                               //     routeName: AppPages.addMeal,
                               //     arguments: {
@@ -475,64 +406,43 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               padding: EdgeInsets.only(left: 10.w, right: 20.w),
                               width: 335.w,
                               height: 72.h,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20).r),
+                              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20).r),
                               child: Row(
                                 children: [
                                   Transform.scale(
                                     scale: 1.2,
                                     child: Obx(() {
                                       return Checkbox(
-                                        value: controller.waterConsumed.value >=
-                                            2000,
+                                        value: controller.waterConsumed.value >= 2000,
                                         onChanged: (val) {},
-                                        fillColor:
-                                            MaterialStateProperty.resolveWith(
-                                                (states) {
-                                          if (states.contains(
-                                              MaterialState.selected)) {
+                                        fillColor: MaterialStateProperty.resolveWith((states) {
+                                          if (states.contains(MaterialState.selected)) {
                                             return const Color(0xFFDDF235);
                                           }
                                           return const Color(0xFF171433);
                                         }),
                                         checkColor: const Color(0xFF171433),
                                         activeColor: Colors.green,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        side: const BorderSide(
-                                            color: Color(0xFF171433), width: 1),
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                        side: const BorderSide(color: Color(0xFF171433), width: 1),
                                       );
                                     }),
                                   ),
                                   Container(
                                     width: 43.w,
                                     height: 43.w,
-                                    decoration: BoxDecoration(
-                                        color: const Color(0xFFF1F1F1),
-                                        borderRadius:
-                                            BorderRadius.circular(10.r)),
-                                    child:
-                                        Image.asset(Constant.icWaterUnselected),
+                                    decoration: BoxDecoration(color: const Color(0xFFF1F1F1), borderRadius: BorderRadius.circular(10.r)),
+                                    child: Image.asset(Constant.icWaterUnselected),
                                   ),
                                   10.horizontalSpace,
                                   Text(
                                     'Water',
-                                    style: TextStyle(
-                                        color: const Color(0xFF171433)
-                                            .withOpacity(0.8),
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600),
+                                    style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
                                   ),
                                   const Spacer(),
                                   Text(
                                     "${(controller.waterConsumed.value / 1000).toStringAsFixed(1)} L",
-                                    style: TextStyle(
-                                        color: const Color(0xFF171433)
-                                            .withOpacity(0.8),
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600),
+                                    style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
                                   ),
                                 ],
                               ),
@@ -545,73 +455,44 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               itemBuilder: (context, index) {
                                 return InkWell(
                                   onTap: () {
-                                    AppNavigator.push(
-                                        routeName: AppPages.addMeal,
-                                        arguments: {
-                                          "type": controller.user.value
-                                              .dailyJournal?[index].name,
-                                          "date": DateTime.now()
-                                        });
+                                    AppNavigator.push(routeName: AppPages.addMeal, arguments: {"type": controller.user.value.dailyJournal?[index].name, "date": DateTime.now()});
                                   },
                                   child: Container(
-                                    padding: EdgeInsets.only(
-                                        left: 10.w, right: 20.w),
+                                    padding: EdgeInsets.only(left: 10.w, right: 20.w),
                                     width: 335.w,
                                     height: 72.h,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(20).r),
+                                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20).r),
                                     child: Row(
                                       children: [
                                         Transform.scale(
                                           scale: 1.2,
                                           child: Obx(() {
                                             return Checkbox(
-                                              value: controller
-                                                  .isCompleted(index)
-                                                  .value,
+                                              value: controller.isCompleted(index).value,
                                               onChanged: (val) {},
-                                              fillColor: MaterialStateProperty
-                                                  .resolveWith((states) {
-                                                if (states.contains(
-                                                    MaterialState.selected)) {
-                                                  return const Color(
-                                                      0xFFDDF235);
+                                              fillColor: MaterialStateProperty.resolveWith((states) {
+                                                if (states.contains(MaterialState.selected)) {
+                                                  return const Color(0xFFDDF235);
                                                 }
                                                 return const Color(0xFF171433);
                                               }),
-                                              checkColor:
-                                                  const Color(0xFF171433),
+                                              checkColor: const Color(0xFF171433),
                                               activeColor: Colors.green,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
-                                              side: const BorderSide(
-                                                  color: Color(0xFF171433),
-                                                  width: 1),
+                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                              side: const BorderSide(color: Color(0xFF171433), width: 1),
                                             );
                                           }),
                                         ),
                                         Container(
                                           width: 43.w,
                                           height: 43.w,
-                                          decoration: BoxDecoration(
-                                              color: const Color(0xFFF1F1F1),
-                                              borderRadius:
-                                                  BorderRadius.circular(10.r)),
-                                          child: Image.asset(
-                                              Constant.icFoodUnselected),
+                                          decoration: BoxDecoration(color: const Color(0xFFF1F1F1), borderRadius: BorderRadius.circular(10.r)),
+                                          child: Image.asset(Constant.icFoodUnselected),
                                         ),
                                         10.horizontalSpace,
                                         Text(
                                           "${controller.user.value.dailyJournal?[index].time} ${MealTime.values.firstWhere((element) => element.name == controller.user.value.dailyJournal?[index].name?.toLowerCase()).text()}",
-                                          style: TextStyle(
-                                              color: const Color(0xFF171433)
-                                                  .withOpacity(0.8),
-                                              fontSize: 16.sp,
-                                              fontWeight: FontWeight.w600),
+                                          style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
                                         ),
                                         const Spacer(),
                                         Icon(
@@ -626,9 +507,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               separatorBuilder: (context, index) {
                                 return 10.verticalSpace;
                               },
-                              itemCount:
-                                  controller.user.value.dailyJournal?.length ??
-                                      0),
+                              itemCount: controller.user.value.dailyJournal?.length ?? 0),
                         ],
                       );
                     }
@@ -651,8 +530,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         padding: EdgeInsets.only(left: 10.w, right: 20.w),
         width: 335.w,
         height: 72.h,
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(20).r),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20).r),
         child: Row(
           children: [
             Transform.scale(
@@ -668,26 +546,20 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 }),
                 checkColor: const Color(0xFF171433),
                 activeColor: Colors.green,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 side: const BorderSide(color: Color(0xFF171433), width: 1),
               ),
             ),
             Container(
               width: 43.w,
               height: 43.w,
-              decoration: BoxDecoration(
-                  color: const Color(0xFFF1F1F1),
-                  borderRadius: BorderRadius.circular(10.r)),
+              decoration: BoxDecoration(color: const Color(0xFFF1F1F1), borderRadius: BorderRadius.circular(10.r)),
               child: Image.asset(Constant.icFoodUnselected),
             ),
             10.horizontalSpace,
             Text(
               controller.localization.addFood!,
-              style: TextStyle(
-                  color: const Color(0xFF171433).withOpacity(0.8),
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600),
+              style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
             ),
             const Spacer(),
             Icon(
@@ -746,8 +618,7 @@ extension on CarouselDashboard {
 class YourWeightWidget extends StatelessWidget {
   final double weight;
   final double targetWeight;
-  const YourWeightWidget(
-      {super.key, required this.weight, required this.targetWeight});
+  const YourWeightWidget({super.key, required this.weight, required this.targetWeight});
 
   @override
   Widget build(BuildContext context) {
@@ -767,18 +638,12 @@ class YourWeightWidget extends StatelessWidget {
                   children: [
                     Text(
                       'Target: $targetWeight Kg',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w500),
+                      style: TextStyle(color: Colors.white, fontSize: 12.sp, fontWeight: FontWeight.w500),
                     ),
                     const Spacer(),
                     Text(
                       '${Get.find<HomeController>().localization.current ?? ""}: $weight Kg',
-                      style: TextStyle(
-                          color: Colors.white.withOpacity(0.5),
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w500),
+                      style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 12.sp, fontWeight: FontWeight.w500),
                     )
                   ],
                 ),
@@ -794,10 +659,7 @@ class YourWeightWidget extends StatelessWidget {
                 8.verticalSpace,
                 Text(
                   Get.find<DashboardController>().localization.keepWithOurPlan!,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500),
+                  style: TextStyle(color: Colors.white, fontSize: 12.sp, fontWeight: FontWeight.w500),
                 ),
                 12.verticalSpace,
                 Container(
@@ -810,13 +672,8 @@ class YourWeightWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      Get.find<DashboardController>()
-                          .localization
-                          .seeMyProgress!,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w600),
+                      Get.find<DashboardController>().localization.seeMyProgress!,
+                      style: TextStyle(color: Colors.white, fontSize: 12.sp, fontWeight: FontWeight.w600),
                     ),
                     12.horizontalSpace,
                     Icon(
@@ -915,10 +772,7 @@ class QuickActionRow extends StatelessWidget {
                 8.verticalSpace,
                 Text(
                   e.title(),
-                  style: TextStyle(
-                      color: const Color(0xFF171433),
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.w400),
+                  style: TextStyle(color: const Color(0xFF171433), fontSize: 10.sp, fontWeight: FontWeight.w400),
                 )
               ],
             ),
