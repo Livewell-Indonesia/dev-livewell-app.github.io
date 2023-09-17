@@ -14,13 +14,20 @@ import 'package:livewell/widgets/textfield/auth_textfield.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final controller = Get.put(LoginController());
+
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: 'Sign In'.tr,
+        title: controller.localization.signIn!,
         backgroundColor: Colors.white,
         body: Expanded(
           child: Column(
@@ -37,7 +44,7 @@ class LoginScreen extends StatelessWidget {
               AuthTextField(
                   controller: controller.email,
                   hintText: null,
-                  labelText: 'Email Address'.tr,
+                  labelText: controller.localization.emailAddress!,
                   errorText: null,
                   obscureText: false,
                   isEmail: true),
@@ -46,7 +53,7 @@ class LoginScreen extends StatelessWidget {
                 return AuthTextField(
                     controller: controller.password,
                     hintText: null,
-                    labelText: 'Password'.tr,
+                    labelText: controller.localization.password!,
                     errorText: controller.passwordError.isEmpty
                         ? null
                         : controller.passwordError.value,
@@ -54,7 +61,7 @@ class LoginScreen extends StatelessWidget {
               }),
               32.verticalSpace,
               LiveWellButton(
-                  label: 'Sign In'.tr,
+                  label: controller.localization.signIn!,
                   color: const Color(0xFFDDF235),
                   onPressed: () {
                     controller.doLogin();
@@ -65,14 +72,15 @@ class LoginScreen extends StatelessWidget {
                     AppNavigator.push(routeName: AppPages.forgotPassword);
                   },
                   child: Text(
-                    'Forgot Password?'.tr,
+                    controller.localization.forgotPassword!,
                     style: TextStyle(
                         color: const Color(0xFF8F01DF),
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500),
                   )),
               20.verticalSpace,
-              Text('or Sign in with'.tr, style: TextStyle(fontSize: 16.sp)),
+              Text(controller.localization.orSignInWith!,
+                  style: TextStyle(fontSize: 16.sp)),
               20.verticalSpace,
               SigninThridPartyButton(
                   type: SignInButtonType.google,
@@ -91,7 +99,7 @@ class LoginScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Don't have account?".tr,
+                  Text(controller.localization.dontHaveAccount!,
                       style: TextStyle(
                           color: const Color(0xFF171433).withOpacity(0.7),
                           fontSize: 16.sp,
@@ -101,7 +109,7 @@ class LoginScreen extends StatelessWidget {
                         AppNavigator.push(routeName: AppPages.signup);
                       },
                       child: Text(
-                        'Sign Up'.tr,
+                        controller.localization.signUp!,
                         style: TextStyle(
                             color: const Color(0xFF8F01DF),
                             fontSize: 16.sp,
@@ -114,14 +122,16 @@ class LoginScreen extends StatelessWidget {
                 child: RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                        text: "by Sign in above, i agree to Livewell’s\n".tr,
+                        text: controller
+                            .localization.bySigningInAgreeToTermsAndConditions!,
                         style: TextStyle(
                             color: const Color(0xFF171433).withOpacity(0.7),
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400),
                         children: [
                           TextSpan(
-                            text: 'Terms & Conditions '.tr,
+                            text:
+                                "${controller.localization.termsAndConditions} ",
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Get.to(() => const WebView(
@@ -137,14 +147,14 @@ class LoginScreen extends StatelessWidget {
                                 fontWeight: FontWeight.w500),
                           ),
                           TextSpan(
-                            text: "and".tr,
+                            text: '${controller.localization.and!} ',
                             style: TextStyle(
                                 color: const Color(0xFF171433).withOpacity(0.7),
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w400),
                           ),
                           TextSpan(
-                            text: 'Privacy Policy '.tr,
+                            text: controller.localization.privacyPolicy!,
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Get.to(() => const WebView(

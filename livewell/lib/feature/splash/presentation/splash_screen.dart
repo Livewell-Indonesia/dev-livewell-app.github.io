@@ -6,10 +6,15 @@ import 'package:livewell/feature/splash/presentation/controller/splash_controlle
 
 import '../../../core/localization/languages.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   SplashScreen({Key? key}) : super(key: key);
 
-  final SplashController controller = Get.put(SplashController());
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  SplashController controller = Get.put(SplashController());
 
   @override
   Widget build(BuildContext context) {

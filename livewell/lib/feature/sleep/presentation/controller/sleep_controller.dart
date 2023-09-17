@@ -14,8 +14,9 @@ import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/sleep/data/model/sleep_activity_model.dart';
 import 'package:livewell/feature/sleep/domain/usecase/get_sleep_list.dart';
 import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class SleepController extends GetxController {
+class SleepController extends BaseController {
   Rx<String> wentToSleep = ''.obs;
   Rx<String> wokeUp = ''.obs;
   Rx<String> feelASleep = ''.obs;

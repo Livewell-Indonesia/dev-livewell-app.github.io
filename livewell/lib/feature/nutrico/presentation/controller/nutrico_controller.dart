@@ -3,15 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/base/usecase.dart';
+import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/feature/food/presentation/pages/add_food_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/nutrico/data/model/nutrico_asset_model.dart';
 import 'package:livewell/feature/nutrico/domain/usecase/get_nutrico_asset.dart';
 import 'package:livewell/feature/nutrico/domain/usecase/post_nutrico.dart';
+import 'package:livewell/feature/nutrico/presentation/pages/nutrico_screen.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
+import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 import 'package:lottie/lottie.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class NutriCoController extends GetxController {
+class NutriCoController extends BaseController {
   TextEditingController foodDescription = TextEditingController();
   Rx<bool> buttonEnabled = false.obs;
   Rxn<NutricoAsset> nutricoAssets = Rxn<NutricoAsset>();
@@ -24,11 +29,46 @@ class NutriCoController extends GetxController {
     super.onInit();
   }
 
+  void showInfoFirstTime() async {
+    var show = await SharedPref.showInfoNutrico();
+    var data = nutricoAssets;
+    if (show && data.value != null) {
+      showModalBottomSheet<dynamic>(
+          context: Get.context!,
+          isScrollControlled: true,
+          shape: ShapeBorder.lerp(
+              const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              1),
+          builder: (context) {
+            return Obx(() {
+              return Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
+                ),
+                height: 0.85.sh,
+                child: NutricoAssetsPopupWidget(asset: nutricoAssets.value!),
+              );
+            });
+          });
+      SharedPref.saveShowInfoNutrico(false);
+    }
+  }
+
   void getNutricoAsset() async {
     GetNutricoAsset usecase = GetNutricoAsset.instance();
     final result = await usecase.call(NoParams());
     result.fold((l) {}, (r) {
       nutricoAssets.value = r;
+      showInfoFirstTime();
     });
   }
 

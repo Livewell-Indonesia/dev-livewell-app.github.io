@@ -8,7 +8,7 @@ import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_detail_mod
 import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_model.dart';
 import 'package:livewell/feature/nutriscore/domain/repository/nutri_score_repository.dart';
 
-class NutriscoreRepositoryImpl extends NetworkModule
+class NutriscoreRepositoryImpl with NetworkModule
     implements NutriscoreRepository {
   NutriscoreRepositoryImpl._();
   static NutriscoreRepositoryImpl getInstance() => NutriscoreRepositoryImpl._();

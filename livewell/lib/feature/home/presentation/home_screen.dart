@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:livewell/feature/daily_journal/presentation/page/daily_journal_screen.dart';
+import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/sleep/presentation/pages/sleep_screen.dart';
@@ -21,164 +23,155 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        extendBody: true,
-        body: Obx(() {
-          return selectBody();
-        }),
-        bottomNavigationBar: Obx(() {
-          return DotNavigationBar(
-              specialKey: controller.navigationKey,
-              currentIndex: controller.currentMenu.value.index,
-              dotIndicatorColor: Colors.transparent,
-              onTap: (p0) {
-                controller.changePageIndex(p0);
-              },
-              itemPadding: EdgeInsets.zero,
-              // itemPadding:
-              //     const EdgeInsets.symmetric(horizontal: 4, vertical: 10).r,
-              marginR: EdgeInsets.symmetric(horizontal: 50.w, vertical: 20.w),
-              selectedItemColor: Colors.white,
-              unselectedItemColor: const Color(0xFF8F01DF),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  blurRadius: 0.5,
-                  offset: const Offset(0, 0), // changes position of shadow
-                ),
-              ],
-              items: [
-                DotNavigationBarItem(
-                  icon: controller.currentMenu.value == HomeTab.food
-                      ? controller.customSelectedImage(
-                          Image.asset(
-                            Constant.icFoodSelected,
-                          ),
-                        )
-                      : controller.customUnselectedImage(
-                          Image.asset(
-                            Constant.icFoodUnselected,
-                          ),
+      extendBody: true,
+      body: Obx(() {
+        return selectBody();
+      }),
+      bottomNavigationBar: Container(
+          height: 72.h,
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: HomeTab.values.map((e) {
+              return Obx(
+                () {
+                  return InkWell(
+                    onTap: () {
+                      controller.changePageIndex(e.index);
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        e == controller.currentMenu.value
+                            ? e.selectedAssetWidget()
+                            : e.unselectedAssetWidget(),
+                        SizedBox(
+                          height: 4.h,
                         ),
-                  selectedColor: Colors.white,
-                  unselectedColor: const Color(0xFF8F01DF),
-                  // selectedColor: Colors.white,
-                ),
-                DotNavigationBarItem(
-                  icon: controller.currentMenu.value == HomeTab.home
-                      ? controller.customSelectedImage(
-                          Image.asset(
-                            Constant.icHomeSelected,
-                          ),
+                        Text(
+                          e.title(),
+                          style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                              color: e == controller.currentMenu.value
+                                  ? const Color(0xFF8F01DF)
+                                  : const Color(0xFF171433).withOpacity(0.8)),
                         )
-                      : controller.customUnselectedImage(
-                          Image.asset(
-                            Constant.icHomeUnselected,
-                          ),
-                        ),
-                  selectedColor: Colors.white,
-                  unselectedColor: const Color(0xFF8F01DF),
-                  // selectedColor: Colors.white,
-                ),
-                DotNavigationBarItem(
-                  icon: controller.currentMenu.value == HomeTab.exercise
-                      ? controller.customSelectedImage(
-                          Image.asset(
-                            Constant.icExerciseSelected,
-                          ),
-                        )
-                      : controller.customUnselectedImage(
-                          Image.asset(
-                            Constant.icExerciseUnselected,
-                          ),
-                        ),
-                  selectedColor: Colors.white,
-                  unselectedColor: const Color(0xFF8F01DF),
-                  // selectedColor: Colors.white,
-                ),
-                DotNavigationBarItem(
-                  icon: controller.currentMenu.value == HomeTab.sleep
-                      ? controller.customSelectedImage(
-                          Image.asset(
-                            Constant.icSleepSelected,
-                          ),
-                        )
-                      : controller.customUnselectedImage(
-                          Image.asset(
-                            Constant.icSleepUnselected,
-                          ),
-                        ),
-                  selectedColor: Colors.white,
-                  unselectedColor: const Color(0xFF8F01DF),
-                  // selectedColor: Colors.white,
-                ),
-                DotNavigationBarItem(
-                  icon: controller.currentMenu.value == HomeTab.water
-                      ? controller.customSelectedImage(
-                          Image.asset(
-                            Constant.icWaterSelected,
-                          ),
-                        )
-                      : controller.customUnselectedImage(
-                          Image.asset(
-                            Constant.icWaterUnselected,
-                          ),
-                        ),
-                  selectedColor: Colors.white,
-                  unselectedColor: const Color(0xFF8F01DF),
-                  // selectedColor: Colors.white,
-                ),
-                DotNavigationBarItem(
-                  icon: controller.currentMenu.value == HomeTab.account
-                      ? controller.customSelectedImage(SizedBox(
-                          width: 20.w,
-                          height: 20.w,
-                          child: SvgPicture.asset(
-                            Constant.icHomeAccount,
-                            width: 20.w,
-                            height: 20.w,
-                            fit: BoxFit.scaleDown,
-                            color: Colors.white,
-                          ),
-                        ))
-                      : controller.customUnselectedImage(SizedBox(
-                          width: 20.w,
-                          height: 20.w,
-                          child: SvgPicture.asset(
-                            Constant.icHomeAccount,
-                            width: 20.w,
-                            height: 20.w,
-                            fit: BoxFit.scaleDown,
-                            color: const Color(0xFF8F01DF),
-                          ),
-                        )),
-                  selectedColor: Colors.white,
-                  unselectedColor: const Color(0xFF8F01DF),
-                  // selectedColor: Colors.white,
-                ),
-              ]);
-        }));
+                      ],
+                    ),
+                  );
+                },
+              );
+            }).toList(),
+          )),
+      // bottomNavigationBar: Obx(() {
+      //   return DotNavigationBar(
+      //       enableFloatingNavBar: false,
+      //       specialKey: controller.navigationKey,
+      //       currentIndex: controller.currentMenu.value.index,
+      //       dotIndicatorColor: Colors.transparent,
+      //       onTap: (p0) {
+      //         controller.changePageIndex(p0);
+      //       },
+      //       itemPadding: EdgeInsets.zero,
+      //       selectedItemColor: Colors.white,
+      //       unselectedItemColor: Colors.white,
+      //       boxShadow: [
+      //         BoxShadow(
+      //           color: Colors.black.withOpacity(0.2),
+      //           blurRadius: 0.5,
+      //           offset: const Offset(0, 0), // changes position of shadow
+      //         ),
+      //       ],
+      //       items: [
+      //         DotNavigationBarItem(
+      //           icon: controller.currentMenu.value == HomeTab.food
+      //               ? controller.customSelectedImage(
+      //                   Image.asset(
+      //                     Constant.icFoodSelected,
+      //                   ),
+      //                 )
+      //               : controller.customUnselectedImage(
+      //                   Image.asset(
+      //                     Constant.icFoodUnselected,
+      //                   ),
+      //                 ),
+      //           selectedColor: Colors.white,
+      //           unselectedColor: Colors.white,
+      //           // selectedColor: Colors.white,
+      //         ),
+      //         DotNavigationBarItem(
+      //           icon: controller.currentMenu.value == HomeTab.home
+      //               ? controller.customSelectedImage(
+      //                   Image.asset(
+      //                     Constant.icHomeUnselected,
+      //                   ),
+      //                 )
+      //               : controller.customUnselectedImage(
+      //                   Image.asset(
+      //                     Constant.icHomeSelected,
+      //                   ),
+      //                 ),
+      //           selectedColor: Colors.white,
+      //           unselectedColor: Colors.white,
+      //           // selectedColor: Colors.white,
+      //         ),
+      //         DotNavigationBarItem(
+      //           icon: controller.currentMenu.value == HomeTab.account
+      //               ? controller.customSelectedImage(SizedBox(
+      //                   width: 20.w,
+      //                   height: 20.w,
+      //                   child: SvgPicture.asset(
+      //                     Constant.icHomeAccount,
+      //                     width: 20.w,
+      //                     height: 20.w,
+      //                     fit: BoxFit.scaleDown,
+      //                     color: Colors.white,
+      //                   ),
+      //                 ))
+      //               : controller.customUnselectedImage(SizedBox(
+      //                   width: 20.w,
+      //                   height: 20.w,
+      //                   child: SvgPicture.asset(
+      //                     Constant.icHomeAccount,
+      //                     width: 20.w,
+      //                     height: 20.w,
+      //                     fit: BoxFit.scaleDown,
+      //                     color: const Color(0xFF8F01DF),
+      //                   ),
+      //                 )),
+      //           selectedColor: Colors.white,
+      //           unselectedColor: Colors.white,
+      //           // selectedColor: Colors.white,
+      //         ),
+      //       ]);
+      // })
+    );
   }
 
   Widget selectBody() {
     switch (controller.currentMenu.value) {
       case HomeTab.home:
         return const DashBoardScreen();
-      case HomeTab.food:
-        return FoodScreen();
-      case HomeTab.exercise:
-        return const ExerciseScreen();
-      case HomeTab.meditation:
-        return Container(
-          color: Colors.yellow,
-        );
-      case HomeTab.sleep:
-        return const SleepScreen();
-      case HomeTab.nutrition:
-        return Container(
-          color: Colors.yellow,
-        );
-      case HomeTab.water:
-        return const WaterScreen();
+      case HomeTab.dailyJournal:
+        return UserDiaryScreen();
+      // case HomeTab.exercise:
+      //   return const ExerciseScreen();
+      // case HomeTab.meditation:
+      //   return Container(
+      //     color: Colors.yellow,
+      //   );
+      // case HomeTab.sleep:
+      //   return const SleepScreen();
+      // case HomeTab.nutrition:
+      //   return Container(
+      //     color: Colors.yellow,
+      //   );
+      // case HomeTab.water:
+      //   return const WaterScreen();
       case HomeTab.account:
         return UserSettingsScreen();
     }

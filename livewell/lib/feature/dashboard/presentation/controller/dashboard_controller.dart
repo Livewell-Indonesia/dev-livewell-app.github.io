@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:health/health.dart';
 import 'package:intl/intl.dart';
+import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
@@ -14,6 +15,7 @@ import 'package:livewell/feature/dashboard/data/model/dashboard_model.dart';
 import 'package:livewell/feature/dashboard/data/model/user_model.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_dashboard_data.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_user.dart';
+import 'package:livewell/feature/dashboard/domain/usecase/register_device_token.dart';
 import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
 import 'package:livewell/feature/food/domain/usecase/get_meal_history.dart';
@@ -29,7 +31,7 @@ import '../../../diary/domain/entity/user_meal_history_model.dart';
 import '../../../exercise/domain/usecase/post_exercise_data.dart';
 import 'dart:core';
 
-class DashboardController extends GetxController {
+class DashboardController extends BaseController {
   GetUser getUser = GetUser.instance();
   GetMealHistory getMealHistory = GetMealHistory.instance();
   GetDashboardData getDashboardData = GetDashboardData.instance();
@@ -50,7 +52,7 @@ class DashboardController extends GetxController {
   var types = [
     HealthDataType.STEPS,
     HealthDataType.ACTIVE_ENERGY_BURNED,
-    HealthDataType.SLEEP_IN_BED,
+    HealthDataType.SLEEP_IN_BED
   ];
 
   var permissions = [
@@ -420,12 +422,12 @@ class DashboardController extends GetxController {
   String greeting() {
     var hour = DateTime.now().hour;
     if (hour < 12) {
-      return 'Morning'.tr;
+      return localization.morning!;
     }
     if (hour < 17) {
-      return 'Afternoon'.tr;
+      return localization.afternoon!;
     }
-    return 'Evening'.tr;
+    return localization.evening!;
   }
 
   Rx<double> getWeightPercentage() {

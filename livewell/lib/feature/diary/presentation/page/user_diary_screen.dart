@@ -9,6 +9,7 @@ import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
 import 'package:livewell/feature/diary/presentation/controller/user_diary_controller.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -22,7 +23,7 @@ class UserDiaryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: "Diary".tr,
+        title: controller.localization.diary!,
         body: Expanded(
           child: RefreshIndicator(
             onRefresh: () async {
@@ -151,7 +152,7 @@ class UserDiaryScreen extends StatelessWidget {
                         : Column(
                             children: [
                               ExpandableDiaryItem(
-                                title: "Breakfast".tr,
+                                title: controller.localization.breakfast!,
                                 data: controller.filteredMealHistory
                                     .where((p0) =>
                                         p0.mealType?.toUpperCase() ==
@@ -177,7 +178,7 @@ class UserDiaryScreen extends StatelessWidget {
                               ),
                               20.verticalSpace,
                               ExpandableDiaryItem(
-                                title: "Lunch".tr,
+                                title: controller.localization.lunch!,
                                 data: controller.filteredMealHistory
                                     .where((p0) =>
                                         p0.mealType?.toUpperCase() ==
@@ -203,7 +204,7 @@ class UserDiaryScreen extends StatelessWidget {
                               ),
                               20.verticalSpace,
                               ExpandableDiaryItem(
-                                title: "Dinner".tr,
+                                title: controller.localization.dinner!,
                                 data: controller.filteredMealHistory
                                     .where((p0) =>
                                         p0.mealType?.toUpperCase() ==
@@ -229,7 +230,7 @@ class UserDiaryScreen extends StatelessWidget {
                               ),
                               20.verticalSpace,
                               ExpandableDiaryItem(
-                                title: "Snack".tr,
+                                title: controller.localization.snack!,
                                 data: controller.filteredMealHistory
                                     .where((p0) =>
                                         p0.mealType?.toUpperCase() ==
@@ -254,7 +255,8 @@ class UserDiaryScreen extends StatelessWidget {
                               20.verticalSpace,
                             ],
                           );
-                  })
+                  }),
+                  80.verticalSpace,
                 ],
               ),
             ),
@@ -425,7 +427,7 @@ class _HistoryContentState extends State<HistoryContent> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text("done".tr),
+                  child: Text(Get.find<HomeController>().localization.done!),
                 ),
               );
             }

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:livewell/feature/auth/data/model/register_model.dart';
 import 'package:livewell/feature/dashboard/data/model/app_config_model.dart';
 import 'package:livewell/feature/dashboard/data/model/dashboard_model.dart';
 import 'package:livewell/feature/dashboard/data/model/popup_assets_model.dart';
@@ -11,4 +12,5 @@ abstract class DashBoardRepository {
   Future<Either<Failure, DashboardModel>> getDashboardData();
   Future<Either<Failure, AppConfigModel>> getAppConfig();
   Future<Either<Failure, PopupAssetsModel>> getPopupAssets();
+  Future<Either<Failure, RegisterModel>> registerDevice(String fcmToken);
 }

@@ -12,8 +12,9 @@ import 'package:livewell/feature/water/domain/usecase/get_water_data.dart';
 import 'package:livewell/feature/water/domain/usecase/post_water_data.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class WaterController extends GetxController {
+class WaterController extends BaseController {
   var waterConsumed = 0.0.obs;
   var waterConsumedPercentage = 0.0.obs;
   final int waterGoal = 2000;

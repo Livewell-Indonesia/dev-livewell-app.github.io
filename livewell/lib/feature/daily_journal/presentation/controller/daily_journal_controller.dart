@@ -1,12 +1,13 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/feature/daily_journal/domain/usecase/post_daily_journal.dart';
 import 'package:livewell/feature/dashboard/data/model/user_model.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
 
-class DailyJournalController extends GetxController {
+class DailyJournalController extends BaseController {
   Rxn<DateTime> breakfastTime = Rxn<DateTime>(DateTime(DateTime.now().year,
       DateTime.now().month, DateTime.now().day, 7, 0, 0, 0, 0));
   Rxn<DateTime> lunchTime = Rxn<DateTime>(DateTime(DateTime.now().year,

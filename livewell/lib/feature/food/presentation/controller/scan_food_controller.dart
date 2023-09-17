@@ -3,8 +3,9 @@ import 'package:livewell/feature/food/domain/usecase/get_cameras.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../pages/add_meal_screen.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class ScanFoodController extends GetxController {
+class ScanFoodController extends BaseController {
   final MobileScannerController mobileScannerController =
       MobileScannerController();
 

@@ -8,7 +8,7 @@ import '../../../../core/local_storage/shared_pref.dart';
 import '../../../auth/data/model/register_model.dart';
 import '../../domain/usecase/post_questionnaire.dart';
 
-class QuestionnaireRepositoryImpl extends NetworkModule
+class QuestionnaireRepositoryImpl with NetworkModule
     implements QuestionnaireRepository {
   QuestionnaireRepositoryImpl._();
 

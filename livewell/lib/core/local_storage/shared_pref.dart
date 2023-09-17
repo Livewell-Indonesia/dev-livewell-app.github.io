@@ -108,4 +108,52 @@ class SharedPref {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setBool(PrefConstant.showInfoSleep, show);
   }
+
+  static Future<bool> showInfoNutrico() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(PrefConstant.showInfoNutrico) ?? true;
+  }
+
+  static Future<bool> saveShowInfoNutrico(bool show) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setBool(PrefConstant.showInfoNutrico, show);
+  }
+
+  // save user locale
+  static Future<String> saveUserLocale(String locale) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(PrefConstant.userLocale, locale);
+    return locale;
+  }
+
+  static Future<String> getUserLocale() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(PrefConstant.userLocale) ?? '';
+  }
+
+  static Future<String> saveLocalizationJson(String data) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(PrefConstant.localizationJSON, data);
+    return data;
+  }
+
+  static Future<String?> getLocalizationJson() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(PrefConstant.localizationJSON);
+  }
+
+  static Future<String?> getFCMToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(PrefConstant.fcmToken);
+  }
+
+  static Future<bool> saveFCMToken(String token) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setString(PrefConstant.fcmToken, token);
+  }
+
+  static Future<bool> clearFCMToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.remove(PrefConstant.fcmToken);
+  }
 }

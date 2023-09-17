@@ -20,6 +20,8 @@ class SleepSelector extends StatelessWidget {
           selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
             background: Colors.transparent,
           ),
+          scrollController: FixedExtentScrollController(
+              initialItem: controller.sleep.value - 1),
           useMagnifier: true,
           magnification: 1.3,
           children: List.generate(24, (index) {

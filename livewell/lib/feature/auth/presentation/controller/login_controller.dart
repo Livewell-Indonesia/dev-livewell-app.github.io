@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/base/base_controller.dart';
+import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
+import 'package:livewell/core/log.dart';
+import 'package:livewell/core/notification/firebase_notification.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_apple_auth.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_forgot_password.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_google_auth.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_login.dart';
+import 'package:livewell/feature/dashboard/domain/usecase/get_user.dart';
+import 'package:livewell/feature/dashboard/domain/usecase/register_device_token.dart';
 import 'package:livewell/routes/app_navigator.dart';
 
 class LoginController extends BaseController {
@@ -51,10 +56,30 @@ class LoginController extends BaseController {
         Get.snackbar('Authentication Failed',
             'Your authentication information is incorrect. Please try again.');
       }
-    }, (r) {
+    }, (r) async {
       SharedPref.saveToken(r.accessToken!);
       SharedPref.saveRefreshToken(r.refreshToken!);
-      AppNavigator.pushAndRemove(routeName: AppPages.home);
+      GetUser getUser = GetUser.instance();
+      final result = await getUser(NoParams());
+      result.fold((l) {}, (r) async {
+        await LivewellNotification().init();
+        await registerDeviceToken();
+        changeLocalization(LanguagefromLocale(r.language!)!)
+            .then((value) async {
+          AppNavigator.pushAndRemove(routeName: AppPages.home);
+        });
+      });
+    });
+  }
+
+  Future<void> registerDeviceToken() async {
+    RegisterDevice registerDevice = RegisterDevice.instance();
+    final token = await SharedPref.getFCMToken();
+    final result = await registerDevice.call(token ?? "");
+    result.fold((l) {
+      Log.error(l);
+    }, (r) {
+      Log.colorGreen(r);
     });
   }
 
@@ -81,10 +106,19 @@ class LoginController extends BaseController {
         Get.snackbar('Authentication Failed',
             'Your authentication information is incorrect. Please try again.');
       }
-    }, (r) {
+    }, (r) async {
       SharedPref.saveToken(r.accessToken!);
       SharedPref.saveRefreshToken(r.refreshToken!);
-      AppNavigator.pushAndRemove(routeName: AppPages.home);
+      GetUser getUser = GetUser.instance();
+      final result = await getUser(NoParams());
+      result.fold((l) {}, (r) async {
+        await LivewellNotification().init();
+        await registerDeviceToken();
+        changeLocalization(LanguagefromLocale(r.language!)!)
+            .then((value) async {
+          AppNavigator.pushAndRemove(routeName: AppPages.home);
+        });
+      });
     });
   }
 
@@ -99,10 +133,19 @@ class LoginController extends BaseController {
         Get.snackbar('Authentication Failed',
             'Your authentication information is incorrect. Please try again.');
       }
-    }, (r) {
+    }, (r) async {
       SharedPref.saveToken(r.accessToken!);
       SharedPref.saveRefreshToken(r.refreshToken!);
-      AppNavigator.pushAndRemove(routeName: AppPages.home);
+      GetUser getUser = GetUser.instance();
+      final result = await getUser(NoParams());
+      result.fold((l) {}, (r) async {
+        await LivewellNotification().init();
+        await registerDeviceToken();
+        changeLocalization(LanguagefromLocale(r.language!)!)
+            .then((value) async {
+          AppNavigator.pushAndRemove(routeName: AppPages.home);
+        });
+      });
     });
   }
 

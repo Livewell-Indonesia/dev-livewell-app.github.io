@@ -12,7 +12,7 @@ import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.
 import 'package:livewell/feature/exercise/domain/usecase/get_exercise_list.dart';
 import 'package:livewell/feature/exercise/domain/usecase/post_exercise_data.dart';
 
-class ExerciseRepositoryImpl extends NetworkModule
+class ExerciseRepositoryImpl with NetworkModule
     implements ExerciseRepository {
   ExerciseRepositoryImpl._();
 

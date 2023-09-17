@@ -6,20 +6,22 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/questionnaire/domain/usecase/post_questionnaire.dart';
 
 import '../../../../core/log.dart';
 import '../../../../routes/app_navigator.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class QuestionnaireController extends GetxController {
-  Rx<QuestionnairePage> currentPage = QuestionnairePage.name.obs;
+class QuestionnaireController extends BaseController {
+  Rx<QuestionnairePage> currentPage = QuestionnairePage.language.obs;
   var progress = 0.0.obs;
   var date = DateTime(1990, 1, 1).obs;
   var dateOfBirth = "".obs;
   var age = 1.obs;
   var height = 150.obs;
-  var drink = 1.obs;
-  var sleep = 1.obs;
+  var drink = 8.obs;
+  var sleep = 7.obs;
   var weight = 50.0.obs;
   var targetWeight = 50.0.obs;
   Rx<Gender> selectedGender = Gender.male.obs;
@@ -27,6 +29,7 @@ class QuestionnaireController extends GetxController {
   Rx<DietrarySelection> selectedDietrary = DietrarySelection.no.obs;
   Rx<TargetExerciseSelection> selectedExerciseTarget =
       TargetExerciseSelection.light.obs;
+  Rx<AvailableLanguage> selectedLanguage = AvailableLanguage.en.obs;
   TextEditingController selectedDietraryText = TextEditingController();
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
@@ -69,28 +72,26 @@ class QuestionnaireController extends GetxController {
   }
 
   void onBackPressed() {
-    if (currentPage.value == QuestionnairePage.gender) {
-      Get.back();
-    } else {
-      currentPage.value = findPreviousPage();
-    }
+    currentPage.value = findPreviousPage();
   }
 
   void sendData() async {
     var usersData = Get.find<DashboardController>().user.value;
     var params = QuestionnaireParams.asParams(
-        firstName.text,
-        lastName.text,
-        selectedGender.value.label(),
-        DateFormat('yyyy-MM-dd').format(date.value),
-        weight.value,
-        height.value,
-        targetWeight.value,
-        selectedExerciseTarget.value.value(),
-        drink.value.toString(),
-        sleep.value.toString(),
-        selectedDietraryText.text,
-        selectedGoals.value.value());
+      firstName.text,
+      lastName.text,
+      selectedGender.value.label(),
+      DateFormat('yyyy-MM-dd').format(date.value),
+      weight.value,
+      height.value,
+      targetWeight.value,
+      selectedExerciseTarget.value.value(),
+      drink.value.toString(),
+      sleep.value.toString(),
+      selectedDietraryText.text,
+      selectedGoals.value.value(),
+      selectedLanguage.value.code(),
+    );
     inspect(params);
     Log.info(params.toJson());
     inspect(params.toJson());
@@ -105,6 +106,7 @@ class QuestionnaireController extends GetxController {
 }
 
 enum QuestionnairePage {
+  language,
   name,
   gender,
   age,
@@ -122,59 +124,79 @@ enum QuestionnairePage {
 extension QuestionnairePageData on QuestionnairePage {
   String title() {
     switch (this) {
+      case QuestionnairePage.language:
+        return Get.find<HomeController>().localization.language ?? "Language";
       case QuestionnairePage.name:
-        return 'Name';
+        return Get.find<HomeController>().localization.name!;
       case QuestionnairePage.gender:
-        return 'Gender';
+        return Get.find<HomeController>().localization.gender!;
       case QuestionnairePage.age:
-        return 'How old are you?';
+        return Get.find<HomeController>().localization.howOldAreYou!;
       case QuestionnairePage.weight:
-        return 'What\'s your weight?';
+        return Get.find<HomeController>().localization.whatsYourWeight!;
       case QuestionnairePage.height:
-        return 'What\'s your height?';
+        return Get.find<HomeController>().localization.whatsYourHeight!;
       case QuestionnairePage.drink:
-        return 'Drink';
+        return Get.find<HomeController>().localization.drink!;
       case QuestionnairePage.sleep:
-        return 'Sleep';
+        return Get.find<HomeController>().localization.sleep!;
       case QuestionnairePage.dieatary:
-        return 'Any dietary restriction?';
+        return Get.find<HomeController>().localization.anyDietaryRestrictions!;
       case QuestionnairePage.goal:
-        return 'Your specific goal?';
+        return Get.find<HomeController>().localization.yourSpecificGoal!;
       case QuestionnairePage.exercise:
-        return 'Exercise';
+        return Get.find<HomeController>().localization.exercise!;
       case QuestionnairePage.targetWeight:
-        return 'Target weight';
+        return Get.find<HomeController>().localization.targetWeight!;
       case QuestionnairePage.finish:
-        return 'finish';
+        return Get.find<HomeController>().localization.finish!;
     }
   }
 
   String subtitle() {
     switch (this) {
+      case QuestionnairePage.language:
+        return Get.find<HomeController>().localization.selectYourPreferred!;
       case QuestionnairePage.name:
-        return 'Help us to create your personalized plan';
+        return Get.find<HomeController>()
+            .localization
+            .helpUsToCreatePersonalize!;
       case QuestionnairePage.gender:
-        return 'Help us to create your personalized plan';
+        return Get.find<HomeController>()
+            .localization
+            .helpUsToCreatePersonalize!;
       case QuestionnairePage.age:
-        return 'Help us to create your personalized plan';
+        return Get.find<HomeController>()
+            .localization
+            .helpUsToCreatePersonalize!;
       case QuestionnairePage.weight:
-        return 'Help us to create your personalized plan';
+        return Get.find<HomeController>()
+            .localization
+            .helpUsToCreatePersonalize!;
       case QuestionnairePage.height:
-        return 'Help us to create your personalized plan';
+        return Get.find<HomeController>()
+            .localization
+            .helpUsToCreatePersonalize!;
       case QuestionnairePage.drink:
-        return 'How Many Glasses of Water Do you Drink Per day?';
+        return Get.find<HomeController>().localization.howManyGlassesOfWater!;
       case QuestionnairePage.sleep:
-        return 'How Many Hours Of Sleep Do You Usually Have?';
+        return Get.find<HomeController>().localization.howManyHoursOfSleeps!;
       case QuestionnairePage.dieatary:
-        return 'Help us to create your personalized plan';
+        return Get.find<HomeController>()
+            .localization
+            .helpUsToCreatePersonalize!;
       case QuestionnairePage.goal:
-        return 'You can always change this later';
+        return Get.find<HomeController>()
+            .localization
+            .youCanAlwaysChangeThisLater!;
       case QuestionnairePage.exercise:
-        return 'Set your fitness goals';
+        return Get.find<HomeController>().localization.setYourFitnessGoals!;
       case QuestionnairePage.targetWeight:
-        return 'Help us to create your personalized plan';
+        return Get.find<HomeController>()
+            .localization
+            .helpUsToCreatePersonalize!;
       case QuestionnairePage.finish:
-        return 'finish';
+        return Get.find<HomeController>().localization.finish!;
     }
   }
 }
@@ -194,9 +216,9 @@ extension GenderContent on Gender {
   String label() {
     switch (this) {
       case Gender.female:
-        return "Female";
+        return Get.find<HomeController>().localization.female!;
       case Gender.male:
-        return "Male";
+        return Get.find<HomeController>().localization.male!;
     }
   }
 }
@@ -207,11 +229,33 @@ extension DietrarySelectionContent on DietrarySelection {
   String title() {
     switch (this) {
       case DietrarySelection.yes:
-        return 'Yes'.tr;
+        return Get.find<HomeController>().localization.yes!;
       case DietrarySelection.no:
-        return 'No'.tr;
+        return Get.find<HomeController>().localization.no!;
       case DietrarySelection.none:
-        return 'None'.tr;
+        return Get.find<HomeController>().localization.none!;
+    }
+  }
+}
+
+enum LanguageSelection { english, indonesia }
+
+extension LangaugeSelectionContent on LanguageSelection {
+  String title() {
+    switch (this) {
+      case LanguageSelection.english:
+        return 'English';
+      case LanguageSelection.indonesia:
+        return 'Indonesia';
+    }
+  }
+
+  String code() {
+    switch (this) {
+      case LanguageSelection.english:
+        return 'en_US';
+      case LanguageSelection.indonesia:
+        return 'id_ID';
     }
   }
 }
@@ -221,7 +265,6 @@ enum GoalSelection {
   betterSleeping,
   weightLoss,
   trackNutrition,
-  improveOverallFitness,
   none
 }
 
@@ -229,34 +272,30 @@ extension GoalSelectionContent on GoalSelection {
   String title() {
     switch (this) {
       case GoalSelection.getFitter:
-        return "Get Fitter".tr;
+        return Get.find<HomeController>().localization.getFitter!;
       case GoalSelection.betterSleeping:
-        return "Better Sleeping".tr;
+        return Get.find<HomeController>().localization.betterSleeping!;
       case GoalSelection.weightLoss:
-        return "Weight Loss".tr;
+        return Get.find<HomeController>().localization.weightLoss!;
       case GoalSelection.trackNutrition:
-        return "Track Nutrition".tr;
-      case GoalSelection.improveOverallFitness:
-        return "Improve Overall Fitness".tr;
+        return Get.find<HomeController>().localization.trackNutrition!;
       case GoalSelection.none:
-        return "None".tr;
+        return Get.find<HomeController>().localization.none!;
     }
   }
 
   String value() {
     switch (this) {
       case GoalSelection.getFitter:
-        return "Get Fitter";
+        return 'Get Fitter';
       case GoalSelection.betterSleeping:
         return "Better Sleeping";
       case GoalSelection.weightLoss:
         return "Weight Loss";
       case GoalSelection.trackNutrition:
         return "Track Nutrition";
-      case GoalSelection.improveOverallFitness:
-        return "Improve Overall Fitness";
       case GoalSelection.none:
-        return "None";
+        return "none";
     }
   }
 }
@@ -267,11 +306,11 @@ extension TargetExerciseContent on TargetExerciseSelection {
   String title() {
     switch (this) {
       case TargetExerciseSelection.light:
-        return "200 Kcal - Light";
+        return Get.find<HomeController>().localization.s200kcal!;
       case TargetExerciseSelection.moderate:
-        return "300 Kcal - Moderate";
+        return Get.find<HomeController>().localization.s300kcal!;
       case TargetExerciseSelection.active:
-        return "400 Kcal - Active";
+        return Get.find<HomeController>().localization.s400kcal!;
     }
   }
 

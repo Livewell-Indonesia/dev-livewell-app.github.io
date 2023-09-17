@@ -12,7 +12,7 @@ import '../../../auth/data/model/register_model.dart';
 import '../../domain/repository/profile_repository.dart';
 import '../../domain/usecase/update_user_info.dart';
 
-class UserProfileRepositoryImpl extends NetworkModule
+class UserProfileRepositoryImpl with NetworkModule
     implements UserProfileRepository {
   UserProfileRepositoryImpl._();
 

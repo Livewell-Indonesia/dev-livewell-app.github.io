@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:sentry/sentry.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 import '../error/error_const.dart';
@@ -9,7 +10,7 @@ import 'api_exception.dart';
 import 'dio_module.dart';
 import 'result.dart';
 
-abstract class NetworkModule {
+mixin NetworkModule {
   Dio get _dio => DioModule.getInstance();
 
   BaseOptions? _baseOptions;
@@ -25,7 +26,8 @@ abstract class NetworkModule {
         response.statusMessage,
         response.statusCode,
       );
-    } on DioError catch (e) {
+    } on DioError catch (e, stacktrace) {
+      Sentry.captureException(e, stackTrace: stacktrace);
       if (e.type == DioErrorType.response) {
         return Result.error(e.response!.statusCode ?? 400, e.response!.data,
             message: e.response!.data['message']);

@@ -1,15 +1,18 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/profile/presentation/controller/physical_information_controller.dart';
 import 'package:livewell/feature/profile/presentation/controller/user_settings_controller.dart';
 import 'package:livewell/feature/profile/presentation/page/my_goals_screen.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
+import 'package:livewell/widgets/buttons/livewell_button.dart';
 
 class UserSettingsScreen extends StatelessWidget {
   final UserSettingsController controller = Get.put(UserSettingsController());
@@ -143,14 +146,14 @@ class UserSettingsScreen extends StatelessWidget {
             ),
             //32.verticalSpace,
             ProfileSettingsItem(
-                title: 'Account Settings'.tr,
+                title: controller.localization.accountSettings!,
                 icon: Image.asset(Constant.icAccountSetting),
                 onPressed: () {
                   controller.accountSettingsTap();
                 }),
             8.verticalSpace,
             ProfileSettingsItem(
-                title: 'Daily Journal'.tr,
+                title: controller.localization.dailyJournal!,
                 icon: Icon(
                   Icons.class_outlined,
                   size: 20.w,
@@ -160,7 +163,7 @@ class UserSettingsScreen extends StatelessWidget {
                 }),
             8.verticalSpace,
             ProfileSettingsItem(
-                title: 'Physical Information'.tr,
+                title: controller.localization.physicalInformation!,
                 icon: Icon(
                   Icons.accessibility_new,
                   size: 20.w,
@@ -168,16 +171,16 @@ class UserSettingsScreen extends StatelessWidget {
                 onPressed: () {
                   controller.physicalInformationTapped();
                 }),
+            // 8.verticalSpace,
+            // ProfileSettingsItem(
+            //     title: controller.localization.exercise!,
+            //     icon: Image.asset(Constant.icExerciseBlack3),
+            //     onPressed: () {
+            //       controller.exerciseInformationTapped();
+            //     }),
             8.verticalSpace,
             ProfileSettingsItem(
-                title: 'Exercise'.tr,
-                icon: Image.asset(Constant.icExerciseBlack3),
-                onPressed: () {
-                  controller.exerciseInformationTapped();
-                }),
-            8.verticalSpace,
-            ProfileSettingsItem(
-                title: 'My Goals'.tr,
+                title: controller.localization.myGoals!,
                 icon: const Icon(Icons.ballot_outlined, size: 20),
                 onPressed: () {
                   Get.to(() => MyGoalsScreen());
@@ -185,7 +188,63 @@ class UserSettingsScreen extends StatelessWidget {
 
             8.verticalSpace,
             ProfileSettingsItem(
-              title: 'Logout'.tr,
+                title: controller.localization.languages ?? "",
+                icon: const Icon(Icons.language, size: 20),
+                onPressed: () {
+                  Get.dialog(
+                      Dialog(
+                          child: SizedBox(
+                              height: 200.h,
+                              child: Obx(() {
+                                return Column(
+                                  children: [
+                                    ListTile(
+                                      leading: Text(
+                                        AvailableLanguage.en.title,
+                                        style: TextStyle(
+                                            color: Color(0xFF171433),
+                                            fontSize: 14.sp),
+                                      ),
+                                      trailing: Radio(
+                                          value: AvailableLanguage.en.locale,
+                                          groupValue:
+                                              controller.language.value.locale,
+                                          onChanged: (val) {
+                                            controller.setValue(val as String);
+                                          }),
+                                    ),
+                                    ListTile(
+                                      leading: Text(
+                                        AvailableLanguage.id.title,
+                                        style: TextStyle(
+                                            color: Color(0xFF171433),
+                                            fontSize: 14.sp),
+                                      ),
+                                      trailing: Radio(
+                                          value: AvailableLanguage.id.locale,
+                                          groupValue:
+                                              controller.language.value.locale,
+                                          onChanged: (val) {
+                                            controller.setValue(val as String);
+                                          }),
+                                    ),
+                                    LiveWellButton(
+                                        label: controller
+                                            .localization.saveChanges!,
+                                        color: const Color(0xFF8F01DF),
+                                        textColor: Colors.white,
+                                        onPressed: () {
+                                          Get.back();
+                                          controller.updateData();
+                                        })
+                                  ],
+                                );
+                              }))),
+                      barrierDismissible: false);
+                }),
+            8.verticalSpace,
+            ProfileSettingsItem(
+              title: controller.localization.logout!,
               icon: Image.asset(Constant.icLogout),
               onPressed: () {
                 controller.logoutTapped();
@@ -308,22 +367,30 @@ class ImagePickerBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(bottom: 40),
       child: Wrap(
         children: <Widget>[
           ListTile(
             leading: Icon(Icons.photo_library),
-            title: Text('Pick from Gallery'),
+            title: Text(
+              'Pick from Gallery',
+              style: TextStyle(color: Colors.black),
+            ),
             onTap: () {
               _pickImage(ImageSource.gallery, context);
             },
           ),
           ListTile(
             leading: Icon(Icons.camera_alt),
-            title: Text('Take a Photo'),
+            title: Text(
+              'Take a Photo',
+              style: TextStyle(color: Colors.black),
+            ),
             onTap: () {
               _pickImage(ImageSource.camera, context);
             },
           ),
+          40.verticalSpace,
         ],
       ),
     );
@@ -331,11 +398,16 @@ class ImagePickerBottomSheet extends StatelessWidget {
 
   void _pickImage(ImageSource source, BuildContext context) async {
     final picker = ImagePicker();
-    final pickedFile = await picker.getImage(source: source);
+    final pickedFile = await picker.pickImage(source: source);
+    // FilePickerResult? file =
+    //     await FilePicker.platform.pickFiles(type: FileType.image);
     if (pickedFile != null) {
-      final selectedImage = File(pickedFile.path);
-      onImageSelected(selectedImage);
+      onImageSelected(File(pickedFile.path));
+      // final selectedImage = file.paths.map(
+      //   (e) => File(e!),
+      // );
+      // onImageSelected(selectedImage.first);
     }
-    Navigator.of(context).pop();
+    //Navigator.of(context).pop();
   }
 }

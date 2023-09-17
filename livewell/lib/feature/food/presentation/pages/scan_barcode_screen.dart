@@ -54,7 +54,10 @@ class _ScanBarcodeScreenState extends State<ScanBarcodeScreen> {
                       'We’ll redirect you to another screen once we got the scanning result'
                           .tr,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 13.sp),
+                      style: TextStyle(
+                        fontSize: 13.sp,
+                        color: const Color(0xFF171433),
+                      ),
                     )
                   ],
                 ),

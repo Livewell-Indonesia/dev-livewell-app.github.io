@@ -19,7 +19,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../domain/entity/login.dart';
 import '../../domain/usecase/post_login.dart';
 
-class AuthRepositoryImpl extends NetworkModule implements AuthRepository {
+class AuthRepositoryImpl with NetworkModule implements AuthRepository {
   AuthRepositoryImpl._();
 
   static AuthRepositoryImpl getInstance() => AuthRepositoryImpl._();

@@ -20,10 +20,14 @@ import 'package:livewell/feature/profile/presentation/page/user_settings_screen.
 import 'package:livewell/feature/questionnaire/presentation/page/finish_questionnaire_screen.dart';
 import 'package:livewell/feature/questionnaire/presentation/page/questionnaire_screen.dart';
 import 'package:livewell/feature/quick_add/presentation/page/quick_add_screen.dart';
+import 'package:livewell/feature/sleep/presentation/pages/sleep_screen.dart';
 import 'package:livewell/feature/splash/presentation/splash_screen.dart';
 import 'package:livewell/feature/update_weight/presentation/page/update_weight_screen.dart';
 import 'package:livewell/feature/water/presentation/pages/water_consumed_page.dart';
 import 'package:livewell/feature/water/presentation/pages/water_custom_input_page.dart';
+import 'package:livewell/feature/water/presentation/pages/water_screen.dart';
+
+import '../feature/exercise/presentation/pages/exercise_screen.dart';
 
 class AppNavigator {
   static var initialRoute = AppPages.splash;
@@ -38,7 +42,7 @@ class AppNavigator {
         transition: Transition.cupertino),
     GetPage(
         name: AppPages.landingLogin,
-        page: () => const LandingAuthScreen(),
+        page: () => LandingAuthScreen(),
         transition: Transition.cupertino),
     GetPage(
         name: AppPages.login,
@@ -131,6 +135,22 @@ class AppNavigator {
         name: AppPages.quickAdd,
         page: () => QuickAddScreen(),
         transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.exerciseScreen,
+        page: () => ExerciseScreen(),
+        transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.sleepScreen,
+        page: () => SleepScreen(),
+        transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.waterScreen,
+        page: () => WaterScreen(),
+        transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.nutritionScreen,
+        page: () => FoodScreen(),
+        transition: Transition.cupertino),
   ];
 
   static void push({required String routeName, dynamic arguments}) {
@@ -185,4 +205,8 @@ class AppPages {
   static String nutriScoreDetail = '/nutriScoreDetailPage';
   static String nutriCoScreen = '/nutriCoScreen';
   static String quickAdd = '/quickAdd';
+  static String exerciseScreen = '/exerciseScreen';
+  static String sleepScreen = '/sleepScreen';
+  static String waterScreen = '/waterScreen';
+  static String nutritionScreen = '/nutritionScreen';
 }

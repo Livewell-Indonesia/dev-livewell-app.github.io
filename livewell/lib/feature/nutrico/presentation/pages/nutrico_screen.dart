@@ -51,7 +51,7 @@ class NutriCoScreen extends StatelessWidget {
                   });
             }
           }),
-      beta: true,
+      beta: false,
       body: Expanded(
         child: Column(
           children: [

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/widgets/chart/circular_nutrition.dart';
 
 class NutriscoreBanner extends StatelessWidget {
@@ -87,9 +88,9 @@ class NutriscoreBanner extends StatelessWidget {
                     Center(
                       child: Row(
                         children: [
-                          Spacer(),
+                          const Spacer(),
                           Text(
-                            'See Details'.tr,
+                            Get.find<HomeController>().localization.seeDetails!,
                             style:
                                 TextStyle(color: Colors.white, fontSize: 12.sp),
                           ),
@@ -99,7 +100,7 @@ class NutriscoreBanner extends StatelessWidget {
                             color: Colors.white,
                             size: 12,
                           ),
-                          Spacer()
+                          const Spacer()
                         ],
                       ),
                     )
@@ -131,17 +132,17 @@ extension on NutriScoreType {
   String description() {
     switch (this) {
       case NutriScoreType.zero:
-        return 'Let’s make today count, put your meal to track your progress'
-            .tr;
+        return Get.find<HomeController>().localization.letsMakeTodayCount!;
       case NutriScoreType.fifty:
-        return 'Don’t worry, We can definitely improve your nutrition together!'
-            .tr;
+        return Get.find<HomeController>()
+            .localization
+            .dontWorryWeCanImproveNutritionTogether!;
       case NutriScoreType.seventyFive:
-        return 'You’re doing great! Let’s make sure we push it a little further'
-            .tr;
+        return Get.find<HomeController>().localization.youreDoingGreat!;
       case NutriScoreType.hundred:
-        return 'Great Job! Your nutrition is on point. Keep up the good work!'
-            .tr;
+        return Get.find<HomeController>()
+            .localization
+            .greatJobNutritionOnPoint!;
     }
   }
 

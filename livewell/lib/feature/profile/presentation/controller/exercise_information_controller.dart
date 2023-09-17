@@ -5,8 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/profile/domain/usecase/update_user_info.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class ExerciseInformationController extends GetxController {
+class ExerciseInformationController extends BaseController {
   var exerciseController = TextEditingController();
 
   @override
@@ -38,7 +39,8 @@ class ExerciseInformationController extends GetxController {
             dob: DateFormat('yyyy-MM-dd')
                 .format(DateTime.parse(newUserData.birthDate ?? "")),
             weightTarget: newUserData.weightTarget ?? 0,
-            exerciseGoalKcal: newUserData.exerciseGoalKcal ?? 0),
+            exerciseGoalKcal: newUserData.exerciseGoalKcal ?? 0,
+            language: newUserData.language ?? "en_US"),
       );
       EasyLoading.dismiss();
       result.fold((l) => Log.error(l), (r) {

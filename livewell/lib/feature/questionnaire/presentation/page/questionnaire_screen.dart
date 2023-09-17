@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:livewell/core/localization/languages.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
 import 'package:livewell/feature/questionnaire/presentation/page/widget/exercise_target_selector.dart';
 import 'package:livewell/feature/questionnaire/presentation/page/widget/gender_selector.dart';
@@ -15,6 +14,7 @@ import 'widget/dietrary_selector.dart';
 import 'widget/drink_selector.dart';
 import 'widget/goal_selector.dart';
 import 'widget/height_selector.dart';
+import 'widget/language_selector.dart';
 import 'widget/sleep_selector.dart';
 import 'widget/weight_selector.dart';
 
@@ -134,6 +134,8 @@ class QuestionnaireContent extends StatelessWidget {
         return const Text('finish');
       case QuestionnairePage.targetWeight:
         return TargetWeightSelector();
+      case QuestionnairePage.language:
+        return LanguageSelector();
     }
   }
 }
@@ -150,14 +152,14 @@ class NameInput extends StatelessWidget {
         AuthTextField(
             controller: controller.firstName,
             hintText: null,
-            labelText: 'First Name'.tr,
+            labelText: controller.localization.firstName!,
             errorText: null,
             obscureText: false),
         16.verticalSpace,
         AuthTextField(
             controller: controller.lastName,
             hintText: null,
-            labelText: 'Last Name'.tr,
+            labelText: controller.localization.lastName!,
             errorText: null,
             obscureText: false),
         16.verticalSpace,
@@ -177,7 +179,7 @@ class ChangePageIndicator extends StatelessWidget {
     return Row(
       children: [
         Obx(() {
-          return controller.currentPage.value == QuestionnairePage.name
+          return controller.currentPage.value == QuestionnairePage.language
               ? Container()
               : prevButton();
         }),
@@ -206,7 +208,7 @@ class ChangePageIndicator extends StatelessWidget {
         child: Row(
           children: [
             Text(
-              'Next'.tr,
+              controller.localization.next!,
               style: const TextStyle(
                   color: Colors.white,
                   fontSize: 14,
@@ -245,7 +247,7 @@ class ChangePageIndicator extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              'Pre'.tr,
+              controller.localization.pre!,
               style: TextStyle(
                   color: const Color(0xFF171433),
                   fontSize: 14.sp,

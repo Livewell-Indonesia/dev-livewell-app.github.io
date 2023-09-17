@@ -1,12 +1,13 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
+import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_model.dart';
 import 'package:livewell/feature/nutriscore/presentation/controller/nutriscore_controller.dart';
 import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_score_detail_screen.dart';
 import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_screen.dart';
 
-class NutriscoreDetailController extends GetxController {
+class NutriscoreDetailController extends BaseController {
   List<NutrientDetailData> nutrientList = [];
   late NutrientType currentType;
   late num nutrientValue;

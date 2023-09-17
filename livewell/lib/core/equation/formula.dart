@@ -21,6 +21,18 @@ class Formula {
     return (vit + majorMineral + minorMineral) / 3;
   }
 
+  static double targetProteinConsumed(num target) {
+    return target * 0.2 / 4;
+  }
+
+  static double targetCarbohydrateConsumed(num target) {
+    return target * 0.5 / 4;
+  }
+
+  static double targetFatConsumed(num target) {
+    return target * 0.3 / 9;
+  }
+
   static double averageEssentialVitamins(
       double vitA,
       double vitC,

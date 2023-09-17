@@ -8,4 +8,8 @@ class PrefConstant {
   static const String showInfoExercise = "show_info_exercise";
   static const String showInfoSleep = "show_info_sleep";
   static const String showInfoWater = "show_info_water";
+  static const String userLocale = "user_locale";
+  static const String localizationJSON = "localization_json";
+  static const String showInfoNutrico = "show_info_nutrico";
+  static const String fcmToken = "show_info_nutrico2";
 }

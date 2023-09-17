@@ -28,6 +28,7 @@ class QuestionnaireParams {
   num? targetWeight;
   num? exerciseGoalKcal;
   OnboardingQuestionnaire? onboardingQuestionnaire;
+  String? language;
 
   QuestionnaireParams(
       {this.firstName,
@@ -38,7 +39,8 @@ class QuestionnaireParams {
       this.weight,
       this.targetWeight,
       this.onboardingQuestionnaire,
-      this.exerciseGoalKcal});
+      this.exerciseGoalKcal,
+      this.language});
 
   QuestionnaireParams.asParams(
       this.firstName,
@@ -52,7 +54,8 @@ class QuestionnaireParams {
       String drink,
       String sleep,
       String dietraryRestriction,
-      String goal) {
+      String goal,
+      this.language) {
     dob = age;
     onboardingQuestionnaire = OnboardingQuestionnaire(
       dietaryRestrictions: [dietraryRestriction],
@@ -70,6 +73,7 @@ class QuestionnaireParams {
     data['gender'] = gender;
     data['height'] = height;
     data['weight'] = weight;
+    data['language'] = language;
     data['exercise_goal_kcal'] = exerciseGoalKcal;
     if (onboardingQuestionnaire!.targetImprovement != null &&
         !onboardingQuestionnaire!.targetImprovement!

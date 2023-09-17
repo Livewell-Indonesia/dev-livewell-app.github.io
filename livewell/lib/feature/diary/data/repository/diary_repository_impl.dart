@@ -9,7 +9,7 @@ import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart
 
 import '../../../../core/local_storage/shared_pref.dart';
 
-class DiaryRepositoryImpl extends NetworkModule implements DiaryRepostiory {
+class DiaryRepositoryImpl with NetworkModule implements DiaryRepostiory {
   DiaryRepositoryImpl._();
   static DiaryRepositoryImpl getInstance() => DiaryRepositoryImpl._();
   @override

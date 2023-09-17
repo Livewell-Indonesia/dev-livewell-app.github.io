@@ -1,5 +1,13 @@
 import 'package:get/get.dart';
 
+class Messages extends Translations {
+  final Map<String, Map<String, String>> languages;
+  Messages({required this.languages});
+
+  @override
+  get keys => languages;
+}
+
 class Languages extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {

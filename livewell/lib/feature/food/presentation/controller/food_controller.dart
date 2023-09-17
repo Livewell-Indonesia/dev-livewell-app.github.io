@@ -9,8 +9,9 @@ import 'package:livewell/feature/food/domain/usecase/delete_meal_history.dart';
 import '../../../diary/domain/entity/user_meal_history_model.dart';
 import '../../domain/usecase/update_food_history.dart';
 import '../pages/food_screen.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class FoodController extends GetxController {
+class FoodController extends BaseController {
   var firstValue = 0.0.obs;
   var secondValue = 0.0.obs;
   var thirdValue = 0.0.obs;
@@ -79,6 +80,42 @@ class FoodController extends GetxController {
     }
   }
 
+  Rx<int> getConsumedProtein() {
+    if (dashboardData.value.dashboard != null) {
+      if (dashboardData.value.dashboard!.totalProteinInG == null) {
+        return 0.obs;
+      } else {
+        return dashboardData.value.dashboard!.totalProteinInG!.round().obs;
+      }
+    } else {
+      return 0.obs;
+    }
+  }
+
+  Rx<int> getConsumedCarbs() {
+    if (dashboardData.value.dashboard != null) {
+      if (dashboardData.value.dashboard!.totalCarbsInG == null) {
+        return 0.obs;
+      } else {
+        return dashboardData.value.dashboard!.totalCarbsInG!.round().obs;
+      }
+    } else {
+      return 0.obs;
+    }
+  }
+
+  Rx<int> getConsumedFat() {
+    if (dashboardData.value.dashboard != null) {
+      if (dashboardData.value.dashboard!.totalFatsInG == null) {
+        return 0.obs;
+      } else {
+        return dashboardData.value.dashboard!.totalFatsInG!.round().obs;
+      }
+    } else {
+      return 0.obs;
+    }
+  }
+
   Rx<int> getTotalCal() {
     if (dashboardData.value.dashboard != null) {
       if (dashboardData.value.dashboard!.caloriesTaken == null) {
@@ -99,6 +136,87 @@ class FoodController extends GetxController {
     } else {
       return 0.obs;
     }
+  }
+
+  Rx<int> getTargetProtein() {
+    if (dashboardData.value.dashboard != null) {
+      if (dashboardData.value.dashboard!.target == null) {
+        return 0.obs;
+      }
+      return Formula.targetProteinConsumed(
+              dashboardData.value.dashboard!.target!)
+          .round()
+          .obs;
+    } else {
+      return 0.obs;
+    }
+  }
+
+  Rx<int> getTargetCarbs() {
+    if (dashboardData.value.dashboard != null) {
+      if (dashboardData.value.dashboard!.target == null) {
+        return 0.obs;
+      }
+      return Formula.targetCarbohydrateConsumed(
+              dashboardData.value.dashboard!.target!)
+          .round()
+          .obs;
+    } else {
+      return 0.obs;
+    }
+  }
+
+  Rx<int> getTargetFat() {
+    if (dashboardData.value.dashboard != null) {
+      if (dashboardData.value.dashboard!.target == null) {
+        return 0.obs;
+      }
+      return Formula.targetFatConsumed(dashboardData.value.dashboard!.target!)
+          .round()
+          .obs;
+    } else {
+      return 0.obs;
+    }
+  }
+
+  Rx<double> getPercentageProtein() {
+    if (getTargetProtein().value == 0) {
+      return 0.0.obs;
+    }
+
+    if (getConsumedProtein().value == 0) {
+      return 0.0.obs;
+    }
+
+    var result =
+        ((getConsumedProtein().value / getTargetProtein().value) * 100);
+    return result > 100.0 ? 100.0.obs : result.obs;
+  }
+
+  Rx<double> getPercentageCarbs() {
+    if (getTargetCarbs().value == 0) {
+      return 0.0.obs;
+    }
+
+    if (getConsumedCarbs().value == 0) {
+      return 0.0.obs;
+    }
+
+    var result = ((getConsumedCarbs().value / getTargetCarbs().value) * 100);
+    return result > 100.0 ? 100.0.obs : result.obs;
+  }
+
+  Rx<double> getPercentageFat() {
+    if (getTargetFat().value == 0) {
+      return 0.0.obs;
+    }
+
+    if (getConsumedFat().value == 0) {
+      return 0.0.obs;
+    }
+
+    var result = ((getConsumedFat().value / getTargetFat().value) * 100);
+    return result > 100.0 ? 100.0.obs : result.obs;
   }
 
   Rx<double> getPercentMacroNut() {

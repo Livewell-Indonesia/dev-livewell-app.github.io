@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:health/health.dart';
+import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
+import 'package:livewell/core/notification/firebase_notification.dart';
 import 'package:livewell/feature/dashboard/data/model/popup_assets_model.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_app_config.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_popup_assets.dart';
@@ -14,7 +17,7 @@ import '../../../core/base/usecase.dart';
 import '../../dashboard/data/model/app_config_model.dart';
 import 'package:get/get.dart';
 
-class HomeController extends GetxController {
+class HomeController extends BaseController {
   Rx<HomeTab> currentMenu = HomeTab.home.obs;
 
   GetAppConfig appConfig = GetAppConfig.instance();
@@ -27,6 +30,7 @@ class HomeController extends GetxController {
   GlobalKey cardKey = GlobalKey();
   GlobalKey taskKey = GlobalKey();
   GlobalKey navigationKey = GlobalKey();
+  ScrollController scrollController = ScrollController();
 
   late TutorialCoachMark tutorialCoachMark;
 
@@ -53,6 +57,7 @@ class HomeController extends GetxController {
     getAppConfig();
     getPopupAsset();
     createTutorial();
+    LivewellNotification().handleTermintated();
     super.onInit();
   }
 
@@ -80,7 +85,13 @@ class HomeController extends GetxController {
           onFinishCoachmark();
         },
         onClickTarget: (p0) {
-          tutorialCoachMark.next();
+          if (p0.keyTarget == cardKey) {
+            scrollController.animateTo(scrollController.position.maxScrollExtent, duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn).then((value) {
+              tutorialCoachMark.next();
+            });
+          } else {
+            tutorialCoachMark.next();
+          }
         },
         onClickTargetWithTapPosition: ((p0, p1) {}));
   }
@@ -120,27 +131,26 @@ class HomeController extends GetxController {
   void changePageIndex(int index) {
     if (!isShowCoachmark.value) {
       if (index == 0) {
-        currentMenu.value = HomeTab.food;
-      } else if (index == 1) {
         currentMenu.value = HomeTab.home;
+      } else if (index == 1) {
+        currentMenu.value = HomeTab.dailyJournal;
       } else if (index == 2) {
-        currentMenu.value = HomeTab.exercise;
-      } else if (index == 3) {
-        currentMenu.value = HomeTab.sleep;
-      } else if (index == 4) {
-        currentMenu.value = HomeTab.water;
-      } else if (index == 5) {
         currentMenu.value = HomeTab.account;
       }
+      //  else if (index == 3) {
+      //   currentMenu.value = HomeTab.acc;
+      // } else if (index == 4) {
+      //   currentMenu.value = HomeTab.water;
+      // } else if (index == 5) {
+      //   currentMenu.value = HomeTab.account;
+      // }
     }
   }
 
   Widget customSelectedImage(Widget child) {
-    return ClipOval(
-      child: Material(
-          color: const Color(0xFF8F01DF), // button color
-          child: SizedBox(width: 40.w, height: 40.w, child: child)),
-    );
+    return Material(
+        color: Colors.white, // button color
+        child: SizedBox(width: 40.w, height: 40.w, child: child));
   }
 
   Widget customUnselectedImage(Widget child) {
@@ -166,8 +176,7 @@ class HomeController extends GetxController {
               align: ContentAlign.bottom,
               builder: (context, controller) {
                 return Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
@@ -176,20 +185,13 @@ class HomeController extends GetxController {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "See Your Progress".tr,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontSize: 16.sp),
+                        localization.seeYourProgress ?? "",
+                        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black, fontSize: 16.sp),
                       ),
                       4.verticalSpace,
                       Text(
-                        'View your Nutriscore, nutrient intake, weight, and even get personalized weight forecasts to help you stay on track towards your goals.',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xFF808080),
-                            height: 1.3,
-                            fontSize: 14.sp),
+                        localization.viewYourNutriscore ?? "",
+                        style: TextStyle(fontWeight: FontWeight.w400, color: const Color(0xFF808080), height: 1.3, fontSize: 14.sp),
                       ),
                       20.verticalSpace,
                       Row(
@@ -201,14 +203,13 @@ class HomeController extends GetxController {
                           const Spacer(),
                           InkWell(
                               onTap: () {
-                                tutorialCoachMark.next();
+                                scrollController.animateTo(scrollController.position.maxScrollExtent, duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn).then((value) {
+                                  tutorialCoachMark.next();
+                                });
                               },
                               child: Text(
-                                'Next',
-                                style: TextStyle(
-                                    color: const Color(0xFF8F01DF),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600),
+                                localization.next ?? "",
+                                style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 12.sp, fontWeight: FontWeight.w600),
                               ))
                         ],
                       ),
@@ -231,8 +232,7 @@ class HomeController extends GetxController {
               align: ContentAlign.top,
               builder: (context, controller) {
                 return Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
@@ -241,21 +241,13 @@ class HomeController extends GetxController {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Wellness Hub".tr,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontSize: 16.sp),
+                        localization.wellnessHub ?? "",
+                        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black, fontSize: 16.sp),
                       ),
                       4.verticalSpace,
                       Text(
-                        'Explore your personal health with just one click. Track your progress for nutrition, exercise, sleep, water, and more. Get valuable insights and discover a world of health and wellness at your fingertips!'
-                            .tr,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xFF808080),
-                            height: 1.3,
-                            fontSize: 14.sp),
+                        localization.exploreYourPersonalHealth ?? "",
+                        style: TextStyle(fontWeight: FontWeight.w400, color: const Color(0xFF808080), height: 1.3, fontSize: 14.sp),
                       ),
                       20.verticalSpace,
                       Row(
@@ -270,11 +262,8 @@ class HomeController extends GetxController {
                                 tutorialCoachMark.previous();
                               },
                               child: Text(
-                                'Prev'.tr,
-                                style: TextStyle(
-                                    color: const Color(0xFF808080),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600),
+                                localization.prev ?? "",
+                                style: TextStyle(color: const Color(0xFF808080), fontSize: 12.sp, fontWeight: FontWeight.w600),
                               )),
                           24.horizontalSpace,
                           InkWell(
@@ -282,11 +271,8 @@ class HomeController extends GetxController {
                                 tutorialCoachMark.next();
                               },
                               child: Text(
-                                'Next'.tr,
-                                style: TextStyle(
-                                    color: const Color(0xFF8F01DF),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600),
+                                localization.next ?? "",
+                                style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 12.sp, fontWeight: FontWeight.w600),
                               ))
                         ],
                       ),
@@ -309,8 +295,7 @@ class HomeController extends GetxController {
               align: ContentAlign.top,
               builder: (context, controller) {
                 return Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
@@ -319,20 +304,13 @@ class HomeController extends GetxController {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Log Your First Meal".tr,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontSize: 16.sp),
+                        localization.logYourFirstMeal ?? "",
+                        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black, fontSize: 16.sp),
                       ),
                       4.verticalSpace,
                       Text(
-                        'To log your first meal, simply click on any meal task list below and add your food items. It\'s that easy!',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xFF808080),
-                            height: 1.3,
-                            fontSize: 14.sp),
+                        localization.toLogYourFirstMealSimply ?? "",
+                        style: TextStyle(fontWeight: FontWeight.w400, color: const Color(0xFF808080), height: 1.3, fontSize: 14.sp),
                       ),
                       20.verticalSpace,
                       Row(
@@ -347,11 +325,8 @@ class HomeController extends GetxController {
                                 tutorialCoachMark.previous();
                               },
                               child: Text(
-                                'Prev',
-                                style: TextStyle(
-                                    color: const Color(0xFF808080),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600),
+                                localization.prev ?? "",
+                                style: TextStyle(color: const Color(0xFF808080), fontSize: 12.sp, fontWeight: FontWeight.w600),
                               )),
                           24.horizontalSpace,
                           InkWell(
@@ -359,11 +334,8 @@ class HomeController extends GetxController {
                                 tutorialCoachMark.finish();
                               },
                               child: Text(
-                                'Done',
-                                style: TextStyle(
-                                    color: const Color(0xFF8F01DF),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600),
+                                localization.done!,
+                                style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 12.sp, fontWeight: FontWeight.w600),
                               ))
                         ],
                       ),
@@ -381,12 +353,8 @@ class HomeController extends GetxController {
 
 enum HomeTab {
   home,
-  food,
-  exercise,
-  sleep,
-  water,
-  meditation,
-  nutrition,
+  dailyJournal,
+
   account
 }
 
@@ -394,42 +362,145 @@ extension HomeTabIcons on HomeTab {
   String selectedAssets() {
     switch (this) {
       case HomeTab.home:
-        return Constant.icHomeSelected;
-      case HomeTab.food:
+        return Constant.icHomeUnselected;
+      case HomeTab.dailyJournal:
         return Constant.icFoodSelected;
-      case HomeTab.exercise:
-        return Constant.icExerciseSelected;
-      case HomeTab.sleep:
-        return Constant.icSleepSelected;
-      case HomeTab.water:
-        return Constant.icWaterSelected;
-      case HomeTab.meditation:
-        return Constant.icMeditationSelected;
-      case HomeTab.nutrition:
-        return Constant.icBloodSelected;
+      // case HomeTab.exercise:
+      //   return Constant.icExerciseSelected;
+      // case HomeTab.sleep:
+      //   return Constant.icSleepSelected;
+      // case HomeTab.water:
+      //   return Constant.icWaterSelected;
+      // case HomeTab.meditation:
+      //   return Constant.icMeditationSelected;
+      // case HomeTab.nutrition:
+      //   return Constant.icBloodSelected;
       case HomeTab.account:
         return Constant.icBloodSelected;
+    }
+  }
+
+  String title() {
+    switch (this) {
+      case HomeTab.home:
+        return "Home";
+      case HomeTab.dailyJournal:
+        return "Journal";
+      // case HomeTab.exercise:
+      //   return localization.exercise;
+      // case HomeTab.sleep:
+      //   return localization.sleep;
+      // case HomeTab.water:
+      //   return localization.water;
+      // case HomeTab.meditation:
+      //   return localization.meditation;
+      // case HomeTab.nutrition:
+      //   return localization.nutrition;
+      case HomeTab.account:
+        return "Account";
     }
   }
 
   String unselectedAssets() {
     switch (this) {
       case HomeTab.home:
-        return Constant.icHomeUnselected;
-      case HomeTab.food:
+        return Constant.icHomeSelected;
+      case HomeTab.dailyJournal:
         return Constant.icFoodUnselected;
-      case HomeTab.exercise:
-        return Constant.icExerciseUnselected;
-      case HomeTab.sleep:
-        return Constant.icSleepUnselected;
-      case HomeTab.water:
-        return Constant.icWaterUnselected;
-      case HomeTab.meditation:
-        return Constant.icMeditationUnselected;
-      case HomeTab.nutrition:
-        return Constant.icBloodUnselected;
+      // case HomeTab.exercise:
+      //   return Constant.icExerciseUnselected;
+      // case HomeTab.sleep:
+      //   return Constant.icSleepUnselected;
+      // case HomeTab.water:
+      //   return Constant.icWaterUnselected;
+      // case HomeTab.meditation:
+      //   return Constant.icMeditationUnselected;
+      // case HomeTab.nutrition:
+      //   return Constant.icBloodUnselected;
       case HomeTab.account:
-        return Constant.icBloodUnselected;
+        return Constant.icAccountSetting;
+    }
+  }
+
+  Widget unselectedAssetWidget() {
+    switch (this) {
+      case HomeTab.home:
+        return SizedBox(
+          width: 24.w,
+          height: 24.w,
+          child: SvgPicture.asset(
+            Constant.home,
+            width: 24.w,
+            height: 24.w,
+            fit: BoxFit.scaleDown,
+            color: const Color(0xFF171433).withOpacity(0.8),
+          ),
+        );
+      case HomeTab.dailyJournal:
+        return SizedBox(
+          width: 24.w,
+          height: 24.w,
+          child: SvgPicture.asset(
+            Constant.dailyJournal,
+            width: 24.w,
+            height: 24.w,
+            fit: BoxFit.scaleDown,
+            color: const Color(0xFF171433).withOpacity(0.8),
+          ),
+        );
+      case HomeTab.account:
+        return SizedBox(
+          width: 24.w,
+          height: 24.w,
+          child: SvgPicture.asset(
+            Constant.accountCircle,
+            width: 24.w,
+            height: 24.w,
+            fit: BoxFit.scaleDown,
+            color: const Color(0xFF171433).withOpacity(0.8),
+          ),
+        );
+    }
+  }
+
+  Widget selectedAssetWidget() {
+    switch (this) {
+      case HomeTab.home:
+        return SizedBox(
+          width: 24.w,
+          height: 24.w,
+          child: SvgPicture.asset(
+            Constant.home,
+            width: 24.w,
+            height: 24.w,
+            fit: BoxFit.scaleDown,
+            color: const Color(0xFF8F01DF),
+          ),
+        );
+      case HomeTab.dailyJournal:
+        return SizedBox(
+          width: 24.w,
+          height: 24.w,
+          child: SvgPicture.asset(
+            Constant.dailyJournal,
+            width: 24.w,
+            height: 24.w,
+            fit: BoxFit.scaleDown,
+            color: const Color(0xFF8F01DF),
+          ),
+        );
+      case HomeTab.account:
+        return SizedBox(
+          width: 24.w,
+          height: 24.w,
+          child: SvgPicture.asset(
+            Constant.accountCircle,
+            width: 24.w,
+            height: 24.w,
+            fit: BoxFit.scaleDown,
+            color: const Color(0xFF8F01DF),
+          ),
+        );
     }
   }
 

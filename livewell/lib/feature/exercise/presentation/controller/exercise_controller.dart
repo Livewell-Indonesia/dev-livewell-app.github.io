@@ -1,5 +1,7 @@
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:davinci/davinci.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -17,8 +19,11 @@ import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 
 import '../../../questionnaire/presentation/controller/questionnaire_controller.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class ExerciseController extends GetxController
+import '../pages/exercise_screen.dart';
+
+class ExerciseController extends BaseController
     with GetSingleTickerProviderStateMixin {
   Rx<ExerciseTab> currentMenu = ExerciseTab.diaries.obs;
   late TabController tabController;
@@ -35,6 +40,11 @@ class ExerciseController extends GetxController
   TextEditingController dataController = TextEditingController();
   Rx<TargetExerciseSelection> selectedExerciseTarget =
       TargetExerciseSelection.light.obs;
+
+  Rxn<File> file = Rxn<File>();
+  TextEditingController titleController = TextEditingController();
+  Rxn<String> titleError = Rxn<String>();
+  TextEditingController locationController = TextEditingController();
 
   @override
   void onReady() {
@@ -127,11 +137,19 @@ class ExerciseController extends GetxController
     }
   }
 
-  Future<bool> refresh() async {
+  Future<bool> refreshList() async {
+    steps.value = 0;
+    burntCalories.value = 0;
+    totalSteps.value = 0;
+    totalCalories.value = 0;
     await getStepsData();
     await getBurntCaloriesData();
     await getExerciseHistorydata();
     return true;
+  }
+
+  double calculateDistance(int numberOfSteps, double strideLength) {
+    return (numberOfSteps * strideLength) / 1000;
   }
 
   Future<void> getExerciseHistorydata() async {
@@ -159,15 +177,17 @@ class ExerciseController extends GetxController
     EasyLoading.show();
     final result = await updateUserInfo.call(
       UpdateUserInfoParams(
-          firstName: newUserData.firstName ?? "",
-          lastName: newUserData.lastName ?? "",
-          height: newUserData.height ?? 0,
-          weight: newUserData.weight ?? 0,
-          gender: newUserData.gender ?? "",
-          dob: DateFormat('yyyy-MM-dd')
-              .format(DateTime.parse(newUserData.birthDate ?? "")),
-          weightTarget: newUserData.weightTarget ?? 0,
-          exerciseGoalKcal: newUserData.exerciseGoalKcal ?? 0),
+        firstName: newUserData.firstName ?? "",
+        lastName: newUserData.lastName ?? "",
+        height: newUserData.height ?? 0,
+        weight: newUserData.weight ?? 0,
+        gender: newUserData.gender ?? "",
+        dob: DateFormat('yyyy-MM-dd')
+            .format(DateTime.parse(newUserData.birthDate ?? "")),
+        weightTarget: newUserData.weightTarget ?? 0,
+        exerciseGoalKcal: newUserData.exerciseGoalKcal ?? 0,
+        language: newUserData.language ?? "",
+      ),
     );
     EasyLoading.dismiss();
     result.fold((l) => Log.error(l), (r) {

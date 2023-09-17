@@ -7,8 +7,9 @@ import 'package:livewell/feature/water/presentation/controller/water_controller.
 import 'package:livewell/routes/app_navigator.dart';
 
 import '../../domain/usecase/post_water_data.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class WaterConsumedController extends GetxController {
+class WaterConsumedController extends BaseController {
   TextEditingController waterInputController = TextEditingController();
 
   void addWater(int value) async {

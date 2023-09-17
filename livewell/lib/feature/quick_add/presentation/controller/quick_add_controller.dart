@@ -10,8 +10,9 @@ import 'package:livewell/feature/food/domain/usecase/add_meal.dart';
 import 'package:livewell/feature/food/presentation/controller/food_controller.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/routes/app_navigator.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class QuickAddController extends GetxController {
+class QuickAddController extends BaseController {
   TextEditingController foodName = TextEditingController();
   TextEditingController calories = TextEditingController();
   TextEditingController fat = TextEditingController();

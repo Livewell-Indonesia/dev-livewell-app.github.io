@@ -15,7 +15,7 @@ class ExerciseInformationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: 'Exercise Information'.tr,
+        title: controller.localization.exerciseInformation!,
         body: Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -36,9 +36,11 @@ class ExerciseInformationScreen extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              "Exercise Information".tr,
+                              controller.localization.exerciseInformation!,
                               style: TextStyle(
-                                  fontSize: 18.sp, fontWeight: FontWeight.w600),
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
                             ),
                             const Spacer(),
                           ],
@@ -57,7 +59,7 @@ class ExerciseInformationScreen extends StatelessWidget {
                                 AccountSettingsTextField(
                                   textEditingController:
                                       controller.exerciseController,
-                                  hintText: 'Calories (kcal)',
+                                  hintText: 'Calories (kcal)'.tr,
                                   enabled: true,
                                   inputType:
                                       const TextInputType.numberWithOptions(),
@@ -77,7 +79,7 @@ class ExerciseInformationScreen extends StatelessWidget {
                 ),
                 20.verticalSpace,
                 LiveWellButton(
-                    label: 'save'.tr,
+                    label: controller.localization.save!,
                     color: const Color(0xFF8F01DF),
                     textColor: Colors.white,
                     onPressed: () {

@@ -15,8 +15,9 @@ import 'package:livewell/feature/update_weight/domain/usecase/get_user_history.d
 import 'package:livewell/feature/update_weight/domain/usecase/update_user_weight.dart';
 
 import '../../../dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class UpdateWeightController extends GetxController {
+class UpdateWeightController extends BaseController {
   Rx<double> targetWeight = 0.0.obs;
   Rx<double> weight = 0.0.obs;
   RxList<WeightHistory> weightHistory = <WeightHistory>[].obs;
@@ -130,8 +131,8 @@ class UpdateWeightController extends GetxController {
           var initialWeight = weightHistory.last.weight!.toDouble();
           var latestWeight = weightHistory.first.weight!.toDouble();
           title.value = initialWeight >= latestWeight
-              ? 'You have lost ${NumberFormat('0.0').format(initialWeight - latestWeight)} kg'
-              : 'You have gained ${NumberFormat('0.0').format(latestWeight - initialWeight)} kg';
+              ? '${localization.youHaveLost ?? ""} ${NumberFormat('0.0').format(initialWeight - latestWeight)} kg'
+              : '${localization.youHaveGained ?? ""} ${NumberFormat('0.0').format(latestWeight - initialWeight)} kg';
         }
         inspect(weightHistory);
         inspect(minY);
@@ -185,6 +186,7 @@ class UpdateWeightController extends GetxController {
           .user.value.onboardingQuestionnaire!.dietaryRestrictions!.first,
       dashboardController
           .user.value.onboardingQuestionnaire!.targetImprovement!.first,
+      dashboardController.user.value.language,
     );
     inspect(params);
     final result = await postQuestionnaire.call(params);

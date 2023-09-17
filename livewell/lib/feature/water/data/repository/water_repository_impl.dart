@@ -9,7 +9,7 @@ import 'package:livewell/feature/water/domain/usecase/post_water_data.dart';
 
 import '../../../../core/network/api_url.dart';
 
-class WaterRepositoryImpl extends NetworkModule implements WaterRepository {
+class WaterRepositoryImpl with NetworkModule implements WaterRepository {
   WaterRepositoryImpl._();
 
   static WaterRepositoryImpl getInstance() => WaterRepositoryImpl._();

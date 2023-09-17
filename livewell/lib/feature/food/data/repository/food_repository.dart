@@ -17,7 +17,7 @@ import '../../domain/usecase/post_search_food.dart';
 import '../model/foods_model.dart';
 import 'package:camera/camera.dart';
 
-class FoodRepositoryImpl extends NetworkModule implements FoodRepository {
+class FoodRepositoryImpl with NetworkModule implements FoodRepository {
   FoodRepositoryImpl._();
 
   static FoodRepositoryImpl getInstance() => FoodRepositoryImpl._();

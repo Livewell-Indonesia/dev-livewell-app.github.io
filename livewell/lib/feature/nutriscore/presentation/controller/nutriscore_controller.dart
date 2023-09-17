@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/base/usecase.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_detail_model.dart';
 import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_model.dart';
 import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_model.dart';
@@ -8,7 +10,7 @@ import 'package:livewell/feature/nutriscore/domain/usecase/get_nutri_score.dart'
 import 'package:livewell/feature/nutriscore/domain/usecase/get_nutri_score_detail.dart';
 import 'package:livewell/routes/app_navigator.dart';
 
-class NutriScoreController extends GetxController {
+class NutriScoreController extends BaseController {
   Rx<NutriScoreModel> nutriScore = NutriScoreModel().obs;
   RxList<NutriscoreDetailModel> nutriScoreDetail =
       <NutriscoreDetailModel>[].obs;
@@ -250,33 +252,33 @@ extension NutrientTypeAtt on NutrientType {
   String lowTitle() {
     switch (this) {
       case NutrientType.water:
-        return 'Below Target';
+        return Get.find<HomeController>().localization.belowTarget!;
       case NutrientType.protein:
-        return 'Below Targer';
+        return Get.find<HomeController>().localization.belowTarget!;
       default:
-        return 'Low';
+        return Get.find<HomeController>().localization.low!;
     }
   }
 
   String optimalTitle() {
     switch (this) {
       case NutrientType.water:
-        return 'On Track';
+        return Get.find<HomeController>().localization.onTrack!;
       case NutrientType.protein:
-        return 'On Track';
+        return Get.find<HomeController>().localization.onTrack!;
       default:
-        return 'Optimal';
+        return Get.find<HomeController>().localization.optimal!;
     }
   }
 
   String highTitle() {
     switch (this) {
       case NutrientType.water:
-        return 'Excellent';
+        return Get.find<HomeController>().localization.excellent!;
       case NutrientType.protein:
-        return 'Excellent';
+        return Get.find<HomeController>().localization.excellent!;
       default:
-        return 'High';
+        return Get.find<HomeController>().localization.high!;
     }
   }
 }

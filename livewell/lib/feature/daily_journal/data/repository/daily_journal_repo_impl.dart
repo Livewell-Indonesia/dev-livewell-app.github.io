@@ -8,7 +8,7 @@ import '../../../auth/data/model/register_model.dart';
 import '../../domain/repository/daily_journal_repo.dart';
 import '../../domain/usecase/post_daily_journal.dart';
 
-class DailyJournalRepoImpl extends NetworkModule
+class DailyJournalRepoImpl with NetworkModule
     implements DailyJournalRepository {
   DailyJournalRepoImpl._();
 

@@ -3,8 +3,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:livewell/feature/food/domain/usecase/post_food_request.dart';
 import 'package:livewell/routes/app_navigator.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
-class RequestFoodController extends GetxController {
+class RequestFoodController extends BaseController {
   var foodNameText = TextEditingController();
 
   String foodName = "";

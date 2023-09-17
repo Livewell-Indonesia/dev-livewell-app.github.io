@@ -1,9 +1,10 @@
 import 'package:get/get.dart';
+import 'package:livewell/core/base/base_controller.dart';
 
 import 'nutriscore_controller.dart';
 import 'nutriscore_detail_controller.dart';
 
-class NutriscoreScoreDetailController extends GetxController {
+class NutriscoreScoreDetailController extends BaseController {
   List<NutriScoreDetailModel> nutrientList = [];
   late num nutrientValue;
   Rx<double> todaysAmount = 0.0.obs;
