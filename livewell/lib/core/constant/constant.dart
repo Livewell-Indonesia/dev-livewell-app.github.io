@@ -76,4 +76,11 @@ class Constant {
   static const String dailyJournal =
       '$assetsIcons/collections_bookmark_24px.svg';
   static const String home = '$assetsIcons/home_24px.svg';
+
+  // moods
+  static const String moodGreat = '$assetsIcons/mood_great.svg';
+  static const String moodGood = '$assetsIcons/mood_good.svg';
+  static const String moodMeh = '$assetsIcons/mood_meh.svg';
+  static const String moodBad = '$assetsIcons/mood_bad.svg';
+  static const String moodAwful = '$assetsIcons/mood_awful.svg';
 }
