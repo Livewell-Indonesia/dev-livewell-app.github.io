@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_health_fit/flutter_health_fit.dart';
 
 import 'package:flutter/material.dart';
@@ -15,13 +16,19 @@ import 'package:livewell/feature/dashboard/data/model/dashboard_model.dart';
 import 'package:livewell/feature/dashboard/data/model/user_model.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_dashboard_data.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_user.dart';
+import 'package:livewell/feature/dashboard/domain/usecase/post_mood.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/register_device_token.dart';
 import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
 import 'package:livewell/feature/food/domain/usecase/get_meal_history.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
+import 'package:livewell/feature/mood/data/model/mood_detail_model.dart';
+import 'package:livewell/feature/mood/data/model/mood_model.dart';
+import 'package:livewell/feature/mood/domain/usecase/get_single_mood.dart';
+import 'package:livewell/feature/mood/presentation/widget/mood_picker_widget.dart';
 import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_model.dart';
 import 'package:livewell/feature/nutriscore/domain/usecase/get_nutri_score.dart';
+import 'package:livewell/feature/sleep/domain/usecase/get_sleep_list.dart';
 import 'package:livewell/feature/water/data/model/water_list_model.dart';
 import 'package:livewell/feature/water/domain/usecase/get_water_data.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -36,12 +43,16 @@ class DashboardController extends BaseController {
   GetMealHistory getMealHistory = GetMealHistory.instance();
   GetDashboardData getDashboardData = GetDashboardData.instance();
   GetNutriScore getNutriScore = GetNutriScore.instance();
+  PostMood postMood = PostMood.instance();
+  GetSingleMood getSingleMood = GetSingleMood.instance();
+  GetSleepData getSleepData = GetSleepData.instance();
   Rx<UserModel> user = UserModel().obs;
   Rx<DashboardModel> dashboard = DashboardModel().obs;
   ValueNotifier<double> valueNotifier = ValueNotifier(0.0);
   GetUserMealHistory getUserMealHistory = GetUserMealHistory.instance();
   RxList<MealHistoryModel> mealHistoryList = <MealHistoryModel>[].obs;
   Rx<double> waterConsumed = 0.0.obs;
+  Rxn<MoodDetail> todayMood = Rxn<MoodDetail>();
 
   HealthFactory healthFactory = HealthFactory();
   FlutterHealthFit healthFit = FlutterHealthFit();
@@ -89,6 +100,48 @@ class DashboardController extends BaseController {
         homeController.showCoachmark();
       }
     }
+  }
+
+  void getSingleMoodData() async {
+    final result = await getSingleMood
+        .call(DateFormat('yyyy-MM-dd').format(DateTime.now()));
+    result.fold((l) {
+      if (l.message!.contains("404")) {
+        todayMood.value = null;
+      }
+    }, (r) {
+      inspect(r);
+      todayMood.value = r;
+    });
+  }
+
+  MoodType? getMoodTypeByValue(int value) {
+    switch (value) {
+      case 1:
+        return MoodType.awful;
+      case 2:
+        return MoodType.bad;
+      case 3:
+        return MoodType.meh;
+      case 4:
+        return MoodType.good;
+      case 5:
+        return MoodType.great;
+      default:
+        return null;
+    }
+  }
+
+  void onMoodSelected(MoodType type) async {
+    EasyLoading.show();
+    final result = await postMood.call(type.value());
+    EasyLoading.dismiss();
+    result.fold((l) {
+      Log.error(l);
+    }, (r) {
+      Log.colorGreen(r);
+      getSingleMoodData();
+    });
   }
 
   Future<List<HealthDataPoint>> fetchSleepData() async {
@@ -188,6 +241,7 @@ class DashboardController extends BaseController {
     getMealHistories();
     getNutriscoreData();
     getWaterData();
+    getSingleMoodData();
     super.onInit();
   }
 

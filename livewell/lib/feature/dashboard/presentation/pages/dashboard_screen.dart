@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -6,12 +8,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/dashboard/presentation/widget/dashboard_summary_widget.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/mood/presentation/widget/mood_picker_widget.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
+import 'package:livewell/feature/sleep/presentation/controller/sleep_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/banner/nutriscore_banner.dart';
 import 'package:livewell/widgets/chart/circular_calories.dart';
@@ -27,6 +31,7 @@ class DashBoardScreen extends StatefulWidget {
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
   DashboardController controller = Get.put(DashboardController());
+  SleepController sleepController = Get.put(SleepController());
   int current = 0;
   final CarouselController carouselController = CarouselController();
   final HomeController homeController = Get.find();
@@ -202,214 +207,275 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 //   ),
                 // ),
                 32.verticalSpace,
-                InkWell(
-                  onTap: () {
-                    //Get.find<HomeController>().currentMenu.value = HomeTab.food;
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20).r,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 20)
-                            .r,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20).r),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Calories',
-                          style: TextStyle(
-                              color: const Color(0xFF171433),
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        32.verticalSpace,
-                        Obx(() {
-                          return Row(
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "${controller.dashboard.value.dashboard?.caloriesTaken ?? 0}",
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                          fontSize: 22.sp,
-                                          color: const Color(0xFF171433),
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(
-                                      Get.find<DashboardController>()
-                                          .localization
-                                          .eaten!,
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: const Color(0xFF171433)
-                                              .withOpacity(0.6),
-                                          fontWeight: FontWeight.w500),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const Spacer(),
-                              Expanded(
-                                flex: 4,
-                                child: SimpleCircularProgressBar(
-                                  backColor: Colors.white,
-                                  progressColors: const [Color(0xFFDDF235)],
-                                  mergeMode: true,
-                                  backStrokeWidth: 5,
-                                  progressStrokeWidth: 10,
-                                  valueNotifier: controller.valueNotifier,
-                                  animationDuration: const Duration(seconds: 1),
-                                  maxValue: 1,
-                                  onGetText: (value) {
-                                    return Column(
-                                      children: [
-                                        Text(
-                                          controller.remainingCalToShow().value,
-                                          style: TextStyle(
-                                              color: const Color(0xFF171433),
-                                              fontSize: 24.sp,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        Text(
-                                          Get.find<DashboardController>()
-                                              .localization
-                                              .remaining!,
-                                          style: TextStyle(
-                                              color: const Color(0xFF171433)
-                                                  .withOpacity(0.63),
-                                              fontSize: 11.sp,
-                                              fontWeight: FontWeight.w500),
-                                        )
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ),
-                              const Spacer(),
-                              Expanded(
-                                flex: 2,
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "${controller.totalExercise.value}",
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                          fontSize: 22.sp,
-                                          color: const Color(0xFF171433),
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(
-                                      Get.find<DashboardController>()
-                                          .localization
-                                          .burned!,
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: const Color(0xFF171433)
-                                              .withOpacity(0.6),
-                                          fontWeight: FontWeight.w500),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          );
-                        }),
-                        20.verticalSpace,
-                        Obx(() {
-                          return Row(
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "Carbs",
-                                      style: TextStyle(
-                                          color: const Color(0xFF171433),
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    const Divider(
-                                      color: Colors.black,
-                                      thickness: 1.0,
-                                    ),
-                                    Text(
-                                      "${controller.dashboard.value.dashboard?.totalCarbsInG ?? 0} / ${controller.totalCarbs().round()} g",
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                          color: const Color(0xFF171433),
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w400),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const Spacer(),
-                              Expanded(
-                                flex: 4,
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "Protein",
-                                      style: TextStyle(
-                                          color: const Color(0xFF171433),
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    const Divider(
-                                      color: Colors.black,
-                                      thickness: 1.0,
-                                    ),
-                                    Text(
-                                      "${controller.dashboard.value.dashboard?.totalProteinInG ?? 0} / ${controller.totalProtein().round()} g",
-                                      style: TextStyle(
-                                          color: const Color(0xFF171433),
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w400),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const Spacer(),
-                              Expanded(
-                                flex: 4,
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "Fat",
-                                      style: TextStyle(
-                                          color: const Color(0xFF171433),
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    const Divider(
-                                      color: Colors.black,
-                                      thickness: 1.0,
-                                    ),
-                                    Text(
-                                      "${controller.dashboard.value.dashboard?.totalFatsInG ?? 0} / ${controller.totalFat().round()} g",
-                                      style: TextStyle(
-                                          color: const Color(0xFF171433),
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w400),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          );
-                        })
+                // InkWell(
+                //   onTap: () {
+                //     //Get.find<HomeController>().currentMenu.value = HomeTab.food;
+                //   },
+                //   child: Container(
+                //     margin: const EdgeInsets.symmetric(horizontal: 20).r,
+                //     padding:
+                //         const EdgeInsets.symmetric(horizontal: 20, vertical: 20)
+                //             .r,
+                //     decoration: BoxDecoration(
+                //         color: Colors.white,
+                //         borderRadius: BorderRadius.circular(20).r),
+                //     child: Column(
+                //       children: [
+                //         Text(
+                //           'Calories',
+                //           style: TextStyle(
+                //               color: const Color(0xFF171433),
+                //               fontSize: 16.sp,
+                //               fontWeight: FontWeight.bold),
+                //         ),
+                //         32.verticalSpace,
+                //         Obx(() {
+                //           return Row(
+                //             children: [
+                //               Expanded(
+                //                 flex: 2,
+                //                 child: Column(
+                //                   children: [
+                //                     Text(
+                //                       "${controller.dashboard.value.dashboard?.caloriesTaken ?? 0}",
+                //                       maxLines: 1,
+                //                       style: TextStyle(
+                //                           fontSize: 22.sp,
+                //                           color: const Color(0xFF171433),
+                //                           fontWeight: FontWeight.w500),
+                //                     ),
+                //                     Text(
+                //                       Get.find<DashboardController>()
+                //                           .localization
+                //                           .eaten!,
+                //                       maxLines: 1,
+                //                       style: TextStyle(
+                //                           fontSize: 12.sp,
+                //                           color: const Color(0xFF171433)
+                //                               .withOpacity(0.6),
+                //                           fontWeight: FontWeight.w500),
+                //                     )
+                //                   ],
+                //                 ),
+                //               ),
+                //               const Spacer(),
+                //               Expanded(
+                //                 flex: 4,
+                //                 child: SimpleCircularProgressBar(
+                //                   backColor: Colors.white,
+                //                   progressColors: const [Color(0xFFDDF235)],
+                //                   mergeMode: true,
+                //                   backStrokeWidth: 5,
+                //                   progressStrokeWidth: 10,
+                //                   valueNotifier: controller.valueNotifier,
+                //                   animationDuration: const Duration(seconds: 1),
+                //                   maxValue: 1,
+                //                   onGetText: (value) {
+                //                     return Column(
+                //                       children: [
+                //                         Text(
+                //                           controller.remainingCalToShow().value,
+                //                           style: TextStyle(
+                //                               color: const Color(0xFF171433),
+                //                               fontSize: 24.sp,
+                //                               fontWeight: FontWeight.w500),
+                //                         ),
+                //                         Text(
+                //                           Get.find<DashboardController>()
+                //                               .localization
+                //                               .remaining!,
+                //                           style: TextStyle(
+                //                               color: const Color(0xFF171433)
+                //                                   .withOpacity(0.63),
+                //                               fontSize: 11.sp,
+                //                               fontWeight: FontWeight.w500),
+                //                         )
+                //                       ],
+                //                     );
+                //                   },
+                //                 ),
+                //               ),
+                //               const Spacer(),
+                //               Expanded(
+                //                 flex: 2,
+                //                 child: Column(
+                //                   children: [
+                //                     Text(
+                //                       "${controller.totalExercise.value}",
+                //                       maxLines: 1,
+                //                       style: TextStyle(
+                //                           fontSize: 22.sp,
+                //                           color: const Color(0xFF171433),
+                //                           fontWeight: FontWeight.w500),
+                //                     ),
+                //                     Text(
+                //                       Get.find<DashboardController>()
+                //                           .localization
+                //                           .burned!,
+                //                       maxLines: 1,
+                //                       style: TextStyle(
+                //                           fontSize: 12.sp,
+                //                           color: const Color(0xFF171433)
+                //                               .withOpacity(0.6),
+                //                           fontWeight: FontWeight.w500),
+                //                     )
+                //                   ],
+                //                 ),
+                //               ),
+                //             ],
+                //           );
+                //         }),
+                //         20.verticalSpace,
+                //         Obx(() {
+                //           return Row(
+                //             children: [
+                //               Expanded(
+                //                 flex: 4,
+                //                 child: Column(
+                //                   children: [
+                //                     Text(
+                //                       "Carbs",
+                //                       style: TextStyle(
+                //                           color: const Color(0xFF171433),
+                //                           fontSize: 12.sp,
+                //                           fontWeight: FontWeight.w600),
+                //                     ),
+                //                     const Divider(
+                //                       color: Colors.black,
+                //                       thickness: 1.0,
+                //                     ),
+                //                     Text(
+                //                       "${controller.dashboard.value.dashboard?.totalCarbsInG ?? 0} / ${controller.totalCarbs().round()} g",
+                //                       maxLines: 1,
+                //                       style: TextStyle(
+                //                           color: const Color(0xFF171433),
+                //                           fontSize: 16.sp,
+                //                           fontWeight: FontWeight.w400),
+                //                     )
+                //                   ],
+                //                 ),
+                //               ),
+                //               const Spacer(),
+                //               Expanded(
+                //                 flex: 4,
+                //                 child: Column(
+                //                   children: [
+                //                     Text(
+                //                       "Protein",
+                //                       style: TextStyle(
+                //                           color: const Color(0xFF171433),
+                //                           fontSize: 12.sp,
+                //                           fontWeight: FontWeight.w600),
+                //                     ),
+                //                     const Divider(
+                //                       color: Colors.black,
+                //                       thickness: 1.0,
+                //                     ),
+                //                     Text(
+                //                       "${controller.dashboard.value.dashboard?.totalProteinInG ?? 0} / ${controller.totalProtein().round()} g",
+                //                       style: TextStyle(
+                //                           color: const Color(0xFF171433),
+                //                           fontSize: 16.sp,
+                //                           fontWeight: FontWeight.w400),
+                //                     )
+                //                   ],
+                //                 ),
+                //               ),
+                //               const Spacer(),
+                //               Expanded(
+                //                 flex: 4,
+                //                 child: Column(
+                //                   children: [
+                //                     Text(
+                //                       "Fat",
+                //                       style: TextStyle(
+                //                           color: const Color(0xFF171433),
+                //                           fontSize: 12.sp,
+                //                           fontWeight: FontWeight.w600),
+                //                     ),
+                //                     const Divider(
+                //                       color: Colors.black,
+                //                       thickness: 1.0,
+                //                     ),
+                //                     Text(
+                //                       "${controller.dashboard.value.dashboard?.totalFatsInG ?? 0} / ${controller.totalFat().round()} g",
+                //                       style: TextStyle(
+                //                           color: const Color(0xFF171433),
+                //                           fontSize: 16.sp,
+                //                           fontWeight: FontWeight.w400),
+                //                     )
+                //                   ],
+                //                 ),
+                //               ),
+                //             ],
+                //           );
+                //         })
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                Obx(() {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: DashboardSummaryWidget(
+                      model: [
+                        DashboardSummaryModel(
+                            item: DashboardSummaryItem.calories,
+                            currentValue:
+                                "${controller.dashboard.value.dashboard?.caloriesTaken ?? 0}",
+                            targetValue: controller.remainingCalToShow().value,
+                            unit: 'kcal'),
+                        DashboardSummaryModel(
+                            item: DashboardSummaryItem.exercise,
+                            currentValue: "${controller.totalExercise.value}",
+                            targetValue:
+                                '${controller.user.value.exerciseGoalKcal ?? 0}',
+                            unit: 'kCal'),
+                        DashboardSummaryModel(
+                            item: DashboardSummaryItem.protein,
+                            currentValue:
+                                '${controller.dashboard.value.dashboard?.totalProteinInG ?? 0} ',
+                            targetValue: '${controller.totalProtein().round()}',
+                            unit: 'g'),
+                        DashboardSummaryModel(
+                            item: DashboardSummaryItem.carbs,
+                            currentValue:
+                                '${controller.dashboard.value.dashboard?.totalCarbsInG ?? 0}',
+                            targetValue: '${controller.totalCarbs().round()}',
+                            unit: 'g'),
+                        DashboardSummaryModel(
+                            item: DashboardSummaryItem.sleep,
+                            currentValue:
+                                (sleepController.sleepInBedValue.value / 60)
+                                    .toStringAsFixed(1),
+                            targetValue:
+                                '${controller.user.value.onboardingQuestionnaire?.sleepDuration ?? 0}',
+                            unit: "hours"),
+                        DashboardSummaryModel(
+                            item: DashboardSummaryItem.fat,
+                            currentValue:
+                                '${controller.dashboard.value.dashboard?.totalFatsInG}',
+                            targetValue: '${controller.totalFat().round()}',
+                            unit: 'g'),
+                        DashboardSummaryModel(
+                            item: DashboardSummaryItem.water,
+                            currentValue:
+                                (controller.waterConsumed.value / 1000)
+                                    .toStringAsFixed(1),
+                            targetValue:
+                                '${controller.user.value.onboardingQuestionnaire?.glassesOfWaterDaily ?? 0}',
+                            unit: 'liters'),
+                        DashboardSummaryModel(
+                            item: DashboardSummaryItem.mood,
+                            currentValue: '0',
+                            targetValue: '0',
+                            unit: '',
+                            moodType: MoodType.great),
                       ],
                     ),
-                  ),
-                ),
-                30.verticalSpace,
+                  );
+                }),
+                24.verticalSpace,
                 QuickActionRow(
                   key: homeController.navigationKey,
                   onTap: (action) {
@@ -429,6 +495,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         AppNavigator.push(routeName: AppPages.waterScreen);
                         break;
                       case QuickAction.mood:
+                        AppNavigator.push(routeName: AppPages.moodDetailScreen);
                         break;
                       default:
                         // Handle the 'QuickAction.mood' case here
@@ -453,7 +520,18 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 20.verticalSpace,
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20).r,
-                  child: MoodPickerWidget(onTap: (mood) {}),
+                  child: Obx(() {
+                    return MoodPickerWidget(
+                      selectedMoodType: controller.getMoodTypeByValue(
+                          controller.todayMood.value?.response?.value ?? 0),
+                      onTap: (mood) {
+                        inspect(controller.todayMood);
+                        if (controller.todayMood.value == null) {
+                          controller.onMoodSelected(mood);
+                        }
+                      },
+                    );
+                  }),
                 ),
                 8.verticalSpace,
                 Padding(

@@ -26,6 +26,7 @@ class SleepController extends BaseController {
   Rx<double> totalSleepPercent = 0.0.obs;
   Rx<double> leftSleepPercent = 0.0.obs;
   Rx<double> sleepInBedPercent = 0.0.obs;
+  Rx<double> sleepInBedValue = 0.0.obs;
   Rx<int> userGoal = 0.obs;
 
   RxList<ActivityHistoryModel> exerciseHistoryList =
@@ -182,6 +183,8 @@ class SleepController extends BaseController {
         } else if (sleepInBedValue.isNotEmpty) {
           if (sleepInBedValue.first.totalValue != 0) {
             calculateSleepInBed(sleepInBedValue);
+            this.sleepInBedValue.value =
+                sleepInBedValue.first.totalValue?.toDouble() ?? 0.0;
           }
         }
       }

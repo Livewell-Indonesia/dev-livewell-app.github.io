@@ -12,6 +12,7 @@ import 'package:livewell/feature/food/presentation/pages/request_food_screen.dar
 import 'package:livewell/feature/food/presentation/pages/scan_barcode_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/success_request_food_screen.dart';
 import 'package:livewell/feature/home/presentation/home_screen.dart';
+import 'package:livewell/feature/mood/presentation/page/mood_screen.dart';
 import 'package:livewell/feature/nutrico/presentation/pages/nutrico_screen.dart';
 import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_detail_screen.dart';
 import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_screen.dart';
@@ -151,6 +152,10 @@ class AppNavigator {
         name: AppPages.nutritionScreen,
         page: () => FoodScreen(),
         transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.moodDetailScreen,
+        page: () => MoodScreen(),
+        transition: Transition.cupertino),
   ];
 
   static void push({required String routeName, dynamic arguments}) {
@@ -209,4 +214,5 @@ class AppPages {
   static String sleepScreen = '/sleepScreen';
   static String waterScreen = '/waterScreen';
   static String nutritionScreen = '/nutritionScreen';
+  static String moodDetailScreen = '/moodDetailScreen';
 }

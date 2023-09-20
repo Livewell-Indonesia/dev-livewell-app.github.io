@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 
 class MoodPickerWidget extends StatelessWidget {
+  final MoodType? selectedMoodType;
   final Function(MoodType) onTap;
-  const MoodPickerWidget({super.key, required this.onTap});
+  const MoodPickerWidget(
+      {super.key, required this.onTap, this.selectedMoodType});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +25,7 @@ class MoodPickerWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'How are you?',
+            Get.find<HomeController>().localization.howAreYou ?? 'How are you?',
             style: TextStyle(
                 color: const Color(0xFF171433).withOpacity(0.8),
                 fontWeight: FontWeight.w600,
@@ -36,6 +40,7 @@ class MoodPickerWidget extends StatelessWidget {
                     onTap(e);
                   },
                   child: MoodPickerItem(
+                    selectedMoodType: selectedMoodType,
                     moodType: e,
                   ));
             }).toList(),
@@ -48,7 +53,9 @@ class MoodPickerWidget extends StatelessWidget {
 
 class MoodPickerItem extends StatelessWidget {
   final MoodType moodType;
-  const MoodPickerItem({super.key, required this.moodType});
+  final MoodType? selectedMoodType;
+  const MoodPickerItem(
+      {super.key, required this.moodType, this.selectedMoodType});
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +67,7 @@ class MoodPickerItem extends StatelessWidget {
             moodType.assets(),
             width: 48,
             height: 48,
+            color: getColor(),
           ),
           4.verticalSpace,
           Text(
@@ -72,6 +80,18 @@ class MoodPickerItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Color? getColor() {
+    if (selectedMoodType != null) {
+      if (selectedMoodType == moodType) {
+        return null;
+      } else {
+        return Color(0xFF171433).withOpacity(0.3);
+      }
+    } else {
+      return null;
+    }
   }
 }
 
@@ -93,18 +113,33 @@ extension MoodTypeExt on MoodType {
     }
   }
 
+  Color mainColor() {
+    switch (this) {
+      case MoodType.great:
+        return const Color(0xFFDDF235);
+      case MoodType.good:
+        return const Color(0xFF34EAB2);
+      case MoodType.meh:
+        return const Color(0xFF34A8EA);
+      case MoodType.bad:
+        return const Color(0xFF8F01DF);
+      case MoodType.awful:
+        return const Color(0xFFDF0101);
+    }
+  }
+
   String title() {
     switch (this) {
       case MoodType.great:
-        return 'Great';
+        return Get.find<HomeController>().localization.moodGreat ?? 'Great';
       case MoodType.good:
-        return 'Good';
+        return Get.find<HomeController>().localization.moodGood ?? 'Good';
       case MoodType.meh:
-        return 'Meh';
+        return Get.find<HomeController>().localization.moodMeh ?? 'Meh';
       case MoodType.bad:
-        return 'Bad';
+        return Get.find<HomeController>().localization.moodBad ?? 'Bad';
       case MoodType.awful:
-        return 'Awful';
+        return Get.find<HomeController>().localization.moodAwful ?? 'Awful';
     }
   }
 

@@ -20,7 +20,7 @@ class SleepScreen extends StatefulWidget {
 }
 
 class _SleepScreenState extends State<SleepScreen> {
-  final SleepController controller = Get.put(SleepController());
+  final SleepController controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(

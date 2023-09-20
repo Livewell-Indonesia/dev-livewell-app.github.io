@@ -13,4 +13,5 @@ abstract class DashBoardRepository {
   Future<Either<Failure, AppConfigModel>> getAppConfig();
   Future<Either<Failure, PopupAssetsModel>> getPopupAssets();
   Future<Either<Failure, RegisterModel>> registerDevice(String fcmToken);
+  Future<Either<Failure, RegisterModel>> postMood(int value);
 }

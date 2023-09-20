@@ -1,0 +1,220 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:livewell/feature/mood/presentation/widget/mood_picker_widget.dart';
+
+class DashboardSummaryWidget extends StatelessWidget {
+  final List<DashboardSummaryModel> model;
+  const DashboardSummaryWidget({super.key, required this.model});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(
+          Radius.circular(16),
+        ),
+      ),
+      padding: const EdgeInsets.all(16),
+      child: GridView.builder(
+        padding: EdgeInsets.zero,
+        shrinkWrap: true,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 151 / 68,
+            crossAxisSpacing: 9,
+            mainAxisSpacing: 9),
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: Colors.white,
+              border: Border.all(
+                color: const Color(0xFFF1F1F1),
+                width: 1,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      model[index].item.assets(),
+                      width: 16.w,
+                      height: 15.h,
+                    ),
+                    8.horizontalSpace,
+                    Text(
+                      model[index].item.title(),
+                      style: TextStyle(
+                          color: const Color(0xFF505050),
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                ),
+                7.verticalSpace,
+                model[index].moodType == null
+                    ? RichText(
+                        text: TextSpan(
+                            text: model[index].currentValue,
+                            style: TextStyle(
+                                color: const Color(0xFF505050),
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600),
+                            children: [
+                              TextSpan(
+                                  text:
+                                      "/${model[index].targetValue} ${model[index].unit}",
+                                  style: TextStyle(
+                                      color: const Color(0xFF505050),
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w400))
+                            ]),
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SvgPicture.asset((model[index].moodType!.assets()),
+                              width: 20.w, height: 20.h),
+                          8.horizontalSpace,
+                          Text(
+                            model[index].moodType!.title(),
+                            style: TextStyle(
+                                color: const Color(0xFF505050),
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+              ],
+            ),
+          );
+        },
+        itemCount: model.length,
+      ),
+    );
+  }
+}
+
+List<DashboardSummaryModel> generateDefaultModel() {
+  return [
+    DashboardSummaryModel(
+        item: DashboardSummaryItem.calories,
+        currentValue: '0',
+        targetValue: '0',
+        unit: 'kcal'),
+    DashboardSummaryModel(
+        item: DashboardSummaryItem.exercise,
+        currentValue: '0',
+        targetValue: '0',
+        unit: 'kCal'),
+    DashboardSummaryModel(
+        item: DashboardSummaryItem.protein,
+        currentValue: '0',
+        targetValue: '0',
+        unit: 'g'),
+    DashboardSummaryModel(
+        item: DashboardSummaryItem.carbs,
+        currentValue: '0',
+        targetValue: '0',
+        unit: 'g'),
+    DashboardSummaryModel(
+        item: DashboardSummaryItem.sleep,
+        currentValue: '0',
+        targetValue: '0',
+        unit: 'hours'),
+    DashboardSummaryModel(
+        item: DashboardSummaryItem.fat,
+        currentValue: '0',
+        targetValue: '0',
+        unit: 'g'),
+    DashboardSummaryModel(
+        item: DashboardSummaryItem.water,
+        currentValue: '0',
+        targetValue: '0',
+        unit: 'liters'),
+    DashboardSummaryModel(
+        item: DashboardSummaryItem.mood,
+        currentValue: '0',
+        targetValue: '0',
+        unit: '',
+        moodType: MoodType.great),
+  ];
+}
+
+class DashboardSummaryModel {
+  final DashboardSummaryItem item;
+  final String currentValue;
+  final String targetValue;
+  final String unit;
+  final MoodType? moodType;
+
+  DashboardSummaryModel(
+      {required this.item,
+      required this.currentValue,
+      required this.targetValue,
+      required this.unit,
+      this.moodType});
+}
+
+enum DashboardSummaryItem {
+  calories,
+  exercise,
+  protein,
+
+  carbs,
+  sleep,
+  fat,
+  water,
+  mood
+}
+
+extension DashboardSummaryItemExt on DashboardSummaryItem {
+  String title() {
+    switch (this) {
+      case DashboardSummaryItem.calories:
+        return 'Calories';
+      case DashboardSummaryItem.exercise:
+        return 'Exercise';
+      case DashboardSummaryItem.protein:
+        return 'Protein';
+      case DashboardSummaryItem.mood:
+        return 'Mood';
+      case DashboardSummaryItem.carbs:
+        return 'Carbs';
+      case DashboardSummaryItem.sleep:
+        return 'Sleep';
+      case DashboardSummaryItem.fat:
+        return 'Fat';
+      case DashboardSummaryItem.water:
+        return 'Water';
+    }
+  }
+
+  String assets() {
+    switch (this) {
+      case DashboardSummaryItem.calories:
+        return 'assets/icons/summary_calories.svg';
+      case DashboardSummaryItem.exercise:
+        return 'assets/icons/summary_exercise.svg';
+      case DashboardSummaryItem.protein:
+        return 'assets/icons/summary_protein.svg';
+      case DashboardSummaryItem.mood:
+        return 'assets/icons/summary_mood.svg';
+      case DashboardSummaryItem.carbs:
+        return 'assets/icons/summary_carbs.svg';
+      case DashboardSummaryItem.sleep:
+        return 'assets/icons/summary_sleep.svg';
+      case DashboardSummaryItem.fat:
+        return 'assets/icons/summary_fat.svg';
+      case DashboardSummaryItem.water:
+        return 'assets/icons/sumary_water.svg';
+    }
+  }
+}
