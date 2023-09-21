@@ -110,23 +110,24 @@ class _MoodScreenState extends State<MoodScreen> {
                                           ),
                                           child: Center(
                                             child: Container(
-                                              padding: EdgeInsets.all(4.w),
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: e.mainColor(),
-                                              ),
-                                              child: Text(
-                                                controller
-                                                    .getTotalMoodByType(
-                                                        e.value())
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 8.sp,
-                                                    fontWeight:
-                                                        FontWeight.w700),
-                                              ),
-                                            ),
+                                                padding: EdgeInsets.all(4.w),
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: e.mainColor(),
+                                                ),
+                                                child: Obx(() {
+                                                  return Text(
+                                                    controller
+                                                        .getTotalMoodByType(
+                                                            e.value())
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 8.sp,
+                                                        fontWeight:
+                                                            FontWeight.w700),
+                                                  );
+                                                })),
                                           ),
                                         ),
                                       )

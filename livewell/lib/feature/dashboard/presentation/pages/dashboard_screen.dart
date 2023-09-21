@@ -447,6 +447,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             item: DashboardSummaryItem.sleep,
                             currentValue:
                                 (sleepController.sleepInBedValue.value / 60)
+                                    .maxOneOrZero
                                     .toStringAsFixed(1),
                             targetValue:
                                 '${controller.user.value.onboardingQuestionnaire?.sleepDuration ?? 0}',
@@ -470,7 +471,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             currentValue: '0',
                             targetValue: '0',
                             unit: '',
-                            moodType: MoodType.great),
+                            moodType: controller.getMoodTypeByValue(
+                                controller.todayMood.value?.response?.value ??
+                                    3)),
                       ],
                     ),
                   );
@@ -525,10 +528,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       selectedMoodType: controller.getMoodTypeByValue(
                           controller.todayMood.value?.response?.value ?? 0),
                       onTap: (mood) {
-                        inspect(controller.todayMood);
-                        if (controller.todayMood.value == null) {
-                          controller.onMoodSelected(mood);
-                        }
+                        controller.onMoodSelected(mood);
                       },
                     );
                   }),
