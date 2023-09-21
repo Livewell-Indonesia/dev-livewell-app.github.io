@@ -276,9 +276,23 @@ class _MoodScreenState extends State<MoodScreen> {
       fontSize: 10.sp,
     );
     Widget text;
-    text =
-        value == 6.0 || value == 0 ? Text('') : Text("${value}", style: style);
+    text = value == 6.0 || value == 0
+        ? Text('')
+        : Container(
+            width: 12.w,
+            height: 12.h,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: intToColor(value.toInt()),
+            ),
+          );
 
     return SideTitleWidget(axisSide: meta.axisSide, child: text);
+  }
+
+  Color intToColor(int value) {
+    return MoodType.values
+        .firstWhere((element) => element.value() == value)
+        .mainColor();
   }
 }
