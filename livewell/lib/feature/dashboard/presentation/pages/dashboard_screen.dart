@@ -423,26 +423,52 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             item: DashboardSummaryItem.calories,
                             currentValue:
                                 "${controller.dashboard.value.dashboard?.caloriesTaken ?? 0}",
-                            targetValue: controller.remainingCalToShow().value,
-                            unit: 'kcal'),
+                            targetValue:
+                                "${(controller.user.value.bmr?.toInt() ?? 0) + (controller.totalExercise.value)}",
+                            unit: 'kCal',
+                            status: DashboardSummaryModel.statusFromValue(
+                                (controller.dashboard.value.dashboard
+                                                ?.caloriesTaken ??
+                                            0) /
+                                        (controller.user.value.bmr?.toInt() ??
+                                            0) +
+                                    (controller.totalExercise.value),
+                                false)),
                         DashboardSummaryModel(
                             item: DashboardSummaryItem.exercise,
                             currentValue: "${controller.totalExercise.value}",
                             targetValue:
                                 '${controller.user.value.exerciseGoalKcal ?? 0}',
-                            unit: 'kCal'),
+                            unit: 'kCal',
+                            status: DashboardSummaryModel.statusFromValue(
+                                (controller.totalExercise.value) /
+                                    (controller.user.value.exerciseGoalKcal ??
+                                        0),
+                                false)),
                         DashboardSummaryModel(
                             item: DashboardSummaryItem.protein,
                             currentValue:
                                 '${controller.dashboard.value.dashboard?.totalProteinInG ?? 0} ',
                             targetValue: '${controller.totalProtein().round()}',
-                            unit: 'g'),
+                            unit: 'g',
+                            status: DashboardSummaryModel.statusFromValue(
+                                (controller.dashboard.value.dashboard
+                                            ?.totalProteinInG ??
+                                        0) /
+                                    (controller.totalProtein().round()),
+                                false)),
                         DashboardSummaryModel(
                             item: DashboardSummaryItem.carbs,
                             currentValue:
                                 '${controller.dashboard.value.dashboard?.totalCarbsInG ?? 0}',
                             targetValue: '${controller.totalCarbs().round()}',
-                            unit: 'g'),
+                            unit: 'g',
+                            status: DashboardSummaryModel.statusFromValue(
+                                (controller.dashboard.value.dashboard
+                                            ?.totalCarbsInG ??
+                                        0) /
+                                    (controller.totalCarbs().round()),
+                                true)),
                         DashboardSummaryModel(
                             item: DashboardSummaryItem.sleep,
                             currentValue:
@@ -451,21 +477,48 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                     .toStringAsFixed(1),
                             targetValue:
                                 '${controller.user.value.onboardingQuestionnaire?.sleepDuration ?? 0}',
-                            unit: "hours"),
+                            unit: "hours",
+                            status: DashboardSummaryModel.statusFromValue(
+                                (sleepController.sleepInBedValue.value / 60) /
+                                    int.parse(controller
+                                            .user
+                                            .value
+                                            .onboardingQuestionnaire
+                                            ?.sleepDuration ??
+                                        "0"),
+                                false)),
                         DashboardSummaryModel(
                             item: DashboardSummaryItem.fat,
                             currentValue:
                                 '${controller.dashboard.value.dashboard?.totalFatsInG}',
                             targetValue: '${controller.totalFat().round()}',
-                            unit: 'g'),
+                            unit: 'g',
+                            status: DashboardSummaryModel.statusFromValue(
+                                (controller.dashboard.value.dashboard
+                                            ?.totalFatsInG ??
+                                        0) /
+                                    (controller.totalFat().round()),
+                                true)),
                         DashboardSummaryModel(
                             item: DashboardSummaryItem.water,
                             currentValue:
                                 (controller.waterConsumed.value / 1000)
                                     .toStringAsFixed(1),
-                            targetValue:
-                                '${controller.user.value.onboardingQuestionnaire?.glassesOfWaterDaily ?? 0}',
-                            unit: 'liters'),
+                            targetValue: removeTrailingZero(
+                                (int.parse((controller.user.value.onboardingQuestionnaire?.glassesOfWaterDaily ?? "0")) *
+                                        0.25)
+                                    .toString()),
+                            unit: 'liters',
+                            status: DashboardSummaryModel.statusFromValue(
+                                (controller.waterConsumed.value / 1000) /
+                                    (int.parse((controller
+                                                .user
+                                                .value
+                                                .onboardingQuestionnaire
+                                                ?.glassesOfWaterDaily ??
+                                            "0")) *
+                                        0.25),
+                                false)),
                         DashboardSummaryModel(
                             item: DashboardSummaryItem.mood,
                             currentValue: '0',
@@ -473,7 +526,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             unit: '',
                             moodType: controller.getMoodTypeByValue(
                                 controller.todayMood.value?.response?.value ??
-                                    3)),
+                                    3),
+                            status: DashboardSummaryStatus.eightyPlus),
                       ],
                     ),
                   );
@@ -1013,4 +1067,15 @@ class QuickActionRow extends StatelessWidget {
       }).toList(),
     );
   }
+}
+
+String removeTrailingZero(String string) {
+  if (!string.contains('.')) {
+    return string;
+  }
+  string = string.replaceAll(RegExp(r'0*$'), '');
+  if (string.endsWith('.')) {
+    string = string.substring(0, string.length - 1);
+  }
+  return string;
 }

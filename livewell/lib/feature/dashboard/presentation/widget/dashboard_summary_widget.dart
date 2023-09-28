@@ -28,72 +28,91 @@ class DashboardSummaryWidget extends StatelessWidget {
             mainAxisSpacing: 9),
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
-          return Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: Colors.white,
-              border: Border.all(
-                color: const Color(0xFFF1F1F1),
-                width: 1,
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+          return Stack(
+            alignment: Alignment.centerRight,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: Colors.white,
+                  border: Border.all(
+                    color: const Color(0xFFF1F1F1),
+                    width: 1,
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SvgPicture.asset(
-                      model[index].item.assets(),
-                      width: 16.w,
-                      height: 15.h,
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          model[index].item.assets(),
+                          width: 16.w,
+                          height: 15.h,
+                        ),
+                        8.horizontalSpace,
+                        Text(
+                          model[index].item.title(),
+                          style: TextStyle(
+                              color: const Color(0xFF505050),
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ],
                     ),
-                    8.horizontalSpace,
-                    Text(
-                      model[index].item.title(),
-                      style: TextStyle(
-                          color: const Color(0xFF505050),
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400),
-                    ),
+                    7.verticalSpace,
+                    model[index].moodType == null
+                        ? RichText(
+                            text: TextSpan(
+                                text: model[index].currentValue,
+                                style: TextStyle(
+                                    color: const Color(0xFF505050),
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600),
+                                children: [
+                                  TextSpan(
+                                      text:
+                                          "/${model[index].targetValue} ${model[index].unit}",
+                                      style: TextStyle(
+                                          color: const Color(0xFF505050),
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w400))
+                                ]),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SvgPicture.asset(
+                                  (model[index].moodType!.assets()),
+                                  width: 20.w,
+                                  height: 20.h),
+                              8.horizontalSpace,
+                              Text(
+                                model[index].moodType!.title(),
+                                style: TextStyle(
+                                    color: const Color(0xFF505050),
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
                   ],
                 ),
-                7.verticalSpace,
-                model[index].moodType == null
-                    ? RichText(
-                        text: TextSpan(
-                            text: model[index].currentValue,
-                            style: TextStyle(
-                                color: const Color(0xFF505050),
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600),
-                            children: [
-                              TextSpan(
-                                  text:
-                                      "/${model[index].targetValue} ${model[index].unit}",
-                                  style: TextStyle(
-                                      color: const Color(0xFF505050),
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w400))
-                            ]),
-                      )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SvgPicture.asset((model[index].moodType!.assets()),
-                              width: 20.w, height: 20.h),
-                          8.horizontalSpace,
-                          Text(
-                            model[index].moodType!.title(),
-                            style: TextStyle(
-                                color: const Color(0xFF505050),
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ],
-                      ),
-              ],
-            ),
+              ),
+              Container(
+                width: 14.w,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(100),
+                    bottomRight: Radius.circular(100),
+                  ),
+                  color: model[index].moodType != null
+                      ? model[index].moodType!.mainColor()
+                      : model[index].status.color(),
+                ),
+              ),
+            ],
           );
         },
         itemCount: model.length,
@@ -108,43 +127,51 @@ List<DashboardSummaryModel> generateDefaultModel() {
         item: DashboardSummaryItem.calories,
         currentValue: '0',
         targetValue: '0',
-        unit: 'kcal'),
+        unit: 'kcal',
+        status: DashboardSummaryStatus.eightyPlus),
     DashboardSummaryModel(
         item: DashboardSummaryItem.exercise,
         currentValue: '0',
         targetValue: '0',
-        unit: 'kCal'),
+        unit: 'kCal',
+        status: DashboardSummaryStatus.eightyPlus),
     DashboardSummaryModel(
         item: DashboardSummaryItem.protein,
         currentValue: '0',
         targetValue: '0',
-        unit: 'g'),
+        unit: 'g',
+        status: DashboardSummaryStatus.eightyPlus),
     DashboardSummaryModel(
         item: DashboardSummaryItem.carbs,
         currentValue: '0',
         targetValue: '0',
-        unit: 'g'),
+        unit: 'g',
+        status: DashboardSummaryStatus.eightyPlus),
     DashboardSummaryModel(
         item: DashboardSummaryItem.sleep,
         currentValue: '0',
         targetValue: '0',
-        unit: 'hours'),
+        unit: 'hours',
+        status: DashboardSummaryStatus.eightyPlus),
     DashboardSummaryModel(
         item: DashboardSummaryItem.fat,
         currentValue: '0',
         targetValue: '0',
-        unit: 'g'),
+        unit: 'g',
+        status: DashboardSummaryStatus.eightyPlus),
     DashboardSummaryModel(
         item: DashboardSummaryItem.water,
         currentValue: '0',
         targetValue: '0',
-        unit: 'liters'),
+        unit: 'liters',
+        status: DashboardSummaryStatus.eightyPlus),
     DashboardSummaryModel(
         item: DashboardSummaryItem.mood,
         currentValue: '0',
         targetValue: '0',
         unit: '',
-        moodType: MoodType.great),
+        moodType: MoodType.great,
+        status: DashboardSummaryStatus.eightyPlus),
   ];
 }
 
@@ -154,13 +181,32 @@ class DashboardSummaryModel {
   final String targetValue;
   final String unit;
   final MoodType? moodType;
+  final DashboardSummaryStatus status;
 
   DashboardSummaryModel(
       {required this.item,
       required this.currentValue,
       required this.targetValue,
       required this.unit,
-      this.moodType});
+      this.moodType,
+      required this.status});
+
+  static DashboardSummaryStatus statusFromValue(
+      double value, bool isFatOrCarbs) {
+    if (value >= 0 && value < 0.4) {
+      return DashboardSummaryStatus.zeroToFourty;
+    } else if (value >= 0.4 && value < 0.8) {
+      return DashboardSummaryStatus.fourtyToEighty;
+    } else if (value >= 0.8 && !isFatOrCarbs) {
+      return DashboardSummaryStatus.eightyPlus;
+    } else if (value >= 0.8 && value < 1.1 && isFatOrCarbs) {
+      return DashboardSummaryStatus.eightyToHundredTen;
+    } else if (value >= 1.1 && value < 1.25 && isFatOrCarbs) {
+      return DashboardSummaryStatus.hundredTenToHundredTwentyFive;
+    } else {
+      return DashboardSummaryStatus.hundredTwentyFivePlus;
+    }
+  }
 }
 
 enum DashboardSummaryItem {
@@ -173,6 +219,34 @@ enum DashboardSummaryItem {
   fat,
   water,
   mood
+}
+
+enum DashboardSummaryStatus {
+  zeroToFourty,
+  fourtyToEighty,
+  eightyPlus,
+  eightyToHundredTen,
+  hundredTenToHundredTwentyFive,
+  hundredTwentyFivePlus
+}
+
+extension DashboardSummaryExt on DashboardSummaryStatus {
+  Color color() {
+    switch (this) {
+      case DashboardSummaryStatus.zeroToFourty:
+        return const Color(0xFFFA6F6F);
+      case DashboardSummaryStatus.fourtyToEighty:
+        return const Color(0xFFDDF235);
+      case DashboardSummaryStatus.eightyPlus:
+        return const Color(0xFF34EAB2);
+      case DashboardSummaryStatus.eightyToHundredTen:
+        return const Color(0xFF34EAB2);
+      case DashboardSummaryStatus.hundredTenToHundredTwentyFive:
+        return const Color(0xFFDDF235);
+      case DashboardSummaryStatus.hundredTwentyFivePlus:
+        return const Color(0xFFFA6F6F);
+    }
+  }
 }
 
 extension DashboardSummaryItemExt on DashboardSummaryItem {

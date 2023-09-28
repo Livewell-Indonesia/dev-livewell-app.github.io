@@ -210,6 +210,7 @@ class DashboardController extends BaseController {
             if (filteredHealth.isNotEmpty) {
               await SharedPref.saveLastHealthSyncDate(
                   filteredHealth.last.dateTo);
+              getExerciseHistorydata();
             }
           });
         }
@@ -229,6 +230,7 @@ class DashboardController extends BaseController {
       }, (r) async {
         if (filteredData.isNotEmpty) {
           await SharedPref.saveLastHealthSyncDate(filteredData.last.dateTo);
+          getExerciseHistorydata();
         }
       });
     }
@@ -538,7 +540,7 @@ class DashboardController extends BaseController {
     if (user.value.bmr == null) {
       return total;
     } else {
-      var bmr = dashboard.value.dashboard?.totalCalories ?? 0;
+      var bmr = (user.value.bmr ?? 0) + totalExercise.value;
       total = ((0.5 * bmr) / 4).obs;
       return total;
     }
@@ -549,7 +551,7 @@ class DashboardController extends BaseController {
     if (user.value.bmr == null) {
       return total;
     } else {
-      var bmr = dashboard.value.dashboard?.totalCalories ?? 0;
+      var bmr = (user.value.bmr ?? 0) + totalExercise.value;
       total = ((0.2 * bmr) / 4).obs;
       return total;
     }
@@ -560,7 +562,7 @@ class DashboardController extends BaseController {
     if (user.value.bmr == null) {
       return total;
     } else {
-      var bmr = dashboard.value.dashboard?.totalCalories ?? 0;
+      var bmr = (user.value.bmr ?? 0) + totalExercise.value;
       total = ((0.3 * bmr) / 9).obs;
       return total;
     }
