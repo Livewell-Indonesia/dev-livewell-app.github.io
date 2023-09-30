@@ -430,9 +430,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 (controller.dashboard.value.dashboard
                                                 ?.caloriesTaken ??
                                             0) /
-                                        (controller.user.value.bmr?.toInt() ??
+                                        ((controller.user.value.bmr?.toInt() ??
                                             0) +
-                                    (controller.totalExercise.value),
+                                    (controller.totalExercise.value)),
                                 false)),
                         DashboardSummaryModel(
                             item: DashboardSummaryItem.exercise,
@@ -472,9 +472,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         DashboardSummaryModel(
                             item: DashboardSummaryItem.sleep,
                             currentValue:
-                                (sleepController.sleepInBedValue.value / 60)
-                                    .maxOneOrZero
-                                    .toStringAsFixed(1),
+                                (sleepController.getCurrentSleepValue()).toString(),
                             targetValue:
                                 '${controller.user.value.onboardingQuestionnaire?.sleepDuration ?? 0}',
                             unit: "hours",

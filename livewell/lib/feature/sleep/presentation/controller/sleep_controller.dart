@@ -106,6 +106,30 @@ class SleepController extends BaseController {
     return value == 0.0 ? value : (value / 60);
   }
 
+  double getCurrentSleepValue() {
+    var value = 0.0;
+    if (exerciseHistoryList.isNotEmpty) {
+      var date = DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day);
+      for (var data in exerciseHistoryList) {
+        var temp = 0.0;
+        if (data.details != null) {
+          for (var element in data.details!) {
+            var currentDate =
+                DateFormat('yyyy-MM-dd HH:mm:ss').parse(element.dateFrom!);
+            if (currentDate.day == date.day &&
+                currentDate.month == date.month &&
+                currentDate.year == date.year) {
+              temp += element.value!;
+            }
+          }
+        }
+        value += temp;
+      }
+    }
+    return value == 0.0 ? value : (value / 60);
+  }
+
   bool isYValueOptimal(int index) {
     var value = getYValue(index);
     var minimum = userGoal.value * 0.8;
