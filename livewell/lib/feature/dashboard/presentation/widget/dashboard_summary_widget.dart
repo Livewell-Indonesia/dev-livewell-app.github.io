@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:livewell/feature/mood/presentation/widget/mood_picker_widget.dart';
+import 'package:livewell/routes/app_navigator.dart';
 
 class DashboardSummaryWidget extends StatelessWidget {
   final List<DashboardSummaryModel> model;
@@ -28,91 +29,96 @@ class DashboardSummaryWidget extends StatelessWidget {
             mainAxisSpacing: 9),
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
-          return Stack(
-            alignment: Alignment.centerRight,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: Colors.white,
-                  border: Border.all(
-                    color: const Color(0xFFF1F1F1),
-                    width: 1,
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                          model[index].item.assets(),
-                          width: 16.w,
-                          height: 15.h,
-                        ),
-                        8.horizontalSpace,
-                        Text(
-                          model[index].item.title(),
-                          style: TextStyle(
-                              color: const Color(0xFF505050),
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
+          return InkWell(
+            onTap: () {
+              model[index].item.navigate();
+            },
+            child: Stack(
+              alignment: Alignment.centerRight,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: Colors.white,
+                    border: Border.all(
+                      color: const Color(0xFFF1F1F1),
+                      width: 1,
                     ),
-                    7.verticalSpace,
-                    model[index].moodType == null
-                        ? RichText(
-                            text: TextSpan(
-                                text: model[index].currentValue,
-                                style: TextStyle(
-                                    color: const Color(0xFF505050),
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
-                                children: [
-                                  TextSpan(
-                                      text:
-                                          "/${model[index].targetValue} ${model[index].unit}",
-                                      style: TextStyle(
-                                          color: const Color(0xFF505050),
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w400))
-                                ]),
-                          )
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SvgPicture.asset(
-                                  (model[index].moodType!.assets()),
-                                  width: 20.w,
-                                  height: 20.h),
-                              8.horizontalSpace,
-                              Text(
-                                model[index].moodType!.title(),
-                                style: TextStyle(
-                                    color: const Color(0xFF505050),
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          ),
-                  ],
-                ),
-              ),
-              Container(
-                width: 14.w,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(100),
-                    bottomRight: Radius.circular(100),
                   ),
-                  color: model[index].moodType != null
-                      ? model[index].moodType!.mainColor()
-                      : model[index].status.color(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                            model[index].item.assets(),
+                            width: 16.w,
+                            height: 15.h,
+                          ),
+                          8.horizontalSpace,
+                          Text(
+                            model[index].item.title(),
+                            style: TextStyle(
+                                color: const Color(0xFF505050),
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      ),
+                      7.verticalSpace,
+                      model[index].moodType == null
+                          ? RichText(
+                              text: TextSpan(
+                                  text: model[index].currentValue,
+                                  style: TextStyle(
+                                      color: const Color(0xFF505050),
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600),
+                                  children: [
+                                    TextSpan(
+                                        text:
+                                            "/${model[index].targetValue} ${model[index].unit}",
+                                        style: TextStyle(
+                                            color: const Color(0xFF505050),
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w400))
+                                  ]),
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SvgPicture.asset(
+                                    (model[index].moodType!.assets()),
+                                    width: 20.w,
+                                    height: 20.h),
+                                8.horizontalSpace,
+                                Text(
+                                  model[index].moodType!.title(),
+                                  style: TextStyle(
+                                      color: const Color(0xFF505050),
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ],
+                            ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                Container(
+                  width: 14.w,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(100),
+                      bottomRight: Radius.circular(100),
+                    ),
+                    color: model[index].moodType != null
+                        ? model[index].moodType!.mainColor()
+                        : model[index].status.color(),
+                  ),
+                ),
+              ],
+            ),
           );
         },
         itemCount: model.length,
@@ -289,6 +295,35 @@ extension DashboardSummaryItemExt on DashboardSummaryItem {
         return 'assets/icons/summary_fat.svg';
       case DashboardSummaryItem.water:
         return 'assets/icons/sumary_water.svg';
+    }
+  }
+
+  void navigate() {
+    switch (this) {
+      case DashboardSummaryItem.calories:
+        AppNavigator.push(routeName: AppPages.nutritionScreen);
+        break;
+      case DashboardSummaryItem.exercise:
+        AppNavigator.push(routeName: AppPages.exerciseScreen);
+        break;
+      case DashboardSummaryItem.protein:
+        AppNavigator.push(routeName: AppPages.nutritionScreen);
+        break;
+      case DashboardSummaryItem.mood:
+        AppNavigator.push(routeName: AppPages.moodDetailScreen);
+        break;
+      case DashboardSummaryItem.carbs:
+        AppNavigator.push(routeName: AppPages.nutritionScreen);
+        break;
+      case DashboardSummaryItem.sleep:
+        AppNavigator.push(routeName: AppPages.sleepScreen);
+        break;
+      case DashboardSummaryItem.fat:
+        AppNavigator.push(routeName: AppPages.nutritionScreen);
+        break;
+      case DashboardSummaryItem.water:
+        AppNavigator.push(routeName: AppPages.waterScreen);
+        break;
     }
   }
 }

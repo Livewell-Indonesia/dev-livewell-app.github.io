@@ -428,11 +428,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             unit: 'kCal',
                             status: DashboardSummaryModel.statusFromValue(
                                 (controller.dashboard.value.dashboard
-                                                ?.caloriesTaken ??
-                                            0) /
-                                        ((controller.user.value.bmr?.toInt() ??
-                                            0) +
-                                    (controller.totalExercise.value)),
+                                            ?.caloriesTaken ??
+                                        0) /
+                                    ((controller.user.value.bmr?.toInt() ?? 0) +
+                                        (controller.totalExercise.value)),
                                 false)),
                         DashboardSummaryModel(
                             item: DashboardSummaryItem.exercise,
@@ -472,18 +471,19 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         DashboardSummaryModel(
                             item: DashboardSummaryItem.sleep,
                             currentValue:
-                                (sleepController.getCurrentSleepValue()).toString(),
+                                (sleepController.getCurrentSleepValue())
+                                    .toStringAsFixed(1),
                             targetValue:
                                 '${controller.user.value.onboardingQuestionnaire?.sleepDuration ?? 0}',
                             unit: "hours",
                             status: DashboardSummaryModel.statusFromValue(
-                                (sleepController.sleepInBedValue.value / 60) /
+                                ((sleepController.getCurrentSleepValue()) /
                                     int.parse(controller
                                             .user
                                             .value
                                             .onboardingQuestionnaire
                                             ?.sleepDuration ??
-                                        "0"),
+                                        "0")),
                                 false)),
                         DashboardSummaryModel(
                             item: DashboardSummaryItem.fat,
