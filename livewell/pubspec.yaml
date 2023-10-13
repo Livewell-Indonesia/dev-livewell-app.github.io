@@ -49,7 +49,7 @@ dependencies:
   google_fonts: ^4.0.0
   jwt_decoder: ^2.0.1
   flutter_cupertino_date_picker_fork: ^1.0.6
-  intl: ^0.17.0
+  intl: ^0.18.1
   flutter_easyloading: ^3.0.5
   video_player: ^2.2.5
   path_provider: ^2.0.5
@@ -58,7 +58,7 @@ dependencies:
   google_sign_in: ^5.4.2
   flutter_slidable: ^2.0.0
   webview_flutter: ^3.0.4
-  health: ^4.4.0
+  health: ^8.0.0
   permission_handler: ^10.2.0
   algolia_helper_flutter: ^0.2.0
   infinite_scroll_pagination: ^3.2.0

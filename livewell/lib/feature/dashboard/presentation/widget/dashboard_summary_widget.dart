@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:livewell/feature/mood/presentation/widget/mood_picker_widget.dart';
+import 'package:livewell/feature/nutriscore/presentation/controller/nutriscore_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
 
 class DashboardSummaryWidget extends StatelessWidget {
@@ -307,19 +308,25 @@ extension DashboardSummaryItemExt on DashboardSummaryItem {
         AppNavigator.push(routeName: AppPages.exerciseScreen);
         break;
       case DashboardSummaryItem.protein:
-        AppNavigator.push(routeName: AppPages.nutritionScreen);
+        AppNavigator.push(routeName: AppPages.nutriScore, arguments: {
+          'type': NutrientType.protein,
+        });
         break;
       case DashboardSummaryItem.mood:
         AppNavigator.push(routeName: AppPages.moodDetailScreen);
         break;
       case DashboardSummaryItem.carbs:
-        AppNavigator.push(routeName: AppPages.nutritionScreen);
+        AppNavigator.push(routeName: AppPages.nutriScore, arguments: {
+          'type': NutrientType.carb,
+        });
         break;
       case DashboardSummaryItem.sleep:
         AppNavigator.push(routeName: AppPages.sleepScreen);
         break;
       case DashboardSummaryItem.fat:
-        AppNavigator.push(routeName: AppPages.nutritionScreen);
+        AppNavigator.push(routeName: AppPages.nutriScore, arguments: {
+          'type': NutrientType.fat,
+        });
         break;
       case DashboardSummaryItem.water:
         AppNavigator.push(routeName: AppPages.waterScreen);
