@@ -13,6 +13,8 @@ import 'package:intl/intl.dart';
 import 'package:livewell/feature/exercise/presentation/controller/exercise_controller.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_diary_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
+import 'package:livewell/routes/app_navigator.dart';
+import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'package:livewell/widgets/textfield/livewell_textfield.dart';
@@ -371,6 +373,15 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
             children: [
               40.verticalSpace,
               const ExerciseDiaryScreen(),
+              32.verticalSpace,
+              LiveWellButton(
+                label: 'Input Steps',
+                color: Color(0xFF8F01DF),
+                textColor: Colors.white,
+                onPressed: () {
+                  AppNavigator.push(routeName: AppPages.manualInputExercise);
+                },
+              ),
               32.verticalSpace,
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),

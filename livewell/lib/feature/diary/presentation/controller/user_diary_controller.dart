@@ -34,6 +34,11 @@ class UserDiaryController extends BaseController {
     super.onInit();
   }
 
+  void refreshList() {
+    allMealHistory.clear();
+    doGetUserMealHistory();
+  }
+
   // create a function date populate datelist with date up to 30 days
   void populateDateList() {
     for (int i = 0; i < 30; i++) {

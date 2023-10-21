@@ -6,6 +6,7 @@ import 'package:livewell/feature/auth/presentation/page/login/login_screen.dart'
 import 'package:livewell/feature/auth/presentation/page/signup/signup_screen.dart';
 import 'package:livewell/feature/daily_journal/presentation/page/daily_journal_screen.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_kyc_screen.dart';
+import 'package:livewell/feature/exercise/presentation/pages/manual_exercise_input.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/request_food_screen.dart';
@@ -21,6 +22,7 @@ import 'package:livewell/feature/profile/presentation/page/user_settings_screen.
 import 'package:livewell/feature/questionnaire/presentation/page/finish_questionnaire_screen.dart';
 import 'package:livewell/feature/questionnaire/presentation/page/questionnaire_screen.dart';
 import 'package:livewell/feature/quick_add/presentation/page/quick_add_screen.dart';
+import 'package:livewell/feature/sleep/presentation/pages/manual_sleep_input.dart';
 import 'package:livewell/feature/sleep/presentation/pages/sleep_screen.dart';
 import 'package:livewell/feature/splash/presentation/splash_screen.dart';
 import 'package:livewell/feature/update_weight/presentation/page/update_weight_screen.dart';
@@ -156,6 +158,14 @@ class AppNavigator {
         name: AppPages.moodDetailScreen,
         page: () => MoodScreen(),
         transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.manualInputExercise,
+        page: () => ManualExerciseInput(),
+        transition: Transition.cupertino),
+    GetPage(
+        name: AppPages.manualInputSleep,
+        page: () => ManualSleepInput(),
+        transition: Transition.cupertino),
   ];
 
   static void push({required String routeName, dynamic arguments}) {
@@ -215,4 +225,6 @@ class AppPages {
   static String waterScreen = '/waterScreen';
   static String nutritionScreen = '/nutritionScreen';
   static String moodDetailScreen = '/moodDetailScreen';
+  static String manualInputExercise = '/manualInputExercise';
+  static String manualInputSleep = '/manualInputSleep';
 }

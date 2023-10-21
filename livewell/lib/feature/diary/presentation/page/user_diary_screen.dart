@@ -241,6 +241,8 @@ class UserDiaryScreen extends StatelessWidget {
                                       routeName: AppPages.addMeal,
                                       arguments: {
                                         "type": "snack",
+                                        "date": controller.dateList[
+                                            controller.selectedIndex.value]
                                       });
                                 },
                                 onUpdate: (index, size) {

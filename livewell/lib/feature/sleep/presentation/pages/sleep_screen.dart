@@ -8,6 +8,8 @@ import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/sleep/presentation/controller/sleep_controller.dart';
 import 'package:livewell/main.dart';
+import 'package:livewell/routes/app_navigator.dart';
+import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/chart/circular_nutrition.dart';
 import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
@@ -64,7 +66,7 @@ class _SleepScreenState extends State<SleepScreen> {
       body: Expanded(
         child: RefreshIndicator(
           onRefresh: () async {
-            controller.onInit();
+            controller.refreshList();
           },
           child: ListView(
             children: [
@@ -196,37 +198,52 @@ class _SleepScreenState extends State<SleepScreen> {
                   decoration: BoxDecoration(
                     color: const Color(0xFF171433).withOpacity(0.1),
                   ),
-                  child: Obx(() {
-                    return GridView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 1,
-                        crossAxisSpacing: 1,
-                        childAspectRatio: 2,
-                      ),
-                      children: [
-                        DailyBreakdownItem(
+                  child: GridView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 1,
+                      crossAxisSpacing: 1,
+                      childAspectRatio: 2,
+                    ),
+                    children: [
+                      GetBuilder<SleepController>(builder: (controller) {
+                        return DailyBreakdownItem(
                             image: Constant.icWentToSleep2,
                             time: controller.wentToSleep.value,
-                            label: controller.localization.wentToSleep ?? ""),
-                        DailyBreakdownItem(
+                            label: controller.localization.wentToSleep ?? "");
+                      }),
+                      GetBuilder<SleepController>(builder: (controller) {
+                        return DailyBreakdownItem(
                             image: Constant.icWokeUp,
                             time: controller.wokeUp.value,
-                            label: controller.localization.wokeUp ?? ""),
-                        DailyBreakdownItem(
+                            label: controller.localization.wokeUp ?? "");
+                      }),
+                      GetBuilder<SleepController>(builder: (controller) {
+                        return DailyBreakdownItem(
                             image: Constant.icFeelASleep,
                             time: controller.feelASleep.value,
-                            label: controller.localization.lightSleep ?? ""),
-                        DailyBreakdownItem(
+                            label: controller.localization.lightSleep ?? "");
+                      }),
+                      GetBuilder<SleepController>(builder: (controller) {
+                        return DailyBreakdownItem(
                             image: Constant.icDeepSleep,
                             time: controller.deepSleep.value,
-                            label: controller.localization.deepSleep ?? ""),
-                      ],
-                    );
-                  })),
+                            label: controller.localization.deepSleep ?? "");
+                      }),
+                    ],
+                  )),
+              16.verticalSpace,
+              LiveWellButton(
+                label: "Input Sleep",
+                color: const Color(0xFF8F01DF),
+                textColor: Colors.white,
+                onPressed: () {
+                  AppNavigator.push(routeName: AppPages.manualInputSleep);
+                },
+              ),
               16.verticalSpace,
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 16.w),
@@ -422,10 +439,10 @@ class SmallerSleepCircular extends StatelessWidget {
 }
 
 class DailyBreakdownItem extends StatelessWidget {
-  final String image;
-  final String time;
-  final String label;
-  const DailyBreakdownItem({
+  String image;
+  String time;
+  String label;
+  DailyBreakdownItem({
     required this.image,
     required this.time,
     required this.label,

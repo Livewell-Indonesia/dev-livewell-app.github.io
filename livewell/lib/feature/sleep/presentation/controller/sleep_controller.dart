@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:health/health.dart';
 import 'package:intl/intl.dart';
@@ -10,6 +11,7 @@ import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/exercise/data/model/activity_history_model.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
+import 'package:livewell/feature/exercise/domain/usecase/post_exercise_data.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/sleep/data/model/sleep_activity_model.dart';
 import 'package:livewell/feature/sleep/domain/usecase/get_sleep_list.dart';
@@ -31,19 +33,54 @@ class SleepController extends BaseController {
 
   RxList<ActivityHistoryModel> exerciseHistoryList =
       <ActivityHistoryModel>[].obs;
+
+  TextEditingController manualSleepInput = TextEditingController();
+  TextEditingController manualWakeUpInput = TextEditingController();
+  Rx<DateTime> sleepInput = DateTime(DateTime.now().year, DateTime.now().month,
+          DateTime.now().day - 1, 22, 0)
+      .obs;
+  Rx<DateTime> wakeUpInput = DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day, 6, 0)
+      .obs;
   @override
   void onInit() {
     super.onInit();
     getSleepData();
     getExerciseHistorydata();
     showInfoFirstTime();
+    manualSleepInput.text = DateFormat('hh:mm a').format(DateTime(
+        DateTime.now().year,
+        DateTime.now().month,
+        DateTime.now().day - 1,
+        22,
+        0));
+    manualWakeUpInput.text = DateFormat('hh:mm a').format(DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day, 6, 0));
+  }
+
+  void refreshList() async {
+    wentToSleep = ''.obs;
+    wokeUp = ''.obs;
+    feelASleep = ''.obs;
+    deepSleep = ''.obs;
+    deepSleepPercent = 0.0.obs;
+    lightSleepPercent = 0.0.obs;
+    totalSleepPercent = 0.0.obs;
+    leftSleepPercent = 0.0.obs;
+    sleepInBedPercent = 0.0.obs;
+    sleepInBedValue = 0.0.obs;
+    userGoal = 0.obs;
+    manualSleepInput.clear();
+    manualWakeUpInput.clear();
+    getSleepData();
+    getExerciseHistorydata();
   }
 
   void showInfoFirstTime() async {
     var show = await SharedPref.showInfoSleep();
     HomeController controller = Get.find();
     var data = controller.popupAssetsModel.value.sleep;
-    if (show && data != null) {
+    if (show && (data != null)) {
       showModalBottomSheet(
           context: Get.context!,
           isScrollControlled: true,
@@ -92,7 +129,7 @@ class SleepController extends BaseController {
         if (data.details != null) {
           for (var element in data.details!) {
             var currentDate =
-                DateFormat('yyyy-MM-dd HH:mm:ss').parse(element.dateFrom!);
+                DateFormat('yyyy-MM-dd HH:mm:ss').parse(element.dateTo!);
             if (currentDate.day == date.day &&
                 currentDate.month == date.month &&
                 currentDate.year == date.year) {
@@ -116,7 +153,7 @@ class SleepController extends BaseController {
         if (data.details != null) {
           for (var element in data.details!) {
             var currentDate =
-                DateFormat('yyyy-MM-dd HH:mm:ss').parse(element.dateFrom!);
+                DateFormat('yyyy-MM-dd HH:mm:ss').parse(element.dateTo!);
             if (currentDate.day == date.day &&
                 currentDate.month == date.month &&
                 currentDate.year == date.year) {
@@ -237,7 +274,27 @@ class SleepController extends BaseController {
       leftSleepPercent.value = 100 - totalSleepPercent.value;
       feelASleep.value = durationToString(0.toInt());
       deepSleep.value = durationToString(0.toInt());
+      update();
     }
+  }
+
+  void sendExerciseDataManual() async {
+    final usecase = PostExerciseData.instance();
+    EasyLoading.show();
+    Duration duration = wakeUpInput.value.difference(sleepInput.value).abs();
+    final result = await usecase.call(PostExerciseParams.manualInputDate(
+        duration.inMinutes.toDouble(),
+        HealthDataType.SLEEP_IN_BED,
+        sleepInput.value,
+        wakeUpInput.value));
+
+    result.fold((l) {}, (r) {
+      refreshList();
+      manualSleepInput.clear();
+      manualWakeUpInput.clear();
+      Get.back();
+    });
+    EasyLoading.dismiss();
   }
 
   void calculateDeepSleepAndLightSleep(List<SleepActivityModel> lightSleepValue,
@@ -281,6 +338,7 @@ class SleepController extends BaseController {
                   .maxOneOrZero *
               100;
       leftSleepPercent.value = 100 - totalSleepPercent.value;
+      update();
     }
   }
 

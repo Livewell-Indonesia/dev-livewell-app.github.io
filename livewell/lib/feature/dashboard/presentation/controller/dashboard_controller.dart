@@ -72,10 +72,16 @@ class DashboardController extends BaseController {
     HealthDataAccess.READ,
   ];
 
-  void requestHealthAccess() async {
-    final permissionStatus = await Permission.activityRecognition.request();
-    if (permissionStatus.isGranted) {
-      var isAllowed = await healthFactory.requestAuthorization(types,
+  void fetchHealthData() async {
+    bool isAllowed = false;
+    if (await healthFactory.hasPermissions(types) ?? false) {
+      fetchHealthDataFromTypes();
+      testingSleepNew();
+      getExerciseHistorydata();
+      final HomeController homeController = Get.find();
+      homeController.showCoachmark();
+    } else {
+      isAllowed = await healthFactory.requestAuthorization(types,
           permissions: permissions);
       if (isAllowed) {
         fetchHealthDataFromTypes();
@@ -84,21 +90,24 @@ class DashboardController extends BaseController {
         final HomeController homeController = Get.find();
         homeController.showCoachmark();
       }
-      Log.colorGreen("Permission granted");
+    }
+    Log.colorGreen("Permission granted");
+  }
+
+  void requestHealthAccess() async {
+    if (await Permission.activityRecognition.isDenied) {
+      final permissionStatus = await Permission.activityRecognition.request();
+      if (permissionStatus.isGranted) {
+        fetchHealthData();
+      } else {
+        Log.error("Permission denied");
+      }
     } else {
-      Log.error("Permission denied");
+      fetchHealthData();
     }
     if (Platform.isAndroid) {
     } else {
-      var isAllowed = await healthFactory.requestAuthorization(types,
-          permissions: permissions);
-      if (isAllowed) {
-        fetchHealthDataFromTypes();
-        testingSleepNew();
-        getExerciseHistorydata();
-        final HomeController homeController = Get.find();
-        homeController.showCoachmark();
-      }
+      fetchHealthData();
     }
   }
 
