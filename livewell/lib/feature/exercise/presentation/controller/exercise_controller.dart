@@ -149,7 +149,7 @@ class ExerciseController extends BaseController
     result.fold((l) {}, (r) async {
       final calories = 3 *
           (Get.find<DashboardController>().user.value.weight?.toDouble() ?? 1) *
-          (double.parse(exerciseManualInput.text) / 1000);
+          (double.parse(exerciseManualInput.text) / 10000);
       final result = await usecase.call(PostExerciseParams.manualInput(
           calories, HealthDataType.ACTIVE_ENERGY_BURNED));
       result.fold((l) {}, (r) {
