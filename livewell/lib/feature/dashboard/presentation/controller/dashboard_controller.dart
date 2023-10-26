@@ -109,9 +109,9 @@ class DashboardController extends BaseController {
     // } else {
     //   fetchHealthData();
     // }
-    if (Platform.isAndroid &&
-        (Get.find<HomeController>().appConfigModel.value.googleHealth ??
-            false)) {
+    var allowGoogleHealth =
+        Get.find<HomeController>().appConfigModel.value.googleHealth ?? false;
+    if (Platform.isAndroid && (allowGoogleHealth == false)) {
       getExerciseHistorydata();
       final HomeController homeController = Get.find();
       homeController.showCoachmark();
