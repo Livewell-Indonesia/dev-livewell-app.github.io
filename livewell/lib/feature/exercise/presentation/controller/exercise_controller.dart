@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/diary/presentation/controller/user_diary_controller.dart';
 import 'package:livewell/feature/exercise/data/model/activity_history_model.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_exercise_list.dart';
@@ -155,6 +156,9 @@ class ExerciseController extends BaseController
       result.fold((l) {}, (r) {
         refreshList();
         exerciseManualInput.clear();
+        if (Get.isRegistered<UserDiaryController>()) {
+          Get.find<UserDiaryController>().refreshList();
+        }
         Get.back();
       });
     });

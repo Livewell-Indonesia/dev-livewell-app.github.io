@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/diary/presentation/controller/user_diary_controller.dart';
 import 'package:livewell/feature/exercise/data/model/activity_history_model.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
 import 'package:livewell/feature/exercise/domain/usecase/post_exercise_data.dart';
@@ -30,6 +31,7 @@ class SleepController extends BaseController {
   Rx<double> sleepInBedPercent = 0.0.obs;
   Rx<double> sleepInBedValue = 0.0.obs;
   Rx<int> userGoal = 0.obs;
+  Rx<double> finalSleepValue = 0.0.obs;
 
   RxList<ActivityHistoryModel> exerciseHistoryList =
       <ActivityHistoryModel>[].obs;
@@ -128,8 +130,9 @@ class SleepController extends BaseController {
         var temp = 0.0;
         if (data.details != null) {
           for (var element in data.details!) {
-            var currentDate =
-                DateFormat('yyyy-MM-dd HH:mm:ss').parse(element.dateTo!);
+            var currentDate = DateFormat('yyyy-MM-dd HH:mm:ss').parse(
+                element.dateTo ??
+                    (element.dateFrom ?? DateTime.now().toIso8601String()));
             if (currentDate.day == date.day &&
                 currentDate.month == date.month &&
                 currentDate.year == date.year) {
@@ -152,8 +155,9 @@ class SleepController extends BaseController {
         var temp = 0.0;
         if (data.details != null) {
           for (var element in data.details!) {
-            var currentDate =
-                DateFormat('yyyy-MM-dd HH:mm:ss').parse(element.dateTo!);
+            var currentDate = DateFormat('yyyy-MM-dd HH:mm:ss').parse(
+                element.dateTo ??
+                    (element.dateFrom ?? DateTime.now().toIso8601String()));
             if (currentDate.day == date.day &&
                 currentDate.month == date.month &&
                 currentDate.year == date.year) {
@@ -238,7 +242,9 @@ class SleepController extends BaseController {
             r.where((element) => element.type == 'DEEP_SLEEP').toList();
         var sleepInBedValue =
             r.where((element) => element.type == 'SLEEP_IN_BED').toList();
-        if (lightSleepValue.first.details != null &&
+        if (isContainManualInput(sleepInBedValue)) {
+          calculateManualSleep(sleepInBedValue);
+        } else if (lightSleepValue.first.details != null &&
             deepSleepValue.first.details != null) {
           calculateDeepSleepAndLightSleep(lightSleepValue, deepSleepValue);
         } else if (sleepInBedValue.isNotEmpty) {
@@ -252,12 +258,56 @@ class SleepController extends BaseController {
     });
   }
 
+  bool isContainManualInput(List<SleepActivityModel> value) {
+    var result = false;
+    if (value.isNotEmpty) {
+      for (var element in value.first.details ?? []) {
+        if (element.sourceName == 'manual') {
+          result = true;
+        }
+      }
+    }
+    return result;
+  }
+
+  void calculateManualSleep(List<SleepActivityModel> value) {
+    wentToSleep.value = DateFormat('hh:mm a').format(DateTime.parse(
+        value.first.details?.first.dateFrom ??
+            DateTime.now().toIso8601String()));
+    wokeUp.value = DateFormat('hh:mm a').format(DateTime.parse(
+        value.first.details?.first.dateTo ??
+            (value.first.details?.first.dateFrom ?? "")));
+    if (Get.isRegistered<DashboardController>()) {
+      var sleepValue = Get.find<DashboardController>()
+              .user
+              .value
+              .onboardingQuestionnaire
+              ?.sleepDuration ??
+          "7";
+      var sleepDuration = int.parse(sleepValue);
+      sleepInBedPercent.value =
+          (((value.first.totalValue ?? 0) / 60) / sleepDuration).maxOneOrZero;
+      userGoal.value = sleepDuration;
+      totalSleepPercent.value = sleepInBedPercent.value * 100;
+      leftSleepPercent.value = 100 - totalSleepPercent.value;
+      feelASleep.value = durationToString(0.toInt());
+      deepSleep.value = durationToString(0.toInt());
+      var tempFinalSleepValue =
+          (value.first.details?.first.value?.toDouble() ?? 0.0);
+      finalSleepValue.value = tempFinalSleepValue == 0.0
+          ? tempFinalSleepValue
+          : (tempFinalSleepValue / 60);
+      update();
+    }
+  }
+
   void calculateSleepInBed(List<SleepActivityModel> sleepInBedValue) {
     wentToSleep.value = DateFormat('hh:mm a').format(DateTime.parse(
         sleepInBedValue.first.details?.first.dateFrom ??
             DateTime.now().toIso8601String()));
-    wokeUp.value = DateFormat('hh:mm a').format(
-        DateTime.parse(sleepInBedValue.first.details?.first.dateTo ?? ""));
+    wokeUp.value = DateFormat('hh:mm a').format(DateTime.parse(
+        sleepInBedValue.first.details?.last.dateTo ??
+            (sleepInBedValue.first.details?.last.dateFrom ?? "")));
     if (Get.isRegistered<DashboardController>()) {
       var sleepValue = Get.find<DashboardController>()
               .user
@@ -274,6 +324,11 @@ class SleepController extends BaseController {
       leftSleepPercent.value = 100 - totalSleepPercent.value;
       feelASleep.value = durationToString(0.toInt());
       deepSleep.value = durationToString(0.toInt());
+      var tempFinalSleepValue =
+          (sleepInBedValue.first.totalValue?.toDouble() ?? 0.0);
+      finalSleepValue.value = tempFinalSleepValue == 0.0
+          ? tempFinalSleepValue
+          : (tempFinalSleepValue / 60);
       update();
     }
   }
@@ -292,6 +347,9 @@ class SleepController extends BaseController {
       refreshList();
       manualSleepInput.clear();
       manualWakeUpInput.clear();
+      if (Get.isRegistered<UserDiaryController>()) {
+        Get.find<UserDiaryController>().refreshList();
+      }
       Get.back();
     });
     EasyLoading.dismiss();
@@ -338,6 +396,12 @@ class SleepController extends BaseController {
                   .maxOneOrZero *
               100;
       leftSleepPercent.value = 100 - totalSleepPercent.value;
+      var tempFinalLightSleepValue =
+          (lightSleepValue.first.totalValue?.toDouble() ?? 0.0);
+      var tempFinalDeepSleepValue =
+          (deepSleepValue.first.totalValue?.toDouble() ?? 0.0);
+      finalSleepValue.value =
+          (tempFinalLightSleepValue + tempFinalDeepSleepValue) / 60;
       update();
     }
   }
@@ -363,7 +427,7 @@ class SleepController extends BaseController {
   String durationToString(int minutes) {
     var d = Duration(minutes: minutes);
     List<String> parts = d.toString().split(':');
-    return '${parts[0].padLeft(2, '0')}:${parts[1].padLeft(2, '0')} Min';
+    return '${parts[0].padLeft(2, '0')}:${parts[1].padLeft(2, '0')} Hrs';
   }
 }
 

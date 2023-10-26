@@ -91,32 +91,40 @@ class _MoodScreenState extends State<MoodScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: MoodType.values.map((e) {
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Stack(
-                                    alignment: Alignment.topRight,
-                                    children: [
-                                      SvgPicture.asset(e.assets(),
-                                          width: 48.w, height: 48.h),
-                                      Align(
-                                        alignment: Alignment.topRight,
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 2.h, horizontal: 2.w),
-                                          decoration: const BoxDecoration(
-                                            color: Colors.white,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: Center(
-                                            child: Container(
-                                                padding: EdgeInsets.all(4.w),
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: e.mainColor(),
-                                                ),
-                                                child: Obx(() {
-                                                  return Text(
+                              return InkWell(
+                                onTap: () {
+                                  controller.postMoodData(e);
+                                },
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Stack(
+                                      alignment: Alignment.topRight,
+                                      children: [
+                                        Obx(() {
+                                          return SvgPicture.asset(e.assets(),
+                                              color: getColor(e),
+                                              width: 48.w,
+                                              height: 48.h);
+                                        }),
+                                        Align(
+                                          alignment: Alignment.topRight,
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 2.h, horizontal: 2.w),
+                                            decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: Center(child: Obx(() {
+                                              return Container(
+                                                  padding: EdgeInsets.all(4.w),
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color:
+                                                        getColorForIndicator(e),
+                                                  ),
+                                                  child: Text(
                                                     controller
                                                         .getTotalMoodByType(
                                                             e.value())
@@ -126,23 +134,23 @@ class _MoodScreenState extends State<MoodScreen> {
                                                         fontSize: 8.sp,
                                                         fontWeight:
                                                             FontWeight.w700),
-                                                  );
-                                                })),
+                                                  ));
+                                            })),
                                           ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  4.verticalSpace,
-                                  Text(
-                                    e.title(),
-                                    style: TextStyle(
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: const Color(0xFF171433)
-                                            .withOpacity(0.8)),
-                                  ),
-                                ],
+                                        )
+                                      ],
+                                    ),
+                                    4.verticalSpace,
+                                    Text(
+                                      e.title(),
+                                      style: TextStyle(
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w400,
+                                          color: const Color(0xFF171433)
+                                              .withOpacity(0.8)),
+                                    ),
+                                  ],
+                                ),
                               );
                             }).toList(),
                           ),
@@ -153,6 +161,30 @@ class _MoodScreenState extends State<MoodScreen> {
                 ),
               )),
         ));
+  }
+
+  Color? getColor(MoodType type) {
+    if (controller.isMoodSelected.value != null) {
+      if (controller.isMoodSelected.value!.value! == type.value()) {
+        return null;
+      } else {
+        return Color(0xFF171433).withOpacity(0.3);
+      }
+    } else {
+      return Color(0xFF171433).withOpacity(0.3);
+    }
+  }
+
+  Color? getColorForIndicator(MoodType type) {
+    if (controller.isMoodSelected.value != null) {
+      if (controller.isMoodSelected.value!.value! == type.value()) {
+        return type.mainColor();
+      } else {
+        return Color(0xFF171433).withOpacity(0.3);
+      }
+    } else {
+      return Color(0xFF171433).withOpacity(0.3);
+    }
   }
 
   LineChartData mainData(MoodScreenController controller) {

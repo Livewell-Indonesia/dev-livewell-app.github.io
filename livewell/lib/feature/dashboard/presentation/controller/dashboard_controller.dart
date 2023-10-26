@@ -17,18 +17,18 @@ import 'package:livewell/feature/dashboard/data/model/user_model.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_dashboard_data.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_user.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/post_mood.dart';
-import 'package:livewell/feature/dashboard/domain/usecase/register_device_token.dart';
 import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart';
+import 'package:livewell/feature/diary/presentation/controller/user_diary_controller.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
 import 'package:livewell/feature/food/domain/usecase/get_meal_history.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/mood/data/model/mood_detail_model.dart';
-import 'package:livewell/feature/mood/data/model/mood_model.dart';
 import 'package:livewell/feature/mood/domain/usecase/get_single_mood.dart';
 import 'package:livewell/feature/mood/presentation/widget/mood_picker_widget.dart';
 import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_model.dart';
 import 'package:livewell/feature/nutriscore/domain/usecase/get_nutri_score.dart';
 import 'package:livewell/feature/sleep/domain/usecase/get_sleep_list.dart';
+import 'package:livewell/feature/sleep/presentation/controller/sleep_controller.dart';
 import 'package:livewell/feature/water/data/model/water_list_model.dart';
 import 'package:livewell/feature/water/domain/usecase/get_water_data.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -95,19 +95,41 @@ class DashboardController extends BaseController {
   }
 
   void requestHealthAccess() async {
-    if (await Permission.activityRecognition.isDenied) {
-      final permissionStatus = await Permission.activityRecognition.request();
-      if (permissionStatus.isGranted) {
-        fetchHealthData();
+    // if (await Permission.activityRecognition.isDenied) {
+    //   final permissionStatus = await Permission.activityRecognition.request();
+    //   if (permissionStatus.isGranted) {
+    //     fetchHealthData();
+    //   } else {
+    //     Log.error("Permission denied");
+    //   }
+    // } else {
+    //   fetchHealthData();
+    // }
+    // if (Platform.isAndroid) {
+    // } else {
+    //   fetchHealthData();
+    // }
+    if (Platform.isAndroid &&
+        (Get.find<HomeController>().appConfigModel.value.googleHealth ??
+            false)) {
+      getExerciseHistorydata();
+      final HomeController homeController = Get.find();
+      homeController.showCoachmark();
+    } else {
+      if (await Permission.activityRecognition.isDenied) {
+        final permissionStatus = await Permission.activityRecognition.request();
+        if (permissionStatus.isGranted) {
+          fetchHealthData();
+        } else {
+          Log.error("Permission denied");
+        }
       } else {
-        Log.error("Permission denied");
+        fetchHealthData();
       }
-    } else {
-      fetchHealthData();
-    }
-    if (Platform.isAndroid) {
-    } else {
-      fetchHealthData();
+      if (Platform.isAndroid) {
+      } else {
+        fetchHealthData();
+      }
     }
   }
 
@@ -143,13 +165,16 @@ class DashboardController extends BaseController {
 
   void onMoodSelected(MoodType type) async {
     EasyLoading.show();
-    final result = await postMood.call(type.value());
+    final result = await postMood.call(PostMoodParams(value: type.value()));
     EasyLoading.dismiss();
     result.fold((l) {
       Log.error(l);
     }, (r) {
       Log.colorGreen(r);
       getSingleMoodData();
+      if (Get.isRegistered<UserDiaryController>()) {
+        Get.find<UserDiaryController>().refreshList();
+      }
     });
   }
 
@@ -187,6 +212,12 @@ class DashboardController extends BaseController {
     });
   }
 
+  @override
+  void onResumed() {
+    onRefresh();
+    super.onResumed();
+  }
+
   void fetchHealthDataFromTypes() async {
     var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
         DateTime.now().day, 0, 0, 0, 0, 0);
@@ -202,9 +233,7 @@ class DashboardController extends BaseController {
     // if user ever synced data
     if (lastSyncHealth != null && healthData.isNotEmpty) {
       healthData.sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
-      var filteredData = healthData
-          .where((element) => element.sourceName != "com.google.android.gms")
-          .toList();
+      var filteredData = healthData.toList();
       var lastSyncDate = DateTime.parse(lastSyncHealth);
       if (lastSyncDate.isBefore(filteredData.last.dateTo)) {
         var filteredHealth = filteredData
@@ -229,9 +258,7 @@ class DashboardController extends BaseController {
       // if user never synced data
     } else if (healthData.isNotEmpty) {
       healthData.sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
-      var filteredData = healthData
-          .where((element) => element.sourceName != "com.google.android.gms")
-          .toList();
+      var filteredData = healthData.toList();
       final result = await postExerciseData
           .call(PostExerciseParams.fromHealth(filteredData));
       result.fold((l) {
@@ -254,6 +281,18 @@ class DashboardController extends BaseController {
     getWaterData();
     getSingleMoodData();
     super.onInit();
+  }
+
+  Future<void> onRefresh() async {
+    getUsersData();
+    getDashBoardData();
+    getMealHistories();
+    getNutriscoreData();
+    getWaterData();
+    getSingleMoodData();
+    if (Get.isRegistered<SleepController>()) {
+      Get.find<SleepController>().refreshList();
+    }
   }
 
   void getNutriscoreData() async {

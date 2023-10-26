@@ -470,14 +470,13 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 true)),
                         DashboardSummaryModel(
                             item: DashboardSummaryItem.sleep,
-                            currentValue:
-                                (sleepController.getCurrentSleepValue())
-                                    .toStringAsFixed(1),
+                            currentValue: (sleepController.finalSleepValue)
+                                .toStringAsFixed(1),
                             targetValue:
                                 '${controller.user.value.onboardingQuestionnaire?.sleepDuration ?? 0}',
                             unit: "hours",
                             status: DashboardSummaryModel.statusFromValue(
-                                ((sleepController.getCurrentSleepValue()) /
+                                ((sleepController.finalSleepValue) /
                                     int.parse(controller
                                             .user
                                             .value

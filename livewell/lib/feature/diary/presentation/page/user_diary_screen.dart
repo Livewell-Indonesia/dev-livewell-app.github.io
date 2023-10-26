@@ -8,8 +8,11 @@ import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
 import 'package:livewell/feature/diary/presentation/controller/user_diary_controller.dart';
+import 'package:livewell/feature/diary/presentation/widget/daily_journal_item.dart';
+import 'package:livewell/feature/exercise/data/model/activity_history_model.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
+import 'package:livewell/feature/mood/presentation/widget/mood_picker_widget.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -27,7 +30,7 @@ class UserDiaryScreen extends StatelessWidget {
         body: Expanded(
           child: RefreshIndicator(
             onRefresh: () async {
-              controller.onInit();
+              controller.refreshList();
             },
             child: SingleChildScrollView(
               child: Column(
@@ -147,124 +150,314 @@ class UserDiaryScreen extends StatelessWidget {
                   ),
                   40.verticalSpace,
                   Obx(() {
-                    return controller.isLoading.value
-                        ? Container()
-                        : Column(
-                            children: [
-                              ExpandableDiaryItem(
-                                title: controller.localization.breakfast!,
-                                data: controller.filteredMealHistory
-                                    .where((p0) =>
-                                        p0.mealType?.toUpperCase() ==
-                                        "breakfast".toUpperCase())
-                                    .toList(),
-                                onTap: () {
-                                  AppNavigator.push(
-                                      routeName: AppPages.addMeal,
-                                      arguments: {
-                                        "type": "breakfast",
-                                        "date": controller.dateList[
-                                            controller.selectedIndex.value]
-                                      });
-                                },
-                                onUpdate: (index, size) {
-                                  controller.onUpdateTapped(
-                                      MealTime.breakfast, index, size);
-                                },
-                                onDelete: (index) {
-                                  controller.onDeleteTapped(
-                                      MealTime.breakfast, index);
-                                },
-                              ),
-                              20.verticalSpace,
-                              ExpandableDiaryItem(
-                                title: controller.localization.lunch!,
-                                data: controller.filteredMealHistory
-                                    .where((p0) =>
-                                        p0.mealType?.toUpperCase() ==
-                                        "lunch".toUpperCase())
-                                    .toList(),
-                                onTap: () {
-                                  AppNavigator.push(
-                                      routeName: AppPages.addMeal,
-                                      arguments: {
-                                        "type": "lunch",
-                                        "date": controller.dateList[
-                                            controller.selectedIndex.value]
-                                      });
-                                },
-                                onUpdate: (index, size) {
-                                  controller.onUpdateTapped(
-                                      MealTime.lunch, index, size);
-                                },
-                                onDelete: (index) {
-                                  controller.onDeleteTapped(
-                                      MealTime.lunch, index);
-                                },
-                              ),
-                              20.verticalSpace,
-                              ExpandableDiaryItem(
-                                title: controller.localization.dinner!,
-                                data: controller.filteredMealHistory
-                                    .where((p0) =>
-                                        p0.mealType?.toUpperCase() ==
-                                        "dinner".toUpperCase())
-                                    .toList(),
-                                onTap: () {
-                                  AppNavigator.push(
-                                      routeName: AppPages.addMeal,
-                                      arguments: {
-                                        "type": "dinner",
-                                        "date": controller.dateList[
-                                            controller.selectedIndex.value]
-                                      });
-                                },
-                                onUpdate: (index, size) {
-                                  controller.onUpdateTapped(
-                                      MealTime.dinner, index, size);
-                                },
-                                onDelete: (index) {
-                                  controller.onDeleteTapped(
-                                      MealTime.dinner, index);
-                                },
-                              ),
-                              20.verticalSpace,
-                              ExpandableDiaryItem(
-                                title: controller.localization.snack!,
-                                data: controller.filteredMealHistory
-                                    .where((p0) =>
-                                        p0.mealType?.toUpperCase() ==
-                                        "snack".toUpperCase())
-                                    .toList(),
-                                onTap: () {
-                                  AppNavigator.push(
-                                      routeName: AppPages.addMeal,
-                                      arguments: {
-                                        "type": "snack",
-                                        "date": controller.dateList[
-                                            controller.selectedIndex.value]
-                                      });
-                                },
-                                onUpdate: (index, size) {
-                                  controller.onUpdateTapped(
-                                      MealTime.snack, index, size);
-                                },
-                                onDelete: (index) {
-                                  controller.onDeleteTapped(
-                                      MealTime.snack, index);
-                                },
-                              ),
-                              20.verticalSpace,
-                            ],
-                          );
+                    return DailyJournalItem(
+                        model: DailyJournalItemModel(
+                            type: DailyJournalItemType.nutrition,
+                            itemName: controller.localization.nutrition ??
+                                "Nutrition",
+                            content: [
+                          DailyJournalItemContentModel(
+                              type: DailyJournalItemType.nutrition,
+                              contentName:
+                                  controller.localization.breakfast ?? "",
+                              contentValue:
+                                  "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "breakfast".toUpperCase()).toList())} kcal",
+                              contentDesc: controller.filteredMealHistory
+                                  .where((p0) =>
+                                      p0.mealType?.toUpperCase() ==
+                                      "breakfast".toUpperCase())
+                                  .map((e) {
+                                return DailyJournalItemContentDescModel(
+                                    contentDescName: e.mealName ?? "",
+                                    contentDescValue: "${e.caloriesInG} kcal",
+                                    contentServing: e.mealServings ?? "");
+                              }).toList(),
+                              onAddTap: () {
+                                AppNavigator.push(
+                                    routeName: AppPages.addMeal,
+                                    arguments: {
+                                      "type": "breakfast",
+                                      "date": controller.dateList[
+                                          controller.selectedIndex.value]
+                                    });
+                              }),
+                          DailyJournalItemContentModel(
+                              type: DailyJournalItemType.nutrition,
+                              contentName: controller.localization.lunch ?? "",
+                              contentValue:
+                                  "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "lunch".toUpperCase()).toList())} kcal",
+                              contentDesc: controller.filteredMealHistory
+                                  .where((p0) =>
+                                      p0.mealType?.toUpperCase() ==
+                                      "lunch".toUpperCase())
+                                  .map((e) {
+                                return DailyJournalItemContentDescModel(
+                                    contentDescName: e.mealName ?? "",
+                                    contentDescValue: "${e.caloriesInG} kcal",
+                                    contentServing: e.mealServings ?? "");
+                              }).toList(),
+                              onAddTap: () {
+                                AppNavigator.push(
+                                    routeName: AppPages.addMeal,
+                                    arguments: {
+                                      "type": "lunch",
+                                      "date": controller.dateList[
+                                          controller.selectedIndex.value]
+                                    });
+                              }),
+                          DailyJournalItemContentModel(
+                              type: DailyJournalItemType.nutrition,
+                              contentName: controller.localization.dinner ?? "",
+                              contentValue:
+                                  "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "dinner".toUpperCase()).toList())} kcal",
+                              contentDesc: controller.filteredMealHistory
+                                  .where((p0) =>
+                                      p0.mealType?.toUpperCase() ==
+                                      "dinner".toUpperCase())
+                                  .map((e) {
+                                return DailyJournalItemContentDescModel(
+                                    contentDescName: e.mealName ?? "",
+                                    contentDescValue: "${e.caloriesInG} kcal",
+                                    contentServing: e.mealServings ?? "");
+                              }).toList(),
+                              onAddTap: () {
+                                AppNavigator.push(
+                                    routeName: AppPages.addMeal,
+                                    arguments: {
+                                      "type": "dinner",
+                                      "date": controller.dateList[
+                                          controller.selectedIndex.value]
+                                    });
+                              }),
+                          DailyJournalItemContentModel(
+                              type: DailyJournalItemType.nutrition,
+                              contentName: controller.localization.snack ?? "",
+                              contentValue:
+                                  "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "snack".toUpperCase()).toList())} kcal",
+                              contentDesc: controller.filteredMealHistory
+                                  .where((p0) =>
+                                      p0.mealType?.toUpperCase() ==
+                                      "snack".toUpperCase())
+                                  .map((e) {
+                                return DailyJournalItemContentDescModel(
+                                    contentDescName: e.mealName ?? "",
+                                    contentDescValue: "${e.caloriesInG} kcal",
+                                    contentServing: e.mealServings ?? "");
+                              }).toList(),
+                              onAddTap: () {
+                                AppNavigator.push(
+                                    routeName: AppPages.addMeal,
+                                    arguments: {
+                                      "type": "snack",
+                                      "date": controller.dateList[
+                                          controller.selectedIndex.value]
+                                    });
+                              }),
+                        ]));
                   }),
+                  16.verticalSpace,
+                  Obx(() {
+                    return DailyJournalItem(
+                        model: DailyJournalItemModel(
+                            type: DailyJournalItemType.exercise,
+                            itemName:
+                                controller.localization.exercise ?? "Exercise",
+                            content: [
+                          DailyJournalItemContentModel(
+                              type: DailyJournalItemType.exercise,
+                              contentName:
+                                  controller.localization.exercise ?? "",
+                              contentValue:
+                                  "${controller.filteredExerciseHistory.fold(0, (previousValue, element) {
+                                return previousValue +
+                                    (element.value ?? 0).toInt();
+                              })} ${controller.localization.caloriesBurnt ?? "Calories Burnt"}",
+                              contentDesc: []),
+                          DailyJournalItemContentModel(
+                              type: DailyJournalItemType.exercise,
+                              contentName:
+                                  controller.localization.steps ?? "Steps",
+                              contentValue:
+                                  "${controller.filteredStepsHistory.fold(0, (previousValue, element) {
+                                return previousValue +
+                                    (element.value ?? 0).toInt();
+                              })} ${controller.localization.steps ?? "Steps"}",
+                              contentDesc: []),
+                        ]));
+                  }),
+                  16.verticalSpace,
+                  Obx(() {
+                    return DailyJournalItem(
+                      model: DailyJournalItemModel(
+                          type: DailyJournalItemType.water,
+                          itemName: "Hydration",
+                          content: [
+                            DailyJournalItemContentModel(
+                                type: DailyJournalItemType.water,
+                                contentName: "Water",
+                                contentValue:
+                                    "${controller.filteredWaterHistory.isEmpty ? 0 : controller.filteredWaterHistory[0].value ?? 0} ml",
+                                contentDesc: [])
+                          ]),
+                    );
+                  }),
+                  16.verticalSpace,
+                  Obx(() {
+                    return DailyJournalItem(
+                        model: DailyJournalItemModel(
+                            type: DailyJournalItemType.sleep,
+                            itemName: controller.localization.sleep ?? "Sleep",
+                            content: [
+                          DailyJournalItemContentModel(
+                              type: DailyJournalItemType.sleep,
+                              contentName: "Total",
+                              contentValue: controller
+                                  .calculateSleepHour(controller
+                                      .dateList[controller.selectedIndex.value])
+                                  .value,
+                              contentDesc: [])
+                        ]));
+                  }),
+                  16.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: Obx(() {
+                      return MoodPickerWidget(
+                        onTap: (type) {
+                          controller.onMoodSelected(type);
+                        },
+                        selectedMoodType: controller.getMoodTypeByValue(
+                            controller.filteredMoodHistory.isEmpty
+                                ? 0
+                                : controller.filteredMoodHistory[0].value ?? 0),
+                      );
+                    }),
+                  ),
                   80.verticalSpace,
+                  // Obx(() {
+                  //   return controller.isLoading.value
+                  //       ? Container()
+                  //       : Column(
+                  //           children: [
+                  //             ExpandableDiaryItem(
+                  //               title: controller.localization.breakfast!,
+                  //               data: controller.filteredMealHistory
+                  //                   .where((p0) =>
+                  //                       p0.mealType?.toUpperCase() ==
+                  //                       "breakfast".toUpperCase())
+                  //                   .toList(),
+                  //               onTap: () {
+                  //                 AppNavigator.push(
+                  //                     routeName: AppPages.addMeal,
+                  //                     arguments: {
+                  //                       "type": "breakfast",
+                  //                       "date": controller.dateList[
+                  //                           controller.selectedIndex.value]
+                  //                     });
+                  //               },
+                  //               onUpdate: (index, size) {
+                  //                 controller.onUpdateTapped(
+                  //                     MealTime.breakfast, index, size);
+                  //               },
+                  //               onDelete: (index) {
+                  //                 controller.onDeleteTapped(
+                  //                     MealTime.breakfast, index);
+                  //               },
+                  //             ),
+                  //             20.verticalSpace,
+                  //             ExpandableDiaryItem(
+                  //               title: controller.localization.lunch!,
+                  //               data: controller.filteredMealHistory
+                  //                   .where((p0) =>
+                  //                       p0.mealType?.toUpperCase() ==
+                  //                       "lunch".toUpperCase())
+                  //                   .toList(),
+                  //               onTap: () {
+                  //                 AppNavigator.push(
+                  //                     routeName: AppPages.addMeal,
+                  //                     arguments: {
+                  //                       "type": "lunch",
+                  //                       "date": controller.dateList[
+                  //                           controller.selectedIndex.value]
+                  //                     });
+                  //               },
+                  //               onUpdate: (index, size) {
+                  //                 controller.onUpdateTapped(
+                  //                     MealTime.lunch, index, size);
+                  //               },
+                  //               onDelete: (index) {
+                  //                 controller.onDeleteTapped(
+                  //                     MealTime.lunch, index);
+                  //               },
+                  //             ),
+                  //             20.verticalSpace,
+                  //             ExpandableDiaryItem(
+                  //               title: controller.localization.dinner!,
+                  //               data: controller.filteredMealHistory
+                  //                   .where((p0) =>
+                  //                       p0.mealType?.toUpperCase() ==
+                  //                       "dinner".toUpperCase())
+                  //                   .toList(),
+                  //               onTap: () {
+                  //                 AppNavigator.push(
+                  //                     routeName: AppPages.addMeal,
+                  //                     arguments: {
+                  //                       "type": "dinner",
+                  //                       "date": controller.dateList[
+                  //                           controller.selectedIndex.value]
+                  //                     });
+                  //               },
+                  //               onUpdate: (index, size) {
+                  //                 controller.onUpdateTapped(
+                  //                     MealTime.dinner, index, size);
+                  //               },
+                  //               onDelete: (index) {
+                  //                 controller.onDeleteTapped(
+                  //                     MealTime.dinner, index);
+                  //               },
+                  //             ),
+                  //             20.verticalSpace,
+                  //             ExpandableDiaryItem(
+                  //               title: controller.localization.snack!,
+                  //               data: controller.filteredMealHistory
+                  //                   .where((p0) =>
+                  //                       p0.mealType?.toUpperCase() ==
+                  //                       "snack".toUpperCase())
+                  //                   .toList(),
+                  //               onTap: () {
+                  //                 AppNavigator.push(
+                  //                     routeName: AppPages.addMeal,
+                  //                     arguments: {
+                  //                       "type": "snack",
+                  //                       "date": controller.dateList[
+                  //                           controller.selectedIndex.value]
+                  //                     });
+                  //               },
+                  //               onUpdate: (index, size) {
+                  //                 controller.onUpdateTapped(
+                  //                     MealTime.snack, index, size);
+                  //               },
+                  //               onDelete: (index) {
+                  //                 controller.onDeleteTapped(
+                  //                     MealTime.snack, index);
+                  //               },
+                  //             ),
+                  //             20.verticalSpace,
+                  //           ],
+                  //         );
+                  // }),
                 ],
               ),
             ),
           ),
         ));
   }
+}
+
+List<ActivityHistoryModel> getStepsOnlyDatas(List<ActivityHistoryModel> model) {
+  return model
+      .where((p0) => p0.type?.toUpperCase() == "steps".toUpperCase())
+      .toList();
 }
 
 class ExpandableDiaryItem extends StatelessWidget {
@@ -609,4 +802,15 @@ class LiveWellSmallButton extends StatelessWidget {
       ),
     );
   }
+}
+
+num getTotalCal(List<MealHistoryModel> mealHistory) {
+  num totalCal = 0;
+  for (var element in mealHistory) {
+    totalCal += element.caloriesInG!;
+  }
+  if (totalCal > 0) {
+    totalCal = (totalCal).round();
+  }
+  return totalCal;
 }

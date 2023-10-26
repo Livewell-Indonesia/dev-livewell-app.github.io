@@ -85,10 +85,11 @@ class DashboardRepostoryImpl with NetworkModule implements DashBoardRepository {
   }
 
   @override
-  Future<Either<Failure, RegisterModel>> postMood(int value) async {
+  Future<Either<Failure, RegisterModel>> postMood(int value,
+      {DateTime? dateTime}) async {
     try {
       final response = await postMethod(Endpoint.postMood, body: {
-        "date": DateFormat('yyyy-MM-dd').format(DateTime.now()),
+        "date": DateFormat('yyyy-MM-dd').format(dateTime ?? DateTime.now()),
         "value": value,
       }, headers: {
         authorization: await SharedPref.getToken(),

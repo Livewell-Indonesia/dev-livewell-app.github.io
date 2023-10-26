@@ -5,7 +5,7 @@ import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/core/localization/localization_model.dart';
 import 'package:livewell/feature/splash/domain/usecase/get_localization_data.dart';
 
-class BaseController extends GetxController {
+class BaseController extends FullLifeCycleController with FullLifeCycleMixin {
   LocalizationKey localization = LocalizationKey();
   @override
   void onInit() {
@@ -48,6 +48,18 @@ class BaseController extends GetxController {
         (element) => element.locale == locale,
         orElse: () => AvailableLanguage.en);
   }
+
+  @override
+  void onDetached() {}
+
+  @override
+  void onInactive() {}
+
+  @override
+  void onPaused() {}
+
+  @override
+  void onResumed() {}
 }
 
 class LanguageController extends GetxController {
