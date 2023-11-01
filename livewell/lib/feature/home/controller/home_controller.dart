@@ -83,6 +83,7 @@ class HomeController extends BaseController {
         onSkip: () {
           isShowCoachmark.value = false;
           onFinishCoachmark();
+          return true;
         },
         onClickTarget: (p0) {
           if (p0.keyTarget == cardKey) {

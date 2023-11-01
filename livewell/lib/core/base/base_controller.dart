@@ -37,16 +37,12 @@ class BaseController extends FullLifeCycleController with FullLifeCycleMixin {
 
   AvailableLanguage? LanguagefromString(String? locale) {
     if (locale == null) return null;
-    return AvailableLanguage.values.firstWhere(
-        (element) => element.languageCode == locale,
-        orElse: () => AvailableLanguage.en);
+    return AvailableLanguage.values.firstWhere((element) => element.languageCode == locale, orElse: () => AvailableLanguage.en);
   }
 
   AvailableLanguage? LanguagefromLocale(String? locale) {
     if (locale == null) return null;
-    return AvailableLanguage.values.firstWhere(
-        (element) => element.locale == locale,
-        orElse: () => AvailableLanguage.en);
+    return AvailableLanguage.values.firstWhere((element) => element.locale == locale, orElse: () => AvailableLanguage.en);
   }
 
   @override
@@ -60,6 +56,11 @@ class BaseController extends FullLifeCycleController with FullLifeCycleMixin {
 
   @override
   void onResumed() {}
+
+  @override
+  void onHidden() {
+    // TODO: implement onHidden
+  }
 }
 
 class LanguageController extends GetxController {
@@ -96,16 +97,12 @@ class LanguageController extends GetxController {
 
   AvailableLanguage? LanguagefromString(String? locale) {
     if (locale == null) return null;
-    return AvailableLanguage.values.firstWhere(
-        (element) => element.languageCode == locale,
-        orElse: () => AvailableLanguage.en);
+    return AvailableLanguage.values.firstWhere((element) => element.languageCode == locale, orElse: () => AvailableLanguage.en);
   }
 
   AvailableLanguage? LanguagefromLocale(String? locale) {
     if (locale == null) return null;
-    return AvailableLanguage.values.firstWhere(
-        (element) => element.locale == locale,
-        orElse: () => AvailableLanguage.en);
+    return AvailableLanguage.values.firstWhere((element) => element.locale == locale, orElse: () => AvailableLanguage.en);
   }
 }
 
