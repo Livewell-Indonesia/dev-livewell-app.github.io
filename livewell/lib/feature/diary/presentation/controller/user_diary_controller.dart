@@ -79,6 +79,15 @@ class UserDiaryController extends BaseController {
     doGetMoodHistory();
   }
 
+  void backToInitialIndex() {
+    findInitialIndex();
+    doGetUserMealHistory();
+    doGetUserExerciseHistory();
+    doGetUserWaterHistory();
+    doGetUserSleepHistory();
+    doGetMoodHistory();
+  }
+
   @override
   void onResumed() {
     refreshList();

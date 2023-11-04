@@ -10,6 +10,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/notification/firebase_notification.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/splash/presentation/splash_screen.dart';
 import 'package:livewell/firebase_options.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -51,7 +53,10 @@ enum FeatureTypeNotification {
   mealReminderBreakfast,
   mealReminderSnack,
   mealReminderLunch,
-  mealReminderDinner
+  mealReminderDinner,
+  sleepPage,
+  exercisePage,
+  taskList
 }
 
 extension MealReminderExt on FeatureTypeNotification {
@@ -65,6 +70,12 @@ extension MealReminderExt on FeatureTypeNotification {
         return 'MEAL_REMINDER_LUNCH';
       case FeatureTypeNotification.mealReminderDinner:
         return 'MEAL_REMINDER_DINNER';
+      case FeatureTypeNotification.sleepPage:
+        return 'SLEEP_PAGE';
+      case FeatureTypeNotification.exercisePage:
+        return 'EXERCISE_PAGE';
+      case FeatureTypeNotification.taskList:
+        return 'TASK_LIST';
     }
   }
 
@@ -78,6 +89,46 @@ extension MealReminderExt on FeatureTypeNotification {
         return MealTime.lunch;
       case FeatureTypeNotification.mealReminderDinner:
         return MealTime.dinner;
+      default:
+        return MealTime.breakfast;
+    }
+  }
+
+  VoidCallback execute() {
+    switch (this) {
+      case FeatureTypeNotification.mealReminderBreakfast:
+      case FeatureTypeNotification.mealReminderSnack:
+      case FeatureTypeNotification.mealReminderLunch:
+      case FeatureTypeNotification.mealReminderDinner:
+        return () {
+          AppNavigator.push(routeName: AppPages.addMeal, arguments: {
+            'type': FeatureTypeNotification.values
+                .firstWhere((element) => element.value == value)
+                .mealTime
+                .name,
+            'date': DateTime.now()
+          });
+        };
+      case FeatureTypeNotification.sleepPage:
+        return () {
+          AppNavigator.push(routeName: AppPages.sleepScreen);
+        };
+      case FeatureTypeNotification.exercisePage:
+        return () {
+          AppNavigator.push(routeName: AppPages.exerciseScreen);
+        };
+      case FeatureTypeNotification.taskList:
+        return () {
+          if (Get.isRegistered<HomeController>()) {
+            Get.find<HomeController>().scrollController.animateTo(
+                Get.find<HomeController>()
+                    .scrollController
+                    .position
+                    .maxScrollExtent,
+                duration: const Duration(seconds: 1),
+                curve: Curves.fastOutSlowIn);
+          }
+        };
     }
   }
 }

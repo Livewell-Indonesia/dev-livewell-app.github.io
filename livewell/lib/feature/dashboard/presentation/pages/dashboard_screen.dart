@@ -631,7 +631,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                               MaterialState.selected)) {
                                             return const Color(0xFFDDF235);
                                           }
-                                          return const Color(0xFF171433);
+                                          return null;
                                         }),
                                         checkColor: const Color(0xFF171433),
                                         activeColor: Colors.green,
@@ -716,7 +716,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                                   return const Color(
                                                       0xFFDDF235);
                                                 }
-                                                return const Color(0xFF171433);
+                                                return null;
                                               }),
                                               checkColor:
                                                   const Color(0xFF171433),
