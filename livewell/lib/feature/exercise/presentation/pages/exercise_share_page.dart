@@ -97,7 +97,7 @@ class ExerciseSharePage extends StatelessWidget {
                                 calories: calories.toInt(),
                                 location: location),
                             context: context,
-                            pixelRatio: Get.pixelRatio,
+                            pixelRatio: Get.pixelRatio * 4,
                             fileName: 'livewell',
                             wait: const Duration(seconds: 2),
                             returnImageUint8List: true);
@@ -108,12 +108,12 @@ class ExerciseSharePage extends StatelessWidget {
                           await files.writeAsBytes(result!);
                           switch (e) {
                             case ShareButtonType.instagram:
-                              // await AppinioSocialShare().shareToInstagramStory(
-                              //     "108487895683370",
-                              //     backgroundImage: files.path);
-                              SocialShare.shareInstagramStory(
-                                  appId: "108487895683370",
-                                  imagePath: files.path);
+                              await AppinioSocialShare().shareToInstagramStory(
+                                  "108487895683370",
+                                  backgroundImage: files.path);
+                            // SocialShare.shareInstagramStory(
+                            //     appId: "108487895683370",
+                            //     imagePath: files.path);
                             case ShareButtonType.facebook:
                               await AppinioSocialShare().shareToFacebookStory(
                                   "108487895683370",

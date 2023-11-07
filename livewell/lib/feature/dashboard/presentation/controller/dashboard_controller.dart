@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_health_fit/flutter_health_fit.dart';
 
@@ -214,7 +215,9 @@ class DashboardController extends BaseController {
 
   @override
   void onResumed() {
-    onRefresh();
+    if (kReleaseMode) {
+      onRefresh();
+    }
     super.onResumed();
   }
 
