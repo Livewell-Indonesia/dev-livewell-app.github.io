@@ -29,7 +29,7 @@ jobs:
       - name: Prepare release keystore
         run: |
           echo "${{ secrets.KEYSTORE_FILE_BASE64 }}" > signing_config.jks.asc
-          gpg -d --passphrase "${{ secrets.KEYSTORE_FILE_BASE64_PASSPHRASE }}" --batch signing_config.jks.asc > app/signing_config.jks
+          gpg -d --passphrase "${{ secrets.KEYSTORE_FILE_BASE64_PASSPHRASE }}" --batch signing_config.jks.asc > android/app/signing_config.jks
       
       # Set up Flutter.
       - uses: subosito/flutter-action@v2
