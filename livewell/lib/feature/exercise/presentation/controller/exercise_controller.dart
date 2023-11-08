@@ -10,9 +10,11 @@ import 'package:intl/intl.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/diary/presentation/controller/user_diary_controller.dart';
 import 'package:livewell/feature/exercise/data/model/activity_history_model.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_exercise_list.dart';
+import 'package:livewell/feature/exercise/domain/usecase/post_exercise_data.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/profile/domain/usecase/update_user_info.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -45,6 +47,8 @@ class ExerciseController extends BaseController
   TextEditingController titleController = TextEditingController();
   Rxn<String> titleError = Rxn<String>();
   TextEditingController locationController = TextEditingController();
+
+  TextEditingController exerciseManualInput = TextEditingController();
 
   @override
   void onReady() {
@@ -137,11 +141,34 @@ class ExerciseController extends BaseController
     }
   }
 
+  void sendExerciseDataManual() async {
+    final usecase = PostExerciseData.instance();
+    EasyLoading.show();
+    final result = await usecase.call(PostExerciseParams.manualInput(
+        double.parse(exerciseManualInput.text), HealthDataType.STEPS));
+    EasyLoading.dismiss();
+    result.fold((l) {}, (r) async {
+      final calories = 3 *
+          (Get.find<DashboardController>().user.value.weight?.toDouble() ?? 1) *
+          (double.parse(exerciseManualInput.text) / 10000);
+      final result = await usecase.call(PostExerciseParams.manualInput(
+          calories, HealthDataType.ACTIVE_ENERGY_BURNED));
+      result.fold((l) {}, (r) {
+        refreshList();
+        exerciseManualInput.clear();
+        if (Get.isRegistered<UserDiaryController>()) {
+          Get.find<UserDiaryController>().refreshList();
+        }
+        Get.back();
+      });
+    });
+  }
+
   Future<bool> refreshList() async {
     steps.value = 0;
-    burntCalories.value = 0;
-    totalSteps.value = 0;
-    totalCalories.value = 0;
+    burntCalories.value = 0.0;
+    totalSteps.value = 0.0;
+    totalCalories.value = 0.0;
     await getStepsData();
     await getBurntCaloriesData();
     await getExerciseHistorydata();

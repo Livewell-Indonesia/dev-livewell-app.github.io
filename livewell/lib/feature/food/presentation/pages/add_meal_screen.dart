@@ -57,6 +57,7 @@ class _AddMealScreenState extends State<AddMealScreen>
         },
         onSkip: () {
           addMealController.onFinishCoachmark();
+          return true;
         },
         onClickTarget: (p0) {
           addMealController.tutorialCoachMark.next();
@@ -1353,10 +1354,12 @@ extension ScanTypeAtt on ScanType {
       case ScanType.nutrico:
         return AppNavigator.push(routeName: AppPages.nutriCoScreen, arguments: {
           'type': type?.toLowerCase(),
+          'date': Get.arguments['date'],
         });
       case ScanType.quickAdd:
         return AppNavigator.push(routeName: AppPages.quickAdd, arguments: {
           'type': type?.toLowerCase(),
+          'date': Get.arguments['date'],
         });
       case ScanType.scanMeal:
         return AppNavigator.push(routeName: AppPages.scanFood);

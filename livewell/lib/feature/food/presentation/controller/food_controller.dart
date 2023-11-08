@@ -144,7 +144,8 @@ class FoodController extends BaseController {
         return 0.obs;
       }
       return Formula.targetProteinConsumed(
-              dashboardData.value.dashboard!.target!)
+              dashboardData.value.dashboard!.target! +
+                  Get.find<DashboardController>().totalExercise.value)
           .round()
           .obs;
     } else {
@@ -158,7 +159,8 @@ class FoodController extends BaseController {
         return 0.obs;
       }
       return Formula.targetCarbohydrateConsumed(
-              dashboardData.value.dashboard!.target!)
+              dashboardData.value.dashboard!.target! +
+                  Get.find<DashboardController>().totalExercise.value)
           .round()
           .obs;
     } else {
@@ -171,7 +173,8 @@ class FoodController extends BaseController {
       if (dashboardData.value.dashboard!.target == null) {
         return 0.obs;
       }
-      return Formula.targetFatConsumed(dashboardData.value.dashboard!.target!)
+      return Formula.targetFatConsumed(dashboardData.value.dashboard!.target! +
+              Get.find<DashboardController>().totalExercise.value)
           .round()
           .obs;
     } else {

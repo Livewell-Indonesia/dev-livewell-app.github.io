@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_health_fit/flutter_health_fit.dart';
 
 import 'package:flutter/material.dart';
@@ -15,13 +17,19 @@ import 'package:livewell/feature/dashboard/data/model/dashboard_model.dart';
 import 'package:livewell/feature/dashboard/data/model/user_model.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_dashboard_data.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_user.dart';
-import 'package:livewell/feature/dashboard/domain/usecase/register_device_token.dart';
+import 'package:livewell/feature/dashboard/domain/usecase/post_mood.dart';
 import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart';
+import 'package:livewell/feature/diary/presentation/controller/user_diary_controller.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
 import 'package:livewell/feature/food/domain/usecase/get_meal_history.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
+import 'package:livewell/feature/mood/data/model/mood_detail_model.dart';
+import 'package:livewell/feature/mood/domain/usecase/get_single_mood.dart';
+import 'package:livewell/feature/mood/presentation/widget/mood_picker_widget.dart';
 import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_model.dart';
 import 'package:livewell/feature/nutriscore/domain/usecase/get_nutri_score.dart';
+import 'package:livewell/feature/sleep/domain/usecase/get_sleep_list.dart';
+import 'package:livewell/feature/sleep/presentation/controller/sleep_controller.dart';
 import 'package:livewell/feature/water/data/model/water_list_model.dart';
 import 'package:livewell/feature/water/domain/usecase/get_water_data.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -36,12 +44,16 @@ class DashboardController extends BaseController {
   GetMealHistory getMealHistory = GetMealHistory.instance();
   GetDashboardData getDashboardData = GetDashboardData.instance();
   GetNutriScore getNutriScore = GetNutriScore.instance();
+  PostMood postMood = PostMood.instance();
+  GetSingleMood getSingleMood = GetSingleMood.instance();
+  GetSleepData getSleepData = GetSleepData.instance();
   Rx<UserModel> user = UserModel().obs;
   Rx<DashboardModel> dashboard = DashboardModel().obs;
   ValueNotifier<double> valueNotifier = ValueNotifier(0.0);
   GetUserMealHistory getUserMealHistory = GetUserMealHistory.instance();
   RxList<MealHistoryModel> mealHistoryList = <MealHistoryModel>[].obs;
   Rx<double> waterConsumed = 0.0.obs;
+  Rxn<MoodDetail> todayMood = Rxn<MoodDetail>();
 
   HealthFactory healthFactory = HealthFactory();
   FlutterHealthFit healthFit = FlutterHealthFit();
@@ -61,34 +73,110 @@ class DashboardController extends BaseController {
     HealthDataAccess.READ,
   ];
 
+  void fetchHealthData() async {
+    bool isAllowed = false;
+    if (await healthFactory.hasPermissions(types) ?? false) {
+      fetchHealthDataFromTypes();
+      testingSleepNew();
+      getExerciseHistorydata();
+      final HomeController homeController = Get.find();
+      homeController.showCoachmark();
+    } else {
+      isAllowed = await healthFactory.requestAuthorization(types,
+          permissions: permissions);
+      if (isAllowed) {
+        fetchHealthDataFromTypes();
+        testingSleepNew();
+        getExerciseHistorydata();
+        final HomeController homeController = Get.find();
+        homeController.showCoachmark();
+      }
+    }
+    Log.colorGreen("Permission granted");
+  }
+
   void requestHealthAccess() async {
-    final permissionStatus = await Permission.activityRecognition.request();
-    if (permissionStatus.isGranted) {
-      var isAllowed = await healthFactory.requestAuthorization(types,
-          permissions: permissions);
-      if (isAllowed) {
-        fetchHealthDataFromTypes();
-        testingSleepNew();
-        getExerciseHistorydata();
-        final HomeController homeController = Get.find();
-        homeController.showCoachmark();
-      }
-      Log.colorGreen("Permission granted");
+    // if (await Permission.activityRecognition.isDenied) {
+    //   final permissionStatus = await Permission.activityRecognition.request();
+    //   if (permissionStatus.isGranted) {
+    //     fetchHealthData();
+    //   } else {
+    //     Log.error("Permission denied");
+    //   }
+    // } else {
+    //   fetchHealthData();
+    // }
+    // if (Platform.isAndroid) {
+    // } else {
+    //   fetchHealthData();
+    // }
+    var allowGoogleHealth =
+        Get.find<HomeController>().appConfigModel.value.googleHealth ?? false;
+    if (Platform.isAndroid && (allowGoogleHealth == false)) {
+      getExerciseHistorydata();
+      final HomeController homeController = Get.find();
+      homeController.showCoachmark();
     } else {
-      Log.error("Permission denied");
-    }
-    if (Platform.isAndroid) {
-    } else {
-      var isAllowed = await healthFactory.requestAuthorization(types,
-          permissions: permissions);
-      if (isAllowed) {
-        fetchHealthDataFromTypes();
-        testingSleepNew();
-        getExerciseHistorydata();
-        final HomeController homeController = Get.find();
-        homeController.showCoachmark();
+      if (await Permission.activityRecognition.isDenied) {
+        final permissionStatus = await Permission.activityRecognition.request();
+        if (permissionStatus.isGranted) {
+          fetchHealthData();
+        } else {
+          Log.error("Permission denied");
+        }
+      } else {
+        fetchHealthData();
+      }
+      if (Platform.isAndroid) {
+      } else {
+        fetchHealthData();
       }
     }
+  }
+
+  void getSingleMoodData() async {
+    final result = await getSingleMood
+        .call(DateFormat('yyyy-MM-dd').format(DateTime.now()));
+    result.fold((l) {
+      if (l.message!.contains("404")) {
+        todayMood.value = null;
+      }
+    }, (r) {
+      inspect(r);
+      todayMood.value = r;
+    });
+  }
+
+  MoodType? getMoodTypeByValue(int value) {
+    switch (value) {
+      case 1:
+        return MoodType.awful;
+      case 2:
+        return MoodType.bad;
+      case 3:
+        return MoodType.meh;
+      case 4:
+        return MoodType.good;
+      case 5:
+        return MoodType.great;
+      default:
+        return null;
+    }
+  }
+
+  void onMoodSelected(MoodType type) async {
+    EasyLoading.show();
+    final result = await postMood.call(PostMoodParams(value: type.value()));
+    EasyLoading.dismiss();
+    result.fold((l) {
+      Log.error(l);
+    }, (r) {
+      Log.colorGreen(r);
+      getSingleMoodData();
+      if (Get.isRegistered<UserDiaryController>()) {
+        Get.find<UserDiaryController>().refreshList();
+      }
+    });
   }
 
   Future<List<HealthDataPoint>> fetchSleepData() async {
@@ -125,6 +213,14 @@ class DashboardController extends BaseController {
     });
   }
 
+  @override
+  void onResumed() {
+    if (kReleaseMode) {
+      onRefresh();
+    }
+    super.onResumed();
+  }
+
   void fetchHealthDataFromTypes() async {
     var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
         DateTime.now().day, 0, 0, 0, 0, 0);
@@ -140,9 +236,7 @@ class DashboardController extends BaseController {
     // if user ever synced data
     if (lastSyncHealth != null && healthData.isNotEmpty) {
       healthData.sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
-      var filteredData = healthData
-          .where((element) => element.sourceName != "com.google.android.gms")
-          .toList();
+      var filteredData = healthData.toList();
       var lastSyncDate = DateTime.parse(lastSyncHealth);
       if (lastSyncDate.isBefore(filteredData.last.dateTo)) {
         var filteredHealth = filteredData
@@ -157,6 +251,7 @@ class DashboardController extends BaseController {
             if (filteredHealth.isNotEmpty) {
               await SharedPref.saveLastHealthSyncDate(
                   filteredHealth.last.dateTo);
+              getExerciseHistorydata();
             }
           });
         }
@@ -166,9 +261,7 @@ class DashboardController extends BaseController {
       // if user never synced data
     } else if (healthData.isNotEmpty) {
       healthData.sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
-      var filteredData = healthData
-          .where((element) => element.sourceName != "com.google.android.gms")
-          .toList();
+      var filteredData = healthData.toList();
       final result = await postExerciseData
           .call(PostExerciseParams.fromHealth(filteredData));
       result.fold((l) {
@@ -176,6 +269,7 @@ class DashboardController extends BaseController {
       }, (r) async {
         if (filteredData.isNotEmpty) {
           await SharedPref.saveLastHealthSyncDate(filteredData.last.dateTo);
+          getExerciseHistorydata();
         }
       });
     }
@@ -188,7 +282,20 @@ class DashboardController extends BaseController {
     getMealHistories();
     getNutriscoreData();
     getWaterData();
+    getSingleMoodData();
     super.onInit();
+  }
+
+  Future<void> onRefresh() async {
+    getUsersData();
+    getDashBoardData();
+    getMealHistories();
+    getNutriscoreData();
+    getWaterData();
+    getSingleMoodData();
+    if (Get.isRegistered<SleepController>()) {
+      Get.find<SleepController>().refreshList();
+    }
   }
 
   void getNutriscoreData() async {
@@ -484,7 +591,7 @@ class DashboardController extends BaseController {
     if (user.value.bmr == null) {
       return total;
     } else {
-      var bmr = dashboard.value.dashboard?.totalCalories ?? 0;
+      var bmr = (user.value.bmr ?? 0) + totalExercise.value;
       total = ((0.5 * bmr) / 4).obs;
       return total;
     }
@@ -495,7 +602,7 @@ class DashboardController extends BaseController {
     if (user.value.bmr == null) {
       return total;
     } else {
-      var bmr = dashboard.value.dashboard?.totalCalories ?? 0;
+      var bmr = (user.value.bmr ?? 0) + totalExercise.value;
       total = ((0.2 * bmr) / 4).obs;
       return total;
     }
@@ -506,7 +613,7 @@ class DashboardController extends BaseController {
     if (user.value.bmr == null) {
       return total;
     } else {
-      var bmr = dashboard.value.dashboard?.totalCalories ?? 0;
+      var bmr = (user.value.bmr ?? 0) + totalExercise.value;
       total = ((0.3 * bmr) / 9).obs;
       return total;
     }

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:intl/intl.dart';
 import 'package:livewell/core/network/api_url.dart';
 import 'package:livewell/core/network/network_module.dart';
 import 'package:livewell/feature/auth/data/model/register_model.dart';
@@ -73,6 +74,23 @@ class DashboardRepostoryImpl with NetworkModule implements DashBoardRepository {
     try {
       final response = await postMethod(Endpoint.registerDevice, body: {
         "fcm_token": fcmToken,
+      }, headers: {
+        authorization: await SharedPref.getToken(),
+      });
+      final json = responseHandler(response);
+      return Right(RegisterModel.fromJson(json));
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, RegisterModel>> postMood(int value,
+      {DateTime? dateTime}) async {
+    try {
+      final response = await postMethod(Endpoint.postMood, body: {
+        "date": DateFormat('yyyy-MM-dd').format(dateTime ?? DateTime.now()),
+        "value": value,
       }, headers: {
         authorization: await SharedPref.getToken(),
       });

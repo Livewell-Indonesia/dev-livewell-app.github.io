@@ -39,6 +39,34 @@ class PostExerciseParams {
     activities = data.map((e) => Activities.fromHealth(e)).toList();
   }
 
+  PostExerciseParams.manualInput(double value, HealthDataType type) {
+    activities = <Activities>[];
+    activities!.add(Activities(
+        value: value.toDouble(),
+        type: type.name,
+        unit: "",
+        dateFrom: DateTime.now().toIso8601String(),
+        dateTo: DateTime.now().toIso8601String(),
+        platformType: "",
+        deviceId: "",
+        sourceId: "manual",
+        sourceName: "manual"));
+  }
+  PostExerciseParams.manualInputDate(
+      double value, HealthDataType type, DateTime dateFrom, DateTime dateTo) {
+    activities = <Activities>[];
+    activities!.add(Activities(
+        value: value.toDouble(),
+        type: type.name,
+        unit: "",
+        dateFrom: dateFrom.toIso8601String(),
+        dateTo: dateTo.toIso8601String(),
+        platformType: "",
+        deviceId: "",
+        sourceId: "manual",
+        sourceName: "manual"));
+  }
+
   PostExerciseParams.fromCustomHealth(List<CustomHealthDataPoint> data) {
     activities = data.map((e) => Activities.fromCustomHealth(e)).toList();
   }

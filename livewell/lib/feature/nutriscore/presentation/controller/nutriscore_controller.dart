@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/base/usecase.dart';
@@ -14,10 +15,14 @@ class NutriScoreController extends BaseController {
   Rx<NutriScoreModel> nutriScore = NutriScoreModel().obs;
   RxList<NutriscoreDetailModel> nutriScoreDetail =
       <NutriscoreDetailModel>[].obs;
+  NutrientType? nutrientFromSummary;
   @override
   void onInit() {
     getNutriScore();
-    getNutriscoreDetail();
+
+    if (Get.arguments != null) {
+      nutrientFromSummary = Get.arguments['type'];
+    }
     super.onInit();
   }
 
@@ -30,11 +35,15 @@ class NutriScoreController extends BaseController {
     }, (r) {
       // handle success
       nutriScore.value = r;
+      getNutriscoreDetail();
     });
   }
 
   void getNutriscoreDetail() async {
     var usecase = GetNutriscoreDetail.instance();
+    if (nutrientFromSummary != null) {
+      EasyLoading.show();
+    }
     final result = await usecase(NoParams());
     result.fold((l) {
       // handle error
@@ -42,6 +51,10 @@ class NutriScoreController extends BaseController {
     }, (r) {
       // handle success
       nutriScoreDetail.value = r;
+      if (nutrientFromSummary != null) {
+        EasyLoading.dismiss();
+        onNutrientTapped(nutrientFromSummary!);
+      }
     });
   }
 

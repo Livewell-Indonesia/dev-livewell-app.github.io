@@ -238,6 +238,16 @@ class LocalizationKey {
   String? howManyHoursOfSleeps;
   String? whatsYourHeight;
   String? of;
+  String? moodTracker;
+  String? moodChart;
+  String? last14Days;
+  String? moodCount;
+  String? howAreYou;
+  String? moodGreat;
+  String? moodGood;
+  String? moodMeh;
+  String? moodBad;
+  String? moodAwful;
 
   LocalizationKey(
       {this.accountSettings,
@@ -451,7 +461,17 @@ class LocalizationKey {
       this.setYourFitnessGoals,
       this.howManyHoursOfSleeps,
       this.whatsYourHeight,
-      this.of});
+      this.of,
+      this.moodTracker,
+      this.moodChart,
+      this.last14Days,
+      this.moodCount,
+      this.howAreYou,
+      this.moodGreat,
+      this.moodGood,
+      this.moodMeh,
+      this.moodBad,
+      this.moodAwful});
 
   LocalizationKey.fromJson(Map<String, dynamic> json) {
     accountSettings = json['account_settings'];
@@ -678,6 +698,16 @@ class LocalizationKey {
     howManyHoursOfSleeps = json['how_many_hours_of_sleeps'];
     whatsYourHeight = json['whats_your_height'];
     of = json['of'];
+    moodTracker = json['mood_tracker'];
+    moodChart = json['mood_chart'];
+    last14Days = json['last_14_days'];
+    moodCount = json['mood_count'];
+    howAreYou = json['how_are_you'];
+    moodGreat = json['mood_great'];
+    moodGood = json['mood_good'];
+    moodMeh = json['mood_meh'];
+    moodBad = json['mood_bad'];
+    moodAwful = json['mood_awful'];
   }
 
   Map<String, dynamic> toJson() {

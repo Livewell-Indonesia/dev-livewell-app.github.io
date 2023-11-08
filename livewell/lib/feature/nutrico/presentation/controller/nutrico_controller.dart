@@ -98,7 +98,8 @@ class NutriCoController extends BaseController {
             protein != null) {
           MealTime mealTime = MealTime.values.byName(
               ((Get.arguments['type'] as String?) ?? MealTime.breakfast.name));
-          Get.to(() => AddFoodScreen(food: r, mealTime: mealTime));
+          Get.to(() => AddFoodScreen(food: r, mealTime: mealTime),
+              arguments: Get.arguments['date']);
         } else {
           showError();
         }

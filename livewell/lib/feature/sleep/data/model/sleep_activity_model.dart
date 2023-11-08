@@ -20,6 +20,7 @@ class SleepActivityModel {
     unit = json['unit'];
     dateFrom = json['date_from'];
     dateTo = json['date_to'];
+
     if (json['details'] != null) {
       details = <Details>[];
       json['details'].forEach((v) {
@@ -48,7 +49,7 @@ class Details {
   String? unit;
   String? dateFrom;
   String? dateTo;
-
+  String? sourceName;
   Details({this.value, this.type, this.unit, this.dateFrom, this.dateTo});
 
   Details.fromJson(Map<String, dynamic> json) {
@@ -57,6 +58,7 @@ class Details {
     unit = json['unit'];
     dateFrom = json['date_from'];
     dateTo = json['date_to'];
+    sourceName = json['source_name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -66,6 +68,7 @@ class Details {
     data['unit'] = unit;
     data['date_from'] = dateFrom;
     data['date_to'] = dateTo;
+    data['source_name'] = sourceName;
     return data;
   }
 }

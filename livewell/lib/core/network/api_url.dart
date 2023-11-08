@@ -65,4 +65,8 @@ class Endpoint {
   static const String getNutriscoreDetail = "nutrition-score/last-7-days";
 
   static const String registerDevice = "user/register-device";
+
+  static const String postMood = "mood";
+  static const String getListMood = "mood/list";
+  static const String getDetailMood = "mood/detail";
 }
