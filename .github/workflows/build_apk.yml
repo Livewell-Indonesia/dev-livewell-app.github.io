@@ -1,0 +1,59 @@
+name: Build Flutter APK's and App bundle
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "develop" branch
+  push:
+    # branches: ["main"]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./livewell/android
+    permissions:
+      contents: write
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set Secret Properties
+        env:
+          LOCAL_PROPERTIES: ${{ secrets.LOCAL_PROPERTIES }}
+        run: echo "$LOCAL_PROPERTIES" > ./key.properties
+        
+      - name: Prepare release keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_FILE_BASE64 }}" > signing_config.jks.asc
+          gpg -d --passphrase "${{ secrets.KEYSTORE_FILE_BASE64_PASSPHRASE }}" --batch signing_config.jks.asc > app/signing_config.jks
+      
+      # Set up Flutter.
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - run: flutter doctor -v
+      # Checkout the repository code and get packages.
+      - name: Checkout flutter_app code
+        uses: actions/checkout@v3
+      - run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk
+
+      - name: Build APP BUNDLE
+        run: flutter build appbundle
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1.10.0
+        with:
+          artifacts: "build/app/outputs/apk/release/*.apk, build/app/outputs/bundle/release/*.aab"
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: release-apk
+          path: build/app/outputs/apk/
