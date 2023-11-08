@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:livewell/core/localization/languages.dart';
 import 'package:livewell/feature/auth/presentation/controller/signup_controller.dart';
 import 'package:livewell/feature/auth/presentation/page/login/login_screen.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';

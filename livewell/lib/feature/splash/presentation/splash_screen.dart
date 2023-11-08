@@ -4,8 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/feature/splash/presentation/controller/splash_controller.dart';
 
-import '../../../core/localization/languages.dart';
-
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key? key}) : super(key: key);
 
