@@ -75,7 +75,7 @@ class DashboardController extends BaseController {
 
   void fetchHealthData() async {
     bool isAllowed = false;
-    if (await HealthFactory.hasPermissions(types) ?? false) {
+    if (await healthFactory.hasPermissions(types) ?? false) {
       fetchHealthDataFromTypes();
       testingSleepNew();
       getExerciseHistorydata();
