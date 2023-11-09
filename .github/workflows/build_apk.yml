@@ -28,7 +28,7 @@ jobs:
           gpg -d --passphrase "${{ secrets.KEYSTORE_FILE_BASE64_PASSPHRASE }}" --batch signing_config.jks.asc > signing_config.jks
       - name: 📝🔐 Create keystore.properties file
         env:
-          KEYSTORE_PROPERTIES_PATH: ${{ github.workspace }}livewell/android/key.properties
+          KEYSTORE_PROPERTIES_PATH: ${{ github.workspace }}/livewell/android/key.properties
         run: |
           echo 'StoreFile=${{ github.workspace }}livewell/signing_config.jks' > $KEYSTORE_PROPERTIES_PATH
           echo 'KeyAlias=${{ secrets.KEYSTORE_KEY_ALIAS }}' >> $KEYSTORE_PROPERTIES_PATH
