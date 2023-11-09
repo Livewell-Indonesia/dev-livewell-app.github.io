@@ -70,7 +70,7 @@ android {
        }
        release {
            def keystoreProperties = new Properties()
-           localProperties.load(new FileInputStream(rootProject.file('key.properties')))
+           keystoreProperties.load(new FileInputStream(rootProject.file('key.properties')))
            keyAlias keystoreProperties['keyAlias']
            keyPassword keystoreProperties['keyPassword']
            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
