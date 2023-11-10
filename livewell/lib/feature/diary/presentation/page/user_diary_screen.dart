@@ -13,7 +13,9 @@ import 'package:livewell/feature/exercise/data/model/activity_history_model.dart
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/mood/presentation/widget/mood_picker_widget.dart';
+import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
+import 'package:livewell/widgets/textfield/livewell_textfield.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../../../routes/app_navigator.dart';
@@ -170,7 +172,111 @@ class UserDiaryScreen extends StatelessWidget {
                                 return DailyJournalItemContentDescModel(
                                     contentDescName: e.mealName ?? "",
                                     contentDescValue: "${e.caloriesInG} kcal",
-                                    contentServing: e.mealServings ?? "");
+                                    contentServing: e.mealServings ?? "",
+                                    onMoreTap: () {
+                                      showModalBottomSheet(
+                                          context: context,
+                                          isScrollControlled: true,
+                                          shape: shapeBorder(),
+                                          builder: (buildContext) {
+                                            return Container(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  16.w, 24.h, 16.w, 32.h),
+                                              decoration: const BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(20),
+                                                  topRight: Radius.circular(20),
+                                                ),
+                                              ),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      Get.back();
+                                                      controller
+                                                          .servingSizeController
+                                                          .text = e
+                                                              .mealServings ??
+                                                          "";
+                                                      showModalBottomSheet(
+                                                          context: context,
+                                                          isScrollControlled:
+                                                              true,
+                                                          shape: shapeBorder(),
+                                                          builder: (context) {
+                                                            return EditPortionWidget(
+                                                                textController:
+                                                                    controller
+                                                                        .servingSizeController,
+                                                                onTap: () {
+                                                                  controller.onUpdateTappedNew(
+                                                                      e,
+                                                                      double.parse(controller
+                                                                          .servingSizeController
+                                                                          .text));
+                                                                });
+                                                          });
+                                                    },
+                                                    child: ListTile(
+                                                      horizontalTitleGap: 0,
+                                                      leading: const Icon(
+                                                        Icons
+                                                            .mode_edit_outlined,
+                                                        size: 24,
+                                                      ),
+                                                      title: Text(
+                                                        "Edit Portion",
+                                                        style: TextStyle(
+                                                            fontSize: 16.sp,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: const Color(
+                                                                0xFF505050)),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      Get.back();
+                                                      showModalBottomSheet(
+                                                          context: context,
+                                                          isScrollControlled:
+                                                              true,
+                                                          shape: shapeBorder(),
+                                                          builder: (context) {
+                                                            return DeleteFoodWidget(
+                                                                onConfirmTap:
+                                                                    () {
+                                                              controller
+                                                                  .onDeleteTappedNew(
+                                                                      e);
+                                                            });
+                                                          });
+                                                    },
+                                                    child: ListTile(
+                                                      horizontalTitleGap: 0,
+                                                      leading: const Icon(
+                                                        Icons.delete_outlined,
+                                                        size: 24,
+                                                      ),
+                                                      title: Text(
+                                                        "Delete",
+                                                        style: TextStyle(
+                                                            fontSize: 16.sp,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: const Color(
+                                                                0xFF505050)),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          });
+                                    });
                               }).toList(),
                               onAddTap: () {
                                 AppNavigator.push(
@@ -451,6 +557,179 @@ class UserDiaryScreen extends StatelessWidget {
             ),
           ),
         ));
+  }
+}
+
+ShapeBorder? shapeBorder() {
+  return ShapeBorder.lerp(
+      const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+      const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+      1);
+}
+
+class EditPortionWidget extends StatelessWidget {
+  const EditPortionWidget(
+      {super.key, required this.textController, required this.onTap});
+  final TextEditingController textController;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(16.w, 24.h, 16.w, 32.h),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      child: Padding(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            20.verticalSpace,
+            Text(
+              'Edit Portion',
+              style: TextStyle(
+                  color: const Color(0xFF171433),
+                  fontSize: 24.sp,
+                  fontWeight: FontWeight.w600),
+            ),
+            24.verticalSpace,
+            LiveWellTextField(
+                controller: textController,
+                hintText:
+                    Get.find<HomeController>().localization.numberOfServing ??
+                        "Number of Serving",
+                labelText:
+                    Get.find<HomeController>().localization.numberOfServing ??
+                        "Number of Serving",
+                errorText: null,
+                obscureText: false),
+            32.verticalSpace,
+            LiveWellButton(
+                color: const Color(0xFFDDF235),
+                textColor: Colors.black,
+                label:
+                    Get.find<HomeController>().localization.update ?? "Update",
+                onPressed: () {
+                  onTap();
+                }),
+            16.verticalSpace,
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: Insets.paddingMedium),
+              child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                      fixedSize: Size(1.sw, 48.w),
+                      side:
+                          const BorderSide(width: 2, color: Color(0xFFDDF235)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(36.r),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 16.h)),
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: Text(
+                    Get.find<HomeController>().localization.cancel ?? "Cancel",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500),
+                  )),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class DeleteFoodWidget extends StatelessWidget {
+  const DeleteFoodWidget({super.key, required this.onConfirmTap});
+  final VoidCallback onConfirmTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(16.w, 24.h, 16.w, 32.h),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      child: Padding(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            20.verticalSpace,
+            Text(
+              'Delete Confirmation',
+              style: TextStyle(
+                  color: const Color(0xFF171433),
+                  fontSize: 24.sp,
+                  fontWeight: FontWeight.w600),
+            ),
+            8.verticalSpace,
+            Text(
+              'Are You sure want to delete this action?',
+              style: TextStyle(
+                  color: const Color(0xFF808080),
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500),
+            ),
+            32.verticalSpace,
+            LiveWellButton(
+                color: const Color(0xFFDDF235),
+                textColor: Colors.black,
+                label: "Confirm",
+                onPressed: () {
+                  onConfirmTap();
+                }),
+            16.verticalSpace,
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: Insets.paddingMedium),
+              child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                      fixedSize: Size(1.sw, 48.w),
+                      side:
+                          const BorderSide(width: 2, color: Color(0xFFDDF235)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(36.r),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 16.h)),
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: Text(
+                    "Not Now",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500),
+                  )),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

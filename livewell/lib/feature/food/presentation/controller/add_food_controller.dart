@@ -49,19 +49,22 @@ class AddFoodController extends BaseController {
   void addMeals(Foods food, MealTime mealTime) async {
     await EasyLoading.show();
     inspect(food);
-    inspect(AddMealParams.asParams(
-        food,
-        numberOfServing.text.trim().replaceAll(',', '.'),
-        mealTime,
-        selectedTime.value));
+
+    // convert selectedTime to DateTime
+    var date = DateTime.parse(selectedTime.value);
+    if (Get.arguments != null) {
+      var secondDate = Get.arguments as DateTime;
+      date = DateTime(secondDate.year, secondDate.month, secondDate.day,
+          date.hour, date.minute, date.second);
+    }
     final param = AddMealParams.asParams(
         food,
         numberOfServing.text.trim().replaceAll(',', '.'),
         mealTime,
-        selectedTime.value);
+        date.toString());
     final result = await addMeal.call(param);
     await addMealHistory
-        .call(MealHistory(date: selectedTime.value, mealType: mealTime.name));
+        .call(MealHistory(date: date.toString(), mealType: mealTime.name));
     Get.find<DashboardController>().onInit();
     if (Get.isRegistered<FoodController>()) {
       Get.find<FoodController>().fetchUserMealHistory();

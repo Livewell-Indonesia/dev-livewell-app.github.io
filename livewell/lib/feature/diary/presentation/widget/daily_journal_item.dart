@@ -112,9 +112,13 @@ class _DailyJournalItemContentState extends State<DailyJournalItemContent> {
                         fontWeight: FontWeight.w600),
                   ),
                 ),
-                const Expanded(
+                Expanded(
                   flex: 1,
-                  child: Text(":"),
+                  child: Text(":",
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          color: const Color(0xFF505050),
+                          fontWeight: FontWeight.w600)),
                 ),
                 Expanded(
                   flex: widget.model.type == DailyJournalItemType.nutrition
@@ -150,7 +154,7 @@ class _DailyJournalItemContentState extends State<DailyJournalItemContent> {
   Widget itemContent() {
     return ListView.separated(
         shrinkWrap: true,
-        padding: EdgeInsets.only(bottom: 8.h),
+        padding: EdgeInsets.only(bottom: 8.h, left: 16.w, right: 2.w),
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           return Column(
@@ -158,7 +162,7 @@ class _DailyJournalItemContentState extends State<DailyJournalItemContent> {
               Row(
                 children: [
                   Expanded(
-                    flex: 10,
+                    flex: 5,
                     child: Text(widget.model.contentDesc[index].contentDescName,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -167,15 +171,35 @@ class _DailyJournalItemContentState extends State<DailyJournalItemContent> {
                             color: const Color(0xFF505050),
                             fontWeight: FontWeight.w600)),
                   ),
-                  const Spacer(),
-                  Text(widget.model.contentDesc[index].contentDescValue,
-                      style: TextStyle(
-                          fontSize: 14.sp,
-                          color: const Color(0xFF505050),
-                          fontWeight: FontWeight.w600)),
+                  Expanded(
+                    flex: 1,
+                    child: Text(":",
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            color: const Color(0xFF505050),
+                            fontWeight: FontWeight.w600)),
+                  ),
+                  Expanded(
+                    flex: 6,
+                    child: Text(
+                        widget.model.contentDesc[index].contentDescValue,
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            color: const Color(0xFF505050),
+                            fontWeight: FontWeight.w600)),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: InkWell(
+                      onTap: widget.model.contentDesc[index].onMoreTap,
+                      child: const Icon(
+                        Icons.more_horiz,
+                        size: 24,
+                      ),
+                    ),
+                  ),
                 ],
               ),
-              4.verticalSpace,
               Row(
                 children: [
                   Text(widget.model.contentDesc[index].contentServing ?? "",
@@ -234,10 +258,12 @@ class DailyJournalItemContentDescModel {
   String contentDescValue;
   String? contentServing;
   String? contentDuration;
+  VoidCallback? onMoreTap;
 
   DailyJournalItemContentDescModel(
       {required this.contentDescName,
       required this.contentDescValue,
       this.contentServing,
-      this.contentDuration});
+      this.contentDuration,
+      this.onMoreTap});
 }

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -58,6 +59,8 @@ class UserDiaryController extends BaseController {
   RxList<Mood> filteredMoodHistory = <Mood>[].obs;
 
   Rx<bool> isLoading = true.obs;
+
+  TextEditingController servingSizeController = TextEditingController();
 
   @override
   void onInit() {
@@ -217,37 +220,36 @@ class UserDiaryController extends BaseController {
     });
   }
 
-  void onDeleteTapped(MealTime mealTime, int index) async {
-    DeleteMealHistory deleteMealHistory = DeleteMealHistory.instance();
-    var lists = filteredMealHistory
-        .where(
-            (p0) => p0.mealType?.toUpperCase() == mealTime.name.toUpperCase())
-        .toList();
-    var deletedItem = lists[index];
-    filteredMealHistory.remove(deletedItem);
-    final result = await deleteMealHistory.call(deletedItem.id ?? 0);
-    result.fold((l) => print(l), (r) => print(r));
-    if (Get.isRegistered<DashboardController>()) {
-      Get.find<DashboardController>().onInit();
-    }
-    if (Get.isRegistered<FoodController>()) {
-      Get.find<FoodController>().onInit();
-    }
-  }
+  // void onDeleteTapped(MealTime mealTime, int index) async {
+  //   DeleteMealHistory deleteMealHistory = DeleteMealHistory.instance();
+  //   var lists = filteredMealHistory
+  //       .where(
+  //           (p0) => p0.mealType?.toUpperCase() == mealTime.name.toUpperCase())
+  //       .toList();
+  //   var deletedItem = lists[index];
+  //   filteredMealHistory.remove(deletedItem);
+  //   final result = await deleteMealHistory.call(deletedItem.id ?? 0);
+  //   result.fold((l) => print(l), (r) => print(r));
+  //   if (Get.isRegistered<DashboardController>()) {
+  //     Get.find<DashboardController>().onInit();
+  //   }
+  //   if (Get.isRegistered<FoodController>()) {
+  //     Get.find<FoodController>().onInit();
+  //   }
+  // }
 
-  void onUpdateTapped(MealTime mealTime, int index, double servingSize) async {
+  void onUpdateTappedNew(MealHistoryModel model, double servingSize) async {
     UpdateFoodHistory deleteMealHistory = UpdateFoodHistory.instance();
-    var lists = filteredMealHistory
-        .where(
-            (p0) => p0.mealType?.toUpperCase() == mealTime.name.toUpperCase())
-        .toList();
-    var updatedItem = lists[index];
+    var updatedItem = model;
     updatedItem.servingSize = servingSize;
     if (servingSize == 0.0) {
-      onDeleteTapped(mealTime, index);
+      onDeleteTappedNew(model);
     } else {
+      EasyLoading.show();
       final result = await deleteMealHistory.call(updatedItem);
-      result.fold((l) => print(l), (r) {
+      EasyLoading.dismiss();
+      Get.back();
+      result.fold((l) {}, (r) {
         doGetUserMealHistory();
         if (Get.isRegistered<DashboardController>()) {
           Get.find<DashboardController>().onInit();
@@ -258,6 +260,47 @@ class UserDiaryController extends BaseController {
       });
     }
   }
+
+  void onDeleteTappedNew(MealHistoryModel model) async {
+    DeleteMealHistory deleteMealHistory = DeleteMealHistory.instance();
+    filteredMealHistory.remove(model);
+    EasyLoading.show();
+    final result = await deleteMealHistory.call(model.id ?? 0);
+    EasyLoading.dismiss();
+    Get.back();
+    result.fold((l) {}, (r) {
+      if (Get.isRegistered<DashboardController>()) {
+        Get.find<DashboardController>().onInit();
+      }
+      if (Get.isRegistered<FoodController>()) {
+        Get.find<FoodController>().onInit();
+      }
+    });
+  }
+
+  // void onUpdateTapped(MealTime mealTime, int index, double servingSize) async {
+  //   UpdateFoodHistory deleteMealHistory = UpdateFoodHistory.instance();
+  //   var lists = filteredMealHistory
+  //       .where(
+  //           (p0) => p0.mealType?.toUpperCase() == mealTime.name.toUpperCase())
+  //       .toList();
+  //   var updatedItem = lists[index];
+  //   updatedItem.servingSize = servingSize;
+  //   if (servingSize == 0.0) {
+  //     onDeleteTapped(mealTime, index);
+  //   } else {
+  //     final result = await deleteMealHistory.call(updatedItem);
+  //     result.fold((l) => print(l), (r) {
+  //       doGetUserMealHistory();
+  //       if (Get.isRegistered<DashboardController>()) {
+  //         Get.find<DashboardController>().onInit();
+  //       }
+  //       if (Get.isRegistered<FoodController>()) {
+  //         Get.find<FoodController>().onInit();
+  //       }
+  //     });
+  //   }
+  // }
 
   void onNextTapped() {
     if (selectedIndex.value == dateList.length - 1) {
