@@ -197,9 +197,10 @@ class UserDiaryScreen extends StatelessWidget {
                                                       Get.back();
                                                       controller
                                                           .servingSizeController
-                                                          .text = e
-                                                              .mealServings ??
-                                                          "";
+                                                          .text = (e
+                                                                  .servingSize ??
+                                                              1)
+                                                          .toString();
                                                       showModalBottomSheet(
                                                           context: context,
                                                           isScrollControlled:
@@ -606,6 +607,8 @@ class EditPortionWidget extends StatelessWidget {
             ),
             24.verticalSpace,
             LiveWellTextField(
+                keyboardType: const TextInputType.numberWithOptions(
+                    signed: false, decimal: true),
                 controller: textController,
                 hintText:
                     Get.find<HomeController>().localization.numberOfServing ??
