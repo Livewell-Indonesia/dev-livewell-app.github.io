@@ -55,8 +55,16 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
             onTap: () async {
               await showModalBottomSheet(
                   context: context,
-                  shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-                      const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
+                  shape: ShapeBorder.lerp(
+                      const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20))),
+                      const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20))),
+                      1),
                   builder: (context) {
                     return ImagePickerBottomSheet(onImageSelected: (img) async {
                       setState(() {
@@ -70,8 +78,16 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                 await showModalBottomSheet(
                     context: Get.context!,
                     isScrollControlled: true,
-                    shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-                        const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
+                    shape: ShapeBorder.lerp(
+                        const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20))),
+                        const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20))),
+                        1),
                     builder: (context) {
                       return Padding(
                         padding: MediaQuery.of(context).viewInsets,
@@ -82,12 +98,19 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                               20.verticalSpace,
                               Text(
                                 'Share',
-                                style: TextStyle(color: Color(0xff171433), fontSize: 24.sp, fontWeight: FontWeight.w700),
+                                style: TextStyle(
+                                    color: Color(0xff171433),
+                                    fontSize: 24.sp,
+                                    fontWeight: FontWeight.w700),
                               ),
                               20.verticalSpace,
                               Obx(() {
                                 return LiveWellTextField(
-                                    controller: controller.titleController, hintText: null, labelText: "Activity Name", errorText: controller.titleError.value, obscureText: false);
+                                    controller: controller.titleController,
+                                    hintText: null,
+                                    labelText: "Activity Name",
+                                    errorText: controller.titleError.value,
+                                    obscureText: false);
                               }),
                               20.verticalSpace,
                               InkWell(
@@ -95,8 +118,18 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                   showModalBottomSheet(
                                       context: Get.context!,
                                       isScrollControlled: true,
-                                      shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-                                          const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
+                                      shape: ShapeBorder.lerp(
+                                          const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(20),
+                                                  topRight:
+                                                      Radius.circular(20))),
+                                          const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(20),
+                                                  topRight:
+                                                      Radius.circular(20))),
+                                          1),
                                       builder: (BuildContext context) {
                                         return Container(
                                           height: 0.8.sh,
@@ -105,50 +138,114 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                               20.verticalSpace,
                                               Text(
                                                 'Location',
-                                                style: TextStyle(color: Color(0xFF171433), fontSize: 24.sp, fontWeight: FontWeight.w600),
+                                                style: TextStyle(
+                                                    color: Color(0xFF171433),
+                                                    fontSize: 24.sp,
+                                                    fontWeight:
+                                                        FontWeight.w600),
                                               ),
                                               20.verticalSpace,
                                               Container(
-                                                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                                                child: GooglePlaceAutoCompleteTextField(
-                                                  textEditingController: controller.locationController,
-                                                  googleAPIKey: Platform.isAndroid ? "AIzaSyAyGPWBoAyXoiZPuOr1tVy_lhDbqiY6gVw" : "AIzaSyAxbnqu8icKNHauUZveyBjG5srd7f1GQIA",
-                                                  textStyle: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp),
-                                                  boxDecoration: BoxDecoration(color: const Color(0xFFF2F6F6), borderRadius: BorderRadius.circular(100)),
-                                                  inputDecoration: const InputDecoration(
-                                                      icon: Icon(Icons.search), hintText: "Search here...", border: InputBorder.none, enabledBorder: InputBorder.none, focusedBorder: InputBorder.none),
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 16.w,
+                                                    vertical: 16.h),
+                                                child:
+                                                    GooglePlaceAutoCompleteTextField(
+                                                  textEditingController:
+                                                      controller
+                                                          .locationController,
+                                                  googleAPIKey: Platform
+                                                          .isAndroid
+                                                      ? "AIzaSyAyGPWBoAyXoiZPuOr1tVy_lhDbqiY6gVw"
+                                                      : "AIzaSyAxbnqu8icKNHauUZveyBjG5srd7f1GQIA",
+                                                  textStyle: TextStyle(
+                                                      color: const Color(
+                                                          0xFF171433),
+                                                      fontSize: 14.sp),
+                                                  boxDecoration: BoxDecoration(
+                                                      color: const Color(
+                                                          0xFFF2F6F6),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              100)),
+                                                  inputDecoration:
+                                                      const InputDecoration(
+                                                          icon: Icon(
+                                                              Icons.search),
+                                                          hintText:
+                                                              "Search here...",
+                                                          border:
+                                                              InputBorder.none,
+                                                          enabledBorder:
+                                                              InputBorder.none,
+                                                          focusedBorder:
+                                                              InputBorder.none),
                                                   debounceTime: 400,
                                                   countries: ["id"],
                                                   isLatLngRequired: false,
-                                                  itemBuilder: (context, index, prediction) {
+                                                  itemBuilder: (context, index,
+                                                      prediction) {
                                                     return Container(
                                                       child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
                                                           Text(
-                                                            prediction.terms?.first.value ?? "",
-                                                            textAlign: TextAlign.start,
-                                                            style: TextStyle(color: const Color(0xFF505050), fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                                            prediction
+                                                                    .terms
+                                                                    ?.first
+                                                                    .value ??
+                                                                "",
+                                                            textAlign:
+                                                                TextAlign.start,
+                                                            style: TextStyle(
+                                                                color: const Color(
+                                                                    0xFF505050),
+                                                                fontSize: 16.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
                                                           ),
                                                           4.verticalSpace,
                                                           Text(
-                                                            prediction.description ?? "",
-                                                            textAlign: TextAlign.start,
+                                                            prediction
+                                                                    .description ??
+                                                                "",
+                                                            textAlign:
+                                                                TextAlign.start,
                                                             maxLines: 1,
-                                                            overflow: TextOverflow.ellipsis,
-                                                            style: TextStyle(color: const Color(0xFF808080), fontSize: 12.sp),
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: TextStyle(
+                                                                color: const Color(
+                                                                    0xFF808080),
+                                                                fontSize:
+                                                                    12.sp),
                                                           )
                                                         ],
                                                       ),
                                                     );
                                                   },
                                                   itemClick: (prediction) {
-                                                    if (prediction.terms != null && prediction.terms!.isNotEmpty) {
-                                                      controller.locationController.text = prediction.terms!.first.value ?? "";
-                                                      Navigator.of(context).pop();
+                                                    if (prediction.terms !=
+                                                            null &&
+                                                        prediction.terms!
+                                                            .isNotEmpty) {
+                                                      controller
+                                                          .locationController
+                                                          .text = prediction
+                                                              .terms!
+                                                              .first
+                                                              .value ??
+                                                          "";
+                                                      Navigator.of(context)
+                                                          .pop();
                                                     }
                                                   },
-                                                  seperatedBuilder: 20.verticalSpace,
+                                                  seperatedBuilder:
+                                                      20.verticalSpace,
                                                 ),
                                               )
                                             ],
@@ -156,29 +253,42 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                         );
                                       });
                                 },
-                                child: LiveWellTextField(controller: controller.locationController, hintText: null, labelText: "Location Name", errorText: null, enabled: false, obscureText: false),
+                                child: LiveWellTextField(
+                                    controller: controller.locationController,
+                                    hintText: null,
+                                    labelText: "Location Name",
+                                    errorText: null,
+                                    enabled: false,
+                                    obscureText: false),
                               ),
                               20.verticalSpace,
                               Text(
                                 'Pick an Image Ratio:',
-                                style: TextStyle(color: Color(0xff171433), fontSize: 24.sp, fontWeight: FontWeight.w700),
+                                style: TextStyle(
+                                    color: Color(0xff171433),
+                                    fontSize: 24.sp,
+                                    fontWeight: FontWeight.w700),
                               ),
                               20.verticalSpace,
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     Expanded(
                                       child: ElevatedButton(
                                           onPressed: () async {
-                                            if (controller.titleController.text.isNotEmpty) {
+                                            if (controller.titleController.text
+                                                .isNotEmpty) {
                                               Get.back();
-                                              _showFullScreenDialog(context, file!, 9 / 16);
+                                              _showFullScreenDialog(
+                                                  context, file!, 9 / 16);
                                               // shareToInstagramStory(
                                               //     result);
                                             } else {
-                                              controller.titleError.value = "Activity name is required";
+                                              controller.titleError.value =
+                                                  "Activity name is required";
                                             }
                                           },
                                           child: const Text('16:9')),
@@ -187,11 +297,14 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                     Expanded(
                                       child: ElevatedButton(
                                           onPressed: () async {
-                                            if (controller.titleController.text.isNotEmpty) {
+                                            if (controller.titleController.text
+                                                .isNotEmpty) {
                                               Get.back();
-                                              _showFullScreenDialog(context, file!, 1);
+                                              _showFullScreenDialog(
+                                                  context, file!, 1);
                                             } else {
-                                              controller.titleError.value = "Activity name is required";
+                                              controller.titleError.value =
+                                                  "Activity name is required";
                                             }
                                           },
                                           child: const Text('1:1')),
@@ -223,8 +336,16 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                 showModalBottomSheet<dynamic>(
                     context: context,
                     isScrollControlled: true,
-                    shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-                        const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
+                    shape: ShapeBorder.lerp(
+                        const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20))),
+                        const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20))),
+                        1),
                     builder: (context) {
                       return Obx(() {
                         return PopupAssetWidget(
@@ -265,17 +386,28 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: Text(
                   controller.localization.exerciseHabit!,
-                  style: TextStyle(color: const Color(0xFF171433), fontSize: 20.sp, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                      color: const Color(0xFF171433),
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w600),
                 ),
               ),
               16.verticalSpace,
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 16.w),
                 padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
-                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: const Color(0xFFEBEBEB))),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: const Color(0xFFEBEBEB))),
                 child: Column(
                   children: [
-                    Text(controller.localization.last7Days!, style: TextStyle(color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w700, height: 20.sp / 14.sp)),
+                    Text(controller.localization.last7Days!,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w700,
+                            height: 20.sp / 14.sp)),
                     16.verticalSpace,
                     const Divider(),
                     16.verticalSpace,
@@ -291,17 +423,27 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                   return BarChartGroupData(
                                     x: index,
                                     barRods: [
-                                      BarChartRodData(color: controller.isYValueOptimal(index) ? const Color(0xFFDDF235) : const Color(0xFFFA6F6F), width: 12.w, toY: controller.getYValue(index))
+                                      BarChartRodData(
+                                          color:
+                                              controller.isYValueOptimal(index)
+                                                  ? const Color(0xFFDDF235)
+                                                  : const Color(0xFFFA6F6F),
+                                          width: 12.w,
+                                          toY: controller.getYValue(index))
                                     ],
                                   );
                                 }),
                                 barTouchData: BarTouchData(
                                   enabled: true,
                                   touchTooltipData: BarTouchTooltipData(
-                                    getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                                    getTooltipItem:
+                                        (group, groupIndex, rod, rodIndex) {
                                       return BarTooltipItem(
                                         '${NumberFormat('0.0').format(rod.toY)} kcal',
-                                        TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 14.sp),
+                                        TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14.sp),
                                       );
                                     },
                                   ),
@@ -312,7 +454,10 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                     drawVerticalLine: false,
                                     horizontalInterval: 50,
                                     getDrawingHorizontalLine: (value) {
-                                      return FlLine(color: const Color(0xFFebebeb), strokeWidth: 1, dashArray: [2, 2]);
+                                      return FlLine(
+                                          color: const Color(0xFFebebeb),
+                                          strokeWidth: 1,
+                                          dashArray: [2, 2]);
                                     }),
                                 titlesData: FlTitlesData(
                                   show: true,
@@ -329,7 +474,9 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                       getTitlesWidget: (value, meta) {
                                         return Text(
                                           value.toInt().toString(),
-                                          style: TextStyle(color: const Color(0xFF505050), fontSize: 12.sp),
+                                          style: TextStyle(
+                                              color: const Color(0xFF505050),
+                                              fontSize: 12.sp),
                                         );
                                       },
                                     ),
@@ -341,10 +488,15 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                         return Transform.rotate(
                                           angle: -45,
                                           child: Padding(
-                                            padding: const EdgeInsets.only(top: 10),
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
                                             child: Text(
-                                              controller.getXValue(value.toInt()),
-                                              style: TextStyle(color: const Color(0xFF505050), fontSize: 12.sp),
+                                              controller
+                                                  .getXValue(value.toInt()),
+                                              style: TextStyle(
+                                                  color:
+                                                      const Color(0xFF505050),
+                                                  fontSize: 12.sp),
                                             ),
                                           ),
                                         );
@@ -358,7 +510,10 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                               alignment: Alignment.bottomLeft,
                               child: Text(
                                 'kcal.',
-                                style: TextStyle(color: const Color(0xFF505050), fontSize: 10.sp, fontWeight: FontWeight.w600),
+                                style: TextStyle(
+                                    color: const Color(0xFF505050),
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w600),
                               ),
                             ),
                           ],
@@ -386,7 +541,8 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                 title: controller.titleController.text,
                 steps: controller.steps.value.round().toInt(),
                 calories: controller.burntCalories.round().toInt(),
-                distance: controller.calculateDistance(controller.steps.value.round().toInt(), 0.76),
+                distance: controller.calculateDistance(
+                    controller.steps.value.round().toInt(), 0.76),
                 location: controller.locationController.text,
                 aspectRatio: aspectRatio);
           });
@@ -405,19 +561,15 @@ class ImageWithOverlay extends StatelessWidget {
   final String location;
 
   ImageWithOverlay(
-      {required this.file, required this.overlayText, required this.aspectRatio, required this.title, required this.steps, required this.distance, required this.calories, required this.location});
-
-  Future<Uint8List> _captureWidgetToImage(GlobalKey key) async {
-    try {
-      RenderRepaintBoundary boundary = key.currentContext!.findRenderObject() as RenderRepaintBoundary;
-      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-      return byteData!.buffer.asUint8List();
-    } catch (e) {
-      print(e);
-      return Uint8List(0);
-    }
-  }
+      {super.key,
+      required this.file,
+      required this.overlayText,
+      required this.aspectRatio,
+      required this.title,
+      required this.steps,
+      required this.distance,
+      required this.calories,
+      required this.location});
 
   var myGroup = AutoSizeGroup();
 
@@ -429,7 +581,7 @@ class ImageWithOverlay extends StatelessWidget {
 
     return RepaintBoundary(
       key: key,
-      child: Container(
+      child: SizedBox(
         width: aspectRatio == 1 ? 1.sw : 295.w,
         height: aspectRatio == 1 ? 1.sw : 524.h,
         child: Stack(
@@ -456,9 +608,14 @@ class ImageWithOverlay extends StatelessWidget {
                     ),
                     20.verticalSpace,
                     Container(
-                      decoration: const BoxDecoration(color: Color(0xFFDDF235), borderRadius: BorderRadius.only(topRight: Radius.circular(100), bottomRight: Radius.circular(100))),
-                      padding: EdgeInsets.only(left: 20.w, right: 60.w, top: 20.h, bottom: 20.h),
-                      margin: EdgeInsets.only(right: 20),
+                      decoration: const BoxDecoration(
+                          color: Color(0xFFDDF235),
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(100),
+                              bottomRight: Radius.circular(100))),
+                      padding: EdgeInsets.only(
+                          left: 20.w, right: 60.w, top: 20.h, bottom: 20.h),
+                      margin: const EdgeInsets.only(right: 20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -470,9 +627,12 @@ class ImageWithOverlay extends StatelessWidget {
                               ),
                               Expanded(
                                 child: AutoSizeText(
-                                  DateFormat('EEEE, dd MMMM yyyy').format(DateTime.now()),
+                                  DateFormat('EEEE, dd MMMM yyyy')
+                                      .format(DateTime.now()),
                                   maxLines: 1,
-                                  style: TextStyle(color: Color(0xFF8F01DF), fontSize: 14.sp),
+                                  style: TextStyle(
+                                      color: Color(0xFF8F01DF),
+                                      fontSize: 14.sp),
                                 ),
                               ),
                             ],
@@ -488,12 +648,14 @@ class ImageWithOverlay extends StatelessWidget {
                                   location,
                                   maxLines: 1,
                                   overflow: TextOverflow.clip,
-                                  style: TextStyle(color: Color(0xFF8F01DF), fontSize: 14.sp),
+                                  style: TextStyle(
+                                      color: Color(0xFF8F01DF),
+                                      fontSize: 14.sp),
                                 ),
                               ),
                             ],
                           ),
-                          10.verticalSpace,
+                          5.verticalSpace,
                           Text(
                             title,
                             maxLines: 1,
@@ -504,91 +666,174 @@ class ImageWithOverlay extends StatelessWidget {
                               color: Color(0xFF8F01DF),
                             ),
                           ),
-                          10.verticalSpace,
+                          5.verticalSpace,
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                flex: 2,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    AutoSizeText(
-                                      "$steps",
-                                      maxLines: 1,
-                                      group: myGroup,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 20.sp,
-                                        color: Color(0xFF8F01DF),
-                                      ),
-                                    ),
-                                    Text(
-                                      "steps",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 12.sp,
-                                        color: Color(0xFF8F01DF),
-                                      ),
-                                    )
-                                  ],
+                              Text(
+                                "Steps",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16.sp,
+                                  color: Color(0xFF8F01DF),
                                 ),
                               ),
+                              const Spacer(),
                               Expanded(
-                                flex: 2,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    AutoSizeText(
-                                      "${NumberFormat("0.0").format(distance)} KM",
-                                      maxLines: 1,
-                                      group: myGroup,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 20.sp,
-                                        color: Color(0xFF8F01DF),
-                                      ),
-                                    ),
-                                    Text(
-                                      "distance",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 12.sp,
-                                        color: Color(0xFF8F01DF),
-                                      ),
-                                    )
-                                  ],
+                                flex: 4,
+                                child: Text(
+                                  "$steps",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 16.sp,
+                                    color: Color(0xFF8F01DF),
+                                  ),
                                 ),
                               ),
-                              Expanded(
-                                flex: 2,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    AutoSizeText(
-                                      "$calories kcal",
-                                      maxLines: 1,
-                                      group: myGroup,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 20.sp,
-                                        color: Color(0xFF8F01DF),
-                                      ),
-                                    ),
-                                    Text(
-                                      "calories burnt",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 12.sp,
-                                        color: Color(0xFF8F01DF),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )
                             ],
-                          )
+                          ),
+                          5.verticalSpace,
+                          Row(
+                            children: [
+                              Text(
+                                "Distance",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16.sp,
+                                  color: Color(0xFF8F01DF),
+                                ),
+                              ),
+                              const Spacer(),
+                              Expanded(
+                                flex: 4,
+                                child: Text(
+                                  "${NumberFormat("0.0").format(distance)} KM",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 16.sp,
+                                    color: Color(0xFF8F01DF),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          5.verticalSpace,
+                          Row(
+                            children: [
+                              Text(
+                                "Calories burnt",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16.sp,
+                                  color: Color(0xFF8F01DF),
+                                ),
+                              ),
+                              const Spacer(),
+                              Expanded(
+                                flex: 4,
+                                child: Text(
+                                  "$calories kcal",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 16.sp,
+                                    color: Color(0xFF8F01DF),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   crossAxisAlignment: CrossAxisAlignment.start,
+                          //   children: [
+                          //     // Expanded(
+                          //     //   flex: 2,
+                          //     //   child: Column(
+                          //     //     crossAxisAlignment: CrossAxisAlignment.start,
+                          //     //     children: [
+                          //     //       AutoSizeText(
+                          //     //         "$steps",
+                          //     //         maxLines: 1,
+                          //     //         group: myGroup,
+                          //     //         style: TextStyle(
+                          //     //           fontWeight: FontWeight.w800,
+                          //     //           fontSize: 20.sp,
+                          //     //           color: Color(0xFF8F01DF),
+                          //     //         ),
+                          //     //       ),
+                          //     //       Text(
+                          //     //         "steps",
+                          //     //         style: TextStyle(
+                          //     //           fontWeight: FontWeight.w500,
+                          //     //           fontSize: 12.sp,
+                          //     //           color: Color(0xFF8F01DF),
+                          //     //         ),
+                          //     //       )
+                          //     //     ],
+                          //     //   ),
+                          //     // ),
+                          //     Expanded(
+                          //       flex: 2,
+                          //       child: Column(
+                          //         crossAxisAlignment: CrossAxisAlignment.start,
+                          //         children: [
+                          //           AutoSizeText(
+                          //             "${NumberFormat("0.0").format(distance)} KM",
+                          //             maxLines: 1,
+                          //             group: myGroup,
+                          //             style: TextStyle(
+                          //               fontWeight: FontWeight.w800,
+                          //               fontSize: 20.sp,
+                          //               color: Color(0xFF8F01DF),
+                          //             ),
+                          //           ),
+                          //           Text(
+                          //             "distance",
+                          //             style: TextStyle(
+                          //               fontWeight: FontWeight.w500,
+                          //               fontSize: 12.sp,
+                          //               color: Color(0xFF8F01DF),
+                          //             ),
+                          //           )
+                          //         ],
+                          //       ),
+                          //     ),
+                          //     Expanded(
+                          //       flex: 2,
+                          //       child: Column(
+                          //         crossAxisAlignment: CrossAxisAlignment.start,
+                          //         children: [
+                          //           AutoSizeText(
+                          //             "$calories kcal",
+                          //             maxLines: 1,
+                          //             group: myGroup,
+                          //             style: TextStyle(
+                          //               fontWeight: FontWeight.w800,
+                          //               fontSize: 20.sp,
+                          //               color: Color(0xFF8F01DF),
+                          //             ),
+                          //           ),
+                          //           Text(
+                          //             "calories burnt",
+                          //             style: TextStyle(
+                          //               fontWeight: FontWeight.w500,
+                          //               fontSize: 12.sp,
+                          //               color: Color(0xFF8F01DF),
+                          //             ),
+                          //           )
+                          //         ],
+                          //       ),
+                          //     )
+                          //   ],
+                          // )
                         ],
                       ),
                     ),

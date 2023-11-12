@@ -111,21 +111,14 @@ class ExerciseSharePage extends StatelessWidget {
                               await AppinioSocialShare().shareToInstagramStory(
                                   "108487895683370",
                                   backgroundImage: files.path);
-                            // SocialShare.shareInstagramStory(
-                            //     appId: "108487895683370",
-                            //     imagePath: files.path);
                             case ShareButtonType.facebook:
                               await AppinioSocialShare().shareToFacebookStory(
                                   "108487895683370",
                                   backgroundImage: files.path);
-                            // SocialShare.shareFacebookStory(
-                            //     appId: "108487895683370",
-                            //     imagePath: files.path);
                             default:
                               await AppinioSocialShare().shareToSystem(
                                   title, "",
                                   filePath: files.path);
-                            //Share.shareXFiles([XFile(files.path)]);
                           }
                         }
                       },
