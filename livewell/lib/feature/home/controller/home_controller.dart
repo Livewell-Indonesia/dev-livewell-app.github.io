@@ -67,7 +67,7 @@ class HomeController extends BaseController {
     if (Get.parameters['page']?.toLowerCase() == 'dashboard') {
       currentMenu.value = HomeTab.home;
       Future.delayed(const Duration(seconds: 2), () {
-        if (Get.parameters['scrollto'] != null) {
+        if (Get.parameters['scrollTo'] != null) {
           scrollController.animateTo(scrollController.position.maxScrollExtent,
               duration: const Duration(seconds: 1),
               curve: Curves.fastOutSlowIn);

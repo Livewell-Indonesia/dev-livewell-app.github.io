@@ -118,11 +118,11 @@ class LivewellNotification {
 
   static Future<void> handleNotification(RemoteMessage message) async {
     Log.info('Handling a background message ${message.messageId}');
-    final payload = message.data;
+    final payload = message.data['data'];
     inspect(message);
-    // final decodedPayload = jsonDecode(payload) as Map<String, dynamic>;
-    // inspect(decodedPayload);
-    mapPayloadToRoute(payload['extras']);
+    final decodedPayload = jsonDecode(payload) as Map<String, dynamic>;
+    Log.info('decoded payload = $decodedPayload');
+    mapPayloadToRoute(decodedPayload['extra']);
   }
 
   static void mapPayloadToRoute(String payload) {
@@ -138,3 +138,5 @@ class LivewellNotification {
     });
   }
 }
+
+// {type: TASK_LIST, action: InternalPath, extra: /home/dashboard?scrollTo=task_list&id=snack}
