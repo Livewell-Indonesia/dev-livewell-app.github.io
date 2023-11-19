@@ -106,7 +106,9 @@ class PhysicalInformationController extends BaseController {
     // pick image from gallery
     try {
       UploadPhoto uploadPhoto = UploadPhoto.instance();
+      EasyLoading.show();
       final data = await uploadPhoto.call(source);
+      EasyLoading.dismiss();
       data.fold((l) {
         Log.error(l);
       }, (r) async {

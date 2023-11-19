@@ -6,7 +6,6 @@ import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_detail_model.dart';
 import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_model.dart';
-import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_model.dart';
 import 'package:livewell/feature/nutriscore/domain/usecase/get_nutri_score.dart';
 import 'package:livewell/feature/nutriscore/domain/usecase/get_nutri_score_detail.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -61,8 +60,7 @@ class NutriScoreController extends BaseController {
   void onNutrientTapped(NutrientType type) {
     if (nutriScoreDetail.isNotEmpty) {
       AppNavigator.push(
-          routeName: AppPages.nutriScoreDetail,
-          arguments: {'type': type, 'value': getNutrientByType(type)!.eaten});
+          routeName: AppPages.nutriScoreDetail, arguments: {'type': type});
     }
   }
 

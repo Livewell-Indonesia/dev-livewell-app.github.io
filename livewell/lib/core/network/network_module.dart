@@ -115,12 +115,7 @@ mixin NetworkModule {
     }
     Options _options = Options(headers: headers);
     Dio dio = DioModule.getInstance(
-      BaseOptions(
-        baseUrl: url,
-        connectTimeout: 10000,
-        sendTimeout: 10000,
-        receiveTimeout: 10000,
-      ),
+      BaseOptions(baseUrl: url),
     );
 
     final response = await _safeCallApi(

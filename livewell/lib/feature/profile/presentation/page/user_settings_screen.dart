@@ -78,6 +78,7 @@ class UserSettingsScreen extends StatelessWidget {
                                   builder: (context) {
                                     return ImagePickerBottomSheet(
                                         onImageSelected: (img) {
+                                      Get.back();
                                       physicalController.pickImages(img);
                                     });
                                   });
@@ -398,7 +399,7 @@ class ImagePickerBottomSheet extends StatelessWidget {
 
   void _pickImage(ImageSource source, BuildContext context) async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: source);
+    final pickedFile = await picker.pickImage(source: source, imageQuality: 50);
     // FilePickerResult? file =
     //     await FilePicker.platform.pickFiles(type: FileType.image);
     if (pickedFile != null) {

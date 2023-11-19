@@ -28,12 +28,13 @@ import 'feature/food/presentation/pages/food_screen.dart';
 List<CameraDescription> cameras = [];
 @pragma('vm:entry-point')
 Future<void> handleBackgroundMesage(RemoteMessage mesage) async {
-  Log.info('Handling a background message ${mesage.messageId}');
-  final payload = mesage.data['data'];
-  final decodedPayload = jsonDecode(payload) as Map<String, dynamic>;
-  if (decodedPayload['type'] != null) {
-    mapPayloadToRoute(decodedPayload['type']);
-  }
+  // Log.info('Handling a background message ${mesage.messageId}');
+  // final payload = mesage.data['data'];
+  // final decodedPayload = jsonDecode(payload) as Map<String, dynamic>;
+  // if (decodedPayload['type'] != null) {
+  //   mapPayloadToRoute(decodedPayload['type']);
+  // }
+  await LivewellNotification.handleNotification(mesage);
 }
 
 void mapPayloadToRoute(String payload) {
