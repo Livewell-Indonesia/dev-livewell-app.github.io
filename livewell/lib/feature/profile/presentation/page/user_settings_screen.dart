@@ -60,30 +60,30 @@ class UserSettingsScreen extends StatelessWidget {
                             ),
                           )
                         : const SizedBox(),
-                    Container(
-                      width: 210.w,
-                      height: 210.h,
-                      decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.3),
-                          shape: BoxShape.circle),
-                      alignment: Alignment.center,
-                      child: Stack(
-                        alignment: Alignment.bottomRight,
-                        children: [
-                          ClipOval(
-                              child: InkWell(
-                            onTap: () async {
-                              showModalBottomSheet(
-                                  context: context,
-                                  builder: (context) {
-                                    return ImagePickerBottomSheet(
-                                        onImageSelected: (img) {
-                                      Get.back();
-                                      physicalController.pickImages(img);
-                                    });
-                                  });
-                            },
-                            child: Container(
+                    InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return ImagePickerBottomSheet(
+                                  onImageSelected: (img) {
+                                Get.back();
+                                physicalController.pickImages(img);
+                              });
+                            });
+                      },
+                      child: Container(
+                        width: 210.w,
+                        height: 210.h,
+                        decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.3),
+                            shape: BoxShape.circle),
+                        alignment: Alignment.center,
+                        child: Stack(
+                          alignment: Alignment.bottomRight,
+                          children: [
+                            ClipOval(
+                                child: Container(
                               width: 180.w,
                               height: 180.h,
                               decoration: const BoxDecoration(
@@ -109,22 +109,22 @@ class UserSettingsScreen extends StatelessWidget {
                                   );
                                 }
                               }),
+                            )),
+                            // create plus button
+                            Container(
+                              width: 40.w,
+                              height: 40.h,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                              ),
+                              child: const Icon(
+                                Icons.camera_alt,
+                                color: Colors.black,
+                              ),
                             ),
-                          )),
-                          // create plus button
-                          Container(
-                            width: 40.w,
-                            height: 40.h,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                            ),
-                            child: const Icon(
-                              Icons.camera_alt,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     13.verticalSpace,
@@ -399,7 +399,7 @@ class ImagePickerBottomSheet extends StatelessWidget {
 
   void _pickImage(ImageSource source, BuildContext context) async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: source, imageQuality: 50);
+    final pickedFile = await picker.pickImage(source: source, imageQuality: 75);
     // FilePickerResult? file =
     //     await FilePicker.platform.pickFiles(type: FileType.image);
     if (pickedFile != null) {
