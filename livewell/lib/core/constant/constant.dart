@@ -57,6 +57,8 @@ class Constant {
   static const String icFacebookPng = '$assetsIcons/facebook.png';
   static const String icInstagramPng = '$assetsIcons/instagram.png';
   static const String icWhatsappPng = '$assetsIcons/whatsapp.png';
+  static const String icLivewellYellow =
+      '$assetsIcons/livewell_apps_icon_yellow.png';
 
   // image Assets
   static const String assetsImages = 'assets/images';
@@ -76,6 +78,8 @@ class Constant {
   static const String dailyJournal =
       '$assetsIcons/collections_bookmark_24px.svg';
   static const String home = '$assetsIcons/home_24px.svg';
+  static const String livewellLogoYellow =
+      '$assetsImages/livewell_logo_yellow.png';
 
   // moods
   static const String moodGreat = '$assetsIcons/mood_great.svg';

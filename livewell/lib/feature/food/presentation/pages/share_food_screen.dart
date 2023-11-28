@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_share_page.dart';
 import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/feature/food/presentation/pages/choose_template_share_food.dart';
@@ -39,7 +40,8 @@ class _ShareFoodScreenState extends State<ShareFoodScreen> {
       height: 1.sh,
       width: 1.sw,
       color: const Color(0xFF505050),
-      padding: EdgeInsets.symmetric(vertical: 20.h) + EdgeInsets.only(top: 40.h),
+      padding:
+          EdgeInsets.symmetric(vertical: 20.h) + EdgeInsets.only(top: 40.h),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Expanded(
           child: InkWell(
@@ -63,7 +65,10 @@ class _ShareFoodScreenState extends State<ShareFoodScreen> {
               Text(
                 "Share Your food with friend",
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 24.sp, color: const Color(0xFFFFFFFF), fontWeight: FontWeight.w600),
+                style: TextStyle(
+                    fontSize: 24.sp,
+                    color: const Color(0xFFFFFFFF),
+                    fontWeight: FontWeight.w600),
               ),
               42.verticalSpace,
               ClipRRect(
@@ -111,18 +116,24 @@ class _ShareFoodScreenState extends State<ShareFoodScreen> {
                         await files.writeAsBytes(result!);
                         switch (e) {
                           case ShareButtonType.instagram:
-                            await AppinioSocialShare().shareToInstagramStory("108487895683370", backgroundImage: files.path);
+                            await AppinioSocialShare().shareToInstagramStory(
+                                "108487895683370",
+                                backgroundImage: files.path);
                           case ShareButtonType.facebook:
-                            await AppinioSocialShare().shareToFacebookStory("108487895683370", backgroundImage: files.path);
+                            await AppinioSocialShare().shareToFacebookStory(
+                                "108487895683370",
+                                backgroundImage: files.path);
                           default:
-                            await AppinioSocialShare().shareToSystem("food", "", filePath: files.path);
+                            await AppinioSocialShare().shareToSystem("food", "",
+                                filePath: files.path);
                         }
                       }
                     },
                     child: Container(
                       width: 40.h,
                       height: 40.h,
-                      decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                      decoration: const BoxDecoration(
+                          color: Colors.white, shape: BoxShape.circle),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -188,7 +199,9 @@ class ShareFoodOverlayImage extends StatelessWidget {
             top: type == TemplateType.first ? 64.h : null,
             bottom: type == TemplateType.second ? 64.h : null,
             left: type == TemplateType.second ? -10.w : null,
-            child: type == TemplateType.first ? const FirstTemplateContent() : const SecondTemplateContent(),
+            child: type == TemplateType.first
+                ? const FirstTemplateContent()
+                : const SecondTemplateContent(),
           ),
         ],
       ),
@@ -205,11 +218,28 @@ class FirstTemplateContent extends StatelessWidget {
       width: 200.w,
       height: 120.h,
       decoration: BoxDecoration(
-        color: const Color(0xFFDDF235),
+        //color: const Color(0xFFDDF235),
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(16.r),
           bottomRight: Radius.circular(16.r),
         ),
+      ),
+      child: Row(
+        children: [
+          Column(
+            children: [
+              Container(
+                width: 136.w,
+                height: 80.h,
+                decoration: const BoxDecoration(
+                  color: Color(0xFF8F01DF),
+                  shape: BoxShape.circle,
+                ),
+                child: Image.asset(Constant.icLivewellYellow),
+              )
+            ],
+          ),
+        ],
       ),
     );
   }
