@@ -10,14 +10,12 @@ import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_screen
 class NutriscoreDetailController extends BaseController {
   List<NutrientDetailData> nutrientList = [];
   late NutrientType currentType;
-  late num nutrientValue;
   Rx<double> todaysAmount = 0.0.obs;
   Rx<double> weeklyAverage = 0.0.obs;
   Rx<int> nutrientScore = 0.obs;
   @override
   void onInit() {
     currentType = Get.arguments['type'];
-    nutrientValue = Get.arguments['value'];
     getDetailData();
     super.onInit();
   }

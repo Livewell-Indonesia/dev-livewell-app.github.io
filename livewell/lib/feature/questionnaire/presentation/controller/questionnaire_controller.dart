@@ -63,7 +63,7 @@ class QuestionnaireController extends BaseController {
 
   void onButtonTapped() {
     if (currentPage.value == QuestionnairePage.finish) {
-      Get.offAllNamed('/home');
+      Get.offAllNamed(AppPages.home);
     } else if (findNextPage() == QuestionnairePage.finish) {
       sendData();
     } else {

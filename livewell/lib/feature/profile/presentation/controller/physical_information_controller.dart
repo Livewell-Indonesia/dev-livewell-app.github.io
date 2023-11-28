@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:livewell/core/error/failures.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
@@ -106,17 +107,25 @@ class PhysicalInformationController extends BaseController {
     // pick image from gallery
     try {
       UploadPhoto uploadPhoto = UploadPhoto.instance();
+      EasyLoading.show();
       final data = await uploadPhoto.call(source);
+      EasyLoading.dismiss();
       data.fold((l) {
-        Log.error(l);
+        Log.error(l.message ?? "");
+        Get.snackbar("error", l.message ?? "");
+        print(l.message ?? "");
       }, (r) async {
         DashboardController controller = Get.find();
         await controller.getUsersData().then((value) {
           onInit();
         });
       });
+    } on ServerFailure catch (e) {
+      print(e.message ?? "");
+      Get.snackbar(e.message ?? "", e.message ?? "");
     } catch (e) {
-      print(e);
+      print("konts $e");
+      Get.snackbar(e.toString(), e.toString());
     }
   }
 

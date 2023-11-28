@@ -40,7 +40,11 @@ class AppNavigator {
         page: () => SplashScreen(),
         transition: Transition.cupertino),
     GetPage(
-        name: AppPages.home,
+        name: "${AppPages.home}/",
+        page: () => HomeScreen(),
+        transition: Transition.cupertino),
+    GetPage(
+        name: "${AppPages.home}/:page",
         page: () => HomeScreen(),
         transition: Transition.cupertino),
     GetPage(
@@ -124,7 +128,7 @@ class AppNavigator {
         transition: Transition.cupertino),
     GetPage(
         name: AppPages.nutriScore,
-        page: () => NutriScoreScreen(),
+        page: () => const NutriScoreScreen(),
         transition: Transition.cupertino),
     GetPage(
         name: AppPages.nutriScoreDetail,
@@ -136,27 +140,27 @@ class AppNavigator {
         transition: Transition.cupertino),
     GetPage(
         name: AppPages.quickAdd,
-        page: () => QuickAddScreen(),
+        page: () => const QuickAddScreen(),
         transition: Transition.cupertino),
     GetPage(
         name: AppPages.exerciseScreen,
-        page: () => ExerciseScreen(),
+        page: () => const ExerciseScreen(),
         transition: Transition.cupertino),
     GetPage(
         name: AppPages.sleepScreen,
-        page: () => SleepScreen(),
+        page: () => const SleepScreen(),
         transition: Transition.cupertino),
     GetPage(
         name: AppPages.waterScreen,
-        page: () => WaterScreen(),
+        page: () => const WaterScreen(),
         transition: Transition.cupertino),
     GetPage(
         name: AppPages.nutritionScreen,
-        page: () => FoodScreen(),
+        page: () => const FoodScreen(),
         transition: Transition.cupertino),
     GetPage(
         name: AppPages.moodDetailScreen,
-        page: () => MoodScreen(),
+        page: () => const MoodScreen(),
         transition: Transition.cupertino),
     GetPage(
         name: AppPages.manualInputExercise,
@@ -196,35 +200,35 @@ class AppNavigator {
 
 class AppPages {
   static String splash = '/';
-  static String home = '/home';
-  static String landingLogin = '/landingLogin';
+  static String home = '/home'; // done
+  static String landingLogin = '/landing-login';
   static String login = '/login';
   static String signup = '/signup';
   static String questionnaire = '/questionnaire';
-  static String finishQuestionnaire = '/finishQuestionnaire';
-  static String forgotPassword = '/forgotPassword';
+  static String finishQuestionnaire = '/finish-questionnaire';
+  static String forgotPassword = '/forgot-password';
   static String food = '/food';
-  static String addMeal = '/addMeal';
+  static String addMeal = '/add-meal';
   static String profile = '/profile';
-  static String dailyJournal = '/dailyJournal';
-  static String changePassword = '/changePasword';
-  static String scanFood = '/scanFood';
-  static String accountSetting = '/accountSetting';
-  static String requestFood = '/requestFood';
-  static String requestFoodSuccess = '/requestFoodSuccess';
-  static String updateWeight = '/updateWeight';
-  static String exerciseKYC = '/exerciseKYC';
-  static String waterConsumedPage = '/waterConsumedPage';
-  static String waterCustomInputPage = '/waterCustomInputPage';
-  static String nutriScore = '/nutriScorePage';
-  static String nutriScoreDetail = '/nutriScoreDetailPage';
-  static String nutriCoScreen = '/nutriCoScreen';
-  static String quickAdd = '/quickAdd';
-  static String exerciseScreen = '/exerciseScreen';
-  static String sleepScreen = '/sleepScreen';
-  static String waterScreen = '/waterScreen';
-  static String nutritionScreen = '/nutritionScreen';
-  static String moodDetailScreen = '/moodDetailScreen';
-  static String manualInputExercise = '/manualInputExercise';
-  static String manualInputSleep = '/manualInputSleep';
+  static String dailyJournal = '/daily-journal';
+  static String changePassword = '/change-password';
+  static String scanFood = '/scan-food';
+  static String accountSetting = '/account-setting'; // done
+  static String requestFood = '/request-food'; // done
+  static String requestFoodSuccess = '/request-food-success';
+  static String updateWeight = '/update-weight'; // done
+  static String exerciseKYC = '/exercise-kyc';
+  static String waterConsumedPage = '/water-consumed-page';
+  static String waterCustomInputPage = '/water-custom-input-page';
+  static String nutriScore = '/nutriscore';
+  static String nutriScoreDetail = '/nutriscore-detail';
+  static String nutriCoScreen = '/nutrico'; // done
+  static String quickAdd = '/quick-add'; // done
+  static String exerciseScreen = '/exercise'; // done
+  static String sleepScreen = '/sleep'; // done
+  static String waterScreen = '/water'; // done
+  static String nutritionScreen = '/nutrition'; // done
+  static String moodDetailScreen = '/mood-detail';
+  static String manualInputExercise = '/manual-input-exercise'; // done
+  static String manualInputSleep = '/manual-input-sleep'; // done
 }

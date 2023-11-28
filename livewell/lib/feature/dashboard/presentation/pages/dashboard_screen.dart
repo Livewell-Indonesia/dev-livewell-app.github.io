@@ -30,7 +30,8 @@ class DashBoardScreen extends StatefulWidget {
 }
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
-  DashboardController controller = Get.put(DashboardController());
+  DashboardController controller =
+      Get.put(DashboardController(), permanent: true);
   SleepController sleepController = Get.put(SleepController());
   int current = 0;
   final CarouselController carouselController = CarouselController();
