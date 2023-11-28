@@ -5,13 +5,10 @@ import 'package:davinci/davinci.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_screen.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:social_share/social_share.dart';
 
 class ExerciseSharePage extends StatelessWidget {
   final File file;
@@ -35,19 +32,20 @@ class ExerciseSharePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-              child: InkWell(
-            onTap: () {
-              Get.back();
-            },
-            child: Padding(
-              padding: EdgeInsets.only(left: 16.w),
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.white,
-                size: 24.sp,
+            child: InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: Padding(
+                padding: EdgeInsets.only(left: 16.w),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                  size: 24.sp,
+                ),
               ),
             ),
-          )),
+          ),
           Expanded(
             flex: 8,
             child: Column(

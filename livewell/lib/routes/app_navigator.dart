@@ -8,9 +8,11 @@ import 'package:livewell/feature/daily_journal/presentation/page/daily_journal_s
 import 'package:livewell/feature/exercise/presentation/pages/exercise_kyc_screen.dart';
 import 'package:livewell/feature/exercise/presentation/pages/manual_exercise_input.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
+import 'package:livewell/feature/food/presentation/pages/choose_template_share_food.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/request_food_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/scan_barcode_screen.dart';
+import 'package:livewell/feature/food/presentation/pages/share_food_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/success_request_food_screen.dart';
 import 'package:livewell/feature/home/presentation/home_screen.dart';
 import 'package:livewell/feature/mood/presentation/page/mood_screen.dart';
@@ -35,141 +37,53 @@ import '../feature/exercise/presentation/pages/exercise_screen.dart';
 class AppNavigator {
   static var initialRoute = AppPages.splash;
   static var pages = [
-    GetPage(
-        name: AppPages.splash,
-        page: () => SplashScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: "${AppPages.home}/",
-        page: () => HomeScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: "${AppPages.home}/:page",
-        page: () => HomeScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.landingLogin,
-        page: () => LandingAuthScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.login,
-        page: () => LoginScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.signup,
-        page: () => const SignUpScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.questionnaire,
-        page: () => const QuestionnaireScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.finishQuestionnaire,
-        page: () => const FinishQuestionnaireScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.forgotPassword,
-        page: () => ForgotPasswordScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.food,
-        page: () => const FoodScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.addMeal,
-        page: () => const AddMealScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.profile,
-        page: () => UserSettingsScreen(),
-        transition: Transition.cupertino),
+    GetPage(name: AppPages.splash, page: () => SplashScreen(), transition: Transition.cupertino),
+    GetPage(name: "${AppPages.home}/", page: () => HomeScreen(), transition: Transition.cupertino),
+    GetPage(name: "${AppPages.home}/:page", page: () => HomeScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.landingLogin, page: () => LandingAuthScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.login, page: () => LoginScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.signup, page: () => const SignUpScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.questionnaire, page: () => const QuestionnaireScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.finishQuestionnaire, page: () => const FinishQuestionnaireScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.forgotPassword, page: () => ForgotPasswordScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.food, page: () => const FoodScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.addMeal, page: () => const AddMealScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.profile, page: () => UserSettingsScreen(), transition: Transition.cupertino),
     GetPage(
       name: AppPages.dailyJournal,
       page: () => const DailyJournalScreen(),
       transition: Transition.cupertino,
     ),
-    GetPage(
-        name: AppPages.changePassword,
-        page: () => ChangePasswordScreen(),
-        transition: Transition.cupertino),
+    GetPage(name: AppPages.changePassword, page: () => ChangePasswordScreen(), transition: Transition.cupertino),
     GetPage(
       name: "${AppPages.scanFood}/:type",
       page: () => const ScanBarcodeScreen(),
       transition: Transition.cupertino,
     ),
-    GetPage(
-        name: AppPages.accountSetting,
-        page: () => AccountSettingsScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.requestFood,
-        page: () => RequestFoodScreen(),
-        transition: Transition.cupertino),
+    GetPage(name: AppPages.accountSetting, page: () => AccountSettingsScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.requestFood, page: () => RequestFoodScreen(), transition: Transition.cupertino),
     GetPage(
       name: AppPages.requestFoodSuccess,
       page: () => const SuccessRequestFoodScreen(),
       transition: Transition.cupertino,
     ),
-    GetPage(
-        name: AppPages.updateWeight,
-        page: () => UpdateWeightScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.exerciseKYC,
-        page: () => ExerciseKYCScreen(),
-        transition: Transition.cupertinoDialog),
-    GetPage(
-        name: AppPages.waterConsumedPage,
-        page: () => WaterConsumedPage(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.waterCustomInputPage,
-        page: () => WaterCustomInputPage(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.nutriScore,
-        page: () => const NutriScoreScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.nutriScoreDetail,
-        page: () => NutriScoreDetailsScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.nutriCoScreen,
-        page: () => NutriCoScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.quickAdd,
-        page: () => const QuickAddScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.exerciseScreen,
-        page: () => const ExerciseScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.sleepScreen,
-        page: () => const SleepScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.waterScreen,
-        page: () => const WaterScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.nutritionScreen,
-        page: () => const FoodScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.moodDetailScreen,
-        page: () => const MoodScreen(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.manualInputExercise,
-        page: () => ManualExerciseInput(),
-        transition: Transition.cupertino),
-    GetPage(
-        name: AppPages.manualInputSleep,
-        page: () => ManualSleepInput(),
-        transition: Transition.cupertino),
+    GetPage(name: AppPages.updateWeight, page: () => UpdateWeightScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.exerciseKYC, page: () => ExerciseKYCScreen(), transition: Transition.cupertinoDialog),
+    GetPage(name: AppPages.waterConsumedPage, page: () => WaterConsumedPage(), transition: Transition.cupertino),
+    GetPage(name: AppPages.waterCustomInputPage, page: () => WaterCustomInputPage(), transition: Transition.cupertino),
+    GetPage(name: AppPages.nutriScore, page: () => const NutriScoreScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.nutriScoreDetail, page: () => NutriScoreDetailsScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.nutriCoScreen, page: () => NutriCoScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.quickAdd, page: () => const QuickAddScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.exerciseScreen, page: () => const ExerciseScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.sleepScreen, page: () => const SleepScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.waterScreen, page: () => const WaterScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.nutritionScreen, page: () => const FoodScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.moodDetailScreen, page: () => const MoodScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.manualInputExercise, page: () => ManualExerciseInput(), transition: Transition.cupertino),
+    GetPage(name: AppPages.manualInputSleep, page: () => ManualSleepInput(), transition: Transition.cupertino),
+    GetPage(name: AppPages.selectTemplateShareFood, page: () => const ChooseTemplateShareFood(), transition: Transition.cupertino),
+    GetPage(name: AppPages.shareFood, page: () => const ShareFoodScreen(), transition: Transition.cupertino),
   ];
 
   static void push({required String routeName, dynamic arguments}) {
@@ -231,4 +145,6 @@ class AppPages {
   static String moodDetailScreen = '/mood-detail';
   static String manualInputExercise = '/manual-input-exercise'; // done
   static String manualInputSleep = '/manual-input-sleep'; // done
+  static String selectTemplateShareFood = '/select-template-share-food';
+  static String shareFood = '/share-food';
 }
