@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/water/data/model/water_list_model.dart';
 import 'package:livewell/feature/water/presentation/controller/water_controller.dart';
+import 'package:livewell/feature/water/presentation/pages/water_custom_input_page.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/floating_dots/floating_dots.dart';
@@ -34,16 +35,8 @@ class _WaterScreenState extends State<WaterScreen> {
             showModalBottomSheet<dynamic>(
                 context: context,
                 isScrollControlled: true,
-                shape: ShapeBorder.lerp(
-                    const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20))),
-                    const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20))),
-                    1),
+                shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                    const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
                 builder: (context) {
                   return Obx(() {
                     return PopupAssetWidget(
@@ -73,20 +66,8 @@ class _WaterScreenState extends State<WaterScreen> {
                 return RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(children: [
-                      TextSpan(
-                          text:
-                              controller.localization.yourWaterIntakeForToday!,
-                          style: TextStyle(
-                              fontSize: 30.sp,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(0xFF171433))),
-                      TextSpan(
-                          text:
-                              controller.waterConsumed.value.toStringAsFixed(1),
-                          style: TextStyle(
-                              fontSize: 30.sp,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(0xFF8F01DF))),
+                      TextSpan(text: controller.localization.yourWaterIntakeForToday!, style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433))),
+                      TextSpan(text: controller.waterConsumed.value.toStringAsFixed(1), style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600, color: const Color(0xFF8F01DF))),
                     ]));
               }),
               32.verticalSpace,
@@ -98,8 +79,7 @@ class _WaterScreenState extends State<WaterScreen> {
               }),
               Obx(() {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 28.0, vertical: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 16),
                   child: WaterRuler(
                     value: controller.waterConsumedPercentage.value,
                   ),
@@ -166,8 +146,27 @@ class _WaterScreenState extends State<WaterScreen> {
                   color: const Color(0xFF8F01DF),
                   textColor: const Color(0xFFFFFFFF),
                   onPressed: () {
-                    AppNavigator.push(routeName: AppPages.waterConsumedPage);
+                    AppNavigator.push(routeName: AppPages.waterConsumedPage, arguments: {"waterInputType": WaterInputType.increase});
                   }),
+              20.verticalSpace,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 16.h),
+                      side: const BorderSide(width: 2, color: const Color(0xFF8F01DF)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.r),
+                      ),
+                    ),
+                    onPressed: () {
+                      AppNavigator.push(routeName: AppPages.waterConsumedPage, arguments: {"waterInputType": WaterInputType.reduce});
+                    },
+                    child: Text(
+                      'Reduce Water',
+                      style: TextStyle(color: const Color(0xFF171433), fontSize: 16.sp, fontWeight: FontWeight.w500),
+                    )),
+              ),
             ],
           ),
         ),
@@ -210,11 +209,7 @@ class WaterHistoriesWidget extends StatelessWidget {
                           color: const Color(0xFF171433),
                         )),
                     const Spacer(),
-                    Text('50 ml',
-                        style: TextStyle(
-                            fontSize: 16.sp,
-                            color: const Color(0xFF171433),
-                            fontWeight: FontWeight.w500)),
+                    Text('50 ml', style: TextStyle(fontSize: 16.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w500)),
                   ],
                 );
               },
@@ -253,26 +248,15 @@ class _DrinkIndicatorState extends State<DrinkIndicator> {
                   AnimatedContainer(
                     duration: const Duration(seconds: 1),
                     curve: Curves.fastOutSlowIn,
-                    width: widget.value == 0
-                        ? 0.0
-                        : (((1.sw - 56) * widget.value) - 25 - 8).minZero,
+                    width: widget.value == 0 ? 0.0 : (((1.sw - 56) * widget.value) - 25 - 8).minZero,
                   ),
                   Container(
                     width: 50,
                     height: 50.h,
-                    margin: EdgeInsets.only(
-                        right: widget.value == 0 ? 28 : 0,
-                        left: widget.value == 0 ? 0 : 28),
+                    margin: EdgeInsets.only(right: widget.value == 0 ? 28 : 0, left: widget.value == 0 ? 0 : 28),
                     child: Stack(
                       alignment: AlignmentDirectional.center,
-                      children: [
-                        SvgPicture.asset("assets/icons/buble.svg"),
-                        Text(widget.label,
-                            style: TextStyle(
-                                fontSize: 20.sp,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600))
-                      ],
+                      children: [SvgPicture.asset("assets/icons/buble.svg"), Text(widget.label, style: TextStyle(fontSize: 20.sp, color: Colors.white, fontWeight: FontWeight.w600))],
                     ),
                   ),
                 ],
@@ -295,8 +279,7 @@ class _DrinkIndicatorState extends State<DrinkIndicator> {
                   height: 72.h,
                   width: containerConstraint.maxWidth * widget.value,
                   curve: Curves.fastOutSlowIn,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                  margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     color: const Color(0xFF34EAB2),
@@ -306,11 +289,7 @@ class _DrinkIndicatorState extends State<DrinkIndicator> {
                     direction: Direction.up,
                     trajectory: Trajectory.random,
                     size: DotSize.small,
-                    colors: [
-                      Colors.white.withOpacity(0.7),
-                      Colors.white.withOpacity(0.5),
-                      Colors.white.withOpacity(0.3)
-                    ],
+                    colors: [Colors.white.withOpacity(0.7), Colors.white.withOpacity(0.5), Colors.white.withOpacity(0.3)],
                     opacity: 0.5,
                     speed: DotSpeed.fast,
                   ),
@@ -344,9 +323,7 @@ class WaterRuler extends StatelessWidget {
               child: VerticalDivider(
                 width: 1,
                 thickness: 2,
-                color: (index <= value * 50)
-                    ? const Color(0xFF34EAB2)
-                    : const Color(0xFF34EAB2),
+                color: (index <= value * 50) ? const Color(0xFF34EAB2) : const Color(0xFF34EAB2),
               ),
             );
           }).toList(),
@@ -354,13 +331,7 @@ class WaterRuler extends StatelessWidget {
         8.verticalSpace,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: WaterRatings.values
-              .map((e) => Text(e.value,
-                  style: TextStyle(
-                      fontSize: 16.sp,
-                      color: const Color(0xFF171433),
-                      fontWeight: FontWeight.w500)))
-              .toList(),
+          children: WaterRatings.values.map((e) => Text(e.value, style: TextStyle(fontSize: 16.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w500))).toList(),
         ),
       ],
     );

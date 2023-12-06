@@ -8,6 +8,8 @@ import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'package:livewell/widgets/textfield/livewell_textfield.dart';
 
+import 'water_custom_input_page.dart';
+
 class WaterConsumedPage extends StatelessWidget {
   WaterConsumedPage({super.key});
 
@@ -15,8 +17,9 @@ class WaterConsumedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var waterInputType = Get.arguments['waterInputType'] as WaterInputType;
     return LiveWellScaffold(
-        title: controller.localization.waterConsumed ?? "Water Consumed",
+        title: waterInputType.title,
         body: SizedBox(
           height: 0.85.sh,
           child: Column(
@@ -24,65 +27,49 @@ class WaterConsumedPage extends StatelessWidget {
               Spacer(),
               LiveWellButton(
                   label: '50 ML',
-                  color: const Color(0xFF8F01DF),
-                  textColor: const Color(0xFFFFFFFF),
+                  color: waterInputType.color,
+                  textColor: waterInputType.textColor,
                   onPressed: () {
-                    controller.addWater(50);
+                    controller.addWater(50, waterInputType);
                   }),
               20.verticalSpace,
               LiveWellButton(
                   label: '100 ML',
-                  color: const Color(0xFF8F01DF),
-                  textColor: const Color(0xFFFFFFFF),
+                  color: waterInputType.color,
+                  textColor: waterInputType.textColor,
                   onPressed: () {
-                    controller.addWater(100);
+                    controller.addWater(100, waterInputType);
                   }),
               20.verticalSpace,
               LiveWellButton(
                   label: '500 ML',
-                  color: const Color(0xFF8F01DF),
-                  textColor: const Color(0xFFFFFFFF),
+                  color: waterInputType.color,
+                  textColor: waterInputType.textColor,
                   onPressed: () {
-                    controller.addWater(500);
+                    controller.addWater(500, waterInputType);
                   }),
               20.verticalSpace,
               Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: Insets.paddingMedium),
+                padding: const EdgeInsets.symmetric(horizontal: Insets.paddingMedium),
                 child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
                         shadowColor: Colors.transparent,
                         fixedSize: Size(1.sw, 48.w),
-                        side: const BorderSide(
-                            width: 2, color: Color(0xFF8F01DF)),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: Insets.paddingMedium,
-                            vertical: Insets.paddingMedium.h),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(36.0).r)),
+                        side: BorderSide(width: 2, color: waterInputType.color),
+                        padding: EdgeInsets.symmetric(horizontal: Insets.paddingMedium, vertical: Insets.paddingMedium.h),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(36.0).r)),
                     onPressed: () {
                       showModalBottomSheet(
                           context: context,
-                          shape: ShapeBorder.lerp(
-                              const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20))),
-                              const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20))),
-                              1),
+                          shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                              const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
                           builder: (context) {
-                            return buildCustomInputWater(context);
+                            return buildCustomInputWater(context, waterInputType);
                           });
                     },
                     child: Text(
                       controller.localization.custom ?? "Custom",
-                      style: TextStyle(
-                          color: const Color(0xFF171433),
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500),
+                      style: TextStyle(color: const Color(0xFF171433), fontSize: 16.sp, fontWeight: FontWeight.w500),
                     )),
               ),
               // LiveWellButton(
@@ -97,10 +84,9 @@ class WaterConsumedPage extends StatelessWidget {
         ));
   }
 
-  Widget buildCustomInputWater(BuildContext context) {
+  Widget buildCustomInputWater(BuildContext context, WaterInputType type) {
     return Padding(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Wrap(
         children: [
           Container(
@@ -116,46 +102,31 @@ class WaterConsumedPage extends StatelessWidget {
               ),
               24.verticalSpace,
               LiveWellTextField(
-                  controller: controller.waterInputController,
-                  hintText: 'in mL',
-                  labelText: 'in mL',
-                  errorText: null,
-                  keyboardType: const TextInputType.numberWithOptions(),
-                  obscureText: false),
+                  controller: controller.waterInputController, hintText: 'in mL', labelText: 'in mL', errorText: null, keyboardType: const TextInputType.numberWithOptions(), obscureText: false),
               32.verticalSpace,
               LiveWellButton(
                   label: 'Add Drink',
                   color: const Color(0xFFDDF235),
                   textColor: const Color(0xFF171433),
                   onPressed: () {
-                    controller.addWater(
-                        int.tryParse(controller.waterInputController.text) ??
-                            0);
+                    controller.addWater(int.tryParse(controller.waterInputController.text) ?? 0, type);
                   }),
               16.verticalSpace,
               Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: Insets.paddingMedium),
+                padding: const EdgeInsets.symmetric(horizontal: Insets.paddingMedium),
                 child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
                         shadowColor: Colors.transparent,
                         fixedSize: Size(1.sw, 48.w),
-                        side: const BorderSide(
-                            width: 2, color: Color(0xFFDDF235)),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: Insets.paddingMedium,
-                            vertical: Insets.paddingMedium.h),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(36.0).r)),
+                        side: const BorderSide(width: 2, color: Color(0xFFDDF235)),
+                        padding: EdgeInsets.symmetric(horizontal: Insets.paddingMedium, vertical: Insets.paddingMedium.h),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(36.0).r)),
                     onPressed: () {
                       Get.back();
                     },
                     child: Text(
                       controller.localization.cancel ?? "Cancel",
-                      style: TextStyle(
-                          color: const Color(0xFF171433),
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500),
+                      style: TextStyle(color: const Color(0xFF171433), fontSize: 16.sp, fontWeight: FontWeight.w500),
                     )),
               ),
               32.verticalSpace,

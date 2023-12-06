@@ -7,6 +7,7 @@ import 'package:livewell/feature/auth/presentation/page/signup/signup_screen.dar
 import 'package:livewell/feature/daily_journal/presentation/page/daily_journal_screen.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_kyc_screen.dart';
 import 'package:livewell/feature/exercise/presentation/pages/manual_exercise_input.dart';
+import 'package:livewell/feature/food/presentation/pages/add_food_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/choose_template_share_food.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
@@ -84,6 +85,7 @@ class AppNavigator {
     GetPage(name: AppPages.manualInputSleep, page: () => ManualSleepInput(), transition: Transition.cupertino),
     GetPage(name: AppPages.selectTemplateShareFood, page: () => const ChooseTemplateShareFood(), transition: Transition.cupertino),
     GetPage(name: AppPages.shareFood, page: () => const ShareFoodScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.addFood, page: () => const AddFoodScreen(), transition: Transition.cupertino)
   ];
 
   static void push({required String routeName, dynamic arguments}) {
@@ -147,4 +149,5 @@ class AppPages {
   static String manualInputSleep = '/manual-input-sleep'; // done
   static String selectTemplateShareFood = '/select-template-share-food';
   static String shareFood = '/share-food';
+  static String addFood = '/add-food';
 }

@@ -14,8 +14,7 @@ import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
 class MyGoalsScreen extends StatelessWidget {
   final PhysicalInformationController controller = Get.find();
-  final ExerciseInformationController exerciseController =
-      Get.put(ExerciseInformationController());
+  final ExerciseInformationController exerciseController = Get.put(ExerciseInformationController());
   MyGoalsScreen({super.key});
 
   @override
@@ -38,16 +37,12 @@ class MyGoalsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding:
-                          EdgeInsets.only(top: 18.h, left: 24.w, right: 24.w),
+                      padding: EdgeInsets.only(top: 18.h, left: 24.w, right: 24.w),
                       child: Row(
                         children: [
                           Text(
                             controller.localization.goalsSetting!,
-                            style: TextStyle(
-                                color: Color(0xFF171433),
-                                fontSize: 20.sp,
-                                fontWeight: FontWeight.w600),
+                            style: TextStyle(color: Color(0xFF171433), fontSize: 20.sp, fontWeight: FontWeight.w600),
                           ),
                         ],
                       ),
@@ -67,28 +62,20 @@ class MyGoalsScreen extends StatelessWidget {
                                       width: 0.8.sw,
                                       child: Obx(() {
                                         return Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Column(
                                               children: GoalSelection.values
                                                   .map((e) => ListTile(
                                                         title: Text(
                                                           e.title(),
-                                                          style: TextStyle(
-                                                              color: Color(
-                                                                  0xFF171433)),
+                                                          style: TextStyle(color: Color(0xFF171433)),
                                                         ),
                                                         trailing: Radio(
                                                             value: e,
-                                                            groupValue: controller
-                                                                .selectedGoals
-                                                                .value,
+                                                            groupValue: controller.selectedGoals.value,
                                                             onChanged: (val) {
-                                                              controller
-                                                                      .selectedGoals
-                                                                      .value =
-                                                                  val as GoalSelection;
+                                                              controller.selectedGoals.value = val as GoalSelection;
                                                             }),
                                                       ))
                                                   .toList(),
@@ -100,8 +87,7 @@ class MyGoalsScreen extends StatelessWidget {
                                                 textColor: Colors.white,
                                                 onPressed: () {
                                                   Get.back();
-                                                  controller.setGoal(controller
-                                                      .selectedGoals.value);
+                                                  controller.setGoal(controller.selectedGoals.value);
                                                 })
                                           ],
                                         );
@@ -119,14 +105,8 @@ class MyGoalsScreen extends StatelessWidget {
                               textEditingController: controller.targetWeight,
                               hintText: controller.localization.targetWeightKg!,
                               enabled: true,
-                              inputFormatter: Platform.isIOS
-                                  ? []
-                                  : [
-                                      FilteringTextInputFormatter.allow(
-                                          RegExp(r'^\d+\.?\d{0,2}'))
-                                    ],
-                              inputType: const TextInputType.numberWithOptions(
-                                  decimal: true),
+                              inputFormatter: Platform.isIOS ? [] : [FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}'))],
+                              inputType: const TextInputType.numberWithOptions(decimal: true),
                             ),
                             16.verticalSpace,
                             AccountSettingsTextField(
@@ -134,26 +114,23 @@ class MyGoalsScreen extends StatelessWidget {
                               hintText: controller.localization.drink!,
                               enabled: true,
                               inputType: TextInputType.number,
+                              suffixText: "Glass",
                             ),
                             16.verticalSpace,
                             AccountSettingsTextField(
                               textEditingController: controller.sleep,
                               hintText: controller.localization.sleepHours!,
                               enabled: true,
-                              inputType: const TextInputType.numberWithOptions(
-                                  decimal: true),
+                              inputType: const TextInputType.numberWithOptions(decimal: true),
                             ),
                             16.verticalSpace,
                             AccountSettingsTextField(
-                              textEditingController:
-                                  exerciseController.exerciseController,
+                              textEditingController: exerciseController.exerciseController,
                               hintText: 'Calories (kcal)'.tr,
                               enabled: true,
-                              inputType:
-                                  const TextInputType.numberWithOptions(),
+                              inputType: const TextInputType.numberWithOptions(),
                               inputFormatter: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(r'[0-9]')),
+                                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                               ],
                             ),
                           ],

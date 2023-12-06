@@ -19,9 +19,7 @@ import '../../data/model/foods_model.dart';
 import 'nutrient_fact_screen.dart';
 
 class AddFoodScreen extends StatefulWidget {
-  final Foods food;
-  final MealTime mealTime;
-  const AddFoodScreen({required this.food, required this.mealTime, Key? key}) : super(key: key);
+  const AddFoodScreen({Key? key}) : super(key: key);
 
   @override
   State<AddFoodScreen> createState() => _AddFoodScreenState();
@@ -31,19 +29,21 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
   final AddFoodController controller = Get.put(AddFoodController());
   DateTime selectedTime = DateTime.now();
   File? file;
+  Foods? food;
+  MealTime? mealTime;
 
   @override
   void initState() {
-    inspect(widget.food);
-    controller.servingSize.text = widget.food.servings?[0].servingDescription ?? "";
-    controller.numberOfServing.text = double.parse(widget.food.servings?[0].numberOfUnits ?? "1.0").toInt().toString();
-    inspect(widget.food);
+    controller.servingSize.text = food?.servings?[0].servingDescription ?? "";
+    controller.numberOfServing.text = double.parse(food?.servings?[0].numberOfUnits ?? "1.0").toInt().toString();
     controller.selectedTime.value = selectedTime.toString();
     controller.time.text = DateFormat('hh:mm a').format(selectedTime);
     if (Get.arguments != null) {
-      selectedTime = Get.arguments as DateTime;
+      selectedTime = Get.arguments['date'] as DateTime;
       controller.selectedTime.value = selectedTime.toString();
       controller.time.text = DateFormat('hh:mm a').format(selectedTime);
+      food = Get.arguments['food'];
+      mealTime = Get.arguments['mealTime'];
     }
 
     super.initState();
@@ -65,8 +65,49 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                     setState(() {
                       file = img;
                     });
-                    Navigator.of(context).pop();
-                    AppNavigator.push(routeName: AppPages.selectTemplateShareFood, arguments: {'file': file});
+                    await showModalBottomSheet(
+                        context: Get.context!,
+                        shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                            const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
+                        builder: (context) {
+                          return SizedBox(
+                            height: 0.2.sh,
+                            child: Column(
+                              children: [
+                                20.verticalSpace,
+                                Text(
+                                  'Pick an Image Ratio:',
+                                  style: TextStyle(color: Color(0xff171433), fontSize: 24.sp, fontWeight: FontWeight.w700),
+                                ),
+                                20.verticalSpace,
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Expanded(
+                                        child: ElevatedButton(
+                                            onPressed: () async {
+                                              AppNavigator.push(routeName: AppPages.selectTemplateShareFood, arguments: {'file': file, 'food': food, 'aspectRatio': 9 / 16});
+                                            },
+                                            child: const Text('16:9')),
+                                      ),
+                                      20.horizontalSpace,
+                                      Expanded(
+                                        child: ElevatedButton(
+                                            onPressed: () async {
+                                              AppNavigator.push(routeName: AppPages.selectTemplateShareFood, arguments: {'file': file, 'food': food, 'aspectRatio': 1 / 1});
+                                            },
+                                            child: const Text('1:1')),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                30.verticalSpace,
+                              ],
+                            ),
+                          );
+                        });
                   });
                 });
           },
@@ -80,13 +121,13 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                 Padding(
                     padding: EdgeInsets.only(left: 16.0.w, right: 16.0.w),
                     child: Text(
-                      widget.food.foodName ?? "",
+                      food?.foodName ?? "",
                       style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.w700, color: Colors.black),
                     )),
                 8.verticalSpace,
                 Padding(
                   padding: EdgeInsets.only(left: 16.0.w),
-                  child: Text("${widget.food.servings?.first.servingDescription ?? ""} ${widget.food.servings?.first.servingDesc ?? ""}",
+                  child: Text("${food?.servings?.first.servingDescription ?? ""} ${food?.servings?.first.servingDesc ?? ""}",
                       style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600)),
                 ),
                 10.verticalSpace,
@@ -95,9 +136,9 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                   child: Center(
                     child: MultipleColorCircle(
                       colorOccurrences: {
-                        const Color(0xFF8F01DF): ((((double.parse(widget.food.servings?[0].carbohydrate ?? "0")) * 4) / double.parse(widget.food.servings?[0].calories ?? "0") * 100).roundZero()),
-                        const Color(0xFFF5D25D): (((double.parse(widget.food.servings?[0].fat ?? "0") * 9) / double.parse(widget.food.servings?[0].calories ?? "0") * 100).roundZero()),
-                        const Color(0xFFDDF235): (((double.parse(widget.food.servings?[0].protein ?? "0") * 4) / double.parse(widget.food.servings?[0].calories ?? "0") * 100).roundZero())
+                        const Color(0xFF8F01DF): ((((double.parse(food?.servings?[0].carbohydrate ?? "0")) * 4) / double.parse(food?.servings?[0].calories ?? "0") * 100).roundZero()),
+                        const Color(0xFFF5D25D): (((double.parse(food?.servings?[0].fat ?? "0") * 9) / double.parse(food?.servings?[0].calories ?? "0") * 100).roundZero()),
+                        const Color(0xFFDDF235): (((double.parse(food?.servings?[0].protein ?? "0") * 4) / double.parse(food?.servings?[0].calories ?? "0") * 100).roundZero())
                       },
                       height: 80,
                       child:
@@ -113,7 +154,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                             children: [
                               GetBuilder<AddFoodController>(builder: (controller) {
                                 return Text(
-                                  '${controller.getTotalCalByServings(num.parse(widget.food.servings?[0].calories ?? "0")).round().toInt()}',
+                                  '${controller.getTotalCalByServings(num.parse(food?.servings?[0].calories ?? "0")).round().toInt()}',
                                   style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w500, color: Color(0xFF171433)),
                                 );
                               }),
@@ -134,19 +175,18 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                       NutrtionProgressModel(
                           name: 'Carbs',
                           color: const Color(0xFF8F01DF),
-                          total: "${controller.getTotalCarbsByServings(num.parse(widget.food.servings?[0].carbohydrate ?? "0")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
-                          consumed:
-                              "${(controller.maxHundred((num.parse(widget.food.servings?[0].carbohydrate ?? "0") * 4) / num.parse(widget.food.servings?[0].calories ?? "0") * 100).roundZero())}% "),
+                          total: "${controller.getTotalCarbsByServings(num.parse(food?.servings?[0].carbohydrate ?? "0")).toInt()} ${food?.servings?[0].metricServingUnit ?? "g"}",
+                          consumed: "${(controller.maxHundred((num.parse(food?.servings?[0].carbohydrate ?? "0") * 4) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero())}% "),
                       NutrtionProgressModel(
                           name: 'Fat',
                           color: const Color(0xFFF5D25D),
-                          total: "${controller.getTotalFatByServings(num.parse(widget.food.servings?[0].fat ?? "0")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
-                          consumed: "${(controller.maxHundred((num.parse(widget.food.servings?[0].fat ?? "0") * 9) / num.parse(widget.food.servings?[0].calories ?? "0") * 100).roundZero())}% "),
+                          total: "${controller.getTotalFatByServings(num.parse(food?.servings?[0].fat ?? "0")).toInt()} ${food?.servings?[0].metricServingUnit ?? "g"}",
+                          consumed: "${(controller.maxHundred((num.parse(food?.servings?[0].fat ?? "0") * 9) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero())}% "),
                       NutrtionProgressModel(
                           name: 'Protein',
                           color: const Color(0xFFDDF235),
-                          total: "${controller.getTotalProteinByServings(num.parse(widget.food.servings?[0].protein ?? "0")).toInt()} ${widget.food.servings?[0].metricServingUnit ?? "g"}",
-                          consumed: "${(controller.maxHundred((num.parse(widget.food.servings?[0].protein ?? "0") * 4) / num.parse(widget.food.servings?[0].calories ?? "0") * 100).roundZero())}% "),
+                          total: "${controller.getTotalProteinByServings(num.parse(food?.servings?[0].protein ?? "0")).toInt()} ${food?.servings?[0].metricServingUnit ?? "g"}",
+                          consumed: "${(controller.maxHundred((num.parse(food?.servings?[0].protein ?? "0") * 4) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero())}% "),
                     ],
                     backgroundColor: Colors.transparent,
                   );
@@ -157,7 +197,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                     isAdded: false,
                     callback: () {
                       Get.to(() => NutrientFactScreen(
-                            servings: widget.food.servings![0],
+                            servings: food!.servings![0],
                             numberOfServings: double.parse(controller.numberOfServing.text),
                           ));
                     }),
@@ -296,13 +336,13 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                 GetBuilder<AddFoodController>(
                                   builder: ((controller) {
                                     return Text(
-                                        "${controller.percentOfDailyGoals(controller.getTotalCalByServings(num.parse(widget.food.servings?[0].calories ?? "0")).round().toInt())}% ${controller.localization.ofYourGoal}",
+                                        "${controller.percentOfDailyGoals(controller.getTotalCalByServings(num.parse(food?.servings?[0].calories ?? "0")).round().toInt())}% ${controller.localization.ofYourGoal}",
                                         style: TextStyle(color: Colors.white, fontSize: 11.sp, fontWeight: FontWeight.w600));
                                   }),
                                 ),
                                 const Spacer(),
                                 GetBuilder<AddFoodController>(builder: (controller) {
-                                  return Text(("${controller.getTotalCalByServings(num.parse(widget.food.servings?[0].calories ?? "0")).round().toInt()} cal"),
+                                  return Text(("${controller.getTotalCalByServings(num.parse(food?.servings?[0].calories ?? "0")).round().toInt()} cal"),
                                       style: TextStyle(color: Colors.white, fontSize: 11.sp, fontWeight: FontWeight.w600));
                                 }),
                               ],
@@ -312,7 +352,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                               return LinearPercentIndicator(
                                 padding: EdgeInsets.zero,
                                 lineHeight: 7.0,
-                                percent: controller.percentOfDailyGoals(controller.getTotalCalByServings(num.parse(widget.food.servings?[0].calories ?? "0")).round().toInt()) / 100,
+                                percent: controller.percentOfDailyGoals(controller.getTotalCalByServings(num.parse(food?.servings?[0].calories ?? "0")).round().toInt()) / 100,
                                 barRadius: const Radius.circular(4.0),
                                 backgroundColor: const Color(0xFFF2F1F9),
                                 progressColor: const Color(0xFFDDF235),
@@ -326,7 +366,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                       InkWell(
                         onTap: () {
                           controller.selectedTime.value = selectedTime.toString();
-                          controller.addMeals(widget.food, widget.mealTime);
+                          controller.addMeals(food!, mealTime!);
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7).r,

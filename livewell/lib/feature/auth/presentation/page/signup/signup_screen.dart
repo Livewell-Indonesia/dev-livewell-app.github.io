@@ -29,10 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Center(
                 child: Text(
                   controller.localization.enterYourDetailsToRegister!,
-                  style: TextStyle(
-                      color: const Color(0xB2171433),
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500),
+                  style: TextStyle(color: const Color(0xB2171433), fontSize: 16.sp, fontWeight: FontWeight.w500),
                 ),
               ),
               24.verticalSpace,
@@ -50,13 +47,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               //     errorText: controller.lastNameError.value,
               //     obscureText: false),
               // 16.verticalSpace,
-              AuthTextField(
-                  controller: controller.email,
-                  hintText: null,
-                  labelText: controller.localization.emailAddress!,
-                  errorText: controller.emailError.value,
-                  isEmail: true,
-                  obscureText: false),
+              AuthTextField(controller: controller.email, hintText: null, labelText: controller.localization.emailAddress!, errorText: controller.emailError.value, isEmail: true, obscureText: false),
               16.verticalSpace,
               AuthTextField(
                   controller: controller.password,
@@ -76,10 +67,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Center(
                 child: Text(
                   'Or '.tr,
-                  style: const TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF171433),
-                      fontWeight: FontWeight.w500),
+                  style: const TextStyle(fontSize: 16, color: Color(0xFF171433), fontWeight: FontWeight.w500),
                 ),
               ),
               16.verticalSpace,
@@ -97,10 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 children: [
                   Text(
                     controller.localization.alreadyHaveAccount!,
-                    style: const TextStyle(
-                        fontSize: 16,
-                        color: Color(0xFF171433),
-                        fontWeight: FontWeight.w500),
+                    style: const TextStyle(fontSize: 16, color: Color(0xFF171433), fontWeight: FontWeight.w500),
                   ),
                   TextButton(
                       onPressed: () {
@@ -108,65 +93,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       },
                       child: Text(
                         controller.localization.signIn!,
-                        style: const TextStyle(
-                            fontSize: 16,
-                            color: Color(0xFF8F01DF),
-                            fontWeight: FontWeight.w500),
+                        style: const TextStyle(fontSize: 16, color: Color(0xFF8F01DF), fontWeight: FontWeight.w500),
                       ))
                 ],
               ),
               24.verticalSpace,
-              Center(
-                child: RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                        text: controller
-                            .localization.bySigningUpAgreeToTermsAndConditions,
-                        style: TextStyle(
-                            color: const Color(0xFF171433).withOpacity(0.7),
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400),
-                        children: [
-                          TextSpan(
-                            text: controller.localization.termsAndConditions!,
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Get.to(() => const WebView(
-                                      initialUrl:
-                                          'https://livewellindo.com/terms',
-                                      javascriptMode:
-                                          JavascriptMode.unrestricted,
-                                    ));
-                              },
-                            style: TextStyle(
-                                color: const Color(0xFF8F01DF),
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          TextSpan(
-                            text: controller.localization.and!,
-                            style: TextStyle(
-                                color: const Color(0xFF171433).withOpacity(0.7),
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400),
-                          ),
-                          TextSpan(
-                            text: controller.localization.privacyPolicy!,
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Get.to(() => const WebView(
-                                      initialUrl:
-                                          'https://livewellindo.com/privacy',
-                                      javascriptMode:
-                                          JavascriptMode.unrestricted,
-                                    ));
-                              },
-                            style: TextStyle(
-                                color: const Color(0xFF8F01DF),
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ])),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Center(
+                  child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                          text: controller.localization.bySigningUpAgreeToTermsAndConditions,
+                          style: TextStyle(color: const Color(0xFF171433).withOpacity(0.7), fontSize: 14.sp, fontWeight: FontWeight.w400),
+                          children: [
+                            TextSpan(
+                              text: " ${controller.localization.termsAndConditions!} ",
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Get.to(() => const WebView(
+                                        initialUrl: 'https://livewellindo.com/terms',
+                                        javascriptMode: JavascriptMode.unrestricted,
+                                      ));
+                                },
+                              style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 14.sp, fontWeight: FontWeight.w500),
+                            ),
+                            TextSpan(
+                              text: "${controller.localization.and!} ",
+                              style: TextStyle(color: const Color(0xFF171433).withOpacity(0.7), fontSize: 14.sp, fontWeight: FontWeight.w400),
+                            ),
+                            TextSpan(
+                              text: controller.localization.privacyPolicy!,
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Get.to(() => const WebView(
+                                        initialUrl: 'https://livewellindo.com/privacy',
+                                        javascriptMode: JavascriptMode.unrestricted,
+                                      ));
+                                },
+                              style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 14.sp, fontWeight: FontWeight.w500),
+                            ),
+                          ])),
+                ),
               ),
             ],
           );

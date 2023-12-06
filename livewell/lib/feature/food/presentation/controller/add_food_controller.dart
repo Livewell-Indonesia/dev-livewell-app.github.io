@@ -53,18 +53,12 @@ class AddFoodController extends BaseController {
     // convert selectedTime to DateTime
     var date = DateTime.parse(selectedTime.value);
     if (Get.arguments != null) {
-      var secondDate = Get.arguments as DateTime;
-      date = DateTime(secondDate.year, secondDate.month, secondDate.day,
-          date.hour, date.minute, date.second);
+      var secondDate = Get.arguments['date'] as DateTime;
+      date = DateTime(secondDate.year, secondDate.month, secondDate.day, date.hour, date.minute, date.second);
     }
-    final param = AddMealParams.asParams(
-        food,
-        numberOfServing.text.trim().replaceAll(',', '.'),
-        mealTime,
-        date.toString());
+    final param = AddMealParams.asParams(food, numberOfServing.text.trim().replaceAll(',', '.'), mealTime, date.toString());
     final result = await addMeal.call(param);
-    await addMealHistory
-        .call(MealHistory(date: date.toString(), mealType: mealTime.name));
+    await addMealHistory.call(MealHistory(date: date.toString(), mealType: mealTime.name));
     Get.find<DashboardController>().onInit();
     if (Get.isRegistered<FoodController>()) {
       Get.find<FoodController>().fetchUserMealHistory();
@@ -84,8 +78,7 @@ class AddFoodController extends BaseController {
   }
 
   Rx<int> percentOfDailyGoals(num cal) {
-    var dailyTarget =
-        Get.find<DashboardController>().dashboard.value.dashboard?.target ?? 0;
+    var dailyTarget = Get.find<DashboardController>().dashboard.value.dashboard?.target ?? 0;
     var percent = (cal / dailyTarget) * 100;
     if (percent.isNaN || percent.isInfinite) {
       return 0.obs;
@@ -96,8 +89,7 @@ class AddFoodController extends BaseController {
   Rx<double> getTotalCalByServings(num cal) {
     var totalCal = 0.0;
     if (numberOfServing.text.isNotEmpty) {
-      totalCal =
-          cal * double.parse(numberOfServing.text.trim().replaceAll(',', '.'));
+      totalCal = cal * double.parse(numberOfServing.text.trim().replaceAll(',', '.'));
     }
     return totalCal.obs;
   }
@@ -105,8 +97,7 @@ class AddFoodController extends BaseController {
   Rx<double> getTotalCarbsByServings(num carbs) {
     var totalCarbs = 0.0;
     if (numberOfServing.text.isNotEmpty) {
-      totalCarbs = carbs *
-          double.parse(numberOfServing.text.trim().replaceAll(',', '.'));
+      totalCarbs = carbs * double.parse(numberOfServing.text.trim().replaceAll(',', '.'));
     }
     return totalCarbs.obs;
   }
@@ -114,8 +105,7 @@ class AddFoodController extends BaseController {
   Rx<double> getTotalFatByServings(num fat) {
     var totalFat = 0.0;
     if (numberOfServing.text.isNotEmpty) {
-      totalFat =
-          fat * double.parse(numberOfServing.text.trim().replaceAll(',', '.'));
+      totalFat = fat * double.parse(numberOfServing.text.trim().replaceAll(',', '.'));
     }
     return totalFat.obs;
   }

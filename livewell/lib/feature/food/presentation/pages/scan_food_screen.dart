@@ -58,12 +58,7 @@ class _ScanFoodScreenState extends State<ScanFoodScreen> {
                     child: Stack(
                       fit: StackFit.expand,
                       children: [
-                        Positioned(
-                            bottom: 0,
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            child: CameraPreview(_controller)),
+                        Positioned(bottom: 0, top: 0, left: 0, right: 0, child: CameraPreview(_controller)),
                         Align(
                           alignment: Alignment.bottomCenter,
                           child: Row(
@@ -76,16 +71,14 @@ class _ScanFoodScreenState extends State<ScanFoodScreen> {
                               InkWell(
                                 onTap: () async {
                                   try {
-                                    final image =
-                                        await _controller.takePicture();
+                                    final image = await _controller.takePicture();
                                   } catch (e) {
-                                    Get.snackbar(
-                                        "Failed", 'Failed to take picture: $e');
+                                    Get.snackbar("Failed", 'Failed to take picture: $e');
                                   }
                                 },
-                                child: Stack(
+                                child: const Stack(
                                   alignment: Alignment.center,
-                                  children: const [
+                                  children: [
                                     Icon(
                                       Icons.circle,
                                       color: Colors.white38,
@@ -103,11 +96,9 @@ class _ScanFoodScreenState extends State<ScanFoodScreen> {
                               InkWell(
                                 onTap: () async {
                                   try {
-                                    final image = await _picker.pickImage(
-                                        source: ImageSource.gallery);
+                                    final image = await _picker.pickImage(source: ImageSource.gallery);
                                   } catch (e) {
-                                    Get.snackbar(
-                                        "Failed", 'Failed to take picture: $e');
+                                    Get.snackbar("Failed", 'Failed to take picture: $e');
                                   }
                                 },
                                 child: const Icon(
@@ -125,15 +116,11 @@ class _ScanFoodScreenState extends State<ScanFoodScreen> {
             20.verticalSpace,
             Text(
               'Processing...'.tr,
-              style: TextStyle(
-                  color: const Color(0xFF171433),
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600),
+              style: TextStyle(color: const Color(0xFF171433), fontSize: 18.sp, fontWeight: FontWeight.w600),
             ),
             7.verticalSpace,
             Text(
-              'We’ll redirect you to another screen once we got the scanning result'
-                  .tr,
+              'We’ll redirect you to another screen once we got the scanning result'.tr,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 13.sp,

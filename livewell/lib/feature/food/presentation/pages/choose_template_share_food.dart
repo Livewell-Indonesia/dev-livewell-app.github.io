@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:livewell/feature/food/data/model/foods_model.dart';
+import 'package:livewell/feature/food/presentation/pages/share_food_screen.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 
@@ -18,9 +19,12 @@ class _ChooseTemplateShareFoodState extends State<ChooseTemplateShareFood> {
   File? file;
   Foods? food;
   TemplateType selectedTemplate = TemplateType.first;
+  double? aspectRatio;
   @override
   void initState() {
     file = Get.arguments['file'];
+    food = Get.arguments['food'];
+    aspectRatio = Get.arguments['aspectRatio'];
     super.initState();
   }
 
@@ -69,8 +73,18 @@ class _ChooseTemplateShareFoodState extends State<ChooseTemplateShareFood> {
           ],
         ),
         32.verticalSpace,
-        if (selectedTemplate == TemplateType.first) FirstTemplateShareFood(file: file!),
-        if (selectedTemplate == TemplateType.second) SecondTemplateShareFood(file: file!),
+        if (selectedTemplate == TemplateType.first)
+          FirstTemplateShareFood(
+            file: file!,
+            food: food!,
+            aspectRatio: aspectRatio!,
+          ),
+        if (selectedTemplate == TemplateType.second)
+          SecondTemplateShareFood(
+            food: food!,
+            file: file!,
+            aspectRatio: aspectRatio!,
+          ),
         32.verticalSpace,
         TemplateSelector(
           selectedTemplate: selectedTemplate,
@@ -90,7 +104,7 @@ class _ChooseTemplateShareFoodState extends State<ChooseTemplateShareFood> {
             AppNavigator.push(routeName: AppPages.shareFood, arguments: {
               'type': selectedTemplate,
               'file': file,
-              'aspectRatio': 9 / 16,
+              'aspectRatio': aspectRatio,
               'food': food,
             });
           },
@@ -199,14 +213,17 @@ class _TemplateSelectorState extends State<TemplateSelector> {
 
 class FirstTemplateShareFood extends StatelessWidget {
   final File file;
-  const FirstTemplateShareFood({super.key, required this.file});
+  final double aspectRatio;
+  final Foods food;
+  const FirstTemplateShareFood({super.key, required this.file, required this.food, required this.aspectRatio});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 295.w,
-      height: 399.h,
+      width: aspectRatio == 1.0 ? 1.sw - 20.w : 224.5.w,
+      height: aspectRatio == 1.0 ? 1.sw - 20.w : 399.h,
       child: Stack(
+        fit: StackFit.expand,
         children: [
           Container(
             width: double.infinity,
@@ -218,22 +235,20 @@ class FirstTemplateShareFood extends StatelessWidget {
               borderRadius: BorderRadius.circular(16.r),
               child: Image.file(
                 file,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
               ),
             ),
           ),
           Positioned(
-            top: 56,
-            child: Container(
-              width: 200.w,
-              height: 100.h,
-              decoration: const BoxDecoration(
-                color: Color(0xFFDDF235),
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(100),
-                  bottomRight: Radius.circular(100),
-                ),
-              ),
+            top: 64.h,
+            child: FirstTemplateContent(
+              foodName: food.foodName ?? "",
+              servings: "${food.servings?.first.servingDescription ?? ""} ${food.servings?.first.servingDesc ?? ""}",
+              calories: "${food.servings?[0].calories ?? ""} cal",
+              fat: "${food.servings?[0].fat ?? ""} g",
+              carbs: "${food.servings?[0].carbohydrate ?? ""} g",
+              protein: "${food.servings?[0].protein ?? ""} g",
+              containerWidth: 180.w,
             ),
           )
         ],
@@ -244,14 +259,17 @@ class FirstTemplateShareFood extends StatelessWidget {
 
 class SecondTemplateShareFood extends StatelessWidget {
   final File file;
-  const SecondTemplateShareFood({super.key, required this.file});
+  final Foods food;
+  final double aspectRatio;
+  const SecondTemplateShareFood({super.key, required this.file, required this.food, required this.aspectRatio});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 295.w,
-      height: 399.h,
+      width: aspectRatio == 1.0 ? 1.sw - 20.w : 224.w,
+      height: aspectRatio == 1.0 ? 1.sw - 20.w : 399.h,
       child: Stack(
+        fit: StackFit.expand,
         children: [
           Container(
             width: double.infinity,
@@ -263,17 +281,20 @@ class SecondTemplateShareFood extends StatelessWidget {
               borderRadius: BorderRadius.circular(16.r),
               child: Image.file(
                 file,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
               ),
             ),
           ),
           Positioned(
             bottom: 64,
-            left: -10,
-            child: Container(
-              width: 136.w,
-              height: 160.h,
-              decoration: const BoxDecoration(color: Color(0xFF8F01DF), shape: BoxShape.circle),
+            left: -50,
+            child: SecondTemplateContent(
+              foodName: food.foodName ?? "",
+              servings: "${food.servings?.first.servingDescription ?? ""} ${food.servings?.first.servingDesc ?? ""}",
+              calories: "${food.servings?[0].calories ?? ""} cal",
+              fat: "${food?.servings?[0].fat ?? ""} g",
+              carbs: "${food.servings?[0].carbohydrate ?? ""} g",
+              protein: "${food.servings?[0].protein ?? ""} g",
             ),
           )
         ],
