@@ -25,8 +25,7 @@ import 'package:livewell/core/base/base_controller.dart';
 
 import '../pages/exercise_screen.dart';
 
-class ExerciseController extends BaseController
-    with GetSingleTickerProviderStateMixin {
+class ExerciseController extends BaseController with GetSingleTickerProviderStateMixin {
   Rx<ExerciseTab> currentMenu = ExerciseTab.diaries.obs;
   late TabController tabController;
   ValueNotifier<int> sliderValueNotifier = ValueNotifier(0);
@@ -37,11 +36,9 @@ class ExerciseController extends BaseController
   Rx<num> burntCalories = 0.0.obs;
   Rx<num> totalSteps = 0.0.obs;
   Rx<num> totalCalories = 0.0.obs;
-  RxList<ActivityHistoryModel> exerciseHistoryList =
-      <ActivityHistoryModel>[].obs;
+  RxList<ActivityHistoryModel> exerciseHistoryList = <ActivityHistoryModel>[].obs;
   TextEditingController dataController = TextEditingController();
-  Rx<TargetExerciseSelection> selectedExerciseTarget =
-      TargetExerciseSelection.light.obs;
+  Rx<TargetExerciseSelection> selectedExerciseTarget = TargetExerciseSelection.light.obs;
 
   Rxn<File> file = Rxn<File>();
   TextEditingController titleController = TextEditingController();
@@ -60,15 +57,11 @@ class ExerciseController extends BaseController
   double getYValue(int index) {
     var value = 0.0;
     if (exerciseHistoryList.isNotEmpty) {
-      var date = DateTime(DateTime.now().year, DateTime.now().month,
-          DateTime.now().day - 6 + index);
+      var date = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day - 6 + index);
       if (exerciseHistoryList.first.details != null) {
         for (var element in exerciseHistoryList.first.details!) {
-          var currentDate =
-              DateFormat('yyyy-MM-dd HH:mm:ss').parse(element.dateFrom!);
-          if (currentDate.day == date.day &&
-              currentDate.month == date.month &&
-              currentDate.year == date.year) {
+          var currentDate = DateTime.parse(element.dateFrom!);
+          if (currentDate.day == date.day && currentDate.month == date.month && currentDate.year == date.year) {
             value += element.value!;
           }
         }
@@ -89,8 +82,7 @@ class ExerciseController extends BaseController
   String getXValue(int index) {
     String value = '';
     if (exerciseHistoryList.isNotEmpty) {
-      var date = DateTime(DateTime.now().year, DateTime.now().month,
-          DateTime.now().day - 6 + index);
+      var date = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day - 6 + index);
       value = DateFormat('dd/MM').format(date);
     }
     return value;
@@ -104,16 +96,8 @@ class ExerciseController extends BaseController
       showModalBottomSheet(
           context: Get.context!,
           isScrollControlled: true,
-          shape: ShapeBorder.lerp(
-              const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20))),
-              const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20))),
-              1),
+          shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+              const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
           builder: ((context) {
             return PopupAssetWidget(
               exercise: data,
@@ -144,15 +128,11 @@ class ExerciseController extends BaseController
   void sendExerciseDataManual() async {
     final usecase = PostExerciseData.instance();
     EasyLoading.show();
-    final result = await usecase.call(PostExerciseParams.manualInput(
-        double.parse(exerciseManualInput.text), HealthDataType.STEPS));
+    final result = await usecase.call(PostExerciseParams.manualInput(double.parse(exerciseManualInput.text), HealthDataType.STEPS));
     EasyLoading.dismiss();
     result.fold((l) {}, (r) async {
-      final calories = 3 *
-          (Get.find<DashboardController>().user.value.weight?.toDouble() ?? 1) *
-          (double.parse(exerciseManualInput.text) / 10000);
-      final result = await usecase.call(PostExerciseParams.manualInput(
-          calories, HealthDataType.ACTIVE_ENERGY_BURNED));
+      final calories = 3 * (Get.find<DashboardController>().user.value.weight?.toDouble() ?? 1) * (double.parse(exerciseManualInput.text) / 10000);
+      final result = await usecase.call(PostExerciseParams.manualInput(calories, HealthDataType.ACTIVE_ENERGY_BURNED));
       result.fold((l) {}, (r) {
         refreshList();
         exerciseManualInput.clear();
@@ -180,15 +160,10 @@ class ExerciseController extends BaseController
   }
 
   Future<void> getExerciseHistorydata() async {
-    var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
-        DateTime.now().day - 7, 0, 0, 0, 0, 0);
-    var dateTill = DateTime(DateTime.now().year, DateTime.now().month,
-        DateTime.now().day, 23, 59, 59, 0, 0);
+    var currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day - 7, 0, 0, 0, 0, 0);
+    var dateTill = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59, 0, 0);
     GetActivityHistory getExerciseList = GetActivityHistory.instance();
-    final result = await getExerciseList.call(GetActivityHistoryParam(
-        type: ['ACTIVE_ENERGY_BURNED'],
-        dateFrom: currentDate,
-        dateTo: dateTill));
+    final result = await getExerciseList.call(GetActivityHistoryParam(type: ['ACTIVE_ENERGY_BURNED'], dateFrom: currentDate, dateTo: dateTill));
     result.fold((l) => Log.error(l), (r) {
       Log.info(r);
       inspect(r);
@@ -198,8 +173,7 @@ class ExerciseController extends BaseController
 
   void saveExerciseTarget() async {
     var userData = Get.find<DashboardController>().user.value;
-    var newUserData = userData.copyWith(
-        exerciseGoalKcal: selectedExerciseTarget.value.value());
+    var newUserData = userData.copyWith(exerciseGoalKcal: selectedExerciseTarget.value.value());
     UpdateUserInfo updateUserInfo = UpdateUserInfo.instance();
     EasyLoading.show();
     final result = await updateUserInfo.call(
@@ -209,8 +183,7 @@ class ExerciseController extends BaseController
         height: newUserData.height ?? 0,
         weight: newUserData.weight ?? 0,
         gender: newUserData.gender ?? "",
-        dob: DateFormat('yyyy-MM-dd')
-            .format(DateTime.parse(newUserData.birthDate ?? "")),
+        dob: DateFormat('yyyy-MM-dd').format(DateTime.parse(newUserData.birthDate ?? "")),
         weightTarget: newUserData.weightTarget ?? 0,
         exerciseGoalKcal: newUserData.exerciseGoalKcal ?? 0,
         language: newUserData.language ?? "",
@@ -237,19 +210,13 @@ class ExerciseController extends BaseController
 
   Future<void> getStepsData() async {
     GetExerciseData getExerciseData = GetExerciseData.instance();
-    var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
-        DateTime.now().day, 0, 0, 0, 0, 0);
-    var dateTill = DateTime(DateTime.now().year, DateTime.now().month,
-        DateTime.now().day, 23, 59, 59, 0, 0);
-    var result = await getExerciseData(GetExerciseParams(
-        type: HealthDataType.STEPS.name,
-        dateFrom: currentDate,
-        dateTo: dateTill));
+    var currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0, 0, 0);
+    var dateTill = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59, 0, 0);
+    var result = await getExerciseData(GetExerciseParams(type: HealthDataType.STEPS.name, dateFrom: currentDate, dateTo: dateTill));
     result.fold((l) => Log.error(l), (r) {
       // sum all value from object r and assign it to steps
       steps.value = r.totalValue ?? 0;
-      stepsValueNotifier.value = steps.value.toDouble() /
-          (Get.find<DashboardController>().user.value.stepsGoalCount ?? 0);
+      stepsValueNotifier.value = steps.value.toDouble() / (Get.find<DashboardController>().user.value.stepsGoalCount ?? 0);
     });
   }
 
@@ -266,14 +233,9 @@ class ExerciseController extends BaseController
 
   Future<void> getBurntCaloriesData() async {
     GetExerciseData getExerciseData = GetExerciseData.instance();
-    var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
-        DateTime.now().day, 0, 0, 0, 0, 0);
-    var dateTill = DateTime(DateTime.now().year, DateTime.now().month,
-        DateTime.now().day, 23, 59, 59, 0, 0);
-    var result = await getExerciseData(GetExerciseParams(
-        type: HealthDataType.ACTIVE_ENERGY_BURNED.name,
-        dateFrom: currentDate,
-        dateTo: dateTill));
+    var currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0, 0, 0);
+    var dateTill = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59, 0, 0);
+    var result = await getExerciseData(GetExerciseParams(type: HealthDataType.ACTIVE_ENERGY_BURNED.name, dateFrom: currentDate, dateTo: dateTill));
     result.fold((l) => Log.error(l), (r) {
       // sum all value from object r and assign it to burntCalories
       if (r.details != null) {
@@ -283,8 +245,7 @@ class ExerciseController extends BaseController
       }
       totalCalories.value = burntCalories.value;
       caloriesValueNotifier.value = burntCalories.value.toDouble();
-      goalValueNotifier.value = burntCalories.value.toDouble() /
-          (Get.find<DashboardController>().user.value.exerciseGoalKcal ?? 0);
+      goalValueNotifier.value = burntCalories.value.toDouble() / (Get.find<DashboardController>().user.value.exerciseGoalKcal ?? 0);
     });
   }
 }
