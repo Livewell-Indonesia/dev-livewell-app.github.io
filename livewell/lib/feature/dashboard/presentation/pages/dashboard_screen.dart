@@ -432,10 +432,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             status: DashboardSummaryModel.statusFromValue((controller.dashboard.value.dashboard?.totalCarbsInG ?? 0) / (controller.totalCarbs().round()), true)),
                         DashboardSummaryModel(
                             item: DashboardSummaryItem.sleep,
-                            currentValue: (sleepController.finalSleepValue).toStringAsFixed(1),
+                            currentValue: (sleepController.getTodaySleepValue()).toStringAsFixed(1),
                             targetValue: '${controller.user.value.onboardingQuestionnaire?.sleepDuration ?? 0}',
                             unit: "hours",
-                            status: DashboardSummaryModel.statusFromValue(((sleepController.finalSleepValue) / int.parse(controller.user.value.onboardingQuestionnaire?.sleepDuration ?? "0")), false)),
+                            status: DashboardSummaryModel.statusFromValue((sleepController.getTodaySleepValue() / int.parse(controller.user.value.onboardingQuestionnaire?.sleepDuration ?? "0")), false)),
                         DashboardSummaryModel(
                             item: DashboardSummaryItem.fat,
                             currentValue: '${controller.dashboard.value.dashboard?.totalFatsInG}',
