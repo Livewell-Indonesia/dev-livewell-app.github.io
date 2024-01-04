@@ -5,6 +5,7 @@ import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/presentation/controller/user_diary_controller.dart';
 import 'package:livewell/feature/water/presentation/controller/water_controller.dart';
+import 'package:livewell/feature/water/presentation/pages/water_custom_input_page.dart';
 import 'package:livewell/routes/app_navigator.dart';
 
 import '../../domain/usecase/post_water_data.dart';
@@ -13,9 +14,12 @@ import 'package:livewell/core/base/base_controller.dart';
 class WaterConsumedController extends BaseController {
   TextEditingController waterInputController = TextEditingController();
 
-  void addWater(int value) async {
+  void addWater(int value, WaterInputType type) async {
     PostWaterData instance = PostWaterData.instance();
     EasyLoading.show();
+    if (type == WaterInputType.reduce) {
+      value = value * -1;
+    }
     final result = await instance.call(PostWaterParams(water: value));
     EasyLoading.dismiss();
     result.fold((l) {

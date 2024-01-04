@@ -373,7 +373,7 @@ class ImagePickerBottomSheet extends StatelessWidget {
         children: <Widget>[
           ListTile(
             leading: Icon(Icons.photo_library),
-            title: Text(
+            title: const Text(
               'Pick from Gallery',
               style: TextStyle(color: Colors.black),
             ),
@@ -383,7 +383,7 @@ class ImagePickerBottomSheet extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.camera_alt),
-            title: Text(
+            title: const Text(
               'Take a Photo',
               style: TextStyle(color: Colors.black),
             ),

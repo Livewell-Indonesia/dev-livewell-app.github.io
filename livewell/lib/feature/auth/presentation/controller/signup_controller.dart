@@ -3,8 +3,10 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
+import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_google_auth.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_register.dart';
+import 'package:livewell/feature/dashboard/domain/usecase/register_device_token.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/feature/auth/presentation/controller/login_controller.dart';
 
@@ -33,13 +35,24 @@ class SignUpController extends BaseController {
       if (l.message!.contains("404")) {
         Get.snackbar('Error', 'Please verify your email first');
       } else {
-        Get.snackbar('Authentication Failed',
-            'Your authentication information is incorrect. Please try again.');
+        Get.snackbar('Authentication Failed', 'Your authentication information is incorrect. Please try again.');
       }
-    }, (r) {
+    }, (r) async {
+      await registerDeviceToken();
       SharedPref.saveToken(r.accessToken!);
       SharedPref.saveRefreshToken(r.refreshToken!);
       AppNavigator.pushAndRemove(routeName: AppPages.home);
+    });
+  }
+
+  Future<void> registerDeviceToken() async {
+    RegisterDevice registerDevice = RegisterDevice.instance();
+    final token = await SharedPref.getFCMToken();
+    final result = await registerDevice.call(token ?? "");
+    result.fold((l) {
+      Log.error(l);
+    }, (r) {
+      Log.colorGreen(r);
     });
   }
 
@@ -54,18 +67,13 @@ class SignUpController extends BaseController {
       return;
     }
     if (!password.text.isPasswordValid()) {
-      passwordError.value =
-          'Password must contains 1 uppercase, 1 number and 1 symbol';
+      passwordError.value = 'Password must contains 1 uppercase, 1 number and 1 symbol';
       return;
     }
     passwordError.value = null;
 
     await EasyLoading.show();
-    final result = await postRegister.call(ParamsRegister(
-        firstName: firstName.text,
-        lastName: lastName.text,
-        email: email.text,
-        password: password.text));
+    final result = await postRegister.call(ParamsRegister(firstName: firstName.text, lastName: lastName.text, email: email.text, password: password.text));
     await EasyLoading.dismiss();
     result.fold((l) {}, (r) {
       AppNavigator.pushReplacement(routeName: AppPages.login);

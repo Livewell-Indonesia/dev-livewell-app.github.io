@@ -2,9 +2,7 @@ import 'package:flutter/foundation.dart';
 
 class Endpoint {
   /// DEV
-  static String api = kReleaseMode
-      ? "https://api.livewellindo.com/api/v1/"
-      : "https://dev-api.livewellindo.com/api/v1/";
+  static String api = kReleaseMode ? "https://api.livewellindo.com/api/v1/" : "https://dev-api.livewellindo.com/api/v1/";
 
   /// Login
   static const String login = "auth/login";
@@ -49,11 +47,11 @@ class Endpoint {
 
   ///Exercise
   static const String postBulkActivities = "activities/bulk-create";
-  static const String getActivities = "activities/list";
-  static const String getActivityHistories = 'activities/lists';
+  static const String getActivities = "activities-clean/list";
+  static const String getActivityHistories = 'activities-clean/lists';
 
   /// Sleep
-  static const String getSleeps = "activities/lists";
+  static const String getSleeps = "activities-clean/lists";
 
   /// water
   static const String postWater = "hydration";

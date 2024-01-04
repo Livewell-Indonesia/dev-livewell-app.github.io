@@ -61,11 +61,7 @@ class DashboardController extends BaseController {
   Rx<NutriScoreModel> nutriScore = NutriScoreModel().obs;
   Rx<num> totalExercise = 0.obs;
 
-  var types = [
-    HealthDataType.STEPS,
-    HealthDataType.ACTIVE_ENERGY_BURNED,
-    HealthDataType.SLEEP_IN_BED
-  ];
+  var types = [HealthDataType.STEPS, HealthDataType.ACTIVE_ENERGY_BURNED, HealthDataType.SLEEP_IN_BED];
 
   var permissions = [
     HealthDataAccess.READ,
@@ -82,8 +78,7 @@ class DashboardController extends BaseController {
       final HomeController homeController = Get.find();
       homeController.showCoachmark();
     } else {
-      isAllowed = await healthFactory.requestAuthorization(types,
-          permissions: permissions);
+      isAllowed = await healthFactory.requestAuthorization(types, permissions: permissions);
       if (isAllowed) {
         fetchHealthDataFromTypes();
         testingSleepNew();
@@ -110,8 +105,7 @@ class DashboardController extends BaseController {
     // } else {
     //   fetchHealthData();
     // }
-    var allowGoogleHealth =
-        Get.find<HomeController>().appConfigModel.value.googleHealth ?? false;
+    var allowGoogleHealth = Get.find<HomeController>().appConfigModel.value.googleHealth ?? false;
     if (Platform.isAndroid && (allowGoogleHealth == false)) {
       getExerciseHistorydata();
       final HomeController homeController = Get.find();
@@ -135,8 +129,7 @@ class DashboardController extends BaseController {
   }
 
   void getSingleMoodData() async {
-    final result = await getSingleMood
-        .call(DateFormat('yyyy-MM-dd').format(DateTime.now()));
+    final result = await getSingleMood.call(DateFormat('yyyy-MM-dd').format(DateTime.now()));
     result.fold((l) {
       if (l.message!.contains("404")) {
         todayMood.value = null;
@@ -180,25 +173,17 @@ class DashboardController extends BaseController {
   }
 
   Future<List<HealthDataPoint>> fetchSleepData() async {
-    var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
-        DateTime.now().day - 7, 12, 0, 0, 0, 0);
+    var currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day - 7, 12, 0, 0, 0, 0);
     var dateTill = currentDate.add(const Duration(days: 1));
-    List<HealthDataPoint> healthData = await healthFactory
-        .getHealthDataFromTypes(
-            currentDate, dateTill, [HealthDataType.SLEEP_IN_BED]);
+    List<HealthDataPoint> healthData = await healthFactory.getHealthDataFromTypes(currentDate, dateTill, [HealthDataType.SLEEP_IN_BED]);
     return healthData;
   }
 
   Future<void> getExerciseHistorydata() async {
-    var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
-        DateTime.now().day, 0, 0, 0, 0, 0);
-    var dateTill = DateTime(DateTime.now().year, DateTime.now().month,
-        DateTime.now().day, 23, 59, 59, 0, 0);
+    var currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0, 0, 0);
+    var dateTill = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59, 0, 0);
     GetActivityHistory getExerciseList = GetActivityHistory.instance();
-    final result = await getExerciseList.call(GetActivityHistoryParam(
-        type: ['ACTIVE_ENERGY_BURNED'],
-        dateFrom: currentDate,
-        dateTo: dateTill));
+    final result = await getExerciseList.call(GetActivityHistoryParam(type: ['ACTIVE_ENERGY_BURNED'], dateFrom: currentDate, dateTo: dateTill));
     result.fold((l) => Log.error(l), (r) {
       Log.info(r);
       inspect(r);
@@ -222,13 +207,9 @@ class DashboardController extends BaseController {
   }
 
   void fetchHealthDataFromTypes() async {
-    var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
-        DateTime.now().day, 0, 0, 0, 0, 0);
-    var dateTill = DateTime(DateTime.now().year, DateTime.now().month,
-        DateTime.now().day, 23, 59, 59, 0, 0);
-    List<HealthDataPoint> healthData = await healthFactory
-        .getHealthDataFromTypes(currentDate, dateTill,
-            [HealthDataType.STEPS, HealthDataType.ACTIVE_ENERGY_BURNED]);
+    var currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0, 0, 0);
+    var dateTill = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59, 0, 0);
+    List<HealthDataPoint> healthData = await healthFactory.getHealthDataFromTypes(currentDate, dateTill, [HealthDataType.STEPS, HealthDataType.ACTIVE_ENERGY_BURNED]);
     Log.info(jsonEncode(healthData));
     inspect(healthData);
     PostExerciseData postExerciseData = PostExerciseData.instance();
@@ -239,18 +220,14 @@ class DashboardController extends BaseController {
       var filteredData = healthData.toList();
       var lastSyncDate = DateTime.parse(lastSyncHealth);
       if (lastSyncDate.isBefore(filteredData.last.dateTo)) {
-        var filteredHealth = filteredData
-            .where((element) => element.dateTo.isAfter(lastSyncDate))
-            .toList();
+        var filteredHealth = filteredData.where((element) => element.dateTo.isAfter(lastSyncDate)).toList();
         if (filteredHealth.isNotEmpty) {
-          final result = await postExerciseData
-              .call(PostExerciseParams.fromHealth(filteredHealth));
+          final result = await postExerciseData.call(PostExerciseParams.fromHealth(filteredHealth));
           result.fold((l) {
             Log.error(l);
           }, (r) async {
             if (filteredHealth.isNotEmpty) {
-              await SharedPref.saveLastHealthSyncDate(
-                  filteredHealth.last.dateTo);
+              await SharedPref.saveLastHealthSyncDate(filteredHealth.last.dateTo);
               getExerciseHistorydata();
             }
           });
@@ -262,8 +239,7 @@ class DashboardController extends BaseController {
     } else if (healthData.isNotEmpty) {
       healthData.sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
       var filteredData = healthData.toList();
-      final result = await postExerciseData
-          .call(PostExerciseParams.fromHealth(filteredData));
+      final result = await postExerciseData.call(PostExerciseParams.fromHealth(filteredData));
       result.fold((l) {
         Log.error(l);
       }, (r) async {
@@ -309,8 +285,7 @@ class DashboardController extends BaseController {
 
   void testingSleepNew() async {
     if (await healthFit.isSleepAuthorized()) {
-      var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
-          DateTime.now().day - 1, 12, 0, 0, 0, 0);
+      var currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day - 1, 12, 0, 0, 0, 0);
       var dateTill = currentDate.add(const Duration(days: 1));
       List<CustomHealthDataPoint> newData = [];
       if (Platform.isIOS) {
@@ -321,40 +296,23 @@ class DashboardController extends BaseController {
     }
   }
 
-  Future<void> fetchSleepIOS(DateTime currentDate, DateTime dateTill,
-      List<CustomHealthDataPoint> newData) async {
-    var data = await healthFit.getSleepIOS(
-        currentDate.millisecondsSinceEpoch, dateTill.millisecondsSinceEpoch);
+  Future<void> fetchSleepIOS(DateTime currentDate, DateTime dateTill, List<CustomHealthDataPoint> newData) async {
+    var data = await healthFit.getSleepIOS(currentDate.millisecondsSinceEpoch, dateTill.millisecondsSinceEpoch);
     if (data != null) {
-      var filteredData = data.where((element) =>
-          element.type == SleepSampleType.asleepCore ||
-          element.type == SleepSampleType.asleepDeep);
+      var filteredData = data.where((element) => element.type == SleepSampleType.asleepCore || element.type == SleepSampleType.asleepDeep);
       if (filteredData.isNotEmpty) {
         for (var item in filteredData) {
-          newData.add(item.toCustomHealthDataPoint(
-              Platform.isAndroid ? PlatformType.ANDROID : PlatformType.IOS,
-              item.type == SleepSampleType.asleepCore
-                  ? "LIGHT_SLEEP"
-                  : "DEEP_SLEEP"));
+          newData.add(item.toCustomHealthDataPoint(Platform.isAndroid ? PlatformType.ANDROID : PlatformType.IOS, item.type == SleepSampleType.asleepCore ? "LIGHT_SLEEP" : "DEEP_SLEEP"));
         }
         await saveData(newData);
       } else {
-        var filteredData2 = data.where((element) =>
-            element.type == SleepSampleType.inBed ||
-            element.type == SleepSampleType.asleepUnspecified);
+        var filteredData2 = data.where((element) => element.type == SleepSampleType.inBed || element.type == SleepSampleType.asleepUnspecified);
         if (filteredData2.isNotEmpty) {
           for (var item in filteredData2) {
-            if (item.type == SleepSampleType.asleepUnspecified ||
-                item.type == SleepSampleType.inBed) {
+            if (item.type == SleepSampleType.asleepUnspecified || item.type == SleepSampleType.inBed) {
               // split sleep value to deep and light sleep
               var sleepValue = item.end.difference(item.start).inMinutes;
-              newData.add(CustomHealthDataPoint(
-                  value: sleepValue,
-                  type: "SLEEP_IN_BED",
-                  unit: "MINUTES",
-                  startDate: item.start,
-                  endDate: item.end,
-                  source: item.source));
+              newData.add(CustomHealthDataPoint(value: sleepValue, type: "SLEEP_IN_BED", unit: "MINUTES", startDate: item.start, endDate: item.end, source: item.source));
             }
           }
           await saveData(newData);
@@ -371,57 +329,32 @@ class DashboardController extends BaseController {
       Log.error(l);
     }, (r) {
       if (r.response != null) {
-        var consumed = r.response
-                ?.firstWhere(
-                    (element) =>
-                        element.recordAt ==
-                        DateFormat('yyyy-MM-dd').format(DateTime.now()),
-                    orElse: () => WaterModel(recordAt: '', value: 0))
-                .value ??
-            0;
+        var consumed = r.response?.firstWhere((element) => element.recordAt == DateFormat('yyyy-MM-dd').format(DateTime.now()), orElse: () => WaterModel(recordAt: '', value: 0)).value ?? 0;
         waterConsumed.value = consumed.toDouble();
       }
       Log.colorGreen(r);
     });
   }
 
-  Future<void> fetchSleepAndroid(DateTime currentDate, DateTime dateTill,
-      List<CustomHealthDataPoint> newData) async {
-    var data = await healthFit.getSleepAndroid(
-        currentDate.millisecondsSinceEpoch, dateTill.millisecondsSinceEpoch);
+  Future<void> fetchSleepAndroid(DateTime currentDate, DateTime dateTill, List<CustomHealthDataPoint> newData) async {
+    var data = await healthFit.getSleepAndroid(currentDate.millisecondsSinceEpoch, dateTill.millisecondsSinceEpoch);
     if (data != null) {
-      var filteredData = data
-          .where((element) =>
-              element.gfSleepSampleType == GFSleepSampleType.sleepLight ||
-              element.gfSleepSampleType == GFSleepSampleType.sleepDeep)
-          .toList();
+      var filteredData = data.where((element) => element.gfSleepSampleType == GFSleepSampleType.sleepLight || element.gfSleepSampleType == GFSleepSampleType.sleepDeep).toList();
       if (filteredData.isNotEmpty) {
         for (var item in filteredData) {
-          newData.add(item.toCustomHealthDataPoint(
-              Platform.isAndroid ? PlatformType.ANDROID : PlatformType.IOS,
-              item.gfSleepSampleType == GFSleepSampleType.sleepLight
-                  ? "LIGHT_SLEEP"
-                  : "DEEP_SLEEP"));
+          newData
+              .add(item.toCustomHealthDataPoint(Platform.isAndroid ? PlatformType.ANDROID : PlatformType.IOS, item.gfSleepSampleType == GFSleepSampleType.sleepLight ? "LIGHT_SLEEP" : "DEEP_SLEEP"));
         }
         await saveData(newData);
       } else {
-        var filteredData2 = data
-            .where((element) =>
-                element.gfSleepSampleType == GFSleepSampleType.unspecified)
-            .toList();
+        var filteredData2 = data.where((element) => element.gfSleepSampleType == GFSleepSampleType.unspecified).toList();
         Log.info(filteredData2);
         if (filteredData2.isNotEmpty) {
           for (var item in filteredData2) {
             if (item.gfSleepSampleType == GFSleepSampleType.unspecified) {
               // split sleep value to deep and light sleep
               var sleepValue = item.end.difference(item.start).inMinutes;
-              newData.add(CustomHealthDataPoint(
-                  value: sleepValue,
-                  type: "SLEEP_IN_BED",
-                  unit: "MINUTES",
-                  startDate: item.start,
-                  endDate: item.end,
-                  source: item.source));
+              newData.add(CustomHealthDataPoint(value: sleepValue, type: "SLEEP_IN_BED", unit: "MINUTES", startDate: item.start, endDate: item.end, source: item.source));
               // var lightSleep = sleepValue * 0.8;
               // var deepSleep = sleepValue * 0.2;
               // newData.add(CustomHealthDataPoint(
@@ -454,13 +387,10 @@ class DashboardController extends BaseController {
       newData.sort((a, b) => a.startDate.compareTo(b.startDate));
       var lastSyncDate = DateTime.parse(lastSyncHealth);
       if (lastSyncDate.isBefore(newData.last.endDate)) {
-        var filteredHealth = newData
-            .where((element) => element.endDate.isAfter(lastSyncDate))
-            .toList();
+        var filteredHealth = newData.where((element) => element.endDate.isAfter(lastSyncDate)).toList();
         if (filteredHealth.isNotEmpty) {
           var postSleepData = PostExerciseData.instance();
-          final result = await postSleepData
-              .call(PostExerciseParams.fromCustomHealth(filteredHealth));
+          final result = await postSleepData.call(PostExerciseParams.fromCustomHealth(filteredHealth));
           result.fold((l) {
             Log.error(l);
           }, (r) async {});
@@ -471,8 +401,7 @@ class DashboardController extends BaseController {
     } else if (newData.isNotEmpty && lastSyncHealth == null) {
       newData.sort((a, b) => a.startDate.compareTo(b.startDate));
       var postSleepData = PostExerciseData.instance();
-      final result = await postSleepData
-          .call(PostExerciseParams.fromCustomHealth(newData));
+      final result = await postSleepData.call(PostExerciseParams.fromCustomHealth(newData));
       result.fold((l) {
         Log.error(l);
       }, (r) async {});
@@ -480,12 +409,8 @@ class DashboardController extends BaseController {
   }
 
   void getMealHistories() async {
-    var currentDate = DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0);
-    final result = await getUserMealHistory(UserMealHistoryParams(
-        filter: Filter(
-            endDate: currentDate,
-            startDate: currentDate.add(const Duration(seconds: 86399)))));
+    var currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0);
+    final result = await getUserMealHistory(UserMealHistoryParams(filter: Filter(endDate: currentDate, startDate: currentDate.add(const Duration(seconds: 86399)))));
     result.fold((l) {}, (r) {
       mealHistoryList.value = r.response ?? [];
     });
@@ -496,8 +421,7 @@ class DashboardController extends BaseController {
     result.fold((l) => print(l), (r) {
       user.value = r;
       inspect(r);
-      if (r.onboardingQuestionnaire == null &&
-          Get.currentRoute == AppPages.home) {
+      if (r.onboardingQuestionnaire == null && Get.currentRoute == AppPages.home) {
         Future.delayed(const Duration(milliseconds: 800), () {
           AppNavigator.push(routeName: AppPages.questionnaire);
         });
@@ -516,12 +440,10 @@ class DashboardController extends BaseController {
         valueNotifier.value = 0;
       } else if ((dashboard.value.dashboard?.caloriesTaken ?? 0) == 0) {
         valueNotifier.value = 0;
-      } else if ((dashboard.value.dashboard?.caloriesTaken ?? 0) >=
-          (dashboard.value.dashboard?.target ?? 0)) {
+      } else if ((dashboard.value.dashboard?.caloriesTaken ?? 0) >= (dashboard.value.dashboard?.target ?? 0)) {
         valueNotifier.value = 1;
       } else {
-        valueNotifier.value = (dashboard.value.dashboard?.caloriesTaken ?? 0) /
-            (dashboard.value.dashboard?.target ?? 0);
+        valueNotifier.value = (dashboard.value.dashboard?.caloriesTaken ?? 0) / (dashboard.value.dashboard?.target ?? 0);
       }
     });
   }
@@ -571,8 +493,7 @@ class DashboardController extends BaseController {
       return false.obs;
     } else {
       for (var element in mealHistoryList) {
-        if (element.mealType?.toLowerCase() ==
-            user.value.dailyJournal![index].name?.toLowerCase()) {
+        if (element.mealType?.toLowerCase() == user.value.dailyJournal![index].name?.toLowerCase()) {
           var d1 = DateTime.parse(element.mealAt!);
           var d2 = DateTime.now();
           if (d1.day == d2.day && d1.month == d2.month && d1.year == d2.year) {
@@ -623,42 +544,19 @@ class DashboardController extends BaseController {
 extension on SleepSample {
   HealthDataPoint toHealthDataPoint(PlatformType platformType) {
     var value = end.difference(start).inMinutes;
-    return HealthDataPoint(
-        NumericHealthValue(value),
-        HealthDataType.SLEEP_IN_BED,
-        HealthDataUnit.MINUTE,
-        start,
-        end,
-        platformType,
-        "",
-        source,
-        source);
+    return HealthDataPoint(NumericHealthValue(value), HealthDataType.SLEEP_IN_BED, HealthDataUnit.MINUTE, start, end, platformType, "", source, source);
   }
 
-  CustomHealthDataPoint toCustomHealthDataPoint(
-      PlatformType platformType, String type) {
+  CustomHealthDataPoint toCustomHealthDataPoint(PlatformType platformType, String type) {
     var value = end.difference(start).inMinutes;
-    return CustomHealthDataPoint(
-        value: value,
-        type: type,
-        unit: 'MINUTES',
-        startDate: start,
-        endDate: end,
-        source: source);
+    return CustomHealthDataPoint(value: value, type: type, unit: 'MINUTES', startDate: start, endDate: end, source: source);
   }
 }
 
 extension on GFSleepSample {
-  CustomHealthDataPoint toCustomHealthDataPoint(
-      PlatformType platformType, String type) {
+  CustomHealthDataPoint toCustomHealthDataPoint(PlatformType platformType, String type) {
     var value = end.difference(start).inMinutes;
-    return CustomHealthDataPoint(
-        value: value,
-        type: type,
-        unit: 'MINUTES',
-        startDate: start,
-        endDate: end,
-        source: source);
+    return CustomHealthDataPoint(value: value, type: type, unit: 'MINUTES', startDate: start, endDate: end, source: source);
   }
 }
 
@@ -670,13 +568,7 @@ class CustomHealthDataPoint {
   DateTime endDate;
   String source;
 
-  CustomHealthDataPoint(
-      {required this.value,
-      required this.type,
-      required this.unit,
-      required this.startDate,
-      required this.endDate,
-      required this.source});
+  CustomHealthDataPoint({required this.value, required this.type, required this.unit, required this.startDate, required this.endDate, required this.source});
 
   Map<String, dynamic> toJson() {
     return {

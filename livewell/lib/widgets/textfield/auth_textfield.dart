@@ -53,9 +53,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
       keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
       keyboardBarColor: Colors.grey[200],
       nextFocus: false,
-      actions: widget.keyboardType == TextInputType.number ||
-              widget.keyboardType ==
-                  const TextInputType.numberWithOptions(decimal: true)
+      actions: widget.keyboardType == TextInputType.number || widget.keyboardType == const TextInputType.numberWithOptions(decimal: true)
           ? [
               KeyboardActionsItem(
                 focusNode: _focusNode,
@@ -89,87 +87,80 @@ class _AuthTextFieldState extends State<AuthTextField> {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16.0).r,
         child: //create textformfield with green border
+            Column(
+          children: [
             TextFormField(
-          keyboardType: widget.keyboardType,
-          focusNode: _focusNode,
-          style: TextStyle(
-              color: const Color(0xFF000000),
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w500),
-          cursorColor: const Color(0xFF171433),
-          controller: widget.controller,
-          textInputAction: TextInputAction.done,
-          obscureText: !showPassword && widget.obscureText,
-          inputFormatters: widget.keyboardType == TextInputType.number ||
-                  widget.keyboardType ==
-                      const TextInputType.numberWithOptions(decimal: true)
-              ? Platform.isIOS
-                  ? [
-                      TextInputFormatter.withFunction((oldValue, newValue) {
-                        return newValue.copyWith(
-                          text: newValue.text.replaceAll(RegExp(r"\,"), "."),
-                        );
-                      }),
-                    ]
-                  : [
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d+\.?\d{0,2}')),
-                    ]
-              : [],
-          enabled: widget.enabled,
-          onTap: widget.onTap,
-          decoration: InputDecoration(
-              //hintText: widget.hintText,
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 32.w, vertical: 12.h),
-              labelText: widget.errorText ?? widget.labelText,
-              isDense: true,
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              labelStyle: TextStyle(
-                  color: widget.errorText != null
-                      ? const Color(0xFFFA6F6F)
-                      : const Color(0xFF171433).withOpacity(0.5),
-                  fontSize: isFocused ? 13.sp : 16.sp),
-              hintStyle: TextStyle(
-                  color: const Color(0xFF171433).withOpacity(0.5),
-                  fontSize: 16.sp),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: widget.errorText != null
-                      ? const Color(0xFFFA6F6F)
-                      : const Color(0xFFDDF235),
-                  width: 2.0,
+              keyboardType: widget.keyboardType,
+              focusNode: _focusNode,
+              style: TextStyle(color: const Color(0xFF000000), fontSize: 16.sp, fontWeight: FontWeight.w500),
+              cursorColor: const Color(0xFF171433),
+              controller: widget.controller,
+              textInputAction: TextInputAction.done,
+              obscureText: !showPassword && widget.obscureText,
+              inputFormatters: widget.keyboardType == TextInputType.number || widget.keyboardType == const TextInputType.numberWithOptions(decimal: true)
+                  ? Platform.isIOS
+                      ? [
+                          TextInputFormatter.withFunction((oldValue, newValue) {
+                            return newValue.copyWith(
+                              text: newValue.text.replaceAll(RegExp(r"\,"), "."),
+                            );
+                          }),
+                        ]
+                      : [
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+                        ]
+                  : [],
+              enabled: widget.enabled,
+              onTap: widget.onTap,
+              decoration: InputDecoration(
+                  //hintText: widget.hintText,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 12.h),
+                  labelText: widget.labelText,
+                  isDense: true,
+                  floatingLabelBehavior: FloatingLabelBehavior.never,
+                  labelStyle: TextStyle(color: widget.errorText != null ? const Color(0xFFFA6F6F) : const Color(0xFF171433).withOpacity(0.5), fontSize: isFocused ? 13.sp : 16.sp),
+                  hintStyle: TextStyle(color: const Color(0xFF171433).withOpacity(0.5), fontSize: 16.sp),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: widget.errorText != null ? const Color(0xFFFA6F6F) : const Color(0xFFDDF235),
+                      width: 2.0,
+                    ),
+                    borderRadius: BorderRadius.circular(36.0).r,
+                  ),
+                  disabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: widget.errorText != null ? const Color(0xFFFA6F6F) : const Color(0xFFDDF235),
+                      width: 2.0,
+                    ),
+                    borderRadius: BorderRadius.circular(36.0).r,
+                  ),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: widget.errorText != null ? const Color(0xFFFA6F6F) : const Color(0xFFDDF235),
+                      width: 2.0,
+                    ),
+                    borderRadius: BorderRadius.circular(36.0).r,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: widget.errorText != null ? const Color(0xFFFA6F6F) : const Color(0xFFDDF235),
+                      width: 2.0,
+                    ),
+                    borderRadius: BorderRadius.circular(36.0).r,
+                  ),
+                  suffixIcon: suffixIcon()),
+            ),
+            if (widget.errorText != null) ...[
+              8.verticalSpace,
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  widget.errorText!,
+                  style: const TextStyle(color: Color(0xFFFA6F6F), fontSize: 12, fontWeight: FontWeight.w400),
                 ),
-                borderRadius: BorderRadius.circular(36.0).r,
-              ),
-              disabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: widget.errorText != null
-                      ? const Color(0xFFFA6F6F)
-                      : const Color(0xFFDDF235),
-                  width: 2.0,
-                ),
-                borderRadius: BorderRadius.circular(36.0).r,
-              ),
-              border: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: widget.errorText != null
-                      ? const Color(0xFFFA6F6F)
-                      : const Color(0xFFDDF235),
-                  width: 2.0,
-                ),
-                borderRadius: BorderRadius.circular(36.0).r,
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: widget.errorText != null
-                      ? const Color(0xFFFA6F6F)
-                      : const Color(0xFFDDF235),
-                  width: 2.0,
-                ),
-                borderRadius: BorderRadius.circular(36.0).r,
-              ),
-              suffixIcon: suffixIcon()),
+              )
+            ]
+          ],
         ),
       ),
     );
@@ -181,10 +172,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
         padding: EdgeInsets.only(right: 32.0.w),
         child: Icon(
           Icons.done,
-          color: widget.controller.text.isNotEmpty &&
-                  widget.controller.text.isEmail
-              ? const Color(0xFF505050)
-              : Colors.transparent,
+          color: widget.controller.text.isNotEmpty && widget.controller.text.isEmail ? const Color(0xFF505050) : Colors.transparent,
         ),
       );
     } else if (widget.obscureText == true) {
@@ -196,9 +184,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
           });
         },
         icon: Icon(
-          showPassword
-              ? Icons.visibility_outlined
-              : Icons.visibility_off_outlined,
+          showPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
         ),
         color: showPassword ? const Color(0xFF505050) : const Color(0xFF505050),
       );
