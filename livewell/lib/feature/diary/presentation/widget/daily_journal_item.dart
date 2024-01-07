@@ -180,7 +180,7 @@ class _DailyJournalItemContentState extends State<DailyJournalItemContent> {
                             fontWeight: FontWeight.w600)),
                   ),
                   Expanded(
-                    flex: 6,
+                    flex: 5,
                     child: Text(
                         widget.model.contentDesc[index].contentDescValue,
                         style: TextStyle(
@@ -189,12 +189,15 @@ class _DailyJournalItemContentState extends State<DailyJournalItemContent> {
                             fontWeight: FontWeight.w600)),
                   ),
                   Expanded(
-                    flex: 1,
+                    flex: 2,
                     child: InkWell(
                       onTap: widget.model.contentDesc[index].onMoreTap,
-                      child: const Icon(
-                        Icons.more_horiz,
-                        size: 24,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 4.h),
+                        child: const Icon(
+                          Icons.more_horiz,
+                          size: 24,
+                        ),
                       ),
                     ),
                   ),
