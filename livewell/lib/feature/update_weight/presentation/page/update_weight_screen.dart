@@ -29,10 +29,31 @@ List<WeightDataPoint> _generateData(int max) {
   });
 }
 
-class UpdateWeightScreen extends StatelessWidget {
+class UpdateWeightScreen extends StatefulWidget {
   UpdateWeightScreen({super.key});
 
+  @override
+  State<UpdateWeightScreen> createState() => _UpdateWeightScreenState();
+}
+
+class _UpdateWeightScreenState extends State<UpdateWeightScreen> {
   final UpdateWeightController controller = Get.put(UpdateWeightController());
+  final ScrollController scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (Get.arguments != null && Get.arguments is bool) {
+      Future.delayed(
+        const Duration(seconds: 1),
+        () => scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.ease,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +71,7 @@ class UpdateWeightScreen extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: ListView(
+              controller: scrollController,
               padding: EdgeInsets.zero,
               children: [
                 Column(

@@ -302,7 +302,8 @@ extension DashboardSummaryItemExt on DashboardSummaryItem {
   void navigate() {
     switch (this) {
       case DashboardSummaryItem.calories:
-        AppNavigator.push(routeName: AppPages.nutritionScreen);
+        // AppNavigator.push(routeName: AppPages.nutritionScreen);
+        AppNavigator.push(routeName: AppPages.updateWeight, arguments: true);
         break;
       case DashboardSummaryItem.exercise:
         AppNavigator.push(routeName: AppPages.exerciseScreen);
