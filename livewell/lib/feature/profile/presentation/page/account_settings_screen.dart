@@ -14,7 +14,8 @@ import 'package:livewell/feature/questionnaire/presentation/controller/questionn
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 
 class AccountSettingsScreen extends StatelessWidget {
-  final AccountSettingsController controller = Get.put(AccountSettingsController());
+  final AccountSettingsController controller =
+      Get.put(AccountSettingsController());
   final UserSettingsController userController = Get.find();
   final PhysicalInformationController physicalController = Get.find();
   AccountSettingsScreen({Key? key}) : super(key: key);
@@ -64,7 +65,9 @@ class AccountSettingsScreen extends StatelessWidget {
                         Container(
                           width: 210.w,
                           height: 210.h,
-                          decoration: BoxDecoration(color: Colors.white.withOpacity(0.3), shape: BoxShape.circle),
+                          decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.3),
+                              shape: BoxShape.circle),
                           alignment: Alignment.center,
                           child: Stack(
                             alignment: Alignment.bottomRight,
@@ -75,7 +78,8 @@ class AccountSettingsScreen extends StatelessWidget {
                                   showModalBottomSheet(
                                       context: context,
                                       builder: (context) {
-                                        return ImagePickerBottomSheet(onImageSelected: (img) {
+                                        return ImagePickerBottomSheet(
+                                            onImageSelected: (img) {
                                           physicalController.pickImages(img);
                                         });
                                       });
@@ -88,14 +92,33 @@ class AccountSettingsScreen extends StatelessWidget {
                                     color: Colors.white,
                                   ),
                                   child: Obx(() {
-                                    if (userController.user.value.avatarUrl != null && userController.user.value.avatarUrl!.isNotEmpty) {
+                                    if (userController.user.value.avatarUrl !=
+                                            null &&
+                                        userController
+                                            .user.value.avatarUrl!.isNotEmpty) {
                                       return Image.network(
                                         userController.user.value.avatarUrl!,
                                         fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                          return SvgPicture.asset(
+                                            (userController.user.value.gender ??
+                                                            Gender.male.name)
+                                                        .toLowerCase() ==
+                                                    "male"
+                                                ? Constant.imgMaleSVG
+                                                : Constant.imgFemaleSVG,
+                                          );
+                                        },
                                       );
                                     } else {
                                       return SvgPicture.asset(
-                                        (userController.user.value.gender ?? Gender.male.name).toLowerCase() == "male" ? Constant.imgMaleSVG : Constant.imgFemaleSVG,
+                                        (userController.user.value.gender ??
+                                                        Gender.male.name)
+                                                    .toLowerCase() ==
+                                                "male"
+                                            ? Constant.imgMaleSVG
+                                            : Constant.imgFemaleSVG,
                                       );
                                     }
                                   }),
@@ -134,7 +157,10 @@ class AccountSettingsScreen extends StatelessWidget {
                               'Delete Account Permanently',
                               style: TextStyle(color: Colors.black),
                             ),
-                            content: Text(controller.localization.yourAccountAndContentDeletedPermanently!, style: TextStyle(color: Colors.black)),
+                            content: Text(
+                                controller.localization
+                                    .yourAccountAndContentDeletedPermanently!,
+                                style: TextStyle(color: Colors.black)),
                             actions: [
                               CupertinoDialogAction(
                                 child: Text(
@@ -168,15 +194,23 @@ class AccountSettingsScreen extends StatelessWidget {
                     children: [
                       // Top Section
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 15.h),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 24.w, vertical: 15.h),
                         height: 55.h,
                         width: 1.sw,
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(30.r), topRight: Radius.circular(30.r))),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(30.r),
+                                topRight: Radius.circular(30.r))),
                         child: Row(
                           children: [
                             Text(
                               controller.localization.personalInformation!,
-                              style: TextStyle(color: const Color(0xFF171433), fontSize: 18.sp, fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                  color: const Color(0xFF171433),
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w600),
                             ),
                             const Spacer(),
                             Icon(
@@ -246,7 +280,8 @@ class AccountSettingsTextField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<AccountSettingsTextField> createState() => _AccountSettingsTextFieldState();
+  State<AccountSettingsTextField> createState() =>
+      _AccountSettingsTextFieldState();
 }
 
 class _AccountSettingsTextFieldState extends State<AccountSettingsTextField> {
@@ -257,7 +292,9 @@ class _AccountSettingsTextFieldState extends State<AccountSettingsTextField> {
       keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
       keyboardBarColor: Colors.grey[200],
       nextFocus: false,
-      actions: widget.inputType == TextInputType.number || widget.inputType == const TextInputType.numberWithOptions(decimal: true)
+      actions: widget.inputType == TextInputType.number ||
+              widget.inputType ==
+                  const TextInputType.numberWithOptions(decimal: true)
           ? [
               KeyboardActionsItem(
                 focusNode: _focusNode,
@@ -307,10 +344,16 @@ class _AccountSettingsTextFieldState extends State<AccountSettingsTextField> {
           focusNode: _focusNode,
           controller: widget.textEditingController,
           inputFormatters: widget.inputFormatter,
-          style: TextStyle(color: widget.textColor, fontSize: 16.sp, fontWeight: FontWeight.w400),
+          style: TextStyle(
+              color: widget.textColor,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w400),
           decoration: InputDecoration(
             suffixText: widget.suffixText,
-            suffixStyle: TextStyle(color: widget.textColor, fontSize: 16.sp, fontWeight: FontWeight.w400),
+            suffixStyle: TextStyle(
+                color: widget.textColor,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w400),
             contentPadding: EdgeInsets.only(top: 16.h),
             prefixIcon: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -319,12 +362,18 @@ class _AccountSettingsTextFieldState extends State<AccountSettingsTextField> {
                 Text(
                   widget.hintText,
                   textAlign: TextAlign.start,
-                  style: TextStyle(color: widget.labelColor, fontSize: 16.sp, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      color: widget.labelColor,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500),
                 ),
               ],
             ),
             border: InputBorder.none,
-            labelStyle: TextStyle(color: const Color(0xFF8F01DF), fontSize: 16.sp, fontWeight: FontWeight.w600),
+            labelStyle: TextStyle(
+                color: const Color(0xFF8F01DF),
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600),
           ),
         ),
       ),

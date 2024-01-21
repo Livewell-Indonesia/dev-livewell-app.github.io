@@ -173,111 +173,7 @@ class UserDiaryScreen extends StatelessWidget {
                                     contentDescName: e.mealName ?? "",
                                     contentDescValue: "${e.caloriesInG} kcal",
                                     contentServing: e.mealServings ?? "",
-                                    onMoreTap: () {
-                                      showModalBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true,
-                                          shape: shapeBorder(),
-                                          builder: (buildContext) {
-                                            return Container(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  16.w, 24.h, 16.w, 32.h),
-                                              decoration: const BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(20),
-                                                  topRight: Radius.circular(20),
-                                                ),
-                                              ),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () {
-                                                      Get.back();
-                                                      controller
-                                                          .servingSizeController
-                                                          .text = (e
-                                                                  .servingSize ??
-                                                              1)
-                                                          .toString();
-                                                      showModalBottomSheet(
-                                                          context: context,
-                                                          isScrollControlled:
-                                                              true,
-                                                          shape: shapeBorder(),
-                                                          builder: (context) {
-                                                            return EditPortionWidget(
-                                                                textController:
-                                                                    controller
-                                                                        .servingSizeController,
-                                                                onTap: () {
-                                                                  controller.onUpdateTappedNew(
-                                                                      e,
-                                                                      double.parse(controller
-                                                                          .servingSizeController
-                                                                          .text));
-                                                                });
-                                                          });
-                                                    },
-                                                    child: ListTile(
-                                                      horizontalTitleGap: 0,
-                                                      leading: const Icon(
-                                                        Icons
-                                                            .mode_edit_outlined,
-                                                        size: 24,
-                                                      ),
-                                                      title: Text(
-                                                        "Edit Portion",
-                                                        style: TextStyle(
-                                                            fontSize: 16.sp,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: const Color(
-                                                                0xFF505050)),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      Get.back();
-                                                      showModalBottomSheet(
-                                                          context: context,
-                                                          isScrollControlled:
-                                                              true,
-                                                          shape: shapeBorder(),
-                                                          builder: (context) {
-                                                            return DeleteFoodWidget(
-                                                                onConfirmTap:
-                                                                    () {
-                                                              controller
-                                                                  .onDeleteTappedNew(
-                                                                      e);
-                                                            });
-                                                          });
-                                                    },
-                                                    child: ListTile(
-                                                      horizontalTitleGap: 0,
-                                                      leading: const Icon(
-                                                        Icons.delete_outlined,
-                                                        size: 24,
-                                                      ),
-                                                      title: Text(
-                                                        "Delete",
-                                                        style: TextStyle(
-                                                            fontSize: 16.sp,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: const Color(
-                                                                0xFF505050)),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          });
-                                    });
+                                    onMoreTap: () => onMoreTap(context, e));
                               }).toList(),
                               onAddTap: () {
                                 AppNavigator.push(
@@ -301,7 +197,8 @@ class UserDiaryScreen extends StatelessWidget {
                                 return DailyJournalItemContentDescModel(
                                     contentDescName: e.mealName ?? "",
                                     contentDescValue: "${e.caloriesInG} kcal",
-                                    contentServing: e.mealServings ?? "");
+                                    contentServing: e.mealServings ?? "",
+                                    onMoreTap: () => onMoreTap(context, e));
                               }).toList(),
                               onAddTap: () {
                                 AppNavigator.push(
@@ -325,7 +222,8 @@ class UserDiaryScreen extends StatelessWidget {
                                 return DailyJournalItemContentDescModel(
                                     contentDescName: e.mealName ?? "",
                                     contentDescValue: "${e.caloriesInG} kcal",
-                                    contentServing: e.mealServings ?? "");
+                                    contentServing: e.mealServings ?? "",
+                                    onMoreTap: () => onMoreTap(context, e));
                               }).toList(),
                               onAddTap: () {
                                 AppNavigator.push(
@@ -347,9 +245,11 @@ class UserDiaryScreen extends StatelessWidget {
                                       "snack".toUpperCase())
                                   .map((e) {
                                 return DailyJournalItemContentDescModel(
-                                    contentDescName: e.mealName ?? "",
-                                    contentDescValue: "${e.caloriesInG} kcal",
-                                    contentServing: e.mealServings ?? "");
+                                  contentDescName: e.mealName ?? "",
+                                  contentDescValue: "${e.caloriesInG} kcal",
+                                  contentServing: e.mealServings ?? "",
+                                  onMoreTap: () => onMoreTap(context, e),
+                                );
                               }).toList(),
                               onAddTap: () {
                                 AppNavigator.push(
@@ -558,6 +458,93 @@ class UserDiaryScreen extends StatelessWidget {
             ),
           ),
         ));
+  }
+
+  Future<dynamic> onMoreTap(BuildContext context, MealHistoryModel e) {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        shape: shapeBorder(),
+        builder: (buildContext) {
+          return Container(
+            padding: EdgeInsets.fromLTRB(16.w, 24.h, 16.w, 32.h),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Get.back();
+                    controller.servingSizeController.text =
+                        (e.servingSize ?? 1).toString();
+                    showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        shape: shapeBorder(),
+                        builder: (context) {
+                          return EditPortionWidget(
+                              textController: controller.servingSizeController,
+                              onTap: () {
+                                controller.onUpdateTappedNew(
+                                    e,
+                                    double.parse(
+                                        controller.servingSizeController.text));
+                              });
+                        });
+                  },
+                  child: ListTile(
+                    horizontalTitleGap: 0,
+                    leading: const Icon(
+                      Icons.mode_edit_outlined,
+                      size: 24,
+                    ),
+                    title: Text(
+                      "Edit Portion",
+                      style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xFF505050)),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.back();
+                    showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        shape: shapeBorder(),
+                        builder: (context) {
+                          return DeleteFoodWidget(onConfirmTap: () {
+                            controller.onDeleteTappedNew(e);
+                          });
+                        });
+                  },
+                  child: ListTile(
+                    horizontalTitleGap: 0,
+                    leading: const Icon(
+                      Icons.delete_outlined,
+                      size: 24,
+                    ),
+                    title: Text(
+                      "Delete",
+                      style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xFF505050)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 }
 

@@ -17,14 +17,18 @@ class TokenInterceptor extends Interceptor with NetworkModule {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     var statusCode = err.response!.statusCode;
-    if ((statusCode == 401 && err.response?.data['message'] != 'invalid email or password') || (statusCode == 400 && err.response?.data['message'] == 'missing or malformed jwt')) {}
+    if ((statusCode == 401 &&
+            err.response?.data['message'] != 'invalid email or password') ||
+        (statusCode == 400 &&
+            err.response?.data['message'] == 'missing or malformed jwt')) {}
     super.onError(err, handler);
   }
 }
 
 class NewTokenInteceptor extends Interceptor with NetworkModule {
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
     if (options.headers['Authorization'] != null) {
       Log.info("api Call using token, need to validate first");
       bool isTokenExpired;
@@ -32,25 +36,19 @@ class NewTokenInteceptor extends Interceptor with NetworkModule {
         isTokenExpired = JwtDecoder.isExpired(await SharedPref.getToken());
       } catch (ex) {
         isTokenExpired = true;
-        await SharedPref.removeToken();
-        await SharedPref.removeRefreshToken();
-        AppNavigator.pushAndRemove(routeName: AppPages.splash);
+        // await SharedPref.removeToken();
+        // await SharedPref.removeRefreshToken();
+        // AppNavigator.pushAndRemove(routeName: AppPages.splash);
       }
       Log.info("Checking Token");
-      try {
-        Log.info("current time ${DateTime.now()}, token expiration ${JwtDecoder.getExpirationDate(await SharedPref.getToken())}");
-      } catch (ex) {}
+      Log.info(
+          "current time ${DateTime.now()}, token expiration ${JwtDecoder.getExpirationDate(await SharedPref.getToken())}");
       if (isTokenExpired) {
         Log.info("Token Expired");
         var response = await refreshToken();
         response.fold((l) async {
           await SharedPref.removeToken();
           await SharedPref.removeRefreshToken();
-          // if (Get.currentRoute == "/") {
-          //   AppNavigator.pushReplacement(routeName: AppPages.splash);
-          // } else {
-          //   AppNavigator.pushAndRemove(routeName: AppPages.splash);
-          // }
           AppNavigator.pushAndRemove(routeName: AppPages.splash);
         }, (r) async {
           await SharedPref.saveToken(r.accessToken ?? '');
@@ -70,7 +68,9 @@ class NewTokenInteceptor extends Interceptor with NetworkModule {
 
   Future<Either<Failure, Login>> refreshToken() async {
     try {
-      final response = await postMethod(Endpoint.refreshToken, body: {"refresh_token": await SharedPref.getRefreshToken()});
+      final refreshToken = await SharedPref.getRefreshToken();
+      final response = await postMethod(Endpoint.refreshToken,
+          body: {'refresh_token': refreshToken});
       final json = responseHandler(response);
       final data = LoginModel.fromJson(json);
       return Right(data);

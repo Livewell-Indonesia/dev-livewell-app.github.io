@@ -97,6 +97,16 @@ class UserSettingsScreen extends StatelessWidget {
                                   return Image.network(
                                     controller.user.value.avatarUrl!,
                                     fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return SvgPicture.asset(
+                                        (controller.user.value.gender ??
+                                                        Gender.male.name)
+                                                    .toLowerCase() ==
+                                                "male"
+                                            ? Constant.imgMaleSVG
+                                            : Constant.imgFemaleSVG,
+                                      );
+                                    },
                                   );
                                 } else {
                                   return SvgPicture.asset(

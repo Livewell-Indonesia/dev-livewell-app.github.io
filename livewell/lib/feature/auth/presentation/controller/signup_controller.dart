@@ -35,12 +35,13 @@ class SignUpController extends BaseController {
       if (l.message!.contains("404")) {
         Get.snackbar('Error', 'Please verify your email first');
       } else {
-        Get.snackbar('Authentication Failed', 'Your authentication information is incorrect. Please try again.');
+        Get.snackbar('Authentication Failed',
+            'Your authentication information is incorrect. Please try again.');
       }
     }, (r) async {
       await registerDeviceToken();
-      SharedPref.saveToken(r.accessToken!);
-      SharedPref.saveRefreshToken(r.refreshToken!);
+      await SharedPref.saveToken(r.accessToken!);
+      await SharedPref.saveRefreshToken(r.refreshToken!);
       AppNavigator.pushAndRemove(routeName: AppPages.home);
     });
   }
@@ -67,13 +68,18 @@ class SignUpController extends BaseController {
       return;
     }
     if (!password.text.isPasswordValid()) {
-      passwordError.value = 'Password must contains 1 uppercase, 1 number and 1 symbol';
+      passwordError.value =
+          'Password must contains 1 uppercase, 1 number and 1 symbol';
       return;
     }
     passwordError.value = null;
 
     await EasyLoading.show();
-    final result = await postRegister.call(ParamsRegister(firstName: firstName.text, lastName: lastName.text, email: email.text, password: password.text));
+    final result = await postRegister.call(ParamsRegister(
+        firstName: firstName.text,
+        lastName: lastName.text,
+        email: email.text,
+        password: password.text));
     await EasyLoading.dismiss();
     result.fold((l) {}, (r) {
       AppNavigator.pushReplacement(routeName: AppPages.login);

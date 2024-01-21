@@ -57,8 +57,8 @@ class LoginController extends BaseController {
             'Your authentication information is incorrect. Please try again.');
       }
     }, (r) async {
-      SharedPref.saveToken(r.accessToken!);
-      SharedPref.saveRefreshToken(r.refreshToken!);
+      await SharedPref.saveToken(r.accessToken!);
+      await SharedPref.saveRefreshToken(r.refreshToken!);
       GetUser getUser = GetUser.instance();
       final result = await getUser(NoParams());
       result.fold((l) {}, (r) async {
@@ -107,8 +107,8 @@ class LoginController extends BaseController {
             'Your authentication information is incorrect. Please try again.');
       }
     }, (r) async {
-      SharedPref.saveToken(r.accessToken!);
-      SharedPref.saveRefreshToken(r.refreshToken!);
+      await SharedPref.saveToken(r.accessToken!);
+      await SharedPref.saveRefreshToken(r.refreshToken!);
       GetUser getUser = GetUser.instance();
       final result = await getUser(NoParams());
       result.fold((l) {}, (r) async {
@@ -134,8 +134,8 @@ class LoginController extends BaseController {
             'Your authentication information is incorrect. Please try again.');
       }
     }, (r) async {
-      SharedPref.saveToken(r.accessToken!);
-      SharedPref.saveRefreshToken(r.refreshToken!);
+      await SharedPref.saveToken(r.accessToken!);
+      await SharedPref.saveRefreshToken(r.refreshToken!);
       GetUser getUser = GetUser.instance();
       final result = await getUser(NoParams());
       result.fold((l) {}, (r) async {
