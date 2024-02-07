@@ -1,9 +1,5 @@
-import 'dart:developer';
-
-import 'package:collection/collection.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/post_mood.dart';
@@ -24,7 +20,7 @@ class MoodScreenController extends BaseController {
 
   void getData() async {
     var result = await getMoodList(14);
-    result.fold((l) => print(l), (r) {
+    result.fold((l) => Log.error(l), (r) {
       if (r.response != null) {
         moodList.addAll(r.response ?? []);
         isMoodSelected.value = moodList.firstWhereOrNull((element) {

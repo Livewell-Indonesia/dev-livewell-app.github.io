@@ -463,7 +463,7 @@ class _UpdateWeightScreenState extends State<UpdateWeightScreen> {
     DateFormat dateFormat = DateFormat('dd/MM');
 
     text = controller.weightHistory.isEmpty
-        ? Text('')
+        ? const Text('')
         : Text(
             dateFormat.format(DateFormat('yyyy-MM-dd').parse(controller
                 .weightHistory.reversed
@@ -483,7 +483,6 @@ class _UpdateWeightScreenState extends State<UpdateWeightScreen> {
       color: const Color(0xFF505050),
       fontSize: 10.sp,
     );
-    String text;
 
     return Text(value.toString(), style: style, textAlign: TextAlign.left);
   }

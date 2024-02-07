@@ -502,40 +502,6 @@ class FoodController extends BaseController {
           (previousValue, element) =>
               (previousValue ?? 0) + (element.molybdenumInMcg ?? 0));
 
-      final averageEssentialVitamins = Formula.averageEssentialVitamins(
-        Formula.vitAPercentage(totalVitA ?? 0),
-        Formula.vitCPercentage(totalVitC ?? 0),
-        Formula.vitDPercentage(totalVitD ?? 0),
-        Formula.vitEPercentage(totalVitE ?? 0),
-        Formula.vitKPercentage(totalVitK ?? 0),
-        Formula.vitB1Percentage(totalVitB1 ?? 0),
-        Formula.vitB2Percentage(totalVitB2 ?? 0),
-        Formula.vitB3Percentage(totalVitB3 ?? 0),
-        Formula.vitB5Percentage(totalVitB5 ?? 0),
-        Formula.vitB6Percentage(totalVitB6 ?? 0),
-        Formula.vitB7Percentage(totalVitB7 ?? 0),
-        Formula.vitB9Percentage(totalVitB9 ?? 0),
-        Formula.vitB12Percentage(totalVitB12 ?? 0),
-      );
-
-      final averageMajorMinerals = Formula.averageMajorMineral(
-        Formula.calciumPercentage(totalCalcium ?? 0),
-        Formula.magnesiumPercentage(totalMagnesium ?? 0),
-        Formula.phosphorusPercentage(totalPhosphorus ?? 0),
-        Formula.chloridePercentage(totalChloride ?? 0),
-        Formula.potassiumPercentage(totalPotassium ?? 0),
-        Formula.sodiumPercentage(totalSodium ?? 0),
-      );
-      final averageMicroMinerals = Formula.averageMinorMineral(
-        Formula.ironPercentage(totalIron ?? 0),
-        Formula.iodinePercentage(totalIodine ?? 0),
-        Formula.zincPercentage(totalZinc ?? 0),
-        Formula.seleniumPercentage(totalSelenium ?? 0),
-        Formula.fluoridePercentage(totalFluoride ?? 0),
-        Formula.chromiumPercentage(totalChromium ?? 0),
-        Formula.molybdenumPercentage(totalMolybdenum ?? 0),
-      );
-
       var totalMicroNuts = (totalVitA ?? 0.0) +
           (totalVitC ?? 0.0) +
           (totalVitD ?? 0.0) +
@@ -578,7 +544,7 @@ class FoodController extends BaseController {
     mealHistory.remove(deletedItem);
     EasyLoading.show();
     final result = await deleteMealHistory.call(deletedItem.id ?? 0);
-    result.fold((l) => print(l), (r) => print(r));
+    result.fold((l) => Log.error(l), (r) => Log.error(r));
     if (Get.isRegistered<DashboardController>()) {
       Get.find<DashboardController>().onInit();
     }
@@ -598,7 +564,7 @@ class FoodController extends BaseController {
     } else {
       EasyLoading.show();
       final result = await deleteMealHistory.call(updatedItem);
-      result.fold((l) => print(l), (r) {
+      result.fold((l) => Log.error(l), (r) {
         fetchUserMealHistory();
         if (Get.isRegistered<DashboardController>()) {
           Get.find<DashboardController>().onInit();

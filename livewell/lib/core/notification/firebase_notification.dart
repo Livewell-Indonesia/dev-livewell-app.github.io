@@ -1,14 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/register_device_token.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
-import 'package:livewell/main.dart';
 import 'package:livewell/routes/app_navigator.dart';
 
 import '../local_storage/shared_pref.dart';
@@ -18,8 +16,10 @@ class LivewellNotification {
   final _localNotifications = FlutterLocalNotificationsPlugin();
   RegisterDevice registerDevice = RegisterDevice.instance();
 
-  final _androidChannel = const AndroidNotificationChannel('high_importance_chanel', 'High Importance Notifications',
-      description: 'This channel is used for important notifications', importance: Importance.defaultImportance);
+  final _androidChannel = const AndroidNotificationChannel(
+      'high_importance_chanel', 'High Importance Notifications',
+      description: 'This channel is used for important notifications',
+      importance: Importance.defaultImportance);
 
   Future<void> initToken() async {
     await _firebaseMessaging.requestPermission();
@@ -40,7 +40,9 @@ class LivewellNotification {
 
   Future<void> init() async {
     await initToken();
-    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(alert: true, badge: true, sound: true);
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+            alert: true, badge: true, sound: true);
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
       Log.info('A new onMessageOpenedApp event was published!');
       handleMessage(message);
@@ -56,8 +58,13 @@ class LivewellNotification {
           notification.title,
           notification.body,
           NotificationDetails(
-            android: AndroidNotificationDetails(_androidChannel.id, _androidChannel.name,
-                channelDescription: _androidChannel.description, importance: Importance.max, priority: Priority.high, showWhen: false, icon: '@drawable/ic_livewell_notification'),
+            android: AndroidNotificationDetails(
+                _androidChannel.id, _androidChannel.name,
+                channelDescription: _androidChannel.description,
+                importance: Importance.max,
+                priority: Priority.high,
+                showWhen: false,
+                icon: '@drawable/ic_livewell_notification'),
           ),
           payload: jsonEncode(message.toMap()));
 
@@ -91,7 +98,8 @@ class LivewellNotification {
   }
 
   Future initLocalNotifications() async {
-    const android = AndroidInitializationSettings('@drawable/ic_livewell_notification');
+    const android =
+        AndroidInitializationSettings('@drawable/ic_livewell_notification');
     const iOS = DarwinInitializationSettings();
     const settings = InitializationSettings(android: android, iOS: iOS);
     await _localNotifications.initialize(
@@ -102,7 +110,8 @@ class LivewellNotification {
         }
       },
     );
-    final platform = _localNotifications.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+    final platform = _localNotifications.resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>();
     await platform?.createNotificationChannel(_androidChannel);
   }
 

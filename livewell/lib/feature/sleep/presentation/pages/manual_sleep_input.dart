@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -138,7 +137,7 @@ class ManualSleepInput extends StatelessWidget {
                             child: Text(
                               controler.localization.cancel!,
                               style: TextStyle(
-                                  color: Color.fromARGB(255, 49, 46, 75),
+                                  color: const Color.fromARGB(255, 49, 46, 75),
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w500),
                             )),

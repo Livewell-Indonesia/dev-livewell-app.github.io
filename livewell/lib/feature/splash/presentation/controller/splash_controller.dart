@@ -44,7 +44,7 @@ class SplashController extends GetxController {
       GetUser getUser = GetUser.instance();
       final result = await getUser.call(NoParams());
       result.fold((l) {}, (r) async {
-        final isLoggedIn = await SharedPref.getToken();
+        await SharedPref.getToken();
         await SharedPref.saveUserLocale(r.language!);
         controller
             .changeLocalization(controller.LanguagefromLocale(r.language)!)

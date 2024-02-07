@@ -12,7 +12,6 @@ import 'package:livewell/feature/profile/domain/usecase/update_user_info.dart';
 import 'package:livewell/feature/profile/domain/usecase/upload_photo.dart';
 import 'package:livewell/feature/questionnaire/domain/usecase/post_questionnaire.dart';
 import 'package:livewell/routes/app_navigator.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:livewell/core/base/base_controller.dart';
 
 import '../../../questionnaire/presentation/controller/questionnaire_controller.dart';
@@ -33,7 +32,6 @@ class PhysicalInformationController extends BaseController {
   Rxn<DateTime> birthDate = Rxn<DateTime>();
   PostQuestionnaire postQuestionnaire = PostQuestionnaire.instance();
   Rx<GoalSelection> selectedGoals = GoalSelection.getFitter.obs;
-  final ImagePicker _picker = ImagePicker();
 
   @override
   void onInit() {
@@ -113,7 +111,6 @@ class PhysicalInformationController extends BaseController {
       data.fold((l) {
         Log.error(l.message ?? "");
         Get.snackbar("error", l.message ?? "");
-        print(l.message ?? "");
       }, (r) async {
         DashboardController controller = Get.find();
         await controller.getUsersData().then((value) {
@@ -121,10 +118,8 @@ class PhysicalInformationController extends BaseController {
         });
       });
     } on ServerFailure catch (e) {
-      print(e.message ?? "");
       Get.snackbar(e.message ?? "", e.message ?? "");
     } catch (e) {
-      print("konts $e");
       Get.snackbar(e.toString(), e.toString());
     }
   }

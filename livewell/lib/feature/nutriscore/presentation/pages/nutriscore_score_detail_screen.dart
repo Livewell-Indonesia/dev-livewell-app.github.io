@@ -1,13 +1,10 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/nutriscore/presentation/controller/nutriscore_score_detail_controller.dart';
-import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_screen.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
 class NutriscoreScoreDetailScreen extends StatefulWidget {
@@ -513,7 +510,7 @@ class NutriscoreOptimalIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
+        SizedBox(
           height: 100.h,
           width: 114.3.w,
           child: Column(
@@ -557,7 +554,7 @@ class NutriscoreMidIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
+        SizedBox(
           height: 100.h,
           width: 114.3.w,
           child: Column(
@@ -602,7 +599,7 @@ class NutriscoreLowIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
+        SizedBox(
           height: 100.h,
           width: 114.3.w,
           child: Column(

@@ -102,9 +102,8 @@ class Body extends StatelessWidget {
                               ),
                               child: CircleAvatar(
                                   radius: 2.5,
-                                  backgroundColor: dotIndicatorColor != null
-                                      ? dotIndicatorColor
-                                      : _selectedColor),
+                                  backgroundColor:
+                                      dotIndicatorColor ?? _selectedColor),
                             ),
                           ),
                         ),

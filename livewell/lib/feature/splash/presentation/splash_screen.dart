@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:livewell/feature/splash/presentation/controller/splash_controller.dart';
 
 class SplashScreen extends StatefulWidget {
-  SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();

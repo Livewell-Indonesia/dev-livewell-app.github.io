@@ -44,7 +44,7 @@ class ComingSoonPage extends StatelessWidget {
                       height: 20.sp / 14.sp)),
             ),
             60.verticalSpace,
-            Container(
+            SizedBox(
               child: Stack(
                 children: [
                   Image.asset(

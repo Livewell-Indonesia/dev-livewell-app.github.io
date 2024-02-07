@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/nutriscore/presentation/controller/nutriscore_controller.dart';
-import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_detail_screen.dart';
 import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_score_detail_screen.dart';
 import 'package:livewell/widgets/banner/nutriscore_banner.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
@@ -34,7 +33,7 @@ class _NutriScoreScreenState extends State<NutriScoreScreen> {
                   Obx(() {
                     return InkWell(
                       onTap: () {
-                        Get.to(() => NutriscoreScoreDetailScreen());
+                        Get.to(() => const NutriscoreScoreDetailScreen());
                       },
                       child: NutriscoreBanner(
                         value:
@@ -53,7 +52,7 @@ class _NutriScoreScreenState extends State<NutriScoreScreen> {
                       crossAxisCount: 2,
                       mainAxisSpacing: 8.h,
                       crossAxisSpacing: 8.w,
-                      childAspectRatio: 2.3,
+                      childAspectRatio: 2.13.w,
                     ),
                     itemBuilder: (context, index) {
                       return InkWell(

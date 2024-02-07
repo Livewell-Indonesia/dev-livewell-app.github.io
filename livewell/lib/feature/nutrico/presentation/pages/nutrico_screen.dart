@@ -192,7 +192,7 @@ class NutricoAssetsPopupWidget extends StatelessWidget {
               24.verticalSpace,
               LiveWellButton(
                 label: 'Start Now',
-                color: Color(0xFFDDF235),
+                color: const Color(0xFFDDF235),
                 onPressed: () {
                   Get.back();
                 },

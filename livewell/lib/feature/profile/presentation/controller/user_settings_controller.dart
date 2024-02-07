@@ -8,7 +8,6 @@ import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/profile/domain/usecase/update_user_info.dart';
 import 'package:livewell/feature/profile/presentation/page/exercise_information_screen.dart';
-import 'package:livewell/feature/splash/presentation/controller/splash_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
 
 import '../page/physical_information_screen.dart';

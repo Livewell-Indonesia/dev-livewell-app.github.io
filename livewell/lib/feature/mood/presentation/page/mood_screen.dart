@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/feature/mood/presentation/controller/mood_screen_controller.dart';
 import 'package:livewell/feature/mood/presentation/widget/mood_picker_widget.dart';
@@ -27,7 +24,7 @@ class _MoodScreenState extends State<MoodScreen> {
         body: Expanded(
           child: RefreshIndicator(
               onRefresh: () async {
-                await Future.delayed(Duration(seconds: 1));
+                await Future.delayed(const Duration(seconds: 1));
               },
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -168,10 +165,10 @@ class _MoodScreenState extends State<MoodScreen> {
       if (controller.isMoodSelected.value!.value! == type.value()) {
         return null;
       } else {
-        return Color(0xFF171433).withOpacity(0.3);
+        return const Color(0xFF171433).withOpacity(0.3);
       }
     } else {
-      return Color(0xFF171433).withOpacity(0.3);
+      return const Color(0xFF171433).withOpacity(0.3);
     }
   }
 
@@ -180,10 +177,10 @@ class _MoodScreenState extends State<MoodScreen> {
       if (controller.isMoodSelected.value!.value! == type.value()) {
         return type.mainColor();
       } else {
-        return Color(0xFF171433).withOpacity(0.3);
+        return const Color(0xFF171433).withOpacity(0.3);
       }
     } else {
-      return Color(0xFF171433).withOpacity(0.3);
+      return const Color(0xFF171433).withOpacity(0.3);
     }
   }
 
@@ -254,7 +251,7 @@ class _MoodScreenState extends State<MoodScreen> {
             // }).toList(),
             isCurved: false,
             barWidth: 2,
-            color: Color(0xFFD9D9D9),
+            color: const Color(0xFFD9D9D9),
             isStrokeCapRound: true,
             dotData: FlDotData(
               show: false,
@@ -302,14 +299,9 @@ class _MoodScreenState extends State<MoodScreen> {
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    var style = TextStyle(
-      fontWeight: FontWeight.w600,
-      color: const Color(0xFF505050),
-      fontSize: 10.sp,
-    );
     Widget text;
     text = value == 6.0 || value == 0
-        ? Text('')
+        ? const Text('')
         : Container(
             width: 12.w,
             height: 12.h,

@@ -7,15 +7,15 @@ class MoodsModel {
     if (json['response'] != null) {
       response = <Mood>[];
       json['response'].forEach((v) {
-        response!.add(new Mood.fromJson(v));
+        response!.add(Mood.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.response != null) {
-      data['response'] = this.response!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (response != null) {
+      data['response'] = response!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -47,13 +47,13 @@ class Mood {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['record_at'] = this.recordAt;
-    data['value'] = this.value;
-    data['desc'] = this.desc;
-    data['user_reference_id'] = this.userReferenceId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['record_at'] = recordAt;
+    data['value'] = value;
+    data['desc'] = desc;
+    data['user_reference_id'] = userReferenceId;
     return data;
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:livewell/feature/splash/presentation/controller/splash_controller.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'package:pinput/pinput.dart';
 

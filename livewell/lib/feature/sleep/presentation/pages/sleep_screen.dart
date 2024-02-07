@@ -7,7 +7,6 @@ import 'package:intl/intl.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/sleep/presentation/controller/sleep_controller.dart';
-import 'package:livewell/main.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/chart/circular_nutrition.dart';
@@ -439,10 +438,10 @@ class SmallerSleepCircular extends StatelessWidget {
 }
 
 class DailyBreakdownItem extends StatelessWidget {
-  String image;
-  String time;
-  String label;
-  DailyBreakdownItem({
+  final String image;
+  final String time;
+  final String label;
+  const DailyBreakdownItem({
     required this.image,
     required this.time,
     required this.label,
@@ -481,19 +480,6 @@ class DailyBreakdownItem extends StatelessWidget {
         ),
       ]),
     );
-  }
-}
-
-class customGoalWidget extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    // TODO: implement pain
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    // TODO: implement shouldRepaint
-    throw UnimplementedError();
   }
 }
 

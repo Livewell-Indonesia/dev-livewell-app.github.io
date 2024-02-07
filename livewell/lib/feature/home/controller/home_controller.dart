@@ -108,7 +108,8 @@ class HomeController extends BaseController {
           if (p0.keyTarget == cardKey) {
             scrollController
                 .animateTo(scrollController.position.maxScrollExtent,
-                    duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn)
+                    duration: const Duration(seconds: 1),
+                    curve: Curves.fastOutSlowIn)
                 .then((value) {
               tutorialCoachMark.next();
             });
@@ -244,7 +245,7 @@ class HomeController extends BaseController {
                                     .animateTo(
                                         scrollController
                                             .position.maxScrollExtent,
-                                        duration: Duration(seconds: 1),
+                                        duration: const Duration(seconds: 1),
                                         curve: Curves.fastOutSlowIn)
                                     .then((value) {
                                   tutorialCoachMark.next();

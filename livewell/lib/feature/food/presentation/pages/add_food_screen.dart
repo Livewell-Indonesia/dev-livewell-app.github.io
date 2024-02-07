@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -35,7 +34,10 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
   @override
   void initState() {
     controller.servingSize.text = food?.servings?[0].servingDescription ?? "";
-    controller.numberOfServing.text = double.parse(food?.servings?[0].numberOfUnits ?? "1.0").toInt().toString();
+    controller.numberOfServing.text =
+        double.parse(food?.servings?[0].numberOfUnits ?? "1.0")
+            .toInt()
+            .toString();
     controller.selectedTime.value = selectedTime.toString();
     controller.time.text = DateFormat('hh:mm a').format(selectedTime);
     if (Get.arguments != null) {
@@ -58,8 +60,16 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
           onPressed: () async {
             await showModalBottomSheet(
                 context: context,
-                shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-                    const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
+                shape: ShapeBorder.lerp(
+                    const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20))),
+                    const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20))),
+                    1),
                 builder: (context) {
                   return ImagePickerBottomSheet(onImageSelected: (img) async {
                     setState(() {
@@ -67,8 +77,16 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                     });
                     await showModalBottomSheet(
                         context: Get.context!,
-                        shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-                            const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
+                        shape: ShapeBorder.lerp(
+                            const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20))),
+                            const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20))),
+                            1),
                         builder: (context) {
                           return SizedBox(
                             height: 0.2.sh,
@@ -77,18 +95,30 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                 20.verticalSpace,
                                 Text(
                                   'Pick an Image Ratio:',
-                                  style: TextStyle(color: Color(0xff171433), fontSize: 24.sp, fontWeight: FontWeight.w700),
+                                  style: TextStyle(
+                                      color: const Color(0xff171433),
+                                      fontSize: 24.sp,
+                                      fontWeight: FontWeight.w700),
                                 ),
                                 20.verticalSpace,
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 16.w),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
                                     children: [
                                       Expanded(
                                         child: ElevatedButton(
                                             onPressed: () async {
-                                              AppNavigator.push(routeName: AppPages.selectTemplateShareFood, arguments: {'file': file, 'food': food, 'aspectRatio': 9 / 16});
+                                              AppNavigator.push(
+                                                  routeName: AppPages
+                                                      .selectTemplateShareFood,
+                                                  arguments: {
+                                                    'file': file,
+                                                    'food': food,
+                                                    'aspectRatio': 9 / 16
+                                                  });
                                             },
                                             child: const Text('16:9')),
                                       ),
@@ -96,7 +126,14 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                       Expanded(
                                         child: ElevatedButton(
                                             onPressed: () async {
-                                              AppNavigator.push(routeName: AppPages.selectTemplateShareFood, arguments: {'file': file, 'food': food, 'aspectRatio': 1 / 1});
+                                              AppNavigator.push(
+                                                  routeName: AppPages
+                                                      .selectTemplateShareFood,
+                                                  arguments: {
+                                                    'file': file,
+                                                    'food': food,
+                                                    'aspectRatio': 1 / 1
+                                                  });
                                             },
                                             child: const Text('1:1')),
                                       ),
@@ -122,13 +159,20 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                     padding: EdgeInsets.only(left: 16.0.w, right: 16.0.w),
                     child: Text(
                       food?.foodName ?? "",
-                      style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.w700, color: Colors.black),
+                      style: TextStyle(
+                          fontSize: 28.sp,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black),
                     )),
                 8.verticalSpace,
                 Padding(
                   padding: EdgeInsets.only(left: 16.0.w),
-                  child: Text("${food?.servings?.first.servingDescription ?? ""} ${food?.servings?.first.servingDesc ?? ""}",
-                      style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600)),
+                  child: Text(
+                      "${food?.servings?.first.servingDescription ?? ""} ${food?.servings?.first.servingDesc ?? ""}",
+                      style: TextStyle(
+                          color: const Color(0xFF171433).withOpacity(0.8),
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600)),
                 ),
                 10.verticalSpace,
                 Container(
@@ -136,9 +180,28 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                   child: Center(
                     child: MultipleColorCircle(
                       colorOccurrences: {
-                        const Color(0xFF8F01DF): ((((double.parse(food?.servings?[0].carbohydrate ?? "0")) * 4) / double.parse(food?.servings?[0].calories ?? "0") * 100).roundZero()),
-                        const Color(0xFFF5D25D): (((double.parse(food?.servings?[0].fat ?? "0") * 9) / double.parse(food?.servings?[0].calories ?? "0") * 100).roundZero()),
-                        const Color(0xFFDDF235): (((double.parse(food?.servings?[0].protein ?? "0") * 4) / double.parse(food?.servings?[0].calories ?? "0") * 100).roundZero())
+                        const Color(0xFF8F01DF): ((((double.parse(
+                                        food?.servings?[0].carbohydrate ??
+                                            "0")) *
+                                    4) /
+                                double.parse(
+                                    food?.servings?[0].calories ?? "0") *
+                                100)
+                            .roundZero()),
+                        const Color(0xFFF5D25D):
+                            (((double.parse(food?.servings?[0].fat ?? "0") *
+                                        9) /
+                                    double.parse(
+                                        food?.servings?[0].calories ?? "0") *
+                                    100)
+                                .roundZero()),
+                        const Color(0xFFDDF235):
+                            (((double.parse(food?.servings?[0].protein ?? "0") *
+                                        4) /
+                                    double.parse(
+                                        food?.servings?[0].calories ?? "0") *
+                                    100)
+                                .roundZero())
                       },
                       height: 80,
                       child:
@@ -152,15 +215,21 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              GetBuilder<AddFoodController>(builder: (controller) {
+                              GetBuilder<AddFoodController>(
+                                  builder: (controller) {
                                 return Text(
                                   '${controller.getTotalCalByServings(num.parse(food?.servings?[0].calories ?? "0")).round().toInt()}',
-                                  style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w500, color: Color(0xFF171433)),
+                                  style: TextStyle(
+                                      fontSize: 24.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: const Color(0xFF171433)),
                                 );
                               }),
                               Text(
                                 'Cal',
-                                style: TextStyle(fontSize: 11.sp, color: Color(0xFF171433)),
+                                style: TextStyle(
+                                    fontSize: 11.sp,
+                                    color: const Color(0xFF171433)),
                               ),
                             ],
                           ),
@@ -175,18 +244,24 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                       NutrtionProgressModel(
                           name: 'Carbs',
                           color: const Color(0xFF8F01DF),
-                          total: "${controller.getTotalCarbsByServings(num.parse(food?.servings?[0].carbohydrate ?? "0")).toInt()} ${food?.servings?[0].metricServingUnit ?? "g"}",
-                          consumed: "${(controller.maxHundred((num.parse(food?.servings?[0].carbohydrate ?? "0") * 4) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero())}% "),
+                          total:
+                              "${controller.getTotalCarbsByServings(num.parse(food?.servings?[0].carbohydrate ?? "0")).toInt()} ${food?.servings?[0].metricServingUnit ?? "g"}",
+                          consumed:
+                              "${(controller.maxHundred((num.parse(food?.servings?[0].carbohydrate ?? "0") * 4) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero())}% "),
                       NutrtionProgressModel(
                           name: 'Fat',
                           color: const Color(0xFFF5D25D),
-                          total: "${controller.getTotalFatByServings(num.parse(food?.servings?[0].fat ?? "0")).toInt()} ${food?.servings?[0].metricServingUnit ?? "g"}",
-                          consumed: "${(controller.maxHundred((num.parse(food?.servings?[0].fat ?? "0") * 9) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero())}% "),
+                          total:
+                              "${controller.getTotalFatByServings(num.parse(food?.servings?[0].fat ?? "0")).toInt()} ${food?.servings?[0].metricServingUnit ?? "g"}",
+                          consumed:
+                              "${(controller.maxHundred((num.parse(food?.servings?[0].fat ?? "0") * 9) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero())}% "),
                       NutrtionProgressModel(
                           name: 'Protein',
                           color: const Color(0xFFDDF235),
-                          total: "${controller.getTotalProteinByServings(num.parse(food?.servings?[0].protein ?? "0")).toInt()} ${food?.servings?[0].metricServingUnit ?? "g"}",
-                          consumed: "${(controller.maxHundred((num.parse(food?.servings?[0].protein ?? "0") * 4) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero())}% "),
+                          total:
+                              "${controller.getTotalProteinByServings(num.parse(food?.servings?[0].protein ?? "0")).toInt()} ${food?.servings?[0].metricServingUnit ?? "g"}",
+                          consumed:
+                              "${(controller.maxHundred((num.parse(food?.servings?[0].protein ?? "0") * 4) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero())}% "),
                     ],
                     backgroundColor: Colors.transparent,
                   );
@@ -198,7 +273,8 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                     callback: () {
                       Get.to(() => NutrientFactScreen(
                             servings: food!.servings![0],
-                            numberOfServings: double.parse(controller.numberOfServing.text),
+                            numberOfServings:
+                                double.parse(controller.numberOfServing.text),
                           ));
                     }),
                 15.verticalSpace,
@@ -210,7 +286,8 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                         flex: 4,
                         child: LiveWellTextField(
                           controller: controller.numberOfServing,
-                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
                           hintText: null,
                           labelText: controller.localization.numberOfServing!,
                           errorText: null,
@@ -228,21 +305,33 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                   builder: (context) {
                                     return Dialog(
                                       child: Container(
-                                        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20).r,
+                                        padding: const EdgeInsets.symmetric(
+                                                vertical: 20, horizontal: 20)
+                                            .r,
                                         height: 380.h,
                                         child: Column(
                                           children: [
                                             Text(
                                               controller.localization.time!,
-                                              style: TextStyle(color: const Color(0xFF171433), fontSize: 18.sp, fontWeight: FontWeight.w600),
+                                              style: TextStyle(
+                                                  color:
+                                                      const Color(0xFF171433),
+                                                  fontSize: 18.sp,
+                                                  fontWeight: FontWeight.w600),
                                             ),
                                             SizedBox(
                                               height: 274.h,
                                               child: CupertinoDatePicker(
-                                                mode: CupertinoDatePickerMode.time,
+                                                mode: CupertinoDatePickerMode
+                                                    .time,
                                                 onDateTimeChanged: (time) {
                                                   if (Get.arguments != null) {
-                                                    selectedTime = DateTime(selectedTime.year, selectedTime.month, selectedTime.day, time.hour, time.minute);
+                                                    selectedTime = DateTime(
+                                                        selectedTime.year,
+                                                        selectedTime.month,
+                                                        selectedTime.day,
+                                                        time.hour,
+                                                        time.minute);
                                                   } else {
                                                     selectedTime = time;
                                                   }
@@ -255,40 +344,70 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                                 Expanded(
                                                   flex: 2,
                                                   child: OutlinedButton(
-                                                      style: OutlinedButton.styleFrom(
-                                                        side: BorderSide(width: 2, color: const Color(0xFF171433).withOpacity(0.7)),
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(20.r),
+                                                      style: OutlinedButton
+                                                          .styleFrom(
+                                                        side: BorderSide(
+                                                            width: 2,
+                                                            color: const Color(
+                                                                    0xFF171433)
+                                                                .withOpacity(
+                                                                    0.7)),
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      20.r),
                                                         ),
                                                       ),
                                                       onPressed: () {
                                                         Get.back();
                                                       },
                                                       child: Text(
-                                                        controller.localization.cancel!,
-                                                        style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp, fontWeight: FontWeight.w500),
+                                                        controller.localization
+                                                            .cancel!,
+                                                        style: TextStyle(
+                                                            color: const Color(
+                                                                0xFF171433),
+                                                            fontSize: 14.sp,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
                                                       )),
                                                 ),
                                                 const Spacer(),
                                                 Expanded(
                                                   flex: 2,
                                                   child: TextButton(
-                                                      style: TextButton.styleFrom(
-                                                        backgroundColor: const Color(0xFF8F01DF),
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(20.r),
+                                                      style:
+                                                          TextButton.styleFrom(
+                                                        backgroundColor:
+                                                            const Color(
+                                                                0xFF8F01DF),
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      20.r),
                                                         ),
                                                       ),
                                                       onPressed: () {
-                                                        controller.time.text = DateFormat('hh:mm a').format(selectedTime);
+                                                        controller.time
+                                                            .text = DateFormat(
+                                                                'hh:mm a')
+                                                            .format(
+                                                                selectedTime);
                                                         Get.back();
                                                       },
                                                       child: Text(
-                                                        controller.localization.save!,
+                                                        controller
+                                                            .localization.save!,
                                                         style: TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 14.sp,
-                                                          fontWeight: FontWeight.w500,
+                                                          fontWeight:
+                                                              FontWeight.w500,
                                                         ),
                                                       )),
                                                 )
@@ -319,7 +438,9 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                   width: 1.sw,
                   height: 76.h,
                   margin: const EdgeInsets.symmetric(horizontal: 16).r,
-                  padding: const EdgeInsets.only(top: 20, bottom: 20, left: 24, right: 15).r,
+                  padding: const EdgeInsets.only(
+                          top: 20, bottom: 20, left: 24, right: 15)
+                      .r,
                   decoration: BoxDecoration(
                     color: const Color(0xFF171433),
                     borderRadius: BorderRadius.circular(30.r),
@@ -337,22 +458,38 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                   builder: ((controller) {
                                     return Text(
                                         "${controller.percentOfDailyGoals(controller.getTotalCalByServings(num.parse(food?.servings?[0].calories ?? "0")).round().toInt())}% ${controller.localization.ofYourGoal}",
-                                        style: TextStyle(color: Colors.white, fontSize: 11.sp, fontWeight: FontWeight.w600));
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 11.sp,
+                                            fontWeight: FontWeight.w600));
                                   }),
                                 ),
                                 const Spacer(),
-                                GetBuilder<AddFoodController>(builder: (controller) {
-                                  return Text(("${controller.getTotalCalByServings(num.parse(food?.servings?[0].calories ?? "0")).round().toInt()} cal"),
-                                      style: TextStyle(color: Colors.white, fontSize: 11.sp, fontWeight: FontWeight.w600));
+                                GetBuilder<AddFoodController>(
+                                    builder: (controller) {
+                                  return Text(
+                                      ("${controller.getTotalCalByServings(num.parse(food?.servings?[0].calories ?? "0")).round().toInt()} cal"),
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w600));
                                 }),
                               ],
                             ),
                             7.verticalSpace,
-                            GetBuilder<AddFoodController>(builder: (controller) {
+                            GetBuilder<AddFoodController>(
+                                builder: (controller) {
                               return LinearPercentIndicator(
                                 padding: EdgeInsets.zero,
                                 lineHeight: 7.0,
-                                percent: controller.percentOfDailyGoals(controller.getTotalCalByServings(num.parse(food?.servings?[0].calories ?? "0")).round().toInt()) / 100,
+                                percent: controller.percentOfDailyGoals(
+                                        controller
+                                            .getTotalCalByServings(num.parse(
+                                                food?.servings?[0].calories ??
+                                                    "0"))
+                                            .round()
+                                            .toInt()) /
+                                    100,
                                 barRadius: const Radius.circular(4.0),
                                 backgroundColor: const Color(0xFFF2F1F9),
                                 progressColor: const Color(0xFFDDF235),
@@ -365,11 +502,14 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                       8.horizontalSpace,
                       InkWell(
                         onTap: () {
-                          controller.selectedTime.value = selectedTime.toString();
+                          controller.selectedTime.value =
+                              selectedTime.toString();
                           controller.addMeals(food!, mealTime!);
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7).r,
+                          padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 7)
+                              .r,
                           height: 33.h,
                           decoration: BoxDecoration(
                             color: const Color(0xFFDDF235),
@@ -378,7 +518,10 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                           child: Center(
                             child: Text(
                               controller.localization.submit!,
-                              style: TextStyle(color: Colors.black, fontSize: 12.sp, fontWeight: FontWeight.w500),
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500),
                             ),
                           ),
                         ),

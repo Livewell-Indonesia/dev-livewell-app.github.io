@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -23,11 +22,11 @@ class DashboardSummaryWidget extends StatelessWidget {
       child: GridView.builder(
         padding: EdgeInsets.zero,
         shrinkWrap: true,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            childAspectRatio: 151 / 68,
-            crossAxisSpacing: 9,
-            mainAxisSpacing: 9),
+            childAspectRatio: 2.18.w,
+            crossAxisSpacing: 9.w,
+            mainAxisSpacing: 9.h),
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           return InkWell(
@@ -55,7 +54,7 @@ class DashboardSummaryWidget extends StatelessWidget {
                           SvgPicture.asset(
                             model[index].item.assets(),
                             width: 16.w,
-                            height: 15.h,
+                            height: 16.h,
                           ),
                           8.horizontalSpace,
                           Text(

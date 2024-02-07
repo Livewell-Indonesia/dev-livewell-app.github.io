@@ -1,17 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:livewell/feature/daily_journal/presentation/page/daily_journal_screen.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
-import 'package:livewell/feature/exercise/presentation/pages/exercise_screen.dart';
-import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
-import 'package:livewell/feature/sleep/presentation/pages/sleep_screen.dart';
-import 'package:livewell/feature/water/presentation/pages/water_screen.dart';
-import 'package:livewell/widgets/bottom_navbar/dot_navigation_bar.dart';
-import 'package:livewell/widgets/bottom_navbar/src/NavBars.dart';
 
-import '../../../core/constant/constant.dart';
 import '../../dashboard/presentation/pages/dashboard_screen.dart';
 import '../../profile/presentation/page/user_settings_screen.dart';
 import '../controller/home_controller.dart';

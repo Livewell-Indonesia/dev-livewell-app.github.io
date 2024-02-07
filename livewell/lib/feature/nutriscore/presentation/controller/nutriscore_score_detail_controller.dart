@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:livewell/core/base/base_controller.dart';
 
 import 'nutriscore_controller.dart';
-import 'nutriscore_detail_controller.dart';
 
 class NutriscoreScoreDetailController extends BaseController {
   List<NutriScoreDetailModel> nutrientList = [];

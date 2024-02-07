@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -59,26 +58,24 @@ class MoodPickerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SvgPicture.asset(
-            moodType.assets(),
-            width: 48,
-            height: 48,
-            color: getColor(),
-          ),
-          4.verticalSpace,
-          Text(
-            moodType.title(),
-            style: TextStyle(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w400,
-                color: Color(0xFF171433)),
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SvgPicture.asset(
+          moodType.assets(),
+          width: 48,
+          height: 48,
+          color: getColor(),
+        ),
+        4.verticalSpace,
+        Text(
+          moodType.title(),
+          style: TextStyle(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w400,
+              color: const Color(0xFF171433)),
+        ),
+      ],
     );
   }
 
@@ -87,7 +84,7 @@ class MoodPickerItem extends StatelessWidget {
       if (selectedMoodType == moodType) {
         return null;
       } else {
-        return Color(0xFF171433).withOpacity(0.3);
+        return const Color(0xFF171433).withOpacity(0.3);
       }
     } else {
       return null;

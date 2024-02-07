@@ -4,10 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:livewell/core/constant/constant.dart';
-import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/feature/food/presentation/controller/add_meal_controller.dart';
-import 'package:livewell/feature/food/presentation/pages/add_food_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -24,7 +22,8 @@ class AddMealScreen extends StatefulWidget {
   State<AddMealScreen> createState() => _AddMealScreenState();
 }
 
-class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateMixin {
+class _AddMealScreenState extends State<AddMealScreen>
+    with TickerProviderStateMixin {
   final AddMealController addMealController = Get.put(AddMealController());
   String? type;
   DateTime? date;
@@ -78,7 +77,8 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
               align: ContentAlign.bottom,
               builder: (context, controller) {
                 return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
@@ -88,12 +88,19 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                     children: [
                       Text(
                         addMealController.localization.searchBar ?? "",
-                        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black, fontSize: 16.sp),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 16.sp),
                       ),
                       4.verticalSpace,
                       Text(
                         addMealController.localization.useTheSearchbarTo ?? "",
-                        style: TextStyle(fontWeight: FontWeight.w400, color: const Color(0xFF808080), height: 1.3, fontSize: 14.sp),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xFF808080),
+                            height: 1.3,
+                            fontSize: 14.sp),
                       ),
                       20.verticalSpace,
                       Row(
@@ -106,7 +113,10 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                               },
                               child: Text(
                                 addMealController.localization.next ?? "",
-                                style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 12.sp, fontWeight: FontWeight.w600),
+                                style: TextStyle(
+                                    color: const Color(0xFF8F01DF),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
                               ))
                         ],
                       ),
@@ -129,7 +139,8 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
               align: ContentAlign.bottom,
               builder: (context, controller) {
                 return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
@@ -139,12 +150,21 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                     children: [
                       Text(
                         addMealController.localization.foodRecommendation!,
-                        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black, fontSize: 16.sp),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 16.sp),
                       ),
                       4.verticalSpace,
                       Text(
-                        addMealController.localization.discoverPersonalizedFood ?? "",
-                        style: TextStyle(fontWeight: FontWeight.w400, color: const Color(0xFF808080), height: 1.3, fontSize: 14.sp),
+                        addMealController
+                                .localization.discoverPersonalizedFood ??
+                            "",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xFF808080),
+                            height: 1.3,
+                            fontSize: 14.sp),
                       ),
                       20.verticalSpace,
                       Row(
@@ -157,7 +177,10 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                               },
                               child: Text(
                                 addMealController.localization.prev ?? "",
-                                style: TextStyle(color: const Color(0xFF808080), fontSize: 12.sp, fontWeight: FontWeight.w600),
+                                style: TextStyle(
+                                    color: const Color(0xFF808080),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
                               )),
                           24.horizontalSpace,
                           InkWell(
@@ -166,7 +189,10 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                               },
                               child: Text(
                                 addMealController.localization.next ?? "",
-                                style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 12.sp, fontWeight: FontWeight.w600),
+                                style: TextStyle(
+                                    color: const Color(0xFF8F01DF),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
                               ))
                         ],
                       ),
@@ -189,7 +215,8 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
               align: ContentAlign.bottom,
               builder: (context, controller) {
                 return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
@@ -199,12 +226,20 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                     children: [
                       Text(
                         addMealController.localization.requestNewFood ?? "",
-                        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black, fontSize: 16.sp),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 16.sp),
                       ),
                       4.verticalSpace,
                       Text(
-                        addMealController.localization.foundAFoodThatIsNot ?? "",
-                        style: TextStyle(fontWeight: FontWeight.w400, color: const Color(0xFF808080), height: 1.3, fontSize: 14.sp),
+                        addMealController.localization.foundAFoodThatIsNot ??
+                            "",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xFF808080),
+                            height: 1.3,
+                            fontSize: 14.sp),
                       ),
                       20.verticalSpace,
                       Row(
@@ -217,7 +252,10 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                               },
                               child: Text(
                                 addMealController.localization.prev ?? "",
-                                style: TextStyle(color: const Color(0xFF808080), fontSize: 12.sp, fontWeight: FontWeight.w600),
+                                style: TextStyle(
+                                    color: const Color(0xFF808080),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
                               )),
                           24.horizontalSpace,
                           InkWell(
@@ -226,7 +264,10 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                               },
                               child: Text(
                                 addMealController.localization.next ?? "",
-                                style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 12.sp, fontWeight: FontWeight.w600),
+                                style: TextStyle(
+                                    color: const Color(0xFF8F01DF),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
                               ))
                         ],
                       ),
@@ -248,7 +289,8 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
               align: ContentAlign.bottom,
               builder: (context, controller) {
                 return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
@@ -258,12 +300,21 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                     children: [
                       Text(
                         addMealController.localization.foodFilter ?? "",
-                        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black, fontSize: 16.sp),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 16.sp),
                       ),
                       4.verticalSpace,
                       Text(
-                        addMealController.localization.filterRestaurantBrandsBy ?? "",
-                        style: TextStyle(fontWeight: FontWeight.w400, color: const Color(0xFF808080), height: 1.3, fontSize: 14.sp),
+                        addMealController
+                                .localization.filterRestaurantBrandsBy ??
+                            "",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xFF808080),
+                            height: 1.3,
+                            fontSize: 14.sp),
                       ),
                       20.verticalSpace,
                       Row(
@@ -276,7 +327,10 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                               },
                               child: Text(
                                 addMealController.localization.prev ?? "",
-                                style: TextStyle(color: const Color(0xFF808080), fontSize: 12.sp, fontWeight: FontWeight.w600),
+                                style: TextStyle(
+                                    color: const Color(0xFF808080),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
                               )),
                           24.horizontalSpace,
                           InkWell(
@@ -285,7 +339,10 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                               },
                               child: Text(
                                 addMealController.localization.done!,
-                                style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 12.sp, fontWeight: FontWeight.w600),
+                                style: TextStyle(
+                                    color: const Color(0xFF8F01DF),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
                               ))
                         ],
                       ),
@@ -312,7 +369,9 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
         }
       },
       child: LiveWellScaffold(
-        title: MealTime.values.byName((type ?? MealTime.breakfast.name).toLowerCase()).appBarTitle(),
+        title: MealTime.values
+            .byName((type ?? MealTime.breakfast.name).toLowerCase())
+            .appBarTitle(),
         body: Expanded(
           child: Column(
             children: [
@@ -328,20 +387,25 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
                           child: SearchBar(
                             key: addMealController.key1,
-                            enabled: !addMealController.tutorialCoachMark.isShowing,
-                            addMealController: addMealController.textEditingController,
+                            enabled:
+                                !addMealController.tutorialCoachMark.isShowing,
+                            addMealController:
+                                addMealController.textEditingController,
                             focusNode: addMealController.focusNode,
                             onEditingComplete: () {
                               // addMealController.doSearchFood();
                               addMealController.onDoneInput();
                               addMealController.focusNode.unfocus();
-                              addMealController.state.value = SearchStates.searchingWithResults;
+                              addMealController.state.value =
+                                  SearchStates.searchingWithResults;
                             },
-                            onChanged: (val) => controller.hitsSearcher.query(val),
+                            onChanged: (val) =>
+                                controller.hitsSearcher.query(val),
                           ),
                         ),
                       ),
-                      controller.state.value == SearchStates.searchingWithResults
+                      controller.state.value ==
+                              SearchStates.searchingWithResults
                           ? Expanded(
                               flex: 1,
                               child: Row(
@@ -350,7 +414,10 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                                   GestureDetector(
                                     //behavior: HitTestBehavior.translucent,
                                     onTap: () {
-                                      AppNavigator.push(routeName: AppPages.requestFood, arguments: controller.textEditingController.text);
+                                      AppNavigator.push(
+                                          routeName: AppPages.requestFood,
+                                          arguments: controller
+                                              .textEditingController.text);
                                     },
                                     child: Container(
                                       width: 50.w,
@@ -383,7 +450,10 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                 }),
               ),
               Obx(() {
-                return addMealController.state.value == SearchStates.searchingWithResults || addMealController.state.value == SearchStates.searchingWithRecommendation
+                return addMealController.state.value ==
+                            SearchStates.searchingWithResults ||
+                        addMealController.state.value ==
+                            SearchStates.searchingWithRecommendation
                     ? Column(
                         children: [
                           24.verticalSpace,
@@ -393,7 +463,8 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                               onPressed: addMealController.addedFoods.isEmpty
                                   ? null
                                   : () {
-                                      AppNavigator.popUntil(routeName: AppPages.home);
+                                      AppNavigator.popUntil(
+                                          routeName: AppPages.home);
                                     }),
                           20.verticalSpace,
                         ],
@@ -412,7 +483,8 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
       case SearchStates.initial:
         return searchInitial();
       case SearchStates.searching:
-        return ListOfSearchResults(addMealController: addMealController, type: type, date: date);
+        return ListOfSearchResults(
+            addMealController: addMealController, type: type, date: date);
       case SearchStates.searchingWithResults:
         return searchResult(controller);
       case SearchStates.searchingWithRecommendation:
@@ -424,27 +496,6 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // TabBar(
-        //   controller: controller,
-        //   labelColor: const Color(0xFF171433),
-        //   unselectedLabelColor: const Color(0xFF171433).withOpacity(0.3),
-        //   indicatorWeight: 2.0,
-        //   indicatorPadding: EdgeInsets.zero,
-        //   indicator: const BubbleTabIndicator(
-        //     indicatorHeight: 35.0,
-        //     indicatorColor: Color(0xFFD8F3B1),
-        //     tabBarIndicatorSize: TabBarIndicatorSize.tab,
-        //   ),
-        //   isScrollable: true,
-        //   tabs: const [
-        //     Tab(
-        //       text: "All",
-        //     ),
-        //     Tab(
-        //       text: "Brand Name",
-        //     ),
-        //   ],
-        // ),
         Obx(() {
           if (addMealController.showRecommendationWidget.isTrue) {
             return InkWell(
@@ -459,7 +510,8 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                     child: Container(
                       key: addMealController.key2,
                       width: 1.sw,
-                      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 16.w, vertical: 16.h),
                       decoration: BoxDecoration(
                         color: const Color(0xFF171433),
                         borderRadius: BorderRadius.circular(24),
@@ -467,7 +519,8 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                       child: Row(
                         children: [
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8.w, vertical: 8.h),
                             width: 40.w,
                             height: 40.h,
                             decoration: BoxDecoration(
@@ -481,19 +534,29 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                addMealController.localization.foodRecommendation!,
-                                style: TextStyle(color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                addMealController
+                                    .localization.foodRecommendation!,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600),
                               ),
                               Text(
-                                addMealController.localization.basedOnYourNutritionalNeeds ?? "",
+                                addMealController.localization
+                                        .basedOnYourNutritionalNeeds ??
+                                    "",
                                 softWrap: false,
-                                style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w300),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w300),
                               )
                             ],
                           ),
                           const Spacer(),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8.w, vertical: 8.h),
                             child: const Icon(
                               Icons.arrow_forward_ios_outlined,
                               color: Colors.white,
@@ -518,7 +581,10 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
             children: [
               Text(
                 addMealController.localization.searchResult!,
-                style: TextStyle(fontSize: 20.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w600),
+                style: TextStyle(
+                    fontSize: 20.sp,
+                    color: const Color(0xFF171433),
+                    fontWeight: FontWeight.w600),
               ),
               const Spacer(),
               InkWell(
@@ -527,8 +593,16 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                   showModalBottomSheet<dynamic>(
                       context: context,
                       isScrollControlled: true,
-                      shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-                          const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
+                      shape: ShapeBorder.lerp(
+                          const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20))),
+                          const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20))),
+                          1),
                       builder: (BuildContext context) {
                         return Wrap(
                           children: [
@@ -544,41 +618,65 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
                                     child: Row(
                                       children: [
-                                        Text(addMealController.localization.filter!, style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w700, fontSize: 16.sp)),
+                                        Text(
+                                            addMealController
+                                                .localization.filter!,
+                                            style: TextStyle(
+                                                color: const Color(0xFF171433),
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 16.sp)),
                                         const Spacer(),
                                         TextButton(
                                             onPressed: () {
                                               addMealController.resetFilter();
                                             },
-                                            child: Text(addMealController.localization.resetFilter!, style: TextStyle(color: const Color(0xFF8F01DF), fontWeight: FontWeight.w600, fontSize: 12.sp))),
+                                            child: Text(
+                                                addMealController
+                                                    .localization.resetFilter!,
+                                                style: TextStyle(
+                                                    color:
+                                                        const Color(0xFF8F01DF),
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 12.sp))),
                                       ],
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                                    child: Text(addMealController.localization.amount!, style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w700, fontSize: 16.sp)),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    child: Text(
+                                        addMealController.localization.amount!,
+                                        style: TextStyle(
+                                            color: const Color(0xFF171433),
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16.sp)),
                                   ),
                                   16.verticalSpace,
                                   Obx(() {
                                     return SearchFoodSliders(
                                         title: 'Calories'.tr,
-                                        value: addMealController.caloriesRange.value,
+                                        value: addMealController
+                                            .caloriesRange.value,
                                         maxValue: 1500,
                                         onChanged: (value) {
-                                          addMealController.caloriesRange.value = value;
+                                          addMealController
+                                              .caloriesRange.value = value;
                                         });
                                   }),
                                   24.verticalSpace,
                                   Obx(() {
                                     return SearchFoodSliders(
                                         title: 'Protein'.tr,
-                                        value: addMealController.proteinRange.value,
+                                        value: addMealController
+                                            .proteinRange.value,
                                         maxValue: 300,
                                         onChanged: (value) {
-                                          addMealController.proteinRange.value = value;
+                                          addMealController.proteinRange.value =
+                                              value;
                                         });
                                   }),
                                   24.verticalSpace,
@@ -588,22 +686,26 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                                         value: addMealController.fatRange.value,
                                         maxValue: 200,
                                         onChanged: (value) {
-                                          addMealController.fatRange.value = value;
+                                          addMealController.fatRange.value =
+                                              value;
                                         });
                                   }),
                                   24.verticalSpace,
                                   Obx(() {
                                     return SearchFoodSliders(
                                         title: 'Carbs'.tr,
-                                        value: addMealController.carbsRange.value,
+                                        value:
+                                            addMealController.carbsRange.value,
                                         maxValue: 400,
                                         onChanged: (value) {
-                                          addMealController.carbsRange.value = value;
+                                          addMealController.carbsRange.value =
+                                              value;
                                         });
                                   }),
                                   64.verticalSpace,
                                   LiveWellButton(
-                                      label: addMealController.localization.submit!,
+                                      label: addMealController
+                                          .localization.submit!,
                                       color: const Color(0xFFDDF235),
                                       onPressed: () {
                                         addMealController.onSubmitFilter();
@@ -623,7 +725,8 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
           ),
         ),
         Expanded(
-          child: ListOfSearchResults(addMealController: addMealController, type: type, date: date),
+          child: ListOfSearchResults(
+              addMealController: addMealController, type: type, date: date),
         ),
         // Expanded(
         //   child: TabBarView(
@@ -654,11 +757,15 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                 children: [
                   Text(
                     addMealController.localization.yourRecommendedFoods!,
-                    style: TextStyle(fontSize: 20.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                        fontSize: 20.sp,
+                        color: const Color(0xFF171433),
+                        fontWeight: FontWeight.w600),
                   ),
                   4.verticalSpace,
                   Text(
-                    addMealController.localization.pickedBasedOnYourNutritionalNeeds!,
+                    addMealController
+                        .localization.pickedBasedOnYourNutritionalNeeds!,
                     style: TextStyle(
                       color: const Color(0xFF171433),
                       fontSize: 14.sp,
@@ -673,8 +780,16 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                   showModalBottomSheet<dynamic>(
                       context: context,
                       isScrollControlled: true,
-                      shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-                          const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
+                      shape: ShapeBorder.lerp(
+                          const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20))),
+                          const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20))),
+                          1),
                       builder: (BuildContext context) {
                         return Wrap(
                           children: [
@@ -690,41 +805,60 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
                                     child: Row(
                                       children: [
-                                        Text('Filter'.tr, style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w700, fontSize: 16.sp)),
+                                        Text('Filter'.tr,
+                                            style: TextStyle(
+                                                color: const Color(0xFF171433),
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 16.sp)),
                                         const Spacer(),
                                         TextButton(
                                             onPressed: () {
                                               addMealController.resetFilter();
                                             },
-                                            child: Text('Reset filter'.tr, style: TextStyle(color: const Color(0xFF8F01DF), fontWeight: FontWeight.w600, fontSize: 12.sp))),
+                                            child: Text('Reset filter'.tr,
+                                                style: TextStyle(
+                                                    color:
+                                                        const Color(0xFF8F01DF),
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 12.sp))),
                                       ],
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                                    child: Text('Amount'.tr, style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w700, fontSize: 16.sp)),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    child: Text('Amount'.tr,
+                                        style: TextStyle(
+                                            color: const Color(0xFF171433),
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16.sp)),
                                   ),
                                   16.verticalSpace,
                                   Obx(() {
                                     return SearchFoodSliders(
                                         title: 'Calories'.tr,
-                                        value: addMealController.caloriesRange.value,
+                                        value: addMealController
+                                            .caloriesRange.value,
                                         maxValue: 1500,
                                         onChanged: (value) {
-                                          addMealController.caloriesRange.value = value;
+                                          addMealController
+                                              .caloriesRange.value = value;
                                         });
                                   }),
                                   24.verticalSpace,
                                   Obx(() {
                                     return SearchFoodSliders(
                                         title: 'Protein'.tr,
-                                        value: addMealController.proteinRange.value,
+                                        value: addMealController
+                                            .proteinRange.value,
                                         maxValue: 300,
                                         onChanged: (value) {
-                                          addMealController.proteinRange.value = value;
+                                          addMealController.proteinRange.value =
+                                              value;
                                         });
                                   }),
                                   24.verticalSpace,
@@ -734,17 +868,20 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                                         value: addMealController.fatRange.value,
                                         maxValue: 200,
                                         onChanged: (value) {
-                                          addMealController.fatRange.value = value;
+                                          addMealController.fatRange.value =
+                                              value;
                                         });
                                   }),
                                   24.verticalSpace,
                                   Obx(() {
                                     return SearchFoodSliders(
                                         title: 'Carbs'.tr,
-                                        value: addMealController.carbsRange.value,
+                                        value:
+                                            addMealController.carbsRange.value,
                                         maxValue: 400,
                                         onChanged: (value) {
-                                          addMealController.carbsRange.value = value;
+                                          addMealController.carbsRange.value =
+                                              value;
                                         });
                                   }),
                                   64.verticalSpace,
@@ -769,7 +906,8 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
           ),
         ),
         Expanded(
-          child: ListOfSearchResults(addMealController: addMealController, type: type, date: date),
+          child: ListOfSearchResults(
+              addMealController: addMealController, type: type, date: date),
         ),
       ],
     );
@@ -784,7 +922,8 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
           Obx(() {
             return Container(
               padding: EdgeInsets.fromLTRB(16.w, 24.h, 16.w, 0),
-              height: addMealController.showScanMenu().value ? 92.h + 24.h : 0.h,
+              height:
+                  addMealController.showScanMenu().value ? 92.h + 24.h : 0.h,
               child: Row(children: [
                 scanButton(ScanType.values[0], () {
                   ScanType.values[0].navigation(type);
@@ -825,7 +964,10 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                 padding: const EdgeInsets.symmetric(horizontal: 16).r,
                 child: Text(
                   'History',
-                  style: TextStyle(fontSize: 22.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                      fontSize: 22.sp,
+                      color: const Color(0xFF171433),
+                      fontWeight: FontWeight.w600),
                 ),
               );
             } else {
@@ -838,20 +980,28 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                 return ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: addMealController.history.length >= 15 ? 15 : addMealController.history.length,
+                  itemCount: addMealController.history.length >= 15
+                      ? 15
+                      : addMealController.history.length,
                   itemBuilder: (context, index) {
                     return Obx(() {
                       return SearchHistoryItem(
                         title: addMealController.history[index].mealName ?? "",
-                        description: "${addMealController.history[index].mealServings}",
+                        description:
+                            "${addMealController.history[index].mealServings}",
                         isAdded: false,
                         callback: () {
                           inspect(addMealController.history[index]);
-                          AppNavigator.push(routeName: AppPages.addFood, arguments: {
-                            "date": date,
-                            "mealTime": MealTime.values.byName((type ?? MealTime.breakfast.name).toLowerCase()),
-                            "food": addMealController.history[index].toFoodsObject(),
-                          });
+                          AppNavigator.push(
+                              routeName: AppPages.addFood,
+                              arguments: {
+                                "date": date,
+                                "mealTime": MealTime.values.byName(
+                                    (type ?? MealTime.breakfast.name)
+                                        .toLowerCase()),
+                                "food": addMealController.history[index]
+                                    .toFoodsObject(),
+                              });
                         },
                       );
                     });
@@ -883,7 +1033,8 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
             ),
-            padding: EdgeInsets.only(top: 16.h, left: 14.w, bottom: 16.h, right: 14.w),
+            padding: EdgeInsets.only(
+                top: 16.h, left: 14.w, bottom: 16.h, right: 14.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -901,7 +1052,10 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                 12.verticalSpace,
                 Text(
                   type.title(),
-                  style: TextStyle(fontSize: 14.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      color: const Color(0xFF171433),
+                      fontWeight: FontWeight.w600),
                 )
               ],
             ),
@@ -929,11 +1083,13 @@ class BetaTags extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
       decoration: const BoxDecoration(
         color: Color(0xFF8F01DF),
-        borderRadius: BorderRadius.only(topRight: Radius.circular(8), bottomLeft: Radius.circular(8)),
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(8), bottomLeft: Radius.circular(8)),
       ),
       child: Text(
         'Beta',
-        style: TextStyle(color: Colors.white, fontSize: 10.sp, fontWeight: FontWeight.w500),
+        style: TextStyle(
+            color: Colors.white, fontSize: 10.sp, fontWeight: FontWeight.w500),
       ),
     );
   }
@@ -966,7 +1122,11 @@ class ListOfSearchResults extends StatelessWidget {
       pagingController: addMealController.pagingController,
       builderDelegate: PagedChildBuilderDelegate<Foods>(
           noItemsFoundIndicatorBuilder: (_) => Center(
-                child: Text('No results found'.tr, style: TextStyle(fontSize: 18.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w600)),
+                child: Text('No results found'.tr,
+                    style: TextStyle(
+                        fontSize: 18.sp,
+                        color: const Color(0xFF171433),
+                        fontWeight: FontWeight.w600)),
               ),
           itemBuilder: (_, item, __) => Column(
                 children: [
@@ -974,13 +1134,20 @@ class ListOfSearchResults extends StatelessWidget {
                     return SearchHistoryItem(
                         title: item.foodName ?? "",
                         description: item.desc(),
-                        isAdded: addMealController.addedFoods.firstWhereOrNull((element) => element.foodName == item.foodName) != null,
+                        isAdded: addMealController.addedFoods.firstWhereOrNull(
+                                (element) =>
+                                    element.foodName == item.foodName) !=
+                            null,
                         callback: () {
-                          AppNavigator.push(routeName: AppPages.addFood, arguments: {
-                            "date": date,
-                            "mealTime": MealTime.values.byName((type ?? MealTime.breakfast.name).toLowerCase()),
-                            "food": item,
-                          });
+                          AppNavigator.push(
+                              routeName: AppPages.addFood,
+                              arguments: {
+                                "date": date,
+                                "mealTime": MealTime.values.byName(
+                                    (type ?? MealTime.breakfast.name)
+                                        .toLowerCase()),
+                                "food": item,
+                              });
                         });
                   }),
                   8.verticalSpace,
@@ -989,7 +1156,14 @@ class ListOfSearchResults extends StatelessWidget {
 }
 
 class SearchBar extends StatelessWidget {
-  const SearchBar({Key? key, required this.addMealController, required this.focusNode, required this.onEditingComplete, required this.onChanged, required this.enabled}) : super(key: key);
+  const SearchBar(
+      {Key? key,
+      required this.addMealController,
+      required this.focusNode,
+      required this.onEditingComplete,
+      required this.onChanged,
+      required this.enabled})
+      : super(key: key);
 
   final TextEditingController addMealController;
   final FocusNode focusNode;
@@ -1012,7 +1186,10 @@ class SearchBar extends StatelessWidget {
           onEditingComplete();
         },
         onChanged: onChanged,
-        style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: Color(0xFF171433)),
+        style: TextStyle(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w500,
+            color: const Color(0xFF171433)),
         focusNode: focusNode,
         decoration: InputDecoration(
             contentPadding: EdgeInsets.only(top: 20.h, bottom: 16.h),
@@ -1041,7 +1218,13 @@ class SearchHistoryItem extends StatelessWidget {
   final bool isAdded;
   final VoidCallback callback;
 
-  const SearchHistoryItem({Key? key, required this.title, required this.description, required this.isAdded, required this.callback}) : super(key: key);
+  const SearchHistoryItem(
+      {Key? key,
+      required this.title,
+      required this.description,
+      required this.isAdded,
+      required this.callback})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -1051,7 +1234,11 @@ class SearchHistoryItem extends StatelessWidget {
         width: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 16),
         padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: isAdded ? const Color(0xFF8F01DF) : Colors.transparent)),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+                color: isAdded ? const Color(0xFF8F01DF) : Colors.transparent)),
         child: Row(
           children: [
             Expanded(
@@ -1061,14 +1248,20 @@ class SearchHistoryItem extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                        color: const Color(0xFF171433).withOpacity(0.8),
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600),
                   ),
                   description.isEmpty
                       ? Container()
                       : Text(
                           description,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(color: const Color(0xFF171433).withOpacity(0.5), fontSize: 14.sp, fontWeight: FontWeight.w500),
+                          style: TextStyle(
+                              color: const Color(0xFF171433).withOpacity(0.5),
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500),
                         ),
                 ],
               ),
@@ -1152,7 +1345,12 @@ extension ScanTypeAtt on ScanType {
 }
 
 class SearchFoodSliders extends StatefulWidget {
-  const SearchFoodSliders({super.key, required this.title, required this.value, required this.maxValue, required this.onChanged});
+  const SearchFoodSliders(
+      {super.key,
+      required this.title,
+      required this.value,
+      required this.maxValue,
+      required this.onChanged});
 
   final String title;
   final RangeValues value;
@@ -1171,16 +1369,22 @@ class _SearchFoodSlidersState extends State<SearchFoodSliders> {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(widget.title, style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w600, fontSize: 12.sp)),
+          child: Text(widget.title,
+              style: TextStyle(
+                  color: const Color(0xFF171433),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12.sp)),
         ),
         8.verticalSpace,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
             children: [
-              Text(widget.value.start.toStringAsFixed(0), style: const TextStyle(color: Color(0xFF171433))),
+              Text(widget.value.start.toStringAsFixed(0),
+                  style: const TextStyle(color: Color(0xFF171433))),
               const Spacer(),
-              Text(widget.value.end.toStringAsFixed(0), style: const TextStyle(color: Color(0xFF171433))),
+              Text(widget.value.end.toStringAsFixed(0),
+                  style: const TextStyle(color: Color(0xFF171433))),
             ],
           ),
         ),
@@ -1207,7 +1411,8 @@ class _SearchFoodSlidersState extends State<SearchFoodSliders> {
 class CoachmarkIndicator extends StatelessWidget {
   final int position;
   final int length;
-  const CoachmarkIndicator({super.key, required this.position, this.length = 4});
+  const CoachmarkIndicator(
+      {super.key, required this.position, this.length = 4});
 
   @override
   Widget build(BuildContext context) {
@@ -1219,7 +1424,9 @@ class CoachmarkIndicator extends StatelessWidget {
             child: Container(
               width: 24.w,
               height: 8.h,
-              decoration: BoxDecoration(color: const Color(0xFF8F01DF), borderRadius: BorderRadius.circular(100)),
+              decoration: BoxDecoration(
+                  color: const Color(0xFF8F01DF),
+                  borderRadius: BorderRadius.circular(100)),
             ),
           );
         } else {
@@ -1228,7 +1435,9 @@ class CoachmarkIndicator extends StatelessWidget {
             child: Container(
               width: 8.w,
               height: 8.h,
-              decoration: BoxDecoration(color: const Color(0xFF808080), borderRadius: BorderRadius.circular(100)),
+              decoration: BoxDecoration(
+                  color: const Color(0xFF808080),
+                  borderRadius: BorderRadius.circular(100)),
             ),
           );
         }

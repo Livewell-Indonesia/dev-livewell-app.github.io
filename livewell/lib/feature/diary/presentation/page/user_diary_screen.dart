@@ -10,7 +10,6 @@ import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dar
 import 'package:livewell/feature/diary/presentation/controller/user_diary_controller.dart';
 import 'package:livewell/feature/diary/presentation/widget/daily_journal_item.dart';
 import 'package:livewell/feature/exercise/data/model/activity_history_model.dart';
-import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/mood/presentation/widget/mood_picker_widget.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';

@@ -5,7 +5,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/core/constant/constant.dart';
-import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/questionnaire/domain/usecase/post_questionnaire.dart';
 
@@ -76,7 +75,6 @@ class QuestionnaireController extends BaseController {
   }
 
   void sendData() async {
-    var usersData = Get.find<DashboardController>().user.value;
     var params = QuestionnaireParams.asParams(
       firstName.text,
       lastName.text,

@@ -133,7 +133,7 @@ class DotNavigationBar extends StatelessWidget {
             ),
           )
         : Container(
-            padding: EdgeInsets.symmetric(vertical: 12),
+            padding: const EdgeInsets.symmetric(vertical: 12),
             color: backgroundColor,
             child: Padding(
               padding: margin,

@@ -375,16 +375,17 @@ class _NutriScoreScaleState extends State<NutriScoreScale> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       //margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       child: Stack(
         children: [
-          Container(
+          SizedBox(
             width: 114.3.w * 3,
             height: 100.h,
             child: Column(
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     LowIndicator(
                       showCursor: getStatusFromScore(widget.score) ==
@@ -411,7 +412,7 @@ class _NutriScoreScaleState extends State<NutriScoreScale> {
           ),
           Positioned(
             left: getLeftPadding(widget.score),
-            bottom: 19.h,
+            bottom: 23.h,
             child: BuildIndicator(
               key: _key,
               value: widget.score,
@@ -530,7 +531,7 @@ class HighIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
+        SizedBox(
           height: 100.h,
           width: 114.3.w,
           child: Column(
@@ -576,7 +577,7 @@ class OptimalIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
+        SizedBox(
           height: 100.h,
           width: 114.3.w,
           child: Column(
@@ -626,7 +627,7 @@ class LowIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
+        SizedBox(
           height: 100.h,
           width: 114.3.w,
           child: Column(
@@ -644,6 +645,8 @@ class LowIndicator extends StatelessWidget {
               8.verticalSpace,
               Text(
                 type.lowTitle(),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     color: const Color(0xFF808080),
                     fontSize: 12.sp,

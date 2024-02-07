@@ -42,7 +42,8 @@ class _ShareFoodScreenState extends State<ShareFoodScreen> {
       height: 1.sh,
       width: 1.sw,
       color: const Color(0xFF505050),
-      padding: EdgeInsets.symmetric(vertical: 20.h) + EdgeInsets.only(top: 40.h),
+      padding:
+          EdgeInsets.symmetric(vertical: 20.h) + EdgeInsets.only(top: 40.h),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Expanded(
           child: InkWell(
@@ -66,7 +67,10 @@ class _ShareFoodScreenState extends State<ShareFoodScreen> {
               Text(
                 "Share Your food with friend",
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 24.sp, color: const Color(0xFFFFFFFF), fontWeight: FontWeight.w600),
+                style: TextStyle(
+                    fontSize: 24.sp,
+                    color: const Color(0xFFFFFFFF),
+                    fontWeight: FontWeight.w600),
               ),
               42.verticalSpace,
               ClipRRect(
@@ -76,7 +80,8 @@ class _ShareFoodScreenState extends State<ShareFoodScreen> {
                   file: file!,
                   aspectRatio: aspectRatio!,
                   foodName: food?.foodName ?? "",
-                  servings: "${food?.servings?.first.servingDescription ?? ""} ${food?.servings?.first.servingDesc ?? ""}",
+                  servings:
+                      "${food?.servings?.first.servingDescription ?? ""} ${food?.servings?.first.servingDesc ?? ""}",
                   calories: "${food?.servings?[0].calories ?? ""} cal",
                   fat: "${food?.servings?[0].fat ?? ""} g",
                   carbs: "${food?.servings?[0].carbohydrate ?? ""} g",
@@ -114,13 +119,18 @@ class _ShareFoodScreenState extends State<ShareFoodScreen> {
                         await files.writeAsBytes(result!);
                         switch (e) {
                           case ShareButtonType.instagram:
-                            await AppinioSocialShare().shareToInstagramStory("108487895683370", backgroundImage: files.path);
+                            await AppinioSocialShare().shareToInstagramStory(
+                                "108487895683370",
+                                backgroundImage: files.path);
                             AppNavigator.popUntil(routeName: AppPages.addFood);
                           case ShareButtonType.facebook:
-                            await AppinioSocialShare().shareToFacebookStory("108487895683370", backgroundImage: files.path);
+                            await AppinioSocialShare().shareToFacebookStory(
+                                "108487895683370",
+                                backgroundImage: files.path);
                             AppNavigator.popUntil(routeName: AppPages.addFood);
                           default:
-                            await AppinioSocialShare().shareToSystem("food", "", filePath: files.path);
+                            await AppinioSocialShare().shareToSystem("food", "",
+                                filePath: files.path);
                             AppNavigator.popUntil(routeName: AppPages.addFood);
                         }
                       }
@@ -128,7 +138,8 @@ class _ShareFoodScreenState extends State<ShareFoodScreen> {
                     child: Container(
                       width: 40.h,
                       height: 40.h,
-                      decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                      decoration: const BoxDecoration(
+                          color: Colors.white, shape: BoxShape.circle),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -225,8 +236,16 @@ class FirstTemplateContent extends StatelessWidget {
   final String fat;
   final String carbs;
   final String protein;
-  double? containerWidth;
-  FirstTemplateContent({super.key, required this.foodName, required this.servings, required this.calories, required this.fat, required this.carbs, required this.protein, this.containerWidth});
+  final double? containerWidth;
+  const FirstTemplateContent(
+      {super.key,
+      required this.foodName,
+      required this.servings,
+      required this.calories,
+      required this.fat,
+      required this.carbs,
+      required this.protein,
+      this.containerWidth});
 
   @override
   Widget build(BuildContext context) {
@@ -277,13 +296,17 @@ class FirstTemplateContent extends StatelessWidget {
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
-                    style: TextStyle(color: const Color(0xFFDDF235), fontSize: 16.sp, fontWeight: FontWeight.w600, shadows: [
-                      Shadow(
-                        color: Colors.black.withOpacity(0.5),
-                        offset: const Offset(0, 2),
-                        blurRadius: 4,
-                      ),
-                    ]),
+                    style: TextStyle(
+                        color: const Color(0xFFDDF235),
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                        shadows: [
+                          Shadow(
+                            color: Colors.black.withOpacity(0.5),
+                            offset: const Offset(0, 2),
+                            blurRadius: 4,
+                          ),
+                        ]),
                   ),
                 ),
               ),
@@ -291,83 +314,119 @@ class FirstTemplateContent extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 10),
                 child: Text(
                   servings,
-                  style: TextStyle(color: const Color(0xFFDDF235), fontSize: 10.sp, fontWeight: FontWeight.w600, shadows: [
-                    Shadow(
-                      color: Colors.black.withOpacity(0.5),
-                      offset: const Offset(0, 2),
-                      blurRadius: 4,
-                    ),
-                  ]),
+                  style: TextStyle(
+                      color: const Color(0xFFDDF235),
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.w600,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withOpacity(0.5),
+                          offset: const Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ]),
                 ),
               ),
               20.verticalSpace,
               Text('Carbs',
-                  style: TextStyle(color: const Color(0xFFDDF235), fontSize: 14.sp, fontWeight: FontWeight.w600, shadows: [
-                    Shadow(
-                      color: Colors.black.withOpacity(0.5),
-                      offset: const Offset(0, 2),
-                      blurRadius: 4,
-                    ),
-                  ])),
+                  style: TextStyle(
+                      color: const Color(0xFFDDF235),
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withOpacity(0.5),
+                          offset: const Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ])),
               Text(carbs,
-                  style: TextStyle(color: const Color(0xFFDDF235), fontSize: 8.sp, fontWeight: FontWeight.w600, shadows: [
-                    Shadow(
-                      color: Colors.black.withOpacity(0.5),
-                      offset: const Offset(0, 2),
-                      blurRadius: 4,
-                    ),
-                  ])),
+                  style: TextStyle(
+                      color: const Color(0xFFDDF235),
+                      fontSize: 8.sp,
+                      fontWeight: FontWeight.w600,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withOpacity(0.5),
+                          offset: const Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ])),
               8.verticalSpace,
               Text('Protein',
-                  style: TextStyle(color: const Color(0xFFDDF235), fontSize: 14.sp, fontWeight: FontWeight.w600, shadows: [
-                    Shadow(
-                      color: Colors.black.withOpacity(0.5),
-                      offset: const Offset(0, 2),
-                      blurRadius: 4,
-                    ),
-                  ])),
+                  style: TextStyle(
+                      color: const Color(0xFFDDF235),
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withOpacity(0.5),
+                          offset: const Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ])),
               Text(protein,
-                  style: TextStyle(color: const Color(0xFFDDF235), fontSize: 8.sp, fontWeight: FontWeight.w600, shadows: [
-                    Shadow(
-                      color: Colors.black.withOpacity(0.5),
-                      offset: const Offset(0, 2),
-                      blurRadius: 4,
-                    ),
-                  ])),
+                  style: TextStyle(
+                      color: const Color(0xFFDDF235),
+                      fontSize: 8.sp,
+                      fontWeight: FontWeight.w600,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withOpacity(0.5),
+                          offset: const Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ])),
               8.verticalSpace,
               Text('Fat',
-                  style: TextStyle(color: const Color(0xFFDDF235), fontSize: 14.sp, fontWeight: FontWeight.w600, shadows: [
-                    Shadow(
-                      color: Colors.black.withOpacity(0.5),
-                      offset: const Offset(0, 2),
-                      blurRadius: 4,
-                    ),
-                  ])),
+                  style: TextStyle(
+                      color: const Color(0xFFDDF235),
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withOpacity(0.5),
+                          offset: const Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ])),
               Text(fat,
-                  style: TextStyle(color: const Color(0xFFDDF235), fontSize: 8.sp, fontWeight: FontWeight.w600, shadows: [
-                    Shadow(
-                      color: Colors.black.withOpacity(0.5),
-                      offset: const Offset(0, 2),
-                      blurRadius: 4,
-                    ),
-                  ])),
+                  style: TextStyle(
+                      color: const Color(0xFFDDF235),
+                      fontSize: 8.sp,
+                      fontWeight: FontWeight.w600,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withOpacity(0.5),
+                          offset: const Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ])),
               8.verticalSpace,
               Text('Kcal',
-                  style: TextStyle(color: const Color(0xFFDDF235), fontSize: 14.sp, fontWeight: FontWeight.w600, shadows: [
-                    Shadow(
-                      color: Colors.black.withOpacity(0.5),
-                      offset: const Offset(0, 2),
-                      blurRadius: 4,
-                    ),
-                  ])),
+                  style: TextStyle(
+                      color: const Color(0xFFDDF235),
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withOpacity(0.5),
+                          offset: const Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ])),
               Text(calories,
-                  style: TextStyle(color: const Color(0xFFDDF235), fontSize: 8.sp, fontWeight: FontWeight.w600, shadows: [
-                    Shadow(
-                      color: Colors.black.withOpacity(0.5),
-                      offset: const Offset(0, 2),
-                      blurRadius: 4,
-                    ),
-                  ])),
+                  style: TextStyle(
+                      color: const Color(0xFFDDF235),
+                      fontSize: 8.sp,
+                      fontWeight: FontWeight.w600,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withOpacity(0.5),
+                          offset: const Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ])),
             ],
           ),
         ],
@@ -383,7 +442,14 @@ class SecondTemplateContent extends StatelessWidget {
   final String fat;
   final String carbs;
   final String protein;
-  const SecondTemplateContent({super.key, required this.foodName, required this.servings, required this.calories, required this.fat, required this.carbs, required this.protein});
+  const SecondTemplateContent(
+      {super.key,
+      required this.foodName,
+      required this.servings,
+      required this.calories,
+      required this.fat,
+      required this.carbs,
+      required this.protein});
 
   @override
   Widget build(BuildContext context) {
@@ -397,7 +463,8 @@ class SecondTemplateContent extends StatelessWidget {
         child: ClipRRect(
           //borderRadius: BorderRadius.circular(300),
           child: Padding(
-            padding: const EdgeInsets.only(left: 60, top: 30, right: 20, bottom: 20),
+            padding:
+                const EdgeInsets.only(left: 60, top: 30, right: 20, bottom: 20),
             child: ClipRRect(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -421,25 +488,33 @@ class SecondTemplateContent extends StatelessWidget {
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
-                    style: TextStyle(color: const Color(0xFFDDF235), fontSize: 16.sp, fontWeight: FontWeight.w600, shadows: [
-                      Shadow(
-                        color: Colors.black.withOpacity(0.5),
-                        offset: const Offset(0, 2),
-                        blurRadius: 4,
-                      ),
-                    ]),
+                    style: TextStyle(
+                        color: const Color(0xFFDDF235),
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                        shadows: [
+                          Shadow(
+                            color: Colors.black.withOpacity(0.5),
+                            offset: const Offset(0, 2),
+                            blurRadius: 4,
+                          ),
+                        ]),
                   ),
                   2.verticalSpace,
                   Text(
                     servings,
                     textAlign: TextAlign.justify,
-                    style: TextStyle(color: const Color(0xFFDDF235), fontSize: 12.sp, fontWeight: FontWeight.w600, shadows: [
-                      Shadow(
-                        color: Colors.black.withOpacity(0.5),
-                        offset: const Offset(0, 2),
-                        blurRadius: 4,
-                      ),
-                    ]),
+                    style: TextStyle(
+                        color: const Color(0xFFDDF235),
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                        shadows: [
+                          Shadow(
+                            color: Colors.black.withOpacity(0.5),
+                            offset: const Offset(0, 2),
+                            blurRadius: 4,
+                          ),
+                        ]),
                   ),
                   12.verticalSpace,
                   Row(
@@ -450,13 +525,17 @@ class SecondTemplateContent extends StatelessWidget {
                         child: Text(
                           "Carbs",
                           textAlign: TextAlign.start,
-                          style: TextStyle(color: const Color(0xFFDDF235), fontSize: 10.sp, fontWeight: FontWeight.w600, shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.5),
-                              offset: const Offset(0, 2),
-                              blurRadius: 4,
-                            ),
-                          ]),
+                          style: TextStyle(
+                              color: const Color(0xFFDDF235),
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w600,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withOpacity(0.5),
+                                  offset: const Offset(0, 2),
+                                  blurRadius: 4,
+                                ),
+                              ]),
                         ),
                       ),
                       Expanded(
@@ -464,13 +543,17 @@ class SecondTemplateContent extends StatelessWidget {
                         child: Text(
                           carbs,
                           textAlign: TextAlign.start,
-                          style: TextStyle(color: const Color(0xFFDDF235), fontSize: 10.sp, fontWeight: FontWeight.w600, shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.5),
-                              offset: const Offset(0, 2),
-                              blurRadius: 4,
-                            ),
-                          ]),
+                          style: TextStyle(
+                              color: const Color(0xFFDDF235),
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w600,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withOpacity(0.5),
+                                  offset: const Offset(0, 2),
+                                  blurRadius: 4,
+                                ),
+                              ]),
                         ),
                       ),
                       const Spacer(
@@ -486,13 +569,17 @@ class SecondTemplateContent extends StatelessWidget {
                         child: Text(
                           "Fat",
                           textAlign: TextAlign.start,
-                          style: TextStyle(color: const Color(0xFFDDF235), fontSize: 10.sp, fontWeight: FontWeight.w600, shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.5),
-                              offset: const Offset(0, 2),
-                              blurRadius: 4,
-                            ),
-                          ]),
+                          style: TextStyle(
+                              color: const Color(0xFFDDF235),
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w600,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withOpacity(0.5),
+                                  offset: const Offset(0, 2),
+                                  blurRadius: 4,
+                                ),
+                              ]),
                         ),
                       ),
                       Expanded(
@@ -500,13 +587,17 @@ class SecondTemplateContent extends StatelessWidget {
                         child: Text(
                           fat,
                           textAlign: TextAlign.start,
-                          style: TextStyle(color: const Color(0xFFDDF235), fontSize: 10.sp, fontWeight: FontWeight.w600, shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.5),
-                              offset: const Offset(0, 2),
-                              blurRadius: 4,
-                            ),
-                          ]),
+                          style: TextStyle(
+                              color: const Color(0xFFDDF235),
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w600,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withOpacity(0.5),
+                                  offset: const Offset(0, 2),
+                                  blurRadius: 4,
+                                ),
+                              ]),
                         ),
                       ),
                       const Spacer(
@@ -522,13 +613,17 @@ class SecondTemplateContent extends StatelessWidget {
                         child: Text(
                           "Protein",
                           textAlign: TextAlign.start,
-                          style: TextStyle(color: const Color(0xFFDDF235), fontSize: 10.sp, fontWeight: FontWeight.w600, shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.5),
-                              offset: const Offset(0, 2),
-                              blurRadius: 4,
-                            ),
-                          ]),
+                          style: TextStyle(
+                              color: const Color(0xFFDDF235),
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w600,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withOpacity(0.5),
+                                  offset: const Offset(0, 2),
+                                  blurRadius: 4,
+                                ),
+                              ]),
                         ),
                       ),
                       Expanded(
@@ -536,13 +631,17 @@ class SecondTemplateContent extends StatelessWidget {
                         child: Text(
                           protein,
                           textAlign: TextAlign.start,
-                          style: TextStyle(color: const Color(0xFFDDF235), fontSize: 10.sp, fontWeight: FontWeight.w600, shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.5),
-                              offset: const Offset(0, 2),
-                              blurRadius: 4,
-                            ),
-                          ]),
+                          style: TextStyle(
+                              color: const Color(0xFFDDF235),
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w600,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withOpacity(0.5),
+                                  offset: const Offset(0, 2),
+                                  blurRadius: 4,
+                                ),
+                              ]),
                         ),
                       ),
                       const Spacer(
@@ -558,13 +657,17 @@ class SecondTemplateContent extends StatelessWidget {
                         child: Text(
                           "Kcal",
                           textAlign: TextAlign.start,
-                          style: TextStyle(color: const Color(0xFFDDF235), fontSize: 10.sp, fontWeight: FontWeight.w600, shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.5),
-                              offset: const Offset(0, 2),
-                              blurRadius: 4,
-                            ),
-                          ]),
+                          style: TextStyle(
+                              color: const Color(0xFFDDF235),
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w600,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withOpacity(0.5),
+                                  offset: const Offset(0, 2),
+                                  blurRadius: 4,
+                                ),
+                              ]),
                         ),
                       ),
                       Expanded(
@@ -572,13 +675,17 @@ class SecondTemplateContent extends StatelessWidget {
                         child: Text(
                           calories,
                           textAlign: TextAlign.start,
-                          style: TextStyle(color: const Color(0xFFDDF235), fontSize: 10.sp, fontWeight: FontWeight.w600, shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.5),
-                              offset: const Offset(0, 2),
-                              blurRadius: 4,
-                            ),
-                          ]),
+                          style: TextStyle(
+                              color: const Color(0xFFDDF235),
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w600,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withOpacity(0.5),
+                                  offset: const Offset(0, 2),
+                                  blurRadius: 4,
+                                ),
+                              ]),
                         ),
                       ),
                       const Spacer(

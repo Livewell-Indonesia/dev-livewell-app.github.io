@@ -12,7 +12,8 @@ class ChooseTemplateShareFood extends StatefulWidget {
   const ChooseTemplateShareFood({super.key});
 
   @override
-  State<ChooseTemplateShareFood> createState() => _ChooseTemplateShareFoodState();
+  State<ChooseTemplateShareFood> createState() =>
+      _ChooseTemplateShareFoodState();
 }
 
 class _ChooseTemplateShareFoodState extends State<ChooseTemplateShareFood> {
@@ -33,8 +34,9 @@ class _ChooseTemplateShareFoodState extends State<ChooseTemplateShareFood> {
     return Container(
       height: 1.sh,
       width: 1.sw,
-      color: Color(0xFF505050),
-      padding: EdgeInsets.symmetric(vertical: 20.h) + EdgeInsets.only(top: 40.h),
+      color: const Color(0xFF505050),
+      padding:
+          EdgeInsets.symmetric(vertical: 20.h) + EdgeInsets.only(top: 40.h),
       child: Column(children: [
         Row(
           children: [
@@ -54,7 +56,10 @@ class _ChooseTemplateShareFoodState extends State<ChooseTemplateShareFood> {
             const Spacer(),
             Text(
               'Choose a template',
-              style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24.sp,
+                  fontWeight: FontWeight.w600),
             ),
             const Spacer(),
             InkWell(
@@ -98,7 +103,7 @@ class _ChooseTemplateShareFoodState extends State<ChooseTemplateShareFood> {
         LiveWellButton(
           label: 'Done',
           elevation: 0,
-          color: Color(0xFF8F01DF),
+          color: const Color(0xFF8F01DF),
           textColor: Colors.white,
           onPressed: () {
             AppNavigator.push(routeName: AppPages.shareFood, arguments: {
@@ -118,8 +123,9 @@ enum TemplateType { first, second }
 
 class TemplateSelector extends StatefulWidget {
   TemplateType selectedTemplate = TemplateType.first;
-  var onTap = (TemplateType) {};
-  TemplateSelector({super.key, required this.selectedTemplate, required this.onTap});
+  var onTap = (templateType) {};
+  TemplateSelector(
+      {super.key, required this.selectedTemplate, required this.onTap});
 
   @override
   State<TemplateSelector> createState() => _TemplateSelectorState();
@@ -145,7 +151,9 @@ class _TemplateSelectorState extends State<TemplateSelector> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16.r),
-              border: widget.selectedTemplate == TemplateType.first ? Border.all(color: const Color(0xFF8F01DF), width: 4.w) : null,
+              border: widget.selectedTemplate == TemplateType.first
+                  ? Border.all(color: const Color(0xFF8F01DF), width: 4.w)
+                  : null,
             ),
             child: Stack(
               children: [
@@ -181,7 +189,9 @@ class _TemplateSelectorState extends State<TemplateSelector> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16.r),
-              border: widget.selectedTemplate == TemplateType.second ? Border.all(color: const Color(0xFF8F01DF), width: 4.w) : null,
+              border: widget.selectedTemplate == TemplateType.second
+                  ? Border.all(color: const Color(0xFF8F01DF), width: 4.w)
+                  : null,
             ),
             child: ClipRRect(
               clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -215,7 +225,11 @@ class FirstTemplateShareFood extends StatelessWidget {
   final File file;
   final double aspectRatio;
   final Foods food;
-  const FirstTemplateShareFood({super.key, required this.file, required this.food, required this.aspectRatio});
+  const FirstTemplateShareFood(
+      {super.key,
+      required this.file,
+      required this.food,
+      required this.aspectRatio});
 
   @override
   Widget build(BuildContext context) {
@@ -243,7 +257,8 @@ class FirstTemplateShareFood extends StatelessWidget {
             top: 64.h,
             child: FirstTemplateContent(
               foodName: food.foodName ?? "",
-              servings: "${food.servings?.first.servingDescription ?? ""} ${food.servings?.first.servingDesc ?? ""}",
+              servings:
+                  "${food.servings?.first.servingDescription ?? ""} ${food.servings?.first.servingDesc ?? ""}",
               calories: "${food.servings?[0].calories ?? ""} cal",
               fat: "${food.servings?[0].fat ?? ""} g",
               carbs: "${food.servings?[0].carbohydrate ?? ""} g",
@@ -261,7 +276,11 @@ class SecondTemplateShareFood extends StatelessWidget {
   final File file;
   final Foods food;
   final double aspectRatio;
-  const SecondTemplateShareFood({super.key, required this.file, required this.food, required this.aspectRatio});
+  const SecondTemplateShareFood(
+      {super.key,
+      required this.file,
+      required this.food,
+      required this.aspectRatio});
 
   @override
   Widget build(BuildContext context) {
@@ -290,9 +309,10 @@ class SecondTemplateShareFood extends StatelessWidget {
             left: -50,
             child: SecondTemplateContent(
               foodName: food.foodName ?? "",
-              servings: "${food.servings?.first.servingDescription ?? ""} ${food.servings?.first.servingDesc ?? ""}",
+              servings:
+                  "${food.servings?.first.servingDescription ?? ""} ${food.servings?.first.servingDesc ?? ""}",
               calories: "${food.servings?[0].calories ?? ""} cal",
-              fat: "${food?.servings?[0].fat ?? ""} g",
+              fat: "${food.servings?[0].fat ?? ""} g",
               carbs: "${food.servings?[0].carbohydrate ?? ""} g",
               protein: "${food.servings?[0].protein ?? ""} g",
             ),

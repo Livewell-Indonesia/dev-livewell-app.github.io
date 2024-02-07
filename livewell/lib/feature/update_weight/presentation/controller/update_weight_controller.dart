@@ -1,13 +1,11 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
 import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart';
-import 'package:livewell/feature/food/domain/usecase/get_meal_history.dart';
 import 'package:livewell/feature/questionnaire/domain/usecase/post_questionnaire.dart';
 import 'package:livewell/feature/update_weight/domain/model/weight_history.dart';
 import 'package:livewell/feature/update_weight/domain/usecase/get_user_history.dart';
@@ -35,7 +33,6 @@ class UpdateWeightController extends BaseController {
     getCurrentWeight();
     getWeightHistory();
     calculatePrediction();
-    generateTitle();
     getMealHistory();
     super.onInit();
   }
@@ -85,11 +82,6 @@ class UpdateWeightController extends BaseController {
       }
     }
     return value;
-  }
-
-  void generateTitle() {
-    var calculation =
-        NumberFormat('#.0').format(weight.value - targetWeight.value);
   }
 
   void getCurrentWeight() {

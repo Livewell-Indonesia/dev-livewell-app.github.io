@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -124,7 +123,7 @@ class UserSettingsScreen extends StatelessWidget {
                             Container(
                               width: 40.w,
                               height: 40.h,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white,
                               ),
@@ -213,7 +212,7 @@ class UserSettingsScreen extends StatelessWidget {
                                       leading: Text(
                                         AvailableLanguage.en.title,
                                         style: TextStyle(
-                                            color: Color(0xFF171433),
+                                            color: const Color(0xFF171433),
                                             fontSize: 14.sp),
                                       ),
                                       trailing: Radio(
@@ -228,7 +227,7 @@ class UserSettingsScreen extends StatelessWidget {
                                       leading: Text(
                                         AvailableLanguage.id.title,
                                         style: TextStyle(
-                                            color: Color(0xFF171433),
+                                            color: const Color(0xFF171433),
                                             fontSize: 14.sp),
                                       ),
                                       trailing: Radio(
@@ -378,11 +377,11 @@ class ImagePickerBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(bottom: 40),
+      padding: const EdgeInsets.only(bottom: 40),
       child: Wrap(
         children: <Widget>[
           ListTile(
-            leading: Icon(Icons.photo_library),
+            leading: const Icon(Icons.photo_library),
             title: const Text(
               'Pick from Gallery',
               style: TextStyle(color: Colors.black),
@@ -392,7 +391,7 @@ class ImagePickerBottomSheet extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.camera_alt),
+            leading: const Icon(Icons.camera_alt),
             title: const Text(
               'Take a Photo',
               style: TextStyle(color: Colors.black),

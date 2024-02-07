@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -10,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/notification/firebase_notification.dart';
-import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/splash/presentation/splash_screen.dart';
 import 'package:livewell/firebase_options.dart';
@@ -22,7 +19,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:sentry/sentry.dart';
 
-import 'core/log.dart';
 import 'feature/food/presentation/pages/food_screen.dart';
 
 List<CameraDescription> cameras = [];
@@ -193,12 +189,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
-      minTextAdapt: true,
+      minTextAdapt: false,
+      fontSizeResolver: (fontSize, instance) =>
+          FontSizeResolvers.radius(fontSize, instance),
       builder: (context, child) {
         return GetMaterialApp(
           builder: EasyLoading.init(builder: (context, widget) {
             return MediaQuery(
-              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              data: MediaQuery.of(context)
+                  .copyWith(textScaler: const TextScaler.linear(1.0)),
               child: widget!,
             );
           }),
@@ -214,7 +213,7 @@ class MyApp extends StatelessWidget {
                 Theme.of(context).textTheme,
               ),
               brightness: Brightness.light),
-          home: SplashScreen(),
+          home: const SplashScreen(),
         );
       },
     );

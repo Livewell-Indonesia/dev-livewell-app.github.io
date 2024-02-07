@@ -19,14 +19,22 @@ class ExerciseSharePage extends StatelessWidget {
   final num calories;
   final String location;
 
-  const ExerciseSharePage({super.key, required this.file, this.aspectRatio = 9 / 16, required this.title, required this.steps, required this.distance, required this.calories, required this.location});
+  const ExerciseSharePage(
+      {super.key,
+      required this.file,
+      this.aspectRatio = 9 / 16,
+      required this.title,
+      required this.steps,
+      required this.distance,
+      required this.calories,
+      required this.location});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 1.sh,
       width: 1.sw,
-      color: Color(0xFF505050),
+      color: const Color(0xFF505050),
       padding: EdgeInsets.symmetric(vertical: 20.h),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +58,12 @@ class ExerciseSharePage extends StatelessWidget {
             flex: 8,
             child: Column(
               children: [
-                Text("Share Your goal's progress with friend", textAlign: TextAlign.center, style: TextStyle(fontSize: 24.sp, color: const Color(0xFFFFFFFF), fontWeight: FontWeight.w600)),
+                Text("Share Your goal's progress with friend",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 24.sp,
+                        color: const Color(0xFFFFFFFF),
+                        fontWeight: FontWeight.w600)),
                 42.verticalSpace,
                 ClipRRect(
                   borderRadius: BorderRadius.circular(16.r),
@@ -93,18 +106,25 @@ class ExerciseSharePage extends StatelessWidget {
                           await files.writeAsBytes(result!);
                           switch (e) {
                             case ShareButtonType.instagram:
-                              await AppinioSocialShare().shareToInstagramStory("108487895683370", backgroundImage: files.path);
+                              await AppinioSocialShare().shareToInstagramStory(
+                                  "108487895683370",
+                                  backgroundImage: files.path);
                             case ShareButtonType.facebook:
-                              await AppinioSocialShare().shareToFacebookStory("108487895683370", backgroundImage: files.path);
+                              await AppinioSocialShare().shareToFacebookStory(
+                                  "108487895683370",
+                                  backgroundImage: files.path);
                             default:
-                              await AppinioSocialShare().shareToSystem(title, "", filePath: files.path);
+                              await AppinioSocialShare().shareToSystem(
+                                  title, "",
+                                  filePath: files.path);
                           }
                         }
                       },
                       child: Container(
                         width: 40.h,
                         height: 40.h,
-                        decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                        decoration: const BoxDecoration(
+                            color: Colors.white, shape: BoxShape.circle),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -146,9 +166,15 @@ extension ShareButtonTypeData on ShareButtonType {
   Widget widget() {
     switch (this) {
       case ShareButtonType.instagram:
-        return SizedBox(width: 24.h, height: 24.h, child: Image.asset(Constant.icInstagramPng));
+        return SizedBox(
+            width: 24.h,
+            height: 24.h,
+            child: Image.asset(Constant.icInstagramPng));
       case ShareButtonType.facebook:
-        return SizedBox(width: 24.h, height: 24.h, child: Image.asset(Constant.icFacebookPng));
+        return SizedBox(
+            width: 24.h,
+            height: 24.h,
+            child: Image.asset(Constant.icFacebookPng));
       // case ShareButtonType.whatsapp:
       //   return Container();
       // // return Image.asset(
@@ -174,7 +200,10 @@ extension ShareButtonTypeData on ShareButtonType {
       // //   fit: BoxFit.cover,
       // // );
       case ShareButtonType.other:
-        return SizedBox(width: 24.h, height: 24.h, child: Icon(Icons.more_horiz, color: Colors.black, size: 24.sp));
+        return SizedBox(
+            width: 24.h,
+            height: 24.h,
+            child: Icon(Icons.more_horiz, color: Colors.black, size: 24.sp));
     }
   }
 }

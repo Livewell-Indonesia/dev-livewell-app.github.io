@@ -5,13 +5,13 @@ class NutricoAsset {
 
   NutricoAsset.fromJson(Map<String, dynamic> json) {
     nutrico =
-        json['nutrico'] != null ? new Nutrico.fromJson(json['nutrico']) : null;
+        json['nutrico'] != null ? Nutrico.fromJson(json['nutrico']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.nutrico != null) {
-      data['nutrico'] = this.nutrico!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (nutrico != null) {
+      data['nutrico'] = nutrico!.toJson();
     }
     return data;
   }
@@ -55,17 +55,17 @@ class Nutrico {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['key'] = this.key;
-    data['module'] = this.module;
-    data['title'] = this.title;
-    data['sub_title'] = this.subTitle;
-    data['example_1_sub_header'] = this.example1SubHeader;
-    data['example_1_description'] = this.example1Description;
-    data['example_2_sub_header'] = this.example2SubHeader;
-    data['example_2_description'] = this.example2Description;
-    data['example_3_sub_header'] = this.example3SubHeader;
-    data['example_3_description'] = this.example3Description;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['key'] = key;
+    data['module'] = module;
+    data['title'] = title;
+    data['sub_title'] = subTitle;
+    data['example_1_sub_header'] = example1SubHeader;
+    data['example_1_description'] = example1Description;
+    data['example_2_sub_header'] = example2SubHeader;
+    data['example_2_description'] = example2Description;
+    data['example_3_sub_header'] = example3SubHeader;
+    data['example_3_description'] = example3Description;
     return data;
   }
 }

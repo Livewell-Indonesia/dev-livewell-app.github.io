@@ -207,19 +207,11 @@ class AddMealController extends BaseController
 
   Rx<bool> checkAvailability(ScanType type) {
     return true.obs;
-    if (type == ScanType.nutrico) {
-      return isUpcScanActive();
-    } else if (type == ScanType.scanMeal) {
-      return isScanMealActive();
-    } else {
-      return false.obs;
-    }
   }
 
   Rx<bool> isQuickAddActive() {
     if (Get.isRegistered<HomeController>()) {
       return true.obs;
-      return Get.find<HomeController>().appConfigModel.value.quickAdd!.obs;
     } else {
       return true.obs;
     }
@@ -227,10 +219,6 @@ class AddMealController extends BaseController
 
   Rx<bool> showScanMenu() {
     return true.obs;
-    return ((isQuickAddActive().value ||
-            isUpcScanActive().value ||
-            isScanMealActive().value))
-        .obs;
   }
 
   Rx<bool> isScanMealActive() {

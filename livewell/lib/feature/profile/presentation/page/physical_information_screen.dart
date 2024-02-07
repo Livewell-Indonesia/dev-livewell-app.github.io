@@ -6,7 +6,6 @@ import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:livewell/feature/profile/presentation/controller/physical_information_controller.dart';
-import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
 import '../../../../widgets/buttons/livewell_button.dart';
@@ -76,7 +75,7 @@ class PhysicalInformationScreen extends StatelessWidget {
                                                       leading: Text(
                                                         controller
                                                             .localization.male!,
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                             color:
                                                                 Colors.black),
                                                       ),
@@ -95,7 +94,7 @@ class PhysicalInformationScreen extends StatelessWidget {
                                                       leading: Text(
                                                         controller.localization
                                                             .female!,
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                             color:
                                                                 Colors.black),
                                                       ),

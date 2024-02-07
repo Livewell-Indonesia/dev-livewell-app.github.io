@@ -6,7 +6,6 @@ import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_model.dart
 import 'package:livewell/feature/nutriscore/domain/repository/nutri_score_repository.dart';
 
 class GetNutriScore extends UseCase<NutriScoreModel, NoParams> {
-  @override
   late NutriscoreRepository repository;
 
   GetNutriScore.instance() {

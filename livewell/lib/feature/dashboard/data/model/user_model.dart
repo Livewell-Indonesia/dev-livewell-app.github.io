@@ -176,16 +176,16 @@ class DailyJournal {
 class OnboardingQuestionnaire {
   String? describePhysicalHealth;
   List<String>? dietaryRestrictions;
-  Null? eatingHabits;
+  Null eatingHabits;
   String? exercisePerWeek;
   String? feelAboutChange;
   String? glassesOfWaterDaily;
   String? mealType;
   String? sleepDuration;
   String? sleepProblem;
-  Null? sourceOfCarbs;
+  Null sourceOfCarbs;
   List<String>? targetImprovement;
-  Null? userRawFoodMaterial;
+  Null userRawFoodMaterial;
 
   OnboardingQuestionnaire(
       {this.describePhysicalHealth,

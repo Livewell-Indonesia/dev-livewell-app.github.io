@@ -127,7 +127,7 @@ class AccountSettingsScreen extends StatelessWidget {
                               Container(
                                 width: 40.w,
                                 height: 40.h,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Colors.white,
                                 ),
@@ -160,12 +160,12 @@ class AccountSettingsScreen extends StatelessWidget {
                             content: Text(
                                 controller.localization
                                     .yourAccountAndContentDeletedPermanently!,
-                                style: TextStyle(color: Colors.black)),
+                                style: const TextStyle(color: Colors.black)),
                             actions: [
                               CupertinoDialogAction(
                                 child: Text(
                                   controller.localization.cancel!,
-                                  style: TextStyle(color: Colors.black),
+                                  style: const TextStyle(color: Colors.black),
                                 ),
                                 onPressed: () {
                                   Get.back();
@@ -174,7 +174,7 @@ class AccountSettingsScreen extends StatelessWidget {
                               CupertinoDialogAction(
                                 child: Text(
                                   'Confirm'.tr,
-                                  style: TextStyle(color: Colors.red),
+                                  style: const TextStyle(color: Colors.red),
                                 ),
                                 onPressed: () {
                                   controller.requestAccountDeletion();

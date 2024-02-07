@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:livewell/core/error/failures.dart';
@@ -80,24 +79,23 @@ class FoodsV2 {
     foodDescription = json['food_description'];
     foodType = json['food_type'];
     brandName = json['brand_name'];
-    servings = json['servings'] != null
-        ? new Servings.fromJson(json['servings'])
-        : null;
+    servings =
+        json['servings'] != null ? Servings.fromJson(json['servings']) : null;
     provider = json['provider'];
     referenceId = json['reference_id'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['food_name'] = this.foodName;
-    data['food_description'] = this.foodDescription;
-    data['food_type'] = this.foodType;
-    data['brand_name'] = this.brandName;
-    if (this.servings != null) {
-      data['servings'] = this.servings!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['food_name'] = foodName;
+    data['food_description'] = foodDescription;
+    data['food_type'] = foodType;
+    data['brand_name'] = brandName;
+    if (servings != null) {
+      data['servings'] = servings!.toJson();
     }
-    data['provider'] = this.provider;
-    data['reference_id'] = this.referenceId;
+    data['provider'] = provider;
+    data['reference_id'] = referenceId;
     return data;
   }
 }

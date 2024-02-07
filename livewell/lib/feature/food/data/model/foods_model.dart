@@ -35,9 +35,6 @@ class Foods {
     final servingDescription = servings?[0].servingDescription == null
         ? ""
         : ", ${servings?[0].servingDescription}";
-    final brand = brandName == null || brandName == "nan" || brandName!.isEmpty
-        ? ""
-        : ", $brandName";
     return "$calories cal$servingDescription";
   }
 
