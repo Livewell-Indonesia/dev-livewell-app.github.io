@@ -43,12 +43,14 @@ class SleepController extends BaseController {
           DateTime.now().year, DateTime.now().month, DateTime.now().day, 6, 0)
       .obs;
   Rx<double> finalSleepValue = 0.0.obs;
+  final yValues = <double>[].obs;
   @override
   void onInit() {
     super.onInit();
     getSleepData();
     getExerciseHistorydata();
     showInfoFirstTime();
+    getAllYvaluesFromApi();
     manualSleepInput.text = DateFormat('hh:mm a').format(DateTime(
         DateTime.now().year,
         DateTime.now().month,
@@ -74,7 +76,8 @@ class SleepController extends BaseController {
     manualSleepInput.clear();
     manualWakeUpInput.clear();
     getSleepData();
-    getExerciseHistorydata();
+    //getExerciseHistorydata();
+    getAllYvaluesFromApi();
   }
 
   void showInfoFirstTime() async {
@@ -120,57 +123,52 @@ class SleepController extends BaseController {
     HealthDataAccess.READ,
   ];
 
+  Future<double> getYvalueFromApi(DateTime dateFrom, DateTime dateTo) async {
+    var y = 0.0;
+    GetActivityHistory getExerciseList = GetActivityHistory.instance();
+    final result = await getExerciseList.call(GetActivityHistoryParam(
+        type: ['SLEEP_IN_BED', 'LIGHT_SLEEP', 'DEEP_SLEEP'],
+        dateFrom: dateFrom,
+        dateTo: dateTo));
+    result.fold((l) {
+      y = 0.0;
+    }, (r) {
+      Log.colorGreen(r);
+      inspect(r);
+      y = r.fold(0, (previousValue, element) {
+        var temp = element.totalValue ?? 0.0;
+        return previousValue + temp;
+      });
+    });
+    return y;
+  }
+
   double getYValue(int index) {
-    var value = 0.0;
-    if (exerciseHistoryList.isNotEmpty) {
-      var date = DateTime(DateTime.now().year, DateTime.now().month,
-          DateTime.now().day - 6 + index);
-      var rangeDateFrom =
-          DateTime(date.year, date.month, date.day - 1, 18, 0, 0, 0, 0);
-      var rangeDateTo =
-          DateTime(date.year, date.month, date.day, 17, 59, 59, 0, 0);
-      for (var data in exerciseHistoryList) {
-        var temp = 0.0;
-        if (data.details != null) {
-          for (var element in data.details!) {
-            var currentDate = DateTime.parse(element.dateFrom!);
-            if (currentDate.isAfter(rangeDateFrom) &&
-                currentDate.isBefore(rangeDateTo)) {
-              temp += element.value!;
-            }
-          }
-        }
-        value += temp;
-      }
-    }
-    return value == 0.0 ? value : (value / 60);
-  }
-
-  double getTodaySleepValue() {
-    return getYValue(6);
-  }
-
-  double getCurrentSleepValue() {
-    var value = 0.0;
-    if (exerciseHistoryList.isNotEmpty) {
-      var date = DateTime(
-          DateTime.now().year, DateTime.now().month, DateTime.now().day);
-      for (var data in exerciseHistoryList) {
-        var temp = 0.0;
-        if (data.details != null) {
-          for (var element in data.details!) {
-            var currentDate = DateTime.parse(element.dateTo!);
-            if (currentDate.day == date.day &&
-                currentDate.month == date.month &&
-                currentDate.year == date.year) {
-              temp += element.value!;
-            }
-          }
-        }
-        value += temp;
-      }
-    }
-    return value == 0.0 ? value : (value / 60);
+    return yValues[index] / 60;
+    // var value = 0.0;
+    // if (exerciseHistoryList.isNotEmpty) {
+    //   var date = DateTime(DateTime.now().year, DateTime.now().month,
+    //       DateTime.now().day - 6 + index);
+    //   var rangeDateFrom =
+    //       DateTime(date.year, date.month, date.day - 1, 18, 0, 0, 0, 0);
+    //   var rangeDateTo =
+    //       DateTime(date.year, date.month, date.day, 17, 59, 59, 0, 0);
+    //   for (var data in exerciseHistoryList) {
+    //     var temp = 0.0;
+    //     if (data.details != null) {
+    //       for (var element in data.details!) {
+    //         var currentDate = DateTime.parse(element.dateFrom!);
+    //         if ((currentDate.isAfter(rangeDateFrom) &&
+    //                 currentDate.isBefore(rangeDateTo) ||
+    //             currentDate.isBefore(rangeDateTo))) {
+    //           temp += element.value!;
+    //         }
+    //       }
+    //     }
+    //     value += temp;
+    //   }
+    // }
+    // return value == 0.0 ? value : (value / 60);
   }
 
   bool isYValueOptimal(int index) {
@@ -198,12 +196,28 @@ class SleepController extends BaseController {
 
   String getXValue(int index) {
     String value = '';
-    if (exerciseHistoryList.isNotEmpty) {
-      var date = DateTime(DateTime.now().year, DateTime.now().month,
-          DateTime.now().day - 6 + index);
-      value = DateFormat('dd/MM').format(date);
-    }
+    var date = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day - 6 + index);
+    value = DateFormat('dd/MM').format(date);
     return value;
+  }
+
+  Future<void> getAllYvaluesFromApi() async {
+    List<DateTime> dateFrom = [];
+    List<DateTime> dateTo = [];
+    for (var i = 0; i < 7; i++) {
+      var temp = DateTime(DateTime.now().year, DateTime.now().month,
+          DateTime.now().day - 6 + i, 18, 0, 0, 0, 0);
+      dateFrom
+          .add(DateTime(temp.year, temp.month, temp.day - 1, 18, 0, 0, 0, 0));
+      dateTo.add(DateTime(temp.year, temp.month, temp.day, 17, 59, 59, 0, 0));
+    }
+
+    for (var i = 0; i < 7; i++) {
+      yValues.add(await getYvalueFromApi(dateFrom[i], dateTo[i]));
+    }
+
+    inspect(yValues);
   }
 
   Future<void> getExerciseHistorydata() async {
