@@ -13,7 +13,9 @@ import 'package:livewell/feature/exercise/data/model/activity_history_model.dart
 import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
 import 'package:livewell/feature/exercise/domain/usecase/post_exercise_data.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
-import 'package:livewell/feature/sleep/data/model/sleep_activity_model.dart';
+import 'package:livewell/feature/sleep/data/model/sleep_activity_model.dart'
+    as sleep;
+import 'package:livewell/feature/sleep/domain/usecase/get_sleep_history.dart';
 import 'package:livewell/feature/sleep/domain/usecase/get_sleep_list.dart';
 import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 import 'package:livewell/core/base/base_controller.dart';
@@ -43,12 +45,14 @@ class SleepController extends BaseController {
           DateTime.now().year, DateTime.now().month, DateTime.now().day, 6, 0)
       .obs;
   Rx<double> finalSleepValue = 0.0.obs;
+  final yValues = <double>[].obs;
   @override
   void onInit() {
     super.onInit();
     getSleepData();
     getExerciseHistorydata();
     showInfoFirstTime();
+    getAllYvaluesFromApi();
     manualSleepInput.text = DateFormat('hh:mm a').format(DateTime(
         DateTime.now().year,
         DateTime.now().month,
@@ -74,7 +78,38 @@ class SleepController extends BaseController {
     manualSleepInput.clear();
     manualWakeUpInput.clear();
     getSleepData();
-    getExerciseHistorydata();
+    //getExerciseHistorydata();
+    getAllYvaluesFromApi();
+  }
+
+  void getNewSleepHistoryData() async {
+    // GetSleepHistory getSleepHistory = GetSleepHistory.instance();
+    // var currentDate = DateTime(DateTime.now().year, DateTime.now().month,
+    //     DateTime.now().day - 7, 0, 0, 0, 0, 0);
+    // var dateTill = DateTime(DateTime.now().year, DateTime.now().month,
+    //     DateTime.now().day, 23, 59, 59, 0, 0);
+    // final result = await getSleepHistory.call(GetSleepHistoryParams(
+    //     dateFrom: DateFormat('yyyy-MM-dd').format(currentDate),
+    //     dateTo: DateFormat('yyyy-MM-dd').format(dateTill)));
+    // result.fold((l) {}, (r) {
+    //   r.response?.entries.forEach((element) {
+    //     var temp = ActivityHistoryModel(
+    //         details: element.value.details?.map((e) {
+    //           return Details(
+    //               value: e.value,
+    //               type: e.type,
+    //               unit: e.unit?.name,
+    //               dateFrom: e.dateFrom,
+    //               dateTo: e.dateTo);
+    //         }).toList(),
+    //         totalValue: element.value.total,
+    //         type: element.key,
+    //         unit: 'min',
+    //         dateFrom: DateFormat('yyyy-MM-dd').format(currentDate),
+    //         dateTo: DateFormat('yyyy-MM-dd').format(dateTill));
+    //     exerciseHistoryList.add(temp);
+    //   });
+    // });
   }
 
   void showInfoFirstTime() async {
@@ -120,57 +155,52 @@ class SleepController extends BaseController {
     HealthDataAccess.READ,
   ];
 
+  Future<double> getYvalueFromApi(DateTime dateFrom, DateTime dateTo) async {
+    var y = 0.0;
+    GetActivityHistory getExerciseList = GetActivityHistory.instance();
+    final result = await getExerciseList.call(GetActivityHistoryParam(
+        type: ['SLEEP_IN_BED', 'LIGHT_SLEEP', 'DEEP_SLEEP'],
+        dateFrom: dateFrom,
+        dateTo: dateTo));
+    result.fold((l) {
+      y = 0.0;
+    }, (r) {
+      Log.colorGreen(r);
+      inspect(r);
+      y = r.fold(0, (previousValue, element) {
+        var temp = element.totalValue ?? 0.0;
+        return previousValue + temp;
+      });
+    });
+    return y;
+  }
+
   double getYValue(int index) {
-    var value = 0.0;
-    if (exerciseHistoryList.isNotEmpty) {
-      var date = DateTime(DateTime.now().year, DateTime.now().month,
-          DateTime.now().day - 6 + index);
-      var rangeDateFrom =
-          DateTime(date.year, date.month, date.day - 1, 18, 0, 0, 0, 0);
-      var rangeDateTo =
-          DateTime(date.year, date.month, date.day, 17, 59, 59, 0, 0);
-      for (var data in exerciseHistoryList) {
-        var temp = 0.0;
-        if (data.details != null) {
-          for (var element in data.details!) {
-            var currentDate = DateTime.parse(element.dateFrom!);
-            if (currentDate.isAfter(rangeDateFrom) &&
-                currentDate.isBefore(rangeDateTo)) {
-              temp += element.value!;
-            }
-          }
-        }
-        value += temp;
-      }
-    }
-    return value == 0.0 ? value : (value / 60);
-  }
-
-  double getTodaySleepValue() {
-    return getYValue(6);
-  }
-
-  double getCurrentSleepValue() {
-    var value = 0.0;
-    if (exerciseHistoryList.isNotEmpty) {
-      var date = DateTime(
-          DateTime.now().year, DateTime.now().month, DateTime.now().day);
-      for (var data in exerciseHistoryList) {
-        var temp = 0.0;
-        if (data.details != null) {
-          for (var element in data.details!) {
-            var currentDate = DateTime.parse(element.dateTo!);
-            if (currentDate.day == date.day &&
-                currentDate.month == date.month &&
-                currentDate.year == date.year) {
-              temp += element.value!;
-            }
-          }
-        }
-        value += temp;
-      }
-    }
-    return value == 0.0 ? value : (value / 60);
+    return yValues[index] / 60;
+    // var value = 0.0;
+    // if (exerciseHistoryList.isNotEmpty) {
+    //   var date = DateTime(DateTime.now().year, DateTime.now().month,
+    //       DateTime.now().day - 6 + index);
+    //   var rangeDateFrom =
+    //       DateTime(date.year, date.month, date.day - 1, 18, 0, 0, 0, 0);
+    //   var rangeDateTo =
+    //       DateTime(date.year, date.month, date.day, 17, 59, 59, 0, 0);
+    //   for (var data in exerciseHistoryList) {
+    //     var temp = 0.0;
+    //     if (data.details != null) {
+    //       for (var element in data.details!) {
+    //         var currentDate = DateTime.parse(element.dateFrom!);
+    //         if ((currentDate.isAfter(rangeDateFrom) &&
+    //                 currentDate.isBefore(rangeDateTo) ||
+    //             currentDate.isBefore(rangeDateTo))) {
+    //           temp += element.value!;
+    //         }
+    //       }
+    //     }
+    //     value += temp;
+    //   }
+    // }
+    // return value == 0.0 ? value : (value / 60);
   }
 
   bool isYValueOptimal(int index) {
@@ -198,12 +228,48 @@ class SleepController extends BaseController {
 
   String getXValue(int index) {
     String value = '';
-    if (exerciseHistoryList.isNotEmpty) {
-      var date = DateTime(DateTime.now().year, DateTime.now().month,
-          DateTime.now().day - 6 + index);
-      value = DateFormat('dd/MM').format(date);
-    }
+    var date = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day - 6 + index);
+    value = DateFormat('dd/MM').format(date);
     return value;
+  }
+
+  Future<void> getAllYvaluesFromApi() async {
+    // List<DateTime> dateFrom = [];
+    // List<DateTime> dateTo = [];
+    // for (var i = 0; i < 7; i++) {
+    //   var temp = DateTime(DateTime.now().year, DateTime.now().month,
+    //       DateTime.now().day - 6 + i, 18, 0, 0, 0, 0);
+    //   dateFrom
+    //       .add(DateTime(temp.year, temp.month, temp.day - 1, 18, 0, 0, 0, 0));
+    //   dateTo.add(DateTime(temp.year, temp.month, temp.day, 17, 59, 59, 0, 0));
+    // }
+
+    // for (var i = 0; i < 7; i++) {
+    //   yValues.add(await getYvalueFromApi(dateFrom[i], dateTo[i]));
+    // }
+
+    // inspect(yValues);
+
+    GetSleepHistory getSleepHistory = GetSleepHistory.instance();
+    var currentDate = DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day - 6);
+    var dateTill = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+    );
+    final result = await getSleepHistory.call(GetSleepHistoryParams(
+        dateFrom: DateFormat('yyyy-MM-dd').format(currentDate),
+        dateTo: DateFormat('yyyy-MM-dd').format(dateTill)));
+    result.fold((l) {
+      Log.error(l);
+    }, (r) {
+      r.response?.entries.forEach((element) {
+        yValues.add(element.value.total?.toDouble() ?? 0.0);
+      });
+      Log.colorGreen(r.response?.entries.toString());
+    });
   }
 
   Future<void> getExerciseHistorydata() async {
@@ -259,7 +325,7 @@ class SleepController extends BaseController {
     });
   }
 
-  bool isContainManualInput(List<SleepActivityModel> value) {
+  bool isContainManualInput(List<sleep.SleepActivityModel> value) {
     var result = false;
     if (value.isNotEmpty) {
       for (var element in value.first.details ?? []) {
@@ -271,7 +337,7 @@ class SleepController extends BaseController {
     return result;
   }
 
-  void calculateManualSleep(List<SleepActivityModel> value) {
+  void calculateManualSleep(List<sleep.SleepActivityModel> value) {
     wentToSleep.value = DateFormat('hh:mm a').format(DateTime.parse(
         value.first.details?.first.dateFrom ??
             DateTime.now().toIso8601String()));
@@ -302,7 +368,7 @@ class SleepController extends BaseController {
     }
   }
 
-  void calculateSleepInBed(List<SleepActivityModel> sleepInBedValue) {
+  void calculateSleepInBed(List<sleep.SleepActivityModel> sleepInBedValue) {
     wentToSleep.value = DateFormat('hh:mm a').format(DateTime.parse(
         sleepInBedValue.first.details?.first.dateFrom ??
             DateTime.now().toIso8601String()));
@@ -356,8 +422,9 @@ class SleepController extends BaseController {
     EasyLoading.dismiss();
   }
 
-  void calculateDeepSleepAndLightSleep(List<SleepActivityModel> lightSleepValue,
-      List<SleepActivityModel> deepSleepValue) {
+  void calculateDeepSleepAndLightSleep(
+      List<sleep.SleepActivityModel> lightSleepValue,
+      List<sleep.SleepActivityModel> deepSleepValue) {
     feelASleep.value = durationToString(lightSleepValue.first.totalValue ?? 0);
     deepSleep.value = durationToString(deepSleepValue.first.totalValue ?? 0);
     var newValue = lightSleepValue.first.details ?? [];
