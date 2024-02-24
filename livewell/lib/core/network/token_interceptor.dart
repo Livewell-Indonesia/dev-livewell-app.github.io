@@ -39,8 +39,7 @@ class NewTokenInteceptor extends Interceptor with NetworkModule {
         // AppNavigator.pushAndRemove(routeName: AppPages.splash);
       }
       Log.info("Checking Token");
-      Log.info(
-          "current time ${DateTime.now()}, token expiration ${JwtDecoder.getExpirationDate(await SharedPref.getToken())}");
+      Log.info("current time ${DateTime.now()}");
       if (isTokenExpired) {
         Log.info("Token Expired");
         var response = await refreshToken();
