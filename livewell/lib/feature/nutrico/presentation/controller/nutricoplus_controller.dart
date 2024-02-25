@@ -21,12 +21,18 @@ class NutricoPlusController extends GetxController {
   Future<void> searchFoodByImage(File imageFile) async {
     final data = await searchByImage(imageFile);
     data.fold((l) {
-      print('error');
+      Get.back();
+      showError();
     }, (r) async {
       state.value = NutricoPlusState.detectingImage;
       imageUrl.value = r.response?.imageUrl ?? '';
       foodName.value = r.response?.foodName ?? '';
-      await detectImage(foodName.value);
+      if (foodName.value.isNotEmpty && imageUrl.value.isNotEmpty) {
+        await detectImage(foodName.value);
+      } else {
+        Get.back();
+        showError();
+      }
     });
   }
 

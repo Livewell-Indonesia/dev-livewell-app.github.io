@@ -24,25 +24,26 @@ class _NutricoPlusLoadingScreenState extends State<NutricoPlusLoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            40.verticalSpace,
-            Obx(() {
-              if (controller.imageUrl.value.isNotEmpty) {
-                return const _ImageContainer(
-                  imageUrl: "https://assets.unileversolutions.com/recipes-v2/242794.jpg",
-                );
-              } else {
-                return Container();
-              }
-            }),
-            32.verticalSpace,
-            Obx(() {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          65.verticalSpace,
+          Obx(() {
+            if (controller.imageUrl.value.isNotEmpty) {
+              return _ImageContainer(
+                imageUrl: controller.imageUrl.value,
+              );
+            } else {
+              return Container();
+            }
+          }),
+          32.verticalSpace,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.0.w),
+            child: Obx(() {
               if (controller.foodName.value.isNotEmpty) {
                 return Text(
                   controller.foodName.value,
@@ -56,35 +57,35 @@ class _NutricoPlusLoadingScreenState extends State<NutricoPlusLoadingScreen> {
                 return Container();
               }
             }),
-            const Spacer(),
-            CircularProgressIndicator(
-              backgroundColor: Color(0xFF808080).withOpacity(0.25),
-              color: const Color(0xFF8F01DF),
-            ),
-            24.verticalSpace,
-            Obx(() {
-              return Text(
-                controller.state.value.title(),
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  color: const Color(0xFF171433),
-                  fontWeight: FontWeight.w600,
-                ),
-              );
-            }),
-            8.verticalSpace,
-            Obx(() {
-              return Text(
-                controller.state.value.subtitle(),
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  color: const Color(0xFF171433),
-                ),
-              );
-            }),
-            30.verticalSpace,
-          ],
-        ),
+          ),
+          const Spacer(),
+          CircularProgressIndicator(
+            backgroundColor: Color(0xFF808080).withOpacity(0.25),
+            color: const Color(0xFF8F01DF),
+          ),
+          24.verticalSpace,
+          Obx(() {
+            return Text(
+              controller.state.value.title(),
+              style: TextStyle(
+                fontSize: 16.sp,
+                color: const Color(0xFF171433),
+                fontWeight: FontWeight.w600,
+              ),
+            );
+          }),
+          8.verticalSpace,
+          Obx(() {
+            return Text(
+              controller.state.value.subtitle(),
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: const Color(0xFF171433),
+              ),
+            );
+          }),
+          50.verticalSpace,
+        ],
       ),
     );
   }

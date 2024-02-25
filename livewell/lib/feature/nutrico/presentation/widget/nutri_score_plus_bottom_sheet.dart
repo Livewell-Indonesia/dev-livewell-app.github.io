@@ -13,8 +13,7 @@ enum SelectedNutriscorePlusMethod { camera, gallery, desc }
 class NutriScorePlusBottomSheet extends StatelessWidget {
   final Function(SelectedNutriscorePlusMethod) onSelected;
   final Function(File) onImageSelected;
-  const NutriScorePlusBottomSheet(
-      {super.key, required this.onSelected, required this.onImageSelected});
+  const NutriScorePlusBottomSheet({super.key, required this.onSelected, required this.onImageSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +27,7 @@ class NutriScorePlusBottomSheet extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,10 +39,7 @@ class NutriScorePlusBottomSheet extends StatelessWidget {
               },
               title: Text(
                 'Describe Food',
-                style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF505050)),
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: const Color(0xFF505050)),
               ),
               leading: SvgPicture.asset(
                 Constant.icScanMeal,
@@ -59,10 +54,7 @@ class NutriScorePlusBottomSheet extends StatelessWidget {
               },
               title: Text(
                 'Pick From Gallery',
-                style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF505050)),
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: const Color(0xFF505050)),
               ),
               leading: const Icon(Icons.photo_library_outlined),
             ),
@@ -72,10 +64,7 @@ class NutriScorePlusBottomSheet extends StatelessWidget {
               },
               title: Text(
                 'Take a Photo',
-                style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF505050)),
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: const Color(0xFF505050)),
               ),
               leading: const Icon(Icons.add_a_photo_outlined),
             ),
@@ -87,7 +76,7 @@ class NutriScorePlusBottomSheet extends StatelessWidget {
 
   void _pickImage(ImageSource source, BuildContext context) async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: source, imageQuality: 75);
+    final pickedFile = await picker.pickImage(source: source, imageQuality: 65);
     // FilePickerResult? file =
     //     await FilePicker.platform.pickFiles(type: FileType.image);
     if (pickedFile != null) {
