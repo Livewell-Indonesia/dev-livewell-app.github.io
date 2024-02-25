@@ -1296,7 +1296,7 @@ extension ScanTypeAtt on ScanType {
   String title() {
     switch (this) {
       case ScanType.nutrico:
-        return 'NutriCo'.tr;
+        return 'NutriCo+'.tr;
       case ScanType.scanMeal:
         return 'Scan a meal'.tr;
       case ScanType.quickAdd:

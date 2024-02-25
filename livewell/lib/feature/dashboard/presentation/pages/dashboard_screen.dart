@@ -121,7 +121,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       const Spacer(),
                       InkWell(
                         onTap: () {
-                          //AppNavigator.push(routeName: AppPages.profile);
                           HomeController homeController = Get.find();
                           homeController.currentMenu.value = HomeTab.account;
                         },
