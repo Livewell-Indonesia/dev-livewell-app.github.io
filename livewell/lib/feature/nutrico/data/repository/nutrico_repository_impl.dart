@@ -1,5 +1,8 @@
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:livewell/core/error/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
@@ -8,6 +11,7 @@ import 'package:livewell/core/network/api_url.dart';
 import 'package:livewell/core/network/network_module.dart';
 import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/feature/nutrico/data/model/nutrico_asset_model.dart';
+import 'package:livewell/feature/nutrico/data/model/nutrico_search_by_image_model.dart';
 import 'package:livewell/feature/nutrico/domain/repository/nutrico_repository.dart';
 import 'package:livewell/feature/nutrico/domain/usecase/post_nutrico.dart';
 
@@ -18,23 +22,14 @@ class NutricoRepositoryImpl with NetworkModule implements NutricoRepository {
   @override
   Future<Either<Failure, Foods>> getNutrico(PostNutricoParams params) async {
     try {
-      final response = await postMethod(Endpoint.nutriCo,
-          body: params.toJson(),
-          headers: {authorization: await SharedPref.getToken()});
+      final response = await postMethod(Endpoint.nutriCo, body: params.toJson(), headers: {authorization: await SharedPref.getToken()});
       final json = responseHandler(response);
-      Log.colorGreen(
-          "success get data food history ${response.body['food_type']}");
+      Log.colorGreen("success get data food history ${response.body['food_type']}");
       final nyoba = FoodsV2.fromJson(json);
       inspect(nyoba);
       List<Servings>? dataServings = [];
       dataServings.add(nyoba.servings!);
-      final data = Foods(
-          brandName: nyoba.brandName,
-          foodName: nyoba.foodName,
-          foodDescription: nyoba.foodDescription,
-          foodType: nyoba.foodType,
-          servings: [nyoba.servings!],
-          provider: nyoba.provider);
+      final data = Foods(brandName: nyoba.brandName, foodName: nyoba.foodName, foodDescription: nyoba.foodDescription, foodType: nyoba.foodType, servings: [nyoba.servings!], provider: nyoba.provider);
       inspect(data);
       return Right(data);
     } catch (ex) {
@@ -54,6 +49,21 @@ class NutricoRepositoryImpl with NetworkModule implements NutricoRepository {
       return Left(ServerFailure(message: ex.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, NutricoSearchByImageModel>> searchByImage(File file) async {
+    try {
+      String fileName = file.path.split('/').last;
+      FormData formData = FormData.fromMap({
+        "document": await MultipartFile.fromFile(file.path, filename: fileName, contentType: MediaType.parse('image/png')),
+      });
+      final response = await postUploadDocument(Endpoint.nutriCoSearchByImage, Endpoint.api, body: formData, headers: {authorization: await SharedPref.getToken()});
+      final json = responseHandler(response);
+      return Right(NutricoSearchByImageModel.fromJson(json));
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
 }
 
 class FoodsV2 {
@@ -65,22 +75,14 @@ class FoodsV2 {
   String? provider;
   String? referenceId;
 
-  FoodsV2(
-      {this.foodName,
-      this.foodDescription,
-      this.foodType,
-      this.brandName,
-      this.servings,
-      this.provider,
-      this.referenceId});
+  FoodsV2({this.foodName, this.foodDescription, this.foodType, this.brandName, this.servings, this.provider, this.referenceId});
 
   FoodsV2.fromJson(Map<String, dynamic> json) {
     foodName = json['food_name'];
     foodDescription = json['food_description'];
     foodType = json['food_type'];
     brandName = json['brand_name'];
-    servings =
-        json['servings'] != null ? Servings.fromJson(json['servings']) : null;
+    servings = json['servings'] != null ? Servings.fromJson(json['servings']) : null;
     provider = json['provider'];
     referenceId = json['reference_id'];
   }

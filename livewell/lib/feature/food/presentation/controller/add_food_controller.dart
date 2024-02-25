@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/presentation/controller/user_diary_controller.dart';
 import 'package:livewell/feature/food/domain/entity/meal_history.dart';
@@ -12,6 +13,7 @@ import 'package:livewell/feature/food/presentation/controller/add_meal_controlle
 import 'package:livewell/feature/food/presentation/controller/food_controller.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/nutrico/presentation/controller/nutrico_controller.dart';
+import 'package:livewell/feature/nutrico/presentation/controller/nutricoplus_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
 
 import '../../data/model/foods_model.dart';
@@ -64,12 +66,16 @@ class AddFoodController extends BaseController {
       Get.find<FoodController>().fetchUserMealHistory();
     }
     await EasyLoading.dismiss();
-    result.fold((l) {}, (r) {
-      Get.find<AddMealController>().addedFoods.add(food);
+    result.fold((l) {
+      Log.error(l.toString());
+    }, (r) {
+      if (Get.isRegistered<AddMealController>()) {
+        Get.find<AddMealController>().addedFoods.add(food);
+      }
       if (Get.isRegistered<UserDiaryController>()) {
         Get.find<UserDiaryController>().refreshList();
       }
-      if (Get.isRegistered<NutriCoController>()) {
+      if (Get.isRegistered<NutriCoController>() || Get.isRegistered<NutricoPlusController>()) {
         AppNavigator.popUntil(routeName: AppPages.home);
       } else {
         Get.back();

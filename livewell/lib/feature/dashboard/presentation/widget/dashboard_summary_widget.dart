@@ -22,11 +22,7 @@ class DashboardSummaryWidget extends StatelessWidget {
       child: GridView.builder(
         padding: EdgeInsets.zero,
         shrinkWrap: true,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 2.18.w,
-            crossAxisSpacing: 9.w,
-            mainAxisSpacing: 9.h),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 2.w, crossAxisSpacing: 9.w, mainAxisSpacing: 9.h),
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           return InkWell(
@@ -59,46 +55,25 @@ class DashboardSummaryWidget extends StatelessWidget {
                           8.horizontalSpace,
                           Text(
                             model[index].item.title(),
-                            style: TextStyle(
-                                color: const Color(0xFF505050),
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w400),
+                            style: TextStyle(color: const Color(0xFF505050), fontSize: 12.sp, fontWeight: FontWeight.w400),
                           ),
                         ],
                       ),
                       7.verticalSpace,
                       model[index].moodType == null
                           ? RichText(
-                              text: TextSpan(
-                                  text: model[index].currentValue,
-                                  style: TextStyle(
-                                      color: const Color(0xFF505050),
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w600),
-                                  children: [
-                                    TextSpan(
-                                        text:
-                                            "/${model[index].targetValue} ${model[index].unit}",
-                                        style: TextStyle(
-                                            color: const Color(0xFF505050),
-                                            fontSize: 12.sp,
-                                            fontWeight: FontWeight.w400))
-                                  ]),
+                              text: TextSpan(text: model[index].currentValue, style: TextStyle(color: const Color(0xFF505050), fontSize: 16.sp, fontWeight: FontWeight.w600), children: [
+                                TextSpan(text: "/${model[index].targetValue} ${model[index].unit}", style: TextStyle(color: const Color(0xFF505050), fontSize: 12.sp, fontWeight: FontWeight.w400))
+                              ]),
                             )
                           : Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                SvgPicture.asset(
-                                    (model[index].moodType!.assets()),
-                                    width: 20.w,
-                                    height: 20.h),
+                                SvgPicture.asset((model[index].moodType!.assets()), width: 20.w, height: 20.h),
                                 8.horizontalSpace,
                                 Text(
                                   model[index].moodType!.title(),
-                                  style: TextStyle(
-                                      color: const Color(0xFF505050),
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w600),
+                                  style: TextStyle(color: const Color(0xFF505050), fontSize: 14.sp, fontWeight: FontWeight.w600),
                                 ),
                               ],
                             ),
@@ -112,9 +87,7 @@ class DashboardSummaryWidget extends StatelessWidget {
                       topRight: Radius.circular(100),
                       bottomRight: Radius.circular(100),
                     ),
-                    color: model[index].moodType != null
-                        ? model[index].moodType!.mainColor()
-                        : model[index].status.color(),
+                    color: model[index].moodType != null ? model[index].moodType!.mainColor() : model[index].status.color(),
                   ),
                 ),
               ],
@@ -129,55 +102,14 @@ class DashboardSummaryWidget extends StatelessWidget {
 
 List<DashboardSummaryModel> generateDefaultModel() {
   return [
-    DashboardSummaryModel(
-        item: DashboardSummaryItem.calories,
-        currentValue: '0',
-        targetValue: '0',
-        unit: 'kcal',
-        status: DashboardSummaryStatus.eightyPlus),
-    DashboardSummaryModel(
-        item: DashboardSummaryItem.exercise,
-        currentValue: '0',
-        targetValue: '0',
-        unit: 'kCal',
-        status: DashboardSummaryStatus.eightyPlus),
-    DashboardSummaryModel(
-        item: DashboardSummaryItem.protein,
-        currentValue: '0',
-        targetValue: '0',
-        unit: 'g',
-        status: DashboardSummaryStatus.eightyPlus),
-    DashboardSummaryModel(
-        item: DashboardSummaryItem.carbs,
-        currentValue: '0',
-        targetValue: '0',
-        unit: 'g',
-        status: DashboardSummaryStatus.eightyPlus),
-    DashboardSummaryModel(
-        item: DashboardSummaryItem.sleep,
-        currentValue: '0',
-        targetValue: '0',
-        unit: 'hours',
-        status: DashboardSummaryStatus.eightyPlus),
-    DashboardSummaryModel(
-        item: DashboardSummaryItem.fat,
-        currentValue: '0',
-        targetValue: '0',
-        unit: 'g',
-        status: DashboardSummaryStatus.eightyPlus),
-    DashboardSummaryModel(
-        item: DashboardSummaryItem.water,
-        currentValue: '0',
-        targetValue: '0',
-        unit: 'liters',
-        status: DashboardSummaryStatus.eightyPlus),
-    DashboardSummaryModel(
-        item: DashboardSummaryItem.mood,
-        currentValue: '0',
-        targetValue: '0',
-        unit: '',
-        moodType: MoodType.great,
-        status: DashboardSummaryStatus.eightyPlus),
+    DashboardSummaryModel(item: DashboardSummaryItem.calories, currentValue: '0', targetValue: '0', unit: 'kcal', status: DashboardSummaryStatus.eightyPlus),
+    DashboardSummaryModel(item: DashboardSummaryItem.exercise, currentValue: '0', targetValue: '0', unit: 'kCal', status: DashboardSummaryStatus.eightyPlus),
+    DashboardSummaryModel(item: DashboardSummaryItem.protein, currentValue: '0', targetValue: '0', unit: 'g', status: DashboardSummaryStatus.eightyPlus),
+    DashboardSummaryModel(item: DashboardSummaryItem.carbs, currentValue: '0', targetValue: '0', unit: 'g', status: DashboardSummaryStatus.eightyPlus),
+    DashboardSummaryModel(item: DashboardSummaryItem.sleep, currentValue: '0', targetValue: '0', unit: 'hours', status: DashboardSummaryStatus.eightyPlus),
+    DashboardSummaryModel(item: DashboardSummaryItem.fat, currentValue: '0', targetValue: '0', unit: 'g', status: DashboardSummaryStatus.eightyPlus),
+    DashboardSummaryModel(item: DashboardSummaryItem.water, currentValue: '0', targetValue: '0', unit: 'liters', status: DashboardSummaryStatus.eightyPlus),
+    DashboardSummaryModel(item: DashboardSummaryItem.mood, currentValue: '0', targetValue: '0', unit: '', moodType: MoodType.great, status: DashboardSummaryStatus.eightyPlus),
   ];
 }
 
@@ -189,16 +121,9 @@ class DashboardSummaryModel {
   final MoodType? moodType;
   final DashboardSummaryStatus status;
 
-  DashboardSummaryModel(
-      {required this.item,
-      required this.currentValue,
-      required this.targetValue,
-      required this.unit,
-      this.moodType,
-      required this.status});
+  DashboardSummaryModel({required this.item, required this.currentValue, required this.targetValue, required this.unit, this.moodType, required this.status});
 
-  static DashboardSummaryStatus statusFromValue(
-      double value, bool isFatOrCarbs) {
+  static DashboardSummaryStatus statusFromValue(double value, bool isFatOrCarbs) {
     if (value >= 0 && value < 0.4) {
       return DashboardSummaryStatus.zeroToFourty;
     } else if (value >= 0.4 && value < 0.8) {
@@ -227,14 +152,7 @@ enum DashboardSummaryItem {
   mood
 }
 
-enum DashboardSummaryStatus {
-  zeroToFourty,
-  fourtyToEighty,
-  eightyPlus,
-  eightyToHundredTen,
-  hundredTenToHundredTwentyFive,
-  hundredTwentyFivePlus
-}
+enum DashboardSummaryStatus { zeroToFourty, fourtyToEighty, eightyPlus, eightyToHundredTen, hundredTenToHundredTwentyFive, hundredTwentyFivePlus }
 
 extension DashboardSummaryExt on DashboardSummaryStatus {
   Color color() {
