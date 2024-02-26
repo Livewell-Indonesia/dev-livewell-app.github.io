@@ -11,15 +11,10 @@ class LiveWellScaffold extends StatelessWidget {
   final Widget body;
   final bool allowBack;
   final Widget? trailing;
+  final Widget? customTitleWidget;
   final bool beta;
   const LiveWellScaffold(
-      {Key? key,
-      required this.title,
-      this.backgroundColor = const Color(0xFFF1F1F1),
-      required this.body,
-      this.trailing,
-      this.beta = false,
-      this.allowBack = true})
+      {Key? key, required this.title, this.backgroundColor = const Color(0xFFF1F1F1), required this.body, this.trailing, this.beta = false, this.customTitleWidget, this.allowBack = true})
       : super(key: key);
 
   @override
@@ -49,13 +44,14 @@ class LiveWellScaffold extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              title,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600),
-                            ),
+                            customTitleWidget ??
+                                Text(
+                                  title,
+                                  style: TextStyle(
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                             beta ? 8.horizontalSpace : 0.verticalSpace,
                             beta ? const BetaTags() : Container(),
                           ],
@@ -65,14 +61,10 @@ class LiveWellScaffold extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Container(
-                        child: Navigator.canPop(context) && allowBack
-                            ? backButton()
-                            : Container(),
+                        child: Navigator.canPop(context) && allowBack ? backButton() : Container(),
                       ),
                     ),
-                    Align(
-                        alignment: Alignment.centerRight,
-                        child: trailing ?? Container())
+                    Align(alignment: Alignment.centerRight, child: trailing ?? Container())
                   ],
                 ),
               ),
@@ -112,9 +104,7 @@ class CustomWillPopScope extends StatelessWidget {
   // create constructor with widget as parameter
   final Widget child;
   final bool allowBack;
-  const CustomWillPopScope(
-      {Key? key, required this.child, this.allowBack = true})
-      : super(key: key);
+  const CustomWillPopScope({Key? key, required this.child, this.allowBack = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
