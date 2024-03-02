@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,9 +9,14 @@ import 'package:livewell/core/constant/constant.dart';
 enum SelectedNutriscorePlusMethod { camera, gallery, desc }
 
 class NutriScorePlusBottomSheet extends StatelessWidget {
+  final bool isAlreadyLimit;
   final Function(SelectedNutriscorePlusMethod) onSelected;
   final Function(File) onImageSelected;
-  const NutriScorePlusBottomSheet({super.key, required this.onSelected, required this.onImageSelected});
+  const NutriScorePlusBottomSheet(
+      {super.key,
+      required this.isAlreadyLimit,
+      required this.onSelected,
+      required this.onImageSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,8 @@ class NutriScorePlusBottomSheet extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,7 +43,10 @@ class NutriScorePlusBottomSheet extends StatelessWidget {
               },
               title: Text(
                 'Describe Food',
-                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: const Color(0xFF505050)),
+                style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF505050)),
               ),
               leading: SvgPicture.asset(
                 Constant.icScanMeal,
@@ -49,22 +56,58 @@ class NutriScorePlusBottomSheet extends StatelessWidget {
               ),
             ),
             ListTile(
-              onTap: () {
-                _pickImage(ImageSource.gallery, context);
-              },
-              title: Text(
-                'Pick From Gallery',
-                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: const Color(0xFF505050)),
+              onTap: isAlreadyLimit
+                  ? null
+                  : () {
+                      _pickImage(ImageSource.gallery, context);
+                    },
+              title: Row(
+                children: [
+                  Text(
+                    'Pick From Gallery',
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                        color: isAlreadyLimit
+                            ? const Color(0xFF808080)
+                            : const Color(0xFF505050)),
+                  ),
+                  8.horizontalSpace,
+                  if (isAlreadyLimit)
+                    Icon(
+                      Icons.lock,
+                      color: const Color(0xFF808080),
+                      size: 16.sp,
+                    )
+                ],
               ),
               leading: const Icon(Icons.photo_library_outlined),
             ),
             ListTile(
-              onTap: () {
-                _pickImage(ImageSource.camera, context);
-              },
-              title: Text(
-                'Take a Photo',
-                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: const Color(0xFF505050)),
+              onTap: isAlreadyLimit
+                  ? null
+                  : () {
+                      _pickImage(ImageSource.camera, context);
+                    },
+              title: Row(
+                children: [
+                  Text(
+                    'Take a Photo',
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                        color: isAlreadyLimit
+                            ? const Color(0xFF808080)
+                            : const Color(0xFF505050)),
+                  ),
+                  8.horizontalSpace,
+                  if (isAlreadyLimit)
+                    Icon(
+                      Icons.lock,
+                      color: const Color(0xFF808080),
+                      size: 16.sp,
+                    )
+                ],
               ),
               leading: const Icon(Icons.add_a_photo_outlined),
             ),

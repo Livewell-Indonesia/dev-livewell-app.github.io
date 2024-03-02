@@ -2,7 +2,9 @@ import 'package:flutter/foundation.dart';
 
 class Endpoint {
   /// DEV
-  static String api = kReleaseMode ? "https://api.livewellindo.com/api/v1/" : "https://dev-api.livewellindo.com/api/v1/";
+  static String api = kReleaseMode
+      ? "https://api.livewellindo.com/api/v1/"
+      : "https://dev-api.livewellindo.com/api/v1/";
 
   /// Login
   static const String login = "auth/login";
@@ -70,4 +72,7 @@ class Endpoint {
   static const String getDetailMood = "mood/detail";
 
   static const String nutriCoSearchByImage = "foods/search-by-image";
+
+  /// feature limit
+  static const String featureLimit = "user/feature-limit";
 }

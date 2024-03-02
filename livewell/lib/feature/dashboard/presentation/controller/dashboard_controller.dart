@@ -14,7 +14,9 @@ import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/data/model/dashboard_model.dart';
 import 'package:livewell/feature/dashboard/data/model/user_model.dart';
+import 'package:livewell/feature/dashboard/domain/entity/feature_limit_entity.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_dashboard_data.dart';
+import 'package:livewell/feature/dashboard/domain/usecase/get_feature_limit.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_user.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/post_mood.dart';
 import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart';
@@ -46,6 +48,7 @@ class DashboardController extends BaseController {
   PostMood postMood = PostMood.instance();
   GetSingleMood getSingleMood = GetSingleMood.instance();
   GetSleepData getSleepData = GetSleepData.instance();
+  GetFeatureLimit getFeatureLimit = GetFeatureLimit.instance();
   Rx<UserModel> user = UserModel().obs;
   Rx<DashboardModel> dashboard = DashboardModel().obs;
   ValueNotifier<double> valueNotifier = ValueNotifier(0.0);
@@ -59,6 +62,7 @@ class DashboardController extends BaseController {
 
   Rx<NutriScoreModel> nutriScore = NutriScoreModel().obs;
   Rx<num> totalExercise = 0.obs;
+  Rxn<FeatureLimitEntity> featureLimit = Rxn<FeatureLimitEntity>();
 
   var types = [
     HealthDataType.STEPS,
@@ -71,6 +75,17 @@ class DashboardController extends BaseController {
     HealthDataAccess.READ,
     HealthDataAccess.READ,
   ];
+
+  bool checkIfNutricoAlreadyLimit() {
+    if (featureLimit.value != null) {
+      var data = featureLimit.value!.featureLimits
+          .firstWhere((element) => element.featureName == 'NUTRICO_PLUS');
+      if (data.currentUsage == data.currentLimit) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   void fetchHealthData() async {
     bool isAllowed = false;
@@ -282,7 +297,17 @@ class DashboardController extends BaseController {
     getNutriscoreData();
     getWaterData();
     getSingleMoodData();
+    getFeatureLimitData();
     super.onInit();
+  }
+
+  Future<void> getFeatureLimitData() async {
+    final result = await getFeatureLimit.call(NoParams());
+    result.fold((l) {
+      Log.error(l);
+    }, (r) {
+      featureLimit.value = r;
+    });
   }
 
   Future<void> onRefresh() async {
