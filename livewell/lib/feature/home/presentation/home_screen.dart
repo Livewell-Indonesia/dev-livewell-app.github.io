@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:livewell/core/helper/get_meal_type_by_current_time.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/home/widget/floating_nutrico_plus_widget.dart';
 import 'package:livewell/feature/nutrico/presentation/widget/nutri_score_plus_bottom_sheet.dart';
@@ -37,6 +38,8 @@ class HomeScreen extends StatelessWidget {
                           shape: shapeBorder(),
                           builder: (context) {
                             return NutriScorePlusBottomSheet(
+                              isAlreadyLimit: Get.find<DashboardController>()
+                                  .checkIfNutricoAlreadyLimit(),
                               onSelected: (p0) {
                                 Get.back();
                                 switch (p0) {
@@ -47,16 +50,21 @@ class HomeScreen extends StatelessWidget {
                                     //AppNavigator.push(routeName: AppPages.gallery);
                                     break;
                                   case SelectedNutriscorePlusMethod.desc:
-                                    AppNavigator.push(routeName: AppPages.nutriCoScreen, arguments: {
-                                      'type': getMealTypeByCurrentTime().name,
-                                      'date': DateTime.now(),
-                                    });
+                                    AppNavigator.push(
+                                        routeName: AppPages.nutriCoScreen,
+                                        arguments: {
+                                          'type':
+                                              getMealTypeByCurrentTime().name,
+                                          'date': DateTime.now(),
+                                        });
                                     break;
                                 }
                               },
                               onImageSelected: (file) {
                                 Get.back();
-                                AppNavigator.push(routeName: AppPages.loadingNutricoPlus, arguments: file);
+                                AppNavigator.push(
+                                    routeName: AppPages.loadingNutricoPlus,
+                                    arguments: file);
                               },
                             );
                           });
@@ -70,7 +78,10 @@ class HomeScreen extends StatelessWidget {
       ),
       bottomNavigationBar: Container(
           height: 72.h,
-          decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20))),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: HomeTab.values.map((e) {
@@ -83,13 +94,20 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        e == controller.currentMenu.value ? e.selectedAssetWidget() : e.unselectedAssetWidget(),
+                        e == controller.currentMenu.value
+                            ? e.selectedAssetWidget()
+                            : e.unselectedAssetWidget(),
                         SizedBox(
                           height: 4.h,
                         ),
                         Text(
                           e.title(),
-                          style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: e == controller.currentMenu.value ? const Color(0xFF8F01DF) : const Color(0xFF171433).withOpacity(0.8)),
+                          style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                              color: e == controller.currentMenu.value
+                                  ? const Color(0xFF8F01DF)
+                                  : const Color(0xFF171433).withOpacity(0.8)),
                         )
                       ],
                     ),

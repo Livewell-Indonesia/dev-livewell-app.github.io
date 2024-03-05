@@ -70,7 +70,6 @@ class NutriScorePlusBottomSheet extends StatelessWidget {
                             ? const Color(0xFF808080)
                             : const Color(0xFF505050)),
                   ),
-                  8.horizontalSpace,
                 ],
               ),
               leading: Icon(

@@ -5,7 +5,9 @@ import 'package:livewell/core/network/network_module.dart';
 import 'package:livewell/feature/auth/data/model/register_model.dart';
 import 'package:livewell/feature/dashboard/data/model/app_config_model.dart';
 import 'package:livewell/feature/dashboard/data/model/dashboard_model.dart';
+import 'package:livewell/feature/dashboard/data/model/feature_limit_model.dart';
 import 'package:livewell/feature/dashboard/data/model/popup_assets_model.dart';
+import 'package:livewell/feature/dashboard/domain/entity/feature_limit_entity.dart';
 import 'package:livewell/feature/dashboard/domain/repository/dashboard_repository.dart';
 
 import '../../../../core/error/failures.dart';
@@ -96,6 +98,20 @@ class DashboardRepostoryImpl with NetworkModule implements DashBoardRepository {
       });
       final json = responseHandler(response);
       return Right(RegisterModel.fromJson(json));
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, FeatureLimitEntity>> getFeatureLimit() async {
+    try {
+      final response = await getMethod(Endpoint.featureLimit, headers: {
+        authorization: await SharedPref.getToken(),
+      });
+      final json = responseHandler(response);
+      final model = FeatureLimitModel.fromJson(json);
+      return Right(FeatureLimitEntity.fromRemote(model));
     } catch (ex) {
       return Left(ServerFailure(message: ex.toString()));
     }
