@@ -5,6 +5,7 @@ import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
+import 'package:livewell/feature/food/presentation/pages/add_food_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
@@ -349,36 +350,70 @@ class NutrtionProgressModel {
   final Color color;
   final String total;
   final String consumed;
+  final double percentage;
 
   NutrtionProgressModel(
       {required this.name,
       required this.color,
       required this.total,
-      required this.consumed});
+      required this.consumed,
+      this.percentage = 0});
 }
 
 class NutritionProgressDescription extends StatelessWidget {
   final List<NutrtionProgressModel> data;
   final Color backgroundColor;
   final Color? dividerColor;
+  final bool isFromNutricoPlus;
+  final int? calories;
   const NutritionProgressDescription(
       {Key? key,
       required this.data,
       this.backgroundColor = Colors.white,
-      this.dividerColor})
+      this.dividerColor,
+      this.isFromNutricoPlus = false,
+      this.calories})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16.0),
+      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.0.h),
       decoration: BoxDecoration(
-          color: backgroundColor,
+          color: isFromNutricoPlus ? Colors.white : backgroundColor,
           borderRadius: const BorderRadius.all(Radius.circular(16.0))),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
+          if (isFromNutricoPlus)
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    CustomBar(
+                      value1: data[0].percentage,
+                      value2: data[1].percentage,
+                      value3: data[2].percentage,
+                      maxValue: 230.w,
+                    ),
+                    const Spacer(),
+                    Text(
+                      '${calories} cal',
+                      style: TextStyle(
+                          color: const Color(0xFF171433),
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+                16.verticalSpace,
+                Divider(
+                  color: dividerColor,
+                ),
+              ],
+            ),
           LimitedBox(
             maxHeight: 164.h,
             child: MediaQuery.removePadding(

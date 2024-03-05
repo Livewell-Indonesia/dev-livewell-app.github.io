@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/helper/get_meal_type_by_current_time.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/nutrico/domain/usecase/post_nutrico.dart';
 import 'package:livewell/feature/nutrico/domain/usecase/search_by_image.dart';
@@ -28,7 +29,7 @@ class NutricoPlusController extends GetxController {
       imageUrl.value = r.response?.imageUrl ?? '';
       foodName.value = r.response?.foodName ?? '';
       if (foodName.value.isNotEmpty && imageUrl.value.isNotEmpty) {
-        await detectImage(foodName.value);
+        await detectImage(foodName.value, imageUrl.value);
       } else {
         Get.back();
         showError();
@@ -36,7 +37,7 @@ class NutricoPlusController extends GetxController {
     });
   }
 
-  Future<void> detectImage(String foodName) async {
+  Future<void> detectImage(String foodName, String imageUrl) async {
     final data = await postNutrico(PostNutricoParams(foodName));
     Get.back();
     data.fold((l) {
@@ -49,9 +50,18 @@ class NutricoPlusController extends GetxController {
         var carbs = num.tryParse(r.servings!.first.carbohydrate!);
         var protein = num.tryParse(r.servings!.first.protein!);
 
-        if (calories != null && fat != null && carbs != null && protein != null) {
+        if (calories != null &&
+            fat != null &&
+            carbs != null &&
+            protein != null) {
           MealTime mealTime = getMealTypeByCurrentTime();
-          AppNavigator.push(routeName: AppPages.addFood, arguments: {"date": DateTime.now(), "mealTime": mealTime, "food": r});
+          Get.find<DashboardController>().getFeatureLimitData();
+          AppNavigator.push(routeName: AppPages.addFood, arguments: {
+            "date": DateTime.now(),
+            "mealTime": mealTime,
+            "food": r,
+            "imageUrl": imageUrl,
+          });
         } else {
           showError();
         }
@@ -65,8 +75,16 @@ class NutricoPlusController extends GetxController {
     showModalBottomSheet(
         context: Get.context!,
         isScrollControlled: true,
-        shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-            const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
+        shape: ShapeBorder.lerp(
+            const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20))),
+            const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20))),
+            1),
         builder: ((context) {
           return Container(
             padding: EdgeInsets.fromLTRB(16.w, 24.h, 16.w, 32.h),
@@ -82,12 +100,19 @@ class NutricoPlusController extends GetxController {
               children: [
                 Text(
                   'Add Food Failed',
-                  style: TextStyle(color: const Color(0xFF171433), fontSize: 24.sp, height: 32.sp / 24.sp, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                      color: const Color(0xFF171433),
+                      fontSize: 24.sp,
+                      height: 32.sp / 24.sp,
+                      fontWeight: FontWeight.w600),
                 ),
                 8.verticalSpace,
                 Text(
                   'there was an error in the system or the data you entered was not registered in our system.',
-                  style: TextStyle(color: const Color(0xFF808080), fontSize: 16.sp, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      color: const Color(0xFF808080),
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500),
                 ),
                 32.verticalSpace,
                 LiveWellButton(
