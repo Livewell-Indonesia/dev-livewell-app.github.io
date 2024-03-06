@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'dart:typed_data';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 enum SelectedNutriscorePlusMethod { camera, gallery, desc }
 
@@ -123,7 +125,10 @@ class NutriScorePlusBottomSheet extends StatelessWidget {
     // FilePickerResult? file =
     //     await FilePicker.platform.pickFiles(type: FileType.image);
     if (pickedFile != null) {
-      onImageSelected(File(pickedFile.path));
+      final File file = File(pickedFile.path);
+      final Uint8List imageBytes = await file.readAsBytes();
+      final File resizedImage = await resizeImageToTargetSize(imageBytes, 250, pickedFile.path);
+      onImageSelected(resizedImage);
       // final selectedImage = file.paths.map(
       //   (e) => File(e!),
       // );
@@ -131,4 +136,32 @@ class NutriScorePlusBottomSheet extends StatelessWidget {
     }
     //Navigator.of(context).pop();
   }
+}
+
+Future<File> resizeImageToTargetSize(Uint8List imageBytes, int targetSizeKB, String filePath) async {
+  int quality = 100; // Initial quality, can be adjusted
+  int maxIterations = 10; // You can adjust this based on your needs
+  Uint8List compressedImage = imageBytes;
+
+  for (int i = 0; i < maxIterations; i++) {
+    compressedImage = await FlutterImageCompress.compressWithList(
+      imageBytes,
+      quality: quality,
+    );
+
+    if (compressedImage.lengthInBytes <= targetSizeKB * 1024) {
+      File file = File(filePath);
+      return file.writeAsBytes(compressedImage);
+    }
+
+    // Adjust quality for next iteration
+    quality -= 10;
+    if (quality < 0) {
+      quality = 0;
+    }
+  }
+
+  // If the loop completes without reaching target size, return the last compressed image
+  File file = File(filePath);
+  return file.writeAsBytes(compressedImage);
 }
