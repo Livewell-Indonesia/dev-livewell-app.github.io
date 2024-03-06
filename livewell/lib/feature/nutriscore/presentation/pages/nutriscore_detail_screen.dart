@@ -29,9 +29,7 @@ class NutriScoreDetailsScreen extends StatelessWidget {
 
   Widget comingsoonPage() {
     return const ComingSoonPage(
-        imageAsset: Constant.imgComingSoonNutriscore,
-        description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.');
+        imageAsset: Constant.imgComingSoonNutriscore, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.');
   }
 
   SingleChildScrollView content() {
@@ -41,16 +39,12 @@ class NutriScoreDetailsScreen extends StatelessWidget {
           24.verticalSpace,
           Text(
             controller.currentType.title(),
-            style: TextStyle(
-                fontSize: 30.sp,
-                color: Colors.black,
-                fontWeight: FontWeight.w700),
+            style: TextStyle(fontSize: 30.sp, color: Colors.black, fontWeight: FontWeight.w700),
           ),
           8.verticalSpace,
           NutriScoreScale(
             score: controller.nutrientScore.value,
-            value:
-                '${NumberFormat('0.0').format(controller.todaysAmount.value).toString()}${controller.currentType.unit()}',
+            value: '${NumberFormat('0.0').format(controller.todaysAmount.value).toString()}${controller.currentType.unit()}',
             status: controller.getNutriScoreStatus(),
             type: controller.currentType,
           ),
@@ -60,18 +54,12 @@ class NutriScoreDetailsScreen extends StatelessWidget {
             children: [
               Text(
                 'Score : ',
-                style: TextStyle(
-                    color: const Color(0xFF171433),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16.sp),
+                style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w400, fontSize: 16.sp),
               ),
               Obx(() {
                 return Text(
                   '${NumberFormat('0.0').format(controller.todaysAmount.value).toString()}${controller.currentType.unit()}',
-                  style: TextStyle(
-                      color: const Color(0xFF171433),
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16.sp),
+                  style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w700, fontSize: 16.sp),
                 );
               }),
               16.horizontalSpace,
@@ -83,10 +71,7 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                 ),
                 child: Text(
                   controller.getNutriScoreStatus().title(),
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w700),
+                  style: TextStyle(color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.w700),
                 ),
               ),
             ],
@@ -95,9 +80,7 @@ class NutriScoreDetailsScreen extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
             margin: EdgeInsets.symmetric(horizontal: 16.w),
-            decoration: BoxDecoration(
-                color: const Color(0xFFD9E4E5),
-                borderRadius: BorderRadius.circular(100)),
+            decoration: BoxDecoration(color: const Color(0xFFD9E4E5), borderRadius: BorderRadius.circular(100)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -106,18 +89,12 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                     children: [
                       Text(
                         controller.localization.todaysAmount!,
-                        style: TextStyle(
-                            color: const Color(0xFF808080),
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w600),
+                        style: TextStyle(color: const Color(0xFF808080), fontSize: 10.sp, fontWeight: FontWeight.w600),
                       ),
                       4.verticalSpace,
                       Text(
                         '${NumberFormat('0.0').format(controller.todaysAmount.value).toString()}${controller.currentType.unit()}',
-                        style: TextStyle(
-                            color: const Color(0xFF171433),
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600),
+                        style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp, fontWeight: FontWeight.w600),
                       )
                     ],
                   );
@@ -127,18 +104,12 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                     children: [
                       Text(
                         controller.localization.weeklyAverage!,
-                        style: TextStyle(
-                            color: const Color(0xFF808080),
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w600),
+                        style: TextStyle(color: const Color(0xFF808080), fontSize: 10.sp, fontWeight: FontWeight.w600),
                       ),
                       4.verticalSpace,
                       Text(
                         '${NumberFormat('0.0').format(controller.weeklyAverage.value).toString()}${controller.currentType.unit()}',
-                        style: TextStyle(
-                            color: const Color(0xFF171433),
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600),
+                        style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp, fontWeight: FontWeight.w600),
                       )
                     ],
                   );
@@ -150,17 +121,10 @@ class NutriScoreDetailsScreen extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16.w),
             padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: const Color(0xFFEBEBEB))),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), border: Border.all(color: const Color(0xFFEBEBEB))),
             child: Column(
               children: [
-                Text('Last 7 days',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                        height: 20.sp / 14.sp)),
+                Text('Last 7 days', style: TextStyle(color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w700, height: 20.sp / 14.sp)),
                 16.verticalSpace,
                 const Divider(),
                 16.verticalSpace,
@@ -177,33 +141,21 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                                 BarChartRodData(
                                     color: controller.isYValueOptimal(index)
                                         ? const Color(0xFFDDF235)
-                                        : controller.currentType ==
-                                                    NutrientType.protein ||
-                                                controller.currentType ==
-                                                    NutrientType.water
+                                        : controller.currentType == NutrientType.protein || controller.currentType == NutrientType.water
                                             ? const Color(0xFFDDF235)
                                             : const Color(0xFFFA6F6F),
                                     width: 12.w,
-                                    toY: controller
-                                        .nutrientList[index].nutrient.eaten!
-                                        .toDouble())
+                                    toY: controller.nutrientList[index].nutrient.eaten!.toDouble())
                               ],
                             );
                           }),
                           barTouchData: BarTouchData(
                             enabled: true,
                             touchTooltipData: BarTouchTooltipData(
-                              getTooltipItem:
-                                  (group, groupIndex, rod, rodIndex) {
+                              getTooltipItem: (group, groupIndex, rod, rodIndex) {
                                 return BarTooltipItem(
-                                  NumberFormat('0.0')
-                                          .format(rod.toY)
-                                          .toString() +
-                                      controller.currentType.unit(),
-                                  TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14.sp),
+                                  NumberFormat('0.0').format(rod.toY).toString() + controller.currentType.unit(),
+                                  TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 14.sp),
                                 );
                               },
                             ),
@@ -213,17 +165,9 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                               show: true,
                               drawVerticalLine: false,
                               horizontalInterval: 50,
-                              verticalInterval: controller.getMaxY() < 1 &&
-                                      controller.getMinY() < 1
-                                  ? 1
-                                  : (controller.getMaxY() -
-                                          controller.getMinY()) /
-                                      2,
+                              verticalInterval: controller.getMaxY() < 1 && controller.getMinY() < 1 ? 1 : (controller.getMaxY() - controller.getMinY()) / 2,
                               getDrawingHorizontalLine: (value) {
-                                return FlLine(
-                                    color: const Color(0xFFebebeb),
-                                    strokeWidth: 1,
-                                    dashArray: [2, 2]);
+                                return FlLine(color: const Color(0xFFebebeb), strokeWidth: 1, dashArray: [2, 2]);
                               }),
                           titlesData: FlTitlesData(
                             show: true,
@@ -237,18 +181,11 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                               sideTitles: SideTitles(
                                 reservedSize: 30,
                                 showTitles: true,
-                                interval: controller.getMaxY() < 1 &&
-                                        controller.getMinY() < 1
-                                    ? 1
-                                    : (controller.getMaxY() -
-                                            controller.getMinY()) /
-                                        2,
+                                interval: controller.getMaxY() < 1 && controller.getMinY() < 1 ? 1 : (controller.getMaxY() - controller.getMinY()) / 2,
                                 getTitlesWidget: (value, meta) {
                                   return Text(
                                     value.toInt().toString(),
-                                    style: TextStyle(
-                                        color: const Color(0xFF505050),
-                                        fontSize: 12.sp),
+                                    style: TextStyle(color: const Color(0xFF505050), fontSize: 12.sp),
                                   );
                                 },
                               ),
@@ -262,13 +199,8 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                                     child: Padding(
                                       padding: const EdgeInsets.only(top: 10),
                                       child: Text(
-                                        controller
-                                            .nutrientList[value.toInt()].date
-                                            .substring(5)
-                                            .replaceAll('-', '/'),
-                                        style: TextStyle(
-                                            color: const Color(0xFF505050),
-                                            fontSize: 12.sp),
+                                        controller.nutrientList[value.toInt()].date.substring(5).replaceAll('-', '/'),
+                                        style: TextStyle(color: const Color(0xFF505050), fontSize: 12.sp),
                                       ),
                                     ),
                                   );
@@ -282,10 +214,7 @@ class NutriScoreDetailsScreen extends StatelessWidget {
                         alignment: Alignment.bottomLeft,
                         child: Text(
                           controller.currentType.unit(),
-                          style: TextStyle(
-                              color: const Color(0xFF505050),
-                              fontSize: 10.sp,
-                              fontWeight: FontWeight.w600),
+                          style: TextStyle(color: const Color(0xFF505050), fontSize: 10.sp, fontWeight: FontWeight.w600),
                         ),
                       ),
                     ],
@@ -308,18 +237,12 @@ class NutriScoreDetailsScreen extends StatelessWidget {
               children: [
                 Text(
                   controller.localization.disclaimer!,
-                  style: TextStyle(
-                      color: const Color(0xFF171433),
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600),
+                  style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp, fontWeight: FontWeight.w600),
                 ),
                 8.verticalSpace,
                 Text(
                   controller.localization.livewellNutritionalDataDisclaimer!,
-                  style: TextStyle(
-                      color: const Color(0xFF808080),
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400),
+                  style: TextStyle(color: const Color(0xFF808080), fontSize: 14.sp, fontWeight: FontWeight.w400),
                 ),
               ],
             ),
@@ -346,12 +269,7 @@ class NutriScoreScale extends StatefulWidget {
   final String value;
   final NutrientScoreStatus status;
   final NutrientType type;
-  const NutriScoreScale(
-      {super.key,
-      required this.score,
-      required this.value,
-      required this.status,
-      required this.type});
+  const NutriScoreScale({super.key, required this.score, required this.value, required this.status, required this.type});
 
   @override
   State<NutriScoreScale> createState() => _NutriScoreScaleState();
@@ -364,8 +282,7 @@ class _NutriScoreScaleState extends State<NutriScoreScale> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final RenderBox renderBoxRed =
-          _key.currentContext!.findRenderObject() as RenderBox;
+      final RenderBox renderBoxRed = _key.currentContext!.findRenderObject() as RenderBox;
       setState(() {
         width = renderBoxRed.size.width;
       });
@@ -388,20 +305,17 @@ class _NutriScoreScaleState extends State<NutriScoreScale> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     LowIndicator(
-                      showCursor: getStatusFromScore(widget.score) ==
-                          NutrientScoreStatus.low,
+                      showCursor: getStatusFromScore(widget.score) == NutrientScoreStatus.low,
                       value: widget.score,
                       type: widget.type,
                     ),
                     OptimalIndicator(
-                      showCursor: getStatusFromScore(widget.score) ==
-                          NutrientScoreStatus.optimal,
+                      showCursor: getStatusFromScore(widget.score) == NutrientScoreStatus.optimal,
                       value: widget.score,
                       type: widget.type,
                     ),
                     HighIndicator(
-                      showCursor: getStatusFromScore(widget.score) ==
-                          NutrientScoreStatus.high,
+                      showCursor: getStatusFromScore(widget.score) == NutrientScoreStatus.high,
                       value: widget.score,
                       type: widget.type,
                     ),
@@ -468,17 +382,11 @@ class BuildIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment:
-          value < 20 ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+      crossAxisAlignment: value < 20 ? CrossAxisAlignment.start : CrossAxisAlignment.center,
       children: [
-        Text(Get.find<HomeController>().localization.yourValue!,
-            style: TextStyle(color: const Color(0xFF808080), fontSize: 10.sp)),
+        Text(Get.find<HomeController>().localization.yourValue!, style: TextStyle(color: const Color(0xFF808080), fontSize: 10.sp)),
         2.verticalSpace,
-        Text(banner,
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w700)),
+        Text(banner, style: TextStyle(color: Colors.black, fontSize: 16.sp, fontWeight: FontWeight.w700)),
         Column(
           children: [
             Container(
@@ -541,18 +449,13 @@ class HighIndicator extends StatelessWidget {
                 height: 12.h,
                 decoration: BoxDecoration(
                   color: type.highColor(),
-                  borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(8),
-                      bottomRight: Radius.circular(8)),
+                  borderRadius: const BorderRadius.only(topRight: Radius.circular(8), bottomRight: Radius.circular(8)),
                 ),
               ),
               8.verticalSpace,
               Text(
                 type.highTitle(),
-                style: TextStyle(
-                    color: const Color(0xFF808080),
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w500),
+                style: TextStyle(color: const Color(0xFF808080), fontSize: 12.sp, fontWeight: FontWeight.w500),
               ),
             ],
           ),
@@ -595,10 +498,7 @@ class OptimalIndicator extends StatelessWidget {
               8.verticalSpace,
               Text(
                 type.optimalTitle(),
-                style: TextStyle(
-                    color: const Color(0xFF808080),
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w500),
+                style: TextStyle(color: const Color(0xFF808080), fontSize: 12.sp, fontWeight: FontWeight.w500),
               ),
             ],
           ),
@@ -637,9 +537,7 @@ class LowIndicator extends StatelessWidget {
                 height: 12.h,
                 decoration: BoxDecoration(
                   color: type.lowColor(),
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      bottomLeft: Radius.circular(8)),
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
                 ),
               ),
               8.verticalSpace,
@@ -647,10 +545,7 @@ class LowIndicator extends StatelessWidget {
                 type.lowTitle(),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    color: const Color(0xFF808080),
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w500),
+                style: TextStyle(color: const Color(0xFF808080), fontSize: 12.sp, fontWeight: FontWeight.w500),
               ),
             ],
           ),
