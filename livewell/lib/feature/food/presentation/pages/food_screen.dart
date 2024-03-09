@@ -5,7 +5,9 @@ import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
+import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/feature/food/presentation/pages/add_food_screen.dart';
+import 'package:livewell/feature/food/presentation/pages/nutrient_fact_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
@@ -258,7 +260,11 @@ class NutritionProgressDescription extends StatelessWidget {
   final Color? dividerColor;
   final bool isFromNutricoPlus;
   final int? calories;
-  const NutritionProgressDescription({Key? key, required this.data, this.backgroundColor = Colors.white, this.dividerColor, this.isFromNutricoPlus = false, this.calories}) : super(key: key);
+  final Servings? servings;
+  final double? numberOfServings;
+  const NutritionProgressDescription(
+      {Key? key, required this.data, this.backgroundColor = Colors.white, this.dividerColor, this.isFromNutricoPlus = false, this.calories, this.servings, this.numberOfServings})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -289,6 +295,45 @@ class NutritionProgressDescription extends StatelessWidget {
                   itemCount: data.length),
             ),
           ),
+          if (isFromNutricoPlus)
+            Column(
+              children: [
+                Divider(
+                  color: dividerColor,
+                ),
+                8.verticalSpace,
+                InkWell(
+                  onTap: () {
+                    Get.to(() => NutrientFactScreen(
+                          servings: servings!,
+                          numberOfServings: double.parse(numberOfServings.toString()),
+                        ));
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                        Get.find<DashboardController>().localization.showNutrientFacts!,
+                        style: TextStyle(color: const Color(0xFF505050), fontSize: 16.sp, fontWeight: FontWeight.w600),
+                      ),
+                      const Spacer(),
+                      Container(
+                        width: 35,
+                        height: 35,
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: const Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.black,
+                          size: 16,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            )
         ],
       ),
     );

@@ -66,35 +66,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
             InkWell(
               child: const Icon(Icons.edit_outlined),
               onTap: () {
-                showModalBottomSheet(
-                    context: context,
-                    shape: shapeBorder(),
-                    builder: (context) {
-                      return NutriScorePlusBottomSheet(
-                        isAlreadyLimit: Get.find<DashboardController>().checkIfNutricoAlreadyLimit(),
-                        onSelected: (p0) {
-                          Get.back();
-                          switch (p0) {
-                            case SelectedNutriscorePlusMethod.camera:
-                              // AppNavigator.push(routeName: AppPages.camera);
-                              break;
-                            case SelectedNutriscorePlusMethod.gallery:
-                              //AppNavigator.push(routeName: AppPages.gallery);
-                              break;
-                            case SelectedNutriscorePlusMethod.desc:
-                              AppNavigator.push(routeName: AppPages.nutriCoScreen, arguments: {
-                                'type': getMealTypeByCurrentTime().name,
-                                'date': DateTime.now(),
-                              });
-                              break;
-                          }
-                        },
-                        onImageSelected: (file) {
-                          Get.back();
-                          AppNavigator.push(routeName: AppPages.loadingNutricoPlus, arguments: file);
-                        },
-                      );
-                    });
+                AppNavigator.push(routeName: AppPages.nutriCoScreen, arguments: {'type': getMealTypeByCurrentTime().name, 'date': DateTime.now(), 'name': food?.foodName ?? ""});
               },
             ),
             16.horizontalSpace,
@@ -169,6 +141,8 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                     padding: EdgeInsets.only(left: 16.0.w, right: 16.0.w),
                     child: Text(
                       food?.foodName ?? "",
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w700, color: Colors.black),
                     )),
                 //8.verticalSpace,
@@ -262,7 +236,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: GetBuilder<AddFoodController>(builder: (controller) {
                     return NutritionProgressDescription(
-                      isFromNutricoPlus: imageUrl != null,
+                      isFromNutricoPlus: true,
                       data: [
                         NutrtionProgressModel(
                             name: 'Carbs',
@@ -284,21 +258,12 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                             percentage: 0),
                       ],
                       backgroundColor: Colors.transparent,
-                      dividerColor: imageUrl != null ? const Color(0xFFEBEBEB) : null,
+                      dividerColor: const Color(0xFFEBEBEB),
+                      servings: food!.servings![0],
+                      numberOfServings: double.parse(controller.numberOfServing.text),
                     );
                   }),
                 ),
-                16.verticalSpace,
-                SearchHistoryItem(
-                    title: controller.localization.showNutrientFacts!,
-                    description: "",
-                    isAdded: false,
-                    callback: () {
-                      Get.to(() => NutrientFactScreen(
-                            servings: food!.servings![0],
-                            numberOfServings: double.parse(controller.numberOfServing.text),
-                          ));
-                    }),
                 15.verticalSpace,
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),

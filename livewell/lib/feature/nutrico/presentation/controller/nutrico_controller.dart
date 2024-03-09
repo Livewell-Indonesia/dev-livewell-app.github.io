@@ -23,6 +23,9 @@ class NutriCoController extends BaseController {
       buttonEnabled.value = foodDescription.text.isNotEmpty;
     });
     getNutricoAsset();
+    if (Get.arguments['name'] != null) {
+      foodDescription.text = Get.arguments['name'];
+    }
     super.onInit();
   }
 
@@ -33,23 +36,13 @@ class NutriCoController extends BaseController {
       showModalBottomSheet<dynamic>(
           context: Get.context!,
           isScrollControlled: true,
-          shape: ShapeBorder.lerp(
-              const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20))),
-              const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20))),
-              1),
+          shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+              const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
           builder: (context) {
             return Obx(() {
               return Container(
                 decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20)),
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                 ),
                 height: 0.85.sh,
                 child: NutricoAssetsPopupWidget(asset: nutricoAssets.value!),
@@ -77,8 +70,7 @@ class NutriCoController extends BaseController {
         child: Lottie.asset('assets/jsons/99274-loading.json', repeat: true),
       ),
     ));
-    final result =
-        await PostNutrico.instance()(PostNutricoParams(foodDescription.text));
+    final result = await PostNutrico.instance()(PostNutricoParams(foodDescription.text));
     Get.back();
     result.fold((l) {
       showError();
@@ -89,17 +81,9 @@ class NutriCoController extends BaseController {
         var carbs = num.tryParse(r.servings!.first.carbohydrate!);
         var protein = num.tryParse(r.servings!.first.protein!);
 
-        if (calories != null &&
-            fat != null &&
-            carbs != null &&
-            protein != null) {
-          MealTime mealTime = MealTime.values.byName(
-              ((Get.arguments['type'] as String?) ?? MealTime.breakfast.name));
-          AppNavigator.push(routeName: AppPages.addFood, arguments: {
-            "date": Get.arguments['date'],
-            "mealTime": mealTime,
-            "food": r
-          });
+        if (calories != null && fat != null && carbs != null && protein != null) {
+          MealTime mealTime = MealTime.values.byName(((Get.arguments['type'] as String?) ?? MealTime.breakfast.name));
+          AppNavigator.push(routeName: AppPages.addFood, arguments: {"date": Get.arguments['date'], "mealTime": mealTime, "food": r});
         } else {
           showError();
         }
@@ -113,16 +97,8 @@ class NutriCoController extends BaseController {
     showModalBottomSheet(
         context: Get.context!,
         isScrollControlled: true,
-        shape: ShapeBorder.lerp(
-            const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20))),
-            const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20))),
-            1),
+        shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+            const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
         builder: ((context) {
           return Container(
             padding: EdgeInsets.fromLTRB(16.w, 24.h, 16.w, 32.h),
@@ -138,19 +114,12 @@ class NutriCoController extends BaseController {
               children: [
                 Text(
                   'Add Food Failed',
-                  style: TextStyle(
-                      color: const Color(0xFF171433),
-                      fontSize: 24.sp,
-                      height: 32.sp / 24.sp,
-                      fontWeight: FontWeight.w600),
+                  style: TextStyle(color: const Color(0xFF171433), fontSize: 24.sp, height: 32.sp / 24.sp, fontWeight: FontWeight.w600),
                 ),
                 8.verticalSpace,
                 Text(
                   'there was an error in the system or the data you entered was not registered in our system.',
-                  style: TextStyle(
-                      color: const Color(0xFF808080),
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500),
+                  style: TextStyle(color: const Color(0xFF808080), fontSize: 16.sp, fontWeight: FontWeight.w500),
                 ),
                 32.verticalSpace,
                 LiveWellButton(
