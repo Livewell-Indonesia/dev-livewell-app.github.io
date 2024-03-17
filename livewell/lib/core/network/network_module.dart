@@ -11,12 +11,13 @@ import 'dio_module.dart';
 import 'result.dart';
 
 mixin NetworkModule {
-  Dio get _dio => DioModule.getInstance();
+  Dio get dio => DioModule.getInstance();
 
   BaseOptions? _baseOptions;
 
   final Map<String, String> header = {};
   final String authorization = "Authorization";
+  CancelToken cancelToken = CancelToken();
 
   Future<Result<T>> _safeCallApi<T>(Future<Response<T>> call) async {
     try {
@@ -29,8 +30,7 @@ mixin NetworkModule {
     } on DioError catch (e, stacktrace) {
       Sentry.captureException(e, stackTrace: stacktrace);
       if (e.type == DioErrorType.response) {
-        return Result.error(e.response!.statusCode ?? 400, e.response!.data,
-            message: e.response!.data['message']);
+        return Result.error(e.response!.statusCode ?? 400, e.response!.data, message: e.response!.data['message']);
       } else {
         return Result.timeout(
           '' as dynamic,
@@ -51,7 +51,7 @@ mixin NetworkModule {
     Options _options = Options(headers: headers);
 
     final response = await _safeCallApi(
-      _dio.get(
+      dio.get(
         endpoint,
         queryParameters: param,
         options: _options,
@@ -72,7 +72,7 @@ mixin NetworkModule {
     }
     Options _options = Options(headers: headers);
     final response = await _safeCallApi(
-      _dio.post(
+      dio.post(
         endpoint,
         data: jsonEncode(body),
         queryParameters: param,
@@ -94,7 +94,7 @@ mixin NetworkModule {
     Options _options = Options(headers: headers);
 
     final response = await _safeCallApi(
-      _dio.put(
+      dio.put(
         endpoint,
         data: body,
         options: _options,
@@ -137,7 +137,7 @@ mixin NetworkModule {
     Options _options = Options(headers: headers);
 
     final response = await _safeCallApi(
-      _dio.delete(
+      dio.delete(
         endpoint,
         data: body,
         options: _options,

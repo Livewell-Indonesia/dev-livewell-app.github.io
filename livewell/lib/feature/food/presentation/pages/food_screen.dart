@@ -204,7 +204,6 @@ class _FoodScreenState extends State<FoodScreen> {
                     ),
                   );
                 }),
-                10.verticalSpace,
                 Obx(() {
                   return controller.isLoadingHistory.value
                       ? Container()
@@ -275,6 +274,33 @@ class NutritionProgressDescription extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
+          if (isFromNutricoPlus)
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CustomBar(
+                      value1: data[0].percentage,
+                      value2: data[1].percentage,
+                      value3: data[2].percentage,
+                      maxValue: 230,
+                    ),
+                    16.horizontalSpace,
+                    Text(
+                      '$calories cal',
+                      style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp, fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+                8.verticalSpace,
+                Divider(
+                  color: dividerColor,
+                ),
+              ],
+            ),
           LimitedBox(
             maxHeight: 164.h,
             child: MediaQuery.removePadding(
@@ -288,9 +314,7 @@ class NutritionProgressDescription extends StatelessWidget {
                     return nutritionDescription(color: data[index].color, name: data[index].name, total: data[index].total, consumed: data[index].consumed);
                   },
                   separatorBuilder: (context, index) {
-                    return Divider(
-                      color: dividerColor,
-                    );
+                    return Container();
                   },
                   itemCount: data.length),
             ),
@@ -341,7 +365,7 @@ class NutritionProgressDescription extends StatelessWidget {
 
   Padding nutritionDescription({required Color color, required String name, required String total, required String consumed}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Row(
         children: [
           Expanded(

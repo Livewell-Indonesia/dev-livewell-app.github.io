@@ -158,36 +158,13 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                         children: [
                           Container(
                             margin: EdgeInsets.symmetric(horizontal: 16.w),
-                            height: 200.h,
+                            height: 176.h,
                             width: 1.sw,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20.r),
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(imageUrl!),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
-                              decoration: BoxDecoration(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20.r), bottomRight: Radius.circular(20.r)), color: Colors.white.withOpacity(0.6)),
-                              child: Row(
-                                children: [
-                                  CustomBar(
-                                    value1:
-                                        (controller.maxHundred((num.parse(food?.servings?[0].carbohydrate ?? "0") * 4) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero()).toDouble(),
-                                    value2: (controller.maxHundred((num.parse(food?.servings?[0].fat ?? "0") * 9) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero()).toDouble(),
-                                    value3: (controller.maxHundred((num.parse(food?.servings?[0].protein ?? "0") * 4) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero()).toDouble(),
-                                    maxValue: 230.w,
-                                  ),
-                                  const Spacer(),
-                                  Text(
-                                    '${controller.getTotalCalByServings(num.parse(food?.servings?[0].calories ?? "0")).round().toInt()} cal',
-                                    style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp, fontWeight: FontWeight.w500),
-                                  ),
-                                ],
                               ),
                             ),
                           ),
@@ -237,27 +214,28 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                   child: GetBuilder<AddFoodController>(builder: (controller) {
                     return NutritionProgressDescription(
                       isFromNutricoPlus: true,
+                      calories: controller.getTotalCalByServings(num.parse(food?.servings?[0].calories ?? "0")).round().toInt(),
                       data: [
                         NutrtionProgressModel(
                             name: 'Carbs',
                             color: const Color(0xFF34EAB2),
                             total: "${controller.getTotalCarbsByServings(num.parse(food?.servings?[0].carbohydrate ?? "0")).toInt()} ${food?.servings?[0].metricServingUnit ?? "g"}",
                             consumed: "${(controller.maxHundred((num.parse(food?.servings?[0].carbohydrate ?? "0") * 4) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero())}% ",
-                            percentage: 0),
+                            percentage: (controller.maxHundred((num.parse(food?.servings?[0].carbohydrate ?? "0") * 4) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero()).toDouble()),
                         NutrtionProgressModel(
                             name: 'Fat',
                             color: const Color(0xFF8F01DF),
                             total: "${controller.getTotalFatByServings(num.parse(food?.servings?[0].fat ?? "0")).toInt()} ${food?.servings?[0].metricServingUnit ?? "g"}",
                             consumed: "${(controller.maxHundred((num.parse(food?.servings?[0].fat ?? "0") * 9) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero())}% ",
-                            percentage: 0),
+                            percentage: (controller.maxHundred((num.parse(food?.servings?[0].fat ?? "0") * 9) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero()).toDouble()),
                         NutrtionProgressModel(
                             name: 'Protein',
                             color: const Color(0xFFDDF235),
                             total: "${controller.getTotalProteinByServings(num.parse(food?.servings?[0].protein ?? "0")).toInt()} ${food?.servings?[0].metricServingUnit ?? "g"}",
                             consumed: "${(controller.maxHundred((num.parse(food?.servings?[0].protein ?? "0") * 4) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero())}% ",
-                            percentage: 0),
+                            percentage: (controller.maxHundred((num.parse(food?.servings?[0].protein ?? "0") * 4) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero()).toDouble()),
                       ],
-                      backgroundColor: Colors.transparent,
+                      backgroundColor: Colors.white,
                       dividerColor: const Color(0xFFEBEBEB),
                       servings: food!.servings![0],
                       numberOfServings: double.parse(controller.numberOfServing.text),
@@ -549,13 +527,13 @@ class CustomBar extends StatelessWidget {
               color: const Color(0xFFDDF235),
               borderRadius: BorderRadius.circular(8.r),
             ),
-            width: (value3 / 100) * maxValue,
+            width: (value3 / (value1 + value2 + value3)) * maxValue,
             height: 8.h,
           ),
           Positioned(
-            right: ((value3 / 100) * maxValue) - 4.w,
+            right: ((value3 / (value1 + value2 + value3)) * maxValue) - 4,
             child: Container(
-              width: (value2 / 100) * maxValue,
+              width: ((value2 / (value1 + value2 + value3)) * maxValue) + 4,
               height: 8.h,
               decoration: BoxDecoration(
                 color: const Color(0xFF8F01DF),
@@ -564,13 +542,13 @@ class CustomBar extends StatelessWidget {
             ),
           ),
           Positioned(
-            right: (((value3 / 100) * maxValue) + ((value2 / 100) * maxValue)) - 9.w,
+            right: (((value3 / (value1 + value2 + value3)) * maxValue) + ((value2 / (value1 + value2 + value3)) * maxValue)) - 9,
             child: Container(
               decoration: BoxDecoration(
                 color: const Color(0xFF34EAB2),
                 borderRadius: BorderRadius.circular(8.r),
               ),
-              width: (value1 / 100) * maxValue,
+              width: ((value1 / (value1 + value2 + value3)) * maxValue) + 9,
               height: 8.h,
             ),
           ),

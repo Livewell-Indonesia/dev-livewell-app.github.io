@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_user.dart';
 
@@ -11,8 +12,7 @@ class SplashController extends GetxController {
   var language = AvailableLanguage.en.obs;
   @override
   void onReady() {
-    Future.delayed(const Duration(milliseconds: 300))
-        .then((value) => getLocalization());
+    Future.delayed(const Duration(milliseconds: 300)).then((value) => getLocalization());
     super.onReady();
   }
 
@@ -43,12 +43,16 @@ class SplashController extends GetxController {
     } else {
       GetUser getUser = GetUser.instance();
       final result = await getUser.call(NoParams());
-      result.fold((l) {}, (r) async {
+      result.fold((l) {
+        if (l is UnauthorizedException) {
+          controller.changeLocalization(AvailableLanguage.en).then((value) {
+            AppNavigator.pushAndRemove(routeName: AppPages.landingLogin);
+          });
+        }
+      }, (r) async {
         await SharedPref.getToken();
         await SharedPref.saveUserLocale(r.language!);
-        controller
-            .changeLocalization(controller.LanguagefromLocale(r.language)!)
-            .then((value) {
+        controller.changeLocalization(controller.LanguagefromLocale(r.language)!).then((value) {
           AppNavigator.pushAndRemove(routeName: AppPages.home);
           Get.delete<SplashController>();
         });

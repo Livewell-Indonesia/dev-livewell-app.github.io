@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/dashboard/presentation/widget/dashboard_summary_widget.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
@@ -123,24 +124,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           size: 24.w,
                         ),
                       ),
-                      8.horizontalSpace,
-                      InkWell(
-                        onTap: () {
-                          //NotificationTesting().scheduleDailyNotification();
-                        },
-                        child: Icon(
-                          Icons.notifications_outlined,
-                          color: const Color(0xFF171433).withOpacity(0.7),
-                          size: 24.w,
-                        ),
-                      )
                     ],
                   ),
                 ),
                 32.verticalSpace,
                 InkWell(
                   onTap: () {
-                    AppNavigator.push(routeName: AppPages.updateWeight);
+                    SharedPref.saveToken("asdasd");
+                    // AppNavigator.push(routeName: AppPages.updateWeight);
                   },
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 16.w),
