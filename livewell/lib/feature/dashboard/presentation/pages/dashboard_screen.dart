@@ -130,8 +130,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 32.verticalSpace,
                 InkWell(
                   onTap: () {
-                    SharedPref.saveToken("asdasd");
-                    // AppNavigator.push(routeName: AppPages.updateWeight);
+                    AppNavigator.push(routeName: AppPages.updateWeight);
                   },
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 16.w),
