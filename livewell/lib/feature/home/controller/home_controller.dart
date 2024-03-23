@@ -68,9 +68,7 @@ class HomeController extends BaseController {
       currentMenu.value = HomeTab.home;
       Future.delayed(const Duration(seconds: 2), () {
         if (Get.parameters['scrollTo'] != null) {
-          scrollController.animateTo(scrollController.position.maxScrollExtent,
-              duration: const Duration(seconds: 1),
-              curve: Curves.fastOutSlowIn);
+          scrollController.animateTo(scrollController.position.maxScrollExtent, duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
         }
       });
     } else if (Get.parameters['type']?.toLowerCase() == 'diary') {
@@ -106,11 +104,7 @@ class HomeController extends BaseController {
         },
         onClickTarget: (p0) {
           if (p0.keyTarget == cardKey) {
-            scrollController
-                .animateTo(scrollController.position.maxScrollExtent,
-                    duration: const Duration(seconds: 1),
-                    curve: Curves.fastOutSlowIn)
-                .then((value) {
+            scrollController.animateTo(scrollController.position.maxScrollExtent, duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn).then((value) {
               tutorialCoachMark.next();
             });
           } else {
@@ -206,8 +200,7 @@ class HomeController extends BaseController {
               align: ContentAlign.bottom,
               builder: (context, controller) {
                 return Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
@@ -217,19 +210,12 @@ class HomeController extends BaseController {
                     children: [
                       Text(
                         localization.seeYourProgress ?? "",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontSize: 16.sp),
+                        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black, fontSize: 16.sp),
                       ),
                       4.verticalSpace,
                       Text(
                         localization.viewYourNutriscore ?? "",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xFF808080),
-                            height: 1.3,
-                            fontSize: 14.sp),
+                        style: TextStyle(fontWeight: FontWeight.w400, color: const Color(0xFF808080), height: 1.3, fontSize: 14.sp),
                       ),
                       20.verticalSpace,
                       Row(
@@ -241,22 +227,13 @@ class HomeController extends BaseController {
                           const Spacer(),
                           InkWell(
                               onTap: () {
-                                scrollController
-                                    .animateTo(
-                                        scrollController
-                                            .position.maxScrollExtent,
-                                        duration: const Duration(seconds: 1),
-                                        curve: Curves.fastOutSlowIn)
-                                    .then((value) {
+                                scrollController.animateTo(scrollController.position.maxScrollExtent, duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn).then((value) {
                                   tutorialCoachMark.next();
                                 });
                               },
                               child: Text(
                                 localization.next ?? "",
-                                style: TextStyle(
-                                    color: const Color(0xFF8F01DF),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600),
+                                style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 12.sp, fontWeight: FontWeight.w600),
                               ))
                         ],
                       ),
@@ -279,8 +256,7 @@ class HomeController extends BaseController {
               align: ContentAlign.top,
               builder: (context, controller) {
                 return Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
@@ -290,25 +266,18 @@ class HomeController extends BaseController {
                     children: [
                       Text(
                         localization.wellnessHub ?? "",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontSize: 16.sp),
+                        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black, fontSize: 16.sp),
                       ),
                       4.verticalSpace,
                       Text(
                         localization.exploreYourPersonalHealth ?? "",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xFF808080),
-                            height: 1.3,
-                            fontSize: 14.sp),
+                        style: TextStyle(fontWeight: FontWeight.w400, color: const Color(0xFF808080), height: 1.3, fontSize: 14.sp),
                       ),
                       20.verticalSpace,
                       Row(
                         children: [
                           const CoachmarkIndicator(
-                            position: 2,
+                            position: 1,
                             length: 3,
                           ),
                           const Spacer(),
@@ -318,10 +287,7 @@ class HomeController extends BaseController {
                               },
                               child: Text(
                                 localization.prev ?? "",
-                                style: TextStyle(
-                                    color: const Color(0xFF808080),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600),
+                                style: TextStyle(color: const Color(0xFF808080), fontSize: 12.sp, fontWeight: FontWeight.w600),
                               )),
                           24.horizontalSpace,
                           InkWell(
@@ -330,10 +296,7 @@ class HomeController extends BaseController {
                               },
                               child: Text(
                                 localization.next ?? "",
-                                style: TextStyle(
-                                    color: const Color(0xFF8F01DF),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600),
+                                style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 12.sp, fontWeight: FontWeight.w600),
                               ))
                         ],
                       ),
@@ -356,8 +319,7 @@ class HomeController extends BaseController {
               align: ContentAlign.top,
               builder: (context, controller) {
                 return Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
@@ -367,25 +329,18 @@ class HomeController extends BaseController {
                     children: [
                       Text(
                         localization.logYourFirstMeal ?? "",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontSize: 16.sp),
+                        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black, fontSize: 16.sp),
                       ),
                       4.verticalSpace,
                       Text(
                         localization.toLogYourFirstMealSimply ?? "",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xFF808080),
-                            height: 1.3,
-                            fontSize: 14.sp),
+                        style: TextStyle(fontWeight: FontWeight.w400, color: const Color(0xFF808080), height: 1.3, fontSize: 14.sp),
                       ),
                       20.verticalSpace,
                       Row(
                         children: [
                           const CoachmarkIndicator(
-                            position: 1,
+                            position: 2,
                             length: 3,
                           ),
                           const Spacer(),
@@ -395,10 +350,7 @@ class HomeController extends BaseController {
                               },
                               child: Text(
                                 localization.prev ?? "",
-                                style: TextStyle(
-                                    color: const Color(0xFF808080),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600),
+                                style: TextStyle(color: const Color(0xFF808080), fontSize: 12.sp, fontWeight: FontWeight.w600),
                               )),
                           24.horizontalSpace,
                           InkWell(
@@ -407,10 +359,7 @@ class HomeController extends BaseController {
                               },
                               child: Text(
                                 localization.done!,
-                                style: TextStyle(
-                                    color: const Color(0xFF8F01DF),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600),
+                                style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 12.sp, fontWeight: FontWeight.w600),
                               ))
                         ],
                       ),

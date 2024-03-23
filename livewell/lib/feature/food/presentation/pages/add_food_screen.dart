@@ -175,8 +175,8 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                         child: Center(
                           child: MultipleColorCircle(
                             colorOccurrences: {
-                              const Color(0xFF8F01DF): ((((double.parse(food?.servings?[0].carbohydrate ?? "0")) * 4) / double.parse(food?.servings?[0].calories ?? "0") * 100).roundZero()),
-                              const Color(0xFFF5D25D): (((double.parse(food?.servings?[0].fat ?? "0") * 9) / double.parse(food?.servings?[0].calories ?? "0") * 100).roundZero()),
+                              const Color(0xFF34EAB2): ((((double.parse(food?.servings?[0].carbohydrate ?? "0")) * 4) / double.parse(food?.servings?[0].calories ?? "0") * 100).roundZero()),
+                              const Color(0xFF8F01DF): (((double.parse(food?.servings?[0].fat ?? "0") * 9) / double.parse(food?.servings?[0].calories ?? "0") * 100).roundZero()),
                               const Color(0xFFDDF235): (((double.parse(food?.servings?[0].protein ?? "0") * 4) / double.parse(food?.servings?[0].calories ?? "0") * 100).roundZero())
                             },
                             height: 80,
@@ -238,7 +238,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                       backgroundColor: Colors.white,
                       dividerColor: const Color(0xFFEBEBEB),
                       servings: food!.servings![0],
-                      numberOfServings: double.parse(controller.numberOfServing.text),
+                      numberOfServings: double.tryParse(controller.numberOfServing.text) ?? 0.0,
                     );
                   }),
                 ),
@@ -265,6 +265,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                         child: InkWell(
                             onTap: () {
                               showCupertinoDialog(
+                                  barrierDismissible: true,
                                   context: context,
                                   builder: (context) {
                                     return Dialog(
@@ -404,26 +405,30 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                       ),
                       // create submit button
                       8.horizontalSpace,
-                      InkWell(
-                        onTap: () {
-                          controller.selectedTime.value = selectedTime.toString();
-                          controller.addMeals(food!, mealTime!);
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7).r,
-                          height: 33.h,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFDDF235),
-                            borderRadius: BorderRadius.circular(30.r),
-                          ),
-                          child: Center(
-                            child: Text(
-                              controller.localization.submit!,
-                              style: TextStyle(color: Colors.black, fontSize: 12.sp, fontWeight: FontWeight.w500),
+                      GetBuilder<AddFoodController>(builder: (controller) {
+                        return InkWell(
+                          onTap: controller.numberOfServing.text.isEmpty
+                              ? null
+                              : () {
+                                  controller.selectedTime.value = selectedTime.toString();
+                                  controller.addMeals(food!, mealTime!);
+                                },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7).r,
+                            height: 33.h,
+                            decoration: BoxDecoration(
+                              color: controller.numberOfServing.text.isEmpty ? Colors.grey : const Color(0xFFDDF235),
+                              borderRadius: BorderRadius.circular(30.r),
+                            ),
+                            child: Center(
+                              child: Text(
+                                controller.localization.submit!,
+                                style: TextStyle(color: Colors.black, fontSize: 12.sp, fontWeight: FontWeight.w500),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
+                        );
+                      })
                     ],
                   ),
                 ),

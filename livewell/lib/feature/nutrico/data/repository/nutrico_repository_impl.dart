@@ -11,6 +11,7 @@ import 'package:livewell/core/network/api_url.dart';
 import 'package:livewell/core/network/network_module.dart';
 import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/feature/nutrico/data/model/nutrico_asset_model.dart';
+import 'package:livewell/feature/nutrico/data/model/nutrico_plus_asset_loading_model.dart';
 import 'package:livewell/feature/nutrico/data/model/nutrico_search_by_image_model.dart';
 import 'package:livewell/feature/nutrico/domain/repository/nutrico_repository.dart';
 import 'package:livewell/feature/nutrico/domain/usecase/post_nutrico.dart';
@@ -60,6 +61,19 @@ class NutricoRepositoryImpl with NetworkModule implements NutricoRepository {
       final response = await postUploadDocument(Endpoint.nutriCoSearchByImage, Endpoint.api, body: formData, headers: {authorization: await SharedPref.getToken()});
       final json = responseHandler(response);
       return Right(NutricoSearchByImageModel.fromJson(json));
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<NutricoPlusAssetLoadingModel>>> getNutricoLoadingAsset() async {
+    try {
+      final response = await getMethod(
+        Endpoint.getNutriCoLoadingAsset,
+      );
+      final json = responseHandler(response);
+      return Right(List<NutricoPlusAssetLoadingModel>.from(json.map((x) => NutricoPlusAssetLoadingModel.fromJson(x))));
     } catch (ex) {
       return Left(ServerFailure(message: ex.toString()));
     }

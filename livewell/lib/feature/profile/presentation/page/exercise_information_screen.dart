@@ -10,7 +10,7 @@ import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 class ExerciseInformationScreen extends StatelessWidget {
   ExerciseInformationScreen({super.key});
   final ExerciseInformationController controller =
-      Get.put(ExerciseInformationController());
+      Get.find();
 
   @override
   Widget build(BuildContext context) {
