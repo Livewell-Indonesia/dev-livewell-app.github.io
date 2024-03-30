@@ -6,13 +6,7 @@ class SleepActivityModel {
   String? dateTo;
   List<Details>? details;
 
-  SleepActivityModel(
-      {this.totalValue,
-      this.type,
-      this.unit,
-      this.dateFrom,
-      this.dateTo,
-      this.details});
+  SleepActivityModel({this.totalValue, this.type, this.unit, this.dateFrom, this.dateTo, this.details});
 
   SleepActivityModel.fromJson(Map<String, dynamic> json) {
     totalValue = json['total_value'];
@@ -44,7 +38,7 @@ class SleepActivityModel {
 }
 
 class Details {
-  int? value;
+  double? value;
   String? type;
   String? unit;
   String? dateFrom;

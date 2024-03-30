@@ -34,16 +34,8 @@ class _SleepScreenState extends State<SleepScreen> {
             showModalBottomSheet<dynamic>(
                 context: context,
                 isScrollControlled: true,
-                shape: ShapeBorder.lerp(
-                    const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20))),
-                    const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20))),
-                    1),
+                shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                    const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
                 builder: (context) {
                   return Obx(() {
                     return PopupAssetWidget(
@@ -75,12 +67,9 @@ class _SleepScreenState extends State<SleepScreen> {
                 child: Center(child: Obx(() {
                   return MultipleColorCircle(
                     colorOccurrences: {
-                      const Color(0xFF8F01DF):
-                          controller.lightSleepPercent.value.round() * 100,
-                      const Color(0xFFDDF235):
-                          controller.deepSleepPercent.value.round() * 100,
-                      const Color(0xFF34EAB2):
-                          controller.sleepInBedPercent.value.round() * 100,
+                      const Color(0xFF8F01DF): controller.lightSleepPercent.value.round() * 100,
+                      const Color(0xFFDDF235): controller.deepSleepPercent.value.round() * 100,
+                      const Color(0xFF34EAB2): controller.sleepInBedPercent.value.round() * 100,
                       Colors.white: controller.leftSleepPercent.value.round(),
                     },
                     height: 200,
@@ -89,37 +78,28 @@ class _SleepScreenState extends State<SleepScreen> {
                         // crete circular container
                         Container(
                       padding: EdgeInsets.symmetric(horizontal: 20.w),
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle, color: Color(0xFF171433)),
+                      decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFF171433)),
                       child: Center(
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                Constant.icWentToSleep,
-                                color: const Color(0xFF8F01DF),
-                              ),
-                              10.verticalSpace,
-                              Text(
-                                "${controller.totalSleepPercent.value.toInt()}%",
-                                style: TextStyle(
-                                    fontSize: 43.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white),
-                              ),
-                              4.verticalSpace,
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 30),
-                                child: Text(
-                                  controller.localization.ofDailyGoals!,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 17.sp,
-                                      color: Colors.white.withOpacity(0.63)),
-                                ),
-                              ),
-                            ]),
+                        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                          SvgPicture.asset(
+                            Constant.icWentToSleep,
+                            color: const Color(0xFF8F01DF),
+                          ),
+                          10.verticalSpace,
+                          Text(
+                            "${controller.totalSleepPercent.value.toInt()}%",
+                            style: TextStyle(fontSize: 43.sp, fontWeight: FontWeight.w500, color: Colors.white),
+                          ),
+                          4.verticalSpace,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: Text(
+                              controller.localization.ofDailyGoals!,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 17.sp, color: Colors.white.withOpacity(0.63)),
+                            ),
+                          ),
+                        ]),
                       ),
                     ),
                   );
@@ -130,49 +110,25 @@ class _SleepScreenState extends State<SleepScreen> {
                 child: Row(
                   children: [
                     Obx(() {
-                      if (controller.deepSleepPercent.value == 0 &&
-                          controller.lightSleepPercent.value == 0) {
+                      if (controller.deepSleepPercent.value == 0 && controller.lightSleepPercent.value == 0) {
                         return const SizedBox(height: 40);
                       } else {
-                        return SmallerSleepCircular(
-                            color: const Color(0xFFDDF235),
-                            label: controller.localization.deepSleep ?? "",
-                            circleColors: {
-                              const Color(0xFFDDF235):
-                                  (controller.deepSleepPercent.value * 100)
-                                      .round(),
-                              Colors.white: (controller.deepSleepPercent.value *
-                                              100)
-                                          .round() >
-                                      100
-                                  ? 0
-                                  : 100 -
-                                      (controller.deepSleepPercent.value * 100)
-                                          .round(),
-                            });
+                        return SmallerSleepCircular(color: const Color(0xFFDDF235), label: controller.localization.deepSleep ?? "", circleColors: {
+                          const Color(0xFFDDF235): (controller.deepSleepPercent.value * 100).round(),
+                          Colors.white: (controller.deepSleepPercent.value * 100).round() > 100 ? 0 : 100 - (controller.deepSleepPercent.value * 100).round(),
+                        });
                       }
                     }),
                     const Spacer(),
                     Obx(() {
-                      if (controller.deepSleepPercent.value == 0 &&
-                          controller.lightSleepPercent.value == 0) {
+                      if (controller.deepSleepPercent.value == 0 && controller.lightSleepPercent.value == 0) {
                         return const SizedBox(height: 40);
                       } else {
                         return SmallerSleepCircular(
                             color: const Color(0xFF8F01DF),
                             circleColors: {
-                              const Color(0xFF8F01DF):
-                                  (controller.lightSleepPercent.value * 100)
-                                      .round(),
-                              Colors.white:
-                                  (controller.lightSleepPercent.value * 100)
-                                              .round() >
-                                          100
-                                      ? 0
-                                      : 100 -
-                                          (controller.lightSleepPercent.value *
-                                                  100)
-                                              .round(),
+                              const Color(0xFF8F01DF): (controller.lightSleepPercent.value * 100).round(),
+                              Colors.white: (controller.lightSleepPercent.value * 100).round() > 100 ? 0 : 100 - (controller.lightSleepPercent.value * 100).round(),
                             },
                             label: controller.localization.lightSleep ?? "");
                       }
@@ -185,10 +141,7 @@ class _SleepScreenState extends State<SleepScreen> {
                 padding: const EdgeInsets.only(left: 40),
                 child: Text(
                   controller.localization.dailyBreakdown!,
-                  style: TextStyle(
-                      color: const Color(0xFF171433),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16.sp),
+                  style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w600, fontSize: 16.sp),
                 ),
               ),
               20.verticalSpace,
@@ -200,8 +153,7 @@ class _SleepScreenState extends State<SleepScreen> {
                   child: GridView(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       mainAxisSpacing: 1,
                       crossAxisSpacing: 1,
@@ -209,28 +161,16 @@ class _SleepScreenState extends State<SleepScreen> {
                     ),
                     children: [
                       GetBuilder<SleepController>(builder: (controller) {
-                        return DailyBreakdownItem(
-                            image: Constant.icWentToSleep2,
-                            time: controller.wentToSleep.value,
-                            label: controller.localization.wentToSleep ?? "");
+                        return DailyBreakdownItem(image: Constant.icWentToSleep2, time: controller.wentToSleep.value, label: controller.localization.wentToSleep ?? "");
                       }),
                       GetBuilder<SleepController>(builder: (controller) {
-                        return DailyBreakdownItem(
-                            image: Constant.icWokeUp,
-                            time: controller.wokeUp.value,
-                            label: controller.localization.wokeUp ?? "");
+                        return DailyBreakdownItem(image: Constant.icWokeUp, time: controller.wokeUp.value, label: controller.localization.wokeUp ?? "");
                       }),
                       GetBuilder<SleepController>(builder: (controller) {
-                        return DailyBreakdownItem(
-                            image: Constant.icFeelASleep,
-                            time: controller.feelASleep.value,
-                            label: controller.localization.lightSleep ?? "");
+                        return DailyBreakdownItem(image: Constant.icFeelASleep, time: controller.feelASleep.value, label: controller.localization.lightSleep ?? "");
                       }),
                       GetBuilder<SleepController>(builder: (controller) {
-                        return DailyBreakdownItem(
-                            image: Constant.icDeepSleep,
-                            time: controller.deepSleep.value,
-                            label: controller.localization.deepSleep ?? "");
+                        return DailyBreakdownItem(image: Constant.icDeepSleep, time: controller.deepSleep.value, label: controller.localization.deepSleep ?? "");
                       }),
                     ],
                   )),
@@ -247,18 +187,10 @@ class _SleepScreenState extends State<SleepScreen> {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 16.w),
                 padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: const Color(0xFFEBEBEB))),
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: const Color(0xFFEBEBEB))),
                 child: Column(
                   children: [
-                    Text(controller.localization.last7Days!,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w700,
-                            height: 20.sp / 14.sp)),
+                    Text(controller.localization.last7Days!, style: TextStyle(color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w700, height: 20.sp / 14.sp)),
                     16.verticalSpace,
                     const Divider(),
                     16.verticalSpace,
@@ -275,27 +207,17 @@ class _SleepScreenState extends State<SleepScreen> {
                                   return BarChartGroupData(
                                     x: index,
                                     barRods: [
-                                      BarChartRodData(
-                                          color:
-                                              controller.isYValueOptimal(index)
-                                                  ? const Color(0xFFDDF235)
-                                                  : const Color(0xFFFA6F6F),
-                                          width: 12.w,
-                                          toY: controller.getYValue(index))
+                                      BarChartRodData(color: controller.isYValueOptimal(index) ? const Color(0xFFDDF235) : const Color(0xFFFA6F6F), width: 14.w, toY: controller.getYValue(index))
                                     ],
                                   );
                                 }),
                                 barTouchData: BarTouchData(
                                   enabled: true,
                                   touchTooltipData: BarTouchTooltipData(
-                                    getTooltipItem:
-                                        (group, groupIndex, rod, rodIndex) {
+                                    getTooltipItem: (group, groupIndex, rod, rodIndex) {
                                       return BarTooltipItem(
                                         '${NumberFormat('0.0').format(rod.toY)}hrs',
-                                        TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14.sp),
+                                        TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 14.sp),
                                       );
                                     },
                                   ),
@@ -306,10 +228,7 @@ class _SleepScreenState extends State<SleepScreen> {
                                     drawVerticalLine: false,
                                     horizontalInterval: 50,
                                     getDrawingHorizontalLine: (value) {
-                                      return FlLine(
-                                          color: const Color(0xFFebebeb),
-                                          strokeWidth: 1,
-                                          dashArray: [2, 2]);
+                                      return FlLine(color: const Color(0xFFebebeb), strokeWidth: 1, dashArray: [2, 2]);
                                     }),
                                 titlesData: FlTitlesData(
                                   show: true,
@@ -326,9 +245,7 @@ class _SleepScreenState extends State<SleepScreen> {
                                       getTitlesWidget: (value, meta) {
                                         return Text(
                                           NumberFormat('0.0').format(value),
-                                          style: TextStyle(
-                                              color: const Color(0xFF505050),
-                                              fontSize: 12.sp),
+                                          style: TextStyle(color: const Color(0xFF505050), fontSize: 12.sp),
                                         );
                                       },
                                     ),
@@ -340,15 +257,10 @@ class _SleepScreenState extends State<SleepScreen> {
                                         return Transform.rotate(
                                           angle: -45,
                                           child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 10),
+                                            padding: const EdgeInsets.only(top: 10),
                                             child: Text(
-                                              controller
-                                                  .getXValue(value.toInt()),
-                                              style: TextStyle(
-                                                  color:
-                                                      const Color(0xFF505050),
-                                                  fontSize: 12.sp),
+                                              controller.getXValue(value.toInt()),
+                                              style: TextStyle(color: const Color(0xFF505050), fontSize: 11.sp),
                                             ),
                                           ),
                                         );
@@ -362,10 +274,7 @@ class _SleepScreenState extends State<SleepScreen> {
                               alignment: Alignment.bottomLeft,
                               child: Text(
                                 'hrs.',
-                                style: TextStyle(
-                                    color: const Color(0xFF505050),
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w600),
+                                style: TextStyle(color: const Color(0xFF505050), fontSize: 10.sp, fontWeight: FontWeight.w600),
                               ),
                             ),
                           ],
@@ -410,8 +319,7 @@ class SmallerSleepCircular extends StatelessWidget {
                   // crete circular container
                   Container(
                 padding: EdgeInsets.symmetric(horizontal: 8.w),
-                decoration: const BoxDecoration(
-                    shape: BoxShape.circle, color: Color(0xFF171433)),
+                decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFF171433)),
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -427,11 +335,7 @@ class SmallerSleepCircular extends StatelessWidget {
             ),
           ),
         ),
-        Text(label,
-            style: TextStyle(
-                fontSize: 14.sp,
-                color: const Color(0xFF171433),
-                fontWeight: FontWeight.w600)),
+        Text(label, style: TextStyle(fontSize: 14.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w600)),
       ],
     );
   }
@@ -464,17 +368,11 @@ class DailyBreakdownItem extends StatelessWidget {
           children: [
             Text(
               time,
-              style: TextStyle(
-                  color: const Color(0xFF171433),
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16.sp),
+              style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w500, fontSize: 16.sp),
             ),
             Text(
               label,
-              style: TextStyle(
-                  color: const Color(0xFF171433).withOpacity(0.7),
-                  fontWeight: FontWeight.w500,
-                  fontSize: 12.sp),
+              style: TextStyle(color: const Color(0xFF171433).withOpacity(0.7), fontWeight: FontWeight.w500, fontSize: 12.sp),
             ),
           ],
         ),
@@ -494,11 +392,7 @@ class ChartGoalLebel extends StatelessWidget {
         color: const Color(0xFF80A4A9),
         borderRadius: BorderRadius.circular(100),
       ),
-      child: Text(value,
-          style: TextStyle(
-              color: const Color(0xFFFFFFFF),
-              fontSize: 10.sp,
-              fontWeight: FontWeight.w600)),
+      child: Text(value, style: TextStyle(color: const Color(0xFFFFFFFF), fontSize: 10.sp, fontWeight: FontWeight.w600)),
     );
   }
 }

@@ -14,27 +14,23 @@ class SleepHistoryModel {
         response: response ?? this.response,
       );
 
-  factory SleepHistoryModel.fromRawJson(String str) =>
-      SleepHistoryModel.fromJson(json.decode(str));
+  factory SleepHistoryModel.fromRawJson(String str) => SleepHistoryModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory SleepHistoryModel.fromJson(Map<String, dynamic> json) =>
-      SleepHistoryModel(
-        response: Map.from(json["response"]!)
-            .map((k, v) => MapEntry<String, Response>(k, Response.fromJson(v))),
+  factory SleepHistoryModel.fromJson(Map<String, dynamic> json) => SleepHistoryModel(
+        response: Map.from(json["response"]!).map((k, v) => MapEntry<String, Response>(k, Response.fromJson(v))),
       );
 
   Map<String, dynamic> toJson() => {
-        "response": Map.from(response!)
-            .map((k, v) => MapEntry<String, dynamic>(k, v.toJson())),
+        "response": Map.from(response!).map((k, v) => MapEntry<String, dynamic>(k, v.toJson())),
       };
 }
 
 class Response {
   DateTime? startTime;
   DateTime? endTime;
-  int? total;
+  num? total;
   Unit? unit;
   List<Detail>? details;
 
@@ -49,7 +45,7 @@ class Response {
   Response copyWith({
     DateTime? startTime,
     DateTime? endTime,
-    int? total,
+    num? total,
     Unit? unit,
     List<Detail>? details,
   }) =>
@@ -61,23 +57,16 @@ class Response {
         details: details ?? this.details,
       );
 
-  factory Response.fromRawJson(String str) =>
-      Response.fromJson(json.decode(str));
+  factory Response.fromRawJson(String str) => Response.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
-        startTime: json["startTime"] == null
-            ? null
-            : DateTime.parse(json["startTime"]),
-        endTime:
-            json["endTime"] == null ? null : DateTime.parse(json["endTime"]),
+        startTime: json["startTime"] == null ? null : DateTime.parse(json["startTime"]),
+        endTime: json["endTime"] == null ? null : DateTime.parse(json["endTime"]),
         total: json["total"],
         unit: unitValues.map[json["unit"] ?? "MINUTES"]!,
-        details: json["details"] == null
-            ? []
-            : List<Detail>.from(
-                json["details"]!.map((x) => Detail.fromJson(x))),
+        details: json["details"] == null ? [] : List<Detail>.from(json["details"]!.map((x) => Detail.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -85,14 +74,12 @@ class Response {
         "endTime": endTime?.toIso8601String(),
         "total": total,
         "unit": unitValues.reverse[unit],
-        "details": details == null
-            ? []
-            : List<dynamic>.from(details!.map((x) => x.toJson())),
+        "details": details == null ? [] : List<dynamic>.from(details!.map((x) => x.toJson())),
       };
 }
 
 class Detail {
-  int? value;
+  num? value;
   Type? type;
   Unit? unit;
   String? dateFrom;
@@ -107,7 +94,7 @@ class Detail {
   });
 
   Detail copyWith({
-    int? value,
+    double? value,
     Type? type,
     Unit? unit,
     String? dateFrom,
