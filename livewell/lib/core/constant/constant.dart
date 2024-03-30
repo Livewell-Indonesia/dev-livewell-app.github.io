@@ -15,6 +15,7 @@ class Constant {
   static const String icQuickAdd = '$assetsIcons/ic_quickadd.svg';
   static const String icAvatarPlaceholder = '$assetsIcons/ic_avatar_placeholder.svg';
   static const String icCalories = '$assetsIcons/ic_calories.svg';
+  static const String icStreak = '$assetsIcons/streak_icon.svg';
 
   static const String icSleepUnselected = '$assetsIcons/ic_sleep_unselected.png';
   static const String icSleepSelected = '$assetsIcons/ic_sleep_selected.png';

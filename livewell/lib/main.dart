@@ -36,25 +36,11 @@ Future<void> handleBackgroundMesage(RemoteMessage mesage) async {
 void mapPayloadToRoute(String payload) {
   //add delay 2 sec
   Future.delayed(const Duration(seconds: 1), () {
-    AppNavigator.push(routeName: AppPages.addMeal, arguments: {
-      'type': FeatureTypeNotification.values
-          .firstWhere((element) => element.value == payload)
-          .mealTime
-          .name,
-      'date': DateTime.now()
-    });
+    AppNavigator.push(routeName: AppPages.addMeal, arguments: {'type': FeatureTypeNotification.values.firstWhere((element) => element.value == payload).mealTime.name, 'date': DateTime.now()});
   });
 }
 
-enum FeatureTypeNotification {
-  mealReminderBreakfast,
-  mealReminderSnack,
-  mealReminderLunch,
-  mealReminderDinner,
-  sleepPage,
-  exercisePage,
-  taskList
-}
+enum FeatureTypeNotification { mealReminderBreakfast, mealReminderSnack, mealReminderLunch, mealReminderDinner, sleepPage, exercisePage, taskList }
 
 extension MealReminderExt on FeatureTypeNotification {
   String get value {
@@ -98,13 +84,7 @@ extension MealReminderExt on FeatureTypeNotification {
       case FeatureTypeNotification.mealReminderLunch:
       case FeatureTypeNotification.mealReminderDinner:
         return () {
-          AppNavigator.push(routeName: AppPages.addMeal, arguments: {
-            'type': FeatureTypeNotification.values
-                .firstWhere((element) => element.value == value)
-                .mealTime
-                .name,
-            'date': DateTime.now()
-          });
+          AppNavigator.push(routeName: AppPages.addMeal, arguments: {'type': FeatureTypeNotification.values.firstWhere((element) => element.value == value).mealTime.name, 'date': DateTime.now()});
         };
       case FeatureTypeNotification.sleepPage:
         return () {
@@ -117,13 +97,9 @@ extension MealReminderExt on FeatureTypeNotification {
       case FeatureTypeNotification.taskList:
         return () {
           if (Get.isRegistered<HomeController>()) {
-            Get.find<HomeController>().scrollController.animateTo(
-                Get.find<HomeController>()
-                    .scrollController
-                    .position
-                    .maxScrollExtent,
-                duration: const Duration(seconds: 1),
-                curve: Curves.fastOutSlowIn);
+            Get.find<HomeController>()
+                .scrollController
+                .animateTo(Get.find<HomeController>().scrollController.position.maxScrollExtent, duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
           }
         };
     }
@@ -145,13 +121,11 @@ void main() async {
   runZonedGuarded(() async {
     Sentry.init(
       (p0) {
-        p0.dsn =
-            'https://344e610591e04e998dda24b51c38c4e0@o4505522504400896.ingest.sentry.io/4505545112616960';
+        p0.dsn = 'https://344e610591e04e998dda24b51c38c4e0@o4505522504400896.ingest.sentry.io/4505545112616960';
       },
       appRunner: () async {
         cameras = await availableCameras();
-        SystemChrome.setSystemUIOverlayStyle(
-            const SystemUiOverlayStyle(statusBarBrightness: Brightness.light));
+        SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarBrightness: Brightness.light));
         SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
         await ScreenUtil.ensureScreenSize();
         configLoading();
@@ -190,14 +164,12 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: false,
-      fontSizeResolver: (fontSize, instance) =>
-          FontSizeResolvers.radius(fontSize, instance),
+      fontSizeResolver: (fontSize, instance) => FontSizeResolvers.radius(fontSize, instance),
       builder: (context, child) {
         return GetMaterialApp(
           builder: EasyLoading.init(builder: (context, widget) {
             return MediaQuery(
-              data: MediaQuery.of(context)
-                  .copyWith(textScaler: const TextScaler.linear(1.0)),
+              data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
               child: widget!,
             );
           }),

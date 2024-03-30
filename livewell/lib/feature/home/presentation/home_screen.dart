@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/helper/get_meal_type_by_current_time.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
@@ -26,96 +28,105 @@ class HomeScreen extends StatelessWidget {
           Obx(() {
             return selectBody();
           }),
-          Obx(() {
-            if (controller.currentMenu.value == HomeTab.home) {
-              return Positioned(
-                  right: 16.w,
-                  bottom: 72.h + 16.h,
-                  child: FloatingNutricoPlusWidget(
-                    onTap: () {
-                      showModalBottomSheet(
-                          context: context,
-                          shape: shapeBorder(),
-                          builder: (context) {
-                            return NutriScorePlusBottomSheet(
-                              isAlreadyLimit: Get.find<DashboardController>()
-                                  .checkIfNutricoAlreadyLimit(),
-                              onSelected: (p0) {
-                                Get.back();
-                                switch (p0) {
-                                  case SelectedNutriscorePlusMethod.camera:
-                                    // AppNavigator.push(routeName: AppPages.camera);
-                                    break;
-                                  case SelectedNutriscorePlusMethod.gallery:
-                                    //AppNavigator.push(routeName: AppPages.gallery);
-                                    break;
-                                  case SelectedNutriscorePlusMethod.desc:
-                                    AppNavigator.push(
-                                        routeName: AppPages.nutriCoScreen,
-                                        arguments: {
-                                          'type':
-                                              getMealTypeByCurrentTime().name,
-                                          'date': DateTime.now(),
-                                        });
-                                    break;
-                                }
-                              },
-                              onImageSelected: (file) {
-                                Get.back();
-                                AppNavigator.push(
-                                    routeName: AppPages.loadingNutricoPlus,
-                                    arguments: file);
-                              },
-                            );
-                          });
-                    },
-                  ));
-            } else {
-              return Container();
-            }
-          })
         ],
       ),
-      bottomNavigationBar: Container(
-          height: 72.h,
-          decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: HomeTab.values.map((e) {
-              return Obx(
-                () {
-                  return InkWell(
-                    onTap: () {
-                      controller.changePageIndex(e.index);
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        e == controller.currentMenu.value
-                            ? e.selectedAssetWidget()
-                            : e.unselectedAssetWidget(),
-                        SizedBox(
-                          height: 4.h,
+      bottomNavigationBar: Stack(
+        alignment: AlignmentDirectional.bottomCenter,
+        children: [
+          Container(
+              height: 72.h,
+              decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+              padding: EdgeInsets.symmetric(horizontal: 42.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: HomeTab.values.map((e) {
+                  return Obx(
+                    () {
+                      return InkWell(
+                        onTap: () {
+                          controller.changePageIndex(e.index);
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            e == controller.currentMenu.value ? e.selectedAssetWidget() : e.unselectedAssetWidget(),
+                            SizedBox(
+                              height: 4.h,
+                            ),
+                            Text(
+                              e.title(),
+                              style: TextStyle(
+                                  fontSize: 12.sp, fontWeight: FontWeight.w400, color: e == controller.currentMenu.value ? const Color(0xFF8F01DF) : const Color(0xFF171433).withOpacity(0.8)),
+                            )
+                          ],
                         ),
-                        Text(
-                          e.title(),
-                          style: TextStyle(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400,
-                              color: e == controller.currentMenu.value
-                                  ? const Color(0xFF8F01DF)
-                                  : const Color(0xFF171433).withOpacity(0.8)),
-                        )
-                      ],
-                    ),
+                      );
+                    },
                   );
-                },
-              );
-            }).toList(),
-          )),
+                }).toList(),
+              )),
+          InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                  context: context,
+                  shape: shapeBorder(),
+                  builder: (context) {
+                    return NutriScorePlusBottomSheet(
+                      isAlreadyLimit: Get.find<DashboardController>().checkIfNutricoAlreadyLimit(),
+                      onSelected: (p0) {
+                        Get.back();
+                        switch (p0) {
+                          case SelectedNutriscorePlusMethod.camera:
+                            // AppNavigator.push(routeName: AppPages.camera);
+                            break;
+                          case SelectedNutriscorePlusMethod.gallery:
+                            //AppNavigator.push(routeName: AppPages.gallery);
+                            break;
+                          case SelectedNutriscorePlusMethod.desc:
+                            AppNavigator.push(routeName: AppPages.nutriCoScreen, arguments: {
+                              'type': getMealTypeByCurrentTime().name,
+                              'date': DateTime.now(),
+                            });
+                            break;
+                        }
+                      },
+                      onImageSelected: (file) {
+                        Get.back();
+                        AppNavigator.push(routeName: AppPages.loadingNutricoPlus, arguments: file);
+                      },
+                    );
+                  });
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFFDDF235)),
+                  height: 56.h,
+                  width: 56.w,
+                  child: Padding(
+                    padding: EdgeInsets.all(8.w),
+                    child: SvgPicture.asset(
+                      Constant.icBarcode,
+                      width: 40.w,
+                      height: 40.h,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 4.h,
+                ),
+                Text(
+                  "NutriCo+",
+                  style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: const Color(0xFF171433).withOpacity(0.8)),
+                ),
+                14.verticalSpace,
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -123,8 +134,8 @@ class HomeScreen extends StatelessWidget {
     switch (controller.currentMenu.value) {
       case HomeTab.home:
         return const DashBoardScreen();
-      case HomeTab.dailyJournal:
-        return UserDiaryScreen();
+      // case HomeTab.nutricoPlus:
+      //   return UserDiaryScreen();
       case HomeTab.account:
         return UserSettingsScreen();
     }

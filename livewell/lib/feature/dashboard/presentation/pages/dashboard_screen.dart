@@ -49,340 +49,437 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           },
           child: SingleChildScrollView(
             controller: homeController.scrollController,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Stack(
               children: [
-                52.verticalSpace,
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16).r,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipOval(
-                        child: Container(
-                          width: 40.h,
-                          height: 40.h,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.rectangle,
-                          ),
-                          child: Obx(() {
-                            if (controller.user.value.avatarUrl != null && controller.user.value.avatarUrl!.isNotEmpty) {
-                              return Image.network(
-                                controller.user.value.avatarUrl!,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
+                Container(
+                  height: 226.h,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFddf235),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(16),
+                      bottomRight: Radius.circular(16),
+                    ),
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    52.verticalSpace,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16).r,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipOval(
+                            child: Container(
+                              width: 40.h,
+                              height: 40.h,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.rectangle,
+                              ),
+                              child: Obx(() {
+                                if (controller.user.value.avatarUrl != null && controller.user.value.avatarUrl!.isNotEmpty) {
+                                  return Image.network(
+                                    controller.user.value.avatarUrl!,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return SvgPicture.asset(
+                                        (controller.user.value.gender ?? Gender.male.name).toLowerCase() == "male" ? Constant.imgMaleSVG : Constant.imgFemaleSVG,
+                                      );
+                                    },
+                                  );
+                                } else {
                                   return SvgPicture.asset(
                                     (controller.user.value.gender ?? Gender.male.name).toLowerCase() == "male" ? Constant.imgMaleSVG : Constant.imgFemaleSVG,
                                   );
-                                },
-                              );
-                            } else {
-                              return SvgPicture.asset(
-                                (controller.user.value.gender ?? Gender.male.name).toLowerCase() == "male" ? Constant.imgMaleSVG : Constant.imgFemaleSVG,
-                              );
-                            }
-                          }),
-                        ),
-                      ),
-                      //SvgPicture.asset(Constant.icAvatarPlaceholder),
-                      10.horizontalSpace,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Obx(() {
-                            return Text(
-                              'Hi ${controller.user.value.firstName ?? ""},',
-                              style: TextStyle(color: const Color(0xFF171433), fontSize: 15.sp, fontWeight: FontWeight.w500),
-                            );
-                          }),
-                          Text(
-                            '${controller.localization.goodGreeting ?? ""} ${controller.greeting()}',
-                            style: TextStyle(color: const Color(0xFF171433), fontSize: 24.sp, fontWeight: FontWeight.w600),
-                          )
-                        ],
-                      ),
-                      const Spacer(),
-                      InkWell(
-                        onTap: () {
-                          HomeController homeController = Get.find();
-                          homeController.currentMenu.value = HomeTab.account;
-                        },
-                        child: Icon(
-                          Icons.account_circle_outlined,
-                          color: const Color(0xFF171433).withOpacity(0.7),
-                          size: 24.w,
-                        ),
-                      ),
-                      8.horizontalSpace,
-                      InkWell(
-                        onTap: () {
-                          Get.to(() => UserDiaryScreen());
-                        },
-                        child: Icon(
-                          Icons.class_outlined,
-                          color: const Color(0xFF171433).withOpacity(0.7),
-                          size: 24.w,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                32.verticalSpace,
-                InkWell(
-                  onTap: () {
-                    AppNavigator.push(routeName: AppPages.updateWeight);
-                  },
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: Obx(() {
-                      return YourWeightWidget(
-                        key: homeController.cardKey,
-                        weight: (controller.user.value.weight ?? 0.0).toDouble(),
-                        targetWeight: (controller.user.value.weightTarget ?? 0.0).toDouble(),
-                      );
-                    }),
-                  ),
-                ),
-                32.verticalSpace,
-                Obx(() {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: DashboardSummaryWidget(
-                      model: [
-                        DashboardSummaryModel(
-                            item: DashboardSummaryItem.calories,
-                            currentValue: "${controller.dashboard.value.dashboard?.caloriesTaken ?? 0}",
-                            targetValue: "${(controller.user.value.bmr?.toInt() ?? 0) + (controller.totalExercise.value)}",
-                            unit: 'kCal',
-                            status: DashboardSummaryModel.statusFromValue(
-                                (controller.dashboard.value.dashboard?.caloriesTaken ?? 0) / ((controller.user.value.bmr?.toInt() ?? 0) + (controller.totalExercise.value)), false)),
-                        DashboardSummaryModel(
-                            item: DashboardSummaryItem.exercise,
-                            currentValue: "${controller.totalExercise.value}",
-                            targetValue: '${controller.user.value.exerciseGoalKcal ?? 0}',
-                            unit: 'kCal',
-                            status: DashboardSummaryModel.statusFromValue((controller.totalExercise.value) / (controller.user.value.exerciseGoalKcal ?? 0), false)),
-                        DashboardSummaryModel(
-                            item: DashboardSummaryItem.protein,
-                            currentValue: '${controller.dashboard.value.dashboard?.totalProteinInG ?? 0} ',
-                            targetValue: '${controller.totalProtein().round()}',
-                            unit: 'g',
-                            status: DashboardSummaryModel.statusFromValue((controller.dashboard.value.dashboard?.totalProteinInG ?? 0) / (controller.totalProtein().round()), false)),
-                        DashboardSummaryModel(
-                            item: DashboardSummaryItem.carbs,
-                            currentValue: '${controller.dashboard.value.dashboard?.totalCarbsInG ?? 0}',
-                            targetValue: '${controller.totalCarbs().round()}',
-                            unit: 'g',
-                            status: DashboardSummaryModel.statusFromValue((controller.dashboard.value.dashboard?.totalCarbsInG ?? 0) / (controller.totalCarbs().round()), true)),
-                        DashboardSummaryModel(
-                            item: DashboardSummaryItem.sleep,
-                            currentValue: (sleepController.finalSleepValue).toStringAsFixed(1),
-                            targetValue: '${controller.user.value.onboardingQuestionnaire?.sleepDuration ?? 0}',
-                            unit: "hours",
-                            status: DashboardSummaryModel.statusFromValue((sleepController.finalSleepValue / int.parse(controller.user.value.onboardingQuestionnaire?.sleepDuration ?? "0")), false)),
-                        DashboardSummaryModel(
-                            item: DashboardSummaryItem.fat,
-                            currentValue: '${controller.dashboard.value.dashboard?.totalFatsInG}',
-                            targetValue: '${controller.totalFat().round()}',
-                            unit: 'g',
-                            status: DashboardSummaryModel.statusFromValue((controller.dashboard.value.dashboard?.totalFatsInG ?? 0) / (controller.totalFat().round()), true)),
-                        DashboardSummaryModel(
-                            item: DashboardSummaryItem.water,
-                            currentValue: (controller.waterConsumed.value / 1000).toStringAsFixed(1),
-                            targetValue: removeTrailingZero((int.parse((controller.user.value.onboardingQuestionnaire?.glassesOfWaterDaily ?? "0")) * 0.25).toString()),
-                            unit: 'liters',
-                            status: DashboardSummaryModel.statusFromValue(
-                                (controller.waterConsumed.value / 1000) / (int.parse((controller.user.value.onboardingQuestionnaire?.glassesOfWaterDaily ?? "0")) * 0.25), false)),
-                        DashboardSummaryModel(
-                            item: DashboardSummaryItem.mood,
-                            currentValue: '0',
-                            targetValue: '0',
-                            unit: '',
-                            moodType: controller.getMoodTypeByValue(controller.todayMood.value?.response?.value ?? 3),
-                            status: DashboardSummaryStatus.eightyPlus),
-                      ],
-                    ),
-                  );
-                }),
-                24.verticalSpace,
-                QuickActionRow(
-                  key: homeController.navigationKey,
-                  onTap: (action) {
-                    switch (action) {
-                      case QuickAction.nutrition:
-                        // Get.find<HomeController>().currentMenu.value =
-                        //     HomeTab.d;
-                        AppNavigator.push(routeName: AppPages.nutritionScreen);
-                        break;
-                      case QuickAction.exercise:
-                        AppNavigator.push(routeName: AppPages.exerciseScreen);
-                        break;
-                      case QuickAction.sleep:
-                        AppNavigator.push(routeName: AppPages.sleepScreen);
-                        break;
-                      case QuickAction.water:
-                        AppNavigator.push(routeName: AppPages.waterScreen);
-                        break;
-                      case QuickAction.mood:
-                        AppNavigator.push(routeName: AppPages.moodDetailScreen);
-                        break;
-                      default:
-                        // Handle the 'QuickAction.mood' case here
-                        break;
-                    }
-                  },
-                ),
-                Obx(() {
-                  return controller.user.value.dailyJournal?.isEmpty ?? true
-                      ? Container()
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20).r,
-                          child: Text(
-                            controller.localization.taskList!,
-                            style: TextStyle(color: const Color(0xFF171433), fontSize: 20.sp, fontWeight: FontWeight.w600),
+                                }
+                              }),
+                            ),
                           ),
-                        );
-                }),
-                20.verticalSpace,
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20).r,
-                  child: Obx(() {
-                    return MoodPickerWidget(
-                      selectedMoodType: controller.getMoodTypeByValue(controller.todayMood.value?.response?.value ?? 0),
-                      onTap: (mood) {
-                        controller.onMoodSelected(mood);
-                      },
-                    );
-                  }),
-                ),
-                8.verticalSpace,
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20).r,
-                  child: Obx(() {
-                    if (homeController.isShowCoachmark.value) {
-                      return dummyTask();
-                    } else {
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
+                          //SvgPicture.asset(Constant.icAvatarPlaceholder),
+                          10.horizontalSpace,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Obx(() {
+                                return Text(
+                                  'Hi ${controller.user.value.firstName ?? ""},',
+                                  style: TextStyle(color: const Color(0xFF171433), fontSize: 15.sp, fontWeight: FontWeight.w500),
+                                );
+                              }),
+                              Text(
+                                '${controller.localization.goodGreeting ?? ""} ${controller.greeting()}',
+                                style: TextStyle(color: const Color(0xFF171433), fontSize: 24.sp, fontWeight: FontWeight.w600),
+                              )
+                            ],
+                          ),
+                          const Spacer(),
+
+                          8.horizontalSpace,
                           InkWell(
                             onTap: () {
-                              AppNavigator.push(routeName: AppPages.waterConsumedPage, arguments: {"waterInputType": WaterInputType.increase});
+                              Get.to(() => UserDiaryScreen());
                             },
-                            child: Container(
-                              padding: EdgeInsets.only(left: 10.w, right: 20.w),
-                              width: 335.w,
-                              height: 72.h,
-                              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20).r),
-                              child: Row(
-                                children: [
-                                  Transform.scale(
-                                    scale: 1.2,
-                                    child: Obx(() {
-                                      return Checkbox(
-                                        value: controller.waterConsumed.value >= 2000,
-                                        onChanged: (val) {},
-                                        fillColor: MaterialStateProperty.resolveWith((states) {
-                                          if (states.contains(MaterialState.selected)) {
-                                            return const Color(0xFFDDF235);
-                                          }
-                                          return null;
-                                        }),
-                                        checkColor: const Color(0xFF171433),
-                                        activeColor: Colors.green,
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                        side: const BorderSide(color: Color(0xFF171433), width: 1),
-                                      );
-                                    }),
+                            child: Icon(
+                              Icons.class_outlined,
+                              color: const Color(0xFF171433).withOpacity(0.7),
+                              size: 24.w,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    24.verticalSpace,
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 16.w),
+                      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16.r),
+                      ),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            height: 32.h,
+                            width: 48.w,
+                            child: SvgPicture.asset(Constant.icStreak),
+                          ),
+                          12.horizontalSpace,
+                          Text(
+                            'Start your streak!',
+                            style: TextStyle(
+                              color: const Color(0xFF505050),
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const Spacer(),
+                          Text(
+                            '0-day streak',
+                            style: TextStyle(
+                              color: const Color(0xFF808080),
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    16.verticalSpace,
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 16.w),
+                      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16.r),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.r),
+                              color: const Color(0xFFDDF235).withOpacity(0.35),
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  '100',
+                                  style: TextStyle(color: const Color(0xFF505050), fontSize: 20.sp, fontWeight: FontWeight.w600),
+                                ),
+                                Text(
+                                  '/100',
+                                  style: TextStyle(color: const Color(0xFF505050), fontSize: 12.sp, fontWeight: FontWeight.w400),
+                                ),
+                              ],
+                            ),
+                          ),
+                          12.horizontalSpace,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Wellness',
+                                  style: TextStyle(
+                                    color: const Color(0xFF505050),
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
                                   ),
-                                  Container(
-                                    width: 43.w,
-                                    height: 43.w,
-                                    decoration: BoxDecoration(color: const Color(0xFFF1F1F1), borderRadius: BorderRadius.circular(10.r)),
-                                    child: Image.asset(Constant.icWaterUnselected),
+                                ),
+                                Text(
+                                  'Your wellness score puts you in the modetate range',
+                                  style: TextStyle(
+                                    color: const Color(0xFF808080),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w400,
                                   ),
-                                  10.horizontalSpace,
-                                  Text(
-                                    'Water',
-                                    style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
-                                  ),
-                                  const Spacer(),
-                                  Text(
-                                    "${(controller.waterConsumed.value / 1000).toStringAsFixed(1)} L",
-                                    style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
-                                  ),
-                                ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          12.horizontalSpace,
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: const Color(0xFF8F01DF)),
+                              borderRadius: BorderRadius.circular(16.r),
+                            ),
+                            child: Text(
+                              'See detail',
+                              style: TextStyle(
+                                color: const Color(0xFF8F01DF),
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
-                          ListView.separated(
-                              padding: EdgeInsets.only(top: 10.h),
-                              shrinkWrap: true,
-                              physics: const ClampingScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return InkWell(
-                                  onTap: () {
-                                    AppNavigator.push(routeName: AppPages.addMeal, arguments: {"type": controller.user.value.dailyJournal?[index].name, "date": DateTime.now()});
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.only(left: 10.w, right: 20.w),
-                                    width: 335.w,
-                                    height: 72.h,
-                                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20).r),
-                                    child: Row(
-                                      children: [
-                                        Transform.scale(
-                                          scale: 1.2,
-                                          child: Obx(() {
-                                            return Checkbox(
-                                              value: controller.isCompleted(index).value,
-                                              onChanged: (val) {},
-                                              fillColor: MaterialStateProperty.resolveWith((states) {
-                                                if (states.contains(MaterialState.selected)) {
-                                                  return const Color(0xFFDDF235);
-                                                }
-                                                return null;
-                                              }),
-                                              checkColor: const Color(0xFF171433),
-                                              activeColor: Colors.green,
-                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                              side: const BorderSide(color: Color(0xFF171433), width: 1),
-                                            );
-                                          }),
-                                        ),
-                                        Container(
-                                          width: 43.w,
-                                          height: 43.w,
-                                          decoration: BoxDecoration(color: const Color(0xFFF1F1F1), borderRadius: BorderRadius.circular(10.r)),
-                                          child: Image.asset(Constant.icFoodUnselected),
-                                        ),
-                                        10.horizontalSpace,
-                                        Text(
-                                          "${controller.user.value.dailyJournal?[index].time} ${MealTime.values.firstWhere((element) => element.name == controller.user.value.dailyJournal?[index].name?.toLowerCase()).text()}",
-                                          style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
-                                        ),
-                                        const Spacer(),
-                                        Icon(
-                                          Icons.arrow_forward_ios_rounded,
-                                          size: 20.r,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (context, index) {
-                                return 10.verticalSpace;
-                              },
-                              itemCount: controller.user.value.dailyJournal?.length ?? 0),
                         ],
+                      ),
+                    ),
+                    16.verticalSpace,
+                    Obx(() {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: DashboardSummaryWidget(
+                          model: [
+                            DashboardSummaryModel(
+                                item: DashboardSummaryItem.calories,
+                                currentValue: "${controller.dashboard.value.dashboard?.caloriesTaken ?? 0}",
+                                targetValue: "${(controller.user.value.bmr?.toInt() ?? 0) + (controller.totalExercise.value)}",
+                                unit: 'kCal',
+                                status: DashboardSummaryModel.statusFromValue(
+                                    (controller.dashboard.value.dashboard?.caloriesTaken ?? 0) / ((controller.user.value.bmr?.toInt() ?? 0) + (controller.totalExercise.value)), false)),
+                            DashboardSummaryModel(
+                                item: DashboardSummaryItem.exercise,
+                                currentValue: "${controller.totalExercise.value}",
+                                targetValue: '${controller.user.value.exerciseGoalKcal ?? 0}',
+                                unit: 'kCal',
+                                status: DashboardSummaryModel.statusFromValue((controller.totalExercise.value) / (controller.user.value.exerciseGoalKcal ?? 0), false)),
+                            DashboardSummaryModel(
+                                item: DashboardSummaryItem.protein,
+                                currentValue: '${controller.dashboard.value.dashboard?.totalProteinInG ?? 0} ',
+                                targetValue: '${controller.totalProtein().round()}',
+                                unit: 'g',
+                                status: DashboardSummaryModel.statusFromValue((controller.dashboard.value.dashboard?.totalProteinInG ?? 0) / (controller.totalProtein().round()), false)),
+                            DashboardSummaryModel(
+                                item: DashboardSummaryItem.carbs,
+                                currentValue: '${controller.dashboard.value.dashboard?.totalCarbsInG ?? 0}',
+                                targetValue: '${controller.totalCarbs().round()}',
+                                unit: 'g',
+                                status: DashboardSummaryModel.statusFromValue((controller.dashboard.value.dashboard?.totalCarbsInG ?? 0) / (controller.totalCarbs().round()), true)),
+                            DashboardSummaryModel(
+                                item: DashboardSummaryItem.sleep,
+                                currentValue: (sleepController.finalSleepValue).toStringAsFixed(1),
+                                targetValue: '${controller.user.value.onboardingQuestionnaire?.sleepDuration ?? 0}',
+                                unit: "hours",
+                                status:
+                                    DashboardSummaryModel.statusFromValue((sleepController.finalSleepValue / int.parse(controller.user.value.onboardingQuestionnaire?.sleepDuration ?? "0")), false)),
+                            DashboardSummaryModel(
+                                item: DashboardSummaryItem.fat,
+                                currentValue: '${controller.dashboard.value.dashboard?.totalFatsInG}',
+                                targetValue: '${controller.totalFat().round()}',
+                                unit: 'g',
+                                status: DashboardSummaryModel.statusFromValue((controller.dashboard.value.dashboard?.totalFatsInG ?? 0) / (controller.totalFat().round()), true)),
+                            DashboardSummaryModel(
+                                item: DashboardSummaryItem.water,
+                                currentValue: (controller.waterConsumed.value / 1000).toStringAsFixed(1),
+                                targetValue: removeTrailingZero((int.parse((controller.user.value.onboardingQuestionnaire?.glassesOfWaterDaily ?? "0")) * 0.25).toString()),
+                                unit: 'liters',
+                                status: DashboardSummaryModel.statusFromValue(
+                                    (controller.waterConsumed.value / 1000) / (int.parse((controller.user.value.onboardingQuestionnaire?.glassesOfWaterDaily ?? "0")) * 0.25), false)),
+                            DashboardSummaryModel(
+                                item: DashboardSummaryItem.mood,
+                                currentValue: '0',
+                                targetValue: '0',
+                                unit: '',
+                                moodType: controller.getMoodTypeByValue(controller.todayMood.value?.response?.value ?? 3),
+                                status: DashboardSummaryStatus.eightyPlus),
+                          ],
+                        ),
                       );
-                    }
-                  }),
+                    }),
+                    24.verticalSpace,
+                    QuickActionRow(
+                      key: homeController.navigationKey,
+                      onTap: (action) {
+                        switch (action) {
+                          case QuickAction.nutrition:
+                            // Get.find<HomeController>().currentMenu.value =
+                            //     HomeTab.d;
+                            AppNavigator.push(routeName: AppPages.nutritionScreen);
+                            break;
+                          case QuickAction.exercise:
+                            AppNavigator.push(routeName: AppPages.exerciseScreen);
+                            break;
+                          case QuickAction.sleep:
+                            AppNavigator.push(routeName: AppPages.sleepScreen);
+                            break;
+                          case QuickAction.water:
+                            AppNavigator.push(routeName: AppPages.waterScreen);
+                            break;
+                          case QuickAction.mood:
+                            AppNavigator.push(routeName: AppPages.moodDetailScreen);
+                            break;
+                          default:
+                            // Handle the 'QuickAction.mood' case here
+                            break;
+                        }
+                      },
+                    ),
+                    Obx(() {
+                      return controller.user.value.dailyJournal?.isEmpty ?? true
+                          ? Container()
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20).r,
+                              child: Text(
+                                controller.localization.taskList!,
+                                style: TextStyle(color: const Color(0xFF171433), fontSize: 20.sp, fontWeight: FontWeight.w600),
+                              ),
+                            );
+                    }),
+                    20.verticalSpace,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20).r,
+                      child: Obx(() {
+                        return MoodPickerWidget(
+                          selectedMoodType: controller.getMoodTypeByValue(controller.todayMood.value?.response?.value ?? 0),
+                          onTap: (mood) {
+                            controller.onMoodSelected(mood);
+                          },
+                        );
+                      }),
+                    ),
+                    8.verticalSpace,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20).r,
+                      child: Obx(() {
+                        if (homeController.isShowCoachmark.value) {
+                          return dummyTask();
+                        } else {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  AppNavigator.push(routeName: AppPages.waterConsumedPage, arguments: {"waterInputType": WaterInputType.increase});
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.only(left: 10.w, right: 20.w),
+                                  width: 335.w,
+                                  height: 72.h,
+                                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20).r),
+                                  child: Row(
+                                    children: [
+                                      Transform.scale(
+                                        scale: 1.2,
+                                        child: Obx(() {
+                                          return Checkbox(
+                                            value: controller.waterConsumed.value >= 2000,
+                                            onChanged: (val) {},
+                                            fillColor: MaterialStateProperty.resolveWith((states) {
+                                              if (states.contains(MaterialState.selected)) {
+                                                return const Color(0xFFDDF235);
+                                              }
+                                              return null;
+                                            }),
+                                            checkColor: const Color(0xFF171433),
+                                            activeColor: Colors.green,
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                            side: const BorderSide(color: Color(0xFF171433), width: 1),
+                                          );
+                                        }),
+                                      ),
+                                      Container(
+                                        width: 43.w,
+                                        height: 43.w,
+                                        decoration: BoxDecoration(color: const Color(0xFFF1F1F1), borderRadius: BorderRadius.circular(10.r)),
+                                        child: Image.asset(Constant.icWaterUnselected),
+                                      ),
+                                      10.horizontalSpace,
+                                      Text(
+                                        'Water',
+                                        style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        "${(controller.waterConsumed.value / 1000).toStringAsFixed(1)} L",
+                                        style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              ListView.separated(
+                                  padding: EdgeInsets.only(top: 10.h),
+                                  shrinkWrap: true,
+                                  physics: const ClampingScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        AppNavigator.push(routeName: AppPages.addMeal, arguments: {"type": controller.user.value.dailyJournal?[index].name, "date": DateTime.now()});
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.only(left: 10.w, right: 20.w),
+                                        width: 335.w,
+                                        height: 72.h,
+                                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20).r),
+                                        child: Row(
+                                          children: [
+                                            Transform.scale(
+                                              scale: 1.2,
+                                              child: Obx(() {
+                                                return Checkbox(
+                                                  value: controller.isCompleted(index).value,
+                                                  onChanged: (val) {},
+                                                  fillColor: MaterialStateProperty.resolveWith((states) {
+                                                    if (states.contains(MaterialState.selected)) {
+                                                      return const Color(0xFFDDF235);
+                                                    }
+                                                    return null;
+                                                  }),
+                                                  checkColor: const Color(0xFF171433),
+                                                  activeColor: Colors.green,
+                                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                                  side: const BorderSide(color: Color(0xFF171433), width: 1),
+                                                );
+                                              }),
+                                            ),
+                                            Container(
+                                              width: 43.w,
+                                              height: 43.w,
+                                              decoration: BoxDecoration(color: const Color(0xFFF1F1F1), borderRadius: BorderRadius.circular(10.r)),
+                                              child: Image.asset(Constant.icFoodUnselected),
+                                            ),
+                                            10.horizontalSpace,
+                                            Text(
+                                              "${controller.user.value.dailyJournal?[index].time} ${MealTime.values.firstWhere((element) => element.name == controller.user.value.dailyJournal?[index].name?.toLowerCase()).text()}",
+                                              style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                            ),
+                                            const Spacer(),
+                                            Icon(
+                                              Icons.arrow_forward_ios_rounded,
+                                              size: 20.r,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) {
+                                    return 10.verticalSpace;
+                                  },
+                                  itemCount: controller.user.value.dailyJournal?.length ?? 0),
+                            ],
+                          );
+                        }
+                      }),
+                    ),
+                    80.verticalSpace,
+                  ],
                 ),
-                80.verticalSpace,
               ],
             ),
           ),
