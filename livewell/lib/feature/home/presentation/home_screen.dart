@@ -101,7 +101,7 @@ class HomeScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFFDDF235)),
+                  decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFF8F01DF)),
                   height: 56.h,
                   width: 56.w,
                   child: Padding(
@@ -111,6 +111,7 @@ class HomeScreen extends StatelessWidget {
                       width: 40.w,
                       height: 40.h,
                       fit: BoxFit.fill,
+                      color: Color(0xFFDDF235),
                     ),
                   ),
                 ),

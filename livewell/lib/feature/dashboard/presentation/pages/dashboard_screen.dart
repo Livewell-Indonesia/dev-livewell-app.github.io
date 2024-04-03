@@ -46,6 +46,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         child: RefreshIndicator(
           onRefresh: () async {
             controller.onInit();
+            sleepController.onInit();
           },
           child: SingleChildScrollView(
             controller: homeController.scrollController,
@@ -70,30 +71,35 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ClipOval(
-                            child: Container(
-                              width: 40.h,
-                              height: 40.h,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.rectangle,
+                          InkWell(
+                            onTap: () {
+                              Get.find<HomeController>().currentMenu.value = HomeTab.account;
+                            },
+                            child: ClipOval(
+                              child: Container(
+                                width: 40.h,
+                                height: 40.h,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                ),
+                                child: Obx(() {
+                                  if (controller.user.value.avatarUrl != null && controller.user.value.avatarUrl!.isNotEmpty) {
+                                    return Image.network(
+                                      controller.user.value.avatarUrl!,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) {
+                                        return SvgPicture.asset(
+                                          (controller.user.value.gender ?? Gender.male.name).toLowerCase() == "male" ? Constant.imgMaleSVG : Constant.imgFemaleSVG,
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    return SvgPicture.asset(
+                                      (controller.user.value.gender ?? Gender.male.name).toLowerCase() == "male" ? Constant.imgMaleSVG : Constant.imgFemaleSVG,
+                                    );
+                                  }
+                                }),
                               ),
-                              child: Obx(() {
-                                if (controller.user.value.avatarUrl != null && controller.user.value.avatarUrl!.isNotEmpty) {
-                                  return Image.network(
-                                    controller.user.value.avatarUrl!,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return SvgPicture.asset(
-                                        (controller.user.value.gender ?? Gender.male.name).toLowerCase() == "male" ? Constant.imgMaleSVG : Constant.imgFemaleSVG,
-                                      );
-                                    },
-                                  );
-                                } else {
-                                  return SvgPicture.asset(
-                                    (controller.user.value.gender ?? Gender.male.name).toLowerCase() == "male" ? Constant.imgMaleSVG : Constant.imgFemaleSVG,
-                                  );
-                                }
-                              }),
                             ),
                           ),
                           //SvgPicture.asset(Constant.icAvatarPlaceholder),
@@ -130,114 +136,114 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       ),
                     ),
                     24.verticalSpace,
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 16.w),
-                      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16.r),
-                      ),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            height: 32.h,
-                            width: 48.w,
-                            child: SvgPicture.asset(Constant.icStreak),
-                          ),
-                          12.horizontalSpace,
-                          Text(
-                            'Start your streak!',
-                            style: TextStyle(
-                              color: const Color(0xFF505050),
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          const Spacer(),
-                          Text(
-                            '0-day streak',
-                            style: TextStyle(
-                              color: const Color(0xFF808080),
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    16.verticalSpace,
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 16.w),
-                      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16.r),
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.r),
-                              color: const Color(0xFFDDF235).withOpacity(0.35),
-                            ),
-                            child: Column(
-                              children: [
-                                Text(
-                                  '100',
-                                  style: TextStyle(color: const Color(0xFF505050), fontSize: 20.sp, fontWeight: FontWeight.w600),
-                                ),
-                                Text(
-                                  '/100',
-                                  style: TextStyle(color: const Color(0xFF505050), fontSize: 12.sp, fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            ),
-                          ),
-                          12.horizontalSpace,
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Wellness',
-                                  style: TextStyle(
-                                    color: const Color(0xFF505050),
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                Text(
-                                  'Your wellness score puts you in the modetate range',
-                                  style: TextStyle(
-                                    color: const Color(0xFF808080),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          12.horizontalSpace,
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: const Color(0xFF8F01DF)),
-                              borderRadius: BorderRadius.circular(16.r),
-                            ),
-                            child: Text(
-                              'See detail',
-                              style: TextStyle(
-                                color: const Color(0xFF8F01DF),
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    16.verticalSpace,
+                    // Container(
+                    //   margin: EdgeInsets.symmetric(horizontal: 16.w),
+                    //   padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+                    //   decoration: BoxDecoration(
+                    //     color: Colors.white,
+                    //     borderRadius: BorderRadius.circular(16.r),
+                    //   ),
+                    //   child: Row(
+                    //     children: [
+                    //       SizedBox(
+                    //         height: 32.h,
+                    //         width: 48.w,
+                    //         child: SvgPicture.asset(Constant.icStreak),
+                    //       ),
+                    //       12.horizontalSpace,
+                    //       Text(
+                    //         'Start your streak!',
+                    //         style: TextStyle(
+                    //           color: const Color(0xFF505050),
+                    //           fontSize: 14.sp,
+                    //           fontWeight: FontWeight.w600,
+                    //         ),
+                    //       ),
+                    //       const Spacer(),
+                    //       Text(
+                    //         '0-day streak',
+                    //         style: TextStyle(
+                    //           color: const Color(0xFF808080),
+                    //           fontSize: 14.sp,
+                    //           fontWeight: FontWeight.w400,
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    // 16.verticalSpace,
+                    // Container(
+                    //   margin: EdgeInsets.symmetric(horizontal: 16.w),
+                    //   padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+                    //   decoration: BoxDecoration(
+                    //     color: Colors.white,
+                    //     borderRadius: BorderRadius.circular(16.r),
+                    //   ),
+                    //   child: Row(
+                    //     children: [
+                    //       Container(
+                    //         padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                    //         decoration: BoxDecoration(
+                    //           borderRadius: BorderRadius.circular(8.r),
+                    //           color: const Color(0xFFDDF235).withOpacity(0.35),
+                    //         ),
+                    //         child: Column(
+                    //           children: [
+                    //             Text(
+                    //               '100',
+                    //               style: TextStyle(color: const Color(0xFF505050), fontSize: 20.sp, fontWeight: FontWeight.w600),
+                    //             ),
+                    //             Text(
+                    //               '/100',
+                    //               style: TextStyle(color: const Color(0xFF505050), fontSize: 12.sp, fontWeight: FontWeight.w400),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //       12.horizontalSpace,
+                    //       Expanded(
+                    //         child: Column(
+                    //           crossAxisAlignment: CrossAxisAlignment.start,
+                    //           children: [
+                    //             Text(
+                    //               'Wellness',
+                    //               style: TextStyle(
+                    //                 color: const Color(0xFF505050),
+                    //                 fontSize: 14.sp,
+                    //                 fontWeight: FontWeight.w600,
+                    //               ),
+                    //             ),
+                    //             Text(
+                    //               'Your wellness score puts you in the modetate range',
+                    //               style: TextStyle(
+                    //                 color: const Color(0xFF808080),
+                    //                 fontSize: 12.sp,
+                    //                 fontWeight: FontWeight.w400,
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //       12.horizontalSpace,
+                    //       Container(
+                    //         padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+                    //         decoration: BoxDecoration(
+                    //           border: Border.all(color: const Color(0xFF8F01DF)),
+                    //           borderRadius: BorderRadius.circular(16.r),
+                    //         ),
+                    //         child: Text(
+                    //           'See detail',
+                    //           style: TextStyle(
+                    //             color: const Color(0xFF8F01DF),
+                    //             fontSize: 12.sp,
+                    //             fontWeight: FontWeight.w600,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    //16.verticalSpace,
                     Obx(() {
                       return Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.w),

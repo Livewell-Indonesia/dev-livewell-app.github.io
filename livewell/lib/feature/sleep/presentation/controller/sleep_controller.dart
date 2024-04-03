@@ -153,9 +153,6 @@ class SleepController extends BaseController {
   }
 
   double getYValue(int index) {
-    if (yValues.value.isEmpty) {
-      return 0.0;
-    }
     return yValues[index] / 60;
     // var value = 0.0;
     // if (exerciseHistoryList.isNotEmpty) {
@@ -268,6 +265,7 @@ class SleepController extends BaseController {
     result.fold((l) {
       Log.error(l);
     }, (r) {
+      Log.colorGreen("andi ganteng ${r}");
       inspect(r);
       if (r.isNotEmpty) {
         var lightSleepValue = r.where((element) => element.type == 'LIGHT_SLEEP').toList();
@@ -318,6 +316,7 @@ class SleepController extends BaseController {
   }
 
   void calculateSleepInBed(List<sleep.SleepActivityModel> sleepInBedValue) {
+    Log.colorGreen(sleepInBedValue.first);
     wentToSleep.value = DateFormat('hh:mm a').format(DateTime.parse(sleepInBedValue.first.details?.first.dateFrom ?? DateTime.now().toIso8601String()));
     wokeUp.value = DateFormat('hh:mm a').format(DateTime.parse(sleepInBedValue.first.details?.last.dateTo ?? (sleepInBedValue.first.details?.last.dateFrom ?? "")));
     if (Get.isRegistered<DashboardController>()) {
@@ -354,8 +353,8 @@ class SleepController extends BaseController {
   }
 
   void calculateDeepSleepAndLightSleep(List<sleep.SleepActivityModel> lightSleepValue, List<sleep.SleepActivityModel> deepSleepValue) {
-    feelASleep.value = durationToString(lightSleepValue.first.totalValue ?? 0);
-    deepSleep.value = durationToString(deepSleepValue.first.totalValue ?? 0);
+    feelASleep.value = durationToString(lightSleepValue.first.totalValue?.toInt() ?? 0);
+    deepSleep.value = durationToString(deepSleepValue.first.totalValue?.toInt() ?? 0);
     var newValue = lightSleepValue.first.details ?? [];
     newValue.addAll(deepSleepValue.first.details ?? []);
 

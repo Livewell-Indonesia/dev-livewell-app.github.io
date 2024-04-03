@@ -1,5 +1,5 @@
 class SleepActivityModel {
-  int? totalValue;
+  num? totalValue;
   String? type;
   String? unit;
   String? dateFrom;
@@ -38,7 +38,7 @@ class SleepActivityModel {
 }
 
 class Details {
-  double? value;
+  num? value;
   String? type;
   String? unit;
   String? dateFrom;
