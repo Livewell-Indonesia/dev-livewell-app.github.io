@@ -120,6 +120,10 @@ class DashboardController extends BaseController {
       } else {
         fetchHealthData();
       }
+      if (Platform.isAndroid) {
+      } else {
+        fetchHealthData();
+      }
     }
   }
 
