@@ -28,17 +28,14 @@ class FoodController extends BaseController {
   @override
   void onInit() {
     fetchUserMealHistory();
+    Get.find<DashboardController>().getNutriscoreData();
     super.onInit();
   }
 
   void fetchUserMealHistory() async {
     isLoadingHistory.value = true;
-    var currentDate = DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0);
-    final result = await getUserMealHistory(UserMealHistoryParams(
-        filter: Filter(
-            endDate: currentDate,
-            startDate: currentDate.add(const Duration(seconds: 86399)))));
+    var currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0);
+    final result = await getUserMealHistory(UserMealHistoryParams(filter: Filter(endDate: currentDate, startDate: currentDate.add(const Duration(seconds: 86399)))));
     isLoadingHistory.value = false;
     result.fold((l) {}, (r) {
       mealHistory.value = r.response ?? [];
@@ -68,9 +65,7 @@ class FoodController extends BaseController {
       if (dashboardData.value.dashboard!.target == null) {
         return 0.obs;
       }
-      var result = ((dashboardData.value.dashboard!.caloriesTaken! /
-              dashboardData.value.dashboard!.target!) *
-          100);
+      var result = ((dashboardData.value.dashboard!.caloriesTaken! / dashboardData.value.dashboard!.target!) * 100);
       if (result.isNaN || result.isInfinite) {
         return 0.obs;
       }
@@ -143,11 +138,7 @@ class FoodController extends BaseController {
       if (dashboardData.value.dashboard!.target == null) {
         return 0.obs;
       }
-      return Formula.targetProteinConsumed(
-              dashboardData.value.dashboard!.target! +
-                  Get.find<DashboardController>().totalExercise.value)
-          .round()
-          .obs;
+      return Formula.targetProteinConsumed(dashboardData.value.dashboard!.target! + Get.find<DashboardController>().totalExercise.value).round().obs;
     } else {
       return 0.obs;
     }
@@ -158,11 +149,7 @@ class FoodController extends BaseController {
       if (dashboardData.value.dashboard!.target == null) {
         return 0.obs;
       }
-      return Formula.targetCarbohydrateConsumed(
-              dashboardData.value.dashboard!.target! +
-                  Get.find<DashboardController>().totalExercise.value)
-          .round()
-          .obs;
+      return Formula.targetCarbohydrateConsumed(dashboardData.value.dashboard!.target! + Get.find<DashboardController>().totalExercise.value).round().obs;
     } else {
       return 0.obs;
     }
@@ -173,10 +160,7 @@ class FoodController extends BaseController {
       if (dashboardData.value.dashboard!.target == null) {
         return 0.obs;
       }
-      return Formula.targetFatConsumed(dashboardData.value.dashboard!.target! +
-              Get.find<DashboardController>().totalExercise.value)
-          .round()
-          .obs;
+      return Formula.targetFatConsumed(dashboardData.value.dashboard!.target! + Get.find<DashboardController>().totalExercise.value).round().obs;
     } else {
       return 0.obs;
     }
@@ -191,8 +175,7 @@ class FoodController extends BaseController {
       return 0.0.obs;
     }
 
-    var result =
-        ((getConsumedProtein().value / getTargetProtein().value) * 100);
+    var result = ((getConsumedProtein().value / getTargetProtein().value) * 100);
     return result > 100.0 ? 100.0.obs : result.obs;
   }
 
@@ -224,15 +207,9 @@ class FoodController extends BaseController {
 
   Rx<double> getPercentMacroNut() {
     if (dashboardData.value.dashboard != null) {
-      num carbs = Formula.carbohydratePercentage(
-          dashboardData.value.dashboard!.totalCarbsInG ?? 0,
-          dashboardData.value.dashboard?.target ?? 0);
-      num protein = Formula.proteinPercentage(
-          dashboardData.value.dashboard!.totalProteinInG ?? 0,
-          dashboardData.value.dashboard?.target ?? 0);
-      num fat = Formula.fatPercentage(
-          dashboardData.value.dashboard!.totalFatsInG ?? 0,
-          dashboardData.value.dashboard?.target ?? 0);
+      num carbs = Formula.carbohydratePercentage(dashboardData.value.dashboard!.totalCarbsInG ?? 0, dashboardData.value.dashboard?.target ?? 0);
+      num protein = Formula.proteinPercentage(dashboardData.value.dashboard!.totalProteinInG ?? 0, dashboardData.value.dashboard?.target ?? 0);
+      num fat = Formula.fatPercentage(dashboardData.value.dashboard!.totalFatsInG ?? 0, dashboardData.value.dashboard?.target ?? 0);
       var average = (carbs + protein + fat) / 3;
       return average >= 1 ? 1.0.obs : average.obs;
     } else {
@@ -242,112 +219,34 @@ class FoodController extends BaseController {
 
   Rx<double> getPercentMicroNut() {
     if (dashboardData.value.dashboard != null) {
-      double? totalVitA = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminAInMcg ?? 0));
-      double? totalVitC = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminCInMg ?? 0));
+      double? totalVitA = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminAInMcg ?? 0));
+      double? totalVitC = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminCInMg ?? 0));
 
-      double? totalVitD = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminDInMcg ?? 0));
-      double? totalVitE = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminEInMg ?? 0));
-      double? totalVitK = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminKInMcg ?? 0));
-      double? totalVitB1 = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminB1InMg ?? 0));
-      double? totalVitB2 = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminB2InMg ?? 0));
-      double? totalVitB3 = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminB3InMg ?? 0));
-      double? totalVitB5 = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminB5InMg ?? 0));
-      double? totalVitB6 = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminB6InMg ?? 0));
-      double? totalVitB7 = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminB7InMcg ?? 0));
-      double? totalVitB9 = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminB9InMcg ?? 0));
+      double? totalVitD = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminDInMcg ?? 0));
+      double? totalVitE = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminEInMg ?? 0));
+      double? totalVitK = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminKInMcg ?? 0));
+      double? totalVitB1 = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminB1InMg ?? 0));
+      double? totalVitB2 = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminB2InMg ?? 0));
+      double? totalVitB3 = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminB3InMg ?? 0));
+      double? totalVitB5 = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminB5InMg ?? 0));
+      double? totalVitB6 = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminB6InMg ?? 0));
+      double? totalVitB7 = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminB7InMcg ?? 0));
+      double? totalVitB9 = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminB9InMcg ?? 0));
 
-      double? totalVitB12 = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminB12InMcg ?? 0));
-      double? totalCalcium = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.calciumInMg ?? 0));
-      double? totalPhosphorus = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.phosphorusInMg ?? 0));
-      double? totalMagnesium = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.magnesiumInMg ?? 0));
-      double? totalSodium = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.sodiumInMg ?? 0));
-      double? totalPotassium = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.potassiumInMg ?? 0));
-      double? totalChloride = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.chlorideInMg ?? 0));
-      double? totalIron = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.ironInMg ?? 0));
-      double? totalIodine = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.iodineInMcg ?? 0));
-      double? totalZinc = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.zincInMg ?? 0));
-      double? totalSelenium = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.seleniumInMcg ?? 0));
-      double? totalFluoride = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.fluorideInMg ?? 0));
-      double? totalChromium = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.chromiumInMcg ?? 0));
-      double? totalMolybdenum = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.molybdenumInMcg ?? 0));
+      double? totalVitB12 = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminB12InMcg ?? 0));
+      double? totalCalcium = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.calciumInMg ?? 0));
+      double? totalPhosphorus = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.phosphorusInMg ?? 0));
+      double? totalMagnesium = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.magnesiumInMg ?? 0));
+      double? totalSodium = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.sodiumInMg ?? 0));
+      double? totalPotassium = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.potassiumInMg ?? 0));
+      double? totalChloride = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.chlorideInMg ?? 0));
+      double? totalIron = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.ironInMg ?? 0));
+      double? totalIodine = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.iodineInMcg ?? 0));
+      double? totalZinc = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.zincInMg ?? 0));
+      double? totalSelenium = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.seleniumInMcg ?? 0));
+      double? totalFluoride = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.fluorideInMg ?? 0));
+      double? totalChromium = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.chromiumInMcg ?? 0));
+      double? totalMolybdenum = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.molybdenumInMcg ?? 0));
 
       final averageEssentialVitamins = Formula.averageEssentialVitamins(
         Formula.vitAPercentage(totalVitA ?? 0),
@@ -383,10 +282,7 @@ class FoodController extends BaseController {
         Formula.molybdenumPercentage(totalMolybdenum ?? 0),
       );
 
-      var averageMicroPercent = (averageEssentialVitamins +
-              averageMajorMinerals +
-              averageMicroMinerals) /
-          3;
+      var averageMicroPercent = (averageEssentialVitamins + averageMajorMinerals + averageMicroMinerals) / 3;
       return averageMicroPercent > 1.0 ? 1.0.obs : averageMicroPercent.obs;
     } else {
       return 0.0.obs;
@@ -395,112 +291,34 @@ class FoodController extends BaseController {
 
   Rx<int> getTotalMicroNut() {
     if (dashboardData.value.dashboard != null) {
-      double? totalVitA = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminAInMcg ?? 0));
-      double? totalVitC = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminCInMg ?? 0));
+      double? totalVitA = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminAInMcg ?? 0));
+      double? totalVitC = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminCInMg ?? 0));
 
-      double? totalVitD = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminDInMcg ?? 0));
-      double? totalVitE = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminEInMg ?? 0));
-      double? totalVitK = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminKInMcg ?? 0));
-      double? totalVitB1 = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminB1InMg ?? 0));
-      double? totalVitB2 = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminB2InMg ?? 0));
-      double? totalVitB3 = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminB3InMg ?? 0));
-      double? totalVitB5 = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminB5InMg ?? 0));
-      double? totalVitB6 = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminB6InMg ?? 0));
-      double? totalVitB7 = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminB7InMcg ?? 0));
-      double? totalVitB9 = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminB9InMcg ?? 0));
+      double? totalVitD = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminDInMcg ?? 0));
+      double? totalVitE = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminEInMg ?? 0));
+      double? totalVitK = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminKInMcg ?? 0));
+      double? totalVitB1 = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminB1InMg ?? 0));
+      double? totalVitB2 = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminB2InMg ?? 0));
+      double? totalVitB3 = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminB3InMg ?? 0));
+      double? totalVitB5 = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminB5InMg ?? 0));
+      double? totalVitB6 = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminB6InMg ?? 0));
+      double? totalVitB7 = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminB7InMcg ?? 0));
+      double? totalVitB9 = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminB9InMcg ?? 0));
 
-      double? totalVitB12 = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.vitaminB12InMcg ?? 0));
-      double? totalCalcium = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.calciumInMg ?? 0));
-      double? totalPhosphorus = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.phosphorusInMg ?? 0));
-      double? totalMagnesium = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.magnesiumInMg ?? 0));
-      double? totalSodium = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.sodiumInMg ?? 0));
-      double? totalPotassium = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.potassiumInMg ?? 0));
-      double? totalChloride = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.chlorideInMg ?? 0));
-      double? totalIron = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.ironInMg ?? 0));
-      double? totalIodine = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.iodineInMcg ?? 0));
-      double? totalZinc = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.zincInMg ?? 0));
-      double? totalSelenium = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.seleniumInMcg ?? 0));
-      double? totalFluoride = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.fluorideInMg ?? 0));
-      double? totalChromium = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.chromiumInMcg ?? 0));
-      double? totalMolybdenum = dashboardData.value.details?.fold(
-          0,
-          (previousValue, element) =>
-              (previousValue ?? 0) + (element.molybdenumInMcg ?? 0));
+      double? totalVitB12 = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminB12InMcg ?? 0));
+      double? totalCalcium = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.calciumInMg ?? 0));
+      double? totalPhosphorus = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.phosphorusInMg ?? 0));
+      double? totalMagnesium = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.magnesiumInMg ?? 0));
+      double? totalSodium = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.sodiumInMg ?? 0));
+      double? totalPotassium = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.potassiumInMg ?? 0));
+      double? totalChloride = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.chlorideInMg ?? 0));
+      double? totalIron = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.ironInMg ?? 0));
+      double? totalIodine = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.iodineInMcg ?? 0));
+      double? totalZinc = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.zincInMg ?? 0));
+      double? totalSelenium = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.seleniumInMcg ?? 0));
+      double? totalFluoride = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.fluorideInMg ?? 0));
+      double? totalChromium = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.chromiumInMcg ?? 0));
+      double? totalMolybdenum = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.molybdenumInMcg ?? 0));
 
       var totalMicroNuts = (totalVitA ?? 0.0) +
           (totalVitC ?? 0.0) +
@@ -536,10 +354,7 @@ class FoodController extends BaseController {
 
   void onDeleteHistory(MealTime mealTime, int index) async {
     DeleteMealHistory deleteMealHistory = DeleteMealHistory.instance();
-    var lists = mealHistory
-        .where(
-            (p0) => p0.mealType?.toUpperCase() == mealTime.name.toUpperCase())
-        .toList();
+    var lists = mealHistory.where((p0) => p0.mealType?.toUpperCase() == mealTime.name.toUpperCase()).toList();
     var deletedItem = lists[index];
     mealHistory.remove(deletedItem);
     EasyLoading.show();
@@ -553,10 +368,7 @@ class FoodController extends BaseController {
 
   void onUpdateTapped(MealTime mealTime, int index, double servingSize) async {
     UpdateFoodHistory deleteMealHistory = UpdateFoodHistory.instance();
-    var lists = mealHistory
-        .where(
-            (p0) => p0.mealType?.toUpperCase() == mealTime.name.toUpperCase())
-        .toList();
+    var lists = mealHistory.where((p0) => p0.mealType?.toUpperCase() == mealTime.name.toUpperCase()).toList();
     var updatedItem = lists[index].toOneServings();
     updatedItem.servingSize = servingSize;
     if (servingSize == 0.0) {

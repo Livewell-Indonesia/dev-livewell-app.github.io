@@ -104,20 +104,6 @@ class DashboardController extends BaseController {
   }
 
   void requestHealthAccess() async {
-    // if (await Permission.activityRecognition.isDenied) {
-    //   final permissionStatus = await Permission.activityRecognition.request();
-    //   if (permissionStatus.isGranted) {
-    //     fetchHealthData();
-    //   } else {
-    //     Log.error("Permission denied");
-    //   }
-    // } else {
-    //   fetchHealthData();
-    // }
-    // if (Platform.isAndroid) {
-    // } else {
-    //   fetchHealthData();
-    // }
     var allowGoogleHealth = Get.find<HomeController>().appConfigModel.value.googleHealth ?? false;
     if (Platform.isAndroid && (allowGoogleHealth == false)) {
       getExerciseHistorydata();
@@ -131,10 +117,6 @@ class DashboardController extends BaseController {
         } else {
           Log.error("Permission denied");
         }
-      } else {
-        fetchHealthData();
-      }
-      if (Platform.isAndroid) {
       } else {
         fetchHealthData();
       }
@@ -270,9 +252,9 @@ class DashboardController extends BaseController {
     getUsersData();
     getDashBoardData();
     getMealHistories();
-    getNutriscoreData();
     getWaterData();
     getSingleMoodData();
+    getFeatureLimitData();
     super.onInit();
   }
 
@@ -379,24 +361,6 @@ class DashboardController extends BaseController {
               // split sleep value to deep and light sleep
               var sleepValue = item.end.difference(item.start).inMinutes;
               newData.add(CustomHealthDataPoint(value: sleepValue, type: "SLEEP_IN_BED", unit: "MINUTES", startDate: item.start, endDate: item.end, source: item.source));
-              // var lightSleep = sleepValue * 0.8;
-              // var deepSleep = sleepValue * 0.2;
-              // newData.add(CustomHealthDataPoint(
-              //     value: lightSleep,
-              //     type: 'LIGHT_SLEEP',
-              //     unit: 'MINUTES',
-              //     startDate: item.start,
-              //     endDate:
-              //         item.start.add(Duration(minutes: lightSleep.toInt())),
-              //     source: item.source));
-              // newData.add(CustomHealthDataPoint(
-              //     value: deepSleep,
-              //     type: 'DEEP_SLEEP',
-              //     unit: 'MINUTES',
-              //     startDate:
-              //         item.end.subtract(Duration(minutes: deepSleep.toInt())),
-              //     endDate: item.end,
-              //     source: item.source));
             }
           }
           await saveData(newData);
