@@ -9,13 +9,15 @@ class FeatureLimitEntity {
     List<FeatureLimit> featureLimits = [];
     model.response?.forEach((element) {
       featureLimits.add(FeatureLimit(
-          featureName: element.featureName!,
-          currentUsage: element.currentUsage!,
-          currentLimit: element.currentLimit!,
-          defaultLimit: element.defaultLimit!,
-          expiredAt: element.expiredAt!));
+          featureName: element.featureName!, currentUsage: element.currentUsage!, currentLimit: element.currentLimit!, defaultLimit: element.defaultLimit!, expiredAt: element.expiredAt!));
     });
     return FeatureLimitEntity(featureLimits: featureLimits);
+  }
+
+  bool isNutricoAlreadyLimit() {
+    if (featureLimits.isEmpty) return false;
+    var data = featureLimits.firstWhere((element) => element.featureName == 'NUTRICO_PLUS');
+    return data.currentUsage >= data.currentLimit;
   }
 }
 
@@ -26,10 +28,5 @@ class FeatureLimit {
   int defaultLimit;
   DateTime expiredAt;
 
-  FeatureLimit(
-      {required this.featureName,
-      required this.currentUsage,
-      required this.currentLimit,
-      required this.defaultLimit,
-      required this.expiredAt});
+  FeatureLimit({required this.featureName, required this.currentUsage, required this.currentLimit, required this.defaultLimit, required this.expiredAt});
 }

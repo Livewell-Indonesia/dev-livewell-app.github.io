@@ -241,7 +241,7 @@ class DashboardController extends BaseController {
           }, (r) async {
             if (filteredHealth.isNotEmpty) {
               await SharedPref.saveLastHealthSyncDate(filteredHealth.last.dateTo);
-              
+
               getExerciseHistorydata();
             }
           });
@@ -273,7 +273,6 @@ class DashboardController extends BaseController {
     getNutriscoreData();
     getWaterData();
     getSingleMoodData();
-    getFeatureLimitData();
     super.onInit();
   }
 
@@ -293,6 +292,7 @@ class DashboardController extends BaseController {
     getNutriscoreData();
     getWaterData();
     getSingleMoodData();
+    getFeatureLimitData();
     if (Get.isRegistered<SleepController>()) {
       Get.find<SleepController>().refreshList();
     }
@@ -417,9 +417,7 @@ class DashboardController extends BaseController {
           final result = await postSleepData.call(PostExerciseParams.fromCustomHealth(filteredHealth));
           result.fold((l) {
             Log.error(l);
-          }, (r) async {
-            
-          });
+          }, (r) async {});
         }
       } else {
         Log.info("no new data");
@@ -430,9 +428,7 @@ class DashboardController extends BaseController {
       final result = await postSleepData.call(PostExerciseParams.fromCustomHealth(newData));
       result.fold((l) {
         Log.error(l);
-      }, (r) async {
-        
-      });
+      }, (r) async {});
     }
   }
 

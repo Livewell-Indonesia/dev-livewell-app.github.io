@@ -44,6 +44,9 @@ class HomeScreen extends StatelessWidget {
                     () {
                       return InkWell(
                         onTap: () {
+                          if (Get.isSnackbarOpen) {
+                            Get.back();
+                          }
                           controller.changePageIndex(e.index);
                         },
                         child: Column(
@@ -67,34 +70,39 @@ class HomeScreen extends StatelessWidget {
               )),
           InkWell(
             onTap: () {
+              if (Get.isSnackbarOpen) {
+                Get.back();
+              }
               showModalBottomSheet(
                   context: context,
                   shape: shapeBorder(),
                   builder: (context) {
-                    return NutriScorePlusBottomSheet(
-                      isAlreadyLimit: Get.find<DashboardController>().checkIfNutricoAlreadyLimit(),
-                      onSelected: (p0) {
-                        Get.back();
-                        switch (p0) {
-                          case SelectedNutriscorePlusMethod.camera:
-                            // AppNavigator.push(routeName: AppPages.camera);
-                            break;
-                          case SelectedNutriscorePlusMethod.gallery:
-                            //AppNavigator.push(routeName: AppPages.gallery);
-                            break;
-                          case SelectedNutriscorePlusMethod.desc:
-                            AppNavigator.push(routeName: AppPages.nutriCoScreen, arguments: {
-                              'type': getMealTypeByCurrentTime().name,
-                              'date': DateTime.now(),
-                            });
-                            break;
-                        }
-                      },
-                      onImageSelected: (file) {
-                        Get.back();
-                        AppNavigator.push(routeName: AppPages.loadingNutricoPlus, arguments: file);
-                      },
-                    );
+                    return Obx(() {
+                      return NutriScorePlusBottomSheet(
+                        isAlreadyLimit: Get.find<DashboardController>().featureLimit.value?.isNutricoAlreadyLimit() ?? true,
+                        onSelected: (p0) {
+                          Get.back();
+                          switch (p0) {
+                            case SelectedNutriscorePlusMethod.camera:
+                              // AppNavigator.push(routeName: AppPages.camera);
+                              break;
+                            case SelectedNutriscorePlusMethod.gallery:
+                              //AppNavigator.push(routeName: AppPages.gallery);
+                              break;
+                            case SelectedNutriscorePlusMethod.desc:
+                              AppNavigator.push(routeName: AppPages.nutriCoScreen, arguments: {
+                                'type': getMealTypeByCurrentTime().name,
+                                'date': DateTime.now(),
+                              });
+                              break;
+                          }
+                        },
+                        onImageSelected: (file) {
+                          Get.back();
+                          AppNavigator.push(routeName: AppPages.loadingNutricoPlus, arguments: file);
+                        },
+                      );
+                    });
                   });
             },
             child: Column(

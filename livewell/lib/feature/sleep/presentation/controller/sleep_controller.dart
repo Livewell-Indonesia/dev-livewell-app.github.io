@@ -47,6 +47,20 @@ class SleepController extends BaseController {
     getExerciseHistorydata();
     showInfoFirstTime();
     getAllYvaluesFromApi();
+    wentToSleep = ''.obs;
+    wokeUp = ''.obs;
+    feelASleep = ''.obs;
+    deepSleep = ''.obs;
+    deepSleepPercent = 0.0.obs;
+    lightSleepPercent = 0.0.obs;
+    totalSleepPercent = 0.0.obs;
+    leftSleepPercent = 0.0.obs;
+    sleepInBedPercent = 0.0.obs;
+    sleepInBedValue = 0.0.obs;
+    userGoal = 0.obs;
+    manualSleepInput.clear();
+    yValues.clear();
+    manualWakeUpInput.clear();
     manualSleepInput.text = DateFormat('hh:mm a').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day - 1, 22, 0));
     manualWakeUpInput.text = DateFormat('hh:mm a').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 6, 0));
   }
