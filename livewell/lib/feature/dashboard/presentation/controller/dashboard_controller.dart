@@ -116,11 +116,11 @@ class DashboardController extends BaseController {
           fetchHealthData();
         } else {
           Log.error("Permission denied");
+          if (Platform.isAndroid) {
+          } else {
+            fetchHealthData();
+          }
         }
-      } else {
-        fetchHealthData();
-      }
-      if (Platform.isAndroid) {
       } else {
         fetchHealthData();
       }
