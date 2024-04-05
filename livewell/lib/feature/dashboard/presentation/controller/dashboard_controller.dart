@@ -241,7 +241,7 @@ class DashboardController extends BaseController {
           }, (r) async {
             if (filteredHealth.isNotEmpty) {
               await SharedPref.saveLastHealthSyncDate(filteredHealth.last.dateTo);
-              Get.snackbar("Health Data Syncing", "Health data syncing may take some time. We appreciate your patience!", duration: const Duration(seconds: 7));
+              
               getExerciseHistorydata();
             }
           });
@@ -259,7 +259,6 @@ class DashboardController extends BaseController {
       }, (r) async {
         if (filteredData.isNotEmpty) {
           await SharedPref.saveLastHealthSyncDate(filteredData.last.dateTo);
-          Get.snackbar("Health Data Syncing", "Health data syncing may take some time. We appreciate your patience!", duration: const Duration(seconds: 7));
           getExerciseHistorydata();
         }
       });
@@ -419,7 +418,7 @@ class DashboardController extends BaseController {
           result.fold((l) {
             Log.error(l);
           }, (r) async {
-            Get.snackbar("Health Data Syncing", "Health data syncing may take some time. We appreciate your patience!", duration: const Duration(seconds: 7));
+            
           });
         }
       } else {
@@ -432,7 +431,7 @@ class DashboardController extends BaseController {
       result.fold((l) {
         Log.error(l);
       }, (r) async {
-        Get.snackbar("Health Data Syncing", "Health data syncing may take some time. We appreciate your patience!", duration: const Duration(seconds: 7));
+        
       });
     }
   }
