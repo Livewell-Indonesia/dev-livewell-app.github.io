@@ -57,6 +57,7 @@ class _SleepScreenState extends State<SleepScreen> {
       body: Expanded(
         child: RefreshIndicator(
           onRefresh: () async {
+            Get.snackbar("Health Data Syncing", "Health data syncing may take some time. We appreciate your patience!", duration: const Duration(seconds: 7));
             controller.refreshList();
           },
           child: ListView(
