@@ -29,7 +29,7 @@ class _SleepScreenState extends State<SleepScreen> {
       trailing: InkWell(
         onTap: () {
           HomeController controller = Get.find();
-          var data = controller.popupAssetsModel.value.exercise;
+          var data = controller.popupAssetsModel.value.water;
           if (data != null) {
             showModalBottomSheet<dynamic>(
                 context: context,
@@ -194,20 +194,20 @@ class _SleepScreenState extends State<SleepScreen> {
                     16.verticalSpace,
                     const Divider(),
                     16.verticalSpace,
-                    Obx(() {
-                      return SizedBox(
-                        height: 200.h,
-                        child: Stack(
-                          children: [
-                            BarChart(
+                    SizedBox(
+                      height: 200.h,
+                      child: Stack(
+                        children: [
+                          GetBuilder<SleepController>(builder: (context) {
+                            return BarChart(
                               BarChartData(
                                 minY: 0,
                                 maxY: controller.getMaxYValue(),
-                                barGroups: List.generate(7, (index) {
+                                barGroups: List.generate(controller.yValues.length, (index) {
                                   return BarChartGroupData(
                                     x: index,
                                     barRods: [
-                                      BarChartRodData(color: controller.isYValueOptimal(index) ? const Color(0xFFDDF235) : const Color(0xFFFA6F6F), width: 14.w, toY: controller.getYValue(index))
+                                      BarChartRodData(color: controller.isYValueOptimal(index) ? const Color(0xFFDDF235) : const Color(0xFFFA6F6F), width: 14.w, toY: controller.yValues[index] / 60)
                                     ],
                                   );
                                 }),
@@ -269,18 +269,18 @@ class _SleepScreenState extends State<SleepScreen> {
                                   ),
                                 ),
                               ),
+                            );
+                          }),
+                          Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text(
+                              'hrs.',
+                              style: TextStyle(color: const Color(0xFF505050), fontSize: 10.sp, fontWeight: FontWeight.w600),
                             ),
-                            Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Text(
-                                'hrs.',
-                                style: TextStyle(color: const Color(0xFF505050), fontSize: 10.sp, fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    })
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),

@@ -64,6 +64,7 @@ class SleepController extends BaseController {
     sleepInBedValue = 0.0.obs;
     userGoal = 0.obs;
     manualSleepInput.clear();
+    yValues.clear();
     manualWakeUpInput.clear();
     getSleepData();
     //getExerciseHistorydata();
@@ -242,6 +243,7 @@ class SleepController extends BaseController {
         yValues.add(element.value.total?.toDouble() ?? 0.0);
       });
       Log.colorGreen(r.response?.entries.toString());
+      update();
     });
   }
 
