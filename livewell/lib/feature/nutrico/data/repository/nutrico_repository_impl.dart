@@ -7,6 +7,7 @@ import 'package:livewell/core/error/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
+import 'package:livewell/core/network/api_exception.dart';
 import 'package:livewell/core/network/api_url.dart';
 import 'package:livewell/core/network/network_module.dart';
 import 'package:livewell/feature/food/data/model/foods_model.dart';
@@ -61,6 +62,9 @@ class NutricoRepositoryImpl with NetworkModule implements NutricoRepository {
       final response = await postUploadDocument(Endpoint.nutriCoSearchByImage, Endpoint.api, body: formData, headers: {authorization: await SharedPref.getToken()});
       final json = responseHandler(response);
       return Right(NutricoSearchByImageModel.fromJson(json));
+    } on ErrorRequestException catch (ex) {
+      Log.error("error request exception ${ex.errorBody}");
+      return Left(ServerFailure(message: ex.errorBody.toString(), code: ex.errorCode));
     } catch (ex) {
       return Left(ServerFailure(message: ex.toString()));
     }

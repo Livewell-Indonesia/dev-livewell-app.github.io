@@ -50,16 +50,16 @@ class NewTokenInteceptor extends QueuedInterceptor with NetworkModule {
     }
   }
 
-  @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    if (options.headers['Authorization'] != null) {
-      options.headers['Authorization'] = await SharedPref.getToken();
-    } else {
-      Log.info("api Call without token, no need to validate first");
-      handler.next(options);
-    }
-    return super.onRequest(options, handler);
-  }
+  // @override
+  // void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  //   if (options.headers['Authorization'] != null) {
+  //     options.headers['Authorization'] = await SharedPref.getToken();
+  //   } else {
+  //     Log.info("api Call without token, no need to validate first");
+  //     handler.next(options);
+  //   }
+  //   return super.onRequest(options, handler);
+  // }
 
   Future<void> refreshToken() async {
     try {

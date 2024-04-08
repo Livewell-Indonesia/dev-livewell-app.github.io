@@ -44,8 +44,13 @@ class NutricoPlusController extends BaseController {
     });
     final data = await searchByImage(imageFile);
     data.fold((l) {
-      Get.back();
-      showError();
+      if (l.code == 400) {
+        Get.back();
+        showError(title: 'Image Request Limit Reached', description: 'You have reached the limit of image requests');
+      } else {
+        Get.back();
+        showError();
+      }
     }, (r) async {
       state.value = NutricoPlusState.detectingImage;
       imageUrl.value = r.response?.imageUrl ?? '';
@@ -91,7 +96,7 @@ class NutricoPlusController extends BaseController {
     });
   }
 
-  void showError() {
+  void showError({String title = 'Add Food Failed', String description = 'there was an error in the system or the data you entered was not registered in our system.'}) {
     showModalBottomSheet(
         context: Get.context!,
         isScrollControlled: true,
@@ -111,12 +116,12 @@ class NutricoPlusController extends BaseController {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Add Food Failed',
+                  title,
                   style: TextStyle(color: const Color(0xFF171433), fontSize: 24.sp, height: 32.sp / 24.sp, fontWeight: FontWeight.w600),
                 ),
                 8.verticalSpace,
                 Text(
-                  'there was an error in the system or the data you entered was not registered in our system.',
+                  description,
                   style: TextStyle(color: const Color(0xFF808080), fontSize: 16.sp, fontWeight: FontWeight.w500),
                 ),
                 32.verticalSpace,
