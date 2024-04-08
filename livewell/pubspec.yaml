@@ -69,7 +69,6 @@ dependencies:
   flutter_health_fit:
     git:
       url: https://github.com/metaflowltd/flutter_health_fit.git
-      ref: master
   tutorial_coach_mark: ^1.2.6
   fl_chart: ^0.61.0
   flutter_html: ^3.0.0-alpha.6
