@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:livewell/feature/nutrico/presentation/controller/nutricoplus_controller.dart';
+import 'package:lottie/lottie.dart';
 
 class NutricoPlusLoadingScreen extends StatefulWidget {
   const NutricoPlusLoadingScreen({super.key});
@@ -31,60 +33,66 @@ class _NutricoPlusLoadingScreenState extends State<NutricoPlusLoadingScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           65.verticalSpace,
-          Obx(() {
-            if (controller.imageUrl.value.isNotEmpty) {
-              return _ImageContainer(
-                imageUrl: controller.imageUrl.value,
-              );
-            } else {
-              return Container();
-            }
-          }),
-          32.verticalSpace,
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.0.w),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Obx(() {
-              if (controller.foodName.value.isNotEmpty) {
-                return Text(
-                  controller.foodName.value,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    color: const Color(0xFF171433),
+              return Html(
+                data: controller.title.value,
+                style: {
+                  "body": Style(
+                    fontSize: FontSize(24.sp),
                     fontWeight: FontWeight.w600,
+                    color: const Color(0xFF171433),
+                    textAlign: TextAlign.center,
                   ),
-                );
-              } else {
-                return Container();
-              }
+                },
+              );
+            }),
+          ),
+          64.verticalSpace,
+          Container(
+            color: Colors.red,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 0.0),
+              child: Container(
+                width: 1.sw - 48.w,
+                height: (1.sw - 48.w) / (16 / 9),
+                color: const Color(0xFFF1F1F1),
+                child: Obx(() {
+                  return controller.assetUrl.value.isNotEmpty ? Lottie.network(controller.assetUrl.value) : const SizedBox();
+                }),
+              ),
+            ),
+          ),
+          64.verticalSpace,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Obx(() {
+              return Html(
+                data: controller.description.value,
+                style: {
+                  "body": Style(
+                    fontSize: FontSize(16.sp),
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF171433).withOpacity(0.7),
+                    textAlign: TextAlign.center,
+                  ),
+                  "br": Style(
+                    fontSize: FontSize(20.sp),
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF171433).withOpacity(0.7),
+                    textAlign: TextAlign.center,
+                  )
+                },
+              );
             }),
           ),
           const Spacer(),
           CircularProgressIndicator(
-            backgroundColor: Color(0xFF808080).withOpacity(0.25),
+            backgroundColor: const Color(0xFF808080).withOpacity(0.25),
             color: const Color(0xFF8F01DF),
           ),
-          24.verticalSpace,
-          Obx(() {
-            return Text(
-              controller.state.value.title(),
-              style: TextStyle(
-                fontSize: 16.sp,
-                color: const Color(0xFF171433),
-                fontWeight: FontWeight.w600,
-              ),
-            );
-          }),
-          8.verticalSpace,
-          Obx(() {
-            return Text(
-              controller.state.value.subtitle(),
-              style: TextStyle(
-                fontSize: 12.sp,
-                color: const Color(0xFF171433),
-              ),
-            );
-          }),
-          50.verticalSpace,
+          80.verticalSpace,
         ],
       ),
     );

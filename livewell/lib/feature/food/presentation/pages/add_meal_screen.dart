@@ -4,10 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/feature/food/presentation/controller/add_meal_controller.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
+import 'package:livewell/feature/nutrico/presentation/widget/nutri_score_plus_bottom_sheet.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
@@ -1027,7 +1030,7 @@ class SearchHistoryItem extends StatelessWidget {
       child: Container(
         width: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 16),
-        padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+        padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: isAdded ? const Color(0xFF8F01DF) : Colors.transparent)),
         child: Row(
           children: [
@@ -1113,10 +1116,35 @@ extension ScanTypeAtt on ScanType {
   void navigation(String? type) {
     switch (this) {
       case ScanType.nutrico:
-        return AppNavigator.push(routeName: AppPages.nutriCoScreen, arguments: {
-          'type': type?.toLowerCase(),
-          'date': Get.arguments['date'],
-        });
+        showModalBottomSheet(
+            context: Get.context!,
+            shape: shapeBorder(),
+            builder: (context) {
+              return NutriScorePlusBottomSheet(
+                isAlreadyLimit: Get.find<DashboardController>().checkIfNutricoAlreadyLimit(),
+                onSelected: (p0) {
+                  Get.back();
+                  switch (p0) {
+                    case SelectedNutriscorePlusMethod.camera:
+                      // AppNavigator.push(routeName: AppPages.camera);
+                      break;
+                    case SelectedNutriscorePlusMethod.gallery:
+                      //AppNavigator.push(routeName: AppPages.gallery);
+                      break;
+                    case SelectedNutriscorePlusMethod.desc:
+                      AppNavigator.push(routeName: AppPages.nutriCoScreen, arguments: {
+                        'type': type?.toLowerCase(),
+                        'date': Get.arguments['date'],
+                      });
+                      break;
+                  }
+                },
+                onImageSelected: (file) {
+                  Get.back();
+                  AppNavigator.push(routeName: AppPages.loadingNutricoPlus, arguments: file);
+                },
+              );
+            });
       case ScanType.quickAdd:
         return AppNavigator.push(routeName: AppPages.quickAdd, arguments: {
           'type': type?.toLowerCase(),

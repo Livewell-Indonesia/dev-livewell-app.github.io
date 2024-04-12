@@ -18,8 +18,7 @@ import '../../../home/controller/home_controller.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:livewell/core/base/base_controller.dart';
 
-class AddMealController extends BaseController
-    with GetTickerProviderStateMixin {
+class AddMealController extends BaseController with GetTickerProviderStateMixin {
   final FocusNode focusNode = FocusNode();
   final TextEditingController textEditingController = TextEditingController();
   var state = SearchStates.initial.obs;
@@ -138,10 +137,7 @@ class AddMealController extends BaseController
           var remainingFatMin = 0;
           var fatMax = remainingFat < 22 ? remainingFat : 22;
 
-          hitsSearcher.applyState((state) => state.copyWith(numericFilters: [
-                'calories:0 TO $remainingCaloriesMin',
-                'fat:$remainingFatMin TO $fatMax'
-              ]));
+          hitsSearcher.applyState((state) => state.copyWith(numericFilters: ['calories:0 TO $remainingCaloriesMin', 'fat:$remainingFatMin TO $fatMax']));
         }
       } else {
         var bmr = (dashboardData.dashboard?.totalCalories ?? 0);
@@ -149,10 +145,7 @@ class AddMealController extends BaseController
         var recommendFat = ((0.3 * bmr) / 9);
         var remainingFat = recommendFat - userFat;
         var remainingFatMin = max(remainingFat, 22);
-        hitsSearcher.applyState((state) => state.copyWith(numericFilters: [
-              'protein:5 TO 150',
-              'fat: 0 to $remainingFatMin'
-            ]));
+        hitsSearcher.applyState((state) => state.copyWith(numericFilters: ['protein:5 TO 150', 'fat: 0 to $remainingFatMin']));
       }
     }
   }
@@ -187,8 +180,7 @@ class AddMealController extends BaseController
   void doSearchFood() async {
     state.value = SearchStates.searchingWithResults;
     isLoading.value = true;
-    final result = await searchFood
-        .call(SearchFoodParams(query: textEditingController.text));
+    final result = await searchFood.call(SearchFoodParams(query: textEditingController.text));
     isLoading.value = false;
     result.fold((l) {
       inspect(l);
@@ -236,17 +228,11 @@ class AddMealController extends BaseController
     indexName: kReleaseMode ? 'prod_food_directory' : 'dev_food_directory',
   );
   final _filterState = FilterState();
-  late final facetList = FacetList(
-      searcher: hitsSearcher,
-      filterState: _filterState,
-      attribute: 'brand_name');
+  late final facetList = FacetList(searcher: hitsSearcher, filterState: _filterState, attribute: 'brand_name');
 
-  Stream<SearchMetadata> get searchMetadata => hitsSearcher.responses
-      .map((response) => SearchMetadata.fromResponse(response));
-  Stream<HitsPage> get searchPage =>
-      hitsSearcher.responses.map(HitsPage.fromResponse);
-  final PagingController<int, Foods> pagingController =
-      PagingController(firstPageKey: 0);
+  Stream<SearchMetadata> get searchMetadata => hitsSearcher.responses.map((response) => SearchMetadata.fromResponse(response));
+  Stream<HitsPage> get searchPage => hitsSearcher.responses.map(HitsPage.fromResponse);
+  final PagingController<int, Foods> pagingController = PagingController(firstPageKey: 0);
 
   void filterByFacets() async {
     pagingController.refresh();
@@ -277,16 +263,14 @@ class AddMealController extends BaseController
     // Check if either the start or end value of the range is greater than 0
     if (caloriesRange.value.start > 0 || caloriesRange.value.end > 0) {
       // Add the range to the list of filters
-      filters.add(
-          'calories:${caloriesRange.value.start} TO ${caloriesRange.value.end}');
+      filters.add('calories:${caloriesRange.value.start} TO ${caloriesRange.value.end}');
     }
 
     // Protein
     // Check if either the start or end value of the range is greater than 0
     if (proteinRange.value.start > 0 || proteinRange.value.end > 0) {
       // Add the range to the list of filters
-      filters.add(
-          'protein:${proteinRange.value.start} TO ${proteinRange.value.end}');
+      filters.add('protein:${proteinRange.value.start} TO ${proteinRange.value.end}');
     }
 
     // Carbs
@@ -320,8 +304,7 @@ class SearchMetadata {
 
   const SearchMetadata(this.nbHits);
 
-  factory SearchMetadata.fromResponse(SearchResponse response) =>
-      SearchMetadata(response.nbHits);
+  factory SearchMetadata.fromResponse(SearchResponse response) => SearchMetadata(response.nbHits);
 }
 
 class HitsPage {
@@ -337,4 +320,8 @@ class HitsPage {
     final nextPageKey = isLastPage ? null : response.page + 1;
     return HitsPage(items, response.page, nextPageKey);
   }
+}
+
+String sanitizeJson(String json) {
+  return json.replaceAll('\"', '\\"');
 }

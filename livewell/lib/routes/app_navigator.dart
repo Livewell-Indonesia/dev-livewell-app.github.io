@@ -91,27 +91,45 @@ class AppNavigator {
   ];
 
   static void push({required String routeName, dynamic arguments}) {
+    if (Get.isSnackbarOpen) {
+      Get.back();
+    }
     Get.toNamed(routeName, arguments: arguments);
   }
 
   static void pushAndRemove({required String routeName, dynamic arguments}) {
+    if (Get.isSnackbarOpen) {
+      Get.back();
+    }
     Get.offAllNamed(routeName, arguments: arguments);
   }
 
   /// Get.offNamed() is used to remove the previous routes and push the new route.
   static void pushReplacement({required String routeName, dynamic arguments}) {
+    if (Get.isSnackbarOpen) {
+      Get.back();
+    }
     Get.offNamed(routeName, arguments: arguments);
   }
 
   static void pop() {
+    if (Get.isSnackbarOpen) {
+      Get.back();
+    }
     Get.back();
   }
 
   static void popUntil({required String routeName}) {
+    if (Get.isSnackbarOpen) {
+      Get.back();
+    }
     Get.until((route) => route.settings.name == routeName);
   }
 
   static void popUntilRoot() {
+    if (Get.isSnackbarOpen) {
+      Get.back();
+    }
     Get.until((route) => route.isFirst);
   }
 }

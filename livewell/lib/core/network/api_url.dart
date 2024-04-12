@@ -72,6 +72,7 @@ class Endpoint {
   static const String getDetailMood = "mood/detail";
 
   static const String nutriCoSearchByImage = "foods/search-by-image";
+  static const String getNutriCoLoadingAsset = "config/nutrico-loading-assets";
 
   /// feature limit
   static const String featureLimit = "user/feature-limit";

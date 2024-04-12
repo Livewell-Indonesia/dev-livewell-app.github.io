@@ -14,7 +14,7 @@ import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 class MyGoalsScreen extends StatelessWidget {
   final PhysicalInformationController controller = Get.find();
   final ExerciseInformationController exerciseController =
-      Get.put(ExerciseInformationController());
+      Get.find();
   MyGoalsScreen({super.key});
 
   @override

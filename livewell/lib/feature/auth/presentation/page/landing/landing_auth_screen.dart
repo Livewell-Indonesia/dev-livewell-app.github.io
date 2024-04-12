@@ -52,21 +52,10 @@ class LandingAuthScreen extends StatelessWidget {
                             //   width: 165.w,
                             //   height: 80.h,
                             // ),
-                            Text(controller.localization.welcomeToLivewell!,
-                                style: TextStyle(
-                                    fontSize: 24.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color(0xFF171433))),
+                            Text(controller.localization.welcomeToLivewell ?? "", style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433))),
                             8.verticalSpace,
-                            Text(
-                                controller.localization
-                                    .betterHealthThroughBetterLiving!,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color(0xFF171433)
-                                        .withOpacity(0.7))),
+                            Text(controller.localization.betterHealthThroughBetterLiving ?? "",
+                                textAlign: TextAlign.center, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433).withOpacity(0.7))),
                           ],
                         )),
                   ),
@@ -78,7 +67,7 @@ class LandingAuthScreen extends StatelessWidget {
               child: Column(
                 children: [
                   LiveWellButton(
-                      label: controller.localization.getStartedExclamation!,
+                      label: controller.localization.getStartedExclamation ?? "",
                       color: const Color(0xFFDDF235),
                       onPressed: () {
                         AppNavigator.push(routeName: AppPages.signup);
@@ -86,17 +75,13 @@ class LandingAuthScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(controller.localization.alreadyHaveAccount!,
-                          style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500,
-                              color: const Color(0xFF171433))),
+                      Text(controller.localization.alreadyHaveAccount ?? "", style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: const Color(0xFF171433))),
                       TextButton(
                           onPressed: () {
                             AppNavigator.push(routeName: AppPages.login);
                           },
                           child: Text(
-                            controller.localization.signIn!,
+                            controller.localization.signIn ?? "",
                             style: TextStyle(
                               color: const Color(0xFF8F01DF),
                               fontSize: 16.sp,
@@ -107,12 +92,8 @@ class LandingAuthScreen extends StatelessWidget {
                   ),
                   const Spacer(),
                   Obx(() {
-                    return Text(
-                        "${controller.appVersion.value} (${controller.buildNumber.value})",
-                        style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                            color: const Color(0xFF171433).withOpacity(0.7)));
+                    return Text("${controller.appVersion.value} (${controller.buildNumber.value})",
+                        style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: const Color(0xFF171433).withOpacity(0.7)));
                   }),
                   16.verticalSpace,
                 ],

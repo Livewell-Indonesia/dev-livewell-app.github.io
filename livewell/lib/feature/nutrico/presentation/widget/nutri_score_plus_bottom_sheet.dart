@@ -16,9 +16,9 @@ class NutriScorePlusBottomSheet extends StatelessWidget {
   final Function(File) onImageSelected;
   const NutriScorePlusBottomSheet(
       {super.key,
-      required this.isAlreadyLimit,
       required this.onSelected,
-      required this.onImageSelected});
+      required this.onImageSelected,
+      required this.isAlreadyLimit});
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +50,9 @@ class NutriScorePlusBottomSheet extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF505050)),
               ),
-              leading: SvgPicture.asset(
-                Constant.icScanMeal,
-                width: 24.w,
-                height: 24.h,
-                fit: BoxFit.scaleDown,
+              leading: const Icon(
+                Icons.edit_outlined,
+                color: Color(0xFF505050),
               ),
             ),
             ListTile(
@@ -74,16 +72,14 @@ class NutriScorePlusBottomSheet extends StatelessWidget {
                             ? const Color(0xFF808080)
                             : const Color(0xFF505050)),
                   ),
-                  8.horizontalSpace,
-                  if (isAlreadyLimit)
-                    Icon(
-                      Icons.lock,
-                      color: const Color(0xFF808080),
-                      size: 16.sp,
-                    )
                 ],
               ),
-              leading: const Icon(Icons.photo_library_outlined),
+              leading: Icon(
+                Icons.photo_library_outlined,
+                color: isAlreadyLimit
+                    ? const Color(0xFF808080)
+                    : const Color(0xFF505050),
+              ),
             ),
             ListTile(
               onTap: isAlreadyLimit
@@ -102,16 +98,14 @@ class NutriScorePlusBottomSheet extends StatelessWidget {
                             ? const Color(0xFF808080)
                             : const Color(0xFF505050)),
                   ),
-                  8.horizontalSpace,
-                  if (isAlreadyLimit)
-                    Icon(
-                      Icons.lock,
-                      color: const Color(0xFF808080),
-                      size: 16.sp,
-                    )
                 ],
               ),
-              leading: const Icon(Icons.add_a_photo_outlined),
+              leading: Icon(
+                Icons.add_a_photo_outlined,
+                color: isAlreadyLimit
+                    ? const Color(0xFF808080)
+                    : const Color(0xFF505050),
+              ),
             ),
           ],
         ),

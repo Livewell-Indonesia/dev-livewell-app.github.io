@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/feature/profile/presentation/controller/exercise_information_controller.dart';
 import 'package:livewell/feature/profile/presentation/controller/physical_information_controller.dart';
 import 'package:livewell/feature/profile/presentation/controller/user_settings_controller.dart';
 import 'package:livewell/feature/profile/presentation/page/my_goals_screen.dart';
@@ -15,8 +16,8 @@ import 'package:livewell/widgets/buttons/livewell_button.dart';
 
 class UserSettingsScreen extends StatelessWidget {
   final UserSettingsController controller = Get.put(UserSettingsController());
-  final PhysicalInformationController physicalController =
-      Get.put(PhysicalInformationController());
+  final PhysicalInformationController physicalController = Get.put(PhysicalInformationController());
+  final ExerciseInformationController exerciseInformationController = Get.put(ExerciseInformationController());
   UserSettingsScreen({Key? key}) : super(key: key);
 
   @override
@@ -64,8 +65,7 @@ class UserSettingsScreen extends StatelessWidget {
                         showModalBottomSheet(
                             context: context,
                             builder: (context) {
-                              return ImagePickerBottomSheet(
-                                  onImageSelected: (img) {
+                              return ImagePickerBottomSheet(onImageSelected: (img) {
                                 Get.back();
                                 physicalController.pickImages(img);
                               });
@@ -74,9 +74,7 @@ class UserSettingsScreen extends StatelessWidget {
                       child: Container(
                         width: 210.w,
                         height: 210.h,
-                        decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.3),
-                            shape: BoxShape.circle),
+                        decoration: BoxDecoration(color: Colors.white.withOpacity(0.3), shape: BoxShape.circle),
                         alignment: Alignment.center,
                         child: Stack(
                           alignment: Alignment.bottomRight,
@@ -90,31 +88,19 @@ class UserSettingsScreen extends StatelessWidget {
                                 color: Colors.white,
                               ),
                               child: Obx(() {
-                                if (controller.user.value.avatarUrl != null &&
-                                    controller
-                                        .user.value.avatarUrl!.isNotEmpty) {
+                                if (controller.user.value.avatarUrl != null && controller.user.value.avatarUrl!.isNotEmpty) {
                                   return Image.network(
                                     controller.user.value.avatarUrl!,
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) {
                                       return SvgPicture.asset(
-                                        (controller.user.value.gender ??
-                                                        Gender.male.name)
-                                                    .toLowerCase() ==
-                                                "male"
-                                            ? Constant.imgMaleSVG
-                                            : Constant.imgFemaleSVG,
+                                        (controller.user.value.gender ?? Gender.male.name).toLowerCase() == "male" ? Constant.imgMaleSVG : Constant.imgFemaleSVG,
                                       );
                                     },
                                   );
                                 } else {
                                   return SvgPicture.asset(
-                                    (controller.user.value.gender ??
-                                                    Gender.male.name)
-                                                .toLowerCase() ==
-                                            "male"
-                                        ? Constant.imgMaleSVG
-                                        : Constant.imgFemaleSVG,
+                                    (controller.user.value.gender ?? Gender.male.name).toLowerCase() == "male" ? Constant.imgMaleSVG : Constant.imgFemaleSVG,
                                   );
                                 }
                               }),
@@ -140,10 +126,7 @@ class UserSettingsScreen extends StatelessWidget {
                     Obx(() {
                       return Text(
                         "${controller.user.value.firstName ?? ""} ${controller.user.value.lastName ?? ""}",
-                        style: TextStyle(
-                            fontSize: 24.sp,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xFF171433)),
+                        style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433)),
                       );
                     })
                     // Text(
@@ -211,14 +194,11 @@ class UserSettingsScreen extends StatelessWidget {
                                     ListTile(
                                       leading: Text(
                                         AvailableLanguage.en.title,
-                                        style: TextStyle(
-                                            color: const Color(0xFF171433),
-                                            fontSize: 14.sp),
+                                        style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp),
                                       ),
                                       trailing: Radio(
                                           value: AvailableLanguage.en.locale,
-                                          groupValue:
-                                              controller.language.value.locale,
+                                          groupValue: controller.language.value.locale,
                                           onChanged: (val) {
                                             controller.setValue(val as String);
                                           }),
@@ -226,21 +206,17 @@ class UserSettingsScreen extends StatelessWidget {
                                     ListTile(
                                       leading: Text(
                                         AvailableLanguage.id.title,
-                                        style: TextStyle(
-                                            color: const Color(0xFF171433),
-                                            fontSize: 14.sp),
+                                        style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp),
                                       ),
                                       trailing: Radio(
                                           value: AvailableLanguage.id.locale,
-                                          groupValue:
-                                              controller.language.value.locale,
+                                          groupValue: controller.language.value.locale,
                                           onChanged: (val) {
                                             controller.setValue(val as String);
                                           }),
                                     ),
                                     LiveWellButton(
-                                        label: controller
-                                            .localization.saveChanges!,
+                                        label: controller.localization.saveChanges!,
                                         color: const Color(0xFF8F01DF),
                                         textColor: Colors.white,
                                         onPressed: () {
@@ -298,9 +274,7 @@ class ProfileSettingsItem extends StatelessWidget {
               width: 43.h,
               height: 43.h,
               alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: const Color(0xFFF1F1F1),
-                  borderRadius: BorderRadius.circular(15).r),
+              decoration: BoxDecoration(color: const Color(0xFFF1F1F1), borderRadius: BorderRadius.circular(15).r),
               child: SizedBox(
                 width: 20.w,
                 height: 20.h,
@@ -310,10 +284,7 @@ class ProfileSettingsItem extends StatelessWidget {
             18.horizontalSpace,
             Text(
               title,
-              style: TextStyle(
-                  color: const Color(0xFF171433).withOpacity(0.8),
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600),
+              style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
             ),
             const Spacer(),
             const Icon(Icons.arrow_forward_ios_rounded)

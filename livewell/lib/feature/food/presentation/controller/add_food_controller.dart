@@ -104,6 +104,8 @@ class AddFoodController extends BaseController {
     var totalCarbs = 0.0;
     if (numberOfServing.text.isNotEmpty) {
       totalCarbs = carbs * double.parse(numberOfServing.text.trim().replaceAll(',', '.'));
+    } else {
+      totalCarbs = carbs * 0;
     }
     return totalCarbs.obs;
   }
@@ -112,6 +114,8 @@ class AddFoodController extends BaseController {
     var totalFat = 0.0;
     if (numberOfServing.text.isNotEmpty) {
       totalFat = fat * double.parse(numberOfServing.text.trim().replaceAll(',', '.'));
+    } else {
+      totalFat = fat * 0;
     }
     return totalFat.obs;
   }
@@ -121,6 +125,8 @@ class AddFoodController extends BaseController {
     var servings = numberOfServing.text.trim().replaceAll(',', '.');
     if (servings.isNotEmpty) {
       totalProtein = protein * double.parse(servings);
+    } else {
+      totalProtein = protein * 0;
     }
     return totalProtein.obs;
   }
