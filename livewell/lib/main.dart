@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/notification/firebase_notification.dart';
+import 'package:livewell/core/remote_config/remote_config_service.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/splash/presentation/splash_screen.dart';
 import 'package:livewell/firebase_options.dart';
@@ -113,6 +114,7 @@ void main() async {
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   await LivewellNotification().init();
   FirebaseMessaging.onBackgroundMessage(handleBackgroundMesage);
+  await FirebaseRemoteConfigService().init();
 
   PlatformDispatcher.instance.onError = (error, stack) {
     FirebaseCrashlytics.instance.recordError(error, stack);
