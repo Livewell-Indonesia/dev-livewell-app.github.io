@@ -8,8 +8,7 @@ import 'package:livewell/feature/home/controller/home_controller.dart';
 class MoodPickerWidget extends StatelessWidget {
   final MoodType? selectedMoodType;
   final Function(MoodType) onTap;
-  const MoodPickerWidget(
-      {super.key, required this.onTap, this.selectedMoodType});
+  const MoodPickerWidget({super.key, required this.onTap, this.selectedMoodType});
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +24,7 @@ class MoodPickerWidget extends StatelessWidget {
         children: [
           Text(
             Get.find<HomeController>().localization.howAreYou ?? 'How are you?',
-            style: TextStyle(
-                color: const Color(0xFF171433).withOpacity(0.8),
-                fontWeight: FontWeight.w600,
-                fontSize: 16.sp),
+            style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontWeight: FontWeight.w600, fontSize: 16.sp),
           ),
           14.verticalSpace,
           Row(
@@ -53,8 +49,7 @@ class MoodPickerWidget extends StatelessWidget {
 class MoodPickerItem extends StatelessWidget {
   final MoodType moodType;
   final MoodType? selectedMoodType;
-  const MoodPickerItem(
-      {super.key, required this.moodType, this.selectedMoodType});
+  const MoodPickerItem({super.key, required this.moodType, this.selectedMoodType});
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +65,7 @@ class MoodPickerItem extends StatelessWidget {
         4.verticalSpace,
         Text(
           moodType.title(),
-          style: TextStyle(
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400,
-              color: const Color(0xFF171433)),
+          style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: const Color(0xFF171433)),
         ),
       ],
     );
@@ -122,6 +114,23 @@ extension MoodTypeExt on MoodType {
         return const Color(0xFF8F01DF);
       case MoodType.awful:
         return const Color(0xFFDF0101);
+    }
+  }
+
+  static MoodType? getMoodTypeByValue(int value) {
+    switch (value) {
+      case 1:
+        return MoodType.awful;
+      case 2:
+        return MoodType.bad;
+      case 3:
+        return MoodType.meh;
+      case 4:
+        return MoodType.good;
+      case 5:
+        return MoodType.great;
+      default:
+        return null;
     }
   }
 

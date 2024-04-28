@@ -40,48 +40,22 @@ class PhysicalInformationController extends BaseController {
     gender.text = genderValue.value;
     height.text = ("${dashboardController.user.value.height ?? ""}");
     weight.text = ("${dashboardController.user.value.weight ?? ""}");
-    targetWeight.text =
-        ("${dashboardController.user.value.weightTarget ?? ""}");
+    targetWeight.text = ("${dashboardController.user.value.weightTarget ?? ""}");
     // convert birth date to age
-    age.text = (DateTime.now()
-                .difference(DateTime.parse(
-                    dashboardController.user.value.birthDate ??
-                        DateTime.now().toString()))
-                .inDays /
-            365)
-        .floor()
-        .toString();
-    drink.text = dashboardController
-            .user.value.onboardingQuestionnaire?.glassesOfWaterDaily ??
-        "";
-    sleep.text =
-        dashboardController.user.value.onboardingQuestionnaire?.sleepDuration ??
-            "";
-    var specificGoalTemp = dashboardController
-            .user.value.onboardingQuestionnaire?.targetImprovement ??
-        [];
-    specificGoal.text = specificGoalTemp.isEmpty
-        ? "No"
-        : (GoalSelection.values.firstWhereOrNull(
-                    (element) => element.value() == specificGoalTemp.first) ??
-                GoalSelection.none)
-            .title();
-    selectedGoals.value = specificGoalTemp.isEmpty
-        ? GoalSelection.getFitter
-        : GoalSelection.values.firstWhereOrNull(
-                (element) => element.value() == specificGoalTemp.first) ??
-            GoalSelection.none;
+    age.text = (DateTime.now().difference(DateTime.parse(dashboardController.user.value.birthDate ?? DateTime.now().toString())).inDays / 365).floor().toString();
+    drink.text = dashboardController.user.value.onboardingQuestionnaire?.glassesOfWaterDaily ?? "";
+    sleep.text = dashboardController.user.value.onboardingQuestionnaire?.sleepDuration ?? "";
+    var specificGoalTemp = dashboardController.user.value.onboardingQuestionnaire?.targetImprovement ?? [];
+    specificGoal.text = specificGoalTemp.isEmpty ? "No" : (GoalSelection.values.firstWhereOrNull((element) => element.value() == specificGoalTemp.first) ?? GoalSelection.none).title();
+    selectedGoals.value = specificGoalTemp.isEmpty ? GoalSelection.getFitter : GoalSelection.values.firstWhereOrNull((element) => element.value() == specificGoalTemp.first) ?? GoalSelection.none;
     ("${dashboardController.user.value.weightTarget ?? ""}");
-    var dietaryRestrictionTemp = dashboardController
-            .user.value.onboardingQuestionnaire?.dietaryRestrictions ??
-        ["No"];
+    var dietaryRestrictionTemp = dashboardController.user.value.onboardingQuestionnaire?.dietaryRestrictions ?? ["No"];
     dietaryResitriction.text = dietaryRestrictionTemp.isEmpty
         ? "No"
         : dietaryRestrictionTemp.first.isEmpty
             ? "No"
             : dietaryRestrictionTemp.first;
-    birthDate.value = DateTime.parse(
-        dashboardController.user.value.birthDate ?? DateTime.now().toString());
+    birthDate.value = DateTime.parse(dashboardController.user.value.birthDate ?? DateTime.now().toString());
     super.onInit();
   }
 
@@ -130,11 +104,7 @@ class PhysicalInformationController extends BaseController {
   }
 
   void setAgeTextField() {
-    age.text =
-        (DateTime.now().difference(birthDate.value ?? DateTime.now()).inDays /
-                365)
-            .floor()
-            .toString();
+    age.text = (DateTime.now().difference(birthDate.value ?? DateTime.now()).inDays / 365).floor().toString();
   }
 
   void onUpdateTapped(ExerciseInformationController controller) async {
@@ -146,9 +116,9 @@ class PhysicalInformationController extends BaseController {
         dashboardController.user.value.lastName,
         gender.text,
         DateFormat('yyyy-MM-dd').format(birthDate.value!),
-        int.parse(weight.text),
-        int.parse(height.text),
-        int.parse(targetWeight.text),
+        num.parse(weight.text.replaceAll(',', '.')),
+        num.parse(height.text.replaceAll(',', '.')),
+        num.parse(targetWeight.text.replaceAll(',', '.')),
         0,
         drink.text,
         sleep.text,
@@ -171,8 +141,7 @@ class PhysicalInformationController extends BaseController {
   Future<void> saveExercise(ExerciseInformationController controller) async {
     if (Get.isRegistered<DashboardController>()) {
       var newUserData = Get.find<DashboardController>().user.value;
-      newUserData.exerciseGoalKcal =
-          int.parse(controller.exerciseController.text);
+      newUserData.exerciseGoalKcal = int.parse(controller.exerciseController.text);
       UpdateUserInfo updateUserInfo = UpdateUserInfo.instance();
       EasyLoading.show();
       final result = await updateUserInfo.call(
@@ -182,8 +151,7 @@ class PhysicalInformationController extends BaseController {
             height: newUserData.height ?? 0,
             weight: newUserData.weight ?? 0,
             gender: newUserData.gender ?? "",
-            dob: DateFormat('yyyy-MM-dd')
-                .format(DateTime.parse(newUserData.birthDate ?? "")),
+            dob: DateFormat('yyyy-MM-dd').format(DateTime.parse(newUserData.birthDate ?? "")),
             weightTarget: newUserData.weightTarget ?? 0,
             exerciseGoalKcal: newUserData.exerciseGoalKcal ?? 0,
             language: newUserData.language ?? "en_US"),

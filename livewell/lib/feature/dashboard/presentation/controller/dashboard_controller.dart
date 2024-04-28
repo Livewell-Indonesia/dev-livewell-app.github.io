@@ -31,6 +31,8 @@ import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_model.dart
 import 'package:livewell/feature/nutriscore/domain/usecase/get_nutri_score.dart';
 import 'package:livewell/feature/sleep/domain/usecase/get_sleep_list.dart';
 import 'package:livewell/feature/sleep/presentation/controller/sleep_controller.dart';
+import 'package:livewell/feature/streak/domain/usecase/get_wellness_data_batch.dart';
+import 'package:livewell/feature/streak/presentation/widget/streak_calendar.dart';
 import 'package:livewell/feature/water/data/model/water_list_model.dart';
 import 'package:livewell/feature/water/domain/usecase/get_water_data.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -63,6 +65,9 @@ class DashboardController extends BaseController {
   Rx<NutriScoreModel> nutriScore = NutriScoreModel().obs;
   Rx<num> totalExercise = 0.obs;
   Rxn<FeatureLimitEntity> featureLimit = Rxn<FeatureLimitEntity>();
+  Rx<int> numberOfStreaks = 0.obs;
+  RxList<StreakCalendarItemModel> streakDates = <StreakCalendarItemModel>[].obs;
+  Rx<int> todayProgress = 0.obs;
 
   var types = [HealthDataType.STEPS, HealthDataType.ACTIVE_ENERGY_BURNED, HealthDataType.SLEEP_IN_BED];
 
@@ -71,6 +76,71 @@ class DashboardController extends BaseController {
     HealthDataAccess.READ,
     HealthDataAccess.READ,
   ];
+
+  void getStreakData() {
+    numberOfStreaks.value = 0;
+    todayProgress.value = 0;
+    streakDates.clear();
+    final dates = generateWeekStartingFromMonday();
+    final params = GetWellnessDataBatchParams(dateFrom: dates.first, dateTo: dates.last);
+    final usecase = GetWellnessDataBatch.instance();
+    final currentDate = DateTime.now();
+    usecase(params).then((value) {
+      value.fold((l) {
+        print(l.message);
+      }, (r) {
+        if (r.response?.displayData == null) return;
+        for (int i = 0; i < streakDates.length; i++) {
+          for (var item in r.response!.displayData!) {
+            if (item.recordAt?.year == streakDates[i].date.year && item.recordAt?.month == streakDates[i].date.month && item.recordAt?.day == streakDates[i].date.day) {
+              streakDates[i] = streakDates[i].copyWith(isCompleted: item.isStreak ?? false);
+            }
+          }
+        }
+        final sortedData = r.response!.displayData!.toList()..sort((a, b) => a.recordAt!.compareTo(b.recordAt!));
+        for (var data in sortedData) {
+          final isStreak = data.isStreak ?? false;
+          if (isStreak) {
+            numberOfStreaks.value++;
+          } else {
+            numberOfStreaks.value = 0;
+          }
+        }
+        for (var item in r.response!.displayData!) {
+          if (item.recordAt?.year == currentDate.year && item.recordAt?.month == currentDate.month && item.recordAt?.day == currentDate.day) {
+            if (item.activityScore != 0) {
+              todayProgress.value++;
+            }
+            if (item.hydrationScore != 0) {
+              todayProgress.value++;
+            }
+            if (item.nutritionScore != 0) {
+              todayProgress.value++;
+            }
+            if (item.sleepScore != 0) {
+              todayProgress.value++;
+            }
+            if (item.moodScore != 0) {
+              todayProgress.value++;
+            }
+          }
+        }
+      });
+    });
+  }
+
+  List<DateTime> generateWeekStartingFromMonday() {
+    List<DateTime> dates = [];
+    DateTime now = DateTime.now();
+    int daysSinceLastMonday = (now.weekday - DateTime.monday + 7) % 7;
+    DateTime lastMonday = now.subtract(Duration(days: daysSinceLastMonday));
+
+    for (int i = 0; i < 7; i++) {
+      dates.add(lastMonday.add(Duration(days: i)));
+    }
+
+    return dates;
+  }
 
   bool checkIfNutricoAlreadyLimit() {
     if (featureLimit.value != null) {
@@ -259,6 +329,7 @@ class DashboardController extends BaseController {
     getWaterData();
     getSingleMoodData();
     getFeatureLimitData();
+    getStreakData();
     super.onInit();
   }
 
@@ -279,6 +350,7 @@ class DashboardController extends BaseController {
     getWaterData();
     getSingleMoodData();
     getFeatureLimitData();
+    getStreakData();
     if (Get.isRegistered<SleepController>()) {
       Get.find<SleepController>().refreshList();
     }

@@ -1,30 +1,16 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class AppColors {
-  static const primary100 = Color(0xFF004953);
-  static const primary75 = Color(0xFF40767E);
-  static const primary50 = Color(0xFF80A4A9);
-  static const primary25 = Color(0xFFBFD1D4);
-  static const primary15 = Color(0xFFD9E4E5);
-  static const primary5 = Color(0xFFF2F6F6);
-
-  static const secondary100 = Color(0xFFFF8B4A);
-  static const secondary75 = Color(0xFFFFA877);
-  static const secondary50 = Color(0xFFFFC5A4);
-  static const secondary25 = Color(0xFFFFE2D2);
-  static const secondary15 = Color(0xFFFFEEE4);
-  static const secondary5 = Color(0xFFFFF9F6);
-
-  static const tertiary100 = Color(0xFFFFE347);
-  static const tertiary75 = Color(0xFFFFEA75);
-  static const tertiary50 = Color(0xFFFFF1A3);
-  static const tertiary25 = Color(0xFFFFF8D1);
-  static const tertiary15 = Color(0xFFFFFBE3);
-  static const tertiary5 = Color(0xFFFFFEF6);
-
+  static const primaryPurple = Color(0xFF8F01DF);
+  static const primaryGreen = Color(0xFFDDF235);
+  static const primaryTurquoise = Color(0xFF34EAB2);
+  static const secondaryDarkBlue = Color(0xFF171433);
   static const textHiEm = Color(0xFF000000);
   static const textLoEm = Color(0xFF505050);
   static const disabled = Color(0xFF808080);
+  static const textBg = Color(0xFFFFFFFF);
+  static const borderColor = Color(0xFFF1F1F1);
 }
 
 class Insets {
@@ -67,10 +53,12 @@ class TextStyles {
   }
 
   static TextStyle bodyStrong({required Color color}) {
+    /*
+  * Add the following text styles
+  */
     return TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w700,
-      fontFamily: 'DM Sans',
       color: color,
     );
   }
@@ -101,4 +89,24 @@ class TextStyles {
       color: color,
     );
   }
+
+  static TextStyle navbarTitle(BuildContext context) {
+    return TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+      color: Theme.of(context).colorScheme.textLoEm,
+    );
+  }
+}
+
+extension LivewellColorScheme on ColorScheme {
+  Color get primaryPurple => brightness == Brightness.light ? AppColors.primaryPurple : AppColors.primaryPurple;
+  Color get primaryGreen => brightness == Brightness.light ? AppColors.primaryGreen : AppColors.primaryGreen;
+  Color get primaryTurquoise => brightness == Brightness.light ? AppColors.primaryTurquoise : AppColors.primaryTurquoise;
+  Color get secondaryDarkBlue => brightness == Brightness.light ? AppColors.secondaryDarkBlue : AppColors.secondaryDarkBlue;
+  Color get textLoEm => brightness == Brightness.light ? AppColors.textLoEm : AppColors.textLoEm;
+  Color get textHiEm => brightness == Brightness.light ? AppColors.textHiEm : AppColors.textHiEm;
+  Color get textBg => brightness == Brightness.light ? AppColors.textBg : AppColors.textBg;
+  Color get disabled => brightness == Brightness.light ? AppColors.disabled : AppColors.disabled;
+  Color get borderColor => brightness == Brightness.light ? AppColors.borderColor : AppColors.borderColor;
 }
