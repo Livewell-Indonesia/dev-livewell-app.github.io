@@ -156,4 +156,14 @@ class SharedPref {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.remove(PrefConstant.fcmToken);
   }
+
+  static Future<bool> isFirstTimeOpenNutrico() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(PrefConstant.isFirstTimeOpenNutricoPlus) ?? true;
+  }
+
+  static Future<bool> saveFirstTimeOpenNutrico(bool isFirstTime) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setBool(PrefConstant.isFirstTimeOpenNutricoPlus, isFirstTime);
+  }
 }
