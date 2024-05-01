@@ -44,9 +44,8 @@ class _NutriScorePlusBottomSheetState extends State<NutriScorePlusBottomSheet> {
   void loadTutorial() async {
     EasyLoading.show();
     final response = await GetNutricoPlusTutorialAsset.instance().call(NoParams());
-
+    EasyLoading.dismiss();
     response.fold((l) {}, (r) {
-      EasyLoading.dismiss();
       showModalBottomSheet(
         //showDragHandle: true,
         context: context,
