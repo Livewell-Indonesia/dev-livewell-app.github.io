@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -90,10 +91,10 @@ class AccountSettingsScreen extends StatelessWidget {
                                   ),
                                   child: Obx(() {
                                     if (userController.user.value.avatarUrl != null && userController.user.value.avatarUrl!.isNotEmpty) {
-                                      return Image.network(
-                                        userController.user.value.avatarUrl!,
+                                      return CachedNetworkImage(
+                                        imageUrl: userController.user.value.avatarUrl!,
                                         fit: BoxFit.cover,
-                                        errorBuilder: (context, error, stackTrace) {
+                                        errorWidget: (context, error, stackTrace) {
                                           return SvgPicture.asset(
                                             (userController.user.value.gender ?? Gender.male.name).toLowerCase() == "male" ? Constant.imgMaleSVG : Constant.imgFemaleSVG,
                                           );

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -85,10 +86,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 ),
                                 child: Obx(() {
                                   if (controller.user.value.avatarUrl != null && controller.user.value.avatarUrl!.isNotEmpty) {
-                                    return Image.network(
-                                      controller.user.value.avatarUrl!,
+                                    return CachedNetworkImage(
+                                      imageUrl: controller.user.value.avatarUrl!,
                                       fit: BoxFit.cover,
-                                      errorBuilder: (context, error, stackTrace) {
+                                      errorWidget: (context, url, error) {
                                         return SvgPicture.asset(
                                           (controller.user.value.gender ?? Gender.male.name).toLowerCase() == "male" ? Constant.imgMaleSVG : Constant.imgFemaleSVG,
                                         );
