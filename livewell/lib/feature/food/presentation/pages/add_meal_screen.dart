@@ -1122,6 +1122,7 @@ extension ScanTypeAtt on ScanType {
             builder: (context) {
               return NutriScorePlusBottomSheet(
                 isAlreadyLimit: Get.find<DashboardController>().checkIfNutricoAlreadyLimit(),
+                maxRequest: Get.find<DashboardController>().featureLimit.value?.getNutricoCurrentUsage() ?? 30,
                 onSelected: (p0) {
                   Get.back();
                   switch (p0) {

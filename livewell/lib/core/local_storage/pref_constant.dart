@@ -12,4 +12,5 @@ class PrefConstant {
   static const String localizationJSON = "localization_json";
   static const String showInfoNutrico = "show_info_nutrico";
   static const String fcmToken = "show_info_nutrico2";
+  static const String isFirstTimeOpenNutricoPlus = "is_first_time_open_nutrico_plus";
 }

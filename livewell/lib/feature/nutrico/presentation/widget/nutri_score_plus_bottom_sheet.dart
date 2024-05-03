@@ -1,24 +1,67 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'dart:typed_data';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:livewell/core/local_storage/shared_pref.dart';
+import 'package:livewell/feature/nutrico/domain/usecase/get_nutrico_plus_tutorial_asset.dart';
+import 'package:livewell/feature/nutrico/presentation/widget/nutrico_plus_tutorial_screen.dart';
 
 enum SelectedNutriscorePlusMethod { camera, gallery, desc }
 
-class NutriScorePlusBottomSheet extends StatelessWidget {
+class NutriScorePlusBottomSheet extends StatefulWidget {
   final bool isAlreadyLimit;
+  final int maxRequest;
   final Function(SelectedNutriscorePlusMethod) onSelected;
   final Function(File) onImageSelected;
-  const NutriScorePlusBottomSheet(
-      {super.key,
-      required this.onSelected,
-      required this.onImageSelected,
-      required this.isAlreadyLimit});
+  const NutriScorePlusBottomSheet({super.key, required this.onSelected, required this.onImageSelected, required this.isAlreadyLimit, required this.maxRequest});
+
+  @override
+  State<NutriScorePlusBottomSheet> createState() => _NutriScorePlusBottomSheetState();
+}
+
+class _NutriScorePlusBottomSheetState extends State<NutriScorePlusBottomSheet> {
+  @override
+  void initState() {
+    determineShowTutorialFirstTime();
+    super.initState();
+  }
+
+  void determineShowTutorialFirstTime() async {
+    final bool showTutorial = await SharedPref.isFirstTimeOpenNutrico();
+    if (showTutorial) {
+      await SharedPref.saveFirstTimeOpenNutrico(false);
+      loadTutorial();
+    }
+  }
+
+  void loadTutorial() async {
+    EasyLoading.show();
+    final response = await GetNutricoPlusTutorialAsset.instance().call(NoParams());
+    EasyLoading.dismiss();
+    response.fold((l) {}, (r) {
+      showModalBottomSheet(
+        //showDragHandle: true,
+        context: context,
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        builder: (context) {
+          return NutricoPlusTutorialScreen(model: r);
+        },
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,79 +75,109 @@ class NutriScorePlusBottomSheet extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            24.verticalSpace,
+            Text('Manual Describe Your Food', style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433))),
             ListTile(
+              contentPadding: EdgeInsets.zero,
               onTap: () {
-                onSelected(SelectedNutriscorePlusMethod.desc);
+                widget.onSelected(SelectedNutriscorePlusMethod.desc);
               },
               title: Text(
                 'Describe Food',
-                style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF505050)),
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: const Color(0xFF505050)),
               ),
               leading: const Icon(
                 Icons.edit_outlined,
                 color: Color(0xFF505050),
               ),
             ),
+            16.verticalSpace,
+            Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('Generate From Image', style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433))),
+                    8.verticalSpace,
+                    Text('Maximum generate of ${widget.maxRequest} images per month', style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w400, color: const Color(0xFF808080))),
+                  ],
+                ),
+                const Spacer(),
+                InkWell(
+                    onTap: () {
+                      loadTutorial();
+                    },
+                    child: Icon(Icons.info_outline, color: const Color(0xFF171433), size: 24.sp)),
+              ],
+            ),
+            16.verticalSpace,
             ListTile(
-              onTap: isAlreadyLimit
+              contentPadding: EdgeInsets.zero,
+              onTap: widget.isAlreadyLimit
                   ? null
                   : () {
                       _pickImage(ImageSource.gallery, context);
                     },
               title: Row(
                 children: [
-                  Text(
-                    'Pick From Gallery',
-                    style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                        color: isAlreadyLimit
-                            ? const Color(0xFF808080)
-                            : const Color(0xFF505050)),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Pick From Gallery',
+                        style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: widget.isAlreadyLimit ? const Color(0xFF808080) : const Color(0xFF505050)),
+                      ),
+                      widget.isAlreadyLimit
+                          ? Text(
+                              'Max request reached',
+                              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: const Color(0xFF808080)),
+                            )
+                          : const SizedBox(),
+                    ],
                   ),
                 ],
               ),
               leading: Icon(
                 Icons.photo_library_outlined,
-                color: isAlreadyLimit
-                    ? const Color(0xFF808080)
-                    : const Color(0xFF505050),
+                color: widget.isAlreadyLimit ? const Color(0xFF808080) : const Color(0xFF505050),
               ),
             ),
             ListTile(
-              onTap: isAlreadyLimit
+              contentPadding: EdgeInsets.zero,
+              onTap: widget.isAlreadyLimit
                   ? null
                   : () {
                       _pickImage(ImageSource.camera, context);
                     },
               title: Row(
                 children: [
-                  Text(
-                    'Take a Photo',
-                    style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                        color: isAlreadyLimit
-                            ? const Color(0xFF808080)
-                            : const Color(0xFF505050)),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Take a Photo',
+                        style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: widget.isAlreadyLimit ? const Color(0xFF808080) : const Color(0xFF505050)),
+                      ),
+                      widget.isAlreadyLimit
+                          ? Text(
+                              'Max request reached',
+                              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: const Color(0xFF808080)),
+                            )
+                          : const SizedBox(),
+                    ],
                   ),
                 ],
               ),
               leading: Icon(
                 Icons.add_a_photo_outlined,
-                color: isAlreadyLimit
-                    ? const Color(0xFF808080)
-                    : const Color(0xFF505050),
+                color: widget.isAlreadyLimit ? const Color(0xFF808080) : const Color(0xFF505050),
               ),
             ),
           ],
@@ -122,7 +195,7 @@ class NutriScorePlusBottomSheet extends StatelessWidget {
       final File file = File(pickedFile.path);
       final Uint8List imageBytes = await file.readAsBytes();
       final File resizedImage = await resizeImageToTargetSize(imageBytes, 250, pickedFile.path);
-      onImageSelected(resizedImage);
+      widget.onImageSelected(resizedImage);
       // final selectedImage = file.paths.map(
       //   (e) => File(e!),
       // );

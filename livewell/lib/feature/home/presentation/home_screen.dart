@@ -80,6 +80,7 @@ class HomeScreen extends StatelessWidget {
                     return Obx(() {
                       return NutriScorePlusBottomSheet(
                         isAlreadyLimit: Get.find<DashboardController>().featureLimit.value?.isNutricoAlreadyLimit() ?? true,
+                        maxRequest: Get.find<DashboardController>().featureLimit.value?.getNutricoCurrentUsage() ?? 30,
                         onSelected: (p0) {
                           Get.back();
                           switch (p0) {

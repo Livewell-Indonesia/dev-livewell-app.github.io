@@ -75,9 +75,7 @@ class DashboardController extends BaseController {
   bool checkIfNutricoAlreadyLimit() {
     if (featureLimit.value != null) {
       var data = featureLimit.value!.featureLimits.firstWhere((element) => element.featureName == 'NUTRICO_PLUS');
-      if (data.currentUsage == data.currentLimit) {
-        return true;
-      }
+      return data.currentUsage > data.currentLimit;
     }
     return false;
   }

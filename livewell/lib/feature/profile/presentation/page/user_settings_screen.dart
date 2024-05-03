@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -89,10 +90,10 @@ class UserSettingsScreen extends StatelessWidget {
                               ),
                               child: Obx(() {
                                 if (controller.user.value.avatarUrl != null && controller.user.value.avatarUrl!.isNotEmpty) {
-                                  return Image.network(
-                                    controller.user.value.avatarUrl!,
+                                  return CachedNetworkImage(
+                                    imageUrl: controller.user.value.avatarUrl!,
                                     fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) {
+                                    errorWidget: (context, error, stackTrace) {
                                       return SvgPicture.asset(
                                         (controller.user.value.gender ?? Gender.male.name).toLowerCase() == "male" ? Constant.imgMaleSVG : Constant.imgFemaleSVG,
                                       );
