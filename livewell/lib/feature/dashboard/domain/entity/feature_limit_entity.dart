@@ -17,7 +17,13 @@ class FeatureLimitEntity {
   bool isNutricoAlreadyLimit() {
     if (featureLimits.isEmpty) return false;
     var data = featureLimits.firstWhere((element) => element.featureName == 'NUTRICO_PLUS');
-    return data.currentUsage >= data.currentLimit;
+    return data.currentUsage > data.currentLimit;
+  }
+
+  int getNutricoCurrentUsage() {
+    if (featureLimits.isEmpty) return 0;
+    var data = featureLimits.firstWhere((element) => element.featureName == 'NUTRICO_PLUS');
+    return data.defaultLimit;
   }
 }
 

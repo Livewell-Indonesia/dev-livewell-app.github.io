@@ -13,6 +13,7 @@ import 'package:livewell/core/network/network_module.dart';
 import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/feature/nutrico/data/model/nutrico_asset_model.dart';
 import 'package:livewell/feature/nutrico/data/model/nutrico_plus_asset_loading_model.dart';
+import 'package:livewell/feature/nutrico/data/model/nutrico_plus_tutorial_asset_model.dart';
 import 'package:livewell/feature/nutrico/data/model/nutrico_search_by_image_model.dart';
 import 'package:livewell/feature/nutrico/domain/repository/nutrico_repository.dart';
 import 'package:livewell/feature/nutrico/domain/usecase/post_nutrico.dart';
@@ -78,6 +79,19 @@ class NutricoRepositoryImpl with NetworkModule implements NutricoRepository {
       );
       final json = responseHandler(response);
       return Right(List<NutricoPlusAssetLoadingModel>.from(json.map((x) => NutricoPlusAssetLoadingModel.fromJson(x))));
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, NutricoPlusTutorialAssetModel>> getNutricoPlusTutorialAsset() async {
+    try {
+      final response = await getMethod(
+        Endpoint.nutricoPlusTutorialAsset,
+      );
+      final json = responseHandler(response);
+      return Right(NutricoPlusTutorialAssetModel.fromJson(json));
     } catch (ex) {
       return Left(ServerFailure(message: ex.toString()));
     }
