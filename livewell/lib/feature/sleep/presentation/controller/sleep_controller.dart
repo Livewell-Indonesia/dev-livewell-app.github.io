@@ -16,6 +16,7 @@ import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/sleep/data/model/sleep_activity_model.dart' as sleep;
 import 'package:livewell/feature/sleep/domain/usecase/get_sleep_history.dart';
 import 'package:livewell/feature/sleep/domain/usecase/get_sleep_list.dart';
+import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 import 'package:livewell/core/base/base_controller.dart';
 
@@ -45,8 +46,8 @@ class SleepController extends BaseController {
     super.onInit();
     getSleepData();
     getExerciseHistorydata();
-    showInfoFirstTime();
     getAllYvaluesFromApi();
+    showInfoFirstTime();
     wentToSleep = ''.obs;
     wokeUp = ''.obs;
     feelASleep = ''.obs;
@@ -81,6 +82,7 @@ class SleepController extends BaseController {
     yValues.clear();
     manualWakeUpInput.clear();
     getSleepData();
+    showInfoFirstTime();
     //getExerciseHistorydata();
     getAllYvaluesFromApi();
   }
@@ -119,7 +121,7 @@ class SleepController extends BaseController {
     var show = await SharedPref.showInfoSleep();
     HomeController controller = Get.find();
     var data = controller.popupAssetsModel.value.sleep;
-    if (show && (data != null)) {
+    if (show && (data != null) && Get.currentRoute == AppPages.sleepScreen) {
       showModalBottomSheet(
           context: Get.context!,
           isScrollControlled: true,

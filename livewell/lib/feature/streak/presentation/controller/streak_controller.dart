@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:livewell/core/base/base_controller.dart';
+import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/mood/presentation/widget/mood_picker_widget.dart';
 import 'package:livewell/feature/streak/domain/entity/streak_entity.dart';
 import 'package:livewell/feature/streak/domain/usecase/get_wellness_data_batch.dart';
@@ -20,6 +21,8 @@ class StreakController extends BaseController {
   @override
   void onInit() {
     generateFirstStreakDates();
+    selectedStreak.clear();
+    todayProgress.value = 0;
     super.onInit();
   }
 
@@ -148,6 +151,7 @@ class StreakController extends BaseController {
   void getStreakData(DateTime dateFrom, DateTime dateTo) {
     final params = GetWellnessDataBatchParams(dateFrom: dateFrom, dateTo: dateTo);
     final useCase = GetWellnessDataBatch.instance();
+    final currentDate = DateTime.now();
     useCase(params).then((value) {
       value.fold((l) {
         print(l.message);
@@ -161,8 +165,13 @@ class StreakController extends BaseController {
           }
         }
         for (var data in streakDates) {
-          if (data.isCompleted) {
+          Log.colorGreen("isStreak: ${data.isCompleted} date: ${data.date}");
+          if (data.date.isAfter(currentDate)) {
+            Log.colorGreen("ini dimasa depan nih ${data.date}");
+            continue;
+          } else if (data.isCompleted) {
             numberOfStreaks.value++;
+          } else if (data.date.day == currentDate.day && data.date.month == currentDate.month && data.date.year == currentDate.year) {
           } else {
             numberOfStreaks.value = 0;
           }

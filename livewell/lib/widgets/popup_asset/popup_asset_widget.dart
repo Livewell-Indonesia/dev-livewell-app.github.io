@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,11 +29,7 @@ class PopupAssetWidget extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 8.w),
                 child: Row(
                   children: [
-                    Text('Info',
-                        style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xFF171433))),
+                    Text('Info', style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433))),
                     const Spacer(),
                     InkWell(
                       onTap: () {
@@ -54,7 +51,7 @@ class PopupAssetWidget extends StatelessWidget {
                 },
               ),
               8.verticalSpace,
-              Image.network(exercise.picture!),
+              CachedNetworkImage(imageUrl: exercise.picture!),
               8.verticalSpace,
               Html(
                 data: exercise.belowPicture,

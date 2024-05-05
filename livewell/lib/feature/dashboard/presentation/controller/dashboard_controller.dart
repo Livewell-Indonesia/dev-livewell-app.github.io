@@ -81,6 +81,7 @@ class DashboardController extends BaseController {
     numberOfStreaks.value = 0;
     todayProgress.value = 0;
     streakDates.clear();
+
     final dates = generateWeekStartingFromMonday();
     final params = GetWellnessDataBatchParams(dateFrom: dates.first, dateTo: dates.last);
     final usecase = GetWellnessDataBatch.instance();
@@ -100,8 +101,10 @@ class DashboardController extends BaseController {
         final sortedData = r.response!.displayData!.toList()..sort((a, b) => a.recordAt!.compareTo(b.recordAt!));
         for (var data in sortedData) {
           final isStreak = data.isStreak ?? false;
+          Log.colorGreen("isStreak: $isStreak date: ${data.recordAt}");
           if (isStreak) {
             numberOfStreaks.value++;
+          } else if (data.recordAt?.day == currentDate.day && data.recordAt?.month == currentDate.month && data.recordAt?.year == currentDate.year) {
           } else {
             numberOfStreaks.value = 0;
           }

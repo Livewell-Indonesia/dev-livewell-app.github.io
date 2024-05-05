@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:livewell/core/helper/get_meal_type_by_current_time.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
+import 'package:livewell/feature/nutrico/presentation/widget/nutri_score_plus_bottom_sheet.dart';
 import 'package:livewell/feature/streak/data/model/wellness_detail_model.dart';
+import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
 
 enum StreakItemType {
@@ -54,6 +60,57 @@ extension StreakItemTypeExt on StreakItemType {
         return '0 cal';
       case StreakItemType.activity:
         return '0 cal';
+    }
+  }
+
+  void navigate() {
+    switch (this) {
+      case StreakItemType.hydration:
+        AppNavigator.push(routeName: AppPages.waterScreen);
+        break;
+      case StreakItemType.sleep:
+        AppNavigator.push(routeName: AppPages.sleepScreen);
+        break;
+      case StreakItemType.mood:
+        AppNavigator.push(routeName: AppPages.moodDetailScreen);
+        break;
+      case StreakItemType.nutrition:
+        showModalBottomSheet(
+            context: Get.context!,
+            shape: shapeBorder(),
+            builder: (context) {
+              return Obx(() {
+                return NutriScorePlusBottomSheet(
+                  isAlreadyLimit: Get.find<DashboardController>().featureLimit.value?.isNutricoAlreadyLimit() ?? true,
+                  maxRequest: Get.find<DashboardController>().featureLimit.value?.getNutricoCurrentUsage() ?? 30,
+                  onSelected: (p0) {
+                    Get.back();
+                    switch (p0) {
+                      case SelectedNutriscorePlusMethod.camera:
+                        // AppNavigator.push(routeName: AppPages.camera);
+                        break;
+                      case SelectedNutriscorePlusMethod.gallery:
+                        //AppNavigator.push(routeName: AppPages.gallery);
+                        break;
+                      case SelectedNutriscorePlusMethod.desc:
+                        AppNavigator.push(routeName: AppPages.nutriCoScreen, arguments: {
+                          'type': getMealTypeByCurrentTime().name,
+                          'date': DateTime.now(),
+                        });
+                        break;
+                    }
+                  },
+                  onImageSelected: (file) {
+                    Get.back();
+                    AppNavigator.push(routeName: AppPages.loadingNutricoPlus, arguments: file);
+                  },
+                );
+              });
+            });
+        break;
+      case StreakItemType.activity:
+        // navigate to activity screen
+        break;
     }
   }
 }
