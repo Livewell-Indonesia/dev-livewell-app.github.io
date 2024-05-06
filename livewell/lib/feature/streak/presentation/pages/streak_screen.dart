@@ -24,57 +24,61 @@ class _StreakScreenState extends State<StreakScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF1F1F1),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          controller.onInit();
-        },
-        notificationPredicate: (notification) => true,
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              Container(
-                padding: EdgeInsets.only(top: 60.h),
-                height: 154.h,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFddf235),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(16),
-                    bottomRight: Radius.circular(16),
+      body: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          Container(
+            padding: EdgeInsets.only(top: 60.h),
+            height: 154.h,
+            decoration: const BoxDecoration(
+              color: Color(0xFFddf235),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(16),
+                bottomRight: Radius.circular(16),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 16.w),
+                  child: InkWell(
+                    onTap: () {
+                      AppNavigator.pop();
+                    },
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Theme.of(context).colorScheme.textLoEm,
+                    ),
                   ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 16.w),
-                      child: InkWell(
-                        onTap: () {
-                          AppNavigator.pop();
-                        },
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          color: Theme.of(context).colorScheme.textLoEm,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      'Streak Page',
-                      style: TextStyles.navbarTitle(context),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 16.w),
-                      child: const Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.transparent,
-                      ),
-                    )
-                  ],
+                Text(
+                  'Streak Page',
+                  style: TextStyles.navbarTitle(context),
                 ),
-              ),
-              Column(
+                Padding(
+                  padding: EdgeInsets.only(right: 16.w),
+                  child: InkWell(
+                    onTap: () {
+                      AppNavigator.pop();
+                    },
+                    child: const Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.transparent,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          RefreshIndicator(
+            onRefresh: () async {
+              controller.onInit();
+            },
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   116.verticalSpace,
@@ -177,9 +181,9 @@ class _StreakScreenState extends State<StreakScreen> {
                   ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

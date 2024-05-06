@@ -23,6 +23,7 @@ class StreakController extends BaseController {
     generateFirstStreakDates();
     selectedStreak.clear();
     todayProgress.value = 0;
+    numberOfStreaks.value = 0;
     super.onInit();
   }
 
@@ -37,6 +38,7 @@ class StreakController extends BaseController {
     selectedDate.value = date;
     selectedStreak.clear();
     todayProgress.value = 0;
+    numberOfStreaks.value = 0;
     getDetailWellnessForDate(date);
   }
 

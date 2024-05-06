@@ -6,6 +6,7 @@ import 'package:livewell/feature/dashboard/presentation/controller/dashboard_con
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/nutrico/presentation/widget/nutri_score_plus_bottom_sheet.dart';
 import 'package:livewell/feature/streak/data/model/wellness_detail_model.dart';
+import 'package:livewell/feature/water/presentation/pages/water_custom_input_page.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
 
@@ -66,7 +67,7 @@ extension StreakItemTypeExt on StreakItemType {
   void navigate() {
     switch (this) {
       case StreakItemType.hydration:
-        AppNavigator.push(routeName: AppPages.waterScreen);
+        AppNavigator.push(routeName: AppPages.waterConsumedPage, arguments: {"waterInputType": WaterInputType.increase});
         break;
       case StreakItemType.sleep:
         AppNavigator.push(routeName: AppPages.sleepScreen);
@@ -109,7 +110,7 @@ extension StreakItemTypeExt on StreakItemType {
             });
         break;
       case StreakItemType.activity:
-        // navigate to activity screen
+        AppNavigator.push(routeName: AppPages.exerciseScreen);
         break;
     }
   }
