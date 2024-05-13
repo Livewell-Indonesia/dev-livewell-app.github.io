@@ -5,8 +5,11 @@ import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_user.dart';
+import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/force_update/domain/repository/force_update_repository.dart';
 import 'package:livewell/feature/force_update/domain/usecase/get_force_update_status.dart';
+import 'package:livewell/feature/force_update/presentation/widget/major_update_bottom_sheet.dart';
+import 'package:livewell/feature/force_update/presentation/widget/minor_update_bottom_sheet.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/base/usecase.dart';
@@ -57,44 +60,37 @@ class SplashController extends GetxController {
       case ForceUpdateStatus.none:
         getLocalization();
       case ForceUpdateStatus.optional:
-        Get.dialog(
-          AlertDialog.adaptive(
-            title: const Text('Update Available'),
-            content: const Text('A new version of the app is available. Please update to continue using the app.'),
-            actions: [
-              TextButton(
-                onPressed: () {
+        showModalBottomSheet(
+            isDismissible: false,
+            enableDrag: false,
+            context: Get.context!,
+            shape: shapeBorder(),
+            isScrollControlled: true,
+            builder: (context) {
+              return MinorUpdateBottomSheet(
+                onUpdateTapped: () {
+                  _launchStore();
+                },
+                onLaterTapped: () {
                   Get.back();
                   getLocalization();
                 },
-                child: const Text('Update Later'),
-              ),
-              TextButton(
-                onPressed: () {
-                  _launchStore();
-                },
-                child: const Text('Update Now'),
-              ),
-            ],
-          ),
-        );
-
+              );
+            });
       case ForceUpdateStatus.required:
-        Get.dialog(
-          barrierDismissible: false,
-          AlertDialog.adaptive(
-            title: const Text('Update Required'),
-            content: const Text('A new version of the app is available. Please update to continue using the app.'),
-            actions: [
-              TextButton(
-                onPressed: () {
+        showModalBottomSheet(
+            isDismissible: false,
+            enableDrag: false,
+            context: Get.context!,
+            shape: shapeBorder(),
+            isScrollControlled: true,
+            builder: (context) {
+              return MajorUpdateBottomSheet(
+                onUpdateTapped: () {
                   _launchStore();
                 },
-                child: const Text('Update Now'),
-              ),
-            ],
-          ),
-        );
+              );
+            });
     }
   }
 

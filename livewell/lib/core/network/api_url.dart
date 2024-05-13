@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 
 class Endpoint {
   /// DEV
-  static String api = kReleaseMode ? "https://api.livewellindo.com/api/v1/" : "https://dev-api.livewellindo.com/api/v1/";
+  static String api = kReleaseMode ? "https://api.livewellindo.com/api/v1/" : "https://api.livewellindo.com/api/v1/";
 
   /// Login
   static const String login = "auth/login";
@@ -75,4 +75,8 @@ class Endpoint {
 
   /// feature limit
   static const String featureLimit = "user/feature-limit";
+
+  /// Wellness
+  static const String wellness = "wellness/date-range";
+  static const String wellnessDetail = "wellness";
 }

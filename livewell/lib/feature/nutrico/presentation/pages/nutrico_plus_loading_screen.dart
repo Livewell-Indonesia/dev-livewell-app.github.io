@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -112,8 +113,8 @@ class _ImageContainer extends StatelessWidget {
           aspectRatio: 1.sw / 200.h,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20.r),
-            child: Image.network(
-              imageUrl,
+            child: CachedNetworkImage(
+              imageUrl: imageUrl,
               fit: BoxFit.cover,
             ),
           ),

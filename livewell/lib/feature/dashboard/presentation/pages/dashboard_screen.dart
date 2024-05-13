@@ -14,8 +14,10 @@ import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/mood/presentation/widget/mood_picker_widget.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
 import 'package:livewell/feature/sleep/presentation/controller/sleep_controller.dart';
+import 'package:livewell/feature/streak/presentation/pages/streak_screen.dart';
 import 'package:livewell/feature/water/presentation/pages/water_custom_input_page.dart';
 import 'package:livewell/routes/app_navigator.dart';
+import 'package:livewell/theme/design_system.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class DashBoardScreen extends StatefulWidget {
@@ -138,42 +140,67 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       ),
                     ),
                     24.verticalSpace,
-                    // Container(
-                    //   margin: EdgeInsets.symmetric(horizontal: 16.w),
-                    //   padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
-                    //   decoration: BoxDecoration(
-                    //     color: Colors.white,
-                    //     borderRadius: BorderRadius.circular(16.r),
-                    //   ),
-                    //   child: Row(
-                    //     children: [
-                    //       SizedBox(
-                    //         height: 32.h,
-                    //         width: 48.w,
-                    //         child: SvgPicture.asset(Constant.icStreak),
-                    //       ),
-                    //       12.horizontalSpace,
-                    //       Text(
-                    //         'Start your streak!',
-                    //         style: TextStyle(
-                    //           color: const Color(0xFF505050),
-                    //           fontSize: 14.sp,
-                    //           fontWeight: FontWeight.w600,
-                    //         ),
-                    //       ),
-                    //       const Spacer(),
-                    //       Text(
-                    //         '0-day streak',
-                    //         style: TextStyle(
-                    //           color: const Color(0xFF808080),
-                    //           fontSize: 14.sp,
-                    //           fontWeight: FontWeight.w400,
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    // 16.verticalSpace,
+                    InkWell(
+                      onTap: () {
+                        AppNavigator.push(routeName: AppPages.streakPage);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 16.w),
+                        padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16.r),
+                        ),
+                        child: Row(
+                          children: [
+                            // SizedBox(
+                            //   height: 32.h,
+                            //   width: 48.w,
+                            //   child: SvgPicture.asset(Constant.icStreak),
+                            // ),
+                            ClipPath(
+                              clipper: LivewellClipperSmall(),
+                              child: Container(
+                                alignment: Alignment.bottomCenter,
+                                color: Theme.of(context).colorScheme.disabled,
+                                width: 48.w,
+                                height: 32.h,
+                                // child: WaveWidget(
+                                //   config: CustomConfig(
+                                //       durations: [10000, 18000], heightPercentages: [0.0, 0.0], colors: [Theme.of(context).colorScheme.primaryPurple, Theme.of(context).colorScheme.primaryPurple]),
+                                //   size: Size(42, 30),
+                                //   waveFrequency: 0.1,
+                                // ),
+                                child: Obx(() {
+                                  return Container(
+                                      alignment: Alignment.bottomCenter, color: Theme.of(context).colorScheme.primaryPurple, width: 48.w, height: calculateHeight(controller.todayProgress.value));
+                                }),
+                              ),
+                            ),
+                            Text(
+                              'Start your streak!',
+                              style: TextStyle(
+                                color: const Color(0xFF505050),
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const Spacer(),
+                            Obx(() {
+                              return Text(
+                                '${controller.numberOfStreaks.value}-day streak',
+                                style: TextStyle(
+                                  color: const Color(0xFF808080),
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              );
+                            })
+                          ],
+                        ),
+                      ),
+                    ),
+                    16.verticalSpace,
                     // Container(
                     //   margin: EdgeInsets.symmetric(horizontal: 16.w),
                     //   padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
@@ -494,6 +521,16 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         ),
       ),
     );
+  }
+
+  double calculateHeight(int todayProgress) {
+    if (todayProgress == 0) {
+      return 0;
+    } else if (todayProgress == 5) {
+      return 32.h;
+    } else {
+      return 32.h / (5 - todayProgress).toDouble();
+    }
   }
 
   InkWell dummyTask() {

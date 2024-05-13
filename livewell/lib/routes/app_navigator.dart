@@ -29,6 +29,7 @@ import 'package:livewell/feature/quick_add/presentation/page/quick_add_screen.da
 import 'package:livewell/feature/sleep/presentation/pages/manual_sleep_input.dart';
 import 'package:livewell/feature/sleep/presentation/pages/sleep_screen.dart';
 import 'package:livewell/feature/splash/presentation/splash_screen.dart';
+import 'package:livewell/feature/streak/presentation/pages/streak_screen.dart';
 import 'package:livewell/feature/update_weight/presentation/page/update_weight_screen.dart';
 import 'package:livewell/feature/water/presentation/pages/water_consumed_page.dart';
 import 'package:livewell/feature/water/presentation/pages/water_custom_input_page.dart';
@@ -88,6 +89,7 @@ class AppNavigator {
     GetPage(name: AppPages.shareFood, page: () => const ShareFoodScreen(), transition: Transition.cupertino),
     GetPage(name: AppPages.addFood, page: () => const AddFoodScreen(), transition: Transition.cupertino),
     GetPage(name: AppPages.loadingNutricoPlus, page: () => const NutricoPlusLoadingScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.streakPage, page: () => const StreakScreen(), transition: Transition.cupertino),
   ];
 
   static void push({required String routeName, dynamic arguments}) {
@@ -171,4 +173,5 @@ class AppPages {
   static String shareFood = '/share-food';
   static String addFood = '/add-food';
   static String loadingNutricoPlus = '/loading-nutrico-plus';
+  static String streakPage = '/streak';
 }
