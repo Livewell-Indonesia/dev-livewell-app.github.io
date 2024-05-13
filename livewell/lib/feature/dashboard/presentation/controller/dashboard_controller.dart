@@ -83,6 +83,7 @@ class DashboardController extends BaseController {
     streakDates.clear();
 
     final dates = generateWeekStartingFromMonday();
+    streakDates.value = dates.map((e) => StreakCalendarItemModel(date: e, isCompleted: false)).toList();
     final params = GetWellnessDataBatchParams(dateFrom: dates.first, dateTo: dates.last);
     final usecase = GetWellnessDataBatch.instance();
     final currentDate = DateTime.now();
@@ -99,12 +100,14 @@ class DashboardController extends BaseController {
           }
         }
         final sortedData = r.response!.displayData!.toList()..sort((a, b) => a.recordAt!.compareTo(b.recordAt!));
-        for (var data in sortedData) {
-          final isStreak = data.isStreak ?? false;
-          Log.colorGreen("isStreak: $isStreak date: ${data.recordAt}");
-          if (isStreak) {
+        for (var data in streakDates) {
+          Log.colorGreen("isStreak: ${data.isCompleted} date: ${data.date}");
+          if (data.date.day > currentDate.day && data.date.month >= currentDate.month && data.date.year >= currentDate.year) {
+            Log.colorGreen("ini dimasa depan nih ${data.date}");
+            continue;
+          } else if (data.isCompleted) {
             numberOfStreaks.value++;
-          } else if (data.recordAt?.day == currentDate.day && data.recordAt?.month == currentDate.month && data.recordAt?.year == currentDate.year) {
+          } else if (data.date.day == currentDate.day && data.date.month == currentDate.month && data.date.year == currentDate.year) {
           } else {
             numberOfStreaks.value = 0;
           }

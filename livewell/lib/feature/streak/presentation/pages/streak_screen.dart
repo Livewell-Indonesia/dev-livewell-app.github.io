@@ -27,159 +27,180 @@ class _StreakScreenState extends State<StreakScreen> {
       body: Stack(
         alignment: Alignment.topCenter,
         children: [
-          Container(
-            padding: EdgeInsets.only(top: 60.h),
-            height: 154.h,
-            decoration: const BoxDecoration(
-              color: Color(0xFFddf235),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(16),
-                bottomRight: Radius.circular(16),
+          Column(
+            children: [
+              Container(
+                padding: EdgeInsets.only(top: 60.h, left: 16.w, right: 16.w),
+                height: 154.h,
+                decoration: const BoxDecoration(
+                  color: Color(0xFFddf235),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(16),
+                    bottomRight: Radius.circular(16),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+                    // GestureDetector(
+                    //   //behavior: HitTestBehavior.translucent,
+                    //   onTap: () {
+                    //     Get.back();
+                    //   },
+                    //   child: Padding(
+                    //     padding: EdgeInsets.only(left: 16.w),
+                    //     child: Container(
+                    //       width: 31.w,
+                    //       height: 31.h,
+                    //       decoration: BoxDecoration(
+                    //         color: Colors.white,
+                    //         borderRadius: BorderRadius.circular(10),
+                    //       ),
+                    //       child: SizedBox(
+                    //         child: Icon(
+                    //           Icons.arrow_back_ios_new_rounded,
+                    //           size: 18.h,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        'Streak Page',
+                        style: TextStyles.navbarTitle(context),
+                      ),
+                    ),
+                    const IconButton(
+                        onPressed: null,
+                        icon: Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          color: Colors.transparent,
+                        )),
+                  ],
+                ),
               ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 16.w),
-                  child: InkWell(
-                    onTap: () {
-                      AppNavigator.pop();
-                    },
-                    child: Icon(
-                      Icons.arrow_back_ios,
-                      color: Theme.of(context).colorScheme.textLoEm,
-                    ),
-                  ),
-                ),
-                Text(
-                  'Streak Page',
-                  style: TextStyles.navbarTitle(context),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 16.w),
-                  child: InkWell(
-                    onTap: () {
-                      AppNavigator.pop();
-                    },
-                    child: const Icon(
-                      Icons.arrow_back_ios,
-                      color: Colors.transparent,
-                    ),
-                  ),
-                )
-              ],
-            ),
+              Spacer(),
+            ],
           ),
-          RefreshIndicator(
-            onRefresh: () async {
-              controller.onInit();
-            },
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  116.verticalSpace,
-                  Container(
-                    width: 1.sw - 32.w,
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.textBg,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // WaveWidget(
-                        //   config: SingleConfig(),
-                        //   // config: CustomConfig(
-                        //   //   colors: [Colors.indigo[400]!],
-                        //   //   durations: [18000],
-                        //   //   heightPercentages: [0.2],
-                        //   // ),
-                        //   heightPercentage: 0.2,
-                        //   duration: 10000,
-                        //   backgroundColor: Colors.red,
-                        //   size: Size(42, 50),
-                        //   backgroundImage: DecorationImage(image: Image.asset(Constant.accountCircle).image, fit: BoxFit.cover),
-                        //   waveAmplitude: 4,
-                        // ),
-                        ClipPath(
-                          clipper: LivewellClipper(),
-                          child: Container(
-                            alignment: Alignment.bottomCenter,
-                            color: Theme.of(context).colorScheme.disabled,
-                            width: 42.w,
-                            height: 56.h,
-                            // child: WaveWidget(
-                            //   config: CustomConfig(
-                            //       durations: [10000, 18000], heightPercentages: [0.0, 0.0], colors: [Theme.of(context).colorScheme.primaryPurple, Theme.of(context).colorScheme.primaryPurple]),
-                            //   size: Size(42, 30),
-                            //   waveFrequency: 0.1,
-                            // ),
-                            child: Obx(() {
-                              return Container(
-                                  alignment: Alignment.bottomCenter, color: Theme.of(context).colorScheme.primaryPurple, width: 42.w, height: calculateHeight(controller.todayProgress.value));
-                            }),
+          Positioned(
+            top: 116.h,
+            child: RefreshIndicator(
+              onRefresh: () async {
+                controller.onInit();
+              },
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // 116.verticalSpace,
+                    Container(
+                      width: 1.sw - 32.w,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.textBg,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // WaveWidget(
+                          //   config: SingleConfig(),
+                          //   // config: CustomConfig(
+                          //   //   colors: [Colors.indigo[400]!],
+                          //   //   durations: [18000],
+                          //   //   heightPercentages: [0.2],
+                          //   // ),
+                          //   heightPercentage: 0.2,
+                          //   duration: 10000,
+                          //   backgroundColor: Colors.red,
+                          //   size: Size(42, 50),
+                          //   backgroundImage: DecorationImage(image: Image.asset(Constant.accountCircle).image, fit: BoxFit.cover),
+                          //   waveAmplitude: 4,
+                          // ),
+                          ClipPath(
+                            clipper: LivewellClipper(),
+                            child: Container(
+                              alignment: Alignment.bottomCenter,
+                              color: Theme.of(context).colorScheme.disabled,
+                              width: 42.w,
+                              height: 56.h,
+                              // child: WaveWidget(
+                              //   config: CustomConfig(
+                              //       durations: [10000, 18000], heightPercentages: [0.0, 0.0], colors: [Theme.of(context).colorScheme.primaryPurple, Theme.of(context).colorScheme.primaryPurple]),
+                              //   size: Size(42, 30),
+                              //   waveFrequency: 0.1,
+                              // ),
+                              child: Obx(() {
+                                return Container(
+                                    alignment: Alignment.bottomCenter, color: Theme.of(context).colorScheme.primaryPurple, width: 42.w, height: calculateHeight(controller.todayProgress.value));
+                              }),
+                            ),
                           ),
-                        ),
-                        // WaveWidget(
-                        //   config: CustomConfig(
-                        //       durations: [10000, 18000], heightPercentages: [0.0, 0.0], colors: [Theme.of(context).colorScheme.primaryPurple, Theme.of(context).colorScheme.primaryPurple]),
-                        //   size: Size(42, 30),
-                        //   waveFrequency: 0.1,
-                        // ),
-                        16.verticalSpace,
-                        Obx(() {
-                          return Text(
-                            '${controller.numberOfStreaks.value}-day streak',
-                            style: TextStyle(color: Theme.of(context).colorScheme.textLoEm, fontWeight: FontWeight.w600, fontSize: 16.sp),
-                          );
-                        }),
-                        4.verticalSpace,
-                        Text(
-                          'Learning daily keeps your streak up',
-                          style: TextStyle(color: Theme.of(context).colorScheme.disabled, fontSize: 12.sp, fontWeight: FontWeight.w400),
-                        ),
-                        24.verticalSpace,
-                        Obx(() {
-                          return StreakCalendar(
-                            onDateSelected: (p0) {
-                              controller.onDateSelected(p0);
-                            },
-                            streakDates: controller.streakDates.value,
-                            selectedDate: controller.selectedDate.value,
-                          );
-                        }),
-                        24.verticalSpace,
-                        Obx(() {
-                          return ListView.separated(
-                              padding: EdgeInsets.zero,
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                return InkWell(
-                                  onTap: (controller.selectedDate.value.day == DateTime.now().day && controller.selectedDate.value.month == DateTime.now().month)
-                                      ? () {
-                                          controller.selectedStreak[index].title.navigate();
-                                        }
-                                      : null,
-                                  child: StreakItem(
-                                    model: controller.selectedStreak[index],
-                                  ),
-                                );
+                          // WaveWidget(
+                          //   config: CustomConfig(
+                          //       durations: [10000, 18000], heightPercentages: [0.0, 0.0], colors: [Theme.of(context).colorScheme.primaryPurple, Theme.of(context).colorScheme.primaryPurple]),
+                          //   size: Size(42, 30),
+                          //   waveFrequency: 0.1,
+                          // ),
+                          16.verticalSpace,
+                          Obx(() {
+                            return Text(
+                              '${controller.numberOfStreaks.value}-day streak',
+                              style: TextStyle(color: Theme.of(context).colorScheme.textLoEm, fontWeight: FontWeight.w600, fontSize: 16.sp),
+                            );
+                          }),
+                          4.verticalSpace,
+                          Text(
+                            'Learning daily keeps your streak up',
+                            style: TextStyle(color: Theme.of(context).colorScheme.disabled, fontSize: 12.sp, fontWeight: FontWeight.w400),
+                          ),
+                          24.verticalSpace,
+                          Obx(() {
+                            return StreakCalendar(
+                              onDateSelected: (p0) {
+                                controller.onDateSelected(p0);
                               },
-                              separatorBuilder: (context, index) {
-                                return 16.verticalSpace;
-                              },
-                              itemCount: controller.selectedStreak.length);
-                        })
-                      ],
+                              streakDates: controller.streakDates.value,
+                              selectedDate: controller.selectedDate.value,
+                            );
+                          }),
+                          24.verticalSpace,
+                          Obx(() {
+                            return ListView.separated(
+                                padding: EdgeInsets.zero,
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: (controller.selectedDate.value.day == DateTime.now().day && controller.selectedDate.value.month == DateTime.now().month)
+                                        ? () {
+                                            controller.selectedStreak[index].title.navigate();
+                                          }
+                                        : null,
+                                    child: StreakItem(
+                                      model: controller.selectedStreak[index],
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return 16.verticalSpace;
+                                },
+                                itemCount: controller.selectedStreak.length);
+                          })
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

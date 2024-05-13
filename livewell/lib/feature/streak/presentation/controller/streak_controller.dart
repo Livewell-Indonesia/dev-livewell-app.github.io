@@ -168,7 +168,7 @@ class StreakController extends BaseController {
         }
         for (var data in streakDates) {
           Log.colorGreen("isStreak: ${data.isCompleted} date: ${data.date}");
-          if (data.date.isAfter(currentDate)) {
+          if (data.date.day > currentDate.day && data.date.month >= currentDate.month && data.date.year >= currentDate.year) {
             Log.colorGreen("ini dimasa depan nih ${data.date}");
             continue;
           } else if (data.isCompleted) {
