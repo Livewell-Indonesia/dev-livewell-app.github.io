@@ -6,12 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/core/helper/get_meal_type_by_current_time.dart';
-import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/food/presentation/controller/add_food_controller.dart';
-import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
-import 'package:livewell/feature/nutrico/presentation/widget/nutri_score_plus_bottom_sheet.dart';
 import 'package:livewell/feature/profile/presentation/page/user_settings_screen.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/chart/circular_nutrition.dart';
@@ -19,7 +16,6 @@ import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'package:livewell/widgets/textfield/livewell_textfield.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import '../../data/model/foods_model.dart';
-import 'nutrient_fact_screen.dart';
 
 class AddFoodScreen extends StatefulWidget {
   const AddFoodScreen({Key? key}) : super(key: key);

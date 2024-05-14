@@ -14,6 +14,7 @@ import 'package:livewell/feature/profile/presentation/controller/user_settings_c
 import 'package:livewell/feature/profile/presentation/page/my_goals_screen.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class UserSettingsScreen extends StatelessWidget {
   final UserSettingsController controller = Get.put(UserSettingsController());
@@ -32,7 +33,9 @@ class UserSettingsScreen extends StatelessWidget {
             Stack(
               alignment: Alignment.center,
               children: [
-                const ProfileBackground(),
+                ProfileBackground(
+                  height: 380.h,
+                ),
                 Column(
                   children: [
                     Navigator.of(context).canPop()
@@ -231,6 +234,18 @@ class UserSettingsScreen extends StatelessWidget {
                 }),
             8.verticalSpace,
             ProfileSettingsItem(
+                title: controller.localization.privacyPolicy ?? "Privacy Policy",
+                icon: const Icon(Icons.privacy_tip_outlined, size: 20),
+                onPressed: () {
+                  Get.to(
+                      () => const WebView(
+                            initialUrl: 'https://livewellindo.com/privacy',
+                            javascriptMode: JavascriptMode.unrestricted,
+                          ),
+                      transition: Transition.cupertino);
+                }),
+            8.verticalSpace,
+            ProfileSettingsItem(
               title: controller.localization.logout!,
               icon: Image.asset(Constant.icLogout),
               onPressed: () {
@@ -297,8 +312,10 @@ class ProfileSettingsItem extends StatelessWidget {
 }
 
 class ProfileBackground extends StatelessWidget {
+  final double height;
   const ProfileBackground({
     Key? key,
+    required this.height,
   }) : super(key: key);
 
   @override
@@ -307,7 +324,7 @@ class ProfileBackground extends StatelessWidget {
       alignment: Alignment.topCenter,
       children: [
         SizedBox(
-          height: 380.h,
+          height: height,
           width: 1.sw,
           child: Stack(
             children: [

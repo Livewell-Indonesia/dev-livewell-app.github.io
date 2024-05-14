@@ -89,7 +89,7 @@ class DashboardController extends BaseController {
     final currentDate = DateTime.now();
     usecase(params).then((value) {
       value.fold((l) {
-        print(l.message);
+        Log.error(l.message);
       }, (r) {
         if (r.response?.displayData == null) return;
         for (int i = 0; i < streakDates.length; i++) {
@@ -99,7 +99,6 @@ class DashboardController extends BaseController {
             }
           }
         }
-        final sortedData = r.response!.displayData!.toList()..sort((a, b) => a.recordAt!.compareTo(b.recordAt!));
         for (var data in streakDates) {
           Log.colorGreen("isStreak: ${data.isCompleted} date: ${data.date}");
           if (data.date.day > currentDate.day && data.date.month >= currentDate.month && data.date.year >= currentDate.year) {

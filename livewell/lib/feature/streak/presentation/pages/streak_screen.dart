@@ -1,15 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:livewell/feature/streak/presentation/controller/streak_controller.dart';
 import 'package:livewell/feature/streak/presentation/widget/streak_calendar.dart';
 import 'package:livewell/feature/streak/presentation/widget/streak_item.dart';
-import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
-import 'package:wave/config.dart';
-import 'package:wave/wave.dart';
 
 class StreakScreen extends StatefulWidget {
   const StreakScreen({super.key});

@@ -21,16 +21,14 @@ class PostRegister implements UseCase<Register, ParamsRegister> {
 }
 
 class ParamsRegister extends Equatable {
-  final String firstName;
-  final String lastName;
   final String email;
   final String password;
+  final String confirmPassword;
 
   const ParamsRegister({
-    required this.firstName,
-    required this.lastName,
     required this.email,
     required this.password,
+    required this.confirmPassword,
   });
 
   @override
@@ -38,10 +36,9 @@ class ParamsRegister extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'first_name': firstName,
-      'last_name': lastName,
       'email': email,
       'password': password,
+      'confirmation_password': confirmPassword,
     };
   }
 }

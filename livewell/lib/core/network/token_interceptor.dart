@@ -1,20 +1,14 @@
 import 'dart:async';
-import 'dart:ui';
-
-import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/core/network/api_url.dart';
 import 'package:livewell/feature/auth/data/model/login_model.dart';
-import 'package:livewell/feature/auth/domain/entity/login.dart';
 import 'package:livewell/routes/app_navigator.dart';
 
-import '../error/failures.dart';
 import 'network_module.dart';
 
 class TokenInterceptor extends Interceptor with NetworkModule {

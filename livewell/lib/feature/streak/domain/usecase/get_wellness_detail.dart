@@ -13,7 +13,7 @@ class GetWellnessDetail extends UseCase<WellnessDetailModel, DateTime> {
   }
 
   @override
-  Future<Either<Failure, WellnessDetailModel>> call(DateTime date) async {
-    return await repository.getWellnessDetail(date);
+  Future<Either<Failure, WellnessDetailModel>> call(DateTime params) async {
+    return await repository.getWellnessDetail(params);
   }
 }

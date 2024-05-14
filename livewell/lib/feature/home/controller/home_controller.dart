@@ -10,7 +10,6 @@ import 'package:livewell/core/notification/firebase_notification.dart';
 import 'package:livewell/feature/dashboard/data/model/popup_assets_model.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_app_config.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_popup_assets.dart';
-import 'package:livewell/feature/diary/presentation/controller/user_diary_controller.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 

@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:get/get.dart';
 import 'package:livewell/core/base/base_controller.dart';
@@ -38,7 +38,6 @@ class StreakController extends BaseController {
     selectedDate.value = date;
     selectedStreak.clear();
     todayProgress.value = 0;
-    numberOfStreaks.value = 0;
     getDetailWellnessForDate(date);
   }
 
