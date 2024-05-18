@@ -96,7 +96,7 @@ class SignUpController extends BaseController {
       result.fold((l) {}, (r) async {
         await LivewellNotification().init();
         await registerDeviceToken();
-        changeLocalization(LanguagefromLocale(r.language!)!).then((value) async {
+        changeLocalization(languagefromLocale(r.language!)!).then((value) async {
           AppNavigator.pushAndRemove(routeName: AppPages.home);
         });
       });
@@ -121,7 +121,7 @@ class SignUpController extends BaseController {
       result.fold((l) {}, (r) async {
         await LivewellNotification().init();
         await registerDeviceToken();
-        changeLocalization(LanguagefromLocale(r.language!)!).then((value) async {
+        changeLocalization(languagefromLocale(r.language!)!).then((value) async {
           AppNavigator.pushAndRemove(routeName: AppPages.home);
         });
       });

@@ -176,14 +176,16 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 }),
                               ),
                             ),
-                            Text(
-                              'Start your streak!',
-                              style: TextStyle(
-                                color: const Color(0xFF505050),
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
+                            Obx(() {
+                              return Text(
+                                controller.streakDescription.value,
+                                style: TextStyle(
+                                  color: const Color(0xFF505050),
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              );
+                            }),
                             const Spacer(),
                             Obx(() {
                               return Text(

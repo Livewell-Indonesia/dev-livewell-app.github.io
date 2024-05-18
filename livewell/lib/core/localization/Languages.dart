@@ -13,8 +13,7 @@ class Languages extends Translations {
   Map<String, Map<String, String>> get keys => {
         'en_US': {
           'Welcome to Livewell': 'Welcome to Livewell',
-          'Better Health Through Better Living':
-              'Better Health Through Better Living',
+          'Better Health Through Better Living': 'Better Health Through Better Living',
           'Get Started': 'Get Started',
           'Sign In': 'Sign In',
           'Sign Up': 'Sign Up',
@@ -32,19 +31,16 @@ class Languages extends Translations {
           'Forgot Password?': 'Forgot Password?',
           'Get Started!': 'Get Started!',
           'You are ready to go!': 'You are ready to go!',
-          'Thanks for taking your time to create account with us. Let\'s start your wellness Journey':
-              'Thanks for taking your time to create account with us. Let\'s start your wellness Journey',
+          'Thanks for taking your time to create account with us. Let\'s start your wellness Journey': 'Thanks for taking your time to create account with us. Let\'s start your wellness Journey',
           'Please enter your email address. You will receive a link to create a new password via email.':
               'Please enter your email address. You will receive a link to create a new password via email.',
           'Submit': 'Submit',
           'Forgot Password': 'Forgot Password',
-          "by Sign in above, i agree to Livewell’s\n":
-              "by Sign in above, i agree to Livewell’s\n",
+          "by Sign in above, i agree to Livewell’s\n": "by Sign in above, i agree to Livewell’s\n",
           'Terms & Conditions ': 'Terms & Conditions ',
           'and ': 'and ',
           'Privacy Policy ': 'Privacy Policy ',
-          'By signing up, I agree to Livewell’s \n':
-              'By signing up, I agree to Livewell’s \n',
+          'By signing up, I agree to Livewell’s \n': 'By signing up, I agree to Livewell’s \n',
           'Done': 'Done',
           'Edit': 'Edit',
           'Save': 'Save',
@@ -64,8 +60,7 @@ class Languages extends Translations {
           'Update Weight': 'Update Weight',
           'Yes': 'Yes',
           'Your Recommended Foods': 'Your Recommended Foods',
-          'Picked based on your nutritional needs':
-              'Picked based on your nutritional needs',
+          'Picked based on your nutritional needs': 'Picked based on your nutritional needs',
           "Food Recommendation": "Food Recommendation",
           'Discover personalized food recommendations that match your nutritional needs. Filter franchise restaurants with ease and enjoy your meals to the fullest!':
               'Discover personalized food recommendations that match your nutritional needs. Filter franchise restaurants with ease and enjoy your meals to the fullest!',
@@ -81,8 +76,7 @@ class Languages extends Translations {
           'Scan Food': 'Scan Food',
           'Food Request Completed': 'Food Request Completed',
           'Thank You!': 'Thank You!',
-          'Our team is working on your request.':
-              'Our team is working on your request.',
+          'Our team is working on your request.': 'Our team is working on your request.',
           'Back To Dashboard': 'Back To Dashboard',
           'Nutrient Fact': 'Nutrient Fact',
           'Food': 'Food',
@@ -127,8 +121,7 @@ class Languages extends Translations {
           'Request Food': 'Request Food',
           'Food Name': 'Food Name',
           'Processing...': 'Processing...',
-          'We’ll redirect you to another screen once we got the scanning result':
-              'We’ll redirect you to another screen once we got the scanning result',
+          'We’ll redirect you to another screen once we got the scanning result': 'We’ll redirect you to another screen once we got the scanning result',
           'Exercise Information': 'Exercise Information',
           'Pre': 'Pre',
           'Next': 'Next',
@@ -158,8 +151,7 @@ class Languages extends Translations {
           'Morning': 'Morning',
           'Afternoon': 'Afternoon',
           'Evening': 'Evening',
-          'Keep with our plan, You are doing great!':
-              'Keep with our plan, You are doing great!',
+          'Keep with our plan, You are doing great!': 'Keep with our plan, You are doing great!',
           'See My Progress': 'See My Progress',
           "You have reached ": "You have reached ",
           " of your goal!": " of your goal!",
@@ -178,14 +170,10 @@ class Languages extends Translations {
           "Your water intake for today ": "Your water intake for today ",
           'Livewell nutritional data is for general fitness and wellness use. May contain inaccuracies. Consult a professional for personalized advice.':
               'Livewell nutritional data is for general fitness and wellness use. May contain inaccuracies. Consult a professional for personalized advice.',
-          'Let’s make today count, put your meal to track your progress':
-              'Let’s make today count, put your meal to track your progress',
-          'Don’t worry, We can definitely improve your nutrition together!':
-              'Don’t worry, We can definitely improve your nutrition together!',
-          'You’re doing great! Let’s make sure we push it a little further':
-              'You’re doing great! Let’s make sure we push it a little further',
-          'Great Job! Your nutrition is on point. Keep up the good work!':
-              'Great Job! Your nutrition is on point. Keep up the good work!'
+          'Let’s make today count, put your meal to track your progress': 'Let’s make today count, put your meal to track your progress',
+          'Don’t worry, We can definitely improve your nutrition together!': 'Don’t worry, We can definitely improve your nutrition together!',
+          'You’re doing great! Let’s make sure we push it a little further': 'You’re doing great! Let’s make sure we push it a little further',
+          'Great Job! Your nutrition is on point. Keep up the good work!': 'Great Job! Your nutrition is on point. Keep up the good work!'
         },
         'es_ES': {
           'title': 'Hola',

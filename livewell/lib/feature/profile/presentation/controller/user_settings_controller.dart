@@ -21,7 +21,7 @@ class UserSettingsController extends BaseController {
 
   @override
   void onInit() {
-    language.value = LanguagefromLocale(user.value.language!)!;
+    language.value = languagefromLocale(user.value.language!)!;
     super.onInit();
   }
 
@@ -43,7 +43,7 @@ class UserSettingsController extends BaseController {
   }
 
   void setValue(String value) async {
-    language.value = LanguagefromLocale(value)!;
+    language.value = languagefromLocale(value)!;
   }
 
   void updateData() async {

@@ -509,7 +509,8 @@ class CustomBar extends StatelessWidget {
   final double value3;
   final double maxValue;
 
-  CustomBar({
+  const CustomBar({
+    super.key,
     required this.value1,
     required this.value2,
     required this.value3,

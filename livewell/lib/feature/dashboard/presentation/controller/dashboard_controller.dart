@@ -42,6 +42,8 @@ import '../../../diary/domain/entity/user_meal_history_model.dart';
 import '../../../exercise/domain/usecase/post_exercise_data.dart';
 import 'dart:core';
 
+List<String> streakDescriptionList = ["You're on a roll!", "Keep the streak alive!", "Keep it up!", "You're crushing it!", "You're on fire!"];
+
 class DashboardController extends BaseController {
   GetUser getUser = GetUser.instance();
   GetMealHistory getMealHistory = GetMealHistory.instance();
@@ -68,6 +70,7 @@ class DashboardController extends BaseController {
   Rx<int> numberOfStreaks = 0.obs;
   RxList<StreakCalendarItemModel> streakDates = <StreakCalendarItemModel>[].obs;
   Rx<int> todayProgress = 0.obs;
+  Rx<String> streakDescription = ''.obs;
 
   var types = [HealthDataType.STEPS, HealthDataType.ACTIVE_ENERGY_BURNED, HealthDataType.SLEEP_IN_BED];
 
@@ -129,6 +132,13 @@ class DashboardController extends BaseController {
               todayProgress.value++;
             }
           }
+        }
+
+        if (numberOfStreaks.value != 0) {
+          final shuffled = streakDescriptionList..shuffle();
+          streakDescription.value = shuffled.first;
+        } else {
+          streakDescription.value = 'Start your streak!';
         }
       });
     });
@@ -346,6 +356,7 @@ class DashboardController extends BaseController {
   }
 
   Future<void> onRefresh() async {
+    Log.info("berapa kali niiii");
     getUsersData();
     getDashBoardData();
     getMealHistories();
@@ -609,11 +620,6 @@ class DashboardController extends BaseController {
 }
 
 extension on SleepSample {
-  HealthDataPoint toHealthDataPoint(PlatformType platformType) {
-    var value = end.difference(start).inMinutes;
-    return HealthDataPoint(NumericHealthValue(value), HealthDataType.SLEEP_IN_BED, HealthDataUnit.MINUTE, start, end, platformType, "", source, source);
-  }
-
   CustomHealthDataPoint toCustomHealthDataPoint(PlatformType platformType, String type) {
     var value = end.difference(start).inMinutes;
     return CustomHealthDataPoint(value: value, type: type, unit: 'MINUTES', startDate: start, endDate: end, source: source);

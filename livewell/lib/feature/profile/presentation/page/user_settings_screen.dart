@@ -361,7 +361,7 @@ String flagEmoji(String country) {
 class ImagePickerBottomSheet extends StatelessWidget {
   final Function(File) onImageSelected;
 
-  ImagePickerBottomSheet({required this.onImageSelected});
+  const ImagePickerBottomSheet({super.key, required this.onImageSelected});
 
   @override
   Widget build(BuildContext context) {

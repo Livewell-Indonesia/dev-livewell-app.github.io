@@ -283,7 +283,6 @@ class SleepController extends BaseController {
     result.fold((l) {
       Log.error(l);
     }, (r) {
-      Log.colorGreen("andi ganteng ${r}");
       inspect(r);
       if (r.isNotEmpty) {
         var lightSleepValue = r.where((element) => element.type == 'LIGHT_SLEEP').toList();
@@ -432,16 +431,6 @@ extension on double {
   double get maxOneOrZero {
     if (this > 1) {
       return 1;
-    } else if (this < 0) {
-      return 0;
-    } else {
-      return this;
-    }
-  }
-
-  double maxOrZero(double max) {
-    if (this > max) {
-      return max;
     } else if (this < 0) {
       return 0;
     } else {

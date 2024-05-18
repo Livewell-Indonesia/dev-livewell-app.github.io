@@ -118,7 +118,7 @@ class HomeScreen extends StatelessWidget {
                       width: 40.w,
                       height: 40.h,
                       fit: BoxFit.fill,
-                      color: Color(0xFFDDF235),
+                      color: const Color(0xFFDDF235),
                     ),
                   ),
                 ),

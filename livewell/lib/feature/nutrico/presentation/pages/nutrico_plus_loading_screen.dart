@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -95,30 +93,6 @@ class _NutricoPlusLoadingScreenState extends State<NutricoPlusLoadingScreen> {
           ),
           80.verticalSpace,
         ],
-      ),
-    );
-  }
-}
-
-class _ImageContainer extends StatelessWidget {
-  final String imageUrl;
-  const _ImageContainer({super.key, required this.imageUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 24.w),
-        child: AspectRatio(
-          aspectRatio: 1.sw / 200.h,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20.r),
-            child: CachedNetworkImage(
-              imageUrl: imageUrl,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
       ),
     );
   }
