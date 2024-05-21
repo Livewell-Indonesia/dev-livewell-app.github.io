@@ -16,6 +16,7 @@ import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/sleep/data/model/sleep_activity_model.dart' as sleep;
 import 'package:livewell/feature/sleep/domain/usecase/get_sleep_history.dart';
 import 'package:livewell/feature/sleep/domain/usecase/get_sleep_list.dart';
+import 'package:livewell/feature/streak/domain/usecase/refresh_wellness_data.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 import 'package:livewell/core/base/base_controller.dart';
@@ -85,6 +86,12 @@ class SleepController extends BaseController {
     showInfoFirstTime();
     //getExerciseHistorydata();
     getAllYvaluesFromApi();
+    refreshWellness();
+  }
+
+  void refreshWellness() async {
+    RefreshWellnessData refreshWellnessData = RefreshWellnessData.instance();
+    await refreshWellnessData.call('SLEEP');
   }
 
   void getNewSleepHistoryData() async {
