@@ -21,7 +21,7 @@ class StreakEntity {
     required this.recordAt,
   });
 
-  factory StreakEntity.fromRemote(Datum datum) {
+  factory StreakEntity.fromRemote(WellnessData datum) {
     return StreakEntity(
       hydrationScore: datum.hydrationScore ?? 0,
       sleepScore: datum.sleepScore ?? 0,

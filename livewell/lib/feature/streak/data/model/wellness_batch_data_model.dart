@@ -9,14 +9,14 @@ WellnessBatchModel wellnessBatchModelFromJson(String str) => WellnessBatchModel.
 String wellnessBatchModelToJson(WellnessBatchModel data) => json.encode(data.toJson());
 
 class WellnessBatchModel {
-  Response? response;
+  WellNessResponse? response;
 
   WellnessBatchModel({
     this.response,
   });
 
   factory WellnessBatchModel.fromJson(Map<String, dynamic> json) => WellnessBatchModel(
-        response: json["response"] == null ? null : Response.fromJson(json["response"]),
+        response: json["response"] == null ? null : WellNessResponse.fromJson(json["response"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -24,24 +24,24 @@ class WellnessBatchModel {
       };
 }
 
-class Response {
+class WellNessResponse {
   DateTime? dateFrom;
   DateTime? dateTo;
-  List<Datum>? rawData;
-  List<Datum>? displayData;
+  List<WellnessData>? rawData;
+  List<WellnessData>? displayData;
 
-  Response({
+  WellNessResponse({
     this.dateFrom,
     this.dateTo,
     this.rawData,
     this.displayData,
   });
 
-  factory Response.fromJson(Map<String, dynamic> json) => Response(
+  factory WellNessResponse.fromJson(Map<String, dynamic> json) => WellNessResponse(
         dateFrom: json["date_from"] == null ? null : DateTime.parse(json["date_from"]),
         dateTo: json["date_to"] == null ? null : DateTime.parse(json["date_to"]),
-        rawData: json["raw_data"] == null ? [] : List<Datum>.from(json["raw_data"]!.map((x) => Datum.fromJson(x))),
-        displayData: json["display_data"] == null ? [] : List<Datum>.from(json["display_data"]!.map((x) => Datum.fromJson(x))),
+        rawData: json["raw_data"] == null ? [] : List<WellnessData>.from(json["raw_data"]!.map((x) => WellnessData.fromJson(x))),
+        displayData: json["display_data"] == null ? [] : List<WellnessData>.from(json["display_data"]!.map((x) => WellnessData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -52,7 +52,7 @@ class Response {
       };
 }
 
-class Datum {
+class WellnessData {
   int? hydrationScore;
   int? sleepScore;
   int? moodScore;
@@ -62,7 +62,7 @@ class Datum {
   bool? isStreak;
   DateTime? recordAt;
 
-  Datum({
+  WellnessData({
     this.hydrationScore,
     this.sleepScore,
     this.moodScore,
@@ -73,7 +73,7 @@ class Datum {
     this.recordAt,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory WellnessData.fromJson(Map<String, dynamic> json) => WellnessData(
         hydrationScore: json["hydration_score"],
         sleepScore: json["sleep_score"],
         moodScore: json["mood_score"],
