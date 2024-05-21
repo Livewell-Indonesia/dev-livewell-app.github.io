@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -55,14 +57,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   labelText: controller.localization.password!,
                   errorText: controller.passwordError.value,
                   obscureText: true),
+              16.verticalSpace,
+              AuthTextField(controller: controller.confirmPassword, hintText: "Confirm Password", labelText: "Confirm Password", errorText: controller.confirmPasswordError.value, obscureText: true),
               32.verticalSpace,
-              LiveWellButton(
-                  label: controller.localization.signUp!,
-                  color: const Color(0xFFDDF235),
-                  onPressed: () {
-                    controller.onRegisterTapped();
-                    //AppNavigator.push(routeName: AppPages.questionnaire);
-                  }),
+              Obx(() {
+                return LiveWellButton(label: controller.localization.signUp!, color: const Color(0xFFDDF235), onPressed: controller.isButtonEnabled.value ? () => controller.onRegisterTapped() : null);
+              }),
               32.verticalSpace,
               Center(
                 child: Text(
@@ -72,10 +72,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               16.verticalSpace,
               SigninThridPartyButton(
-                  type: SignInButtonType.googleRegister,
+                  type: SignInButtonType.google,
                   onPressed: () {
                     controller.onGoogleLoginTapped();
                   }),
+              4.verticalSpace,
+              Platform.isIOS
+                  ? SigninThridPartyButton(
+                      type: SignInButtonType.apple,
+                      onPressed: () async {
+                        controller.onAppleIdTapped();
+                      })
+                  : Container(),
               // 4.verticalSpace,
               // SigninThridPartyButton(
               //     type: SignInButtonType.appleRegister, onPressed: () {}),
@@ -126,10 +134,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               text: controller.localization.privacyPolicy!,
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  Get.to(() => const WebView(
-                                        initialUrl: 'https://livewellindo.com/privacy',
-                                        javascriptMode: JavascriptMode.unrestricted,
-                                      ));
+                                  Get.to(
+                                      () => const WebView(
+                                            initialUrl: 'https://livewellindo.com/privacy',
+                                            javascriptMode: JavascriptMode.unrestricted,
+                                          ),
+                                      transition: Transition.cupertino);
                                 },
                               style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 14.sp, fontWeight: FontWeight.w500),
                             ),

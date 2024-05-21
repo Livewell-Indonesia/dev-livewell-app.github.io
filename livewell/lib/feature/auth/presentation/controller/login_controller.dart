@@ -21,6 +21,7 @@ class LoginController extends BaseController {
   TextEditingController forgotPasswordEmail = TextEditingController();
   Rx<String> passwordError = ''.obs;
   Rx<String> emailError = ''.obs;
+  Rxn<bool> isEmailValid = Rxn<bool>();
 
   var showOtpInput = false.obs;
 
@@ -32,6 +33,18 @@ class LoginController extends BaseController {
   // create function when button sendveritication tapped
   void sendVerification() {
     showOtpInput.value = true;
+  }
+
+  @override
+  void onInit() {
+    forgotPasswordEmail.addListener(() {
+      if (forgotPasswordEmail.text.isEmail && forgotPasswordEmail.text.isNotEmpty) {
+        isEmailValid.value = true;
+      } else {
+        isEmailValid.value = null;
+      }
+    });
+    super.onInit();
   }
 
   void verifyOTP() {}
@@ -46,15 +59,13 @@ class LoginController extends BaseController {
       return;
     }
     await EasyLoading.show();
-    final result = await postLogin(
-        ParamsLogin(email: email.text, password: password.text));
+    final result = await postLogin(ParamsLogin(email: email.text, password: password.text));
     await EasyLoading.dismiss();
     result.fold((l) {
       if (l.message!.contains("404")) {
         Get.snackbar('Error', 'Please verify your email first');
       } else {
-        Get.snackbar('Authentication Failed',
-            'Your authentication information is incorrect. Please try again.');
+        Get.snackbar('Authentication Failed', 'Your authentication information is incorrect. Please try again.');
       }
     }, (r) async {
       await SharedPref.saveToken(r.accessToken!);
@@ -64,8 +75,7 @@ class LoginController extends BaseController {
       result.fold((l) {}, (r) async {
         await LivewellNotification().init();
         await registerDeviceToken();
-        changeLocalization(LanguagefromLocale(r.language!)!)
-            .then((value) async {
+        changeLocalization(languagefromLocale(r.language!)!).then((value) async {
           AppNavigator.pushAndRemove(routeName: AppPages.home);
         });
       });
@@ -103,8 +113,7 @@ class LoginController extends BaseController {
       if (l.message!.contains("404")) {
         Get.snackbar('Error', 'Please verify your email first');
       } else {
-        Get.snackbar('Authentication Failed',
-            'Your authentication information is incorrect. Please try again.');
+        Get.snackbar('Authentication Failed', 'Your authentication information is incorrect. Please try again.');
       }
     }, (r) async {
       await SharedPref.saveToken(r.accessToken!);
@@ -114,8 +123,7 @@ class LoginController extends BaseController {
       result.fold((l) {}, (r) async {
         await LivewellNotification().init();
         await registerDeviceToken();
-        changeLocalization(LanguagefromLocale(r.language!)!)
-            .then((value) async {
+        changeLocalization(languagefromLocale(r.language!)!).then((value) async {
           AppNavigator.pushAndRemove(routeName: AppPages.home);
         });
       });
@@ -130,8 +138,7 @@ class LoginController extends BaseController {
       if (l.message!.contains("404")) {
         Get.snackbar('Error', 'Please verify your email first');
       } else {
-        Get.snackbar('Authentication Failed',
-            'Your authentication information is incorrect. Please try again.');
+        Get.snackbar('Authentication Failed', 'Your authentication information is incorrect. Please try again.');
       }
     }, (r) async {
       await SharedPref.saveToken(r.accessToken!);
@@ -141,8 +148,7 @@ class LoginController extends BaseController {
       result.fold((l) {}, (r) async {
         await LivewellNotification().init();
         await registerDeviceToken();
-        changeLocalization(LanguagefromLocale(r.language!)!)
-            .then((value) async {
+        changeLocalization(languagefromLocale(r.language!)!).then((value) async {
           AppNavigator.pushAndRemove(routeName: AppPages.home);
         });
       });
@@ -150,24 +156,22 @@ class LoginController extends BaseController {
   }
 
   void sendForgotPassword() async {
-    if (email.text.isEmpty) {
+    if (forgotPasswordEmail.text.isEmpty) {
       Get.snackbar('Error', 'Email is required');
       return;
     }
-    if (!email.text.isEmail) {
+    if (!forgotPasswordEmail.text.isEmail) {
       Get.snackbar('Error', 'Email is not valid');
       return;
     }
     await EasyLoading.show();
-    final result =
-        await postForgotPassword(ParamsForgotPassword(email: email.text));
+    final result = await postForgotPassword(ParamsForgotPassword(email: forgotPasswordEmail.text));
     await EasyLoading.dismiss();
     result.fold((l) {
-      Get.snackbar('Authentication Failed',
-          'Your authentication information is incorrent. Please try again.');
+      Get.snackbar('Authentication Failed', 'Your authentication information is incorrent. Please try again.');
     }, (r) {
-      Get.snackbar('Password Email Sent', 'Check your Email for your OTP');
       AppNavigator.push(routeName: AppPages.changePassword);
+      Get.snackbar('OTP Email Sent', 'The OTP has been successfully sent to your email');
     });
   }
 }

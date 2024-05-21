@@ -1,15 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:livewell/feature/streak/presentation/controller/streak_controller.dart';
 import 'package:livewell/feature/streak/presentation/widget/streak_calendar.dart';
 import 'package:livewell/feature/streak/presentation/widget/streak_item.dart';
-import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
-import 'package:wave/config.dart';
-import 'package:wave/wave.dart';
 
 class StreakScreen extends StatefulWidget {
   const StreakScreen({super.key});
@@ -87,7 +82,7 @@ class _StreakScreenState extends State<StreakScreen> {
                   ],
                 ),
               ),
-              Spacer(),
+              const Spacer(),
             ],
           ),
           Positioned(
@@ -229,80 +224,80 @@ class LivewellClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-    final double _xScaling = size.width / 43;
-    final double _yScaling = size.height / 57;
-    path.lineTo(25.8333 * _xScaling, 0.558594 * _yScaling);
+    final double xScaling = size.width / 43;
+    final double yScaling = size.height / 57;
+    path.lineTo(25.8333 * xScaling, 0.558594 * yScaling);
     path.cubicTo(
-      25.8333 * _xScaling,
-      0.558594 * _yScaling,
-      27.8067 * _xScaling,
-      7.62526 * _yScaling,
-      27.8067 * _xScaling,
-      13.3586 * _yScaling,
+      25.8333 * xScaling,
+      0.558594 * yScaling,
+      27.8067 * xScaling,
+      7.62526 * yScaling,
+      27.8067 * xScaling,
+      13.3586 * yScaling,
     );
     path.cubicTo(
-      27.8067 * _xScaling,
-      18.8519 * _yScaling,
-      24.2067 * _xScaling,
-      23.3053 * _yScaling,
-      18.7133 * _xScaling,
-      23.3053 * _yScaling,
+      27.8067 * xScaling,
+      18.8519 * yScaling,
+      24.2067 * xScaling,
+      23.3053 * yScaling,
+      18.7133 * xScaling,
+      23.3053 * yScaling,
     );
     path.cubicTo(
-      13.1933 * _xScaling,
-      23.3053 * _yScaling,
-      9.03333 * _xScaling,
-      18.8519 * _yScaling,
-      9.03333 * _xScaling,
-      13.3586 * _yScaling,
+      13.1933 * xScaling,
+      23.3053 * yScaling,
+      9.03333 * xScaling,
+      18.8519 * yScaling,
+      9.03333 * xScaling,
+      13.3586 * yScaling,
     );
     path.cubicTo(
-      9.03333 * _xScaling,
-      13.3586 * _yScaling,
-      9.11333 * _xScaling,
-      12.3986 * _yScaling,
-      9.11333 * _xScaling,
-      12.3986 * _yScaling,
+      9.03333 * xScaling,
+      13.3586 * yScaling,
+      9.11333 * xScaling,
+      12.3986 * yScaling,
+      9.11333 * xScaling,
+      12.3986 * yScaling,
     );
     path.cubicTo(
-      3.72667 * _xScaling,
-      18.7986 * _yScaling,
-      0.5 * _xScaling,
-      27.0919 * _yScaling,
-      0.5 * _xScaling,
-      36.1053 * _yScaling,
+      3.72667 * xScaling,
+      18.7986 * yScaling,
+      0.5 * xScaling,
+      27.0919 * yScaling,
+      0.5 * xScaling,
+      36.1053 * yScaling,
     );
     path.cubicTo(
-      0.5 * _xScaling,
-      47.8919 * _yScaling,
-      10.0467 * _xScaling,
-      57.4386 * _yScaling,
-      21.8333 * _xScaling,
-      57.4386 * _yScaling,
+      0.5 * xScaling,
+      47.8919 * yScaling,
+      10.0467 * xScaling,
+      57.4386 * yScaling,
+      21.8333 * xScaling,
+      57.4386 * yScaling,
     );
     path.cubicTo(
-      33.62 * _xScaling,
-      57.4386 * _yScaling,
-      43.1667 * _xScaling,
-      47.8919 * _yScaling,
-      43.1667 * _xScaling,
-      36.1053 * _yScaling,
+      33.62 * xScaling,
+      57.4386 * yScaling,
+      43.1667 * xScaling,
+      47.8919 * yScaling,
+      43.1667 * xScaling,
+      36.1053 * yScaling,
     );
     path.cubicTo(
-      43.1667 * _xScaling,
-      21.7319 * _yScaling,
-      36.26 * _xScaling,
-      8.90526 * _yScaling,
-      25.8333 * _xScaling,
-      0.558594 * _yScaling,
+      43.1667 * xScaling,
+      21.7319 * yScaling,
+      36.26 * xScaling,
+      8.90526 * yScaling,
+      25.8333 * xScaling,
+      0.558594 * yScaling,
     );
     path.cubicTo(
-      25.8333 * _xScaling,
-      0.558594 * _yScaling,
-      25.8333 * _xScaling,
-      0.558594 * _yScaling,
-      25.8333 * _xScaling,
-      0.558594 * _yScaling,
+      25.8333 * xScaling,
+      0.558594 * yScaling,
+      25.8333 * xScaling,
+      0.558594 * yScaling,
+      25.8333 * xScaling,
+      0.558594 * yScaling,
     );
     return path;
   }
@@ -317,80 +312,80 @@ class LivewellClipperSmall extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-    final double _xScaling = size.width / 48;
-    final double _yScaling = size.height / 32;
-    path.lineTo(12.6667 * _xScaling, 0.779297 * _yScaling);
+    final double xScaling = size.width / 48;
+    final double yScaling = size.height / 32;
+    path.lineTo(12.6667 * xScaling, 0.779297 * yScaling);
     path.cubicTo(
-      12.6667 * _xScaling,
-      0.779297 * _yScaling,
-      13.6533 * _xScaling,
-      4.31263 * _yScaling,
-      13.6533 * _xScaling,
-      7.1793 * _yScaling,
+      12.6667 * xScaling,
+      0.779297 * yScaling,
+      13.6533 * xScaling,
+      4.31263 * yScaling,
+      13.6533 * xScaling,
+      7.1793 * yScaling,
     );
     path.cubicTo(
-      13.6533 * _xScaling,
-      9.92596 * _yScaling,
-      11.8533 * _xScaling,
-      12.1526 * _yScaling,
-      9.10667 * _xScaling,
-      12.1526 * _yScaling,
+      13.6533 * xScaling,
+      9.92596 * yScaling,
+      11.8533 * xScaling,
+      12.1526 * yScaling,
+      9.10667 * xScaling,
+      12.1526 * yScaling,
     );
     path.cubicTo(
-      6.34667 * _xScaling,
-      12.1526 * _yScaling,
-      4.26667 * _xScaling,
-      9.92596 * _yScaling,
-      4.26667 * _xScaling,
-      7.1793 * _yScaling,
+      6.34667 * xScaling,
+      12.1526 * yScaling,
+      4.26667 * xScaling,
+      9.92596 * yScaling,
+      4.26667 * xScaling,
+      7.1793 * yScaling,
     );
     path.cubicTo(
-      4.26667 * _xScaling,
-      7.1793 * _yScaling,
-      4.30667 * _xScaling,
-      6.6993 * _yScaling,
-      4.30667 * _xScaling,
-      6.6993 * _yScaling,
+      4.26667 * xScaling,
+      7.1793 * yScaling,
+      4.30667 * xScaling,
+      6.6993 * yScaling,
+      4.30667 * xScaling,
+      6.6993 * yScaling,
     );
     path.cubicTo(
-      1.61333 * _xScaling,
-      9.8993 * _yScaling,
-      0 * _xScaling,
-      14.046 * _yScaling,
-      0 * _xScaling,
-      18.5526 * _yScaling,
+      1.61333 * xScaling,
+      9.8993 * yScaling,
+      0 * xScaling,
+      14.046 * yScaling,
+      0 * xScaling,
+      18.5526 * yScaling,
     );
     path.cubicTo(
-      0 * _xScaling,
-      24.446 * _yScaling,
-      4.77333 * _xScaling,
-      29.2193 * _yScaling,
-      10.6667 * _xScaling,
-      29.2193 * _yScaling,
+      0 * xScaling,
+      24.446 * yScaling,
+      4.77333 * xScaling,
+      29.2193 * yScaling,
+      10.6667 * xScaling,
+      29.2193 * yScaling,
     );
     path.cubicTo(
-      16.56 * _xScaling,
-      29.2193 * _yScaling,
-      21.3333 * _xScaling,
-      24.446 * _yScaling,
-      21.3333 * _xScaling,
-      18.5526 * _yScaling,
+      16.56 * xScaling,
+      29.2193 * yScaling,
+      21.3333 * xScaling,
+      24.446 * yScaling,
+      21.3333 * xScaling,
+      18.5526 * yScaling,
     );
     path.cubicTo(
-      21.3333 * _xScaling,
-      11.366 * _yScaling,
-      17.88 * _xScaling,
-      4.95263 * _yScaling,
-      12.6667 * _xScaling,
-      0.779297 * _yScaling,
+      21.3333 * xScaling,
+      11.366 * yScaling,
+      17.88 * xScaling,
+      4.95263 * yScaling,
+      12.6667 * xScaling,
+      0.779297 * yScaling,
     );
     path.cubicTo(
-      12.6667 * _xScaling,
-      0.779297 * _yScaling,
-      12.6667 * _xScaling,
-      0.779297 * _yScaling,
-      12.6667 * _xScaling,
-      0.779297 * _yScaling,
+      12.6667 * xScaling,
+      0.779297 * yScaling,
+      12.6667 * xScaling,
+      0.779297 * yScaling,
+      12.6667 * xScaling,
+      0.779297 * yScaling,
     );
     return path;
   }

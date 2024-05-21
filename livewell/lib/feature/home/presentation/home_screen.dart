@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/helper/get_meal_type_by_current_time.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
-import 'package:livewell/feature/home/widget/floating_nutrico_plus_widget.dart';
 import 'package:livewell/feature/nutrico/presentation/widget/nutri_score_plus_bottom_sheet.dart';
 import 'package:livewell/routes/app_navigator.dart';
 
@@ -120,7 +118,7 @@ class HomeScreen extends StatelessWidget {
                       width: 40.w,
                       height: 40.h,
                       fit: BoxFit.fill,
-                      color: Color(0xFFDDF235),
+                      color: const Color(0xFFDDF235),
                     ),
                   ),
                 ),

@@ -6,6 +6,7 @@ import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/core/notification/firebase_notification.dart';
+import 'package:livewell/feature/auth/domain/usecase/post_apple_auth.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_google_auth.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_register.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_user.dart';
@@ -14,19 +15,66 @@ import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/feature/auth/presentation/controller/login_controller.dart';
 
 class SignUpController extends BaseController {
-  TextEditingController firstName = TextEditingController();
-  TextEditingController lastName = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-  Rxn<String?> firstNameError = Rxn<String>();
-  Rxn<String?> lastNameError = Rxn<String>();
+  TextEditingController confirmPassword = TextEditingController();
   Rxn<String?> passwordError = Rxn<String>();
+  Rxn<String?> confirmPasswordError = Rxn<String>();
   Rxn<String?> emailError = Rxn<String>();
+  Rx<bool> isButtonEnabled = false.obs;
 
   PostRegister postRegister = PostRegister.instance();
+  PostAppleAuth postAuthApple = PostAppleAuth.instance();
 
   void onRegisterTapped() {
     doRegister();
+  }
+
+  @override
+  void onInit() {
+    email.addListener(() {
+      validateInput();
+    });
+    password.addListener(() {
+      validateInput();
+    });
+    confirmPassword.addListener(() {
+      validateInput();
+    });
+    super.onInit();
+  }
+
+  void validateInput() {
+    if (email.text.isEmpty) {
+      emailError.value = 'Email Cannot Empty';
+      isButtonEnabled.value = false;
+    } else if (!email.text.isEmail) {
+      emailError.value = 'Email Not Valid';
+      isButtonEnabled.value = false;
+    } else {
+      emailError.value = null;
+      isButtonEnabled.value = true;
+      if (password.text.isEmpty) {
+        passwordError.value = 'Password Cannot Empty';
+        isButtonEnabled.value = false;
+      } else if (!password.text.isPasswordValid()) {
+        passwordError.value = 'Password must contains 1 uppercase, 1 number and 1 symbol';
+        isButtonEnabled.value = false;
+      } else {
+        passwordError.value = null;
+        isButtonEnabled.value = true;
+        if (confirmPassword.text.isEmpty) {
+          confirmPasswordError.value = 'Password Cannot Empty';
+          isButtonEnabled.value = false;
+        } else if (confirmPassword.text != password.text) {
+          confirmPasswordError.value = 'Password does not match';
+          isButtonEnabled.value = false;
+        } else {
+          confirmPasswordError.value = null;
+          isButtonEnabled.value = true;
+        }
+      }
+    }
   }
 
   void onGoogleLoginTapped() async {
@@ -38,8 +86,7 @@ class SignUpController extends BaseController {
       if (l.message!.contains("404")) {
         Get.snackbar('Error', 'Please verify your email first');
       } else {
-        Get.snackbar('Authentication Failed',
-            'Your authentication information is incorrect. Please try again.');
+        Get.snackbar('Authentication Failed', 'Your authentication information is incorrect. Please try again.');
       }
     }, (r) async {
       await SharedPref.saveToken(r.accessToken!);
@@ -49,8 +96,32 @@ class SignUpController extends BaseController {
       result.fold((l) {}, (r) async {
         await LivewellNotification().init();
         await registerDeviceToken();
-        changeLocalization(LanguagefromLocale(r.language!)!)
-            .then((value) async {
+        changeLocalization(languagefromLocale(r.language!)!).then((value) async {
+          AppNavigator.pushAndRemove(routeName: AppPages.home);
+        });
+      });
+    });
+  }
+
+  void onAppleIdTapped() async {
+    EasyLoading.show();
+    var result = await postAuthApple();
+    EasyLoading.dismiss();
+    result.fold((l) {
+      if (l.message!.contains("404")) {
+        Get.snackbar('Error', 'Please verify your email first');
+      } else {
+        Get.snackbar('Authentication Failed', 'Your authentication information is incorrect. Please try again.');
+      }
+    }, (r) async {
+      await SharedPref.saveToken(r.accessToken!);
+      await SharedPref.saveRefreshToken(r.refreshToken!);
+      GetUser getUser = GetUser.instance();
+      final result = await getUser(NoParams());
+      result.fold((l) {}, (r) async {
+        await LivewellNotification().init();
+        await registerDeviceToken();
+        changeLocalization(languagefromLocale(r.language!)!).then((value) async {
           AppNavigator.pushAndRemove(routeName: AppPages.home);
         });
       });
@@ -69,28 +140,8 @@ class SignUpController extends BaseController {
   }
 
   void doRegister() async {
-    if (!email.text.isEmail) {
-      emailError.value = 'Email Not Valid';
-      return;
-    }
-    emailError.value = null;
-    if (password.text.isEmpty) {
-      passwordError.value = 'Password Cannot Empty';
-      return;
-    }
-    if (!password.text.isPasswordValid()) {
-      passwordError.value =
-          'Password must contains 1 uppercase, 1 number and 1 symbol';
-      return;
-    }
-    passwordError.value = null;
-
     await EasyLoading.show();
-    final result = await postRegister.call(ParamsRegister(
-        firstName: firstName.text,
-        lastName: lastName.text,
-        email: email.text,
-        password: password.text));
+    final result = await postRegister.call(ParamsRegister(email: email.text, password: password.text, confirmPassword: confirmPassword.text));
     await EasyLoading.dismiss();
     result.fold((l) {}, (r) {
       AppNavigator.pushReplacement(routeName: AppPages.login);

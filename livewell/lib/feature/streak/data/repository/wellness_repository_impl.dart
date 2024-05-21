@@ -35,4 +35,14 @@ class WellnessRepositoryImpl extends WellnessRepository with NetworkModule {
       return Left(ServerFailure(message: ex.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> refreshWellness(String type) async {
+    try {
+      await postMethod(Endpoint.wellnessRefresh, body: {'type': type, 'record_at': DateFormat('yyyy-MM-dd').format(DateTime.now())}, headers: {authorization: await SharedPref.getToken()});
+      return const Right('Success');
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
 }

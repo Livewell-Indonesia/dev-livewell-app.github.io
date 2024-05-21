@@ -13,7 +13,7 @@ import 'package:livewell/widgets/textfield/auth_textfield.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -39,22 +39,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 24.h,
               ),
               68.verticalSpace,
-              AuthTextField(
-                  controller: controller.email,
-                  hintText: null,
-                  labelText: controller.localization.emailAddress!,
-                  errorText: null,
-                  obscureText: false,
-                  isEmail: true),
+              AuthTextField(controller: controller.email, hintText: null, labelText: controller.localization.emailAddress!, errorText: null, obscureText: false, isEmail: true),
               16.verticalSpace,
               Obx(() {
                 return AuthTextField(
                     controller: controller.password,
                     hintText: null,
                     labelText: controller.localization.password!,
-                    errorText: controller.passwordError.isEmpty
-                        ? null
-                        : controller.passwordError.value,
+                    errorText: controller.passwordError.isEmpty ? null : controller.passwordError.value,
                     obscureText: true);
               }),
               32.verticalSpace,
@@ -71,14 +63,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: Text(
                     controller.localization.forgotPassword!,
-                    style: TextStyle(
-                        color: const Color(0xFF8F01DF),
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500),
+                    style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 16.sp, fontWeight: FontWeight.w500),
                   )),
               20.verticalSpace,
-              Text(controller.localization.orSignInWith!,
-                  style: TextStyle(fontSize: 16.sp)),
+              Text(controller.localization.orSignInWith!, style: TextStyle(fontSize: 16.sp)),
               20.verticalSpace,
               SigninThridPartyButton(
                   type: SignInButtonType.google,
@@ -97,21 +85,14 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(controller.localization.dontHaveAccount!,
-                      style: TextStyle(
-                          color: const Color(0xFF171433).withOpacity(0.7),
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w400)),
+                  Text(controller.localization.dontHaveAccount!, style: TextStyle(color: const Color(0xFF171433).withOpacity(0.7), fontSize: 16.sp, fontWeight: FontWeight.w400)),
                   TextButton(
                       onPressed: () {
                         AppNavigator.push(routeName: AppPages.signup);
                       },
                       child: Text(
                         controller.localization.signUp!,
-                        style: TextStyle(
-                            color: const Color(0xFF8F01DF),
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500),
+                        style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 16.sp, fontWeight: FontWeight.w500),
                       )),
                 ],
               ),
@@ -120,52 +101,34 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                        text: controller
-                            .localization.bySigningInAgreeToTermsAndConditions!,
-                        style: TextStyle(
-                            color: const Color(0xFF171433).withOpacity(0.7),
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400),
+                        text: controller.localization.bySigningInAgreeToTermsAndConditions!,
+                        style: TextStyle(color: const Color(0xFF171433).withOpacity(0.7), fontSize: 14.sp, fontWeight: FontWeight.w400),
                         children: [
                           TextSpan(
-                            text:
-                                "${controller.localization.termsAndConditions} ",
+                            text: "${controller.localization.termsAndConditions} ",
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Get.to(() => const WebView(
-                                      initialUrl:
-                                          'https://livewellindo.com/terms',
-                                      javascriptMode:
-                                          JavascriptMode.unrestricted,
+                                      initialUrl: 'https://livewellindo.com/terms',
+                                      javascriptMode: JavascriptMode.unrestricted,
                                     ));
                               },
-                            style: TextStyle(
-                                color: const Color(0xFF8F01DF),
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500),
+                            style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 14.sp, fontWeight: FontWeight.w500),
                           ),
                           TextSpan(
                             text: '${controller.localization.and!} ',
-                            style: TextStyle(
-                                color: const Color(0xFF171433).withOpacity(0.7),
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400),
+                            style: TextStyle(color: const Color(0xFF171433).withOpacity(0.7), fontSize: 14.sp, fontWeight: FontWeight.w400),
                           ),
                           TextSpan(
                             text: controller.localization.privacyPolicy!,
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Get.to(() => const WebView(
-                                      initialUrl:
-                                          'https://livewellindo.com/privacy',
-                                      javascriptMode:
-                                          JavascriptMode.unrestricted,
+                                      initialUrl: 'https://livewellindo.com/privacy',
+                                      javascriptMode: JavascriptMode.unrestricted,
                                     ));
                               },
-                            style: TextStyle(
-                                color: const Color(0xFF8F01DF),
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500),
+                            style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 14.sp, fontWeight: FontWeight.w500),
                           ),
                         ])),
               ),
@@ -204,10 +167,7 @@ class SigninThridPartyButton extends StatelessWidget {
             const Spacer(),
             Text(
               type.title,
-              style: TextStyle(
-                  color: type.textColor,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500),
+              style: TextStyle(color: type.textColor, fontSize: 14.sp, fontWeight: FontWeight.w500),
             ),
             const Spacer()
           ],

@@ -21,7 +21,7 @@ class UserSettingsController extends BaseController {
 
   @override
   void onInit() {
-    language.value = LanguagefromLocale(user.value.language!)!;
+    language.value = languagefromLocale(user.value.language!)!;
     super.onInit();
   }
 
@@ -43,7 +43,7 @@ class UserSettingsController extends BaseController {
   }
 
   void setValue(String value) async {
-    language.value = LanguagefromLocale(value)!;
+    language.value = languagefromLocale(value)!;
   }
 
   void updateData() async {
@@ -53,8 +53,7 @@ class UserSettingsController extends BaseController {
     final data = await updateUserInfo.call(UpdateUserInfoParams(
         firstName: user.value.firstName ?? "",
         lastName: user.value.lastName ?? "",
-        dob: DateFormat('yyyy-MM-dd')
-            .format(DateTime.parse(user.value.birthDate ?? "")),
+        dob: DateFormat('yyyy-MM-dd').format(DateTime.parse(user.value.birthDate ?? "")),
         gender: user.value.gender ?? "",
         height: user.value.height ?? 0,
         weight: user.value.weight ?? 0,
@@ -73,14 +72,12 @@ class UserSettingsController extends BaseController {
     await SharedPref.removeToken();
     //await SharedPref.clearToken();
     if (Platform.isIOS) {
-      await GoogleSignIn(
-              clientId:
-                  "649229634613-l8tqhjbf9o0lmu3mcs3ouhndi0aj5brk.apps.googleusercontent.com")
-          .signOut();
+      await GoogleSignIn(clientId: "649229634613-l8tqhjbf9o0lmu3mcs3ouhndi0aj5brk.apps.googleusercontent.com").signOut();
     } else if (Platform.isAndroid) {
       await GoogleSignIn().signOut();
     }
     AppNavigator.pushAndRemove(routeName: AppPages.landingLogin);
+    Get.delete<DashboardController>(force: true);
   }
 }
 

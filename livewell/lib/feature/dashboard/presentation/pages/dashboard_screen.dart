@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
-import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/dashboard/presentation/widget/dashboard_summary_widget.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
@@ -177,14 +176,16 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 }),
                               ),
                             ),
-                            Text(
-                              'Start your streak!',
-                              style: TextStyle(
-                                color: const Color(0xFF505050),
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
+                            Obx(() {
+                              return Text(
+                                controller.streakDescription.value,
+                                style: TextStyle(
+                                  color: const Color(0xFF505050),
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              );
+                            }),
                             const Spacer(),
                             Obx(() {
                               return Text(

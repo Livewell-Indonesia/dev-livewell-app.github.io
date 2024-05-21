@@ -28,21 +28,27 @@ class ForgotPasswordScreen extends StatelessWidget {
                 ),
               ),
               30.verticalSpace,
-              LiveWellTextField(
-                controller: controller.email,
-                hintText: null,
-                labelText: controller.localization.emailAddress!,
-                errorText: null,
-                obscureText: false,
-                isEmail: true,
-              ),
+              Obx(() {
+                return LiveWellTextField(
+                  controller: controller.forgotPasswordEmail,
+                  hintText: null,
+                  labelText: controller.localization.emailAddress!,
+                  errorText: null,
+                  obscureText: false,
+                  isEmail: controller.isEmailValid.value,
+                );
+              }),
               20.verticalSpace,
-              LiveWellButton(
-                  label: controller.localization.submit!,
-                  color: const Color(0xFFDDF235),
-                  onPressed: () {
-                    controller.sendForgotPassword();
-                  })
+              Obx(() {
+                return LiveWellButton(
+                    label: controller.localization.submit!,
+                    color: const Color(0xFFDDF235),
+                    onPressed: (controller.isEmailValid.value ?? false)
+                        ? () {
+                            controller.sendForgotPassword();
+                          }
+                        : null);
+              })
             ],
           ),
         ));

@@ -7,4 +7,5 @@ import 'package:livewell/feature/streak/domain/usecase/get_wellness_data_batch.d
 abstract class WellnessRepository {
   Future<Either<Failure, WellnessBatchModel>> getWellnessBatch(GetWellnessDataBatchParams params);
   Future<Either<Failure, WellnessDetailModel>> getWellnessDetail(DateTime date);
+  Future<Either<Failure, String>> refreshWellness(String type);
 }

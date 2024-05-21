@@ -12,6 +12,7 @@ class GetNutriScore extends UseCase<NutriScoreModel, NoParams> {
     repository = NutriscoreRepositoryImpl.getInstance();
   }
 
+  @override
   Future<Either<Failure, NutriScoreModel>> call(NoParams params) async {
     return await repository.getNutriscore();
   }

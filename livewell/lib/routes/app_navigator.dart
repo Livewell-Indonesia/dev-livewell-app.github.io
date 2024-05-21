@@ -4,6 +4,7 @@ import 'package:livewell/feature/auth/presentation/page/forgot_password/forgot_p
 import 'package:livewell/feature/auth/presentation/page/landing/landing_auth_screen.dart';
 import 'package:livewell/feature/auth/presentation/page/login/login_screen.dart';
 import 'package:livewell/feature/auth/presentation/page/signup/signup_screen.dart';
+import 'package:livewell/feature/auth/presentation/page/update_password/update_password_screen.dart';
 import 'package:livewell/feature/daily_journal/presentation/page/daily_journal_screen.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_kyc_screen.dart';
 import 'package:livewell/feature/exercise/presentation/pages/manual_exercise_input.dart';
@@ -44,7 +45,7 @@ class AppNavigator {
     GetPage(name: "${AppPages.home}/", page: () => HomeScreen(), transition: Transition.cupertino),
     GetPage(name: "${AppPages.home}/:page", page: () => HomeScreen(), transition: Transition.cupertino),
     GetPage(name: AppPages.landingLogin, page: () => LandingAuthScreen(), transition: Transition.cupertino),
-    GetPage(name: AppPages.login, page: () => LoginScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.login, page: () => const LoginScreen(), transition: Transition.cupertino),
     GetPage(name: AppPages.signup, page: () => const SignUpScreen(), transition: Transition.cupertino),
     GetPage(name: AppPages.questionnaire, page: () => const QuestionnaireScreen(), transition: Transition.cupertino),
     GetPage(name: AppPages.finishQuestionnaire, page: () => const FinishQuestionnaireScreen(), transition: Transition.cupertino),
@@ -70,7 +71,7 @@ class AppNavigator {
       page: () => const SuccessRequestFoodScreen(),
       transition: Transition.cupertino,
     ),
-    GetPage(name: AppPages.updateWeight, page: () => UpdateWeightScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.updateWeight, page: () => const UpdateWeightScreen(), transition: Transition.cupertino),
     GetPage(name: AppPages.exerciseKYC, page: () => ExerciseKYCScreen(), transition: Transition.cupertinoDialog),
     GetPage(name: AppPages.waterConsumedPage, page: () => WaterConsumedPage(), transition: Transition.cupertino),
     GetPage(name: AppPages.waterCustomInputPage, page: () => WaterCustomInputPage(), transition: Transition.cupertino),
@@ -90,6 +91,7 @@ class AppNavigator {
     GetPage(name: AppPages.addFood, page: () => const AddFoodScreen(), transition: Transition.cupertino),
     GetPage(name: AppPages.loadingNutricoPlus, page: () => const NutricoPlusLoadingScreen(), transition: Transition.cupertino),
     GetPage(name: AppPages.streakPage, page: () => const StreakScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.updatePassword, page: () => const UpdatePasswordScreen(), transition: Transition.cupertino),
   ];
 
   static void push({required String routeName, dynamic arguments}) {
@@ -174,4 +176,5 @@ class AppPages {
   static String addFood = '/add-food';
   static String loadingNutricoPlus = '/loading-nutrico-plus';
   static String streakPage = '/streak';
+  static String updatePassword = '/update-password';
 }

@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 
 class Endpoint {
   /// DEV
-  static String api = kReleaseMode ? "https://api.livewellindo.com/api/v1/" : "https://api.livewellindo.com/api/v1/";
+  static String api = kReleaseMode ? "https://api.livewellindo.com/api/v1/" : "https://dev-api.livewellindo.com/api/v1/";
 
   /// Login
   static const String login = "auth/login";
@@ -10,7 +10,7 @@ class Endpoint {
   static const String loginApple = "auth/apple";
 
   /// Register
-  static const String register = "auth/registration";
+  static const String register = "auth/registration-v2";
 
   /// delete account
   static const String deleteAccount = "user/request-account-deletion";
@@ -79,4 +79,8 @@ class Endpoint {
   /// Wellness
   static const String wellness = "wellness/date-range";
   static const String wellnessDetail = "wellness";
+  static const String wellnessRefresh = "wellness/refresh";
+
+  /// change password
+  static const String updatePassword = "user/change-password";
 }

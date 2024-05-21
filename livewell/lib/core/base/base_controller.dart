@@ -44,12 +44,12 @@ class BaseController extends FullLifeCycleController with FullLifeCycleMixin {
     }
   }
 
-  AvailableLanguage? LanguagefromString(String? locale) {
+  AvailableLanguage? languagefromString(String? locale) {
     if (locale == null) return null;
     return AvailableLanguage.values.firstWhere((element) => element.languageCode == locale, orElse: () => AvailableLanguage.en);
   }
 
-  AvailableLanguage? LanguagefromLocale(String? locale) {
+  AvailableLanguage? languagefromLocale(String? locale) {
     if (locale == null) return null;
     return AvailableLanguage.values.firstWhere((element) => element.locale == locale, orElse: () => AvailableLanguage.en);
   }
@@ -67,9 +67,7 @@ class BaseController extends FullLifeCycleController with FullLifeCycleMixin {
   void onResumed() {}
 
   @override
-  void onHidden() {
-    // TODO: implement onHidden
-  }
+  void onHidden() {}
 }
 
 class LanguageController extends GetxController {
@@ -107,7 +105,7 @@ class LanguageController extends GetxController {
     });
   }
 
-  AvailableLanguage? LanguagefromString(String? locale) {
+  AvailableLanguage? languagefromString(String? locale) {
     if (locale == null) return null;
     return AvailableLanguage.values.firstWhere((element) => element.languageCode == locale, orElse: () => AvailableLanguage.en);
   }

@@ -147,7 +147,7 @@ class StreakItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          model.isCompleted ? FinishedItem() : UnfinishedItem(),
+          model.isCompleted ? const FinishedItem() : const UnfinishedItem(),
           12.horizontalSpace,
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

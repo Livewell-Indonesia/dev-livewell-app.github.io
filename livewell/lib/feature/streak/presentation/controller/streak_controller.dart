@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/log.dart';
@@ -38,7 +36,6 @@ class StreakController extends BaseController {
     selectedDate.value = date;
     selectedStreak.clear();
     todayProgress.value = 0;
-    numberOfStreaks.value = 0;
     getDetailWellnessForDate(date);
   }
 
@@ -46,7 +43,7 @@ class StreakController extends BaseController {
     final detailWellness = GetWellnessDetail.instance();
     detailWellness(dateTime).then((value) {
       value.fold((l) {
-        print(l.message);
+        Log.error(l);
       }, (r) {
         if (r.response == null) {
           for (var item in StreakItemType.values) {
@@ -156,7 +153,7 @@ class StreakController extends BaseController {
     final currentDate = DateTime.now();
     useCase(params).then((value) {
       value.fold((l) {
-        print(l.message);
+        Log.error(l);
       }, (r) {
         if (r.response?.displayData == null) return;
         for (int i = 0; i < streakDates.length; i++) {

@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:livewell/feature/auth/domain/entity/register.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_change_password.dart';
 import 'package:livewell/feature/auth/domain/usecase/post_register.dart';
+import 'package:livewell/feature/auth/domain/usecase/post_update_password.dart';
 
 import '../../../../core/error/failures.dart';
 import '../entity/login.dart';
@@ -16,4 +17,5 @@ abstract class AuthRepository {
   Future<Either<Failure, Login>> postAuthGoogle();
   Future<Either<Failure, Login>> postAuthApple();
   Future<Either<Failure, Login>> deleteAccount();
+  Future<Either<Failure, Register>> updatePassword(UpdatePasswordParams params);
 }

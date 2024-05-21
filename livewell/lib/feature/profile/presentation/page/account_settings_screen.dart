@@ -8,11 +8,12 @@ import 'package:get/get.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/feature/profile/presentation/controller/account_settings_controller.dart';
-import 'package:livewell/feature/profile/presentation/controller/exercise_information_controller.dart';
 import 'package:livewell/feature/profile/presentation/controller/physical_information_controller.dart';
 import 'package:livewell/feature/profile/presentation/controller/user_settings_controller.dart';
 import 'package:livewell/feature/profile/presentation/page/user_settings_screen.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
+import 'package:livewell/routes/app_navigator.dart';
+import 'package:livewell/theme/design_system.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 
 class AccountSettingsScreen extends StatelessWidget {
@@ -28,44 +29,61 @@ class AccountSettingsScreen extends StatelessWidget {
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: SingleChildScrollView(
-          child: Container(
-            color: const Color(0xFFF1F1F1),
-            child: Column(
+        child: Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            Column(
               children: [
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    const ProfileBackground(),
-                    Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: InkWell(
-                            //behavior: HitTestBehavior.translucent,
-                            onTap: () {
-                              Get.back();
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.only(left: 16).r,
-                              width: 31.w,
-                              height: 31.w,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: const SizedBox(
-                                child: Icon(
-                                  Icons.arrow_back_ios_new_rounded,
-                                  size: 18,
-                                ),
-                              ),
-                            ),
-                          ),
+                Container(
+                  padding: EdgeInsets.only(top: 60.h, left: 16.w, right: 16.w),
+                  height: 176.h,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFddf235),
+                    borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(64),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          controller.localization.accountSettings ?? "Account Setting",
+                          style: TextStyles.navbarTitle(context),
                         ),
-                        Container(
-                          width: 210.w,
-                          height: 210.h,
+                      ),
+                      const IconButton(
+                          onPressed: null,
+                          icon: Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            color: Colors.transparent,
+                          )),
+                    ],
+                  ),
+                ),
+                //const Spacer(),
+              ],
+            ),
+            Positioned(
+              top: 98.h,
+              child: SizedBox(
+                width: 1.sw,
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Container(
+                          width: 150.w,
+                          height: 150.h,
                           decoration: BoxDecoration(color: Colors.white.withOpacity(0.3), shape: BoxShape.circle),
                           alignment: Alignment.center,
                           child: Stack(
@@ -83,8 +101,8 @@ class AccountSettingsScreen extends StatelessWidget {
                                       });
                                 },
                                 child: Container(
-                                  width: 180.w,
-                                  height: 180.h,
+                                  width: 120.w,
+                                  height: 120.h,
                                   decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Colors.white,
@@ -123,78 +141,16 @@ class AccountSettingsScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        13.verticalSpace,
-                      ],
-                    ),
-                  ],
-                ),
-                LiveWellButton(
-                  label: controller.localization.requestToDeleteAccount!,
-                  color: Colors.red,
-                  textColor: Colors.white,
-                  onPressed: () {
-                    showCupertinoModalPopup(
-                        context: context,
-                        builder: (context) {
-                          return CupertinoAlertDialog(
-                            title: const Text(
-                              'Delete Account Permanently',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            content: Text(controller.localization.yourAccountAndContentDeletedPermanently!, style: const TextStyle(color: Colors.black)),
-                            actions: [
-                              CupertinoDialogAction(
-                                child: Text(
-                                  controller.localization.cancel!,
-                                  style: const TextStyle(color: Colors.black),
-                                ),
-                                onPressed: () {
-                                  Get.back();
-                                },
-                              ),
-                              CupertinoDialogAction(
-                                child: Text(
-                                  'Confirm'.tr,
-                                  style: const TextStyle(color: Colors.red),
-                                ),
-                                onPressed: () {
-                                  controller.requestAccountDeletion();
-                                },
-                              ),
-                            ],
-                          );
-                        });
-                  },
-                ),
-                30.verticalSpace,
-                Container(
-                  width: 1.sw,
-                  margin: EdgeInsets.symmetric(horizontal: 16.w),
-                  alignment: Alignment.center,
-                  child: Column(
-                    children: [
-                      // Top Section
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 15.h),
-                        height: 55.h,
-                        width: 1.sw,
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(30.r), topRight: Radius.circular(30.r))),
-                        child: Row(
-                          children: [
-                            Text(
-                              controller.localization.personalInformation!,
-                              style: TextStyle(color: const Color(0xFF171433), fontSize: 18.sp, fontWeight: FontWeight.w600),
-                            ),
-                            const Spacer(),
-                            Icon(
-                              Icons.edit_outlined,
-                              size: 15.h,
-                              color: const Color(0xFF8F01DF),
-                            ),
-                          ],
+                      ),
+                      32.verticalSpace,
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Text(
+                          controller.localization.personalInformation ?? "Personal Information",
+                          style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue, fontSize: 20.sp, fontWeight: FontWeight.w600),
                         ),
                       ),
-                      30.verticalSpace,
+                      24.verticalSpace,
                       AccountSettingsTextField(
                         textEditingController: controller.firstName,
                         hintText: controller.localization.firstName!,
@@ -209,22 +165,89 @@ class AccountSettingsScreen extends StatelessWidget {
                         textEditingController: controller.email,
                         hintText: controller.localization.emailAddress!,
                         enabled: false,
-                      )
+                      ),
+                      24.verticalSpace,
+                      ListTile(
+                        onTap: () {
+                          AppNavigator.push(routeName: AppPages.updatePassword);
+                        },
+                        leading: const Icon(Icons.vpn_key_outlined),
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Change your password",
+                              style: TextStyle(color: Theme.of(context).colorScheme.textLoEm, fontSize: 16.sp, fontWeight: FontWeight.w500),
+                            ),
+                            Text('Change your password anytime', style: TextStyle(color: Theme.of(context).colorScheme.textLoEm, fontSize: 10.sp, fontWeight: FontWeight.w500)),
+                          ],
+                        ),
+                        trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                      ),
+                      64.verticalSpace,
+                      TextButton(
+                          onPressed: () {
+                            showCupertinoModalPopup(
+                                context: context,
+                                builder: (context) {
+                                  return CupertinoAlertDialog(
+                                    title: const Text(
+                                      'Delete Account Permanently',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                    content: Text(controller.localization.yourAccountAndContentDeletedPermanently!, style: const TextStyle(color: Colors.black)),
+                                    actions: [
+                                      CupertinoDialogAction(
+                                        child: Text(
+                                          controller.localization.cancel!,
+                                          style: const TextStyle(color: Colors.black),
+                                        ),
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                      ),
+                                      CupertinoDialogAction(
+                                        child: Text(
+                                          'Confirm'.tr,
+                                          style: const TextStyle(color: Colors.red),
+                                        ),
+                                        onPressed: () {
+                                          controller.requestAccountDeletion();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
+                          child: Row(
+                            children: [
+                              const Spacer(),
+                              Text(
+                                'Delete Account',
+                                style: TextStyle(
+                                  color: const Color(0xFFFA6F6F),
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const Spacer(),
+                            ],
+                          )),
+                      16.verticalSpace,
+                      LiveWellButton(
+                          label: controller.localization.update!,
+                          color: const Color(0xFF8F01DF),
+                          textColor: Colors.white,
+                          onPressed: () {
+                            controller.validate();
+                          }),
+                      20.verticalSpace,
                     ],
                   ),
                 ),
-                20.verticalSpace,
-                LiveWellButton(
-                    label: controller.localization.update!,
-                    color: const Color(0xFF8F01DF),
-                    textColor: Colors.white,
-                    onPressed: () {
-                      controller.validate();
-                    }),
-                20.verticalSpace,
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
