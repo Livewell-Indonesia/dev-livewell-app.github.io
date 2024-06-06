@@ -235,18 +235,18 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
 
   Color calculateColor(int score) {
     // if score is less than 4, return 808080
-    if (score <= 4) {
-      return const Color(0xFF808080);
+    if (score <= 7) {
+      return const Color(0xFFFA6F6F);
     }
     // if score is less than 16 return 80A4A9
-    if (score <= 16) {
-      return const Color(0xFF80A4A9);
+    if (score <= 15) {
+      return Theme.of(context).colorScheme.primaryGreen;
     }
 
     // if score is less than 20 return 80A4A9
     if (score <= 20) {
-      return const Color(0xFFFA6F6F);
+      return Theme.of(context).colorScheme.primaryTurquoise;
     }
-    return const Color(0xFF808080);
+    return const Color(0xFFFA6F6F);
   }
 }

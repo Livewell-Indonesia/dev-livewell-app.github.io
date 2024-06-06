@@ -45,4 +45,15 @@ class WellnessRepositoryImpl extends WellnessRepository with NetworkModule {
       return Left(ServerFailure(message: ex.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, int>> getStreakTotal() async {
+    try {
+      final response = await getMethod(Endpoint.streakTotal, headers: {authorization: await SharedPref.getToken()});
+      final json = responseHandler(response);
+      return Right(json['response']['total']);
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
 }

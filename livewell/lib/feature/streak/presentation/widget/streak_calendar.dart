@@ -46,7 +46,8 @@ class CalendarItem extends StatelessWidget {
         Stack(
           children: [
             Container(
-                //padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
+                width: 36.w,
+                height: 36.h,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.textBg,
                   shape: BoxShape.circle,
@@ -59,8 +60,7 @@ class CalendarItem extends StatelessWidget {
                             : Theme.of(context).colorScheme.disabled,
                   ),
                 ),
-                child: Padding(
-                  padding: EdgeInsets.all(8.0.w),
+                child: Center(
                   child: Text(date,
                       style: TextStyle(
                           color: isCompleted

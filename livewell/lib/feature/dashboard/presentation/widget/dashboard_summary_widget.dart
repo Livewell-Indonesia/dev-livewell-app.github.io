@@ -140,17 +140,7 @@ class DashboardSummaryModel {
   }
 }
 
-enum DashboardSummaryItem {
-  calories,
-  exercise,
-  protein,
-
-  carbs,
-  sleep,
-  fat,
-  water,
-  mood
-}
+enum DashboardSummaryItem { calories, exercise, carbs, sleep, protein, water, fat, mood }
 
 enum DashboardSummaryStatus { zeroToFourty, fourtyToEighty, eightyPlus, eightyToHundredTen, hundredTenToHundredTwentyFive, hundredTwentyFivePlus }
 
@@ -158,7 +148,7 @@ extension DashboardSummaryExt on DashboardSummaryStatus {
   Color color() {
     switch (this) {
       case DashboardSummaryStatus.zeroToFourty:
-        return const Color(0xFFFA6F6F);
+        return const Color(0xFFF1F1F1);
       case DashboardSummaryStatus.fourtyToEighty:
         return const Color(0xFFDDF235);
       case DashboardSummaryStatus.eightyPlus:
@@ -179,7 +169,7 @@ extension DashboardSummaryItemExt on DashboardSummaryItem {
       case DashboardSummaryItem.calories:
         return 'Calories';
       case DashboardSummaryItem.exercise:
-        return 'Exercise';
+        return 'Exercise Burnt';
       case DashboardSummaryItem.protein:
         return 'Protein';
       case DashboardSummaryItem.mood:

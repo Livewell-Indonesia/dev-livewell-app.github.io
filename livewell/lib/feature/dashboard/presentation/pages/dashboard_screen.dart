@@ -249,12 +249,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                                 unit: 'kCal',
                                 status: DashboardSummaryModel.statusFromValue((controller.totalExercise.value) / (controller.user.value.exerciseGoalKcal ?? 0), false)),
                             DashboardSummaryModel(
-                                item: DashboardSummaryItem.protein,
-                                currentValue: '${controller.dashboard.value.dashboard?.totalProteinInG ?? 0} ',
-                                targetValue: '${controller.totalProtein().round()}',
-                                unit: 'g',
-                                status: DashboardSummaryModel.statusFromValue((controller.dashboard.value.dashboard?.totalProteinInG ?? 0) / (controller.totalProtein().round()), false)),
-                            DashboardSummaryModel(
                                 item: DashboardSummaryItem.carbs,
                                 currentValue: '${controller.dashboard.value.dashboard?.totalCarbsInG ?? 0}',
                                 targetValue: '${controller.totalCarbs().round()}',
@@ -268,11 +262,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                                 status:
                                     DashboardSummaryModel.statusFromValue((sleepController.finalSleepValue / int.parse(controller.user.value.onboardingQuestionnaire?.sleepDuration ?? "0")), false)),
                             DashboardSummaryModel(
-                                item: DashboardSummaryItem.fat,
-                                currentValue: '${controller.dashboard.value.dashboard?.totalFatsInG}',
-                                targetValue: '${controller.totalFat().round()}',
+                                item: DashboardSummaryItem.protein,
+                                currentValue: '${controller.dashboard.value.dashboard?.totalProteinInG ?? 0} ',
+                                targetValue: '${controller.totalProtein().round()}',
                                 unit: 'g',
-                                status: DashboardSummaryModel.statusFromValue((controller.dashboard.value.dashboard?.totalFatsInG ?? 0) / (controller.totalFat().round()), true)),
+                                status: DashboardSummaryModel.statusFromValue((controller.dashboard.value.dashboard?.totalProteinInG ?? 0) / (controller.totalProtein().round()), false)),
                             DashboardSummaryModel(
                                 item: DashboardSummaryItem.water,
                                 currentValue: (controller.waterConsumed.value / 1000).toStringAsFixed(1),
@@ -280,6 +274,12 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                                 unit: 'liters',
                                 status: DashboardSummaryModel.statusFromValue(
                                     (controller.waterConsumed.value / 1000) / (int.parse((controller.user.value.onboardingQuestionnaire?.glassesOfWaterDaily ?? "0")) * 0.25), false)),
+                            DashboardSummaryModel(
+                                item: DashboardSummaryItem.fat,
+                                currentValue: '${controller.dashboard.value.dashboard?.totalFatsInG}',
+                                targetValue: '${controller.totalFat().round()}',
+                                unit: 'g',
+                                status: DashboardSummaryModel.statusFromValue((controller.dashboard.value.dashboard?.totalFatsInG ?? 0) / (controller.totalFat().round()), true)),
                             DashboardSummaryModel(
                                 item: DashboardSummaryItem.mood,
                                 currentValue: '0',
@@ -486,7 +486,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
     } else if (todayProgress == 5) {
       return 32.h;
     } else {
-      return 32.h / (5 - todayProgress).toDouble();
+      return 32.h * (todayProgress / 5);
     }
   }
 
@@ -544,11 +544,23 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
 class WellnessScoreWidget extends StatelessWidget {
   final int score;
   final VoidCallback? onTap;
+  final String title = 'Your wellness score is a measure of how well you are doing in all areas of your health.';
+
   const WellnessScoreWidget({
     super.key,
     required this.score,
     this.onTap,
   });
+
+  String getTitle(int score) {
+    if (score <= 50) {
+      return 'Check the app to see what you need to improve.';
+    } else if (score <= 80) {
+      return 'See the app for areas to improve.';
+    } else {
+      return 'Great job! Keep up the good work.';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -594,7 +606,7 @@ class WellnessScoreWidget extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Your wellness score puts you in the modetate range',
+                  getTitle(score),
                   style: TextStyle(
                     color: const Color(0xFF808080),
                     fontSize: 12.sp,

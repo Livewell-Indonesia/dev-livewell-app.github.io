@@ -8,4 +8,5 @@ abstract class WellnessRepository {
   Future<Either<Failure, WellnessBatchModel>> getWellnessBatch(GetWellnessDataBatchParams params);
   Future<Either<Failure, WellnessDetailModel>> getWellnessDetail(DateTime date);
   Future<Either<Failure, String>> refreshWellness(String type);
+  Future<Either<Failure, int>> getStreakTotal();
 }

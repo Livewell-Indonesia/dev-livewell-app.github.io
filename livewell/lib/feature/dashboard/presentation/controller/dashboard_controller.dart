@@ -32,7 +32,9 @@ import 'package:livewell/feature/nutriscore/domain/usecase/get_nutri_score.dart'
 import 'package:livewell/feature/sleep/domain/usecase/get_sleep_list.dart';
 import 'package:livewell/feature/sleep/presentation/controller/sleep_controller.dart';
 import 'package:livewell/feature/streak/data/model/wellness_batch_data_model.dart';
+import 'package:livewell/feature/streak/domain/usecase/get_total_streak.dart';
 import 'package:livewell/feature/streak/domain/usecase/get_wellness_data_batch.dart';
+import 'package:livewell/feature/streak/domain/usecase/get_wellness_detail.dart';
 import 'package:livewell/feature/streak/presentation/widget/streak_calendar.dart';
 import 'package:livewell/feature/water/data/model/water_list_model.dart';
 import 'package:livewell/feature/water/domain/usecase/get_water_data.dart';
@@ -74,6 +76,7 @@ class DashboardController extends BaseController {
   Rx<String> streakDescription = ''.obs;
   Rx<int> wellnessScore = 0.obs;
   Rxn<WellnessData> wellnessData = Rxn<WellnessData>();
+  Rx<String> wellnessTitle = 'Your wellness is in the low range. Check to see what you need to improve.'.obs;
 
   var types = [HealthDataType.STEPS, HealthDataType.ACTIVE_ENERGY_BURNED, HealthDataType.SLEEP_IN_BED];
 
@@ -82,6 +85,58 @@ class DashboardController extends BaseController {
     HealthDataAccess.READ,
     HealthDataAccess.READ,
   ];
+
+  void getTotalStreak() {
+    final useCase = GetTotalStreak.instance();
+    useCase(NoParams()).then((value) {
+      value.fold((l) {
+        Log.error(l);
+        streakDescription.value = 'Start your streak!';
+        numberOfStreaks.value = 0;
+      }, (r) {
+        numberOfStreaks.value = r;
+        if (numberOfStreaks.value != 0) {
+          final shuffled = streakDescriptionList..shuffle();
+          streakDescription.value = shuffled.first;
+        } else {
+          streakDescription.value = 'Start your streak!';
+        }
+      });
+    });
+  }
+
+  void getTodayWellnessData() {
+    numberOfStreaks.value = 0;
+    todayProgress.value = 0;
+    streakDates.clear();
+    wellnessScore.value = 0;
+    final usecase = GetWellnessDetail.instance();
+    usecase(DateTime.now()).then((value) {
+      value.fold((l) {
+        Log.error(l);
+      }, (r) {
+        if (r.response == null) return;
+        wellnessData.value = r.response?.displayData;
+        if (r.response?.displayData?.activityScore != 0) {
+          todayProgress.value = todayProgress.value + 1;
+        }
+        if (r.response?.displayData?.hydrationScore != 0) {
+          todayProgress.value = todayProgress.value + 1;
+        }
+        if (r.response?.displayData?.nutritionScore != 0) {
+          todayProgress.value = todayProgress.value + 1;
+        }
+        if (r.response?.displayData?.sleepScore != 0) {
+          todayProgress.value = todayProgress.value + 1;
+        }
+        if (r.response?.displayData?.moodScore != 0) {
+          todayProgress.value = todayProgress.value + 1;
+        }
+        wellnessScore.value = r.response?.displayData?.totalScore ?? 0;
+        
+      });
+    });
+  }
 
   void getStreakData() {
     numberOfStreaks.value = 0;
@@ -96,6 +151,7 @@ class DashboardController extends BaseController {
     final currentDate = DateTime.now();
     usecase(params).then((value) {
       value.fold((l) {
+        Log.colorGreen("andiiii $l");
         Log.error(l.message);
       }, (r) {
         if (r.response?.displayData == null) return;
@@ -104,18 +160,6 @@ class DashboardController extends BaseController {
             if (item.recordAt?.year == streakDates[i].date.year && item.recordAt?.month == streakDates[i].date.month && item.recordAt?.day == streakDates[i].date.day) {
               streakDates[i] = streakDates[i].copyWith(isCompleted: item.isStreak ?? false);
             }
-          }
-        }
-        for (var data in streakDates) {
-          Log.colorGreen("isStreak: ${data.isCompleted} date: ${data.date}");
-          if (data.date.day > currentDate.day && data.date.month >= currentDate.month && data.date.year >= currentDate.year) {
-            Log.colorGreen("ini dimasa depan nih ${data.date}");
-            continue;
-          } else if (data.isCompleted) {
-            numberOfStreaks.value++;
-          } else if (data.date.day == currentDate.day && data.date.month == currentDate.month && data.date.year == currentDate.year) {
-          } else {
-            numberOfStreaks.value = 0;
           }
         }
         for (var item in r.response!.displayData!) {
@@ -138,13 +182,6 @@ class DashboardController extends BaseController {
             }
             wellnessScore.value = item.totalScore ?? 0;
           }
-        }
-
-        if (numberOfStreaks.value != 0) {
-          final shuffled = streakDescriptionList..shuffle();
-          streakDescription.value = shuffled.first;
-        } else {
-          streakDescription.value = 'Start your streak!';
         }
       });
     });
@@ -337,7 +374,8 @@ class DashboardController extends BaseController {
     getWaterData();
     getSingleMoodData();
     getFeatureLimitData();
-    getStreakData();
+    getTodayWellnessData();
+    getTotalStreak();
     super.onInit();
   }
 
@@ -357,7 +395,8 @@ class DashboardController extends BaseController {
     getWaterData();
     getSingleMoodData();
     getFeatureLimitData();
-    getStreakData();
+    getTodayWellnessData();
+    getTotalStreak();
     if (Get.isRegistered<SleepController>()) {
       Get.find<SleepController>().refreshList();
     }

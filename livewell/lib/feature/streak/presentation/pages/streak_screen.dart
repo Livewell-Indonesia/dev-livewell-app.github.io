@@ -210,7 +210,7 @@ class _StreakScreenState extends State<StreakScreen> {
     } else if (todayProgress == 5) {
       return 56.h;
     } else {
-      return 56.h / (5 - todayProgress).toDouble();
+      return 56.h * (todayProgress / 5);
     }
   }
 }
