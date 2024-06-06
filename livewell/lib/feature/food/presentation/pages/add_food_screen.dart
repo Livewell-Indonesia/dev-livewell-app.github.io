@@ -62,7 +62,8 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
             InkWell(
               child: const Icon(Icons.edit_outlined),
               onTap: () {
-                AppNavigator.push(routeName: AppPages.nutriCoScreen, arguments: {'type': getMealTypeByCurrentTime().name, 'date': DateTime.now(), 'name': food?.foodName ?? ""});
+                AppNavigator.push(
+                    routeName: AppPages.nutriCoScreen, arguments: {'type': getMealTypeByCurrentTime().name, 'date': DateTime.now(), 'name': food?.foodName ?? "", 'imageUrl': imageUrl, 'refId': ''});
               },
             ),
             16.horizontalSpace,

@@ -70,7 +70,7 @@ class NutriCoController extends BaseController {
         child: Lottie.asset('assets/jsons/99274-loading.json', repeat: true),
       ),
     ));
-    final result = await PostNutrico.instance()(PostNutricoParams(foodDescription.text));
+    final result = await PostNutrico.instance()(PostNutricoParams(foodDescription.text, Get.arguments['imageUrl'], Get.arguments['refId']));
     Get.back();
     result.fold((l) {
       showError();

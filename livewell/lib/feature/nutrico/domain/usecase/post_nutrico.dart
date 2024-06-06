@@ -19,12 +19,16 @@ class PostNutrico extends UseCase<Foods, PostNutricoParams> {
 
 class PostNutricoParams {
   final String description;
+  final String imageUrl;
+  final String refId;
 
-  PostNutricoParams(this.description);
+  PostNutricoParams(this.description, this.imageUrl, this.refId);
 
   Map<String, dynamic> toJson() {
     return {
       'name': description,
+      'image_url': imageUrl,
+      'original_search_reference_id': refId,
     };
   }
 }

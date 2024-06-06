@@ -33,7 +33,7 @@ class Endpoint {
   static const String deleteMeal = "user/meal/delete";
   static const String updateMeal = "user/meal/update";
   static const String requestFood = "foods/request";
-  static const String nutriCo = "foods/estimated-food-info";
+  static const String nutriCo = "foods/search-by-image-input";
   static const String nutriCoAsset = "config/nutrico-assets";
 
   /// questionnaire
@@ -69,7 +69,7 @@ class Endpoint {
   static const String getListMood = "mood/list";
   static const String getDetailMood = "mood/detail";
 
-  static const String nutriCoSearchByImage = "foods/search-by-image";
+  static const String nutriCoSearchByImage = "foods/search-by-image/v2";
   static const String getNutriCoLoadingAsset = "config/nutrico-loading-assets";
   static const String nutricoPlusTutorialAsset = "config/nutrico-plus-tutorial-assets";
 

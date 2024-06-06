@@ -52,20 +52,20 @@ class NutricoPlusController extends BaseController {
         showError();
       }
     }, (r) async {
-      state.value = NutricoPlusState.detectingImage;
-      imageUrl.value = r.response?.imageUrl ?? '';
-      foodName.value = r.response?.foodName ?? '';
-      if (foodName.value.isNotEmpty && imageUrl.value.isNotEmpty) {
-        await detectImage(foodName.value, imageUrl.value);
-      } else {
-        Get.back();
-        showError();
-      }
+      // state.value = NutricoPlusState.detectingImage;
+      // imageUrl.value = r.response?.imageUrl ?? '';
+      // foodName.value = r.response?.foodName ?? '';
+      // if (foodName.value.isNotEmpty && imageUrl.value.isNotEmpty) {
+      //   await detectImage(foodName.value, imageUrl.value);
+      // } else {
+      //   Get.back();
+      //   showError();
+      // }
     });
   }
 
   Future<void> detectImage(String foodName, String imageUrl) async {
-    final data = await postNutrico(PostNutricoParams(foodName));
+    final data = await postNutrico(PostNutricoParams(foodName, imageUrl, ''));
     Get.back();
     data.fold((l) {
       Get.back();
