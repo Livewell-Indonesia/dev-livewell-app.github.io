@@ -31,7 +31,10 @@ import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_model.dart
 import 'package:livewell/feature/nutriscore/domain/usecase/get_nutri_score.dart';
 import 'package:livewell/feature/sleep/domain/usecase/get_sleep_list.dart';
 import 'package:livewell/feature/sleep/presentation/controller/sleep_controller.dart';
+import 'package:livewell/feature/streak/data/model/wellness_batch_data_model.dart';
+import 'package:livewell/feature/streak/domain/usecase/get_total_streak.dart';
 import 'package:livewell/feature/streak/domain/usecase/get_wellness_data_batch.dart';
+import 'package:livewell/feature/streak/domain/usecase/get_wellness_detail.dart';
 import 'package:livewell/feature/streak/presentation/widget/streak_calendar.dart';
 import 'package:livewell/feature/water/data/model/water_list_model.dart';
 import 'package:livewell/feature/water/domain/usecase/get_water_data.dart';
@@ -71,6 +74,9 @@ class DashboardController extends BaseController {
   RxList<StreakCalendarItemModel> streakDates = <StreakCalendarItemModel>[].obs;
   Rx<int> todayProgress = 0.obs;
   Rx<String> streakDescription = ''.obs;
+  Rx<int> wellnessScore = 0.obs;
+  Rxn<WellnessData> wellnessData = Rxn<WellnessData>();
+  Rx<String> wellnessTitle = 'Your wellness is in the low range. Check to see what you need to improve.'.obs;
 
   var types = [HealthDataType.STEPS, HealthDataType.ACTIVE_ENERGY_BURNED, HealthDataType.SLEEP_IN_BED];
 
@@ -80,10 +86,63 @@ class DashboardController extends BaseController {
     HealthDataAccess.READ,
   ];
 
+  void getTotalStreak() {
+    final useCase = GetTotalStreak.instance();
+    useCase(NoParams()).then((value) {
+      value.fold((l) {
+        Log.error(l);
+        streakDescription.value = 'Start your streak!';
+        numberOfStreaks.value = 0;
+      }, (r) {
+        numberOfStreaks.value = r;
+        if (numberOfStreaks.value != 0) {
+          final shuffled = streakDescriptionList..shuffle();
+          streakDescription.value = shuffled.first;
+        } else {
+          streakDescription.value = 'Start your streak!';
+        }
+      });
+    });
+  }
+
+  void getTodayWellnessData() {
+    numberOfStreaks.value = 0;
+    todayProgress.value = 0;
+    streakDates.clear();
+    wellnessScore.value = 0;
+    final usecase = GetWellnessDetail.instance();
+    usecase(DateTime.now()).then((value) {
+      value.fold((l) {
+        Log.error(l);
+      }, (r) {
+        if (r.response == null) return;
+        wellnessData.value = r.response?.displayData;
+        if (r.response?.displayData?.activityScore != 0) {
+          todayProgress.value = todayProgress.value + 1;
+        }
+        if (r.response?.displayData?.hydrationScore != 0) {
+          todayProgress.value = todayProgress.value + 1;
+        }
+        if (r.response?.displayData?.nutritionScore != 0) {
+          todayProgress.value = todayProgress.value + 1;
+        }
+        if (r.response?.displayData?.sleepScore != 0) {
+          todayProgress.value = todayProgress.value + 1;
+        }
+        if (r.response?.displayData?.moodScore != 0) {
+          todayProgress.value = todayProgress.value + 1;
+        }
+        wellnessScore.value = r.response?.displayData?.totalScore ?? 0;
+        
+      });
+    });
+  }
+
   void getStreakData() {
     numberOfStreaks.value = 0;
     todayProgress.value = 0;
     streakDates.clear();
+    wellnessScore.value = 0;
 
     final dates = generateWeekStartingFromMonday();
     streakDates.value = dates.map((e) => StreakCalendarItemModel(date: e, isCompleted: false)).toList();
@@ -92,6 +151,7 @@ class DashboardController extends BaseController {
     final currentDate = DateTime.now();
     usecase(params).then((value) {
       value.fold((l) {
+        Log.colorGreen("andiiii $l");
         Log.error(l.message);
       }, (r) {
         if (r.response?.displayData == null) return;
@@ -102,43 +162,26 @@ class DashboardController extends BaseController {
             }
           }
         }
-        for (var data in streakDates) {
-          Log.colorGreen("isStreak: ${data.isCompleted} date: ${data.date}");
-          if (data.date.day > currentDate.day && data.date.month >= currentDate.month && data.date.year >= currentDate.year) {
-            Log.colorGreen("ini dimasa depan nih ${data.date}");
-            continue;
-          } else if (data.isCompleted) {
-            numberOfStreaks.value++;
-          } else if (data.date.day == currentDate.day && data.date.month == currentDate.month && data.date.year == currentDate.year) {
-          } else {
-            numberOfStreaks.value = 0;
-          }
-        }
         for (var item in r.response!.displayData!) {
           if (item.recordAt?.year == currentDate.year && item.recordAt?.month == currentDate.month && item.recordAt?.day == currentDate.day) {
+            wellnessData.value = item;
             if (item.activityScore != 0) {
-              todayProgress.value++;
+              todayProgress.value = todayProgress.value + 1;
             }
             if (item.hydrationScore != 0) {
-              todayProgress.value++;
+              todayProgress.value = todayProgress.value + 1;
             }
             if (item.nutritionScore != 0) {
-              todayProgress.value++;
+              todayProgress.value = todayProgress.value + 1;
             }
             if (item.sleepScore != 0) {
-              todayProgress.value++;
+              todayProgress.value = todayProgress.value + 1;
             }
             if (item.moodScore != 0) {
-              todayProgress.value++;
+              todayProgress.value = todayProgress.value + 1;
             }
+            wellnessScore.value = item.totalScore ?? 0;
           }
-        }
-
-        if (numberOfStreaks.value != 0) {
-          final shuffled = streakDescriptionList..shuffle();
-          streakDescription.value = shuffled.first;
-        } else {
-          streakDescription.value = 'Start your streak!';
         }
       });
     });
@@ -170,7 +213,6 @@ class DashboardController extends BaseController {
     if (await healthFactory.hasPermissions(types) ?? false) {
       fetchHealthDataFromTypes();
       testingSleepNew();
-      getExerciseHistorydata();
       final HomeController homeController = Get.find();
       homeController.showCoachmark();
     } else {
@@ -178,7 +220,6 @@ class DashboardController extends BaseController {
       if (isAllowed) {
         fetchHealthDataFromTypes();
         testingSleepNew();
-        getExerciseHistorydata();
         final HomeController homeController = Get.find();
         homeController.showCoachmark();
       }
@@ -189,7 +230,6 @@ class DashboardController extends BaseController {
   void requestHealthAccess() async {
     var allowGoogleHealth = Get.find<HomeController>().appConfigModel.value.googleHealth ?? false;
     if (Platform.isAndroid && (allowGoogleHealth == false)) {
-      getExerciseHistorydata();
       final HomeController homeController = Get.find();
       homeController.showCoachmark();
     } else {
@@ -280,14 +320,6 @@ class DashboardController extends BaseController {
     });
   }
 
-  @override
-  void onResumed() {
-    if (kReleaseMode) {
-      onRefresh();
-    }
-    super.onResumed();
-  }
-
   void fetchHealthDataFromTypes() async {
     var currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0, 0, 0);
     var dateTill = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59, 0, 0);
@@ -342,7 +374,8 @@ class DashboardController extends BaseController {
     getWaterData();
     getSingleMoodData();
     getFeatureLimitData();
-    getStreakData();
+    getTodayWellnessData();
+    getTotalStreak();
     super.onInit();
   }
 
@@ -356,15 +389,14 @@ class DashboardController extends BaseController {
   }
 
   Future<void> onRefresh() async {
-    Log.info("berapa kali niiii");
-    getUsersData();
+    requestHealthAccess();
     getDashBoardData();
     getMealHistories();
-    getNutriscoreData();
     getWaterData();
     getSingleMoodData();
     getFeatureLimitData();
-    getStreakData();
+    getTodayWellnessData();
+    getTotalStreak();
     if (Get.isRegistered<SleepController>()) {
       Get.find<SleepController>().refreshList();
     }

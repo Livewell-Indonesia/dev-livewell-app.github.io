@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:livewell/feature/streak/data/model/wellness_batch_data_model.dart';
+
 WellnessDetailModel wellnessDetailModelFromJson(String str) => WellnessDetailModel.fromJson(json.decode(str));
 
 String wellnessDetailModelToJson(WellnessDetailModel data) => json.encode(data.toJson());
@@ -27,7 +29,7 @@ class WellnessDetailModel {
 class Response {
   DateTime? date;
   Data? rawData;
-  Data? displayData;
+  WellnessData? displayData;
   Details? details;
 
   Response({
@@ -40,7 +42,7 @@ class Response {
   factory Response.fromJson(Map<String, dynamic> json) => Response(
         date: json["date"] == null ? null : DateTime.parse(json["date"]),
         rawData: json["raw_data"] == null ? null : Data.fromJson(json["raw_data"]),
-        displayData: json["display_data"] == null ? null : Data.fromJson(json["display_data"]),
+        displayData: json["display_data"] == null ? null : WellnessData.fromJson(json["display_data"]),
         details: json["details"] == null ? null : Details.fromJson(json["details"]),
       );
 

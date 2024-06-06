@@ -35,6 +35,7 @@ import 'package:livewell/feature/update_weight/presentation/page/update_weight_s
 import 'package:livewell/feature/water/presentation/pages/water_consumed_page.dart';
 import 'package:livewell/feature/water/presentation/pages/water_custom_input_page.dart';
 import 'package:livewell/feature/water/presentation/pages/water_screen.dart';
+import 'package:livewell/feature/wellness/presentation/pages/wellness_score_screen.dart';
 
 import '../feature/exercise/presentation/pages/exercise_screen.dart';
 
@@ -92,6 +93,7 @@ class AppNavigator {
     GetPage(name: AppPages.loadingNutricoPlus, page: () => const NutricoPlusLoadingScreen(), transition: Transition.cupertino),
     GetPage(name: AppPages.streakPage, page: () => const StreakScreen(), transition: Transition.cupertino),
     GetPage(name: AppPages.updatePassword, page: () => const UpdatePasswordScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.wellnessScore, page: () => const WellnessScoreScreen(), transition: Transition.cupertino),
   ];
 
   static void push({required String routeName, dynamic arguments}) {
@@ -177,4 +179,5 @@ class AppPages {
   static String loadingNutricoPlus = '/loading-nutrico-plus';
   static String streakPage = '/streak';
   static String updatePassword = '/update-password';
+  static String wellnessScore = '/wellness-score';
 }

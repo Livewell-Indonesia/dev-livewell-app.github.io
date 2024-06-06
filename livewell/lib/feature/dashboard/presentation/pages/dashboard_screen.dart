@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/dashboard/presentation/widget/dashboard_summary_widget.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
@@ -26,7 +28,7 @@ class DashBoardScreen extends StatefulWidget {
   State<DashBoardScreen> createState() => _DashBoardScreenState();
 }
 
-class _DashBoardScreenState extends State<DashBoardScreen> {
+class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingObserver {
   DashboardController controller = Get.put(DashboardController(), permanent: true);
   SleepController sleepController = Get.put(SleepController());
   int current = 0;
@@ -34,7 +36,24 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   final HomeController homeController = Get.find();
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(final AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // if (kReleaseMode) {
+      //   controller.onRefresh();
+      // }
+      controller.onRefresh();
+    }
   }
 
   @override
@@ -202,78 +221,15 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       ),
                     ),
                     16.verticalSpace,
-                    // Container(
-                    //   margin: EdgeInsets.symmetric(horizontal: 16.w),
-                    //   padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
-                    //   decoration: BoxDecoration(
-                    //     color: Colors.white,
-                    //     borderRadius: BorderRadius.circular(16.r),
-                    //   ),
-                    //   child: Row(
-                    //     children: [
-                    //       Container(
-                    //         padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                    //         decoration: BoxDecoration(
-                    //           borderRadius: BorderRadius.circular(8.r),
-                    //           color: const Color(0xFFDDF235).withOpacity(0.35),
-                    //         ),
-                    //         child: Column(
-                    //           children: [
-                    //             Text(
-                    //               '100',
-                    //               style: TextStyle(color: const Color(0xFF505050), fontSize: 20.sp, fontWeight: FontWeight.w600),
-                    //             ),
-                    //             Text(
-                    //               '/100',
-                    //               style: TextStyle(color: const Color(0xFF505050), fontSize: 12.sp, fontWeight: FontWeight.w400),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //       12.horizontalSpace,
-                    //       Expanded(
-                    //         child: Column(
-                    //           crossAxisAlignment: CrossAxisAlignment.start,
-                    //           children: [
-                    //             Text(
-                    //               'Wellness',
-                    //               style: TextStyle(
-                    //                 color: const Color(0xFF505050),
-                    //                 fontSize: 14.sp,
-                    //                 fontWeight: FontWeight.w600,
-                    //               ),
-                    //             ),
-                    //             Text(
-                    //               'Your wellness score puts you in the modetate range',
-                    //               style: TextStyle(
-                    //                 color: const Color(0xFF808080),
-                    //                 fontSize: 12.sp,
-                    //                 fontWeight: FontWeight.w400,
-                    //               ),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //       12.horizontalSpace,
-                    //       Container(
-                    //         padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
-                    //         decoration: BoxDecoration(
-                    //           border: Border.all(color: const Color(0xFF8F01DF)),
-                    //           borderRadius: BorderRadius.circular(16.r),
-                    //         ),
-                    //         child: Text(
-                    //           'See detail',
-                    //           style: TextStyle(
-                    //             color: const Color(0xFF8F01DF),
-                    //             fontSize: 12.sp,
-                    //             fontWeight: FontWeight.w600,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    //16.verticalSpace,
+                    Obx(() {
+                      return WellnessScoreWidget(
+                        score: controller.wellnessScore.value,
+                        onTap: () {
+                          AppNavigator.push(routeName: AppPages.wellnessScore);
+                        },
+                      );
+                    }),
+                    16.verticalSpace,
                     Obx(() {
                       return Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -293,12 +249,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 unit: 'kCal',
                                 status: DashboardSummaryModel.statusFromValue((controller.totalExercise.value) / (controller.user.value.exerciseGoalKcal ?? 0), false)),
                             DashboardSummaryModel(
-                                item: DashboardSummaryItem.protein,
-                                currentValue: '${controller.dashboard.value.dashboard?.totalProteinInG ?? 0} ',
-                                targetValue: '${controller.totalProtein().round()}',
-                                unit: 'g',
-                                status: DashboardSummaryModel.statusFromValue((controller.dashboard.value.dashboard?.totalProteinInG ?? 0) / (controller.totalProtein().round()), false)),
-                            DashboardSummaryModel(
                                 item: DashboardSummaryItem.carbs,
                                 currentValue: '${controller.dashboard.value.dashboard?.totalCarbsInG ?? 0}',
                                 targetValue: '${controller.totalCarbs().round()}',
@@ -312,11 +262,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 status:
                                     DashboardSummaryModel.statusFromValue((sleepController.finalSleepValue / int.parse(controller.user.value.onboardingQuestionnaire?.sleepDuration ?? "0")), false)),
                             DashboardSummaryModel(
-                                item: DashboardSummaryItem.fat,
-                                currentValue: '${controller.dashboard.value.dashboard?.totalFatsInG}',
-                                targetValue: '${controller.totalFat().round()}',
+                                item: DashboardSummaryItem.protein,
+                                currentValue: '${controller.dashboard.value.dashboard?.totalProteinInG ?? 0} ',
+                                targetValue: '${controller.totalProtein().round()}',
                                 unit: 'g',
-                                status: DashboardSummaryModel.statusFromValue((controller.dashboard.value.dashboard?.totalFatsInG ?? 0) / (controller.totalFat().round()), true)),
+                                status: DashboardSummaryModel.statusFromValue((controller.dashboard.value.dashboard?.totalProteinInG ?? 0) / (controller.totalProtein().round()), false)),
                             DashboardSummaryModel(
                                 item: DashboardSummaryItem.water,
                                 currentValue: (controller.waterConsumed.value / 1000).toStringAsFixed(1),
@@ -324,6 +274,12 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 unit: 'liters',
                                 status: DashboardSummaryModel.statusFromValue(
                                     (controller.waterConsumed.value / 1000) / (int.parse((controller.user.value.onboardingQuestionnaire?.glassesOfWaterDaily ?? "0")) * 0.25), false)),
+                            DashboardSummaryModel(
+                                item: DashboardSummaryItem.fat,
+                                currentValue: '${controller.dashboard.value.dashboard?.totalFatsInG}',
+                                targetValue: '${controller.totalFat().round()}',
+                                unit: 'g',
+                                status: DashboardSummaryModel.statusFromValue((controller.dashboard.value.dashboard?.totalFatsInG ?? 0) / (controller.totalFat().round()), true)),
                             DashboardSummaryModel(
                                 item: DashboardSummaryItem.mood,
                                 currentValue: '0',
@@ -530,7 +486,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     } else if (todayProgress == 5) {
       return 32.h;
     } else {
-      return 32.h / (5 - todayProgress).toDouble();
+      return 32.h * (todayProgress / 5);
     }
   }
 
@@ -580,6 +536,110 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class WellnessScoreWidget extends StatelessWidget {
+  final int score;
+  final VoidCallback? onTap;
+  final String title = 'Your wellness score is a measure of how well you are doing in all areas of your health.';
+
+  const WellnessScoreWidget({
+    super.key,
+    required this.score,
+    this.onTap,
+  });
+
+  String getTitle(int score) {
+    if (score <= 50) {
+      return 'Check the app to see what you need to improve.';
+    } else if (score <= 80) {
+      return 'See the app for areas to improve.';
+    } else {
+      return 'Great job! Keep up the good work.';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 16.w),
+      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.r),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.r),
+              color: const Color(0xFFDDF235).withOpacity(0.35),
+            ),
+            child: Column(
+              children: [
+                Text(
+                  score.toString(),
+                  style: TextStyle(color: const Color(0xFF505050), fontSize: 20.sp, fontWeight: FontWeight.w600),
+                ),
+                Text(
+                  '/100',
+                  style: TextStyle(color: const Color(0xFF505050), fontSize: 12.sp, fontWeight: FontWeight.w400),
+                ),
+              ],
+            ),
+          ),
+          12.horizontalSpace,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Wellness',
+                  style: TextStyle(
+                    color: const Color(0xFF505050),
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Text(
+                  getTitle(score),
+                  style: TextStyle(
+                    color: const Color(0xFF808080),
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          12.horizontalSpace,
+          (onTap == null)
+              ? const SizedBox()
+              : InkWell(
+                  onTap: () {
+                    AppNavigator.push(routeName: AppPages.wellnessScore);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: const Color(0xFF8F01DF)),
+                      borderRadius: BorderRadius.circular(16.r),
+                    ),
+                    child: Text(
+                      'See detail',
+                      style: TextStyle(
+                        color: const Color(0xFF8F01DF),
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+        ],
       ),
     );
   }

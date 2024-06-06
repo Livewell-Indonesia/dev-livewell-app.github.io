@@ -235,22 +235,6 @@ class SleepController extends BaseController {
   }
 
   Future<void> getAllYvaluesFromApi() async {
-    // List<DateTime> dateFrom = [];
-    // List<DateTime> dateTo = [];
-    // for (var i = 0; i < 7; i++) {
-    //   var temp = DateTime(DateTime.now().year, DateTime.now().month,
-    //       DateTime.now().day - 6 + i, 18, 0, 0, 0, 0);
-    //   dateFrom
-    //       .add(DateTime(temp.year, temp.month, temp.day - 1, 18, 0, 0, 0, 0));
-    //   dateTo.add(DateTime(temp.year, temp.month, temp.day, 17, 59, 59, 0, 0));
-    // }
-
-    // for (var i = 0; i < 7; i++) {
-    //   yValues.add(await getYvalueFromApi(dateFrom[i], dateTo[i]));
-    // }
-
-    // inspect(yValues);
-
     GetSleepHistory getSleepHistory = GetSleepHistory.instance();
     var currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day - 6);
     var dateTill = DateTime(
@@ -407,24 +391,6 @@ class SleepController extends BaseController {
           (tempFinalLightSleepValue + tempFinalDeepSleepValue) == 0.0 ? (tempFinalLightSleepValue + tempFinalDeepSleepValue) : (tempFinalLightSleepValue + tempFinalDeepSleepValue) / 60;
       update();
     }
-  }
-
-  num _calculateDeepSleep(num totalSleep) {
-    // calculate deep sleep
-    return totalSleep * 0.2;
-  }
-
-  void calculateDeepSleepPercent(num totalSleep) {
-    deepSleepPercent.value = totalSleep / _calculateDeepSleep(totalSleep);
-  }
-
-  void calculateLightSleepPercent(num totalSleep) {
-    lightSleepPercent.value = totalSleep / _calculateFeelASleep(totalSleep);
-  }
-
-  num _calculateFeelASleep(num totalSleep) {
-    // calculate feel a sleep
-    return totalSleep * 0.8;
   }
 
   String durationToString(int minutes) {

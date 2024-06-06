@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DailyJournalItem extends StatefulWidget {
   final DailyJournalItemModel model;
-  const DailyJournalItem({super.key, required this.model});
+  final bool enableAddButton;
+  const DailyJournalItem({super.key, required this.model, required this.enableAddButton});
 
   @override
   State<DailyJournalItem> createState() => _DailyJournalItemState();
@@ -26,10 +27,7 @@ class _DailyJournalItemState extends State<DailyJournalItem> {
         children: [
           Text(
             widget.model.itemName,
-            style: TextStyle(
-                color: const Color(0xFF171433),
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600),
+            style: TextStyle(color: const Color(0xFF171433), fontSize: 16.sp, fontWeight: FontWeight.w600),
           ),
           10.verticalSpace,
           ListView.separated(
@@ -38,7 +36,9 @@ class _DailyJournalItemState extends State<DailyJournalItem> {
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return DailyJournalItemContent(
-                    model: widget.model.content[index]);
+                  model: widget.model.content[index],
+                  enableAddButton: widget.enableAddButton,
+                );
               },
               separatorBuilder: (context, index) {
                 return 10.verticalSpace;
@@ -52,11 +52,11 @@ class _DailyJournalItemState extends State<DailyJournalItem> {
 
 class DailyJournalItemContent extends StatefulWidget {
   final DailyJournalItemContentModel model;
-  const DailyJournalItemContent({super.key, required this.model});
+  final bool enableAddButton;
+  const DailyJournalItemContent({super.key, required this.model, required this.enableAddButton});
 
   @override
-  State<DailyJournalItemContent> createState() =>
-      _DailyJournalItemContentState();
+  State<DailyJournalItemContent> createState() => _DailyJournalItemContentState();
 }
 
 class _DailyJournalItemContentState extends State<DailyJournalItemContent> {
@@ -83,7 +83,8 @@ class _DailyJournalItemContentState extends State<DailyJournalItemContent> {
           children: [
             Row(
               children: [
-                if (widget.model.type == DailyJournalItemType.nutrition)
+                // only show add button for nutrition and last 7 days
+                if (widget.model.type == DailyJournalItemType.nutrition && widget.enableAddButton)
                   Expanded(
                     flex: 2,
                     child: InkWell(
@@ -106,29 +107,16 @@ class _DailyJournalItemContentState extends State<DailyJournalItemContent> {
                   flex: 3,
                   child: Text(
                     widget.model.contentName,
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        color: const Color(0xFF505050),
-                        fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 14.sp, color: const Color(0xFF505050), fontWeight: FontWeight.w600),
                   ),
                 ),
                 Expanded(
                   flex: 1,
-                  child: Text(":",
-                      style: TextStyle(
-                          fontSize: 14.sp,
-                          color: const Color(0xFF505050),
-                          fontWeight: FontWeight.w600)),
+                  child: Text(":", style: TextStyle(fontSize: 14.sp, color: const Color(0xFF505050), fontWeight: FontWeight.w600)),
                 ),
                 Expanded(
-                  flex: widget.model.type == DailyJournalItemType.nutrition
-                      ? 5
-                      : 6,
-                  child: Text(widget.model.contentValue,
-                      style: TextStyle(
-                          fontSize: 14.sp,
-                          color: const Color(0xFF8F01DF),
-                          fontWeight: FontWeight.w600)),
+                  flex: widget.model.type == DailyJournalItemType.nutrition ? 5 : 6,
+                  child: Text(widget.model.contentValue, style: TextStyle(fontSize: 14.sp, color: const Color(0xFF8F01DF), fontWeight: FontWeight.w600)),
                 ),
                 if (widget.model.type == DailyJournalItemType.nutrition)
                   const Expanded(
@@ -140,10 +128,7 @@ class _DailyJournalItemContentState extends State<DailyJournalItemContent> {
                   ),
               ],
             ),
-            if (isExpanded)
-              Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.h),
-                  child: const Divider()),
+            if (isExpanded) Padding(padding: EdgeInsets.symmetric(vertical: 8.h), child: const Divider()),
             if (isExpanded) itemContent()
           ],
         ),
@@ -164,29 +149,15 @@ class _DailyJournalItemContentState extends State<DailyJournalItemContent> {
                   Expanded(
                     flex: 5,
                     child: Text(widget.model.contentDesc[index].contentDescName,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontSize: 14.sp,
-                            color: const Color(0xFF505050),
-                            fontWeight: FontWeight.w600)),
+                        maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 14.sp, color: const Color(0xFF505050), fontWeight: FontWeight.w600)),
                   ),
                   Expanded(
                     flex: 1,
-                    child: Text(":",
-                        style: TextStyle(
-                            fontSize: 14.sp,
-                            color: const Color(0xFF505050),
-                            fontWeight: FontWeight.w600)),
+                    child: Text(":", style: TextStyle(fontSize: 14.sp, color: const Color(0xFF505050), fontWeight: FontWeight.w600)),
                   ),
                   Expanded(
                     flex: 5,
-                    child: Text(
-                        widget.model.contentDesc[index].contentDescValue,
-                        style: TextStyle(
-                            fontSize: 14.sp,
-                            color: const Color(0xFF505050),
-                            fontWeight: FontWeight.w600)),
+                    child: Text(widget.model.contentDesc[index].contentDescValue, style: TextStyle(fontSize: 14.sp, color: const Color(0xFF505050), fontWeight: FontWeight.w600)),
                   ),
                   Expanded(
                     flex: 2,
@@ -205,26 +176,16 @@ class _DailyJournalItemContentState extends State<DailyJournalItemContent> {
               ),
               Row(
                 children: [
-                  Text(widget.model.contentDesc[index].contentServing ?? "",
-                      style: TextStyle(
-                          fontSize: 12.sp,
-                          color: const Color(0xFF505050),
-                          fontWeight: FontWeight.w400)),
+                  Text(widget.model.contentDesc[index].contentServing ?? "", style: TextStyle(fontSize: 12.sp, color: const Color(0xFF505050), fontWeight: FontWeight.w400)),
                   const Spacer(),
-                  Text(widget.model.contentDesc[index].contentDuration ?? "",
-                      style: TextStyle(
-                          fontSize: 12.sp,
-                          color: const Color(0xFF505050),
-                          fontWeight: FontWeight.w400)),
+                  Text(widget.model.contentDesc[index].contentDuration ?? "", style: TextStyle(fontSize: 12.sp, color: const Color(0xFF505050), fontWeight: FontWeight.w400)),
                 ],
               ),
             ],
           );
         },
         separatorBuilder: (context, index) {
-          return Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.h),
-              child: const Divider());
+          return Padding(padding: EdgeInsets.symmetric(vertical: 8.h), child: const Divider());
         },
         itemCount: widget.model.contentDesc.length);
   }
@@ -235,8 +196,7 @@ class DailyJournalItemModel {
   DailyJournalItemType type;
   List<DailyJournalItemContentModel> content;
 
-  DailyJournalItemModel(
-      {required this.type, required this.itemName, required this.content});
+  DailyJournalItemModel({required this.type, required this.itemName, required this.content});
 }
 
 enum DailyJournalItemType { nutrition, exercise, sleep, water, mood }
@@ -248,12 +208,7 @@ class DailyJournalItemContentModel {
   List<DailyJournalItemContentDescModel> contentDesc;
   VoidCallback? onAddTap;
 
-  DailyJournalItemContentModel(
-      {required this.type,
-      required this.contentName,
-      required this.contentValue,
-      required this.contentDesc,
-      this.onAddTap});
+  DailyJournalItemContentModel({required this.type, required this.contentName, required this.contentValue, required this.contentDesc, this.onAddTap});
 }
 
 class DailyJournalItemContentDescModel {
@@ -263,10 +218,5 @@ class DailyJournalItemContentDescModel {
   String? contentDuration;
   VoidCallback? onMoreTap;
 
-  DailyJournalItemContentDescModel(
-      {required this.contentDescName,
-      required this.contentDescValue,
-      this.contentServing,
-      this.contentDuration,
-      this.onMoreTap});
+  DailyJournalItemContentDescModel({required this.contentDescName, required this.contentDescValue, this.contentServing, this.contentDuration, this.onMoreTap});
 }
