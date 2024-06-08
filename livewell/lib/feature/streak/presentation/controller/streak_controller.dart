@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
 import 'package:livewell/core/base/base_controller.dart';
+import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/mood/presentation/widget/mood_picker_widget.dart';
 import 'package:livewell/feature/streak/domain/entity/streak_entity.dart';
+import 'package:livewell/feature/streak/domain/usecase/get_total_streak.dart';
 import 'package:livewell/feature/streak/domain/usecase/get_wellness_data_batch.dart';
 import 'package:livewell/feature/streak/domain/usecase/get_wellness_detail.dart';
 import 'package:livewell/feature/streak/presentation/widget/streak_calendar.dart';
@@ -19,6 +21,7 @@ class StreakController extends BaseController {
   @override
   void onInit() {
     generateFirstStreakDates();
+    getTotalStreak();
     selectedStreak.clear();
     todayProgress.value = 0;
     numberOfStreaks.value = 0;
@@ -39,13 +42,25 @@ class StreakController extends BaseController {
     getDetailWellnessForDate(date);
   }
 
+  void getTotalStreak() {
+    final useCase = GetTotalStreak.instance();
+    useCase(NoParams()).then((value) {
+      value.fold((l) {
+        numberOfStreaks.value = 0;
+        Log.error(l);
+      }, (r) {
+        numberOfStreaks.value = r;
+      });
+    });
+  }
+
   void getDetailWellnessForDate(DateTime dateTime) {
     final detailWellness = GetWellnessDetail.instance();
     detailWellness(dateTime).then((value) {
       value.fold((l) {
         Log.error(l);
       }, (r) {
-        if (r.response == null) {
+        if (r.response?.displayData == null) {
           for (var item in StreakItemType.values) {
             selectedStreak.add(
               StreakItemModel(
@@ -161,18 +176,6 @@ class StreakController extends BaseController {
             if (item.recordAt?.year == streakDates[i].date.year && item.recordAt?.month == streakDates[i].date.month && item.recordAt?.day == streakDates[i].date.day) {
               streakDates[i] = streakDates[i].copyWith(isCompleted: item.isStreak ?? false);
             }
-          }
-        }
-        for (var data in streakDates) {
-          Log.colorGreen("isStreak: ${data.isCompleted} date: ${data.date}");
-          if (data.date.day > currentDate.day && data.date.month >= currentDate.month && data.date.year >= currentDate.year) {
-            Log.colorGreen("ini dimasa depan nih ${data.date}");
-            continue;
-          } else if (data.isCompleted) {
-            numberOfStreaks.value++;
-          } else if (data.date.day == currentDate.day && data.date.month == currentDate.month && data.date.year == currentDate.year) {
-          } else {
-            numberOfStreaks.value = 0;
           }
         }
       });

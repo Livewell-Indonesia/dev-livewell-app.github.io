@@ -80,6 +80,7 @@ class Endpoint {
   static const String wellness = "wellness/date-range";
   static const String wellnessDetail = "wellness";
   static const String wellnessRefresh = "wellness/refresh";
+  static const String streakTotal = "wellness/streak";
 
   /// change password
   static const String updatePassword = "user/change-password";

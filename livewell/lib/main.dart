@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/helper/clarity/flutter_clarity.dart';
 import 'package:livewell/core/notification/firebase_notification.dart';
 import 'package:livewell/core/remote_config/remote_config_service.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
@@ -132,7 +133,7 @@ void main() async {
         await ScreenUtil.ensureScreenSize();
         configLoading();
 
-        runApp(const MyApp());
+        runApp(MyApp());
       },
     );
   }, (error, stackTrace) async {
@@ -157,8 +158,40 @@ void configLoading() {
     ..dismissOnTap = false;
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final flutterClarityPlugin = FlutterClarityPlugin();
+
+  String sessionId = 'Unknown';
+
+  Future<void> initClarityState() async {
+    String sessionId;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    // We also handle the message potentially returning null.
+    try {
+      // Demo project id : fwof4hmuvb
+      await flutterClarityPlugin.initialize(projectId: 'meunfwukkn');
+
+      sessionId = await flutterClarityPlugin.getCurrentSessionId() ?? 'Unknown clarity session';
+    } on PlatformException {
+      sessionId = 'Failed to get clarity session.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      sessionId = sessionId;
+    });
+  }
 
   // This widget is the root of your application.
   @override

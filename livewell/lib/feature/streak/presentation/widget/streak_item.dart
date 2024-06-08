@@ -34,6 +34,21 @@ extension StreakItemTypeExt on StreakItemType {
     }
   }
 
+  String get wellnessTitle {
+    switch (this) {
+      case StreakItemType.hydration:
+        return 'Water';
+      case StreakItemType.sleep:
+        return 'Sleep';
+      case StreakItemType.mood:
+        return 'Mood';
+      case StreakItemType.nutrition:
+        return 'Nutrition';
+      case StreakItemType.activity:
+        return 'Exercise';
+    }
+  }
+
   String description(Details details) {
     switch (this) {
       case StreakItemType.hydration:
