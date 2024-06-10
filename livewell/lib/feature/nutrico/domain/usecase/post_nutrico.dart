@@ -13,7 +13,11 @@ class PostNutrico extends UseCase<Foods, PostNutricoParams> {
   }
   @override
   Future<Either<Failure, Foods>> call(PostNutricoParams params) async {
-    return await repository.getNutrico(params);
+    if (params.imageUrl.isEmpty) {
+      return await repository.getNutrico(params);
+    } else {
+      return await repository.getNutricoV2(params);
+    }
   }
 }
 

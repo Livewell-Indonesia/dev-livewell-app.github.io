@@ -33,7 +33,8 @@ class Endpoint {
   static const String deleteMeal = "user/meal/delete";
   static const String updateMeal = "user/meal/update";
   static const String requestFood = "foods/request";
-  static const String nutriCo = "foods/search-by-image-input";
+  static const String nutriCo = "foods/estimated-food-info";
+  static const String nutriCoV2 = "foods/search-by-image-input";
   static const String nutriCoAsset = "config/nutrico-assets";
 
   /// questionnaire

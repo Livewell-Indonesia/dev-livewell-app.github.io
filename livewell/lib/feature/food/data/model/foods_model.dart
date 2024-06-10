@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:livewell/feature/nutrico/data/model/nutrico_food_model.dart';
+
 class FoodsModel {
   List<Foods>? foods;
 
@@ -7,9 +9,7 @@ class FoodsModel {
 
   factory FoodsModel.fromJson(Map<String, dynamic>? json) {
     return FoodsModel(
-      foods: json == null
-          ? []
-          : List<Foods>.from(json["foods"].map((x) => Foods.fromJson(x))),
+      foods: json == null ? [] : List<Foods>.from(json["foods"].map((x) => Foods.fromJson(x))),
     );
   }
 
@@ -27,14 +27,13 @@ class Foods {
   String? foodDescription;
   String? foodType;
   String? brandName;
+  String? searchReferenceId;
   List<Servings>? servings;
   String? provider;
 
   String desc() {
     final calories = servings?[0].calories ?? "0";
-    final servingDescription = servings?[0].servingDescription == null
-        ? ""
-        : ", ${servings?[0].servingDescription}";
+    final servingDescription = servings?[0].servingDescription == null ? "" : ", ${servings?[0].servingDescription}";
     return "$calories cal$servingDescription";
   }
 
@@ -45,15 +44,10 @@ class Foods {
     brandName = food.brandName;
     servings = food.servings;
     provider = food.provider;
+    searchReferenceId = food.searchReferenceId;
   }
 
-  Foods(
-      {this.foodName,
-      this.foodDescription,
-      this.foodType,
-      this.brandName,
-      this.servings,
-      this.provider});
+  Foods({this.foodName, this.foodDescription, this.foodType, this.brandName, this.servings, this.provider, this.searchReferenceId});
 
   factory Foods.fromJson(Map<String, dynamic> json) {
     if (json['servings'] == null) {}
@@ -64,6 +58,7 @@ class Foods {
       brandName: json['brand_name'],
       servings: mapServings(json['servings']),
       provider: json['provider'],
+      searchReferenceId: json['search_reference_id'],
     );
   }
 
@@ -83,6 +78,16 @@ class Foods {
     return [];
   }
 
+  factory Foods.fromNutrico(NutricoFoodModel model) => Foods(
+        foodName: model.response?.foodEstimation?.foodName,
+        foodDescription: model.response?.foodEstimation?.foodDescription,
+        foodType: model.response?.foodEstimation?.foodType,
+        brandName: model.response?.foodEstimation?.brandName,
+        servings: [model.response?.foodEstimation?.servings ?? Servings()],
+        provider: model.response?.foodEstimation?.provider,
+        searchReferenceId: model.response?.searchReferenceId,
+      );
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['food_name'] = foodName;
@@ -93,6 +98,7 @@ class Foods {
       data['servings'] = servings!.map((v) => v.toJson()).toList();
     }
     data['provider'] = provider;
+    data['search_reference_id'] = searchReferenceId;
     return data;
   }
 }

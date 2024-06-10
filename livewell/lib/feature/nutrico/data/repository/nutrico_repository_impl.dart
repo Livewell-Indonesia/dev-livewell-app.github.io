@@ -12,9 +12,9 @@ import 'package:livewell/core/network/api_url.dart';
 import 'package:livewell/core/network/network_module.dart';
 import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/feature/nutrico/data/model/nutrico_asset_model.dart';
+import 'package:livewell/feature/nutrico/data/model/nutrico_food_model.dart';
 import 'package:livewell/feature/nutrico/data/model/nutrico_plus_asset_loading_model.dart';
 import 'package:livewell/feature/nutrico/data/model/nutrico_plus_tutorial_asset_model.dart';
-import 'package:livewell/feature/nutrico/data/model/nutrico_search_by_image_model.dart';
 import 'package:livewell/feature/nutrico/domain/repository/nutrico_repository.dart';
 import 'package:livewell/feature/nutrico/domain/usecase/post_nutrico.dart';
 
@@ -40,6 +40,18 @@ class NutricoRepositoryImpl with NetworkModule implements NutricoRepository {
     }
   }
 
+  Future<Either<Failure, Foods>> getNutricoV2(PostNutricoParams params) async {
+    try {
+      final response = await postMethod(Endpoint.nutriCoV2, body: params.toJson(), headers: {authorization: await SharedPref.getToken()});
+      final json = responseHandler(response);
+      Log.colorGreen("success get data food history ${response.body['food_type']}");
+      final nyoba = NutricoFoodModel.fromJson(json);
+      return Right(Foods.fromNutrico(nyoba));
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
+
   @override
   Future<Either<Failure, NutricoAsset>> getNutricoAsset() async {
     try {
@@ -54,7 +66,7 @@ class NutricoRepositoryImpl with NetworkModule implements NutricoRepository {
   }
 
   @override
-  Future<Either<Failure, NutricoSearchByImageModel>> searchByImage(File file) async {
+  Future<Either<Failure, NutricoFoodModel>> searchByImage(File file) async {
     try {
       String fileName = file.path.split('/').last;
       FormData formData = FormData.fromMap({
@@ -62,7 +74,7 @@ class NutricoRepositoryImpl with NetworkModule implements NutricoRepository {
       });
       final response = await postUploadDocument(Endpoint.nutriCoSearchByImage, Endpoint.api, body: formData, headers: {authorization: await SharedPref.getToken()});
       final json = responseHandler(response);
-      return Right(NutricoSearchByImageModel.fromJson(json));
+      return Right(NutricoFoodModel.fromJson(json));
     } on ErrorRequestException catch (ex) {
       Log.error("error request exception ${ex.errorBody}");
       return Left(ServerFailure(message: ex.errorBody.toString(), code: ex.errorCode));
