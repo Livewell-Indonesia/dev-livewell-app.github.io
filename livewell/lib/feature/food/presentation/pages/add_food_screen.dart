@@ -62,7 +62,9 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
             InkWell(
               child: const Icon(Icons.edit_outlined),
               onTap: () {
-                AppNavigator.push(routeName: AppPages.nutriCoScreen, arguments: {'type': getMealTypeByCurrentTime().name, 'date': DateTime.now(), 'name': food?.foodName ?? ""});
+                AppNavigator.push(
+                    routeName: AppPages.nutriCoScreen,
+                    arguments: {'type': getMealTypeByCurrentTime().name, 'date': DateTime.now(), 'name': food?.foodName ?? "", 'imageUrl': imageUrl, 'refId': food?.searchReferenceId});
               },
             ),
             16.horizontalSpace,
@@ -134,13 +136,14 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
               children: [
                 16.verticalSpace,
                 Padding(
-                    padding: EdgeInsets.only(left: 16.0.w, right: 16.0.w),
-                    child: Text(
-                      food?.foodName ?? "",
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w700, color: Colors.black),
-                    )),
+                  padding: EdgeInsets.only(left: 16.0.w, right: 16.0.w),
+                  child: Text(
+                    food?.foodName ?? "",
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w700, color: Colors.black),
+                  ),
+                ),
                 //8.verticalSpace,
                 Padding(
                   padding: EdgeInsets.only(left: 16.0.w),

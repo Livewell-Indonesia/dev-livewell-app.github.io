@@ -3,12 +3,14 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/core/helper/get_meal_type_by_current_time.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/nutrico/domain/usecase/get_nutrico_plus_loading_asset.dart';
 import 'package:livewell/feature/nutrico/domain/usecase/post_nutrico.dart';
@@ -54,43 +56,18 @@ class NutricoPlusController extends BaseController {
     }, (r) async {
       state.value = NutricoPlusState.detectingImage;
       imageUrl.value = r.response?.imageUrl ?? '';
-      foodName.value = r.response?.foodName ?? '';
+      foodName.value = r.response?.foodEstimation?.foodName ?? '';
       if (foodName.value.isNotEmpty && imageUrl.value.isNotEmpty) {
-        await detectImage(foodName.value, imageUrl.value);
+        MealTime mealTime = getMealTypeByCurrentTime();
+        Get.find<DashboardController>().getFeatureLimitData();
+        AppNavigator.push(routeName: AppPages.addFood, arguments: {
+          "date": DateTime.now(),
+          "mealTime": mealTime,
+          "food": Foods.fromNutrico(r),
+          "imageUrl": imageUrl.value,
+        });
       } else {
         Get.back();
-        showError();
-      }
-    });
-  }
-
-  Future<void> detectImage(String foodName, String imageUrl) async {
-    final data = await postNutrico(PostNutricoParams(foodName));
-    Get.back();
-    data.fold((l) {
-      Get.back();
-      showError();
-    }, (r) {
-      state.value = NutricoPlusState.done;
-      if (r.servings?.first != null) {
-        var calories = num.tryParse(r.servings!.first.calories!);
-        var fat = num.tryParse(r.servings!.first.fat!);
-        var carbs = num.tryParse(r.servings!.first.carbohydrate!);
-        var protein = num.tryParse(r.servings!.first.protein!);
-
-        if (calories != null && fat != null && carbs != null && protein != null) {
-          MealTime mealTime = getMealTypeByCurrentTime();
-          Get.find<DashboardController>().getFeatureLimitData();
-          AppNavigator.push(routeName: AppPages.addFood, arguments: {
-            "date": DateTime.now(),
-            "mealTime": mealTime,
-            "food": r,
-            "imageUrl": imageUrl,
-          });
-        } else {
-          showError();
-        }
-      } else {
         showError();
       }
     });

@@ -13,18 +13,26 @@ class PostNutrico extends UseCase<Foods, PostNutricoParams> {
   }
   @override
   Future<Either<Failure, Foods>> call(PostNutricoParams params) async {
-    return await repository.getNutrico(params);
+    if (params.imageUrl.isEmpty) {
+      return await repository.getNutrico(params);
+    } else {
+      return await repository.getNutricoV2(params);
+    }
   }
 }
 
 class PostNutricoParams {
   final String description;
+  final String imageUrl;
+  final String refId;
 
-  PostNutricoParams(this.description);
+  PostNutricoParams(this.description, this.imageUrl, this.refId);
 
   Map<String, dynamic> toJson() {
     return {
       'name': description,
+      'image_url': imageUrl,
+      'original_search_reference_id': refId,
     };
   }
 }

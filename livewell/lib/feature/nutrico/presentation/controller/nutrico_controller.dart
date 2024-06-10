@@ -17,6 +17,8 @@ class NutriCoController extends BaseController {
   TextEditingController foodDescription = TextEditingController();
   Rx<bool> buttonEnabled = false.obs;
   Rxn<NutricoAsset> nutricoAssets = Rxn<NutricoAsset>();
+  Rx<String> imageUrl = ''.obs;
+  Rx<String> refId = ''.obs;
   @override
   void onInit() {
     foodDescription.addListener(() {
@@ -25,6 +27,8 @@ class NutriCoController extends BaseController {
     getNutricoAsset();
     if (Get.arguments['name'] != null) {
       foodDescription.text = Get.arguments['name'];
+      imageUrl.value = Get.arguments['imageUrl'];
+      refId.value = Get.arguments['refId'];
     }
     super.onInit();
   }
@@ -70,7 +74,7 @@ class NutriCoController extends BaseController {
         child: Lottie.asset('assets/jsons/99274-loading.json', repeat: true),
       ),
     ));
-    final result = await PostNutrico.instance()(PostNutricoParams(foodDescription.text));
+    final result = await PostNutrico.instance()(PostNutricoParams(foodDescription.text, imageUrl.value, refId.value));
     Get.back();
     result.fold((l) {
       showError();
@@ -83,7 +87,7 @@ class NutriCoController extends BaseController {
 
         if (calories != null && fat != null && carbs != null && protein != null) {
           MealTime mealTime = MealTime.values.byName(((Get.arguments['type'] as String?) ?? MealTime.breakfast.name));
-          AppNavigator.push(routeName: AppPages.addFood, arguments: {"date": Get.arguments['date'], "mealTime": mealTime, "food": r});
+          AppNavigator.push(routeName: AppPages.addFood, arguments: {"date": Get.arguments['date'], "mealTime": mealTime, "food": r, "imageUrl": Get.arguments['imageUrl']});
         } else {
           showError();
         }
