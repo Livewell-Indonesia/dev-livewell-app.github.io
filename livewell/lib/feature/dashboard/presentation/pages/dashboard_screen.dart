@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/dashboard/presentation/widget/dashboard_summary_widget.dart';
@@ -37,6 +38,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
+    controller.trackEvent(LivewellHomepageEvent.homepage);
     super.initState();
   }
 
@@ -48,7 +50,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
 
   @override
   void didChangeAppLifecycleState(final AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
+    if (state == AppLifecycleState.resumed && Get.currentRoute == AppPages.home) {
       // if (kReleaseMode) {
       //   controller.onRefresh();
       // }
@@ -95,6 +97,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                         children: [
                           InkWell(
                             onTap: () {
+                              controller.trackEvent(LivewellHomepageEvent.profileButton);
                               Get.find<HomeController>().currentMenu.value = HomeTab.account;
                             },
                             child: ClipOval(
@@ -146,6 +149,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                           8.horizontalSpace,
                           InkWell(
                             onTap: () {
+                              controller.trackEvent(LivewellHomepageEvent.journalButton);
                               Get.to(() => UserDiaryScreen());
                             },
                             child: Icon(
@@ -160,6 +164,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                     24.verticalSpace,
                     InkWell(
                       onTap: () {
+                        controller.trackEvent(LivewellHomepageEvent.streakButton);
                         AppNavigator.push(routeName: AppPages.streakPage);
                       },
                       child: Container(
@@ -225,6 +230,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                       return WellnessScoreWidget(
                         score: controller.wellnessScore.value,
                         onTap: () {
+                          controller.trackEvent(LivewellHomepageEvent.wellnessScoreSeeDetailButton);
                           AppNavigator.push(routeName: AppPages.wellnessScore);
                         },
                       );
@@ -299,18 +305,23 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                           case QuickAction.nutrition:
                             // Get.find<HomeController>().currentMenu.value =
                             //     HomeTab.d;
+                            controller.trackEvent(LivewellHomepageEvent.nutritionButton);
                             AppNavigator.push(routeName: AppPages.nutritionScreen);
                             break;
                           case QuickAction.exercise:
+                            controller.trackEvent(LivewellHomepageEvent.exerciseButton);
                             AppNavigator.push(routeName: AppPages.exerciseScreen);
                             break;
                           case QuickAction.sleep:
+                            controller.trackEvent(LivewellHomepageEvent.sleepButton);
                             AppNavigator.push(routeName: AppPages.sleepScreen);
                             break;
                           case QuickAction.water:
+                            controller.trackEvent(LivewellHomepageEvent.waterButton);
                             AppNavigator.push(routeName: AppPages.waterScreen);
                             break;
                           case QuickAction.mood:
+                            controller.trackEvent(LivewellHomepageEvent.moodButton);
                             AppNavigator.push(routeName: AppPages.moodDetailScreen);
                             break;
                           default:
@@ -337,6 +348,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                         return MoodPickerWidget(
                           selectedMoodType: controller.getMoodTypeByValue(controller.todayMood.value?.response?.value ?? 0),
                           onTap: (mood) {
+                            controller.trackEvent(LivewellHomepageEvent.moodButton, properties: {"mood": mood.title()});
                             controller.onMoodSelected(mood);
                           },
                         );
@@ -356,6 +368,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                             children: [
                               InkWell(
                                 onTap: () {
+                                  controller.trackEvent(LivewellHomepageEvent.taskListWaterButton);
                                   AppNavigator.push(routeName: AppPages.waterConsumedPage, arguments: {"waterInputType": WaterInputType.increase});
                                 },
                                 child: Container(
@@ -411,6 +424,15 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                                   itemBuilder: (context, index) {
                                     return InkWell(
                                       onTap: () {
+                                        if (controller.user.value.dailyJournal?[index].name?.toLowerCase() == "breakfast") {
+                                          controller.trackEvent(LivewellHomepageEvent.taskListBreakfastButton);
+                                        } else if (controller.user.value.dailyJournal?[index].name?.toLowerCase() == "lunch") {
+                                          controller.trackEvent(LivewellHomepageEvent.taskListLunchButton);
+                                        } else if (controller.user.value.dailyJournal?[index].name?.toLowerCase() == "dinner") {
+                                          controller.trackEvent(LivewellHomepageEvent.taskListDinnerButton);
+                                        } else if (controller.user.value.dailyJournal?[index].name?.toLowerCase() == "snack") {
+                                          controller.trackEvent(LivewellHomepageEvent.taskListSnackButton);
+                                        }
                                         AppNavigator.push(routeName: AppPages.addMeal, arguments: {"type": controller.user.value.dailyJournal?[index].name, "date": DateTime.now()});
                                       },
                                       child: Container(
@@ -621,7 +643,7 @@ class WellnessScoreWidget extends StatelessWidget {
               ? const SizedBox()
               : InkWell(
                   onTap: () {
-                    AppNavigator.push(routeName: AppPages.wellnessScore);
+                    onTap!();
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),

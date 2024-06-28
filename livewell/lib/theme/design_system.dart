@@ -10,6 +10,14 @@ class AppColors {
   static const disabled = Color(0xFF808080);
   static const textBg = Color(0xFFFFFFFF);
   static const borderColor = Color(0xFFF1F1F1);
+
+  // Neutral colors
+  static const neutral100 = Color(0xFF0A0A0A);
+  static const neutral90 = Color(0xFF404040);
+  static const neutral80 = Color(0xFF616161);
+  static const neutral70 = Color(0xFF757575);
+  static const neutral10 = Color(0xFFFAFAFA);
+  static const neutral20 = Color(0xFFF5F5F5);
 }
 
 class Insets {
@@ -107,5 +115,14 @@ extension LivewellColorScheme on ColorScheme {
   Color get textHiEm => brightness == Brightness.light ? AppColors.textHiEm : AppColors.textHiEm;
   Color get textBg => brightness == Brightness.light ? AppColors.textBg : AppColors.textBg;
   Color get disabled => brightness == Brightness.light ? AppColors.disabled : AppColors.disabled;
+
   Color get borderColor => brightness == Brightness.light ? AppColors.borderColor : AppColors.borderColor;
+
+  // Neutral colors
+  Color get neutral100 => brightness == Brightness.light ? AppColors.neutral100 : AppColors.neutral100;
+  Color get neutral90 => brightness == Brightness.light ? AppColors.neutral90 : AppColors.neutral90;
+  Color get neutral80 => brightness == Brightness.light ? AppColors.neutral80 : AppColors.neutral80;
+  Color get neutral70 => brightness == Brightness.light ? AppColors.neutral70 : AppColors.neutral70;
+  Color get neutral10 => brightness == Brightness.light ? AppColors.neutral10 : AppColors.neutral10;
+  Color get neutral20 => brightness == Brightness.light ? AppColors.neutral20 : AppColors.neutral20;
 }

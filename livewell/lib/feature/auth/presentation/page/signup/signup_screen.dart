@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/auth/presentation/controller/signup_controller.dart';
 import 'package:livewell/feature/auth/presentation/page/login/login_screen.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
@@ -20,11 +21,23 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   SignUpController controller = Get.put(SignUpController());
+
+  @override
+  void initState() {
+    controller.trackEvent(LivewellAuthEvent.signUpPage);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
         title: controller.localization.createNewAccount!,
         backgroundColor: Colors.white,
+        onBack: () {
+          Get.back();
+          controller.trackEvent(LivewellAuthEvent.signUpPageBack);
+        
+        },
         body: Expanded(child: Obx(() {
           return ListView(
             children: [
@@ -75,6 +88,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   type: SignInButtonType.google,
                   onPressed: () {
                     controller.onGoogleLoginTapped();
+                    controller.trackEvent(LivewellAuthEvent.signUpPageSignUpGoogle);
                   }),
               4.verticalSpace,
               Platform.isIOS
@@ -82,6 +96,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       type: SignInButtonType.apple,
                       onPressed: () async {
                         controller.onAppleIdTapped();
+                        controller.trackEvent(LivewellAuthEvent.signUpPageSignUpApple);
                       })
                   : Container(),
               // 4.verticalSpace,
@@ -98,6 +113,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   TextButton(
                       onPressed: () {
                         Get.back();
+                        controller.trackEvent(LivewellAuthEvent.signUpPageSignIn);
                       },
                       child: Text(
                         controller.localization.signIn!,
@@ -119,6 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               text: " ${controller.localization.termsAndConditions!} ",
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
+                                  controller.trackEvent(LivewellAuthEvent.signUpPageTnc);
                                   Get.to(() => const WebView(
                                         initialUrl: 'https://livewellindo.com/terms',
                                         javascriptMode: JavascriptMode.unrestricted,
@@ -134,6 +151,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               text: controller.localization.privacyPolicy!,
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
+                                  controller.trackEvent(LivewellAuthEvent.signUpPagePrivacyPolicy);
                                   Get.to(
                                       () => const WebView(
                                             initialUrl: 'https://livewellindo.com/privacy',

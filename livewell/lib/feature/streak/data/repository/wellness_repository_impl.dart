@@ -56,4 +56,14 @@ class WellnessRepositoryImpl extends WellnessRepository with NetworkModule {
       return Left(ServerFailure(message: ex.toString()));
     }
   }
+
+  Future<Either<Failure, String>> getWellnessRecommendation() async {
+    try {
+      final response = await postMethod(Endpoint.wellnessRecommendation, headers: {authorization: await SharedPref.getToken()});
+      final json = responseHandler(response);
+      return Right(json['response']['content']);
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
 }

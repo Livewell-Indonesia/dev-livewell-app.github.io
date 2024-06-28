@@ -69,7 +69,7 @@ class UserSettingsScreen extends StatelessWidget {
                         showModalBottomSheet(
                             context: context,
                             builder: (context) {
-                              return ImagePickerBottomSheet(onImageSelected: (img) {
+                              return ImagePickerBottomSheet(onImageSelected: (img, source) {
                                 Get.back();
                                 physicalController.pickImages(img);
                               });
@@ -359,7 +359,7 @@ String flagEmoji(String country) {
 }
 
 class ImagePickerBottomSheet extends StatelessWidget {
-  final Function(File) onImageSelected;
+  final Function(File, ImageSource) onImageSelected;
 
   const ImagePickerBottomSheet({super.key, required this.onImageSelected});
 
@@ -401,7 +401,7 @@ class ImagePickerBottomSheet extends StatelessWidget {
     // FilePickerResult? file =
     //     await FilePicker.platform.pickFiles(type: FileType.image);
     if (pickedFile != null) {
-      onImageSelected(File(pickedFile.path));
+      onImageSelected(File(pickedFile.path), source);
       // final selectedImage = file.paths.map(
       //   (e) => File(e!),
       // );

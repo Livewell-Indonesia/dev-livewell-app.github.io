@@ -7,6 +7,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_screen.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -106,14 +108,20 @@ class ExerciseSharePage extends StatelessWidget {
                           await files.writeAsBytes(result!);
                           switch (e) {
                             case ShareButtonType.instagram:
+                              Get.find<DashboardController>().trackEvent(
+                                  LivewellExerciseEvent.exercisePageShareShareToInstagramButton);
                               await AppinioSocialShare().shareToInstagramStory(
                                   "108487895683370",
                                   backgroundImage: files.path);
                             case ShareButtonType.facebook:
+                            Get.find<DashboardController>().trackEvent(
+                                  LivewellExerciseEvent.exercisePageShareShareToFacebookButton);
                               await AppinioSocialShare().shareToFacebookStory(
                                   "108487895683370",
                                   backgroundImage: files.path);
                             default:
+                            Get.find<DashboardController>().trackEvent(
+                                  LivewellExerciseEvent.exercisePageShareSaveImageButton);
                               await AppinioSocialShare().shareToSystem(
                                   title, "",
                                   filePath: files.path);

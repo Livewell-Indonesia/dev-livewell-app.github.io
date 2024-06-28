@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/water/presentation/controller/water_consumed_controller.dart';
 import 'package:livewell/theme/design_system.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
@@ -29,6 +30,11 @@ class WaterConsumedPage extends StatelessWidget {
                   color: waterInputType.color,
                   textColor: waterInputType.textColor,
                   onPressed: () {
+                    if (waterInputType == WaterInputType.reduce) {
+                      controller.trackEvent(LivewellWaterEvent.waterPageAddDrinkAddDrinkButton, properties: {'amount': 50});
+                    } else {
+                      controller.trackEvent(LivewellWaterEvent.waterPageReduceWaterButton);
+                    }
                     controller.addWater(50, waterInputType);
                   }),
               20.verticalSpace,
@@ -37,6 +43,11 @@ class WaterConsumedPage extends StatelessWidget {
                   color: waterInputType.color,
                   textColor: waterInputType.textColor,
                   onPressed: () {
+                    if (waterInputType == WaterInputType.reduce) {
+                      controller.trackEvent(LivewellWaterEvent.waterPageAddDrinkAddDrinkButton, properties: {'amount': 100});
+                    } else {
+                      controller.trackEvent(LivewellWaterEvent.waterPageReduceWaterButton);
+                    }
                     controller.addWater(100, waterInputType);
                   }),
               20.verticalSpace,
@@ -45,46 +56,40 @@ class WaterConsumedPage extends StatelessWidget {
                   color: waterInputType.color,
                   textColor: waterInputType.textColor,
                   onPressed: () {
+                    if (waterInputType == WaterInputType.reduce) {
+                      controller.trackEvent(LivewellWaterEvent.waterPageAddDrinkAddDrinkButton, properties: {'amount': 500});
+                    } else {
+                      controller.trackEvent(LivewellWaterEvent.waterPageReduceWaterButton);
+                    }
                     controller.addWater(500, waterInputType);
                   }),
               20.verticalSpace,
               Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: Insets.paddingMedium),
+                padding: const EdgeInsets.symmetric(horizontal: Insets.paddingMedium),
                 child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
                         shadowColor: Colors.transparent,
                         fixedSize: Size(1.sw, 48.w),
                         side: BorderSide(width: 2, color: waterInputType.color),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: Insets.paddingMedium,
-                            vertical: Insets.paddingMedium.h),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(36.0).r)),
+                        padding: EdgeInsets.symmetric(horizontal: Insets.paddingMedium, vertical: Insets.paddingMedium.h),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(36.0).r)),
                     onPressed: () {
+                      if (waterInputType == WaterInputType.increase) {
+                        controller.trackEvent(LivewellWaterEvent.waterPageAddDrinkCustomButton);
+                      } else {
+                        controller.trackEvent(LivewellWaterEvent.waterPageReduceWaterCustomButton);
+                      }
                       showModalBottomSheet(
                           context: context,
-                          shape: ShapeBorder.lerp(
-                              const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20))),
-                              const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20))),
-                              1),
+                          shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                              const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
                           builder: (context) {
-                            return buildCustomInputWater(
-                                context, waterInputType);
+                            return buildCustomInputWater(context, waterInputType);
                           });
                     },
                     child: Text(
                       controller.localization.custom ?? "Custom",
-                      style: TextStyle(
-                          color: const Color(0xFF171433),
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500),
+                      style: TextStyle(color: const Color(0xFF171433), fontSize: 16.sp, fontWeight: FontWeight.w500),
                     )),
               ),
               // LiveWellButton(
@@ -101,8 +106,7 @@ class WaterConsumedPage extends StatelessWidget {
 
   Widget buildCustomInputWater(BuildContext context, WaterInputType type) {
     return Padding(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Wrap(
         children: [
           SizedBox(
@@ -118,46 +122,41 @@ class WaterConsumedPage extends StatelessWidget {
               ),
               24.verticalSpace,
               LiveWellTextField(
-                  controller: controller.waterInputController,
-                  hintText: 'in mL',
-                  labelText: 'in mL',
-                  errorText: null,
-                  keyboardType: const TextInputType.numberWithOptions(),
-                  obscureText: false),
+                  controller: controller.waterInputController, hintText: 'in mL', labelText: 'in mL', errorText: null, keyboardType: const TextInputType.numberWithOptions(), obscureText: false),
               32.verticalSpace,
               LiveWellButton(
                   label: 'Add Drink',
                   color: const Color(0xFFDDF235),
                   textColor: const Color(0xFF171433),
                   onPressed: () {
-                    controller.addWater(
-                        int.tryParse(controller.waterInputController.text) ?? 0,
-                        type);
+                    if (type == WaterInputType.increase) {
+                      controller.trackEvent(LivewellWaterEvent.waterPageAddDrinkCustomAddDrinkButton);
+                    } else {
+                      controller.trackEvent(LivewellWaterEvent.waterPageReduceWaterCustomReduceWaterButton);
+                    }
+                    controller.addWater(int.tryParse(controller.waterInputController.text) ?? 0, type);
                   }),
               16.verticalSpace,
               Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: Insets.paddingMedium),
+                padding: const EdgeInsets.symmetric(horizontal: Insets.paddingMedium),
                 child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
                         shadowColor: Colors.transparent,
                         fixedSize: Size(1.sw, 48.w),
-                        side: const BorderSide(
-                            width: 2, color: Color(0xFFDDF235)),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: Insets.paddingMedium,
-                            vertical: Insets.paddingMedium.h),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(36.0).r)),
+                        side: const BorderSide(width: 2, color: Color(0xFFDDF235)),
+                        padding: EdgeInsets.symmetric(horizontal: Insets.paddingMedium, vertical: Insets.paddingMedium.h),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(36.0).r)),
                     onPressed: () {
+                      if (type == WaterInputType.increase) {
+                      controller.trackEvent(LivewellWaterEvent.waterPageAddDrinkCustomCancelButton);
+                    } else {
+                      controller.trackEvent(LivewellWaterEvent.waterPageReduceWaterCustomCancelButton);
+                    }
                       Get.back();
                     },
                     child: Text(
                       controller.localization.cancel ?? "Cancel",
-                      style: TextStyle(
-                          color: const Color(0xFF171433),
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500),
+                      style: TextStyle(color: const Color(0xFF171433), fontSize: 16.sp, fontWeight: FontWeight.w500),
                     )),
               ),
               32.verticalSpace,

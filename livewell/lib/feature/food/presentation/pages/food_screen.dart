@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/domain/entity/user_meal_history_model.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
@@ -28,6 +29,12 @@ class _FoodScreenState extends State<FoodScreen> {
   final FoodController controller = Get.put(FoodController());
 
   @override
+  void initState() {
+    controller.trackEvent(LivewellNutritionEvent.nutritionPage);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
       title: controller.localization.nutrition ?? "Nutrition",
@@ -49,7 +56,7 @@ class _FoodScreenState extends State<FoodScreen> {
                           textAlign: TextAlign.center,
                           text: TextSpan(children: [
                             TextSpan(
-                              text: controller.localization.todayYouHaveConsumed!,
+                              text: controller.localization.todayYouHaveConsumed ?? "Today you have consumed ",
                               style: TextStyle(color: Colors.black, fontSize: 20.sp, fontWeight: FontWeight.w600),
                             ),
                             TextSpan(text: "${controller.getTotalCal().value} Cal", style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 20.sp, fontWeight: FontWeight.w600))
@@ -185,6 +192,7 @@ class _FoodScreenState extends State<FoodScreen> {
                   child: Obx(() {
                     return InkWell(
                       onTap: () {
+                        controller.trackEvent(LivewellNutritionEvent.nutritionPageNutriscoreButton);
                         AppNavigator.push(routeName: AppPages.nutriScore);
                       },
                       child: NutriscoreBanner(value: (Get.find<DashboardController>().nutriScore.value.totalPoints ?? 0).toInt()),
@@ -217,12 +225,15 @@ class _FoodScreenState extends State<FoodScreen> {
                                 leadingImage: MealTime.values[index].leadingImage(),
                                 data: controller.mealHistory.where((p0) => p0.mealType?.toUpperCase() == MealTime.values[index].name.toUpperCase()).toList(),
                                 onTap: () {
+                                  controller.trackEvent(LivewellNutritionEvent.nutritionPageAddMealLogButton);
                                   AppNavigator.push(routeName: AppPages.addMeal, arguments: {"type": MealTime.values[index].name, "date": DateTime.now()});
                                 },
                                 onUpdate: (indexs, size) {
+                                  controller.trackEvent(LivewellNutritionEvent.nutritionPageUpdateMealButton, properties: {"mealType": MealTime.values[index].name});
                                   controller.onUpdateTapped(MealTime.values[index], indexs, size);
                                 },
                                 onDelete: (item) {
+                                  controller.trackEvent(LivewellNutritionEvent.nutritionPageDeleteMealButton, properties: {"mealType": MealTime.values[index].name});
                                   controller.onDeleteHistory(MealTime.values[index], item);
                                 },
                               );

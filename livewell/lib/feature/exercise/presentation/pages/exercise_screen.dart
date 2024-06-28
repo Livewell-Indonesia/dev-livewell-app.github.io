@@ -8,7 +8,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/exercise/presentation/controller/exercise_controller.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_diary_screen.dart';
@@ -35,6 +37,13 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   int switcherIndex2 = 0;
 
   ExerciseController controller = Get.put(ExerciseController());
+
+  @override
+  void initState() {
+    controller.trackEvent(LivewellExerciseEvent.exercisePage);
+    super.initState();
+  }
+
   File? file;
   bool showShareSheet = false;
 
@@ -50,12 +59,18 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
           const Spacer(),
           InkWell(
             onTap: () async {
+              controller.trackEvent(LivewellExerciseEvent.exercisePageShareButton);
               await showModalBottomSheet(
                   context: context,
                   shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
                       const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
                   builder: (context) {
-                    return ImagePickerBottomSheet(onImageSelected: (img) async {
+                    return ImagePickerBottomSheet(onImageSelected: (img, source) async {
+                      if (source == ImageSource.camera) {
+                        controller.trackEvent(LivewellExerciseEvent.exercisePageShareTakeAPhotoButton);
+                      } else {
+                        controller.trackEvent(LivewellExerciseEvent.exercisePageSharePickFromGalleryButton);
+                      }
                       setState(() {
                         file = img;
                       });
@@ -169,6 +184,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                     Expanded(
                                       child: LiveWellButton(
                                         onPressed: () {
+                                          controller.trackEvent(LivewellExerciseEvent.exercisePageShare169RatioButton);
                                           if (controller.titleController.text.isNotEmpty) {
                                             Get.back();
                                             _showFullScreenDialog(context, file!, 9 / 16);
@@ -187,6 +203,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                     Expanded(
                                       child: LiveWellButton(
                                         onPressed: () {
+                                          controller.trackEvent(LivewellExerciseEvent.exercisePageShare11RatioButton);
                                           if (controller.titleController.text.isNotEmpty) {
                                             Get.back();
                                             _showFullScreenDialog(context, file!, 1);
@@ -221,6 +238,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
           InkWell(
             onTap: () {
               HomeController controller = Get.find();
+              controller.trackEvent(LivewellExerciseEvent.exercisePageShareButton);
               var data = controller.popupAssetsModel.value.exercise;
               if (data != null) {
                 showModalBottomSheet<dynamic>(
@@ -261,6 +279,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                 color: const Color(0xFF8F01DF),
                 textColor: Colors.white,
                 onPressed: () {
+                  controller.trackEvent(LivewellExerciseEvent.exercisePageInputStepsButton);
                   AppNavigator.push(routeName: AppPages.manualInputExercise);
                 },
               ),

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:livewell/core/base/base_controller.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class LandingAuthController extends BaseController {
@@ -9,6 +10,7 @@ class LandingAuthController extends BaseController {
   void onInit() {
     super.onInit();
     getAppVersion();
+    trackEvent(LivewellAuthEvent.landingPage);
   }
 
   void fetchLocalization() {

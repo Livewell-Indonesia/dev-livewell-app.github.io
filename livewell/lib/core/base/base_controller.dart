@@ -2,15 +2,21 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:livewell/core/base/usecase.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/core/localization/localization_model.dart';
 import 'package:livewell/feature/splash/domain/usecase/get_localization_data.dart';
 
 class BaseController extends FullLifeCycleController with FullLifeCycleMixin {
   LocalizationKey localization = LocalizationKey();
+  LivewellTrackerService livewellTracker = Get.find();
   @override
   void onInit() {
     getLocalizationDatas();
     super.onInit();
+  }
+
+  void trackEvent(String event, {Map<String, dynamic>? properties}) {
+    livewellTracker.trackEvent(event, properties: properties);
   }
 
   void getLocalizationDatas() async {

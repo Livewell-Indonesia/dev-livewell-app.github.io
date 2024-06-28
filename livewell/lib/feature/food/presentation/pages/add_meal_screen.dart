@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/food/data/model/foods_model.dart';
@@ -35,6 +36,7 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
     type = Get.arguments['type'];
     date = Get.arguments['date'];
     createTutorial();
+    addMealController.trackEvent(LivewellMealLogEvent.mealLogPage);
     Future.delayed(const Duration(milliseconds: 800), () {
       addMealController.showTutorial(context);
     });
@@ -351,6 +353,7 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                                   GestureDetector(
                                     //behavior: HitTestBehavior.translucent,
                                     onTap: () {
+                                      addMealController.trackEvent(LivewellMealLogEvent.mealLogPageRequestFoodButton);
                                       AppNavigator.push(routeName: AppPages.requestFood, arguments: controller.textEditingController.text);
                                     },
                                     child: Container(
@@ -429,6 +432,7 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
           if (addMealController.showRecommendationWidget.isTrue) {
             return InkWell(
               onTap: () {
+                addMealController.trackEvent(LivewellMealLogEvent.mealLogPageFoodRecommendationButton);
                 addMealController.onRecommendationWidgetTapped();
               },
               child: Column(
@@ -504,6 +508,7 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
               InkWell(
                 key: addMealController.key4,
                 onTap: () {
+                  addMealController.trackEvent(LivewellMealLogEvent.mealLogPageFilterButton);
                   showModalBottomSheet<dynamic>(
                       context: context,
                       isScrollControlled: true,
@@ -531,6 +536,7 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                                         const Spacer(),
                                         TextButton(
                                             onPressed: () {
+                                              addMealController.trackEvent(LivewellMealLogEvent.mealLogPageFilterDrawerResetFilterButton);
                                               addMealController.resetFilter();
                                             },
                                             child: Text(addMealController.localization.resetFilter!, style: TextStyle(color: const Color(0xFF8F01DF), fontWeight: FontWeight.w600, fontSize: 12.sp))),
@@ -586,6 +592,7 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                                       label: addMealController.localization.submit!,
                                       color: const Color(0xFFDDF235),
                                       onPressed: () {
+                                        addMealController.trackEvent(LivewellMealLogEvent.mealLogPageFilterDrawerSubmitButton);
                                         addMealController.onSubmitFilter();
                                         Get.back();
                                       }),
@@ -767,10 +774,12 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
               height: addMealController.showScanMenu().value ? 92.h + 24.h : 0.h,
               child: Row(children: [
                 scanButton(ScanType.values[0], () {
+                  addMealController.trackEvent(LivewellMealLogEvent.mealLogPageNutricoButton);
                   ScanType.values[0].navigation(type);
                 }),
                 8.horizontalSpace,
                 scanButton(ScanType.values[1], () {
+                  addMealController.trackEvent(LivewellMealLogEvent.mealLogPageQuickAddButton);
                   ScanType.values[1].navigation(type);
                 }),
               ]),
@@ -827,6 +836,7 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                         isAdded: false,
                         callback: () {
                           inspect(addMealController.history[index]);
+                          addMealController.trackEvent(LivewellMealLogEvent.mealLogPageFoodButton);
                           AppNavigator.push(routeName: AppPages.addFood, arguments: {
                             "date": date,
                             "mealTime": MealTime.values.byName((type ?? MealTime.breakfast.name).toLowerCase()),
@@ -956,6 +966,7 @@ class ListOfSearchResults extends StatelessWidget {
                         description: item.desc(),
                         isAdded: addMealController.addedFoods.firstWhereOrNull((element) => element.foodName == item.foodName) != null,
                         callback: () {
+                          addMealController.trackEvent(LivewellMealLogEvent.mealLogPageFoodButton);
                           AppNavigator.push(routeName: AppPages.addFood, arguments: {
                             "date": date,
                             "mealTime": MealTime.values.byName((type ?? MealTime.breakfast.name).toLowerCase()),
@@ -1121,6 +1132,7 @@ extension ScanTypeAtt on ScanType {
             shape: shapeBorder(),
             builder: (context) {
               return NutriScorePlusBottomSheet(
+                isFromDashboard: false,
                 isAlreadyLimit: Get.find<DashboardController>().checkIfNutricoAlreadyLimit(),
                 maxRequest: Get.find<DashboardController>().featureLimit.value?.getNutricoCurrentUsage() ?? 30,
                 onSelected: (p0) {
@@ -1133,6 +1145,7 @@ extension ScanTypeAtt on ScanType {
                       //AppNavigator.push(routeName: AppPages.gallery);
                       break;
                     case SelectedNutriscorePlusMethod.desc:
+                      Get.find<DashboardController>().trackEvent(LivewellMealLogEvent.mealLogPageNutricoDescribeFoodButton);
                       AppNavigator.push(routeName: AppPages.nutriCoScreen, arguments: {
                         'type': type?.toLowerCase(),
                         'date': Get.arguments['date'],

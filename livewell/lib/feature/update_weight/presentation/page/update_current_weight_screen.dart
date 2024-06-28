@@ -8,6 +8,7 @@ import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
 class UpdateCurrentWeight extends StatelessWidget {
   final UpdateWeightController controller = Get.find();
+
   UpdateCurrentWeight({super.key});
 
   @override
@@ -20,34 +21,27 @@ class UpdateCurrentWeight extends StatelessWidget {
               95.verticalSpace,
               Text(
                 'What\'s your weight?',
-                style: TextStyle(
-                    color: const Color(0xFF171433),
-                    fontSize: 24.sp,
-                    fontWeight: FontWeight.w600,
-                    height: 32.sp / 24.sp),
+                style: TextStyle(color: const Color(0xFF171433), fontSize: 24.sp, fontWeight: FontWeight.w600, height: 32.sp / 24.sp),
               ),
               8.verticalSpace,
               Text(
                 'Update Your current weight',
-                style: TextStyle(
-                    color: const Color(0xFF505050),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14.sp,
-                    height: 20.sp / 14.sp),
+                style: TextStyle(color: const Color(0xFF505050), fontWeight: FontWeight.w500, fontSize: 14.sp, height: 20.sp / 14.sp),
               ),
               60.verticalSpace,
               WeightSelectorWidget(
                 onChange: (val) {
                   controller.inputtedWeight = val;
                 },
-                initialValue: controller.inputtedWeight,
+                initialValue: controller.inputtedWeight ?? 50,
               ),
               const Spacer(),
               LiveWellButton(
                 label: 'Update',
                 color: const Color(0xFFDDF235),
                 onPressed: () {
-                  controller.onUpdateTapped();
+                  Get.back();
+                  //controller.onUpdateTapped();
                 },
               ),
               32.verticalSpace,
@@ -108,6 +102,7 @@ class _WeightSelectorWidgetState extends State<WeightSelectorWidget> {
           flex: 2,
           child: SizedBox(
             height: 298.h,
+            width: 129.w,
             child: CupertinoPicker(
                 itemExtent: 55.h,
                 useMagnifier: true,
@@ -116,34 +111,35 @@ class _WeightSelectorWidgetState extends State<WeightSelectorWidget> {
                 selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
                   background: Colors.transparent,
                 ),
-                scrollController: FixedExtentScrollController(
-                    initialItem: bulatValue.toInt() - 1),
+                scrollController: FixedExtentScrollController(initialItem: bulatValue.toInt() - 1),
                 onSelectedItemChanged: onSelectedItemChanged,
                 children: List.generate(200, (index) {
                   return Align(
                     alignment: Alignment.centerRight,
-                    child: Text(
-                      '${index + 1}',
-                      style: TextStyle(
-                          color: bulatValue == index + 1
-                              ? const Color(0xFF8F01DF)
-                              : const Color(0xFF171433).withOpacity(0.7),
-                          fontSize: 34.sp),
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Text(
+                        '${index + 1}',
+                        style: TextStyle(
+                          color: bulatValue == index + 1 ? const Color(0xFF8F01DF) : const Color(0xFF757575),
+                          fontSize: bulatValue == index + 1 ? 34.sp : 24.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
                   );
                 })),
           ),
         ),
         Padding(
-          padding:
-              EdgeInsets.only(bottom: 0.h, left: 12.w, right: 12.w, top: 20.h),
+          padding: EdgeInsets.only(bottom: 20.h, left: 12.w, right: 12.w, top: 20.h),
           child: Container(
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
               color: Color(0xFF8F01DF),
             ),
-            width: 6.w,
-            height: 6.h,
+            width: 9.w,
+            height: 9.h,
           ),
         ),
         Expanded(
@@ -163,24 +159,28 @@ class _WeightSelectorWidgetState extends State<WeightSelectorWidget> {
                 children: List.generate(10, (index) {
                   return Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      '$index',
-                      style: TextStyle(
-                          color: decimalValue == index
-                              ? const Color(0xFF8F01DF)
-                              : const Color(0xFF171433).withOpacity(0.7),
-                          fontSize: 34.sp),
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Text(
+                        '$index',
+                        style: TextStyle(
+                          color: decimalValue == index ? const Color(0xFF8F01DF) : const Color(0xFF757575),
+                          fontSize: decimalValue == index ? 34.sp : 24.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
                   );
                 })),
           ),
         ),
-        Text('kg',
-            style: TextStyle(
-              fontSize: 48.sp,
-              color: const Color(0xFF808080),
-              fontWeight: FontWeight.w400,
-            )),
+        Text(
+          'cm',
+          style: TextStyle(
+            color: const Color(0xFF808080),
+            fontSize: 24.sp,
+          ),
+        ),
         const Spacer(
           flex: 2,
         ),

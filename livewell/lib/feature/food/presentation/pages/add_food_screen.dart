@@ -4,8 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/core/helper/get_meal_type_by_current_time.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/food/presentation/controller/add_food_controller.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
@@ -46,6 +48,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
       mealTime = Get.arguments['mealTime'];
       imageUrl = Get.arguments['imageUrl'];
     }
+    controller.trackEvent(LivewellFoodEvent.detailPage);
 
     super.initState();
   }
@@ -55,6 +58,10 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
     return LiveWellScaffold(
         title: 'Add Food',
         customTitleWidget: customTitleWidget(context),
+        onBack: () {
+          controller.trackEvent(LivewellFoodEvent.detailPageBackButton);
+          Get.back();
+        },
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.end,
@@ -62,6 +69,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
             InkWell(
               child: const Icon(Icons.edit_outlined),
               onTap: () {
+                controller.trackEvent(LivewellFoodEvent.detailPageEditButton);
                 AppNavigator.push(
                     routeName: AppPages.nutriCoScreen,
                     arguments: {'type': getMealTypeByCurrentTime().name, 'date': DateTime.now(), 'name': food?.foodName ?? "", 'imageUrl': imageUrl, 'refId': food?.searchReferenceId});
@@ -71,12 +79,18 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
             InkWell(
               child: const Icon(Icons.ios_share),
               onTap: () async {
+                controller.trackEvent(LivewellFoodEvent.detailPageShareButton);
                 await showModalBottomSheet(
                     context: context,
                     shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
                         const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
                     builder: (context) {
-                      return ImagePickerBottomSheet(onImageSelected: (img) async {
+                      return ImagePickerBottomSheet(onImageSelected: (img, source) async {
+                        if (source == ImageSource.camera) {
+                          controller.trackEvent(LivewellFoodEvent.detailPageShareTakeAPhotoButton);
+                        } else {
+                          controller.trackEvent(LivewellFoodEvent.detailPageSharePickFromGalleryButton);
+                        }
                         setState(() {
                           file = img;
                         });
@@ -103,6 +117,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                           Expanded(
                                             child: ElevatedButton(
                                                 onPressed: () async {
+                                                  controller.trackEvent(LivewellFoodEvent.detailPageShare16_9RatioButton);
                                                   AppNavigator.push(routeName: AppPages.selectTemplateShareFood, arguments: {'file': file, 'food': food, 'aspectRatio': 9 / 16});
                                                 },
                                                 child: const Text('16:9')),
@@ -111,6 +126,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                           Expanded(
                                             child: ElevatedButton(
                                                 onPressed: () async {
+                                                  controller.trackEvent(LivewellFoodEvent.detailPageShare1_1RatioButton);
                                                   AppNavigator.push(routeName: AppPages.selectTemplateShareFood, arguments: {'file': file, 'food': food, 'aspectRatio': 1 / 1});
                                                 },
                                                 child: const Text('1:1')),
@@ -263,6 +279,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                         flex: 4,
                         child: InkWell(
                             onTap: () {
+                              controller.trackEvent(LivewellFoodEvent.detailPageTimestampButton);
                               showCupertinoDialog(
                                   barrierDismissible: true,
                                   context: context,
@@ -303,10 +320,11 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                                         ),
                                                       ),
                                                       onPressed: () {
+                                                        controller.trackEvent(LivewellFoodEvent.detailPageTimestampCancelButton);
                                                         Get.back();
                                                       },
                                                       child: Text(
-                                                        controller.localization.cancel!,
+                                                        controller.localization.cancel ?? "Cancel",
                                                         style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp, fontWeight: FontWeight.w500),
                                                       )),
                                                 ),
@@ -321,11 +339,12 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                                         ),
                                                       ),
                                                       onPressed: () {
+                                                        controller.trackEvent(LivewellFoodEvent.detailPageTimestampSaveButton);
                                                         controller.time.text = DateFormat('hh:mm a').format(selectedTime);
                                                         Get.back();
                                                       },
                                                       child: Text(
-                                                        controller.localization.save!,
+                                                        controller.localization.save ?? "Save",
                                                         style: TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 14.sp,
@@ -345,7 +364,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                               child: LiveWellTextField(
                                 controller: controller.time,
                                 hintText: null,
-                                labelText: controller.localization.time!,
+                                labelText: controller.localization.time ?? "Time",
                                 errorText: null,
                                 obscureText: false,
                                 enabled: false,
@@ -409,6 +428,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                           onTap: controller.numberOfServing.text.isEmpty
                               ? null
                               : () {
+                                  controller.trackEvent(LivewellFoodEvent.detailPageSaveButton);
                                   controller.selectedTime.value = selectedTime.toString();
                                   controller.addMeals(food!, mealTime!);
                                 },
@@ -441,6 +461,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
   InkWell customTitleWidget(BuildContext context) {
     return InkWell(
       onTap: () {
+        controller.trackEvent(LivewellFoodEvent.detailPageMealTimeButton);
         showModalBottomSheet(
             context: context,
             shape: shapeBorder(),

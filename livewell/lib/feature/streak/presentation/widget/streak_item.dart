@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/helper/get_meal_type_by_current_time.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/nutrico/presentation/widget/nutri_score_plus_bottom_sheet.dart';
@@ -11,11 +12,12 @@ import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
 
 enum StreakItemType {
-  hydration,
-  sleep,
-  mood,
   nutrition,
   activity,
+  sleep,
+  hydration,
+
+  mood,
 }
 
 extension StreakItemTypeExt on StreakItemType {
@@ -82,15 +84,19 @@ extension StreakItemTypeExt on StreakItemType {
   void navigate() {
     switch (this) {
       case StreakItemType.hydration:
+        Get.find<DashboardController>().trackEvent(LivewellStreakEvent.streakPageHydrationWaterButton);
         AppNavigator.push(routeName: AppPages.waterConsumedPage, arguments: {"waterInputType": WaterInputType.increase});
         break;
       case StreakItemType.sleep:
+        Get.find<DashboardController>().trackEvent(LivewellStreakEvent.streakPageSleepButton);
         AppNavigator.push(routeName: AppPages.sleepScreen);
         break;
       case StreakItemType.mood:
+        Get.find<DashboardController>().trackEvent(LivewellStreakEvent.streakPageMoodButton);
         AppNavigator.push(routeName: AppPages.moodDetailScreen);
         break;
       case StreakItemType.nutrition:
+        Get.find<DashboardController>().trackEvent(LivewellStreakEvent.streakPageNutritionButton);
         showModalBottomSheet(
             context: Get.context!,
             shape: shapeBorder(),
@@ -125,6 +131,7 @@ extension StreakItemTypeExt on StreakItemType {
             });
         break;
       case StreakItemType.activity:
+        Get.find<DashboardController>().trackEvent(LivewellStreakEvent.streakPageActivityButton);
         AppNavigator.push(routeName: AppPages.exerciseScreen);
         break;
     }

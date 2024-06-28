@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/feature/food/presentation/pages/share_food_screen.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -40,6 +42,7 @@ class _ChooseTemplateShareFoodState extends State<ChooseTemplateShareFood> {
           children: [
             InkWell(
               onTap: () {
+                Get.find<DashboardController>().trackEvent(LivewellFoodEvent.detailPageChooseTemplateBackButton);
                 Get.back();
               },
               child: Padding(
@@ -101,6 +104,7 @@ class _ChooseTemplateShareFoodState extends State<ChooseTemplateShareFood> {
           color: const Color(0xFF8F01DF),
           textColor: Colors.white,
           onPressed: () {
+            Get.find<DashboardController>().trackEvent(LivewellFoodEvent.detailPageChooseTemplateDoneButton);
             AppNavigator.push(routeName: AppPages.shareFood, arguments: {
               'type': selectedTemplate,
               'file': file,

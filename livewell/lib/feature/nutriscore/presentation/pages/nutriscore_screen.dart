@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/nutriscore/presentation/controller/nutriscore_controller.dart';
 import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_score_detail_screen.dart';
@@ -19,6 +20,12 @@ class _NutriScoreScreenState extends State<NutriScoreScreen> {
   final NutriScoreController controller = Get.put(NutriScoreController());
 
   @override
+  void initState() {
+    controller.trackEvent(LivewellNutriscoreEvent.nutriscorePage);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
         title: controller.localization.nutriscoreDetails!,
@@ -33,12 +40,11 @@ class _NutriScoreScreenState extends State<NutriScoreScreen> {
                   Obx(() {
                     return InkWell(
                       onTap: () {
+                        controller.trackEvent(LivewellNutriscoreEvent.nutriscorePageNutriscoreDetailButton);
                         Get.to(() => const NutriscoreScoreDetailScreen());
                       },
                       child: NutriscoreBanner(
-                        value:
-                            controller.nutriScore.value.totalPoints?.toInt() ??
-                                0,
+                        value: controller.nutriScore.value.totalPoints?.toInt() ?? 0,
                         hideSeeDetails: true,
                       ),
                     );
@@ -59,23 +65,15 @@ class _NutriScoreScreenState extends State<NutriScoreScreen> {
                         child: Obx(() {
                           return NutriScoreDetailItem(
                             name: NutrientType.values[index].title(),
-                            value: controller
-                                    .getNutrientByType(
-                                        NutrientType.values[index])
-                                    ?.eaten ??
-                                0,
-                            score: controller
-                                    .getNutrientByType(
-                                        NutrientType.values[index])
-                                    ?.optimizedNutrient ??
-                                0,
+                            value: controller.getNutrientByType(NutrientType.values[index])?.eaten ?? 0,
+                            score: controller.getNutrientByType(NutrientType.values[index])?.optimizedNutrient ?? 0,
                             unit: NutrientType.values[index].unit(),
                             type: NutrientType.values[index],
                           );
                         }),
                         onTap: () {
-                          controller
-                              .onNutrientTapped(NutrientType.values[index]);
+                          controller.trackEvent(LivewellNutriscoreEvent.nutriscorePageEachNutrientButton, properties: {'nutrient': NutrientType.values[index].title()});
+                          controller.onNutrientTapped(NutrientType.values[index]);
                         },
                       );
                     },
@@ -109,41 +107,28 @@ class NutriScoreDetailItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-      decoration: BoxDecoration(
-          border: Border.all(color: const Color(0xFFEBEBEB)),
-          borderRadius: BorderRadius.circular(24.r)),
+      decoration: BoxDecoration(border: Border.all(color: const Color(0xFFEBEBEB)), borderRadius: BorderRadius.circular(24.r)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             name,
-            style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w700,
-                fontSize: 13.sp),
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 13.sp),
           ),
           8.verticalSpace,
           Row(
             children: [
               Text(
                 '${NumberFormat('0.0').format(value)}$unit',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 12.sp),
+                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 12.sp),
               ),
               8.horizontalSpace,
               Container(
-                decoration: BoxDecoration(
-                    color: getCustomStatusByType(type).color(),
-                    borderRadius: BorderRadius.circular(100)),
+                decoration: BoxDecoration(color: getCustomStatusByType(type).color(), borderRadius: BorderRadius.circular(100)),
                 padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
                 child: Text(
                   getCustomStatusByType(type).title(),
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 8.sp,
-                      fontWeight: FontWeight.w700),
+                  style: TextStyle(color: Colors.white, fontSize: 8.sp, fontWeight: FontWeight.w700),
                 ),
               ),
               const Spacer(),

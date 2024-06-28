@@ -25,14 +25,16 @@ class NutriscoreScoreDetailController extends BaseController {
         date: element.date ?? "",
       ));
     }
-    todaysAmount.value = nutrientList[0].value.toDouble();
-    nutrientList = nutrientList.reversed.toList();
-    num temp = 0;
-    for (var element in nutrientList) {
-      temp += element.value;
+    if (nutrientList.isNotEmpty) {
+      todaysAmount.value = nutrientList[0].value.toDouble();
+      nutrientList = nutrientList.reversed.toList();
+      num temp = 0;
+      for (var element in nutrientList) {
+        temp += element.value;
+      }
+      weeklyAverage.value = (temp / nutrientList.length);
+      nutrientScore.value = todaysAmount.value.toInt();
     }
-    weeklyAverage.value = (temp / nutrientList.length);
-    nutrientScore.value = todaysAmount.value.toInt();
   }
 
   double getMaxY() {

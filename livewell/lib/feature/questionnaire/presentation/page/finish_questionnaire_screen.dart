@@ -3,9 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
+import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
+import 'package:livewell/theme/design_system.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 
 class FinishQuestionnaireScreen extends StatelessWidget {
@@ -14,64 +17,45 @@ class FinishQuestionnaireScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFDDF235),
+      backgroundColor: Colors.white,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: Column(
-          children: [
-            const Spacer(),
-            Center(
-                child: SizedBox(
-                    width: 280.w,
-                    height: 296.h,
-                    child:
-                        SvgPicture.asset(Constant.imgFinishQuestionnaireSVG))),
-            50.verticalSpace,
-            Text(
-              Get.find<HomeController>().localization.youAreReadyToGo!,
-              style: TextStyle(
-                  color: const Color(0xFF171433),
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.w600),
-            ),
-            20.verticalSpace,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24).r,
-              child: Text(
-                Get.find<HomeController>()
-                    .localization
-                    .thanksForCreatingAccount!,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: const Color(0xFF171433).withOpacity(0.7),
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500),
+        child: Expanded(
+          child: Column(
+            children: [
+              const Spacer(),
+              Center(child: SizedBox(width: 240.w, height: 253.h, child: SvgPicture.asset(Constant.imgFinishQuestionnaireSVG))),
+              32.verticalSpace,
+              Text(
+                QuestionnairePage.finish.title(),
+                style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue, fontSize: 24.sp, fontWeight: FontWeight.w600),
               ),
-            ),
-            50.verticalSpace,
-            LiveWellButton(
-                label: Get.find<HomeController>().localization.getStarted!,
-                color: const Color(0xFF8F01DF),
-                textColor: Colors.white,
-                onPressed: () {
-                  if (!Get.isRegistered<DashboardController>() ||
-                      Get.find<DashboardController>().user.value.dailyJournal ==
-                          null ||
-                      Get.find<DashboardController>()
-                          .user
-                          .value
-                          .dailyJournal!
-                          .isEmpty) {
-                    AppNavigator.push(
-                        routeName: AppPages.dailyJournal, arguments: false);
-                  } else {
+              8.verticalSpace,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24).r,
+                child: Text(
+                  QuestionnairePage.finish.subtitle(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue.withOpacity(0.7), fontSize: 16.sp, fontWeight: FontWeight.w500),
+                ),
+              ),
+              const Spacer(),
+              LiveWellButton(
+                  label: Get.find<HomeController>().localization.getStarted ?? 'Get Started!',
+                  color: Theme.of(context).colorScheme.primaryPurple,
+                  textColor: Colors.white,
+                  onPressed: () {
+                    if (Get.isRegistered<DashboardController>()) {
+                      Get.find<DashboardController>().getUsersData();
+                      Get.find<DashboardController>().trackEvent(LivewellAuthEvent.onboardingThankYouPageGetStarted);
+                    }
                     AppNavigator.pushAndRemove(routeName: AppPages.home);
-                  }
-                }),
-            31.verticalSpace,
-          ],
+                  }),
+              32.verticalSpace,
+            ],
+          ),
         ),
       ),
     );

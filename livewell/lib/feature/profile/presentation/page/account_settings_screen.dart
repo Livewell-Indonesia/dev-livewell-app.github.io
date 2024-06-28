@@ -95,7 +95,7 @@ class AccountSettingsScreen extends StatelessWidget {
                                   showModalBottomSheet(
                                       context: context,
                                       builder: (context) {
-                                        return ImagePickerBottomSheet(onImageSelected: (img) {
+                                        return ImagePickerBottomSheet(onImageSelected: (img, source) {
                                           physicalController.pickImages(img);
                                         });
                                       });
