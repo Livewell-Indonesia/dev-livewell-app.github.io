@@ -3,13 +3,26 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/auth/presentation/controller/landing_auth_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 
-class LandingAuthScreen extends StatelessWidget {
-  final LandingAuthController controller = Get.put(LandingAuthController());
+class LandingAuthScreen extends StatefulWidget {
   LandingAuthScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LandingAuthScreen> createState() => _LandingAuthScreenState();
+}
+
+class _LandingAuthScreenState extends State<LandingAuthScreen> {
+  final LandingAuthController controller = Get.put(LandingAuthController());
+
+  @override
+  void initState() {
+    super.initState();
+    controller.trackEvent(LivewellAuthEvent.landingPage);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +83,7 @@ class LandingAuthScreen extends StatelessWidget {
                       label: controller.localization.getStartedExclamation ?? "",
                       color: const Color(0xFFDDF235),
                       onPressed: () {
+                        controller.trackEvent(LivewellAuthEvent.landingPageGetStarted);
                         AppNavigator.push(routeName: AppPages.signup);
                       }),
                   Row(
@@ -79,6 +93,7 @@ class LandingAuthScreen extends StatelessWidget {
                       TextButton(
                           onPressed: () {
                             AppNavigator.push(routeName: AppPages.login);
+                            controller.trackEvent(LivewellAuthEvent.landingPageSignIn);
                           },
                           child: Text(
                             controller.localization.signIn ?? "",

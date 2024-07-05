@@ -21,27 +21,19 @@ class GoalSettingScreen extends StatelessWidget {
             95.verticalSpace,
             Text(
               'What\'s your goal?',
-              style: TextStyle(
-                  color: const Color(0xFF171433),
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.w600,
-                  height: 32.sp / 24.sp),
+              style: TextStyle(color: const Color(0xFF171433), fontSize: 24.sp, fontWeight: FontWeight.w600, height: 32.sp / 24.sp),
             ),
             8.verticalSpace,
             Text(
               'Update Your current goal setting',
-              style: TextStyle(
-                  color: const Color(0xFF505050),
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14.sp,
-                  height: 20.sp / 14.sp),
+              style: TextStyle(color: const Color(0xFF505050), fontWeight: FontWeight.w500, fontSize: 14.sp, height: 20.sp / 14.sp),
             ),
             60.verticalSpace,
             WeightSelectorWidget(
               onChange: (val) {
                 controller.inputtedTargetWeight = val;
               },
-              initialValue: controller.inputtedTargetWeight.toDouble(),
+              initialValue: controller.inputtedTargetWeight?.toDouble() ?? 50,
             ),
             const Spacer(),
             LiveWellButton(

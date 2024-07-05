@@ -3,11 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:livewell/core/base/usecase.dart';
 import 'dart:typed_data';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/nutrico/domain/usecase/get_nutrico_plus_tutorial_asset.dart';
 import 'package:livewell/feature/nutrico/presentation/widget/nutrico_plus_tutorial_screen.dart';
 
@@ -15,10 +18,11 @@ enum SelectedNutriscorePlusMethod { camera, gallery, desc }
 
 class NutriScorePlusBottomSheet extends StatefulWidget {
   final bool isAlreadyLimit;
+  final bool isFromDashboard;
   final int maxRequest;
   final Function(SelectedNutriscorePlusMethod) onSelected;
   final Function(File) onImageSelected;
-  const NutriScorePlusBottomSheet({super.key, required this.onSelected, required this.onImageSelected, required this.isAlreadyLimit, required this.maxRequest});
+  const NutriScorePlusBottomSheet({super.key, required this.onSelected, required this.onImageSelected, required this.isAlreadyLimit, required this.maxRequest, this.isFromDashboard = true});
 
   @override
   State<NutriScorePlusBottomSheet> createState() => _NutriScorePlusBottomSheetState();
@@ -110,6 +114,7 @@ class _NutriScorePlusBottomSheetState extends State<NutriScorePlusBottomSheet> {
                 const Spacer(),
                 InkWell(
                     onTap: () {
+                      Get.find<DashboardController>().trackEvent(widget.isFromDashboard ? LivewellHomepageEvent.navbarNutricoInformationButton : LivewellMealLogEvent.mealLogPageNutricoInformationButton);
                       loadTutorial();
                     },
                     child: Icon(Icons.info_outline, color: const Color(0xFF171433), size: 24.sp)),
@@ -121,6 +126,7 @@ class _NutriScorePlusBottomSheetState extends State<NutriScorePlusBottomSheet> {
               onTap: widget.isAlreadyLimit
                   ? null
                   : () {
+                      Get.find<DashboardController>().trackEvent(widget.isFromDashboard ? LivewellHomepageEvent.navbarNutricoPickFromGalleryButton : LivewellMealLogEvent.mealLogPageNutricoPickFromGalleryButton);
                       _pickImage(ImageSource.gallery, context);
                     },
               title: Row(
@@ -152,6 +158,7 @@ class _NutriScorePlusBottomSheetState extends State<NutriScorePlusBottomSheet> {
               onTap: widget.isAlreadyLimit
                   ? null
                   : () {
+                      Get.find<DashboardController>().trackEvent(widget.isFromDashboard ? LivewellHomepageEvent.navbarNutricoTakeAPhotoButton : LivewellMealLogEvent.mealLogPageNutricoTakeAPhotoButton);
                       _pickImage(ImageSource.camera, context);
                     },
               title: Row(

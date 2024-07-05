@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/streak/presentation/controller/streak_controller.dart';
 import 'package:livewell/feature/streak/presentation/widget/streak_calendar.dart';
 import 'package:livewell/feature/streak/presentation/widget/streak_item.dart';
@@ -15,6 +16,13 @@ class StreakScreen extends StatefulWidget {
 
 class _StreakScreenState extends State<StreakScreen> {
   final StreakController controller = Get.put(StreakController());
+
+  @override
+  void initState() {
+    controller.trackEvent(LivewellStreakEvent.streakPage);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,6 +170,7 @@ class _StreakScreenState extends State<StreakScreen> {
                           Obx(() {
                             return StreakCalendar(
                               onDateSelected: (p0) {
+                                controller.trackEvent(LivewellStreakEvent.streakPageDateButton);
                                 controller.onDateSelected(p0);
                               },
                               streakDates: controller.streakDates.value,

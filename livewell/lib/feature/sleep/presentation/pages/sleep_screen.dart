@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/core/constant/constant.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/sleep/presentation/controller/sleep_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -22,6 +23,13 @@ class SleepScreen extends StatefulWidget {
 
 class _SleepScreenState extends State<SleepScreen> {
   final SleepController controller = Get.find();
+
+  @override
+  void initState() {
+    controller.trackEvent(LivewellSleepEvent.sleepPage);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
@@ -29,6 +37,7 @@ class _SleepScreenState extends State<SleepScreen> {
       trailing: InkWell(
         onTap: () {
           HomeController controller = Get.find();
+          controller.trackEvent(LivewellSleepEvent.sleepPageInformationButton);
           var data = controller.popupAssetsModel.value.water;
           if (data != null) {
             showModalBottomSheet<dynamic>(
@@ -181,6 +190,7 @@ class _SleepScreenState extends State<SleepScreen> {
                 color: const Color(0xFF8F01DF),
                 textColor: Colors.white,
                 onPressed: () {
+                  controller.trackEvent(LivewellSleepEvent.sleepPageInputSleepButton);
                   AppNavigator.push(routeName: AppPages.manualInputSleep);
                 },
               ),

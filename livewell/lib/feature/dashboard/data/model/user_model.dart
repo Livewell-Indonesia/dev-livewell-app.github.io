@@ -203,7 +203,9 @@ class OnboardingQuestionnaire {
 
   OnboardingQuestionnaire.fromJson(Map<String, dynamic> json) {
     describePhysicalHealth = json['describe_physical_health'];
-    dietaryRestrictions = json['dietary_restrictions'].cast<String>();
+    dietaryRestrictions = json['medical_condition'] == null
+        ? json['dietary_restrictions'].cast<String>()
+        : json['medical_condition'].cast<String>();
     eatingHabits = json['eating_habits'];
     exercisePerWeek = json['exercise_per_week'];
     feelAboutChange = json['feel_about_change'];

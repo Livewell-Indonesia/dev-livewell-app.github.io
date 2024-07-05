@@ -48,7 +48,7 @@ class AppNavigator {
     GetPage(name: AppPages.landingLogin, page: () => LandingAuthScreen(), transition: Transition.cupertino),
     GetPage(name: AppPages.login, page: () => const LoginScreen(), transition: Transition.cupertino),
     GetPage(name: AppPages.signup, page: () => const SignUpScreen(), transition: Transition.cupertino),
-    GetPage(name: AppPages.questionnaire, page: () => const QuestionnaireScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.questionnaire, page: () => const QuestionnaireScreen(), transition: Transition.cupertino, popGesture: false, fullscreenDialog: true),
     GetPage(name: AppPages.finishQuestionnaire, page: () => const FinishQuestionnaireScreen(), transition: Transition.cupertino),
     GetPage(name: AppPages.forgotPassword, page: () => ForgotPasswordScreen(), transition: Transition.cupertino),
     GetPage(name: AppPages.food, page: () => const FoodScreen(), transition: Transition.cupertino),

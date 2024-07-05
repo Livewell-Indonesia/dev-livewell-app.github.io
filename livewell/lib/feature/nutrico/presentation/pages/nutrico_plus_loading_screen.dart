@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/nutrico/presentation/controller/nutricoplus_controller.dart';
 import 'package:lottie/lottie.dart';
 
@@ -20,6 +21,7 @@ class _NutricoPlusLoadingScreenState extends State<NutricoPlusLoadingScreen> {
   void initState() {
     File image = Get.arguments;
     controller.searchFoodByImage(image);
+    controller.trackEvent(LivewellNutricoEvent.imageLoadingPage);
     super.initState();
   }
 

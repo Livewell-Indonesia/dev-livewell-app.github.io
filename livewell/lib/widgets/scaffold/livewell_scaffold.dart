@@ -13,8 +13,9 @@ class LiveWellScaffold extends StatelessWidget {
   final Widget? trailing;
   final Widget? customTitleWidget;
   final bool beta;
+  final VoidCallback? onBack;
   const LiveWellScaffold(
-      {Key? key, required this.title, this.backgroundColor = const Color(0xFFF1F1F1), required this.body, this.trailing, this.beta = false, this.customTitleWidget, this.allowBack = true})
+      {Key? key, required this.title, this.backgroundColor = const Color(0xFFF1F1F1), required this.body, this.trailing, this.beta = false, this.customTitleWidget, this.allowBack = true, this.onBack})
       : super(key: key);
 
   @override
@@ -80,7 +81,11 @@ class LiveWellScaffold extends StatelessWidget {
     return GestureDetector(
       //behavior: HitTestBehavior.translucent,
       onTap: () {
-        Get.back();
+        if (onBack != null) {
+          onBack!();
+        } else {
+          Get.back();
+        }
       },
       child: Container(
         width: 31.w,

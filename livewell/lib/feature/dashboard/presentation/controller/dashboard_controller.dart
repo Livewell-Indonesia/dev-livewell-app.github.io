@@ -133,7 +133,6 @@ class DashboardController extends BaseController {
           todayProgress.value = todayProgress.value + 1;
         }
         wellnessScore.value = r.response?.displayData?.totalScore ?? 0;
-        
       });
     });
   }

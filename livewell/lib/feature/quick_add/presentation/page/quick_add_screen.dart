@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/profile/presentation/page/account_settings_screen.dart';
 import 'package:livewell/feature/quick_add/presentation/controller/quick_add_controller.dart';
@@ -16,6 +17,12 @@ class QuickAddScreen extends StatefulWidget {
 
 class _QuickAddScreenState extends State<QuickAddScreen> {
   final QuickAddController controller = Get.put(QuickAddController());
+
+  @override
+  void initState() {
+    controller.trackEvent(LivewellMealLogEvent.mealLogPageQuickAddPage);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +77,8 @@ class _QuickAddScreenState extends State<QuickAddScreen> {
                   color: const Color(0xFFDDF235),
                   onPressed: controller.formValid.value
                       ? () {
-                          controller.postData(MealTime.values.byName(
-                              (Get.arguments['type'] as String? ??
-                                      MealTime.breakfast.name)
-                                  .toLowerCase()));
+                          controller.trackEvent(LivewellMealLogEvent.mealLogPageQuickAddPageSubmitButton);
+                          controller.postData(MealTime.values.byName((Get.arguments['type'] as String? ?? MealTime.breakfast.name).toLowerCase()));
                         }
                       : null,
                 );

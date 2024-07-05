@@ -35,7 +35,7 @@ class _ScanBarcodeScreenState extends State<ScanBarcodeScreen> {
               Expanded(
                 flex: 8,
                 child: MobileScanner(
-                    controller: controller, onDetect: ((barcode, args) {})),
+                    controller: controller, onDetect: ((barcode) {})),
               ),
               Expanded(
                 flex: 4,

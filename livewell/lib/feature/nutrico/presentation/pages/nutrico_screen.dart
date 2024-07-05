@@ -1,19 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/nutrico/data/model/nutrico_asset_model.dart';
 import 'package:livewell/feature/nutrico/presentation/controller/nutrico_controller.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
-class NutriCoScreen extends StatelessWidget {
+class NutriCoScreen extends StatefulWidget {
   NutriCoScreen({super.key});
 
+  @override
+  State<NutriCoScreen> createState() => _NutriCoScreenState();
+}
+
+class _NutriCoScreenState extends State<NutriCoScreen> {
   final NutriCoController controller = Get.put(NutriCoController());
+
+  @override
+  void initState() {
+    controller.trackEvent(LivewellNutricoEvent.describeFoodPage);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
+      onBack: () {
+        Get.back();
+        controller.trackEvent(LivewellNutricoEvent.describeFoodPageBackButton);
+      },
       title: 'NutriCo',
       trailing: InkWell(
           child: const Icon(
@@ -22,30 +38,20 @@ class NutriCoScreen extends StatelessWidget {
           ),
           onTap: () {
             if (controller.nutricoAssets.value != null) {
+              controller.trackEvent(LivewellNutricoEvent.describeFoodPageInformationButton);
               showModalBottomSheet<dynamic>(
                   context: context,
                   isScrollControlled: true,
-                  shape: ShapeBorder.lerp(
-                      const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20))),
-                      const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20))),
-                      1),
+                  shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                      const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
                   builder: (context) {
                     return Obx(() {
                       return Container(
                         decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20)),
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                         ),
                         height: 0.85.sh,
-                        child: NutricoAssetsPopupWidget(
-                            asset: controller.nutricoAssets.value!),
+                        child: NutricoAssetsPopupWidget(asset: controller.nutricoAssets.value!),
                       );
                     });
                   });
@@ -61,10 +67,7 @@ class NutriCoScreen extends StatelessWidget {
               child: TextFormField(
                 controller: controller.foodDescription,
                 maxLength: 150,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500),
+                style: TextStyle(color: Colors.black, fontSize: 16.sp, fontWeight: FontWeight.w500),
                 decoration: InputDecoration(
                   suffixIcon: IconButton(
                       onPressed: () {
@@ -74,14 +77,9 @@ class NutriCoScreen extends StatelessWidget {
                         Icons.clear,
                         color: Color(0xFFC1C1C1),
                       )),
-                  hintText:
-                      'Example : A medium sized ice tea with 25% sugar and konjac jelly',
-                  hintStyle: TextStyle(
-                      color: const Color(0xFFC1C1C1),
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500),
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 32.w, vertical: 12.h),
+                  hintText: 'Example : A medium sized ice tea with 25% sugar and konjac jelly',
+                  hintStyle: TextStyle(color: const Color(0xFFC1C1C1), fontSize: 16.sp, fontWeight: FontWeight.w500),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 12.h),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.r),
                     borderSide: BorderSide(
@@ -114,6 +112,7 @@ class NutriCoScreen extends StatelessWidget {
                 color: const Color(0xFFDDF235),
                 onPressed: controller.buttonEnabled.value
                     ? () {
+                        controller.trackEvent(LivewellNutricoEvent.describeFoodPageSubmitButton);
                         controller.postData();
                       }
                     : null,
@@ -148,9 +147,7 @@ class NutricoAssetsPopupWidget extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 8.w),
           child: Row(
             children: [
-              Text('Info',
-                  style:
-                      TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600)),
+              Text('Info', style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600)),
               const Spacer(),
               InkWell(
                 onTap: () {
@@ -181,14 +178,11 @@ class NutricoAssetsPopupWidget extends StatelessWidget {
         Expanded(
           child: ListView(
             children: [
-              generateAsset(asset.nutrico?.example1SubHeader ?? "",
-                  asset.nutrico?.example1Description ?? ""),
+              generateAsset(asset.nutrico?.example1SubHeader ?? "", asset.nutrico?.example1Description ?? ""),
               24.verticalSpace,
-              generateAsset(asset.nutrico?.example2SubHeader ?? "",
-                  asset.nutrico?.example2Description ?? ""),
+              generateAsset(asset.nutrico?.example2SubHeader ?? "", asset.nutrico?.example2Description ?? ""),
               24.verticalSpace,
-              generateAsset(asset.nutrico?.example3SubHeader ?? "",
-                  asset.nutrico?.example3Description ?? ""),
+              generateAsset(asset.nutrico?.example3SubHeader ?? "", asset.nutrico?.example3Description ?? ""),
               24.verticalSpace,
               LiveWellButton(
                 label: 'Start Now',
@@ -210,18 +204,12 @@ class NutricoAssetsPopupWidget extends StatelessWidget {
       children: [
         Text(
           'Example',
-          style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
-              color: Colors.black),
+          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: Colors.black),
         ),
         16.verticalSpace,
         Text(
           header,
-          style: TextStyle(
-              color: const Color(0xFF808080),
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w500),
+          style: TextStyle(color: const Color(0xFF808080), fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
         24.verticalSpace,
         NutricoPoupDescriptionWidget(
@@ -240,18 +228,13 @@ class NutricoPoupDescriptionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
-        decoration: BoxDecoration(
-            color: const Color(0xFFF1F1F1),
-            borderRadius: BorderRadius.circular(24)),
+        decoration: BoxDecoration(color: const Color(0xFFF1F1F1), borderRadius: BorderRadius.circular(24)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'Food Description',
-              style: TextStyle(
-                  color: const Color(0xFF171433),
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600),
+              style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp, fontWeight: FontWeight.w600),
             ),
             18.verticalSpace,
             Container(
@@ -267,10 +250,7 @@ class NutricoPoupDescriptionWidget extends StatelessWidget {
                   )),
               child: Text(
                 text,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500),
+                style: TextStyle(color: Colors.black, fontSize: 16.sp, fontWeight: FontWeight.w500),
               ),
             ),
           ],

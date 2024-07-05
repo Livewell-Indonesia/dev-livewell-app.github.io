@@ -76,4 +76,12 @@ class Constant {
   static const String moodMeh = '$assetsIcons/mood_meh.svg';
   static const String moodBad = '$assetsIcons/mood_bad.svg';
   static const String moodAwful = '$assetsIcons/mood_awful.svg';
+
+  // questionnaire
+  static const String imgLandingQuestionnaire = '$assetsImages/img_landing_questionnaire.png';
+
+  // wellness
+  static const String imgEmptyWellness = '$assetsImages/img_empty_wellness.svg';
+  static const String icWellnessProfile = '$assetsIcons/ic_wellness_profile.svg';
+  static const String icWellnessRecommendation = '$assetsIcons/ic_wellness_recommendation.svg';
 }

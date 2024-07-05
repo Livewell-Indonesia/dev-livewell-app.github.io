@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/daily_journal/presentation/controller/daily_journal_controller.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
@@ -16,6 +17,12 @@ class DailyJournalScreen extends StatefulWidget {
 
 class _DailyJournalScreenState extends State<DailyJournalScreen> {
   final DailyJournalController controller = Get.put(DailyJournalController());
+
+  @override
+  void initState() {
+    controller.trackEvent(LivewellProfileEvent.dailyJournalPage);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -19,12 +19,7 @@ class RequestFoodScreen extends StatelessWidget {
           child: Column(
             children: [
               40.verticalSpace,
-              LiveWellTextField(
-                  controller: controller.foodNameText,
-                  hintText: controller.localization.foodName!,
-                  labelText: controller.localization.foodName!,
-                  errorText: null,
-                  obscureText: false),
+              LiveWellTextField(controller: controller.foodNameText, hintText: controller.localization.foodName!, labelText: controller.localization.foodName!, errorText: null, obscureText: false),
               const Spacer(),
               LiveWellButton(
                   label: controller.localization.submit!,

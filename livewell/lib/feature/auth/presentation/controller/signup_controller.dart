@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/base/usecase.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/core/notification/firebase_notification.dart';
@@ -27,6 +28,7 @@ class SignUpController extends BaseController {
   PostAppleAuth postAuthApple = PostAppleAuth.instance();
 
   void onRegisterTapped() {
+    trackEvent(LivewellAuthEvent.signupPageSignUpButton);
     doRegister();
   }
 

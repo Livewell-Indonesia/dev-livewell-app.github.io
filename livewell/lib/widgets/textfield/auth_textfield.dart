@@ -16,6 +16,10 @@ class AuthTextField extends StatefulWidget {
   final bool? enabled;
   final VoidCallback? onTap;
   final TextInputType keyboardType;
+  final Color borderColor;
+  final int minLines;
+  final int maxLines;
+  final double borderRadius;
 
   const AuthTextField({
     Key? key,
@@ -28,6 +32,10 @@ class AuthTextField extends StatefulWidget {
     this.onTap,
     this.isEmail = false,
     this.keyboardType = TextInputType.text,
+    this.borderColor = const Color(0xFFDDF235),
+    this.minLines = 1,
+    this.maxLines = 1,
+    this.borderRadius = 36.0,
   }) : super(key: key);
   @override
   State<AuthTextField> createState() => _AuthTextFieldState();
@@ -90,6 +98,8 @@ class _AuthTextFieldState extends State<AuthTextField> {
             Column(
           children: [
             TextFormField(
+              minLines: widget.minLines,
+              maxLines: widget.maxLines,
               keyboardType: widget.keyboardType,
               focusNode: _focusNode,
               style: TextStyle(color: const Color(0xFF000000), fontSize: 16.sp, fontWeight: FontWeight.w500),
@@ -117,36 +127,37 @@ class _AuthTextFieldState extends State<AuthTextField> {
                   contentPadding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 12.h),
                   labelText: widget.labelText,
                   isDense: true,
+                  alignLabelWithHint: true,
                   floatingLabelBehavior: FloatingLabelBehavior.never,
                   labelStyle: TextStyle(color: widget.errorText != null ? const Color(0xFFFA6F6F) : const Color(0xFF171433).withOpacity(0.5), fontSize: isFocused ? 13.sp : 16.sp),
                   hintStyle: TextStyle(color: const Color(0xFF171433).withOpacity(0.5), fontSize: 16.sp),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: widget.errorText != null ? const Color(0xFFFA6F6F) : const Color(0xFFDDF235),
+                      color: widget.errorText != null ? const Color(0xFFFA6F6F) : widget.borderColor,
                       width: 2.0,
                     ),
-                    borderRadius: BorderRadius.circular(36.0).r,
+                    borderRadius: BorderRadius.circular(widget.borderRadius).r,
                   ),
                   disabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: widget.errorText != null ? const Color(0xFFFA6F6F) : const Color(0xFFDDF235),
+                      color: widget.errorText != null ? const Color(0xFFFA6F6F) : widget.borderColor,
                       width: 2.0,
                     ),
-                    borderRadius: BorderRadius.circular(36.0).r,
+                    borderRadius: BorderRadius.circular(widget.borderRadius).r,
                   ),
                   border: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: widget.errorText != null ? const Color(0xFFFA6F6F) : const Color(0xFFDDF235),
+                      color: widget.errorText != null ? const Color(0xFFFA6F6F) : widget.borderColor,
                       width: 2.0,
                     ),
-                    borderRadius: BorderRadius.circular(36.0).r,
+                    borderRadius: BorderRadius.circular(widget.borderRadius).r,
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: widget.errorText != null ? const Color(0xFFFA6F6F) : const Color(0xFFDDF235),
+                      color: widget.errorText != null ? const Color(0xFFFA6F6F) : widget.borderColor,
                       width: 2.0,
                     ),
-                    borderRadius: BorderRadius.circular(36.0).r,
+                    borderRadius: BorderRadius.circular(widget.borderRadius).r,
                   ),
                   suffixIcon: suffixIcon()),
             ),

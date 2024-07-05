@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/nutriscore/presentation/controller/nutriscore_score_detail_controller.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
@@ -16,6 +17,13 @@ class NutriscoreScoreDetailScreen extends StatefulWidget {
 
 class _NutriscoreScoreDetailScreenState extends State<NutriscoreScoreDetailScreen> {
   final NutriscoreScoreDetailController controller = Get.put(NutriscoreScoreDetailController());
+
+  @override
+  void initState() {
+    controller.trackEvent(LivewellNutriscoreEvent.nutriscorePageNutriscoreDetailPage);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(

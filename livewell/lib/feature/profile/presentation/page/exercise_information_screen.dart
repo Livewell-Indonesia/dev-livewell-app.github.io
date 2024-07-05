@@ -2,15 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/profile/presentation/controller/exercise_information_controller.dart';
 import 'package:livewell/feature/profile/presentation/page/account_settings_screen.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
-class ExerciseInformationScreen extends StatelessWidget {
+class ExerciseInformationScreen extends StatefulWidget {
   ExerciseInformationScreen({super.key});
-  final ExerciseInformationController controller =
-      Get.find();
+
+  @override
+  State<ExerciseInformationScreen> createState() =>
+      _ExerciseInformationScreenState();
+}
+
+class _ExerciseInformationScreenState extends State<ExerciseInformationScreen> {
+  final ExerciseInformationController controller = Get.find();
+
+  @override
+  void initState() {
+    controller.trackEvent(LivewellProfileEvent.physicalInformationPage);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +96,8 @@ class ExerciseInformationScreen extends StatelessWidget {
                     color: const Color(0xFF8F01DF),
                     textColor: Colors.white,
                     onPressed: () {
+                      controller.trackEvent(LivewellProfileEvent
+                          .physicalInformationPageSaveButton);
                       controller.save();
                     })
               ],

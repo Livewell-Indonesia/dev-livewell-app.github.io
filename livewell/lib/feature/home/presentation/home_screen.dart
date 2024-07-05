@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/helper/get_meal_type_by_current_time.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/nutrico/presentation/widget/nutri_score_plus_bottom_sheet.dart';
@@ -45,6 +46,11 @@ class HomeScreen extends StatelessWidget {
                           if (Get.isSnackbarOpen) {
                             Get.back();
                           }
+                          if (e == HomeTab.home) {
+                            controller.trackEvent(LivewellHomepageEvent.navbarHomeButton);
+                          } else if (e == HomeTab.account) {
+                            controller.trackEvent(LivewellHomepageEvent.navbarAccountButton);
+                          }
                           controller.changePageIndex(e.index);
                         },
                         child: Column(
@@ -68,6 +74,7 @@ class HomeScreen extends StatelessWidget {
               )),
           InkWell(
             onTap: () {
+              controller.trackEvent(LivewellHomepageEvent.navbarNutricoButton);
               if (Get.isSnackbarOpen) {
                 Get.back();
               }
@@ -83,12 +90,11 @@ class HomeScreen extends StatelessWidget {
                           Get.back();
                           switch (p0) {
                             case SelectedNutriscorePlusMethod.camera:
-                              // AppNavigator.push(routeName: AppPages.camera);
                               break;
                             case SelectedNutriscorePlusMethod.gallery:
-                              //AppNavigator.push(routeName: AppPages.gallery);
                               break;
                             case SelectedNutriscorePlusMethod.desc:
+                              controller.trackEvent(LivewellHomepageEvent.navbarNutricoDescribeFoodButton);
                               AppNavigator.push(routeName: AppPages.nutriCoScreen, arguments: {
                                 'type': getMealTypeByCurrentTime().name,
                                 'date': DateTime.now(),

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_user.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
@@ -16,12 +17,15 @@ import '../../../../core/base/usecase.dart';
 import '../../../../routes/app_navigator.dart';
 import 'package:livewell/core/base/base_controller.dart';
 
-class SplashController extends GetxController {
+class SplashController extends BaseController {
   LanguageController controller = Get.put(LanguageController());
   var language = AvailableLanguage.en.obs;
   @override
   void onReady() {
-    Future.delayed(const Duration(milliseconds: 300)).then((value) => getForceUpdateStatus());
+    Future.delayed(const Duration(milliseconds: 300)).then((value) {
+      getForceUpdateStatus();
+      trackEvent(LivewellAuthEvent.splashScreen);
+    });
     super.onReady();
   }
 

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/mood/presentation/widget/mood_picker_widget.dart';
 import 'package:livewell/feature/nutriscore/presentation/controller/nutriscore_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -210,33 +213,41 @@ extension DashboardSummaryItemExt on DashboardSummaryItem {
     switch (this) {
       case DashboardSummaryItem.calories:
         // AppNavigator.push(routeName: AppPages.nutritionScreen);
+        Get.find<DashboardController>().trackEvent(LivewellHomepageEvent.summaryCaloriesButton);
         AppNavigator.push(routeName: AppPages.updateWeight, arguments: true);
         break;
       case DashboardSummaryItem.exercise:
+        Get.find<DashboardController>().trackEvent(LivewellHomepageEvent.summaryExerciseButton);
         AppNavigator.push(routeName: AppPages.exerciseScreen);
         break;
       case DashboardSummaryItem.protein:
+        Get.find<DashboardController>().trackEvent(LivewellHomepageEvent.summaryProteinButton);
         AppNavigator.push(routeName: AppPages.nutriScore, arguments: {
           'type': NutrientType.protein,
         });
         break;
       case DashboardSummaryItem.mood:
+        Get.find<DashboardController>().trackEvent(LivewellHomepageEvent.summaryMoodButton);
         AppNavigator.push(routeName: AppPages.moodDetailScreen);
         break;
       case DashboardSummaryItem.carbs:
+        Get.find<DashboardController>().trackEvent(LivewellHomepageEvent.summaryCarbsButton);
         AppNavigator.push(routeName: AppPages.nutriScore, arguments: {
           'type': NutrientType.carb,
         });
         break;
       case DashboardSummaryItem.sleep:
+        Get.find<DashboardController>().trackEvent(LivewellHomepageEvent.summarySleepButton);
         AppNavigator.push(routeName: AppPages.sleepScreen);
         break;
       case DashboardSummaryItem.fat:
+        Get.find<DashboardController>().trackEvent(LivewellHomepageEvent.summaryFatButton);
         AppNavigator.push(routeName: AppPages.nutriScore, arguments: {
           'type': NutrientType.fat,
         });
         break;
       case DashboardSummaryItem.water:
+        Get.find<DashboardController>().trackEvent(LivewellHomepageEvent.summaryWaterButton);
         AppNavigator.push(routeName: AppPages.waterScreen);
         break;
     }

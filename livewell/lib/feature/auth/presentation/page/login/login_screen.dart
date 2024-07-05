@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/auth/presentation/controller/login_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
@@ -23,10 +24,20 @@ class _LoginScreenState extends State<LoginScreen> {
   final controller = Get.put(LoginController());
 
   @override
+  void initState() {
+    controller.trackEvent(LivewellAuthEvent.signInPage);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
         title: controller.localization.signIn!,
         backgroundColor: Colors.white,
+        onBack: () {
+          Get.back();
+          controller.trackEvent(LivewellAuthEvent.signInPageBack);
+        },
         body: Expanded(
           child: Column(
             children: [
@@ -54,6 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   label: controller.localization.signIn!,
                   color: const Color(0xFFDDF235),
                   onPressed: () {
+                    controller.trackEvent(LivewellAuthEvent.signInPageSignInButton);
                     controller.doLogin();
                   }),
               20.verticalSpace,
@@ -71,6 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SigninThridPartyButton(
                   type: SignInButtonType.google,
                   onPressed: () {
+                    controller.trackEvent(LivewellAuthEvent.signInPageSignInGoogle);
                     controller.onGoogleLoginTapped();
                   }),
               4.verticalSpace,
@@ -78,6 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ? SigninThridPartyButton(
                       type: SignInButtonType.apple,
                       onPressed: () async {
+                        controller.trackEvent(LivewellAuthEvent.signInPageSignInApple);
                         controller.onAppleIdTapped();
                       })
                   : Container(),
@@ -88,6 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Text(controller.localization.dontHaveAccount!, style: TextStyle(color: const Color(0xFF171433).withOpacity(0.7), fontSize: 16.sp, fontWeight: FontWeight.w400)),
                   TextButton(
                       onPressed: () {
+                        controller.trackEvent(LivewellAuthEvent.signInPageSignUp);
                         AppNavigator.push(routeName: AppPages.signup);
                       },
                       child: Text(
@@ -108,6 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             text: "${controller.localization.termsAndConditions} ",
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
+                                controller.trackEvent(LivewellAuthEvent.signInPageTnc);
                                 Get.to(() => const WebView(
                                       initialUrl: 'https://livewellindo.com/terms',
                                       javascriptMode: JavascriptMode.unrestricted,
@@ -123,6 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             text: controller.localization.privacyPolicy!,
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
+                                controller.trackEvent(LivewellAuthEvent.signInPagePrivacyPolicy);
                                 Get.to(() => const WebView(
                                       initialUrl: 'https://livewellindo.com/privacy',
                                       javascriptMode: JavascriptMode.unrestricted,

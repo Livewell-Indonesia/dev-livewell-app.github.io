@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/helper/clarity/flutter_clarity.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/core/notification/firebase_notification.dart';
 import 'package:livewell/core/remote_config/remote_config_service.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
@@ -19,6 +20,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:livewell/theme/design_system.dart';
 import 'package:sentry/sentry.dart';
 
 import 'feature/food/presentation/pages/food_screen.dart';
@@ -132,7 +134,7 @@ void main() async {
         SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
         await ScreenUtil.ensureScreenSize();
         configLoading();
-
+        Get.putAsync(() async => LivewellTrackerService());
         runApp(MyApp());
       },
     );
@@ -191,6 +193,12 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       sessionId = sessionId;
     });
+  }
+
+  @override
+  void initState() {
+    initClarityState();
+    super.initState();
   }
 
   // This widget is the root of your application.
