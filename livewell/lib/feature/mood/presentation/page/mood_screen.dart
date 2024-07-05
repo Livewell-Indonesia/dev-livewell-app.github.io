@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/mood/presentation/controller/mood_screen_controller.dart';
 import 'package:livewell/feature/mood/presentation/widget/mood_picker_widget.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
@@ -17,10 +18,21 @@ class MoodScreen extends StatefulWidget {
 
 class _MoodScreenState extends State<MoodScreen> {
   final controller = Get.put(MoodScreenController());
+
+  @override
+  void initState() {
+    controller.trackEvent(LivewellMoodEvent.moodPage);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
         title: controller.localization.moodTracker ?? "Mood Tracker",
+        onBack: () {
+          controller.trackEvent(LivewellMoodEvent.moodPageBackButton);
+          Get.back();
+        },
         body: Expanded(
           child: RefreshIndicator(
               onRefresh: () async {

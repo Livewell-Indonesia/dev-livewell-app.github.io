@@ -101,7 +101,7 @@ class OnboardingQuestionnaire {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['dietary_restrictions'] = dietaryRestrictions;
+    data['medical_condition'] = dietaryRestrictions;
     data['sleep_duration'] = sleepDuration;
     data['glasses_of_water_daily'] = glassesOfWaterDaily;
     data['target_improvement'] = targetImprovement;

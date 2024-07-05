@@ -1,12 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
@@ -27,7 +24,8 @@ class WellnessScoreScreen extends StatefulWidget {
 class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
   @override
   void initState() {
-    Get.find<DashboardController>().trackEvent(LivewellWellnessScoreEvent.wellnessScorePage);
+    Get.find<DashboardController>()
+        .trackEvent(LivewellWellnessScoreEvent.wellnessScorePage);
     super.initState();
   }
 
@@ -58,7 +56,8 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                   children: [
                     IconButton(
                         onPressed: () {
-                          Get.find<DashboardController>().trackEvent(LivewellWellnessScoreEvent.wellnessScorePage);
+                          Get.find<DashboardController>().trackEvent(
+                              LivewellWellnessScoreEvent.wellnessScorePage);
                           Get.back();
                         },
                         icon: const Icon(Icons.arrow_back_ios_new_rounded)),
@@ -96,11 +95,15 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                   child: Column(
                     children: [
                       WellnessScoreWidget(
-                        score: Get.find<DashboardController>().wellnessScore.value,
+                        score:
+                            Get.find<DashboardController>().wellnessScore.value,
                       ),
                       16.verticalSpace,
                       Obx(() {
-                        if (Get.find<DashboardController>().wellnessScore.value == 0) {
+                        if (Get.find<DashboardController>()
+                                .wellnessScore
+                                .value ==
+                            0) {
                           return Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.w),
                             child: Column(
@@ -114,11 +117,22 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                                   height: 120.h,
                                 ),
                                 24.verticalSpace,
-                                Text('Unlock your wellness score today!', style: TextStyle(color: Theme.of(context).colorScheme.neutral100, fontSize: 16.sp, fontWeight: FontWeight.w700)),
+                                Text('Unlock your wellness score today!',
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutral100,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w700)),
                                 8.verticalSpace,
                                 Text(
                                   'Track your daily task to see your wellness score and insights for today!',
-                                  style: TextStyle(color: Theme.of(context).colorScheme.neutral80, fontSize: 14.sp, fontWeight: FontWeight.w400),
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutral80,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w400),
                                   textAlign: TextAlign.center,
                                 ),
                               ],
@@ -127,14 +141,16 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                         } else {
                           return Container(
                             alignment: Alignment.centerRight,
-                            margin: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+                            margin: EdgeInsets.symmetric(
+                                vertical: 12.h, horizontal: 16.w),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(16),
                             ),
                             width: 1.sw,
                             child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 16.w, vertical: 12.h),
                               child: Column(
                                 children: [
                                   Align(
@@ -145,17 +161,32 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                                         children: [
                                           Text(
                                             'Low',
-                                            style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue, fontSize: 12.sp, fontWeight: FontWeight.w600),
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondaryDarkBlue,
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w600),
                                           ),
                                           const Spacer(),
                                           Text(
                                             'Optimal',
-                                            style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue, fontSize: 12.sp, fontWeight: FontWeight.w600),
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondaryDarkBlue,
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w600),
                                           ),
                                           const Spacer(),
                                           Text(
                                             'High',
-                                            style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue, fontSize: 12.sp, fontWeight: FontWeight.w600),
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondaryDarkBlue,
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w600),
                                           ),
                                         ],
                                       ),
@@ -170,32 +201,62 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                                         children: [
                                           Text(
                                             '0',
-                                            style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue, fontSize: 10.sp, fontWeight: FontWeight.w400),
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondaryDarkBlue,
+                                                fontSize: 10.sp,
+                                                fontWeight: FontWeight.w400),
                                           ),
                                           const Spacer(),
                                           Text(
                                             '4',
-                                            style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue, fontSize: 10.sp, fontWeight: FontWeight.w400),
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondaryDarkBlue,
+                                                fontSize: 10.sp,
+                                                fontWeight: FontWeight.w400),
                                           ),
                                           const Spacer(),
                                           Text(
                                             '8',
-                                            style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue, fontSize: 10.sp, fontWeight: FontWeight.w400),
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondaryDarkBlue,
+                                                fontSize: 10.sp,
+                                                fontWeight: FontWeight.w400),
                                           ),
                                           const Spacer(),
                                           Text(
                                             '12',
-                                            style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue, fontSize: 10.sp, fontWeight: FontWeight.w400),
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondaryDarkBlue,
+                                                fontSize: 10.sp,
+                                                fontWeight: FontWeight.w400),
                                           ),
                                           const Spacer(),
                                           Text(
                                             '16',
-                                            style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue, fontSize: 10.sp, fontWeight: FontWeight.w400),
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondaryDarkBlue,
+                                                fontSize: 10.sp,
+                                                fontWeight: FontWeight.w400),
                                           ),
                                           const Spacer(),
                                           Text(
                                             '20',
-                                            style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue, fontSize: 10.sp, fontWeight: FontWeight.w400),
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondaryDarkBlue,
+                                                fontSize: 10.sp,
+                                                fontWeight: FontWeight.w400),
                                           ),
                                         ],
                                       ),
@@ -204,10 +265,14 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                                   18.verticalSpace,
                                   ListView.separated(
                                       shrinkWrap: true,
-                                      physics: const NeverScrollableScrollPhysics(),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       padding: EdgeInsets.zero,
                                       itemBuilder: (context, index) {
-                                        if (Get.find<DashboardController>().wellnessData.value == null) {
+                                        if (Get.find<DashboardController>()
+                                                .wellnessData
+                                                .value ==
+                                            null) {
                                           return const SizedBox();
                                         } else {
                                           return Row(
@@ -216,18 +281,44 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                                                 alignment: Alignment.centerLeft,
                                                 width: 50.w,
                                                 child: Text(
-                                                  StreakItemType.values[index].wellnessTitle,
-                                                  style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue, fontSize: 12.sp, fontWeight: FontWeight.w600),
+                                                  StreakItemType.values[index]
+                                                      .wellnessTitle,
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .secondaryDarkBlue,
+                                                      fontSize: 12.sp,
+                                                      fontWeight:
+                                                          FontWeight.w600),
                                                 ),
                                               ),
                                               8.horizontalSpace,
                                               Obx(() {
                                                 return Container(
                                                   decoration: BoxDecoration(
-                                                    borderRadius: const BorderRadius.all(Radius.circular(6)),
-                                                    color: calculateColor(getValueByType(Get.find<DashboardController>().wellnessData.value!, StreakItemType.values[index])),
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                            Radius.circular(6)),
+                                                    color: calculateColor(
+                                                        getValueByType(
+                                                            Get.find<
+                                                                    DashboardController>()
+                                                                .wellnessData
+                                                                .value!,
+                                                            StreakItemType
+                                                                    .values[
+                                                                index])),
                                                   ),
-                                                  width: calculateWidth(getValueByType(Get.find<DashboardController>().wellnessData.value!, StreakItemType.values[index])).w,
+                                                  width: calculateWidth(
+                                                          getValueByType(
+                                                              Get.find<
+                                                                      DashboardController>()
+                                                                  .wellnessData
+                                                                  .value!,
+                                                              StreakItemType
+                                                                      .values[
+                                                                  index]))
+                                                      .w,
                                                   height: 12.h,
                                                 );
                                               })
@@ -238,7 +329,8 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                                       separatorBuilder: (context, index) {
                                         return 28.verticalSpace;
                                       },
-                                      itemCount: StreakItemType.values.reversed.length),
+                                      itemCount: StreakItemType
+                                          .values.reversed.length),
                                   21.verticalSpace,
                                   Align(
                                     alignment: Alignment.centerLeft,
@@ -246,8 +338,14 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                                       text: TextSpan(
                                         children: [
                                           TextSpan(
-                                            text: 'See how do Wellness Score calculated. ',
-                                            style: TextStyle(color: Theme.of(context).colorScheme.disabled, fontSize: 12.sp, fontWeight: FontWeight.w400),
+                                            text:
+                                                'See how do Wellness Score calculated. ',
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .disabled,
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w400),
                                           ),
                                           TextSpan(
                                             recognizer: TapGestureRecognizer()
@@ -258,67 +356,160 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                                                     shape: shapeBorder(),
                                                     builder: (context) {
                                                       return ConstrainedBox(
-                                                        constraints: BoxConstraints(maxHeight: 0.85.sh, minHeight: 0.1.sh),
+                                                        constraints:
+                                                            BoxConstraints(
+                                                                maxHeight:
+                                                                    0.85.sh,
+                                                                minHeight:
+                                                                    0.1.sh),
                                                         child: Container(
-                                                          decoration: const BoxDecoration(
+                                                          decoration:
+                                                              const BoxDecoration(
                                                             color: Colors.white,
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(32),
-                                                              topRight: Radius.circular(32),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .only(
+                                                              topLeft: Radius
+                                                                  .circular(32),
+                                                              topRight: Radius
+                                                                  .circular(32),
                                                             ),
                                                           ),
                                                           child: Padding(
-                                                            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        16.w,
+                                                                    vertical:
+                                                                        24.h),
                                                             child: Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
                                                               children: [
                                                                 Text(
-                                                                  controller.wellnessCalculationModel.title,
-                                                                  style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutral100),
+                                                                  controller
+                                                                      .wellnessCalculationModel
+                                                                      .title,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          16.sp,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .colorScheme
+                                                                          .neutral100),
                                                                 ),
                                                                 16.verticalSpace,
                                                                 Expanded(
-                                                                  child: ListView(
-                                                                    shrinkWrap: true,
-                                                                    children: controller.wellnessCalculationModel.details.map((e) {
+                                                                  child:
+                                                                      ListView(
+                                                                    shrinkWrap:
+                                                                        true,
+                                                                    children: controller
+                                                                        .wellnessCalculationModel
+                                                                        .details
+                                                                        .map(
+                                                                            (e) {
                                                                       return Column(
-                                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                                        mainAxisSize: MainAxisSize.min,
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.start,
+                                                                        mainAxisSize:
+                                                                            MainAxisSize.min,
                                                                         children: [
                                                                           16.verticalSpace,
                                                                           Text(
                                                                             e.title,
-                                                                            style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutral100),
+                                                                            style: TextStyle(
+                                                                                fontSize: 14.sp,
+                                                                                fontWeight: FontWeight.w600,
+                                                                                color: Theme.of(context).colorScheme.neutral100),
                                                                           ),
                                                                           8.verticalSpace,
-                                                                          ListView.separated(
-                                                                              shrinkWrap: true,
-                                                                              physics: const NeverScrollableScrollPhysics(),
-                                                                              itemBuilder: (context, index) {
-                                                                                return ColoredBox(
-                                                                                  color: index % 2 == 0 ? Colors.transparent : Theme.of(context).colorScheme.neutral20,
+                                                                          Container(
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              border: Border.all(
+                                                                                color: Theme.of(context).colorScheme.neutral30,
+                                                                              ),
+                                                                            ),
+                                                                            child:
+                                                                                Column(
+                                                                              mainAxisSize: MainAxisSize.min,
+                                                                              children: [
+                                                                                Container(
+                                                                                  color: Theme.of(context).colorScheme.neutral20,
+                                                                                  padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
                                                                                   child: Row(
                                                                                     children: [
                                                                                       Expanded(
-                                                                                        flex: 4,
-                                                                                        child: Text(e.descriptions[index].range),
+                                                                                        flex: 5,
+                                                                                        child: Text(
+                                                                                          'Ranges',
+                                                                                          style: TextStyle(color: Theme.of(context).colorScheme.black600, fontWeight: FontWeight.w600, fontSize: 14.sp),
+                                                                                        ),
                                                                                       ),
                                                                                       Expanded(
-                                                                                        flex: 1,
-                                                                                        child: Text(e.descriptions[index].score),
+                                                                                        flex: 2,
+                                                                                        child: Text(
+                                                                                          'Score',
+                                                                                          style: TextStyle(color: Theme.of(context).colorScheme.black600, fontWeight: FontWeight.w600, fontSize: 14.sp),
+                                                                                        ),
                                                                                       ),
                                                                                       Expanded(
-                                                                                        flex: 4,
-                                                                                        child: Text(e.descriptions[index].description),
+                                                                                        flex: 5,
+                                                                                        child: Text(
+                                                                                          'Category',
+                                                                                          style: TextStyle(color: Theme.of(context).colorScheme.black600, fontWeight: FontWeight.w600, fontSize: 14.sp),
+                                                                                        ),
                                                                                       ),
                                                                                     ],
                                                                                   ),
-                                                                                );
-                                                                              },
-                                                                              separatorBuilder: (context, index) {
-                                                                                return const SizedBox();
-                                                                              },
-                                                                              itemCount: e.descriptions.length)
+                                                                                ),
+                                                                                ListView.separated(
+                                                                                  shrinkWrap: true,
+                                                                                  physics: const NeverScrollableScrollPhysics(),
+                                                                                  itemBuilder: (context, index) {
+                                                                                    return Container(
+                                                                                      color: index % 2 == 0 ? Colors.transparent : Theme.of(context).colorScheme.neutral20,
+                                                                                      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
+                                                                                      child: Row(
+                                                                                        children: [
+                                                                                          Expanded(
+                                                                                            flex: 5,
+                                                                                            child: Text(
+                                                                                              e.descriptions[index].range,
+                                                                                              style: TextStyle(color: Theme.of(context).colorScheme.black600, fontSize: 14.sp),
+                                                                                            ),
+                                                                                          ),
+                                                                                          Expanded(
+                                                                                            flex: 2,
+                                                                                            child: Text(
+                                                                                              e.descriptions[index].score,
+                                                                                              style: TextStyle(color: Theme.of(context).colorScheme.black600, fontSize: 14.sp),
+                                                                                            ),
+                                                                                          ),
+                                                                                          Expanded(
+                                                                                            flex: 5,
+                                                                                            child: Text(
+                                                                                              e.descriptions[index].description,
+                                                                                              style: TextStyle(color: Theme.of(context).colorScheme.black600, fontSize: 14.sp),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ],
+                                                                                      ),
+                                                                                    );
+                                                                                  },
+                                                                                  separatorBuilder: (context, index) {
+                                                                                    return const SizedBox();
+                                                                                  },
+                                                                                  itemCount: e.descriptions.length,
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
                                                                         ],
                                                                       );
                                                                     }).toList(),
@@ -332,7 +523,12 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                                                     });
                                               },
                                             text: 'Learn more',
-                                            style: TextStyle(color: Theme.of(context).colorScheme.primaryPurple, fontSize: 12.sp, fontWeight: FontWeight.w600),
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primaryPurple,
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w600),
                                           ),
                                         ],
                                       ),
@@ -347,143 +543,204 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                       }),
                       16.verticalSpace,
                       Obx(() {
-                        if (controller.recommendation.isEmpty) {
-                          return const SizedBox();
-                        } else {
-                          return Container(
-                            width: 1.sw,
-                            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                            margin: EdgeInsets.symmetric(horizontal: 16.w),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    SvgPicture.asset(Constant.icWellnessProfile),
-                                    8.horizontalSpace,
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Your Wellness Profile Today',
-                                          style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutral70),
-                                        ),
-                                        4.verticalSpace,
-                                        Text(
-                                          controller.getWellnessProfileByValue(Get.find<DashboardController>().wellnessData.value?.totalScore ?? 0).title,
-                                          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutral100),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                16.verticalSpace,
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).colorScheme.neutral10,
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                        return Container(
+                          width: 1.sw,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16.w, vertical: 16.h),
+                          margin: EdgeInsets.symmetric(horizontal: 16.w),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset(Constant.icWellnessProfile),
+                                  8.horizontalSpace,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(Constant.icWellnessRecommendation),
-                                          8.horizontalSpace,
-                                          Text(
-                                            'Recommendation for you',
-                                            style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutral100),
-                                          ),
-                                          2.verticalSpace,
-                                        ],
-                                      ),
-                                      Html(
-                                        data: '${controller.recommendation.substring(0, 100)} intuk intek iiiii iiii iiiii iiii iii ii iii oo ...',
-                                        style: {
-                                          "body": Style(
-                                            margin: Margins.all(0),
-                                            fontSize: FontSize(12.sp),
+                                      Text(
+                                        'Your Wellness Profile Today',
+                                        style: TextStyle(
+                                            fontSize: 12.sp,
                                             fontWeight: FontWeight.w400,
-                                            color: Theme.of(context).colorScheme.neutral90,
-                                          ),
-                                        },
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .neutral70),
                                       ),
-                                      // Text(
-                                      //   controller.recommendation.value,
-                                      //   style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutral90),
-                                      //   maxLines: 6,
-                                      //   overflow: TextOverflow.ellipsis,
-                                      // ),
-                                      2.verticalSpace,
-                                      InkWell(
-                                          onTap: () {
-                                            showModalBottomSheet(
-                                                isScrollControlled: true,
-                                                context: context,
-                                                shape: shapeBorder(),
-                                                builder: (context) {
-                                                  return ConstrainedBox(
-                                                    constraints: BoxConstraints(maxHeight: 0.85.sh, minHeight: 0.1.sh),
-                                                    child: Container(
-                                                      decoration: const BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius: BorderRadius.only(
-                                                          topLeft: Radius.circular(32),
-                                                          topRight: Radius.circular(32),
-                                                        ),
-                                                      ),
-                                                      child: Padding(
-                                                        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
-                                                        child: ListView(
-                                                          shrinkWrap: true,
-                                                          children: [
-                                                            Row(
-                                                              children: [
-                                                                SvgPicture.asset(Constant.icWellnessRecommendation),
-                                                                8.horizontalSpace,
-                                                                Text(
-                                                                  'Recommendation for you',
-                                                                  style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutral100),
-                                                                ),
-                                                                2.verticalSpace,
-                                                              ],
-                                                            ),
-                                                            16.verticalSpace,
-                                                            Html(
-                                                              data: '${controller.recommendation.substring(0, 100)} intuk intek iiiii iiii iiiii iiii iii ii iii oo ...',
-                                                              style: {
-                                                                "body": Style(
-                                                                  margin: Margins.all(0),
-                                                                  fontSize: FontSize(14.sp),
-                                                                  fontWeight: FontWeight.w400,
-                                                                  color: Theme.of(context).colorScheme.neutral90,
-                                                                ),
-                                                              },
-                                                            ),
-                                                            Text(
-                                                              controller.recommendation.value,
-                                                              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutral90),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  );
-                                                });
-                                          },
-                                          child: Text('Show more', style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.primaryPurple))),
+                                      4.verticalSpace,
+                                      Text(
+                                        controller
+                                            .getWellnessProfileByValue(
+                                                Get.find<DashboardController>()
+                                                        .wellnessData
+                                                        .value
+                                                        ?.totalScore ??
+                                                    0)
+                                            .title,
+                                        style: TextStyle(
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w600,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .neutral100),
+                                      ),
                                     ],
-                                  ),
-                                ),
-                                16.verticalSpace,
-                              ],
-                            ),
-                          );
-                        }
+                                  )
+                                ],
+                              ),
+                              16.verticalSpace,
+                              InkWell(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      context: context,
+                                      shape: shapeBorder(),
+                                      builder: (context) {
+                                        return ConstrainedBox(
+                                          constraints: BoxConstraints(
+                                              maxHeight: 0.85.sh,
+                                              minHeight: 0.1.sh),
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(32),
+                                                topRight: Radius.circular(32),
+                                              ),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 16.w,
+                                                  vertical: 24.h),
+                                              child: ListView(
+                                                shrinkWrap: true,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      SvgPicture.asset(Constant
+                                                          .icWellnessRecommendation),
+                                                      8.horizontalSpace,
+                                                      Text(
+                                                        'Recommendation for you',
+                                                        style: TextStyle(
+                                                            fontSize: 16.sp,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .neutral100),
+                                                      ),
+                                                      2.verticalSpace,
+                                                    ],
+                                                  ),
+                                                  16.verticalSpace,
+                                                  Html(
+                                                    data: controller
+                                                        .recommendation.value,
+                                                    style: {
+                                                      "body": Style(
+                                                        margin: Margins.all(0),
+                                                        fontSize:
+                                                            FontSize(14.sp),
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .neutral90,
+                                                      ),
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      });
+                                },
+                                child: controller.isLoadingRecommendation.value
+                                    ? Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 12.w, vertical: 8.h),
+                                        child: const Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                      )
+                                    : Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 12.w, vertical: 8.h),
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutral10,
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                SvgPicture.asset(Constant
+                                                    .icWellnessRecommendation),
+                                                8.horizontalSpace,
+                                                Text(
+                                                  'Recommendation for you',
+                                                  style: TextStyle(
+                                                      fontSize: 12.sp,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .neutral100),
+                                                ),
+                                                2.verticalSpace,
+                                              ],
+                                            ),
+                                            Html(
+                                              data: controller.recommendation
+                                                      .value.isEmpty
+                                                  ? ''
+                                                  : controller.recommendation
+                                                      .substring(0, 400),
+                                              style: {
+                                                "body": Style(
+                                                  margin: Margins.all(0),
+                                                  fontSize: FontSize(12.sp),
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .neutral90,
+                                                ),
+                                              },
+                                            ),
+                                            // Text(
+                                            //   controller.recommendation.value,
+                                            //   style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutral90),
+                                            //   maxLines: 6,
+                                            //   overflow: TextOverflow.ellipsis,
+                                            // ),
+                                            2.verticalSpace,
+                                            Text('Show more',
+                                                style: TextStyle(
+                                                    fontSize: 12.sp,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primaryPurple)),
+                                          ],
+                                        ),
+                                      ),
+                              ),
+                              16.verticalSpace,
+                            ],
+                          ),
+                        );
                       }),
                       32.verticalSpace,
                     ],
@@ -500,7 +757,7 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
   double calculateWidth(int score) {
     // Assuming the maximum score is 20
     const int maxScore = 20;
-    const double maxWidth = 254.0;
+    const double maxWidth = 253.0;
 
     // Calculate the width based on the score
     double width = (score / maxScore) * maxWidth;

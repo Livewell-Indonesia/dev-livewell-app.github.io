@@ -18,7 +18,11 @@ import 'package:livewell/core/base/base_controller.dart';
 class QuestionnaireController extends BaseController {
   Rx<QuestionnairePage> currentPage = QuestionnairePage.landing.obs;
   var progress = 0.0.obs;
-  var date = DateTime.now().obs;
+  var date = DateTime(
+    DateTime.now().year - 30,
+    DateTime.now().month,
+    DateTime.now().day,
+  ).obs;
   var dateOfBirth = "".obs;
   var age = 1.obs;
   Rx<int> height = 0.obs;
@@ -29,7 +33,8 @@ class QuestionnaireController extends BaseController {
   Rx<Gender> selectedGender = Gender.male.obs;
   Rx<GoalSelection> selectedGoals = GoalSelection.none.obs;
   Rx<DietrarySelection> selectedDietrary = DietrarySelection.no.obs;
-  Rx<TargetExerciseSelection> selectedExerciseTarget = TargetExerciseSelection.light.obs;
+  Rx<TargetExerciseSelection> selectedExerciseTarget =
+      TargetExerciseSelection.light.obs;
   Rx<CaloriesNeedType> selectedCaloriesNeed = CaloriesNeedType.none.obs;
   Rx<AvailableLanguage> selectedLanguage = AvailableLanguage.en.obs;
   TextEditingController selectedDietraryText = TextEditingController();
@@ -43,7 +48,8 @@ class QuestionnaireController extends BaseController {
 
   QuestionnairePage findNextPage() {
     // if current page is questionnairepage.goal and selected goal is not better sleeping, return questionnairepage.targetweight
-    final nextIndex = (currentPage.value.index + 1) % QuestionnairePage.values.length;
+    final nextIndex =
+        (currentPage.value.index + 1) % QuestionnairePage.values.length;
     final nextPage = QuestionnairePage.values[nextIndex];
     // if (currentPage.value == QuestionnairePage.goal && selectedGoals.value != GoalSelection.betterSleeping) {
     //   return QuestionnairePage.targetWeight;
@@ -82,7 +88,8 @@ class QuestionnaireController extends BaseController {
         case QuestionnairePage.finish:
           break;
       }
-      final previousIndex = (currentPage.value.index - 1) % QuestionnairePage.values.length;
+      final previousIndex =
+          (currentPage.value.index - 1) % QuestionnairePage.values.length;
       currentPage.value = QuestionnairePage.values[previousIndex];
     }
   }
@@ -133,7 +140,8 @@ class QuestionnaireController extends BaseController {
   }
 
   QuestionnairePage findPreviousPage() {
-    final prefIndex = (currentPage.value.index - 1) % QuestionnairePage.values.length;
+    final prefIndex =
+        (currentPage.value.index - 1) % QuestionnairePage.values.length;
     return QuestionnairePage.values[prefIndex];
   }
 
@@ -163,11 +171,11 @@ class QuestionnaireController extends BaseController {
       DateFormat('yyyy-MM-dd').format(date.value),
       weight.value,
       height.value,
-      targetWeight.value,
+      idealWeight(height.value.toDouble()),
       selectedCaloriesNeed.value.value,
       drink.value.toString(),
       sleep.value.toString(),
-      healthCondition.text,
+      healthCondition.text.isEmpty ? "No" : healthCondition.text,
       selectedGoals.value.value(),
       selectedLanguage.value.code(),
     );
@@ -177,7 +185,8 @@ class QuestionnaireController extends BaseController {
     await EasyLoading.show(maskType: EasyLoadingMaskType.black);
     final result = await postQuestionnaire(params);
     result.fold((l) {}, (r) async {
-      final result = await postDailyJournal(DailyJournalParams.asParams('07:00', '12:00', '15:00', '18:00'));
+      final result = await postDailyJournal(
+          DailyJournalParams.asParams('07:00', '12:00', '15:00', '18:00'));
       await EasyLoading.dismiss();
       result.fold((l) {}, (r) {
         trackEvent(LivewellAuthEvent.onboardingThankYouPage);
@@ -186,9 +195,31 @@ class QuestionnaireController extends BaseController {
     });
     //AppNavigator.push(routeName: AppPages.finishQuestionnaire);
   }
+
+  double idealWeight(double heightCm) {
+    // Define the ideal BMI
+    double idealBmi = 21;
+
+    // Convert height from cm to m
+    double heightM = heightCm / 100.0;
+
+    // Calculate weight in kg based on the ideal BMI
+    double weightKg = idealBmi * (heightM * heightM);
+
+    return weightKg;
+  }
 }
 
-enum QuestionnairePage { landing, name, gender, birthDate, heightWeight, caloriesNeed, healthCondition, finish }
+enum QuestionnairePage {
+  landing,
+  name,
+  gender,
+  birthDate,
+  heightWeight,
+  caloriesNeed,
+  healthCondition,
+  finish
+}
 
 extension QuestionnairePageData on QuestionnairePage {
   String title() {
@@ -227,7 +258,7 @@ extension QuestionnairePageData on QuestionnairePage {
       case QuestionnairePage.caloriesNeed:
         return 'Help us calculate your daily calorie needs';
       case QuestionnairePage.healthCondition:
-        return 'You can answer “no” if you don\'t have any.';
+        return 'Tap next if you don’t have any.';
       case QuestionnairePage.finish:
         return 'Your personalized plan is ready. Let\'s start your health journey by keeping track of your daily habit.';
     }
@@ -318,7 +349,13 @@ extension LangaugeSelectionContent on LanguageSelection {
   }
 }
 
-enum GoalSelection { getFitter, betterSleeping, weightLoss, trackNutrition, none }
+enum GoalSelection {
+  getFitter,
+  betterSleeping,
+  weightLoss,
+  trackNutrition,
+  none
+}
 
 extension GoalSelectionContent on GoalSelection {
   String title() {

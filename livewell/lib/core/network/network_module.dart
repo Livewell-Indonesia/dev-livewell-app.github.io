@@ -30,7 +30,8 @@ mixin NetworkModule {
     } on DioError catch (e, stacktrace) {
       Sentry.captureException(e, stackTrace: stacktrace);
       if (e.type == DioErrorType.response) {
-        return Result.error(e.response!.statusCode ?? 400, e.response!.data, message: e.response!.data['message']);
+        return Result.error(e.response!.statusCode ?? 400, e.response!.data,
+            message: e.response!.data['message']);
       } else {
         return Result.timeout(
           '' as dynamic,

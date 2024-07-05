@@ -2,7 +2,9 @@ import 'package:flutter/foundation.dart';
 
 class Endpoint {
   /// DEV
-  static String api = kReleaseMode ? "https://api.livewellindo.com/api/v1/" : "https://dev-api.livewellindo.com/api/v1/";
+  static String api = kReleaseMode
+      ? "https://api.livewellindo.com/api/v1/"
+      : "https://api.livewellindo.com/api/v1/";
 
   /// Login
   static const String login = "auth/login";
@@ -72,7 +74,8 @@ class Endpoint {
 
   static const String nutriCoSearchByImage = "foods/search-by-image/v2";
   static const String getNutriCoLoadingAsset = "config/nutrico-loading-assets";
-  static const String nutricoPlusTutorialAsset = "config/nutrico-plus-tutorial-assets";
+  static const String nutricoPlusTutorialAsset =
+      "config/nutrico-plus-tutorial-assets";
 
   /// feature limit
   static const String featureLimit = "user/feature-limit";

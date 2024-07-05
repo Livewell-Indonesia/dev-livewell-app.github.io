@@ -9,7 +9,7 @@ import 'package:livewell/widgets/buttons/livewell_button.dart';
 class HeightSelector extends StatefulWidget {
   final double initialValue;
 
-  HeightSelector({Key? key, this.initialValue = 100}) : super(key: key);
+  HeightSelector({Key? key, this.initialValue = 150}) : super(key: key);
 
   @override
   State<HeightSelector> createState() => _HeightSelectorState();

@@ -21,12 +21,20 @@ class UpdateCurrentWeight extends StatelessWidget {
               95.verticalSpace,
               Text(
                 'What\'s your weight?',
-                style: TextStyle(color: const Color(0xFF171433), fontSize: 24.sp, fontWeight: FontWeight.w600, height: 32.sp / 24.sp),
+                style: TextStyle(
+                    color: const Color(0xFF171433),
+                    fontSize: 24.sp,
+                    fontWeight: FontWeight.w600,
+                    height: 32.sp / 24.sp),
               ),
               8.verticalSpace,
               Text(
                 'Update Your current weight',
-                style: TextStyle(color: const Color(0xFF505050), fontWeight: FontWeight.w500, fontSize: 14.sp, height: 20.sp / 14.sp),
+                style: TextStyle(
+                    color: const Color(0xFF505050),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14.sp,
+                    height: 20.sp / 14.sp),
               ),
               60.verticalSpace,
               WeightSelectorWidget(
@@ -111,7 +119,8 @@ class _WeightSelectorWidgetState extends State<WeightSelectorWidget> {
                 selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
                   background: Colors.transparent,
                 ),
-                scrollController: FixedExtentScrollController(initialItem: bulatValue.toInt() - 1),
+                scrollController: FixedExtentScrollController(
+                    initialItem: bulatValue.toInt() - 1),
                 onSelectedItemChanged: onSelectedItemChanged,
                 children: List.generate(200, (index) {
                   return Align(
@@ -121,7 +130,9 @@ class _WeightSelectorWidgetState extends State<WeightSelectorWidget> {
                       child: Text(
                         '${index + 1}',
                         style: TextStyle(
-                          color: bulatValue == index + 1 ? const Color(0xFF8F01DF) : const Color(0xFF757575),
+                          color: bulatValue == index + 1
+                              ? const Color(0xFF8F01DF)
+                              : const Color(0xFF757575),
                           fontSize: bulatValue == index + 1 ? 34.sp : 24.sp,
                           fontWeight: FontWeight.w600,
                         ),
@@ -132,7 +143,8 @@ class _WeightSelectorWidgetState extends State<WeightSelectorWidget> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(bottom: 20.h, left: 12.w, right: 12.w, top: 20.h),
+          padding:
+              EdgeInsets.only(bottom: 20.h, left: 12.w, right: 12.w, top: 20.h),
           child: Container(
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
@@ -164,7 +176,9 @@ class _WeightSelectorWidgetState extends State<WeightSelectorWidget> {
                       child: Text(
                         '$index',
                         style: TextStyle(
-                          color: decimalValue == index ? const Color(0xFF8F01DF) : const Color(0xFF757575),
+                          color: decimalValue == index
+                              ? const Color(0xFF8F01DF)
+                              : const Color(0xFF757575),
                           fontSize: decimalValue == index ? 34.sp : 24.sp,
                           fontWeight: FontWeight.w600,
                         ),
@@ -175,7 +189,7 @@ class _WeightSelectorWidgetState extends State<WeightSelectorWidget> {
           ),
         ),
         Text(
-          'cm',
+          'kg',
           style: TextStyle(
             color: const Color(0xFF808080),
             fontSize: 24.sp,

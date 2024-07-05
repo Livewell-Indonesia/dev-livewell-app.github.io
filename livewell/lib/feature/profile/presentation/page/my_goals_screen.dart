@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/profile/presentation/controller/exercise_information_controller.dart';
 import 'package:livewell/feature/profile/presentation/controller/physical_information_controller.dart';
 import 'package:livewell/feature/profile/presentation/page/account_settings_screen.dart';
@@ -11,11 +12,23 @@ import 'package:livewell/feature/questionnaire/presentation/controller/questionn
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
-class MyGoalsScreen extends StatelessWidget {
-  final PhysicalInformationController controller = Get.find();
-  final ExerciseInformationController exerciseController =
-      Get.find();
+class MyGoalsScreen extends StatefulWidget {
   MyGoalsScreen({super.key});
+
+  @override
+  State<MyGoalsScreen> createState() => _MyGoalsScreenState();
+}
+
+class _MyGoalsScreenState extends State<MyGoalsScreen> {
+  final PhysicalInformationController controller = Get.find();
+
+  final ExerciseInformationController exerciseController = Get.find();
+
+  @override
+  void initState() {
+    controller.trackEvent(LivewellProfileEvent.myGoalsPage);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
 import 'package:livewell/feature/questionnaire/presentation/page/widget/height_selector.dart';
 import 'package:livewell/feature/questionnaire/presentation/page/widget/subtitle_questionnaire.dart';
@@ -13,7 +14,8 @@ class HeightWeightQuestionnaire extends StatefulWidget {
   const HeightWeightQuestionnaire({super.key});
 
   @override
-  State<HeightWeightQuestionnaire> createState() => _HeightWeightQuestionnaireState();
+  State<HeightWeightQuestionnaire> createState() =>
+      _HeightWeightQuestionnaireState();
 }
 
 class _HeightWeightQuestionnaireState extends State<HeightWeightQuestionnaire> {
@@ -45,15 +47,28 @@ class _HeightWeightQuestionnaireState extends State<HeightWeightQuestionnaire> {
             padding: EdgeInsets.symmetric(horizontal: 16.0.w),
             child: Obx(() {
               return TextFieldHeightWeightWidget(
-                value: controller.height.value == 0.0 ? null : '${controller.height.value} cm',
+                value: controller.height.value == 0.0
+                    ? null
+                    : '${controller.height.value} cm',
                 onPressed: () {
                   showModalBottomSheet(
+                      isScrollControlled: true,
                       context: context,
+                      shape: shapeBorder(),
                       builder: (context) {
                         return Wrap(
                           children: [
-                            Column(
-                              children: [HeightSelector()],
+                            Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(32),
+                                  topRight: Radius.circular(32),
+                                ),
+                              ),
+                              child: Column(
+                                children: [HeightSelector()],
+                              ),
                             ),
                           ],
                         );
@@ -67,15 +82,28 @@ class _HeightWeightQuestionnaireState extends State<HeightWeightQuestionnaire> {
             padding: EdgeInsets.symmetric(horizontal: 16.0.w),
             child: Obx(() {
               return TextFieldHeightWeightWidget(
-                value: controller.weight.value == 0.0 ? null : '${controller.weight.value} kg',
+                value: controller.weight.value == 0.0
+                    ? null
+                    : '${controller.weight.value} kg',
                 onPressed: () {
                   showModalBottomSheet(
+                      isScrollControlled: true,
                       context: context,
+                      shape: shapeBorder(),
                       builder: (context) {
                         return Wrap(
                           children: [
-                            Column(
-                              children: [WeightSelector()],
+                            Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(32),
+                                  topRight: Radius.circular(32),
+                                ),
+                              ),
+                              child: Column(
+                                children: [WeightSelector()],
+                              ),
                             ),
                           ],
                         );
@@ -90,11 +118,12 @@ class _HeightWeightQuestionnaireState extends State<HeightWeightQuestionnaire> {
             label: 'Next',
             color: Theme.of(context).colorScheme.primaryPurple,
             textColor: Colors.white,
-            onPressed: controller.weight.value != 0.0 && controller.height.value != 0
-                ? () {
-                    controller.onNextTapped();
-                  }
-                : null,
+            onPressed:
+                controller.weight.value != 0.0 && controller.height.value != 0
+                    ? () {
+                        controller.onNextTapped();
+                      }
+                    : null,
           );
         }),
         32.verticalSpace,
@@ -104,7 +133,8 @@ class _HeightWeightQuestionnaireState extends State<HeightWeightQuestionnaire> {
 }
 
 class TextFieldHeightWeightWidget extends StatelessWidget {
-  const TextFieldHeightWeightWidget({super.key, this.value, required this.onPressed, required this.hint});
+  const TextFieldHeightWeightWidget(
+      {super.key, this.value, required this.onPressed, required this.hint});
   final String? value;
   final VoidCallback onPressed;
   final String hint;
@@ -125,7 +155,15 @@ class TextFieldHeightWeightWidget extends StatelessWidget {
           children: [
             Text(
               value ?? hint,
-              style: TextStyle(color: value == null ? Theme.of(context).colorScheme.secondaryDarkBlue.withOpacity(0.5) : Colors.black, fontSize: 16.sp, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                  color: value == null
+                      ? Theme.of(context)
+                          .colorScheme
+                          .secondaryDarkBlue
+                          .withOpacity(0.5)
+                      : Colors.black,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500),
             ),
             const Spacer(),
             const Icon(

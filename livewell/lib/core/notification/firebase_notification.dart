@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -24,10 +25,21 @@ class LivewellNotification {
   Future<void> initToken() async {
     await _firebaseMessaging.requestPermission();
     Future.delayed(const Duration(seconds: 1), () async {});
-    final fcmToken = await _firebaseMessaging.getToken();
-    if (fcmToken != null) {
-      SharedPref.saveFCMToken(fcmToken);
-      Log.info("fcm token = $fcmToken");
+    if (Platform.isIOS) {
+      String? apnsToken = await _firebaseMessaging.getAPNSToken();
+      if (apnsToken != null) {
+        final fcmToken = await _firebaseMessaging.getToken();
+        if (fcmToken != null) {
+          SharedPref.saveFCMToken(fcmToken);
+          Log.info("fcm token = $fcmToken");
+        }
+      }
+    } else {
+      final fcmToken = await _firebaseMessaging.getToken();
+      if (fcmToken != null) {
+        SharedPref.saveFCMToken(fcmToken);
+        Log.info("fcm token = $fcmToken");
+      }
     }
   }
 

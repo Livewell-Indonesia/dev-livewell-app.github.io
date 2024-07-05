@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/auth/presentation/controller/update_password_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
@@ -16,6 +17,13 @@ class UpdatePasswordScreen extends StatefulWidget {
 
 class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
   UpdatePasswordController controller = Get.put(UpdatePasswordController());
+
+  @override
+  void initState() {
+    controller.trackEvent(LivewellProfileEvent.changePasswordPage);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
@@ -30,7 +38,10 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
               Text(
                 'Enter New Password',
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondaryDarkBlue.withOpacity(0.7),
+                  color: Theme.of(context)
+                      .colorScheme
+                      .secondaryDarkBlue
+                      .withOpacity(0.7),
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w500,
                 ),
@@ -58,6 +69,8 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                     color: Theme.of(context).colorScheme.primaryGreen,
                     onPressed: controller.isButtonEnabled.value
                         ? () {
+                            controller.trackEvent(LivewellProfileEvent
+                                .changePasswordPageChangeButton);
                             controller.onButtonTapped(context);
                           }
                         : null);
@@ -97,13 +110,19 @@ class BottomsheetSuccessChangePassword extends StatelessWidget {
           Text(
             'Password has been successfully changed',
             textAlign: TextAlign.center,
-            style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue, fontSize: 24.sp, fontWeight: FontWeight.w600),
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.secondaryDarkBlue,
+                fontSize: 24.sp,
+                fontWeight: FontWeight.w600),
           ),
           8.verticalSpace,
           Text(
             'Please login again to use the LiveWell application.',
             textAlign: TextAlign.center,
-            style: TextStyle(color: Theme.of(context).colorScheme.disabled, fontSize: 16.sp, fontWeight: FontWeight.w500),
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.disabled,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500),
           ),
           32.verticalSpace,
           LiveWellButton(
@@ -123,13 +142,19 @@ class LivewellTextFieldWithError extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
   final String? errorText;
-  const LivewellTextFieldWithError({super.key, required this.controller, required this.hintText, this.errorText});
+  const LivewellTextFieldWithError(
+      {super.key,
+      required this.controller,
+      required this.hintText,
+      this.errorText});
 
   @override
-  State<LivewellTextFieldWithError> createState() => _LivewellTextFieldWithErrorState();
+  State<LivewellTextFieldWithError> createState() =>
+      _LivewellTextFieldWithErrorState();
 }
 
-class _LivewellTextFieldWithErrorState extends State<LivewellTextFieldWithError> {
+class _LivewellTextFieldWithErrorState
+    extends State<LivewellTextFieldWithError> {
   bool isObscure = true;
   @override
   Widget build(BuildContext context) {
@@ -143,7 +168,10 @@ class _LivewellTextFieldWithErrorState extends State<LivewellTextFieldWithError>
             suffixIcon: IconButton(
               icon: Icon(
                 isObscure ? Icons.visibility_off : Icons.visibility,
-                color: Theme.of(context).colorScheme.secondaryDarkBlue.withOpacity(0.7),
+                color: Theme.of(context)
+                    .colorScheme
+                    .secondaryDarkBlue
+                    .withOpacity(0.7),
               ),
               onPressed: () {
                 setState(() {
@@ -177,7 +205,10 @@ class _LivewellTextFieldWithErrorState extends State<LivewellTextFieldWithError>
               ),
             ),
             hintStyle: TextStyle(
-              color: Theme.of(context).colorScheme.secondaryDarkBlue.withOpacity(0.5),
+              color: Theme.of(context)
+                  .colorScheme
+                  .secondaryDarkBlue
+                  .withOpacity(0.5),
               fontSize: 16.sp,
               fontWeight: FontWeight.w500,
             ),

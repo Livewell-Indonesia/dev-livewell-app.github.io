@@ -14,10 +14,12 @@ class HealthConditionQuestionnaire extends StatefulWidget {
   const HealthConditionQuestionnaire({super.key});
 
   @override
-  State<HealthConditionQuestionnaire> createState() => _HealthConditionQuestionnaireState();
+  State<HealthConditionQuestionnaire> createState() =>
+      _HealthConditionQuestionnaireState();
 }
 
-class _HealthConditionQuestionnaireState extends State<HealthConditionQuestionnaire> {
+class _HealthConditionQuestionnaireState
+    extends State<HealthConditionQuestionnaire> {
   final QuestionnaireController controller = Get.find();
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,8 @@ class _HealthConditionQuestionnaireState extends State<HealthConditionQuestionna
         AuthTextField(
           controller: controller.healthCondition,
           hintText: null,
-          labelText: "examples: diabetes, high blood pressure, gluten sensitivity, etc.",
+          labelText:
+              "examples: diabetes, high blood pressure, gluten sensitivity, etc.",
           errorText: null,
           obscureText: false,
           borderColor: const Color(0xFFE8E7E7),
@@ -59,11 +62,9 @@ class _HealthConditionQuestionnaireState extends State<HealthConditionQuestionna
           label: 'Next',
           color: Theme.of(context).colorScheme.primaryPurple,
           textColor: Colors.white,
-          onPressed: controller.healthCondition.text.isEmpty
-              ? null
-              : () {
-                  controller.onNextTapped();
-                },
+          onPressed: () {
+            controller.onNextTapped();
+          },
         ),
         32.verticalSpace,
       ],

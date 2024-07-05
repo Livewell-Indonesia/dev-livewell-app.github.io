@@ -1,6 +1,7 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/base/base_controller.dart';
+import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/post_mood.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
@@ -53,6 +54,8 @@ class MoodScreenController extends BaseController {
       getData();
       if (Get.isRegistered<DashboardController>()) {
         Get.find<DashboardController>().getSingleMoodData();
+        trackEvent(LivewellMoodEvent.moodPageMoodButton,
+            properties: {"mood": type.title()});
       }
     });
     EasyLoading.dismiss();
