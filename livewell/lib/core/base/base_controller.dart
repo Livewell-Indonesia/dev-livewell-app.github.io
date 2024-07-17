@@ -3,30 +3,36 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
+import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/localization/localization_model.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/splash/domain/usecase/get_localization_data.dart';
+import 'package:livewell/feature/wellness/presentation/controller/wellness_controller.dart';
 
 class BaseController extends FullLifeCycleController with FullLifeCycleMixin {
   LocalizationKey localization = LocalizationKey();
   LivewellTrackerService livewellTracker = Get.find();
+  WellnessCalculationModel wellnessCalculationModel = WellnessCalculationModel.generate();
   @override
   void onInit() {
     getLocalizationDatas();
     super.onInit();
   }
 
-  void trackEvent(String event, {Map<String, dynamic>? properties}) {
-    if (Get.isRegistered<DashboardController>()) {
-      properties?['email'] = Get.find<DashboardController>().user.value.email;
-      properties?['gender'] = Get.find<DashboardController>().user.value.gender;
-      properties?['birth_date'] =
-          Get.find<DashboardController>().user.value.birthDate;
-      properties?['name'] =
-          '${Get.find<DashboardController>().user.value.firstName ?? ' '} ${Get.find<DashboardController>().user.value.lastName ?? ''}';
+  void trackEvent(String event, {Map<String, dynamic>? properties}) async {
+    if (properties != null) {
+      properties['email'] = await SharedPref.getEmail();
+      properties['gender'] = await SharedPref.getGender();
+      properties['birth_date'] = await SharedPref.getBirthDate();
+      properties['name'] = await SharedPref.getName();
       livewellTracker.trackEvent(event, properties: properties);
     } else {
-      livewellTracker.trackEvent(event, properties: properties);
+      livewellTracker.trackEvent(event, properties: {
+        'email': await SharedPref.getEmail(),
+        'gender': await SharedPref.getGender(),
+        'birth_date': await SharedPref.getBirthDate(),
+        'name': await SharedPref.getName(),
+      });
     }
   }
 
@@ -36,8 +42,7 @@ class BaseController extends FullLifeCycleController with FullLifeCycleMixin {
       localization = languageController.localization.value;
       inspect(localization);
     } else {
-      LanguageController languageController =
-          Get.put(LanguageController(), permanent: true);
+      LanguageController languageController = Get.put(LanguageController(), permanent: true);
       localization = languageController.localization.value;
     }
   }
@@ -64,16 +69,12 @@ class BaseController extends FullLifeCycleController with FullLifeCycleMixin {
 
   AvailableLanguage? languagefromString(String? locale) {
     if (locale == null) return null;
-    return AvailableLanguage.values.firstWhere(
-        (element) => element.languageCode == locale,
-        orElse: () => AvailableLanguage.en);
+    return AvailableLanguage.values.firstWhere((element) => element.languageCode == locale, orElse: () => AvailableLanguage.en);
   }
 
   AvailableLanguage? languagefromLocale(String? locale) {
     if (locale == null) return null;
-    return AvailableLanguage.values.firstWhere(
-        (element) => element.locale == locale,
-        orElse: () => AvailableLanguage.en);
+    return AvailableLanguage.values.firstWhere((element) => element.locale == locale, orElse: () => AvailableLanguage.en);
   }
 
   @override
@@ -129,16 +130,12 @@ class LanguageController extends GetxController {
 
   AvailableLanguage? languagefromString(String? locale) {
     if (locale == null) return null;
-    return AvailableLanguage.values.firstWhere(
-        (element) => element.languageCode == locale,
-        orElse: () => AvailableLanguage.en);
+    return AvailableLanguage.values.firstWhere((element) => element.languageCode == locale, orElse: () => AvailableLanguage.en);
   }
 
   AvailableLanguage? LanguagefromLocale(String? locale) {
     if (locale == null) return null;
-    return AvailableLanguage.values.firstWhere(
-        (element) => element.locale == locale,
-        orElse: () => AvailableLanguage.en);
+    return AvailableLanguage.values.firstWhere((element) => element.locale == locale, orElse: () => AvailableLanguage.en);
   }
 }
 

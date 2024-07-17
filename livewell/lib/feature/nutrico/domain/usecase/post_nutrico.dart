@@ -29,10 +29,17 @@ class PostNutricoParams {
   PostNutricoParams(this.description, this.imageUrl, this.refId);
 
   Map<String, dynamic> toJson() {
-    return {
-      'name': description,
-      'image_url': imageUrl,
-      'original_search_reference_id': refId,
-    };
+    if (imageUrl.isEmpty) {
+      return {
+        'name': description,
+        'original_search_reference_id': refId,
+      };
+    } else {
+      return {
+        'name': description,
+        'image_url': imageUrl,
+        'original_search_reference_id': refId,
+      };
+    }
   }
 }

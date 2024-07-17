@@ -97,7 +97,7 @@ class _SleepScreenState extends State<SleepScreen> {
                           ),
                           10.verticalSpace,
                           Text(
-                            "${controller.totalSleepPercent.value.toInt()}%",
+                            "${controller.totalSleepPercent.value.toInt() > 100 ? 100 : controller.totalSleepPercent.value.toInt()}%",
                             style: TextStyle(fontSize: 43.sp, fontWeight: FontWeight.w500, color: Colors.white),
                           ),
                           4.verticalSpace,

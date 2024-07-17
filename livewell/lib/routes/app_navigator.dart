@@ -34,6 +34,7 @@ import 'package:livewell/feature/streak/presentation/pages/streak_screen.dart';
 import 'package:livewell/feature/update_weight/presentation/page/update_weight_screen.dart';
 import 'package:livewell/feature/water/presentation/pages/water_consumed_page.dart';
 import 'package:livewell/feature/water/presentation/pages/water_custom_input_page.dart';
+import 'package:livewell/feature/water/presentation/pages/water_custom_input_screen.dart';
 import 'package:livewell/feature/water/presentation/pages/water_screen.dart';
 import 'package:livewell/feature/wellness/presentation/pages/wellness_score_screen.dart';
 
@@ -94,6 +95,7 @@ class AppNavigator {
     GetPage(name: AppPages.streakPage, page: () => const StreakScreen(), transition: Transition.cupertino),
     GetPage(name: AppPages.updatePassword, page: () => const UpdatePasswordScreen(), transition: Transition.cupertino),
     GetPage(name: AppPages.wellnessScore, page: () => const WellnessScoreScreen(), transition: Transition.cupertino),
+    GetPage(name: AppPages.waterCustomInput, page: () => const WaterCustomInputScreen(), transition: Transition.cupertino),
   ];
 
   static void push({required String routeName, dynamic arguments}) {
@@ -162,6 +164,7 @@ class AppPages {
   static String exerciseKYC = '/exercise-kyc';
   static String waterConsumedPage = '/water-consumed-page';
   static String waterCustomInputPage = '/water-custom-input-page';
+  static String waterCustomInput = '/water-custom-input';
   static String nutriScore = '/nutriscore';
   static String nutriScoreDetail = '/nutriscore-detail';
   static String nutriCoScreen = '/nutrico'; // done

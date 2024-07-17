@@ -16,14 +16,16 @@ class AppColors {
   static const neutral90 = Color(0xFF404040);
   static const neutral80 = Color(0xFF616161);
   static const neutral70 = Color(0xFF757575);
+  static const neutral60 = Color(0xFF9E9E9E);
   static const neutral10 = Color(0xFFFAFAFA);
   static const neutral20 = Color(0xFFF5F5F5);
   static const neutral30 = Color(0xFFEDEDED);
 
-
   // black
   static const black = Color(0xFF000000);
   static const black600 = Color(0xFF555555);
+
+  static const dangerMain = Color(0xFFCB3826);
 }
 
 class Insets {
@@ -129,12 +131,16 @@ extension LivewellColorScheme on ColorScheme {
   Color get neutral90 => brightness == Brightness.light ? AppColors.neutral90 : AppColors.neutral90;
   Color get neutral80 => brightness == Brightness.light ? AppColors.neutral80 : AppColors.neutral80;
   Color get neutral70 => brightness == Brightness.light ? AppColors.neutral70 : AppColors.neutral70;
+  Color get neutral60 => brightness == Brightness.light ? AppColors.neutral60 : AppColors.neutral60;
   Color get neutral10 => brightness == Brightness.light ? AppColors.neutral10 : AppColors.neutral10;
-  Color get neutral20 => brightness == Brightness.light ? AppColors.neutral20 : AppColors.neutral20;
   Color get neutral30 => brightness == Brightness.light ? AppColors.neutral30 : AppColors.neutral30;
 
+  Color get neutral20 => brightness == Brightness.light ? AppColors.neutral20 : AppColors.neutral20;
 
   // black
   Color get black => brightness == Brightness.light ? AppColors.black : AppColors.black;
   Color get black600 => brightness == Brightness.light ? AppColors.black600 : AppColors.black600;
+
+  // danger
+  Color get dangerMain => brightness == Brightness.light ? AppColors.dangerMain : AppColors.dangerMain;
 }

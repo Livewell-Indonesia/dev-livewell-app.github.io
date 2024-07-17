@@ -12,8 +12,7 @@ import 'package:livewell/routes/app_navigator.dart';
 
 class NutriScoreController extends BaseController {
   Rx<NutriScoreModel> nutriScore = NutriScoreModel().obs;
-  RxList<NutriscoreDetailModel> nutriScoreDetail =
-      <NutriscoreDetailModel>[].obs;
+  RxList<NutriscoreDetailModel> nutriScoreDetail = <NutriscoreDetailModel>[].obs;
   NutrientType? nutrientFromSummary;
   @override
   void onInit() {
@@ -27,22 +26,21 @@ class NutriScoreController extends BaseController {
 
   void getNutriScore() async {
     var usecase = GetNutriScore.instance();
+    EasyLoading.show();
     final result = await usecase(NoParams());
     result.fold((l) {
       // handle error
       Get.snackbar('error', l.message ?? "");
-    }, (r) {
+    }, (r) async {
       // handle success
       nutriScore.value = r;
-      getNutriscoreDetail();
+      await getNutriscoreDetail();
+      EasyLoading.dismiss();
     });
   }
 
-  void getNutriscoreDetail() async {
+  Future<void> getNutriscoreDetail() async {
     var usecase = GetNutriscoreDetail.instance();
-    if (nutrientFromSummary != null) {
-      EasyLoading.show();
-    }
     final result = await usecase(NoParams());
     result.fold((l) {
       // handle error
@@ -50,8 +48,8 @@ class NutriScoreController extends BaseController {
     }, (r) {
       // handle success
       nutriScoreDetail.value = r;
+
       if (nutrientFromSummary != null) {
-        EasyLoading.dismiss();
         onNutrientTapped(nutrientFromSummary!);
       }
     });
@@ -59,8 +57,7 @@ class NutriScoreController extends BaseController {
 
   void onNutrientTapped(NutrientType type) {
     if (nutriScoreDetail.isNotEmpty) {
-      AppNavigator.push(
-          routeName: AppPages.nutriScoreDetail, arguments: {'type': type});
+      AppNavigator.push(routeName: AppPages.nutriScoreDetail, arguments: {'type': type});
     }
   }
 

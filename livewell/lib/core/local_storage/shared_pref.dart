@@ -166,4 +166,54 @@ class SharedPref {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setBool(PrefConstant.isFirstTimeOpenNutricoPlus, isFirstTime);
   }
+
+  static Future<int> getLastCustomWaterInput() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(PrefConstant.lastCustomWaterInput) ?? 0;
+  }
+
+  static Future<bool> saveLastCustomWaterInput(int value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setInt(PrefConstant.lastCustomWaterInput, value);
+  }
+
+  static Future<String?> getEmail() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(PrefConstant.email);
+  }
+
+  static Future<bool> saveEmail(String email) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setString(PrefConstant.email, email);
+  }
+
+  static Future<String?> getGender() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(PrefConstant.gender);
+  }
+
+  static Future<bool> saveGender(String gender) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setString(PrefConstant.gender, gender);
+  }
+
+  static Future<String?> getBirthDate() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(PrefConstant.birthDate);
+  }
+
+  static Future<bool> saveBirthDate(String birthDate) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setString(PrefConstant.birthDate, birthDate);
+  }
+
+  static Future<String?> getName() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(PrefConstant.name);
+  }
+
+  static Future<bool> saveName(String name) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setString(PrefConstant.name, name);
+  }
 }

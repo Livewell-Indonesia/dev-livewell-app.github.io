@@ -14,8 +14,18 @@ class LiveWellScaffold extends StatelessWidget {
   final Widget? customTitleWidget;
   final bool beta;
   final VoidCallback? onBack;
+  final int marginTop;
   const LiveWellScaffold(
-      {Key? key, required this.title, this.backgroundColor = const Color(0xFFF1F1F1), required this.body, this.trailing, this.beta = false, this.customTitleWidget, this.allowBack = true, this.onBack})
+      {Key? key,
+      required this.title,
+      this.backgroundColor = const Color(0xFFF1F1F1),
+      required this.body,
+      this.trailing,
+      this.beta = false,
+      this.customTitleWidget,
+      this.allowBack = true,
+      this.onBack,
+      this.marginTop = 60})
       : super(key: key);
 
   @override

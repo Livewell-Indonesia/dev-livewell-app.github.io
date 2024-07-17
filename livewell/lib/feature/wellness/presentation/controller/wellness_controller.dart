@@ -1,24 +1,37 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/base/usecase.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/streak/domain/usecase/get_wellness_recommendation.dart';
+import 'package:livewell/feature/streak/presentation/widget/streak_item.dart';
+import 'package:livewell/feature/wellness/presentation/pages/wellness_score_screen.dart';
 
 class WellnessController extends BaseController {
-  GetWellnessRecommendation getWellnessRecommendation =
-      GetWellnessRecommendation.instance();
+  GetWellnessRecommendation getWellnessRecommendation = GetWellnessRecommendation.instance();
   Rx<String> recommendation = ''.obs;
-  WellnessCalculationModel wellnessCalculationModel =
-      WellnessCalculationModel.generate();
+
   Rx<bool> isLoadingRecommendation = false.obs;
 
   @override
   void onInit() async {
     isLoadingRecommendation.value = true;
-    final result = await getWellnessRecommendation(NoParams());
-    isLoadingRecommendation.value = false;
-    result.fold((l) => null, (r) {
-      recommendation.value = r;
-    });
+    if (Get.find<DashboardController>().wellnessScore.value != 0) {
+      final result = await getWellnessRecommendation(NoParams());
+      isLoadingRecommendation.value = false;
+      result.fold((l) => null, (r) {
+        recommendation.value = r;
+        showModalBottomSheet(
+            isScrollControlled: true,
+            context: Get.context!,
+            shape: shapeBorder(),
+            builder: (context) {
+              return WellnessScoreRecommendationBottomSheet(controller: this);
+            });
+      });
+    }
     super.onInit();
   }
 
@@ -70,95 +83,47 @@ class WellnessCalculationModel {
   WellnessCalculationModel({required this.title, required this.details});
 
   factory WellnessCalculationModel.generate() {
-    return WellnessCalculationModel(
-        title: 'How do Wellness Score calculated?',
-        details: [
-          WellnessCalculationModelDetail(
-              title: 'Nutriscore Ranges and Corresponding Scores',
-              descriptions: [
-                WellnessCalculationModelDetailDescription(
-                    range: 'Nutriscore 0-20',
-                    score: '4',
-                    description: 'Poor Quality'),
-                WellnessCalculationModelDetailDescription(
-                    range: 'Nutriscore 21-40',
-                    score: '8',
-                    description: 'Fair Quality'),
-                WellnessCalculationModelDetailDescription(
-                    range: 'Nutriscore 41-60',
-                    score: '12',
-                    description: 'Average Quality'),
-                WellnessCalculationModelDetailDescription(
-                    range: 'Nutriscore 61-80',
-                    score: '16',
-                    description: 'Good Quality'),
-                WellnessCalculationModelDetailDescription(
-                    range: 'Nutriscore 81-100',
-                    score: '20',
-                    description: 'Excellent Quality'),
-              ]),
-          WellnessCalculationModelDetail(
-              title: 'Scoring for Physical Activity Level: Based on Steps',
-              descriptions: [
-                WellnessCalculationModelDetailDescription(
-                    range: '<5000 steps', score: '4', description: 'Sedentary'),
-                WellnessCalculationModelDetailDescription(
-                    range: '5000-7500 steps',
-                    score: '12',
-                    description: 'Moderate'),
-                WellnessCalculationModelDetailDescription(
-                    range: '>7500 steps', score: '20', description: 'Active'),
-              ]),
-          WellnessCalculationModelDetail(
-              title: 'Scoring for Mood: Based on Daily Mood Logging',
-              descriptions: [
-                WellnessCalculationModelDetailDescription(
-                    range: 'Awful, Bad', score: '4', description: 'Low'),
-                WellnessCalculationModelDetailDescription(
-                    range: 'Meh', score: '12', description: 'Unmotivated'),
-                WellnessCalculationModelDetailDescription(
-                    range: 'Good, Great',
-                    score: '20',
-                    description: 'Happy, High, Awesome'),
-              ]),
-          WellnessCalculationModelDetail(
-              title: 'Scoring for Sleep Analysis',
-              descriptions: [
-                WellnessCalculationModelDetailDescription(
-                    range: '<5 hours', score: '8', description: 'Poor'),
-                WellnessCalculationModelDetailDescription(
-                    range: '5 hours', score: '12', description: 'Fair'),
-                WellnessCalculationModelDetailDescription(
-                    range: '6 hours', score: '16', description: 'Good'),
-                WellnessCalculationModelDetailDescription(
-                    range: '>7 hours', score: '20', description: 'Excellent'),
-              ]),
-          WellnessCalculationModelDetail(
-              title: 'Scoring for Hydration: Based on (ml)',
-              descriptions: [
-                WellnessCalculationModelDetailDescription(
-                    range: '<500 ml', score: '4', description: 'Dehydrated'),
-                WellnessCalculationModelDetailDescription(
-                    range: '500 ml', score: '8', description: 'Thristy'),
-                WellnessCalculationModelDetailDescription(
-                    range: '1000 ml', score: '12', description: 'Over Halfway'),
-                WellnessCalculationModelDetailDescription(
-                    range: '1500 ml', score: '16', description: 'Hydrated'),
-                WellnessCalculationModelDetailDescription(
-                    range: '>2000 ml',
-                    score: '20',
-                    description: 'Supercharged'),
-              ]),
-        ]);
+    return WellnessCalculationModel(title: 'How do Wellness Score calculated?', details: [
+      WellnessCalculationModelDetail(type: StreakItemType.nutrition, title: 'Nutriscore Ranges and Corresponding Scores', descriptions: [
+        WellnessCalculationModelDetailDescription(range: 'Nutriscore 0-20', score: '4', description: 'Poor Quality'),
+        WellnessCalculationModelDetailDescription(range: 'Nutriscore 21-40', score: '8', description: 'Fair Quality'),
+        WellnessCalculationModelDetailDescription(range: 'Nutriscore 41-60', score: '12', description: 'Average Quality'),
+        WellnessCalculationModelDetailDescription(range: 'Nutriscore 61-80', score: '16', description: 'Good Quality'),
+        WellnessCalculationModelDetailDescription(range: 'Nutriscore 81-100', score: '20', description: 'Excellent Quality'),
+      ]),
+      WellnessCalculationModelDetail(type: StreakItemType.activity, title: 'Scoring for Physical Activity Level: Based on Steps', descriptions: [
+        WellnessCalculationModelDetailDescription(range: '<5000 steps', score: '4', description: 'Sedentary'),
+        WellnessCalculationModelDetailDescription(range: '5000-7500 steps', score: '12', description: 'Moderate'),
+        WellnessCalculationModelDetailDescription(range: '>7500 steps', score: '20', description: 'Active'),
+      ]),
+      WellnessCalculationModelDetail(type: StreakItemType.mood, title: 'Scoring for Mood: Based on Daily Mood Logging', descriptions: [
+        WellnessCalculationModelDetailDescription(range: 'Awful, Bad', score: '4', description: 'Low'),
+        WellnessCalculationModelDetailDescription(range: 'Meh', score: '12', description: 'Unmotivated'),
+        WellnessCalculationModelDetailDescription(range: 'Good, Great', score: '20', description: 'Happy, High, Awesome'),
+      ]),
+      WellnessCalculationModelDetail(type: StreakItemType.sleep, title: 'Scoring for Sleep Analysis', descriptions: [
+        WellnessCalculationModelDetailDescription(range: '<5 hours', score: '8', description: 'Poor'),
+        WellnessCalculationModelDetailDescription(range: '5 hours', score: '12', description: 'Fair'),
+        WellnessCalculationModelDetailDescription(range: '6 hours', score: '16', description: 'Good'),
+        WellnessCalculationModelDetailDescription(range: '>7 hours', score: '20', description: 'Excellent'),
+      ]),
+      WellnessCalculationModelDetail(type: StreakItemType.hydration, title: 'Scoring for Hydration: Based on (ml)', descriptions: [
+        WellnessCalculationModelDetailDescription(range: '<500 ml', score: '4', description: 'Dehydrated'),
+        WellnessCalculationModelDetailDescription(range: '500 ml', score: '8', description: 'Thristy'),
+        WellnessCalculationModelDetailDescription(range: '1000 ml', score: '12', description: 'Over Halfway'),
+        WellnessCalculationModelDetailDescription(range: '1500 ml', score: '16', description: 'Hydrated'),
+        WellnessCalculationModelDetailDescription(range: '>2000 ml', score: '20', description: 'Supercharged'),
+      ]),
+    ]);
   }
 }
 
 class WellnessCalculationModelDetail {
   final String title;
+  final StreakItemType type;
   final List<WellnessCalculationModelDetailDescription> descriptions;
 
-  WellnessCalculationModelDetail(
-      {required this.title, required this.descriptions});
+  WellnessCalculationModelDetail({required this.type, required this.title, required this.descriptions});
 }
 
 class WellnessCalculationModelDetailDescription {
@@ -166,6 +131,5 @@ class WellnessCalculationModelDetailDescription {
   String score;
   String description;
 
-  WellnessCalculationModelDetailDescription(
-      {required this.range, required this.score, required this.description});
+  WellnessCalculationModelDetailDescription({required this.range, required this.score, required this.description});
 }
