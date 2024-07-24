@@ -85,7 +85,7 @@ extension StreakItemTypeExt on StreakItemType {
     switch (this) {
       case StreakItemType.hydration:
         Get.find<DashboardController>().trackEvent(LivewellStreakEvent.streakPageHydrationWaterButton);
-        AppNavigator.push(routeName: AppPages.waterConsumedPage, arguments: {"waterInputType": WaterInputType.increase});
+        AppNavigator.push(routeName: AppPages.waterScreen);
         break;
       case StreakItemType.sleep:
         Get.find<DashboardController>().trackEvent(LivewellStreakEvent.streakPageSleepButton);

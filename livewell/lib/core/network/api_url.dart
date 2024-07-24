@@ -47,7 +47,7 @@ class Endpoint {
   static const String popupAssets = "config/pop-up-assets";
 
   ///Exercise
-  static const String postBulkActivities = "activities/bulk-create";
+  static const String postBulkActivities = "activities/bulk-create-v2";
   static const String getActivities = "activities-clean/list";
   static const String getActivityHistories = 'activities-clean/lists';
 
