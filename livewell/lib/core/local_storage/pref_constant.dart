@@ -13,4 +13,9 @@ class PrefConstant {
   static const String showInfoNutrico = "show_info_nutrico";
   static const String fcmToken = "show_info_nutrico2";
   static const String isFirstTimeOpenNutricoPlus = "is_first_time_open_nutrico_plus";
+  static const String lastCustomWaterInput = "last_custom_water_input";
+  static const String email = "email";
+  static const String gender = "gender";
+  static const String birthDate = "birth_date";
+  static const String name = "name";
 }

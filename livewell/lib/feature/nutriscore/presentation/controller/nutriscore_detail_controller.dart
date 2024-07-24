@@ -7,7 +7,7 @@ import 'package:livewell/feature/nutriscore/presentation/controller/nutriscore_c
 import 'package:livewell/feature/nutriscore/presentation/pages/nutriscore_screen.dart';
 
 class NutriscoreDetailController extends BaseController {
-  List<NutrientDetailData> nutrientList = [];
+  RxList<NutrientDetailData> nutrientList = <NutrientDetailData>[].obs;
   late NutrientType currentType;
   Rx<double> todaysAmount = 0.0.obs;
   Rx<double> weeklyAverage = 0.0.obs;
@@ -24,8 +24,7 @@ class NutriscoreDetailController extends BaseController {
     var minimum = target * 0.8;
     var maximum = target * 1.2;
 
-    if (nutrientList[index].nutrient.eaten! >= minimum &&
-        nutrientList[index].nutrient.eaten! <= maximum) {
+    if (nutrientList[index].nutrient.eaten! >= minimum && nutrientList[index].nutrient.eaten! <= maximum) {
       return true;
     } else {
       return false;
@@ -38,18 +37,13 @@ class NutriscoreDetailController extends BaseController {
     for (var element in data) {
       inspect(element.details!.toJson()[currentType.jsonName()]);
       nutrientList.add(NutrientDetailData(
-        nutrient: Nutrient.fromJson(
-            element.details!.toJson()[currentType.jsonName()]),
+        nutrient: Nutrient.fromJson(element.details!.toJson()[currentType.jsonName()]),
         date: element.date!,
       ));
     }
     todaysAmount.value = nutrientList[0].nutrient.eaten!.toDouble();
-    nutrientScore.value = ((nutrientList[0].nutrient.eaten!.toDouble() /
-                nutrientList[0].nutrient.optimizedNutrient!.toDouble()) *
-            100)
-        .round()
-        .max169();
-    nutrientList = nutrientList.reversed.toList();
+    nutrientScore.value = ((nutrientList[0].nutrient.eaten!.toDouble() / nutrientList[0].nutrient.optimizedNutrient!.toDouble()) * 100).round().max169();
+    nutrientList = nutrientList.reversed.toList().obs;
     num temp = 0;
     for (var element in nutrientList) {
       temp += element.nutrient.eaten!;
@@ -70,8 +64,7 @@ class NutriscoreDetailController extends BaseController {
   }
 
   NutrientScoreStatus convertCustomStatus(NutrientScoreStatus status) {
-    if (currentType == NutrientType.protein ||
-        currentType == NutrientType.water) {
+    if (currentType == NutrientType.protein || currentType == NutrientType.water) {
       switch (status) {
         case NutrientScoreStatus.optimal:
           return NutrientScoreStatus.ontrack;

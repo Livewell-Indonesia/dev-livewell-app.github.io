@@ -4,7 +4,7 @@ import 'package:livewell/core/base/base_controller.dart';
 import 'nutriscore_controller.dart';
 
 class NutriscoreScoreDetailController extends BaseController {
-  List<NutriScoreDetailModel> nutrientList = [];
+  RxList<NutriScoreDetailModel> nutrientList = <NutriScoreDetailModel>[].obs;
   late num nutrientValue;
   Rx<double> todaysAmount = 0.0.obs;
   Rx<double> weeklyAverage = 0.0.obs;
@@ -27,7 +27,7 @@ class NutriscoreScoreDetailController extends BaseController {
     }
     if (nutrientList.isNotEmpty) {
       todaysAmount.value = nutrientList[0].value.toDouble();
-      nutrientList = nutrientList.reversed.toList();
+      nutrientList.value = nutrientList.reversed.toList().obs;
       num temp = 0;
       for (var element in nutrientList) {
         temp += element.value;

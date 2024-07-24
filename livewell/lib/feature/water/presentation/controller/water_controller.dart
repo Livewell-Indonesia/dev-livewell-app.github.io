@@ -35,16 +35,8 @@ class WaterController extends BaseController {
       showModalBottomSheet(
           context: Get.context!,
           isScrollControlled: true,
-          shape: ShapeBorder.lerp(
-              const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20))),
-              const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20))),
-              1),
+          shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+              const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
           builder: ((context) {
             return PopupAssetWidget(
               exercise: data,
@@ -62,14 +54,7 @@ class WaterController extends BaseController {
       Log.error(l);
     }, (r) {
       if (r.response != null) {
-        var consumed = r.response
-                ?.firstWhere(
-                    (element) =>
-                        element.recordAt ==
-                        DateFormat('yyyy-MM-dd').format(DateTime.now()),
-                    orElse: () => WaterModel(recordAt: '', value: 0))
-                .value ??
-            0;
+        var consumed = r.response?.firstWhere((element) => element.recordAt == DateFormat('yyyy-MM-dd').format(DateTime.now()), orElse: () => WaterModel(recordAt: '', value: 0)).value ?? 0;
         waterConsumed.value = consumed / 1000;
         waterList.value = r.response ?? [];
         waterConsumedPercentage.value = (consumed / waterGoal).maxOneOrZero;
@@ -86,9 +71,9 @@ class WaterController extends BaseController {
     result.fold((l) {
       Log.error(l);
     }, (r) {
-      AppNavigator.popUntil(routeName: AppPages.home);
       getWaterData();
       Get.find<DashboardController>().getWaterData();
+      Get.find<DashboardController>().getTodayWellnessData();
       Log.colorGreen(r);
     });
   }
@@ -102,6 +87,99 @@ extension on double {
       return 0;
     } else {
       return this;
+    }
+  }
+}
+
+class UrineData {
+  static List<List<UrineColorType>> urineColors = [
+    [UrineColorType.overhydrated],
+    [UrineColorType.good, UrineColorType.fair],
+    [UrineColorType.lightHydrated, UrineColorType.dehydrated],
+  ];
+}
+
+enum UrineColorType {
+  overhydrated,
+  good,
+  fair,
+  lightHydrated,
+  dehydrated,
+  veryDehydrated,
+  severeDehydrated,
+}
+
+extension UrineColorTypeX on UrineColorType {
+  Color get color {
+    switch (this) {
+      case UrineColorType.overhydrated:
+        return const Color(0xFFFCFFE4);
+      case UrineColorType.good:
+        return const Color(0xFFFCF4A9);
+      case UrineColorType.fair:
+        return const Color(0xFFFBE972);
+      case UrineColorType.lightHydrated:
+        return const Color(0xFFEBA139);
+      case UrineColorType.dehydrated:
+        return const Color(0xFFDE6F2B);
+      case UrineColorType.veryDehydrated:
+        return const Color(0xFFDE6F2B);
+      case UrineColorType.severeDehydrated:
+        return const Color(0xFFD23C20);
+    }
+  }
+
+  String get title {
+    switch (this) {
+      case UrineColorType.overhydrated:
+        return Get.find<DashboardController>().localization.hydrationOverhydrated ?? 'Overhydrated';
+      case UrineColorType.good:
+        return Get.find<DashboardController>().localization.hydrationGood ?? 'Good';
+      case UrineColorType.fair:
+        return Get.find<DashboardController>().localization.hydrationFair ?? 'Fair';
+      case UrineColorType.lightHydrated:
+        return Get.find<DashboardController>().localization.hydrationLightDehydrated ?? 'Light Hydrated';
+      case UrineColorType.dehydrated:
+        return Get.find<DashboardController>().localization.hydrationDehydrated ?? 'Dehydrated';
+      case UrineColorType.veryDehydrated:
+        return Get.find<DashboardController>().localization.hydrationVeryDehydrated ?? 'Very Dehydrated';
+      case UrineColorType.severeDehydrated:
+        return Get.find<DashboardController>().localization.hydrationSevereDehydrated ?? 'Severe Dehydrated';
+    }
+  }
+
+  String get colorName {
+    switch (this) {
+      case UrineColorType.overhydrated:
+        return Get.find<DashboardController>().localization.hydrationNoColor ?? 'No Color';
+      case UrineColorType.good:
+        return Get.find<DashboardController>().localization.hydrationPaleStrawYellow ?? 'Pale Straw Yellow';
+      case UrineColorType.fair:
+        return Get.find<DashboardController>().localization.hydrationTranslucentYellow ?? 'Translucent Yellow';
+      case UrineColorType.lightHydrated:
+        return Get.find<DashboardController>().localization.hydrationDarkYellow ?? 'Dark Yellow';
+      case UrineColorType.dehydrated:
+        return Get.find<DashboardController>().localization.hydrationAmber ?? 'Amber';
+      case UrineColorType.veryDehydrated:
+        return Get.find<DashboardController>().localization.hydrationBurntOrange ?? 'Burnt Orange';
+      case UrineColorType.severeDehydrated:
+        return Get.find<DashboardController>().localization.hydrationRed ?? 'Red';
+    }
+  }
+
+  String get description {
+    switch (this) {
+      case UrineColorType.overhydrated:
+        return "Time to Slow The Flow";
+      case UrineColorType.veryDehydrated:
+      case UrineColorType.severeDehydrated:
+        return Get.find<DashboardController>().localization.hydrationSeeDoctor ?? 'See Doctor';
+      case UrineColorType.good:
+      case UrineColorType.fair:
+        return Get.find<DashboardController>().localization.hydrationNormal ?? 'Normal';
+      case UrineColorType.lightHydrated:
+      case UrineColorType.dehydrated:
+        return Get.find<DashboardController>().localization.hydrationDrinkWaterNow ?? 'Drink Water Now';
     }
   }
 }

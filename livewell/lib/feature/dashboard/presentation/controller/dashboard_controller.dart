@@ -117,71 +117,22 @@ class DashboardController extends BaseController {
       }, (r) {
         if (r.response == null) return;
         wellnessData.value = r.response?.displayData;
-        if (r.response?.displayData?.activityScore != 0) {
-          todayProgress.value = todayProgress.value + 1;
+        if (r.response?.details != null && r.response?.details?.activity?.value != 0) {
+          todayProgress.value++;
         }
-        if (r.response?.displayData?.hydrationScore != 0) {
-          todayProgress.value = todayProgress.value + 1;
+        if (r.response?.details != null && r.response?.details?.hydration?.value != 0) {
+          todayProgress.value++;
         }
-        if (r.response?.displayData?.nutritionScore != 0) {
-          todayProgress.value = todayProgress.value + 1;
+        if (r.response?.details != null && r.response?.details?.calories?.value != 0) {
+          todayProgress.value++;
         }
-        if (r.response?.displayData?.sleepScore != 0) {
-          todayProgress.value = todayProgress.value + 1;
+        if (r.response?.details != null && r.response?.details?.sleep?.value != 0) {
+          todayProgress.value++;
         }
-        if (r.response?.displayData?.moodScore != 0) {
-          todayProgress.value = todayProgress.value + 1;
+        if (r.response?.details != null && r.response?.details?.mood?.value != 0) {
+          todayProgress.value++;
         }
         wellnessScore.value = r.response?.displayData?.totalScore ?? 0;
-      });
-    });
-  }
-
-  void getStreakData() {
-    numberOfStreaks.value = 0;
-    todayProgress.value = 0;
-    streakDates.clear();
-    wellnessScore.value = 0;
-
-    final dates = generateWeekStartingFromMonday();
-    streakDates.value = dates.map((e) => StreakCalendarItemModel(date: e, isCompleted: false)).toList();
-    final params = GetWellnessDataBatchParams(dateFrom: dates.first, dateTo: dates.last);
-    final usecase = GetWellnessDataBatch.instance();
-    final currentDate = DateTime.now();
-    usecase(params).then((value) {
-      value.fold((l) {
-        Log.colorGreen("andiiii $l");
-        Log.error(l.message);
-      }, (r) {
-        if (r.response?.displayData == null) return;
-        for (int i = 0; i < streakDates.length; i++) {
-          for (var item in r.response!.displayData!) {
-            if (item.recordAt?.year == streakDates[i].date.year && item.recordAt?.month == streakDates[i].date.month && item.recordAt?.day == streakDates[i].date.day) {
-              streakDates[i] = streakDates[i].copyWith(isCompleted: item.isStreak ?? false);
-            }
-          }
-        }
-        for (var item in r.response!.displayData!) {
-          if (item.recordAt?.year == currentDate.year && item.recordAt?.month == currentDate.month && item.recordAt?.day == currentDate.day) {
-            wellnessData.value = item;
-            if (item.activityScore != 0) {
-              todayProgress.value = todayProgress.value + 1;
-            }
-            if (item.hydrationScore != 0) {
-              todayProgress.value = todayProgress.value + 1;
-            }
-            if (item.nutritionScore != 0) {
-              todayProgress.value = todayProgress.value + 1;
-            }
-            if (item.sleepScore != 0) {
-              todayProgress.value = todayProgress.value + 1;
-            }
-            if (item.moodScore != 0) {
-              todayProgress.value = todayProgress.value + 1;
-            }
-            wellnessScore.value = item.totalScore ?? 0;
-          }
-        }
       });
     });
   }
@@ -367,6 +318,7 @@ class DashboardController extends BaseController {
 
   @override
   void onInit() {
+    todayProgress.value = 0;
     getUsersData();
     getDashBoardData();
     getMealHistories();
@@ -527,9 +479,13 @@ class DashboardController extends BaseController {
 
   Future<void> getUsersData() async {
     var result = await getUser(NoParams());
-    result.fold((l) => Log.error(l), (r) {
+    result.fold((l) => Log.error(l), (r) async {
       user.value = r;
       inspect(r);
+      await SharedPref.saveEmail(r.email ?? '');
+      await SharedPref.saveBirthDate(r.birthDate ?? '');
+      await SharedPref.saveGender(r.gender ?? '');
+      await SharedPref.saveName('${r.firstName} ${r.lastName}');
       if (r.onboardingQuestionnaire == null && Get.currentRoute == AppPages.home) {
         Future.delayed(const Duration(milliseconds: 800), () {
           AppNavigator.push(routeName: AppPages.questionnaire);

@@ -5,10 +5,8 @@ class Localization {
   Localization({this.enUS, this.idID});
 
   Localization.fromJson(Map<String, dynamic> json) {
-    enUS =
-        json['en_US'] != null ? LocalizationKey.fromJson(json['en_US']) : null;
-    idID =
-        json['id_ID'] != null ? LocalizationKey.fromJson(json['id_ID']) : null;
+    enUS = json['en_US'] != null ? LocalizationKey.fromJson(json['en_US']) : null;
+    idID = json['id_ID'] != null ? LocalizationKey.fromJson(json['id_ID']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -246,230 +244,293 @@ class LocalizationKey {
   String? moodMeh;
   String? moodBad;
   String? moodAwful;
+  String? hydrationTitle;
+  String? hydrationRemaining;
+  String? hydrationYouHitYourGoalToday;
+  String? hydrationCustom;
+  String? hydration100Ml;
+  String? hydration250Ml;
+  String? hydration500Ml;
+  String? hydrationWantToReduceWaterIntake;
+  String? hydrationReduce;
+  String? hydrationHydrationScoreToday;
+  String? hydrationSeeHowDoHydrationScoreCalculated;
+  String? hydrationHere;
+  String? hydrationLearnYourUrineColor;
+  String? hydrationUnderstandYourHydration;
+  String? hydrationOverhydrated;
+  String? hydrationGood;
+  String? hydrationFair;
+  String? hydrationLightDehydrated;
+  String? hydrationDehydrated;
+  String? hydrationVeryDehydrated;
+  String? hydrationSevereDehydrated;
+  String? hydrationNoColor;
+  String? hydrationPaleStrawYellow;
+  String? hydrationTranslucentYellow;
+  String? hydrationDarkYellow;
+  String? hydrationAmber;
+  String? hydrationBurntOrange;
+  String? hydrationRed;
+  String? hydrationSeeDoctor;
+  String? hydrationNormal;
+  String? hydrationDrinkWaterNow;
 
-  LocalizationKey(
-      {this.accountSettings,
-      this.add,
-      this.addDrink,
-      this.addFood,
-      this.afternoon,
-      this.age,
-      this.almost,
-      this.alreadyHaveAccount,
-      this.amount,
-      this.and,
-      this.backToDashboard,
-      this.basedOnYourNutritionalNeeds,
-      this.belowTarget,
-      this.betterHealthThroughBetterLiving,
-      this.betterSleeping,
-      this.breakfast,
-      this.burned,
-      this.bySigningInAgreeToTermsAndConditions,
-      this.bySigningUpAgreeToTermsAndConditions,
-      this.calorieIntake,
-      this.calories,
-      this.caloriesBurnt,
-      this.cancel,
-      this.carbs,
-      this.change,
-      this.changePassword,
-      this.confirmPassword,
-      this.createNewAccount,
-      this.current,
-      this.currentWeightKg,
-      this.custom,
-      this.dailyBreakdown,
-      this.dailyJournal,
-      this.deepSleep,
-      this.deleteAccountPermanently,
-      this.diary,
-      this.dietaryRestriction,
-      this.dinner,
-      this.disclaimer,
-      this.disclaimerProjectionBasedOnTodays,
-      this.discoverPersonalizedFood,
-      this.discoverPersonalizedFoodRecommendations,
-      this.done,
-      this.dontHaveAccount,
-      this.dontWorryWeCanImproveNutritionTogether,
-      this.drink,
-      this.eaten,
-      this.eating,
-      this.edit,
-      this.emailAddress,
-      this.enterNewPassword,
-      this.enterYourDetailsToRegister,
-      this.enterYourOtp,
-      this.evening,
-      this.excellent,
-      this.exercise,
-      this.exerciseHabit,
-      this.exerciseInformation,
-      this.exploreYourPersonalHealth,
-      this.fat,
-      this.female,
-      this.filter,
-      this.filterRestaurantBrandsBy,
-      this.firstName,
-      this.food,
-      this.foodFilter,
-      this.foodName,
-      this.foodRecommendation,
-      this.foodRequestCompleted,
-      this.forgotPassword,
-      this.forgotPasswordText,
-      this.foundAFoodThatIsNot,
-      this.fullName,
-      this.gender,
-      this.getFitter,
-      this.getStarted,
-      this.getStartedExclamation,
-      this.goalsSetting,
-      this.good,
-      this.goodGreeting,
-      this.great,
-      this.greatJobNutritionOnPoint,
-      this.heightCm,
-      this.high,
-      this.improveOverallFitness,
-      this.keepWithOurPlan,
-      this.languages,
-      this.last7Days,
-      this.lastName,
-      this.letsMakeTodayCount,
-      this.lightSleep,
-      this.livewellNutritionalDataDisclaimer,
-      this.logYourFirstMeal,
-      this.logout,
-      this.low,
-      this.lunch,
-      this.male,
-      this.mid,
-      this.morning,
-      this.myGoals,
-      this.newPassword,
-      this.next,
-      this.no,
-      this.noResultsFound,
-      this.none,
-      this.numberOfServing,
-      this.nutrition,
-      this.nutrientFact,
-      this.nutriscoreDetails,
-      this.ofDailyGoals,
-      this.ofYourGoal,
-      this.onTrack,
-      this.optimal,
-      this.orSignInWith,
-      this.orSignUpWith,
-      this.ourTeamWorkingOnYourRequest,
-      this.password,
-      this.personalInformation,
-      this.physicalInformation,
-      this.pickedBasedOnYourNutritionalNeeds,
-      this.pleaseEnterEmailToResetPassword,
-      this.poor,
-      this.pre,
-      this.prev,
-      this.privacyPolicy,
-      this.processing,
-      this.projectedWeightAfter4Weeks,
-      this.protein,
-      this.remaining,
-      this.requestFood,
-      this.requestNewFood,
-      this.requestToDeleteAccount,
-      this.resetFilter,
-      this.save,
-      this.saveChanges,
-      this.scanABarcode,
-      this.scanAMeal,
-      this.scanFood,
-      this.searchBar,
-      this.searchHere,
-      this.searchResult,
-      this.seeDetails,
-      this.seeMyProgress,
-      this.seeYourProgress,
-      this.servingSize,
-      this.setYourMealTime,
-      this.showNutrientFacts,
-      this.signIn,
-      this.signUp,
-      this.sleep,
-      this.sleepHours,
-      this.snack,
-      this.specificGoal,
-      this.steps,
-      this.submit,
-      this.targetWeightKg,
-      this.taskList,
-      this.termsAndConditions,
-      this.thankYou,
-      this.thanksForCreatingAccount,
-      this.time,
-      this.toLogYourFirstMealSimply,
-      this.todayYouHaveConsumed,
-      this.todaysAmount,
-      this.trackNutrition,
-      this.update,
-      this.updateWeight,
-      this.updateYourWeight,
-      this.useTheSearchbarTo,
-      this.viewYourNutriscore,
-      this.waterConsumed,
-      this.waterTracking,
-      this.weeklyAverage,
-      this.weightKg,
-      this.weightLoss,
-      this.weightProgress,
-      this.welcomeToLivewell,
-      this.wellRedirectAfterScanningResult,
-      this.wellnessHub,
-      this.wentToSleep,
-      this.wokeUp,
-      this.yes,
-      this.youAreReadyToGo,
-      this.youHaveGained,
-      this.youHaveLost,
-      this.youHaveReached,
-      this.yourAccountAndContentDeletedPermanently,
-      this.yourRecommendedFoods,
-      this.yourValue,
-      this.yourWaterIntakeForToday,
-      this.youreDoingGreat,
-      this.youreDoingGreatKeepYourSpirit,
-      this.language,
-      this.name,
-      this.howOldAreYou,
-      this.whatsYourWeight,
-      this.anyDietaryRestrictions,
-      this.yourSpecificGoal,
-      this.exerice,
-      this.targetWeight,
-      this.finish,
-      this.s200kcal,
-      this.s300kcal,
-      this.s400kcal,
-      this.selectYourPreferred,
-      this.helpUsToCreatePersonalize,
-      this.howManyGlassesOfWater,
-      this.youCanAlwaysChangeThisLater,
-      this.setYourFitnessGoals,
-      this.howManyHoursOfSleeps,
-      this.whatsYourHeight,
-      this.of,
-      this.moodTracker,
-      this.moodChart,
-      this.last14Days,
-      this.moodCount,
-      this.howAreYou,
-      this.moodGreat,
-      this.moodGood,
-      this.moodMeh,
-      this.moodBad,
-      this.moodAwful});
+  LocalizationKey({
+    this.accountSettings,
+    this.add,
+    this.addDrink,
+    this.addFood,
+    this.afternoon,
+    this.age,
+    this.almost,
+    this.alreadyHaveAccount,
+    this.amount,
+    this.and,
+    this.backToDashboard,
+    this.basedOnYourNutritionalNeeds,
+    this.belowTarget,
+    this.betterHealthThroughBetterLiving,
+    this.betterSleeping,
+    this.breakfast,
+    this.burned,
+    this.bySigningInAgreeToTermsAndConditions,
+    this.bySigningUpAgreeToTermsAndConditions,
+    this.calorieIntake,
+    this.calories,
+    this.caloriesBurnt,
+    this.cancel,
+    this.carbs,
+    this.change,
+    this.changePassword,
+    this.confirmPassword,
+    this.createNewAccount,
+    this.current,
+    this.currentWeightKg,
+    this.custom,
+    this.dailyBreakdown,
+    this.dailyJournal,
+    this.deepSleep,
+    this.deleteAccountPermanently,
+    this.diary,
+    this.dietaryRestriction,
+    this.dinner,
+    this.disclaimer,
+    this.disclaimerProjectionBasedOnTodays,
+    this.discoverPersonalizedFood,
+    this.discoverPersonalizedFoodRecommendations,
+    this.done,
+    this.dontHaveAccount,
+    this.dontWorryWeCanImproveNutritionTogether,
+    this.drink,
+    this.eaten,
+    this.eating,
+    this.edit,
+    this.emailAddress,
+    this.enterNewPassword,
+    this.enterYourDetailsToRegister,
+    this.enterYourOtp,
+    this.evening,
+    this.excellent,
+    this.exercise,
+    this.exerciseHabit,
+    this.exerciseInformation,
+    this.exploreYourPersonalHealth,
+    this.fat,
+    this.female,
+    this.filter,
+    this.filterRestaurantBrandsBy,
+    this.firstName,
+    this.food,
+    this.foodFilter,
+    this.foodName,
+    this.foodRecommendation,
+    this.foodRequestCompleted,
+    this.forgotPassword,
+    this.forgotPasswordText,
+    this.foundAFoodThatIsNot,
+    this.fullName,
+    this.gender,
+    this.getFitter,
+    this.getStarted,
+    this.getStartedExclamation,
+    this.goalsSetting,
+    this.good,
+    this.goodGreeting,
+    this.great,
+    this.greatJobNutritionOnPoint,
+    this.heightCm,
+    this.high,
+    this.improveOverallFitness,
+    this.keepWithOurPlan,
+    this.languages,
+    this.last7Days,
+    this.lastName,
+    this.letsMakeTodayCount,
+    this.lightSleep,
+    this.livewellNutritionalDataDisclaimer,
+    this.logYourFirstMeal,
+    this.logout,
+    this.low,
+    this.lunch,
+    this.male,
+    this.mid,
+    this.morning,
+    this.myGoals,
+    this.newPassword,
+    this.next,
+    this.no,
+    this.noResultsFound,
+    this.none,
+    this.numberOfServing,
+    this.nutrition,
+    this.nutrientFact,
+    this.nutriscoreDetails,
+    this.ofDailyGoals,
+    this.ofYourGoal,
+    this.onTrack,
+    this.optimal,
+    this.orSignInWith,
+    this.orSignUpWith,
+    this.ourTeamWorkingOnYourRequest,
+    this.password,
+    this.personalInformation,
+    this.physicalInformation,
+    this.pickedBasedOnYourNutritionalNeeds,
+    this.pleaseEnterEmailToResetPassword,
+    this.poor,
+    this.pre,
+    this.prev,
+    this.privacyPolicy,
+    this.processing,
+    this.projectedWeightAfter4Weeks,
+    this.protein,
+    this.remaining,
+    this.requestFood,
+    this.requestNewFood,
+    this.requestToDeleteAccount,
+    this.resetFilter,
+    this.save,
+    this.saveChanges,
+    this.scanABarcode,
+    this.scanAMeal,
+    this.scanFood,
+    this.searchBar,
+    this.searchHere,
+    this.searchResult,
+    this.seeDetails,
+    this.seeMyProgress,
+    this.seeYourProgress,
+    this.servingSize,
+    this.setYourMealTime,
+    this.showNutrientFacts,
+    this.signIn,
+    this.signUp,
+    this.sleep,
+    this.sleepHours,
+    this.snack,
+    this.specificGoal,
+    this.steps,
+    this.submit,
+    this.targetWeightKg,
+    this.taskList,
+    this.termsAndConditions,
+    this.thankYou,
+    this.thanksForCreatingAccount,
+    this.time,
+    this.toLogYourFirstMealSimply,
+    this.todayYouHaveConsumed,
+    this.todaysAmount,
+    this.trackNutrition,
+    this.update,
+    this.updateWeight,
+    this.updateYourWeight,
+    this.useTheSearchbarTo,
+    this.viewYourNutriscore,
+    this.waterConsumed,
+    this.waterTracking,
+    this.weeklyAverage,
+    this.weightKg,
+    this.weightLoss,
+    this.weightProgress,
+    this.welcomeToLivewell,
+    this.wellRedirectAfterScanningResult,
+    this.wellnessHub,
+    this.wentToSleep,
+    this.wokeUp,
+    this.yes,
+    this.youAreReadyToGo,
+    this.youHaveGained,
+    this.youHaveLost,
+    this.youHaveReached,
+    this.yourAccountAndContentDeletedPermanently,
+    this.yourRecommendedFoods,
+    this.yourValue,
+    this.yourWaterIntakeForToday,
+    this.youreDoingGreat,
+    this.youreDoingGreatKeepYourSpirit,
+    this.language,
+    this.name,
+    this.howOldAreYou,
+    this.whatsYourWeight,
+    this.anyDietaryRestrictions,
+    this.yourSpecificGoal,
+    this.exerice,
+    this.targetWeight,
+    this.finish,
+    this.s200kcal,
+    this.s300kcal,
+    this.s400kcal,
+    this.selectYourPreferred,
+    this.helpUsToCreatePersonalize,
+    this.howManyGlassesOfWater,
+    this.youCanAlwaysChangeThisLater,
+    this.setYourFitnessGoals,
+    this.howManyHoursOfSleeps,
+    this.whatsYourHeight,
+    this.of,
+    this.moodTracker,
+    this.moodChart,
+    this.last14Days,
+    this.moodCount,
+    this.howAreYou,
+    this.moodGreat,
+    this.moodGood,
+    this.moodMeh,
+    this.moodBad,
+    this.moodAwful,
+    this.hydrationTitle,
+    this.hydrationRemaining,
+    this.hydrationYouHitYourGoalToday,
+    this.hydrationCustom,
+    this.hydration100Ml,
+    this.hydration250Ml,
+    this.hydration500Ml,
+    this.hydrationWantToReduceWaterIntake,
+    this.hydrationReduce,
+    this.hydrationHydrationScoreToday,
+    this.hydrationSeeHowDoHydrationScoreCalculated,
+    this.hydrationHere,
+    this.hydrationLearnYourUrineColor,
+    this.hydrationUnderstandYourHydration,
+    this.hydrationOverhydrated,
+    this.hydrationGood,
+    this.hydrationFair,
+    this.hydrationLightDehydrated,
+    this.hydrationDehydrated,
+    this.hydrationVeryDehydrated,
+    this.hydrationSevereDehydrated,
+    this.hydrationNoColor,
+    this.hydrationPaleStrawYellow,
+    this.hydrationTranslucentYellow,
+    this.hydrationDarkYellow,
+    this.hydrationAmber,
+    this.hydrationBurntOrange,
+    this.hydrationRed,
+    this.hydrationSeeDoctor,
+    this.hydrationNormal,
+    this.hydrationDrinkWaterNow,
+  });
 
   LocalizationKey.fromJson(Map<String, dynamic> json) {
     accountSettings = json['account_settings'];
@@ -485,15 +546,12 @@ class LocalizationKey {
     backToDashboard = json['back_to_dashboard'];
     basedOnYourNutritionalNeeds = json['based_on_your_nutritional_needs'];
     belowTarget = json['below_target'];
-    betterHealthThroughBetterLiving =
-        json['better_health_through_better_living'];
+    betterHealthThroughBetterLiving = json['better_health_through_better_living'];
     betterSleeping = json['better_sleeping'];
     breakfast = json['breakfast'];
     burned = json['burned'];
-    bySigningInAgreeToTermsAndConditions =
-        json['by_signing_in_agree_to_terms_and_conditions'];
-    bySigningUpAgreeToTermsAndConditions =
-        json['by_signing_up_agree_to_terms_and_conditions'];
+    bySigningInAgreeToTermsAndConditions = json['by_signing_in_agree_to_terms_and_conditions'];
+    bySigningUpAgreeToTermsAndConditions = json['by_signing_up_agree_to_terms_and_conditions'];
     calorieIntake = json['calorie_intake'];
     calories = json['calories'];
     caloriesBurnt = json['calories_burnt'];
@@ -514,15 +572,12 @@ class LocalizationKey {
     dietaryRestriction = json['dietary_restriction'];
     dinner = json['dinner'];
     disclaimer = json['disclaimer'];
-    disclaimerProjectionBasedOnTodays =
-        json['disclaimer_projection_based_on_todays'];
+    disclaimerProjectionBasedOnTodays = json['disclaimer_projection_based_on_todays'];
     discoverPersonalizedFood = json['discover_personalized_food'];
-    discoverPersonalizedFoodRecommendations =
-        json['discover_personalized_food_recommendations'];
+    discoverPersonalizedFoodRecommendations = json['discover_personalized_food_recommendations'];
     done = json['done'];
     dontHaveAccount = json['dont_have_account'];
-    dontWorryWeCanImproveNutritionTogether =
-        json['dont_worry_we_can_improve_nutrition_together'];
+    dontWorryWeCanImproveNutritionTogether = json['dont_worry_we_can_improve_nutrition_together'];
     drink = json['drink'];
     eaten = json['eaten'];
     eating = json['eating'];
@@ -569,8 +624,7 @@ class LocalizationKey {
     lastName = json['last_name'];
     letsMakeTodayCount = json['lets_make_today_count'];
     lightSleep = json['light_sleep'];
-    livewellNutritionalDataDisclaimer =
-        json['livewell_nutritional_data_disclaimer'];
+    livewellNutritionalDataDisclaimer = json['livewell_nutritional_data_disclaimer'];
     logYourFirstMeal = json['log_your_first_meal'];
     logout = json['logout'];
     low = json['low'];
@@ -598,10 +652,8 @@ class LocalizationKey {
     password = json['password'];
     personalInformation = json['personal_information'];
     physicalInformation = json['physical_information'];
-    pickedBasedOnYourNutritionalNeeds =
-        json['picked_based_on_your_nutritional_needs'];
-    pleaseEnterEmailToResetPassword =
-        json['please_enter_email_to_reset_password'];
+    pickedBasedOnYourNutritionalNeeds = json['picked_based_on_your_nutritional_needs'];
+    pleaseEnterEmailToResetPassword = json['please_enter_email_to_reset_password'];
     poor = json['poor'];
     pre = json['pre'];
     prev = json['prev'];
@@ -658,8 +710,7 @@ class LocalizationKey {
     weightLoss = json['weight_loss'];
     weightProgress = json['weight_progress'];
     welcomeToLivewell = json['welcome_to_livewell'];
-    wellRedirectAfterScanningResult =
-        json['well_redirect_after_scanning_result'];
+    wellRedirectAfterScanningResult = json['well_redirect_after_scanning_result'];
     wellnessHub = json['wellness_hub'];
     wentToSleep = json['went_to_sleep'];
     wokeUp = json['woke_up'];
@@ -668,8 +719,7 @@ class LocalizationKey {
     youHaveGained = json['you_have_gained'];
     youHaveLost = json['you_have_lost'];
     youHaveReached = json['you_have_reached'];
-    yourAccountAndContentDeletedPermanently =
-        json['your_account_and_content_deleted_permanently'];
+    yourAccountAndContentDeletedPermanently = json['your_account_and_content_deleted_permanently'];
     yourRecommendedFoods = json['your_recommended_foods'];
     yourValue = json['your_value'];
     yourWaterIntakeForToday = json['your_water_intake_for_today'];
@@ -706,6 +756,37 @@ class LocalizationKey {
     moodMeh = json['mood_meh'];
     moodBad = json['mood_bad'];
     moodAwful = json['mood_awful'];
+    hydrationTitle = json['hydration_title'];
+    hydrationRemaining = json["hydration_remaining"];
+    hydrationYouHitYourGoalToday = json["hydration_you_hit_your_goal_today"];
+    hydrationCustom = json["hydration_custom"];
+    hydration100Ml = json["hydration_100ml"];
+    hydration250Ml = json["hydration_250ml"];
+    hydration500Ml = json["hydration_500ml"];
+    hydrationWantToReduceWaterIntake = json["hydration_want_to_reduce_water_intake"];
+    hydrationReduce = json["hydration_reduce"];
+    hydrationHydrationScoreToday = json["hydration_hydration_score_today"];
+    hydrationSeeHowDoHydrationScoreCalculated = json["hydration_see_how_do_hydration_score_calculated"];
+    hydrationHere = json["hydration_here"];
+    hydrationLearnYourUrineColor = json["hydration_learn_your_urine_color"];
+    hydrationUnderstandYourHydration = json["hydration_understand_your_hydration"];
+    hydrationOverhydrated = json["hydration_overhydrated"];
+    hydrationGood = json["hydration_good"];
+    hydrationFair = json["hydration_fair"];
+    hydrationLightDehydrated = json["hydration_light_dehydrated"];
+    hydrationDehydrated = json["hydration_dehydrated"];
+    hydrationVeryDehydrated = json["hydration_very_dehydrated"];
+    hydrationSevereDehydrated = json["hydration_severe_dehydrated"];
+    hydrationNoColor = json["hydration_no_color"];
+    hydrationPaleStrawYellow = json["hydration_pale_straw_yellow"];
+    hydrationTranslucentYellow = json["hydration_translucent_yellow"];
+    hydrationDarkYellow = json["hydration_dark_yellow"];
+    hydrationAmber = json["hydration_amber"];
+    hydrationBurntOrange = json["hydration_burnt_orange"];
+    hydrationRed = json["hydration_red"];
+    hydrationSeeDoctor = json["hydration_see_doctor"];
+    hydrationNormal = json["hydration_normal"];
+    hydrationDrinkWaterNow = json["hydration_drink_water_now"];
   }
 
   Map<String, dynamic> toJson() {
@@ -723,15 +804,12 @@ class LocalizationKey {
     data['back_to_dashboard'] = backToDashboard;
     data['based_on_your_nutritional_needs'] = basedOnYourNutritionalNeeds;
     data['below_target'] = belowTarget;
-    data['better_health_through_better_living'] =
-        betterHealthThroughBetterLiving;
+    data['better_health_through_better_living'] = betterHealthThroughBetterLiving;
     data['better_sleeping'] = betterSleeping;
     data['breakfast'] = breakfast;
     data['burned'] = burned;
-    data['by_signing_in_agree_to_terms_and_conditions'] =
-        bySigningInAgreeToTermsAndConditions;
-    data['by_signing_up_agree_to_terms_and_conditions'] =
-        bySigningUpAgreeToTermsAndConditions;
+    data['by_signing_in_agree_to_terms_and_conditions'] = bySigningInAgreeToTermsAndConditions;
+    data['by_signing_up_agree_to_terms_and_conditions'] = bySigningUpAgreeToTermsAndConditions;
     data['calorie_intake'] = calorieIntake;
     data['calories'] = calories;
     data['calories_burnt'] = caloriesBurnt;
@@ -752,15 +830,12 @@ class LocalizationKey {
     data['dietary_restriction'] = dietaryRestriction;
     data['dinner'] = dinner;
     data['disclaimer'] = disclaimer;
-    data['disclaimer_projection_based_on_todays'] =
-        disclaimerProjectionBasedOnTodays;
+    data['disclaimer_projection_based_on_todays'] = disclaimerProjectionBasedOnTodays;
     data['discover_personalized_food'] = discoverPersonalizedFood;
-    data['discover_personalized_food_recommendations'] =
-        discoverPersonalizedFoodRecommendations;
+    data['discover_personalized_food_recommendations'] = discoverPersonalizedFoodRecommendations;
     data['done'] = done;
     data['dont_have_account'] = dontHaveAccount;
-    data['dont_worry_we_can_improve_nutrition_together'] =
-        dontWorryWeCanImproveNutritionTogether;
+    data['dont_worry_we_can_improve_nutrition_together'] = dontWorryWeCanImproveNutritionTogether;
     data['drink'] = drink;
     data['eaten'] = eaten;
     data['eating'] = eating;
@@ -807,8 +882,7 @@ class LocalizationKey {
     data['last_name'] = lastName;
     data['lets_make_today_count'] = letsMakeTodayCount;
     data['light_sleep'] = lightSleep;
-    data['livewell_nutritional_data_disclaimer'] =
-        livewellNutritionalDataDisclaimer;
+    data['livewell_nutritional_data_disclaimer'] = livewellNutritionalDataDisclaimer;
     data['log_your_first_meal'] = logYourFirstMeal;
     data['logout'] = logout;
     data['low'] = low;
@@ -836,10 +910,8 @@ class LocalizationKey {
     data['password'] = password;
     data['personal_information'] = personalInformation;
     data['physical_information'] = physicalInformation;
-    data['picked_based_on_your_nutritional_needs'] =
-        pickedBasedOnYourNutritionalNeeds;
-    data['please_enter_email_to_reset_password'] =
-        pleaseEnterEmailToResetPassword;
+    data['picked_based_on_your_nutritional_needs'] = pickedBasedOnYourNutritionalNeeds;
+    data['please_enter_email_to_reset_password'] = pleaseEnterEmailToResetPassword;
     data['poor'] = poor;
     data['pre'] = pre;
     data['prev'] = prev;
@@ -896,8 +968,7 @@ class LocalizationKey {
     data['weight_loss'] = weightLoss;
     data['weight_progress'] = weightProgress;
     data['welcome_to_livewell'] = welcomeToLivewell;
-    data['well_redirect_after_scanning_result'] =
-        wellRedirectAfterScanningResult;
+    data['well_redirect_after_scanning_result'] = wellRedirectAfterScanningResult;
     data['wellness_hub'] = wellnessHub;
     data['went_to_sleep'] = wentToSleep;
     data['woke_up'] = wokeUp;
@@ -906,8 +977,7 @@ class LocalizationKey {
     data['you_have_gained'] = youHaveGained;
     data['you_have_lost'] = youHaveLost;
     data['you_have_reached'] = youHaveReached;
-    data['your_account_and_content_deleted_permanently'] =
-        yourAccountAndContentDeletedPermanently;
+    data['your_account_and_content_deleted_permanently'] = yourAccountAndContentDeletedPermanently;
     data['your_recommended_foods'] = yourRecommendedFoods;
     data['your_value'] = yourValue;
     data['your_water_intake_for_today'] = yourWaterIntakeForToday;
@@ -933,6 +1003,38 @@ class LocalizationKey {
     data['set_your_fitness_goals'] = setYourFitnessGoals;
     data['how_many_hours_of_sleeps'] = howManyHoursOfSleeps;
     data['whats_your_height'] = whatsYourHeight;
+    data['hydration_title'] = hydrationTitle;
+    data['hydration_remaining'] = hydrationRemaining;
+    data['hydration_you_hit_your_goal_today'] = hydrationYouHitYourGoalToday;
+    data['hydration_custom'] = hydrationCustom;
+    data['hydration_100ml'] = hydration100Ml;
+    data['hydration_250ml'] = hydration250Ml;
+    data['hydration_500ml'] = hydration500Ml;
+    data['hydration_want_to_reduce_water_intake'] = hydrationWantToReduceWaterIntake;
+    data['hydration_reduce'] = hydrationReduce;
+    data['hydration_hydration_score_today'] = hydrationHydrationScoreToday;
+    data['hydration_see_how_do_hydration_score_calculated'] = hydrationSeeHowDoHydrationScoreCalculated;
+    data['hydration_here'] = hydrationHere;
+    data['hydration_learn_your_urine_color'] = hydrationLearnYourUrineColor;
+    data['hydration_understand_your_hydration'] = hydrationUnderstandYourHydration;
+    data['hydration_overhydrated'] = hydrationOverhydrated;
+    data['hydration_good'] = hydrationGood;
+    data['hydration_fair'] = hydrationFair;
+    data['hydration_light_dehydrated'] = hydrationLightDehydrated;
+    data['hydration_dehydrated'] = hydrationDehydrated;
+    data['hydration_very_dehydrated'] = hydrationVeryDehydrated;
+    data['hydration_severe_dehydrated'] = hydrationSevereDehydrated;
+    data['hydration_no_color'] = hydrationNoColor;
+    data['hydration_pale_straw_yellow'] = hydrationPaleStrawYellow;
+    data['hydration_translucent_yellow'] = hydrationTranslucentYellow;
+    data['hydration_dark_yellow'] = hydrationDarkYellow;
+    data['hydration_amber'] = hydrationAmber;
+    data['hydration_burnt_orange'] = hydrationBurntOrange;
+    data['hydration_red'] = hydrationRed;
+    data['hydration_see_doctor'] = hydrationSeeDoctor;
+    data['hydration_normal'] = hydrationNormal;
+    data['hydration_drink_water_now'] = hydrationDrinkWaterNow;
+
     return data;
   }
 }

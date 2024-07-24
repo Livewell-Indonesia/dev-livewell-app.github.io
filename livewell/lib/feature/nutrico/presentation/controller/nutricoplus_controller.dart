@@ -60,7 +60,7 @@ class NutricoPlusController extends BaseController {
       if (foodName.value.isNotEmpty && imageUrl.value.isNotEmpty) {
         MealTime mealTime = getMealTypeByCurrentTime();
         Get.find<DashboardController>().getFeatureLimitData();
-        AppNavigator.push(routeName: AppPages.addFood, arguments: {
+        AppNavigator.pushReplacement(routeName: AppPages.addFood, arguments: {
           "date": DateTime.now(),
           "mealTime": mealTime,
           "food": Foods.fromNutrico(r),

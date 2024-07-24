@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/dashboard/presentation/pages/dashboard_screen.dart';
 import 'package:livewell/feature/diary/presentation/controller/user_diary_controller.dart';
 import 'package:livewell/feature/exercise/data/model/activity_history_model.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
@@ -231,7 +232,7 @@ class ExerciseController extends BaseController with GetSingleTickerProviderStat
     if (percentage.isNaN || percentage.isInfinite) {
       return 0;
     } else {
-      return percentage.roundToDouble().toInt();
+      return percentage.roundToDouble().toInt() > 100 ? 100 : percentage.roundToDouble().toInt();
     }
   }
 

@@ -369,7 +369,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                               InkWell(
                                 onTap: () {
                                   controller.trackEvent(LivewellHomepageEvent.taskListWaterButton);
-                                  AppNavigator.push(routeName: AppPages.waterConsumedPage, arguments: {"waterInputType": WaterInputType.increase});
+                                  AppNavigator.push(routeName: AppPages.waterScreen);
                                 },
                                 child: Container(
                                   padding: EdgeInsets.only(left: 10.w, right: 20.w),
@@ -380,22 +380,24 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                                     children: [
                                       Transform.scale(
                                         scale: 1.2,
-                                        child: Obx(() {
-                                          return Checkbox(
-                                            value: controller.waterConsumed.value >= 2000,
-                                            onChanged: (val) {},
-                                            fillColor: MaterialStateProperty.resolveWith((states) {
-                                              if (states.contains(MaterialState.selected)) {
-                                                return const Color(0xFFDDF235);
-                                              }
-                                              return null;
-                                            }),
-                                            checkColor: const Color(0xFF171433),
-                                            activeColor: Colors.green,
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                            side: const BorderSide(color: Color(0xFF171433), width: 1),
-                                          );
-                                        }),
+                                        child: Obx(
+                                          () {
+                                            return Checkbox(
+                                              value: controller.waterConsumed.value >= 2000,
+                                              onChanged: (val) {},
+                                              fillColor: MaterialStateProperty.resolveWith((states) {
+                                                if (states.contains(MaterialState.selected)) {
+                                                  return const Color(0xFFDDF235);
+                                                }
+                                                return null;
+                                              }),
+                                              checkColor: const Color(0xFF171433),
+                                              activeColor: Colors.green,
+                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                              side: const BorderSide(color: Color(0xFF171433), width: 1),
+                                            );
+                                          },
+                                        ),
                                       ),
                                       Container(
                                         width: 43.w,

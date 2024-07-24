@@ -135,74 +135,80 @@ class _NutriscoreScoreDetailScreenState extends State<NutriscoreScoreDetailScree
                 SizedBox(
                   height: 200.h,
                   child: Stack(children: [
-                    BarChart(
-                      BarChartData(
-                        barGroups: List.generate(7, (index) {
-                          return BarChartGroupData(x: index, barRods: [
-                            BarChartRodData(color: getStatusFromScore(controller.nutrientList[index].value.toInt()).color(), width: 12.w, toY: controller.nutrientList[index].value.toDouble())
-                          ]);
-                        }),
-                        barTouchData: BarTouchData(
-                          enabled: true,
-                          touchTooltipData: BarTouchTooltipData(
-                            getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                              return BarTooltipItem(
-                                NumberFormat('0.0').format(rod.toY).toString(),
-                                TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 14.sp),
-                              );
-                            },
-                          ),
-                        ),
-                        borderData: FlBorderData(show: false),
-                        gridData: FlGridData(
-                            show: true,
-                            drawVerticalLine: false,
-                            horizontalInterval: 50,
-                            verticalInterval: controller.getMaxY() < 1 && controller.getMinY() < 1 ? 1 : (controller.getMaxY() - controller.getMinY()) / 2,
-                            getDrawingHorizontalLine: (value) {
-                              return FlLine(color: const Color(0xFFebebeb), strokeWidth: 1, dashArray: [2, 2]);
+                    Obx(() {
+                      if (controller.nutrientList.isNotEmpty) {
+                        return BarChart(
+                          BarChartData(
+                            barGroups: List.generate(7, (index) {
+                              return BarChartGroupData(x: index, barRods: [
+                                BarChartRodData(color: getStatusFromScore(controller.nutrientList[index].value.toInt()).color(), width: 12.w, toY: controller.nutrientList[index].value.toDouble())
+                              ]);
                             }),
-                        titlesData: FlTitlesData(
-                          show: true,
-                          rightTitles: AxisTitles(
-                            sideTitles: SideTitles(showTitles: false),
-                          ),
-                          topTitles: AxisTitles(
-                            sideTitles: SideTitles(showTitles: false),
-                          ),
-                          leftTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              reservedSize: 30,
-                              showTitles: true,
-                              interval: controller.getMaxY() < 1 && controller.getMinY() < 1 ? 1 : (controller.getMaxY() - controller.getMinY()) / 2,
-                              getTitlesWidget: (value, meta) {
-                                return Text(
-                                  value.toInt().toString(),
-                                  style: TextStyle(color: const Color(0xFF505050), fontSize: 12.sp),
-                                );
-                              },
+                            barTouchData: BarTouchData(
+                              enabled: true,
+                              touchTooltipData: BarTouchTooltipData(
+                                getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                                  return BarTooltipItem(
+                                    NumberFormat('0.0').format(rod.toY).toString(),
+                                    TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 14.sp),
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-                          bottomTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              getTitlesWidget: (value, meta) {
-                                return Transform.rotate(
-                                  angle: -45,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Text(
-                                      controller.nutrientList[value.toInt()].date.substring(5).replaceAll('-', '/'),
+                            borderData: FlBorderData(show: false),
+                            gridData: FlGridData(
+                                show: true,
+                                drawVerticalLine: false,
+                                horizontalInterval: 50,
+                                verticalInterval: controller.getMaxY() < 1 && controller.getMinY() < 1 ? 1 : (controller.getMaxY() - controller.getMinY()) / 2,
+                                getDrawingHorizontalLine: (value) {
+                                  return FlLine(color: const Color(0xFFebebeb), strokeWidth: 1, dashArray: [2, 2]);
+                                }),
+                            titlesData: FlTitlesData(
+                              show: true,
+                              rightTitles: AxisTitles(
+                                sideTitles: SideTitles(showTitles: false),
+                              ),
+                              topTitles: AxisTitles(
+                                sideTitles: SideTitles(showTitles: false),
+                              ),
+                              leftTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  reservedSize: 30,
+                                  showTitles: true,
+                                  interval: controller.getMaxY() < 1 && controller.getMinY() < 1 ? 1 : (controller.getMaxY() - controller.getMinY()) / 2,
+                                  getTitlesWidget: (value, meta) {
+                                    return Text(
+                                      value.toInt().toString(),
                                       style: TextStyle(color: const Color(0xFF505050), fontSize: 12.sp),
-                                    ),
-                                  ),
-                                );
-                              },
+                                    );
+                                  },
+                                ),
+                              ),
+                              bottomTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  getTitlesWidget: (value, meta) {
+                                    return Transform.rotate(
+                                      angle: -45,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          controller.nutrientList[value.toInt()].date.substring(5).replaceAll('-', '/'),
+                                          style: TextStyle(color: const Color(0xFF505050), fontSize: 12.sp),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
+                        );
+                      } else {
+                        return const SizedBox();
+                      }
+                    })
                   ]),
                 ),
               ],

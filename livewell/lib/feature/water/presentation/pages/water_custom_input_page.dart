@@ -36,6 +36,24 @@ extension WaterInputTypeExt on WaterInputType {
         return const Color(0xFFFFFFFF);
     }
   }
+
+  String get navbarTitle {
+    switch (this) {
+      case WaterInputType.increase:
+        return 'Add Water';
+      case WaterInputType.reduce:
+        return 'Reduce';
+    }
+  }
+
+  String get buttonText {
+    switch (this) {
+      case WaterInputType.increase:
+        return 'Add Drink';
+      case WaterInputType.reduce:
+        return 'Reduce Drink';
+    }
+  }
 }
 
 class WaterCustomInputPage extends StatelessWidget {
