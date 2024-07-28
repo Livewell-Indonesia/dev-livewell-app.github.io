@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -10,6 +11,8 @@ import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/dashboard/presentation/widget/dashboard_summary_widget.dart';
+import 'package:livewell/feature/dashboard/presentation/widget/task_card.dart';
+import 'package:livewell/feature/dashboard/presentation/widget/task_card_widget.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
@@ -176,11 +179,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                         ),
                         child: Row(
                           children: [
-                            // SizedBox(
-                            //   height: 32.h,
-                            //   width: 48.w,
-                            //   child: SvgPicture.asset(Constant.icStreak),
-                            // ),
                             ClipPath(
                               clipper: LivewellClipperSmall(),
                               child: Container(
@@ -188,12 +186,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                                 color: Theme.of(context).colorScheme.disabled,
                                 width: 48.w,
                                 height: 32.h,
-                                // child: WaveWidget(
-                                //   config: CustomConfig(
-                                //       durations: [10000, 18000], heightPercentages: [0.0, 0.0], colors: [Theme.of(context).colorScheme.primaryPurple, Theme.of(context).colorScheme.primaryPurple]),
-                                //   size: Size(42, 30),
-                                //   waveFrequency: 0.1,
-                                // ),
                                 child: Obx(() {
                                   return Container(
                                       alignment: Alignment.bottomCenter, color: Theme.of(context).colorScheme.primaryPurple, width: 48.w, height: calculateHeight(controller.todayProgress.value));
@@ -225,6 +217,33 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                         ),
                       ),
                     ),
+                    Obx(() {
+                      if (controller.taskCardModel.isNotEmpty) {
+                        return Container(
+                          height: 150.h,
+                          padding: EdgeInsets.only(top: 16.h),
+                          child: CardSwiper(
+                              padding: EdgeInsets.zero,
+                              backCardOffset: const Offset(0, 20),
+                              threshold: 40,
+                              allowedSwipeDirection: const AllowedSwipeDirection.symmetric(horizontal: true, vertical: false),
+                              cardBuilder: (context, index, percentThresholdX, percentThresholdY) {
+                                return Wrap(
+                                  children: [
+                                    TaskCard(
+                                      taskCardModel: controller.taskCardModel[index],
+                                      index: index,
+                                      totalLength: controller.taskCardModel.length,
+                                    ),
+                                  ],
+                                );
+                              },
+                              cardsCount: controller.taskCardModel.length),
+                        );
+                      } else {
+                        return const SizedBox();
+                      }
+                    }),
                     16.verticalSpace,
                     Obx(() {
                       return WellnessScoreWidget(

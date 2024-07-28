@@ -19,6 +19,7 @@ import 'package:livewell/feature/dashboard/domain/usecase/get_dashboard_data.dar
 import 'package:livewell/feature/dashboard/domain/usecase/get_feature_limit.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_user.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/post_mood.dart';
+import 'package:livewell/feature/dashboard/presentation/widget/task_card_widget.dart';
 import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart';
 import 'package:livewell/feature/diary/presentation/controller/user_diary_controller.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
@@ -85,6 +86,8 @@ class DashboardController extends BaseController {
     HealthDataAccess.READ,
     HealthDataAccess.READ,
   ];
+
+  RxList<TaskCardModel> taskCardModel = <TaskCardModel>[].obs;
 
   void getTotalStreak() {
     final useCase = GetTotalStreak.instance();
@@ -327,6 +330,23 @@ class DashboardController extends BaseController {
     getFeatureLimitData();
     getTodayWellnessData();
     getTotalStreak();
+    taskCardModel.value = [
+      TaskCardModel(
+        title: "Hydration",
+        description: "Begin by drinking a full glass of water (around 250-300 ml) to rehydrate after a night of sleep. This will help kickstart your metabolism and refresh your body.",
+        type: TaskCardType.hydration,
+      ),
+      TaskCardModel(
+        title: "Hydration",
+        description: "Begin by drinking a full glass of water (around 250-300 ml) to rehydrate after a night of sleep. This will help kickstart your metabolism and refresh your body.",
+        type: TaskCardType.hydration,
+      ),
+      TaskCardModel(
+        title: "Hydration",
+        description: "Begin by drinking a full glass of water (around 250-300 ml) to rehydrate after a night of sleep. This will help kickstart your metabolism and refresh your body.",
+        type: TaskCardType.hydration,
+      ),
+    ];
     super.onInit();
   }
 
