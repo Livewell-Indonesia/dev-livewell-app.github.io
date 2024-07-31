@@ -35,7 +35,6 @@ class NutriscoreDetailController extends BaseController {
     NutriScoreController nutriScoreController = Get.find();
     var data = nutriScoreController.nutriScoreDetail;
     for (var element in data) {
-      inspect(element.details!.toJson()[currentType.jsonName()]);
       nutrientList.add(NutrientDetailData(
         nutrient: Nutrient.fromJson(element.details!.toJson()[currentType.jsonName()]),
         date: element.date!,

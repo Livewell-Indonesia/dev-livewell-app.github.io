@@ -835,7 +835,6 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                         description: "${addMealController.history[index].mealServings}",
                         isAdded: false,
                         callback: () {
-                          inspect(addMealController.history[index]);
                           addMealController.trackEvent(LivewellMealLogEvent.mealLogPageFoodButton);
                           AppNavigator.push(routeName: AppPages.addFood, arguments: {
                             "date": date,

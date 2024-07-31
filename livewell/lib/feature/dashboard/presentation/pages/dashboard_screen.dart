@@ -310,7 +310,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                                 currentValue: '0',
                                 targetValue: '0',
                                 unit: '',
-                                moodType: controller.getMoodTypeByValue(controller.todayMood.value?.response?.value ?? 3),
+                                moodType: MoodTypeExt.getMoodTypeByValue(controller.todayMood.value?.response?.value ?? 3),
                                 status: DashboardSummaryStatus.eightyPlus),
                           ],
                         ),
@@ -365,7 +365,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                       padding: const EdgeInsets.symmetric(horizontal: 20).r,
                       child: Obx(() {
                         return MoodPickerWidget(
-                          selectedMoodType: controller.getMoodTypeByValue(controller.todayMood.value?.response?.value ?? 0),
+                          selectedMoodType: MoodTypeExt.getMoodTypeByValue(controller.todayMood.value?.response?.value ?? 0),
                           onTap: (mood) {
                             controller.trackEvent(LivewellHomepageEvent.moodButton, properties: {"mood": mood.title()});
                             controller.onMoodSelected(mood);

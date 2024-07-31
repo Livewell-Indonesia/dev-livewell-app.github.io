@@ -170,8 +170,6 @@ class ExerciseController extends BaseController with GetSingleTickerProviderStat
     GetActivityHistory getExerciseList = GetActivityHistory.instance();
     final result = await getExerciseList.call(GetActivityHistoryParam(type: ['ACTIVE_ENERGY_BURNED'], dateFrom: currentDate, dateTo: dateTill));
     result.fold((l) => Log.error(l), (r) {
-      Log.info(r);
-      inspect(r);
       exerciseHistoryList.assignAll(r);
     });
   }

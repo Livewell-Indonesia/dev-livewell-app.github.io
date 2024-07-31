@@ -5,7 +5,7 @@ import 'package:health/health.dart';
 import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/core/error/failures.dart';
 import 'package:livewell/feature/auth/data/model/register_model.dart';
-import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/dashboard_health_controller.dart';
 import 'package:livewell/feature/exercise/domain/repository/exercise_repository.dart';
 
 import '../../data/repository/exercise_repository_impl.dart';
@@ -52,8 +52,7 @@ class PostExerciseParams {
         sourceId: "manual",
         sourceName: "manual"));
   }
-  PostExerciseParams.manualInputDate(
-      double value, HealthDataType type, DateTime dateFrom, DateTime dateTo) {
+  PostExerciseParams.manualInputDate(double value, HealthDataType type, DateTime dateFrom, DateTime dateTo) {
     activities = <Activities>[];
     activities!.add(Activities(
         value: value.toDouble(),
@@ -91,16 +90,7 @@ class Activities {
   String? sourceId;
   String? sourceName;
 
-  Activities(
-      {this.value,
-      this.type,
-      this.unit,
-      this.dateFrom,
-      this.dateTo,
-      this.platformType,
-      this.deviceId,
-      this.sourceId,
-      this.sourceName});
+  Activities({this.value, this.type, this.unit, this.dateFrom, this.dateTo, this.platformType, this.deviceId, this.sourceId, this.sourceName});
 
   Activities.fromJson(Map<String, dynamic> json) {
     value = json['value'];

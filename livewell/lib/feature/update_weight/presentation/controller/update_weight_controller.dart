@@ -50,7 +50,6 @@ class UpdateWeightController extends BaseController {
       )));
       EasyLoading.dismiss();
       result.fold((l) {}, (r) {
-        inspect(r.response);
         mealHistoryList.value = r.response!;
       });
     }
@@ -106,8 +105,6 @@ class UpdateWeightController extends BaseController {
               ? '${localization.youHaveLost ?? ""} ${NumberFormat('0.0').format(initialWeight - latestWeight)} kg'
               : '${localization.youHaveGained ?? ""} ${NumberFormat('0.0').format(latestWeight - initialWeight)} kg';
         }
-        inspect(weightHistory);
-        inspect(minY);
       });
     }
   }
@@ -155,7 +152,6 @@ class UpdateWeightController extends BaseController {
       dashboardController.user.value.onboardingQuestionnaire!.targetImprovement!.first,
       dashboardController.user.value.language,
     );
-    inspect(params);
     final result = await postQuestionnaire.call(params);
     EasyLoading.dismiss();
     result.fold((l) {}, (r) {

@@ -113,14 +113,16 @@ extension MealReminderExt on FeatureTypeNotification {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   await LivewellNotification().init();
   FirebaseMessaging.onBackgroundMessage(handleBackgroundMesage);
   await FirebaseRemoteConfigService().init();
 
   PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack);
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
   runZonedGuarded(() async {

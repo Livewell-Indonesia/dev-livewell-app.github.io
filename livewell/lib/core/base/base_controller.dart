@@ -40,7 +40,6 @@ class BaseController extends FullLifeCycleController with FullLifeCycleMixin {
     if (Get.isRegistered<LanguageController>()) {
       LanguageController languageController = Get.find<LanguageController>();
       localization = languageController.localization.value;
-      inspect(localization);
     } else {
       LanguageController languageController = Get.put(LanguageController(), permanent: true);
       localization = languageController.localization.value;

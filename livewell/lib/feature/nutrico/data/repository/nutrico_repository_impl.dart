@@ -29,11 +29,9 @@ class NutricoRepositoryImpl with NetworkModule implements NutricoRepository {
       final json = responseHandler(response);
       Log.colorGreen("success get data food history ${response.body['food_type']}");
       final nyoba = FoodsV2.fromJson(json);
-      inspect(nyoba);
       List<Servings>? dataServings = [];
       dataServings.add(nyoba.servings!);
       final data = Foods(brandName: nyoba.brandName, foodName: nyoba.foodName, foodDescription: nyoba.foodDescription, foodType: nyoba.foodType, servings: [nyoba.servings!], provider: nyoba.provider);
-      inspect(data);
       return Right(data);
     } catch (ex) {
       return Left(ServerFailure(message: ex.toString()));

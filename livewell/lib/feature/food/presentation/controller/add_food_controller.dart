@@ -50,7 +50,6 @@ class AddFoodController extends BaseController {
 
   void addMeals(Foods food, MealTime mealTime) async {
     await EasyLoading.show();
-    inspect(food);
 
     // convert selectedTime to DateTime
     var date = DateTime.parse(selectedTime.value);

@@ -49,7 +49,6 @@ class UserSettingsController extends BaseController {
   void updateData() async {
     UpdateUserInfo updateUserInfo = UpdateUserInfo.instance();
     EasyLoading.show();
-    inspect(language.value.locale);
     final data = await updateUserInfo.call(UpdateUserInfoParams(
         firstName: user.value.firstName ?? "",
         lastName: user.value.lastName ?? "",

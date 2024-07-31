@@ -39,7 +39,6 @@ class MoodRepositoryImpl with NetworkModule implements MoodRepository {
       final json = responseHandler(response);
       return Right(MoodDetail.fromJson(json));
     } catch (ex) {
-      inspect(ex);
       return Left(ServerFailure(message: ex.toString()));
     }
   }
