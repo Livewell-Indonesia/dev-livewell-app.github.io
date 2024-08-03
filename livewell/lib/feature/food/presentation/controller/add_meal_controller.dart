@@ -167,8 +167,6 @@ class AddMealController extends BaseController with GetTickerProviderStateMixin 
   void getFoodsHistory() async {
     final result = await mealHistory.call(UserMealHistoryParams());
     result.fold((l) {}, (r) {
-      inspect(r.response);
-      Log.info("total history ${r.response?.length}");
       history.value = r.response ?? [];
     });
   }
@@ -183,7 +181,7 @@ class AddMealController extends BaseController with GetTickerProviderStateMixin 
     final result = await searchFood.call(SearchFoodParams(query: textEditingController.text));
     isLoading.value = false;
     result.fold((l) {
-      inspect(l);
+      Log.error(l);
     }, (r) {
       results.value = r.foods ?? [];
     });

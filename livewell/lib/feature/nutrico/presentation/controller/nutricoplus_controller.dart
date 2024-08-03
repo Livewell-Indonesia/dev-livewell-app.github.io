@@ -38,7 +38,6 @@ class NutricoPlusController extends BaseController {
     }, (r) {
       final dataByLocalization = r.where((element) => element.language == currentLanguage().languageCode).toList();
       var random = Random();
-      inspect(dataByLocalization);
       final randomizeData = dataByLocalization[random.nextInt(dataByLocalization.length)];
       title.value = randomizeData.title ?? "";
       description.value = randomizeData.belowPicture ?? "";

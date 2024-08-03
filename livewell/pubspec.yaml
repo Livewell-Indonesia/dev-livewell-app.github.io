@@ -52,7 +52,7 @@ dependencies:
   scrollable_positioned_list: ^0.3.5
   google_sign_in: ^5.4.2
   webview_flutter: ^3.0.4
-  health: ^8.0.0
+  health: ^9.0.0
   permission_handler: ^10.2.0
   algolia_helper_flutter: ^0.2.0
   infinite_scroll_pagination: ^3.2.0
@@ -83,14 +83,12 @@ dependencies:
   appinio_social_share: ^0.2.6
   flutter_image_compress: ^2.1.0
   wave: ^0.2.2
-  svg_clip: ^0.0.2
   firebase_remote_config: ^4.4.1
   url_launcher: ^6.2.6
   cached_network_image: ^3.3.1
   plugin_platform_interface: ^2.0.2
   mixpanel_flutter: ^2.2.0
   liquid_progress_indicator_v2: ^0.5.0
-  svg_path_parser: ^1.1.1
   flutter_card_swiper: ^7.0.1
 
 dev_dependencies:

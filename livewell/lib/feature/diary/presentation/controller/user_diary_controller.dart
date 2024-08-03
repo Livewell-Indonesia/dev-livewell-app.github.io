@@ -40,8 +40,7 @@ class UserDiaryController extends BaseController {
   RxList<MealHistoryModel> allMealHistory = <MealHistoryModel>[].obs;
   RxList<MealHistoryModel> filteredMealHistory = <MealHistoryModel>[].obs;
 
-  RxList<ActivityHistoryModel> allActivityHistory =
-      <ActivityHistoryModel>[].obs;
+  RxList<ActivityHistoryModel> allActivityHistory = <ActivityHistoryModel>[].obs;
   RxList<Details> allExerciseHistory = <Details>[].obs;
   RxList<Details> filteredExerciseHistory = <Details>[].obs;
   RxList<Details> allStepsHistory = <Details>[].obs;
@@ -51,8 +50,7 @@ class UserDiaryController extends BaseController {
   RxList<WaterModel> filteredWaterHistory = <WaterModel>[].obs;
 
   RxList<ActivityHistoryModel> allSleepHistory = <ActivityHistoryModel>[].obs;
-  RxList<ActivityHistoryModel> filteredSleepHistory =
-      <ActivityHistoryModel>[].obs;
+  RxList<ActivityHistoryModel> filteredSleepHistory = <ActivityHistoryModel>[].obs;
   RxList<Mood> allMoodHistory = <Mood>[].obs;
   RxList<Mood> filteredMoodHistory = <Mood>[].obs;
 
@@ -113,8 +111,7 @@ class UserDiaryController extends BaseController {
 
   void doGetUserMealHistory() async {
     isLoading.value = true;
-    final result = await getUserMealHistory(UserMealHistoryParams(
-        filter: Filter(startDate: dateList.last, endDate: dateList.first)));
+    final result = await getUserMealHistory(UserMealHistoryParams(filter: Filter(startDate: dateList.last, endDate: dateList.first)));
     isLoading.value = false;
     result.fold((failure) {
       Log.error(failure.toString());
@@ -129,30 +126,11 @@ class UserDiaryController extends BaseController {
     GetActivityHistory getExerciseList = GetActivityHistory.instance();
     final result = await getExerciseList.call(GetActivityHistoryParam(
         type: ['ACTIVE_ENERGY_BURNED', 'STEPS'],
-        dateFrom: DateTime(
-            dateList[selectedIndex.value].year,
-            dateList[selectedIndex.value].month,
-            dateList[selectedIndex.value].day,
-            0,
-            0,
-            0),
-        dateTo: DateTime(
-            dateList[selectedIndex.value].year,
-            dateList[selectedIndex.value].month,
-            dateList[selectedIndex.value].day,
-            23,
-            59,
-            59)));
+        dateFrom: DateTime(dateList[selectedIndex.value].year, dateList[selectedIndex.value].month, dateList[selectedIndex.value].day, 0, 0, 0),
+        dateTo: DateTime(dateList[selectedIndex.value].year, dateList[selectedIndex.value].month, dateList[selectedIndex.value].day, 23, 59, 59)));
     result.fold((l) {}, (r) {
-      inspect(r);
-      filteredExerciseHistory.value = r
-              .where((p0) => p0.type == 'ACTIVE_ENERGY_BURNED')
-              .toList()
-              .first
-              .details ??
-          [];
-      filteredStepsHistory.value =
-          r.where((p0) => p0.type == 'STEPS').toList().first.details ?? [];
+      filteredExerciseHistory.value = r.where((p0) => p0.type == 'ACTIVE_ENERGY_BURNED').toList().first.details ?? [];
+      filteredStepsHistory.value = r.where((p0) => p0.type == 'STEPS').toList().first.details ?? [];
       //generateExerciseToShow(dateList[selectedIndex.value]);
     });
   }
@@ -163,7 +141,6 @@ class UserDiaryController extends BaseController {
     result.fold((l) {
       Log.error(l);
     }, (r) {
-      inspect(r);
       allWaterHistory.value = r.response ?? [];
       generateHydrationToShow(dateList[selectedIndex.value]);
     });
@@ -173,24 +150,10 @@ class UserDiaryController extends BaseController {
     GetActivityHistory getSleepList = GetActivityHistory.instance();
     final result = await getSleepList.call(GetActivityHistoryParam(
         type: ['SLEEP_IN_BED', 'LIGHT_SLEEP', 'DEEP_SLEEP'],
-        dateFrom: DateTime(
-            dateList[selectedIndex.value].year,
-            dateList[selectedIndex.value].month,
-            dateList[selectedIndex.value].day - 1,
-            18,
-            0,
-            0),
-        dateTo: DateTime(
-            dateList[selectedIndex.value].year,
-            dateList[selectedIndex.value].month,
-            dateList[selectedIndex.value].day,
-            18,
-            0,
-            0)));
+        dateFrom: DateTime(dateList[selectedIndex.value].year, dateList[selectedIndex.value].month, dateList[selectedIndex.value].day - 1, 18, 0, 0),
+        dateTo: DateTime(dateList[selectedIndex.value].year, dateList[selectedIndex.value].month, dateList[selectedIndex.value].day, 18, 0, 0)));
     result.fold((l) {}, (r) {
-      inspect(r);
       filteredSleepHistory.value = r;
-      //ToShow(dateList[selectedIndex.value]);
     });
   }
 
@@ -204,10 +167,7 @@ class UserDiaryController extends BaseController {
   }
 
   void findInitialIndex() {
-    var index = dateList.indexWhere((element) =>
-        element.day == selectedDate.value.day &&
-        element.month == selectedDate.value.month &&
-        element.year == selectedDate.value.year);
+    var index = dateList.indexWhere((element) => element.day == selectedDate.value.day && element.month == selectedDate.value.month && element.year == selectedDate.value.year);
     selectedIndex.value = index;
     Future.delayed(const Duration(milliseconds: 300), () {
       Log.colorGreen('index $index');
@@ -217,24 +177,6 @@ class UserDiaryController extends BaseController {
       );
     });
   }
-
-  // void onDeleteTapped(MealTime mealTime, int index) async {
-  //   DeleteMealHistory deleteMealHistory = DeleteMealHistory.instance();
-  //   var lists = filteredMealHistory
-  //       .where(
-  //           (p0) => p0.mealType?.toUpperCase() == mealTime.name.toUpperCase())
-  //       .toList();
-  //   var deletedItem = lists[index];
-  //   filteredMealHistory.remove(deletedItem);
-  //   final result = await deleteMealHistory.call(deletedItem.id ?? 0);
-  //   result.fold((l) => print(l), (r) => print(r));
-  //   if (Get.isRegistered<DashboardController>()) {
-  //     Get.find<DashboardController>().onInit();
-  //   }
-  //   if (Get.isRegistered<FoodController>()) {
-  //     Get.find<FoodController>().onInit();
-  //   }
-  // }
 
   void onUpdateTappedNew(MealHistoryModel model, double servingSize) async {
     UpdateFoodHistory deleteMealHistory = UpdateFoodHistory.instance();
@@ -340,10 +282,7 @@ class UserDiaryController extends BaseController {
     //   index: selectedIndex.value,
     //   alignment: 0.4,
     // );
-    itemScrollController.scrollTo(
-        index: selectedIndex.value,
-        duration: const Duration(milliseconds: 300),
-        alignment: 0.4);
+    itemScrollController.scrollTo(index: selectedIndex.value, duration: const Duration(milliseconds: 300), alignment: 0.4);
     generateMealToShow(dateList[selectedIndex.value]);
     doGetUserSleepHistory();
     generateHydrationToShow(dateList[selectedIndex.value]);
@@ -362,42 +301,24 @@ class UserDiaryController extends BaseController {
     filteredMealHistory.value = allMealHistory.where(
       (p0) {
         var mealDate = DateTime.parse(p0.mealAt!);
-        return mealDate.day == date.day &&
-            mealDate.month == date.month &&
-            mealDate.year == date.year;
+        return mealDate.day == date.day && mealDate.month == date.month && mealDate.year == date.year;
       },
     ).toList();
-    inspect(filteredMealHistory);
   }
 
   void generateExerciseToShow(DateTime date) {
     if (allActivityHistory.isEmpty) {
       return;
     }
-    allExerciseHistory.value = allActivityHistory
-            .where((p0) => p0.type == 'ACTIVE_ENERGY_BURNED')
-            .toList()
-            .first
-            .details ??
-        [];
+    allExerciseHistory.value = allActivityHistory.where((p0) => p0.type == 'ACTIVE_ENERGY_BURNED').toList().first.details ?? [];
     filteredExerciseHistory.value = allExerciseHistory.where((p0) {
       var mealDate = DateTime.parse(p0.dateFrom ?? "");
-      return date.day == mealDate.day &&
-          date.month == mealDate.month &&
-          date.year == mealDate.year;
+      return date.day == mealDate.day && date.month == mealDate.month && date.year == mealDate.year;
     }).toList();
-    inspect(filteredExerciseHistory);
-    allStepsHistory.value = allActivityHistory
-            .where((p0) => p0.type == 'STEPS')
-            .toList()
-            .first
-            .details ??
-        [];
+    allStepsHistory.value = allActivityHistory.where((p0) => p0.type == 'STEPS').toList().first.details ?? [];
     filteredStepsHistory.value = allStepsHistory.where((p0) {
       var mealDate = DateTime.parse(p0.dateFrom ?? "");
-      return mealDate.day == date.day &&
-          mealDate.month == date.month &&
-          mealDate.year == date.year;
+      return mealDate.day == date.day && mealDate.month == date.month && mealDate.year == date.year;
     }).toList();
   }
 
@@ -408,12 +329,9 @@ class UserDiaryController extends BaseController {
     filteredWaterHistory.value = allWaterHistory.where(
       (p0) {
         var mealDate = DateTime.parse(p0.recordAt ?? "");
-        return mealDate.day == date.day &&
-            mealDate.month == date.month &&
-            mealDate.year == date.year;
+        return mealDate.day == date.day && mealDate.month == date.month && mealDate.year == date.year;
       },
     ).toList();
-    inspect(filteredWaterHistory);
   }
 
   void generateSleepToShow(DateTime date) {
@@ -423,9 +341,7 @@ class UserDiaryController extends BaseController {
     filteredSleepHistory.value = allSleepHistory.where(
       (p0) {
         var mealDate = DateTime.parse(p0.dateFrom ?? "");
-        return mealDate.day == date.day &&
-            mealDate.month == date.month &&
-            mealDate.year == date.year;
+        return mealDate.day == date.day && mealDate.month == date.month && mealDate.year == date.year;
       },
     ).toList();
   }
@@ -434,34 +350,15 @@ class UserDiaryController extends BaseController {
     if (filteredSleepHistory.isEmpty) {
       return Rx<String>('');
     }
-    var lightSleepValue = filteredSleepHistory
-        .where((element) => element.type == 'LIGHT_SLEEP')
-        .toList();
-    var deepSleepValue = filteredSleepHistory
-        .where((element) => element.type == 'DEEP_SLEEP')
-        .toList();
-    var sleepInBedValue = filteredSleepHistory
-        .where((element) => element.type == 'SLEEP_IN_BED')
-        .toList();
+    var lightSleepValue = filteredSleepHistory.where((element) => element.type == 'LIGHT_SLEEP').toList();
+    var deepSleepValue = filteredSleepHistory.where((element) => element.type == 'DEEP_SLEEP').toList();
+    var sleepInBedValue = filteredSleepHistory.where((element) => element.type == 'SLEEP_IN_BED').toList();
 
-    var filteredSleepInBedValue = sleepInBedValue.first.details ?? [];
-    inspect(filteredSleepInBedValue);
     if (isContainManualInput(filteredSleepHistory)) {
-      return Rx<String>(
-          calculateManualSleepHour(sleepInBedValue).toStringAsFixed(1));
-    } else if (lightSleepValue.isNotEmpty &&
-        deepSleepValue.isNotEmpty &&
-        sleepInBedValue.isNotEmpty) {
-      return Rx<String>(
-          '${calculateAllSleepValue(deepSleepValue, lightSleepValue, sleepInBedValue).toStringAsFixed(1)} hours');
+      return Rx<String>(calculateManualSleepHour(sleepInBedValue).toStringAsFixed(1));
+    } else if (lightSleepValue.isNotEmpty && deepSleepValue.isNotEmpty && sleepInBedValue.isNotEmpty) {
+      return Rx<String>('${calculateAllSleepValue(deepSleepValue, lightSleepValue, sleepInBedValue).toStringAsFixed(1)} hours');
     }
-    // else if (lightSleepValue.first.details != null && deepSleepValue.first.details != null) {
-    //   return Rx<String>("${(calculateDeepSleepHour(deepSleepValue, lightSleepValue) / 60).toStringAsFixed(1)}hours");
-    // } else if (sleepInBedValue.isNotEmpty && filteredSleepInBedValue.isNotEmpty) {
-    //   if (sleepInBedValue.first.totalValue != 0 && filteredSleepInBedValue.first.value != 0) {
-    //     return Rx<String>('${calculateSleepInbedHour(sleepInBedValue).toStringAsFixed(1)} hours');
-    //   }
-    // }
 
     return Rx<String>('');
   }
@@ -478,10 +375,7 @@ class UserDiaryController extends BaseController {
     return result;
   }
 
-  double calculateAllSleepValue(
-      List<ActivityHistoryModel> deepSleep,
-      List<ActivityHistoryModel> lightSleep,
-      List<ActivityHistoryModel> sleepInBed) {
+  double calculateAllSleepValue(List<ActivityHistoryModel> deepSleep, List<ActivityHistoryModel> lightSleep, List<ActivityHistoryModel> sleepInBed) {
     num totalValue = deepSleep.first.totalValue ?? 0;
     num totalValue2 = lightSleep.first.totalValue ?? 0;
     num totalValue3 = sleepInBed.first.totalValue ?? 0;
@@ -504,8 +398,7 @@ class UserDiaryController extends BaseController {
     return totalValue.toInt() / 60;
   }
 
-  int calculateDeepSleepHour(List<ActivityHistoryModel> deepsleepValue,
-      List<ActivityHistoryModel> lightSleepValue) {
+  int calculateDeepSleepHour(List<ActivityHistoryModel> deepsleepValue, List<ActivityHistoryModel> lightSleepValue) {
     num totalValue = deepsleepValue.first.totalValue ?? 0;
     num totalValue2 = lightSleepValue.first.totalValue ?? 0;
     return totalValue.toInt() + totalValue2.toInt();
@@ -518,17 +411,14 @@ class UserDiaryController extends BaseController {
     filteredMoodHistory.value = allMoodHistory.where(
       (p0) {
         var mealDate = DateTime.parse(p0.recordAt ?? "");
-        return mealDate.day == date.day &&
-            mealDate.month == date.month &&
-            mealDate.year == date.year;
+        return mealDate.day == date.day && mealDate.month == date.month && mealDate.year == date.year;
       },
     ).toList();
   }
 
   void onMoodSelected(MoodType type) async {
     EasyLoading.show();
-    final result = await postMood.call(PostMoodParams(
-        value: type.value(), dateTime: dateList[selectedIndex.value]));
+    final result = await postMood.call(PostMoodParams(value: type.value(), dateTime: dateList[selectedIndex.value]));
     EasyLoading.dismiss();
     result.fold((l) {
       Log.error(l);
@@ -539,23 +429,6 @@ class UserDiaryController extends BaseController {
       }
       doGetMoodHistory();
     });
-  }
-
-  MoodType? getMoodTypeByValue(int value) {
-    switch (value) {
-      case 1:
-        return MoodType.awful;
-      case 2:
-        return MoodType.bad;
-      case 3:
-        return MoodType.meh;
-      case 4:
-        return MoodType.good;
-      case 5:
-        return MoodType.great;
-      default:
-        return null;
-    }
   }
 
   Rx<num> getTotalCal(List<MealHistoryModel> mealHistory) {

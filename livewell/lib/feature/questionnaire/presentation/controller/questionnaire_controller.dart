@@ -33,8 +33,7 @@ class QuestionnaireController extends BaseController {
   Rx<Gender> selectedGender = Gender.male.obs;
   Rx<GoalSelection> selectedGoals = GoalSelection.none.obs;
   Rx<DietrarySelection> selectedDietrary = DietrarySelection.no.obs;
-  Rx<TargetExerciseSelection> selectedExerciseTarget =
-      TargetExerciseSelection.light.obs;
+  Rx<TargetExerciseSelection> selectedExerciseTarget = TargetExerciseSelection.light.obs;
   Rx<CaloriesNeedType> selectedCaloriesNeed = CaloriesNeedType.none.obs;
   Rx<AvailableLanguage> selectedLanguage = AvailableLanguage.en.obs;
   TextEditingController selectedDietraryText = TextEditingController();
@@ -48,8 +47,7 @@ class QuestionnaireController extends BaseController {
 
   QuestionnairePage findNextPage() {
     // if current page is questionnairepage.goal and selected goal is not better sleeping, return questionnairepage.targetweight
-    final nextIndex =
-        (currentPage.value.index + 1) % QuestionnairePage.values.length;
+    final nextIndex = (currentPage.value.index + 1) % QuestionnairePage.values.length;
     final nextPage = QuestionnairePage.values[nextIndex];
     // if (currentPage.value == QuestionnairePage.goal && selectedGoals.value != GoalSelection.betterSleeping) {
     //   return QuestionnairePage.targetWeight;
@@ -88,8 +86,7 @@ class QuestionnaireController extends BaseController {
         case QuestionnairePage.finish:
           break;
       }
-      final previousIndex =
-          (currentPage.value.index - 1) % QuestionnairePage.values.length;
+      final previousIndex = (currentPage.value.index - 1) % QuestionnairePage.values.length;
       currentPage.value = QuestionnairePage.values[previousIndex];
     }
   }
@@ -140,8 +137,7 @@ class QuestionnaireController extends BaseController {
   }
 
   QuestionnairePage findPreviousPage() {
-    final prefIndex =
-        (currentPage.value.index - 1) % QuestionnairePage.values.length;
+    final prefIndex = (currentPage.value.index - 1) % QuestionnairePage.values.length;
     return QuestionnairePage.values[prefIndex];
   }
 
@@ -179,14 +175,10 @@ class QuestionnaireController extends BaseController {
       selectedGoals.value.value(),
       selectedLanguage.value.code(),
     );
-    inspect(params);
-    Log.info(params.toJson());
-    inspect(params.toJson());
     await EasyLoading.show(maskType: EasyLoadingMaskType.black);
     final result = await postQuestionnaire(params);
     result.fold((l) {}, (r) async {
-      final result = await postDailyJournal(
-          DailyJournalParams.asParams('07:00', '12:00', '15:00', '18:00'));
+      final result = await postDailyJournal(DailyJournalParams.asParams('07:00', '12:00', '15:00', '18:00'));
       await EasyLoading.dismiss();
       result.fold((l) {}, (r) {
         trackEvent(LivewellAuthEvent.onboardingThankYouPage);
@@ -210,16 +202,7 @@ class QuestionnaireController extends BaseController {
   }
 }
 
-enum QuestionnairePage {
-  landing,
-  name,
-  gender,
-  birthDate,
-  heightWeight,
-  caloriesNeed,
-  healthCondition,
-  finish
-}
+enum QuestionnairePage { landing, name, gender, birthDate, heightWeight, caloriesNeed, healthCondition, finish }
 
 extension QuestionnairePageData on QuestionnairePage {
   String title() {
@@ -349,13 +332,7 @@ extension LangaugeSelectionContent on LanguageSelection {
   }
 }
 
-enum GoalSelection {
-  getFitter,
-  betterSleeping,
-  weightLoss,
-  trackNutrition,
-  none
-}
+enum GoalSelection { getFitter, betterSleeping, weightLoss, trackNutrition, none }
 
 extension GoalSelectionContent on GoalSelection {
   String title() {

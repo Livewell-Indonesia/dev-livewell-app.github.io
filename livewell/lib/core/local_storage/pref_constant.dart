@@ -18,4 +18,6 @@ class PrefConstant {
   static const String gender = "gender";
   static const String birthDate = "birth_date";
   static const String name = "name";
+  static const String lastSyncStepDate = "last_sync_step_date";
+  static const String lastSyncSleepDate = "last_sync_sleep_date";
 }

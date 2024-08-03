@@ -106,7 +106,7 @@ class StreakController extends BaseController {
                   title: item,
                   description: r.response?.details?.mood?.value == 0.0
                       ? "-"
-                      : "${(getMoodTypeByValue(r.response?.details?.mood?.value?.toInt() ?? 0)?.title() ?? "")} ${r.response?.details?.mood?.displayUnit ?? ''}",
+                      : "${(MoodTypeExt.getMoodTypeByValue(r.response?.details?.mood?.value?.toInt() ?? 0)?.title() ?? "")} ${r.response?.details?.mood?.displayUnit ?? ''}",
                   isCompleted: r.response?.details?.mood?.value != 0,
                 ),
               );
@@ -143,23 +143,6 @@ class StreakController extends BaseController {
         }
       });
     });
-  }
-
-  MoodType? getMoodTypeByValue(int value) {
-    switch (value) {
-      case 1:
-        return MoodType.awful;
-      case 2:
-        return MoodType.bad;
-      case 3:
-        return MoodType.meh;
-      case 4:
-        return MoodType.good;
-      case 5:
-        return MoodType.great;
-      default:
-        return null;
-    }
   }
 
   void getStreakData(DateTime dateFrom, DateTime dateTo) {

@@ -25,9 +25,7 @@ class FoodRepositoryImpl with NetworkModule implements FoodRepository {
   @override
   Future<Either<Failure, FoodsModel>> getFoodHistory() async {
     try {
-      final response = await postMethod(Endpoint.foods,
-          body: {"name": ""},
-          headers: {authorization: await SharedPref.getToken()});
+      final response = await postMethod(Endpoint.foods, body: {"name": ""}, headers: {authorization: await SharedPref.getToken()});
       final json = responseHandler(response);
       final data = FoodsModel.fromJson(json);
       Log.colorGreen("success get data food history ${data.foods?.length}");
@@ -41,9 +39,7 @@ class FoodRepositoryImpl with NetworkModule implements FoodRepository {
   @override
   Future<Either<Failure, FoodsModel>> searchFood(SearchFoodParams name) async {
     try {
-      final response = await postMethod("${Endpoint.foods}/v3",
-          body: name.toJson(),
-          headers: {authorization: await SharedPref.getToken()});
+      final response = await postMethod("${Endpoint.foods}/v3", body: name.toJson(), headers: {authorization: await SharedPref.getToken()});
       final json = responseHandler(response);
       final data = FoodsModel.fromJson(json);
       return Right(data);
@@ -56,9 +52,7 @@ class FoodRepositoryImpl with NetworkModule implements FoodRepository {
   @override
   Future<Either<Failure, RegisterModel>> addMeal(AddMealParams params) async {
     try {
-      final response = await postMethod(Endpoint.addMeal,
-          body: params.toJson(),
-          headers: {authorization: await SharedPref.getToken()});
+      final response = await postMethod(Endpoint.addMeal, body: params.toJson(), headers: {authorization: await SharedPref.getToken()});
       final json = responseHandler(response);
       final data = RegisterModel.fromJson(json);
       return Right(data);
@@ -80,12 +74,10 @@ class FoodRepositoryImpl with NetworkModule implements FoodRepository {
     if (currentHistory.isNotEmpty) {
       final histories = MealHistories.fromJson(jsonDecode(currentHistory));
       histories.mealHistories?.add(params);
-      inspect(histories);
       await SharedPref.saveMealHistories(jsonEncode(histories));
     } else {
       final result = MealHistories(mealHistories: []);
       result.mealHistories?.add(params);
-      inspect(result);
       await SharedPref.saveMealHistories(jsonEncode(result));
     }
     return const Right(true);
@@ -105,8 +97,7 @@ class FoodRepositoryImpl with NetworkModule implements FoodRepository {
   @override
   Future<Either<Failure, RegisterModel>> deleteMealHistory(int id) async {
     try {
-      final response = await deleteMethod('${Endpoint.deleteMeal}/$id',
-          headers: {authorization: await SharedPref.getToken()});
+      final response = await deleteMethod('${Endpoint.deleteMeal}/$id', headers: {authorization: await SharedPref.getToken()});
       final json = responseHandler(response);
       final data = RegisterModel.fromJson(json);
       return Right(data);
@@ -116,12 +107,9 @@ class FoodRepositoryImpl with NetworkModule implements FoodRepository {
   }
 
   @override
-  Future<Either<Failure, RegisterModel>> updateMealHistory(
-      MealHistoryModel params) async {
+  Future<Either<Failure, RegisterModel>> updateMealHistory(MealHistoryModel params) async {
     try {
-      final response = await postMethod(Endpoint.updateMeal,
-          headers: {authorization: await SharedPref.getToken()},
-          body: params.toJson());
+      final response = await postMethod(Endpoint.updateMeal, headers: {authorization: await SharedPref.getToken()}, body: params.toJson());
       final json = responseHandler(response);
       final data = RegisterModel.fromJson(json);
       return Right(data);
@@ -133,9 +121,7 @@ class FoodRepositoryImpl with NetworkModule implements FoodRepository {
   @override
   Future<Either<Failure, RegisterModel>> requestFood(String foodName) async {
     try {
-      final response = await postMethod(Endpoint.requestFood,
-          headers: {authorization: await SharedPref.getToken()},
-          body: {"name": foodName});
+      final response = await postMethod(Endpoint.requestFood, headers: {authorization: await SharedPref.getToken()}, body: {"name": foodName});
       final json = responseHandler(response);
       final data = RegisterModel.fromJson(json);
       return Right(data);

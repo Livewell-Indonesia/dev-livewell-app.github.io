@@ -216,4 +216,34 @@ class SharedPref {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setString(PrefConstant.name, name);
   }
+
+  static Future<DateTime?> getLastStepSyncDate() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? date = prefs.getString(PrefConstant.lastSyncStepDate);
+    if (date != null) {
+      return DateTime.parse(date);
+    }
+    return null;
+  }
+
+  static Future<DateTime?> saveLastStepSyncDate(DateTime date) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(PrefConstant.lastSyncStepDate, date.toIso8601String());
+    return date;
+  }
+
+  static Future<DateTime?> getLastSleepSyncDate() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? date = prefs.getString(PrefConstant.lastSyncSleepDate);
+    if (date != null) {
+      return DateTime.parse(date);
+    }
+    return null;
+  }
+
+  static Future<DateTime?> saveLastSleepSyncDate(DateTime date) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(PrefConstant.lastSyncSleepDate, date.toIso8601String());
+    return date;
+  }
 }
