@@ -31,19 +31,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: controller.localization.createNewAccount!,
+        title: controller.localization.signUpPage?.createNewAccount ?? "Create New Account",
         backgroundColor: Colors.white,
         onBack: () {
           Get.back();
           controller.trackEvent(LivewellAuthEvent.signUpPageBack);
-        
         },
         body: Expanded(child: Obx(() {
           return ListView(
             children: [
               Center(
                 child: Text(
-                  controller.localization.enterYourDetailsToRegister!,
+                  controller.localization.signUpPage?.enterYourDetailsToRegister ?? "Enter Your Details To Register",
                   style: TextStyle(color: const Color(0xB2171433), fontSize: 16.sp, fontWeight: FontWeight.w500),
                 ),
               ),
@@ -62,19 +61,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
               //     errorText: controller.lastNameError.value,
               //     obscureText: false),
               // 16.verticalSpace,
-              AuthTextField(controller: controller.email, hintText: null, labelText: controller.localization.emailAddress!, errorText: controller.emailError.value, isEmail: true, obscureText: false),
+              AuthTextField(
+                  controller: controller.email,
+                  hintText: null,
+                  labelText: controller.localization.signUpPage?.emailAddress ?? "Email Address",
+                  errorText: controller.emailError.value,
+                  isEmail: true,
+                  obscureText: false),
               16.verticalSpace,
               AuthTextField(
                   controller: controller.password,
-                  hintText: controller.localization.password!,
-                  labelText: controller.localization.password!,
+                  hintText: controller.localization.signUpPage?.password ?? "Password",
+                  labelText: controller.localization.signUpPage?.password ?? "Password",
                   errorText: controller.passwordError.value,
                   obscureText: true),
               16.verticalSpace,
-              AuthTextField(controller: controller.confirmPassword, hintText: "Confirm Password", labelText: "Confirm Password", errorText: controller.confirmPasswordError.value, obscureText: true),
+              AuthTextField(
+                  controller: controller.confirmPassword,
+                  hintText: controller.localization.signUpPage?.confirmPassword ?? "Confirm Password",
+                  labelText: controller.localization.signUpPage?.confirmPassword ?? "Confirm Password",
+                  errorText: controller.confirmPasswordError.value,
+                  obscureText: true),
               32.verticalSpace,
               Obx(() {
-                return LiveWellButton(label: controller.localization.signUp!, color: const Color(0xFFDDF235), onPressed: controller.isButtonEnabled.value ? () => controller.onRegisterTapped() : null);
+                return LiveWellButton(
+                    label: controller.localization.signUpPage?.signUp ?? "Sign Up",
+                    color: const Color(0xFFDDF235),
+                    onPressed: controller.isButtonEnabled.value ? () => controller.onRegisterTapped() : null);
               }),
               32.verticalSpace,
               Center(
@@ -107,7 +120,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    controller.localization.alreadyHaveAccount!,
+                    controller.localization.signUpPage?.alreadyHaveAccount ?? "Already have account?",
                     style: const TextStyle(fontSize: 16, color: Color(0xFF171433), fontWeight: FontWeight.w500),
                   ),
                   TextButton(
@@ -116,7 +129,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller.trackEvent(LivewellAuthEvent.signUpPageSignIn);
                       },
                       child: Text(
-                        controller.localization.signIn!,
+                        controller.localization.signUpPage?.signIn ?? "Sign In",
                         style: const TextStyle(fontSize: 16, color: Color(0xFF8F01DF), fontWeight: FontWeight.w500),
                       ))
                 ],
@@ -128,11 +141,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
-                          text: controller.localization.bySigningUpAgreeToTermsAndConditions,
+                          text: controller.localization.signUpPage?.bySigningUpIAgreeToLivewellS ?? "By signing up, I agree to Livewell's ",
                           style: TextStyle(color: const Color(0xFF171433).withOpacity(0.7), fontSize: 14.sp, fontWeight: FontWeight.w400),
                           children: [
                             TextSpan(
-                              text: " ${controller.localization.termsAndConditions!} ",
+                              text: " ${controller.localization.signUpPage?.termsAndConditions ?? "Terms & Conditions"} ",
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   controller.trackEvent(LivewellAuthEvent.signUpPageTnc);
@@ -144,11 +157,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 14.sp, fontWeight: FontWeight.w500),
                             ),
                             TextSpan(
-                              text: "${controller.localization.and!} ",
+                              text: "${controller.localization.signUpPage?.and ?? "and"} ",
                               style: TextStyle(color: const Color(0xFF171433).withOpacity(0.7), fontSize: 14.sp, fontWeight: FontWeight.w400),
                             ),
                             TextSpan(
-                              text: controller.localization.privacyPolicy!,
+                              text: controller.localization.signUpPage?.privacyPolicy ?? "Privacy Policy",
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   controller.trackEvent(LivewellAuthEvent.signUpPagePrivacyPolicy);

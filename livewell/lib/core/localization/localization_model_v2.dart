@@ -4,13 +4,15 @@
 
 import 'dart:convert';
 
+import 'package:livewell/core/localization/localization_model.dart';
+
 LocalizationModelV2 localizationModelV2FromJson(String str) => LocalizationModelV2.fromJson(json.decode(str));
 
 String localizationModelV2ToJson(LocalizationModelV2 data) => json.encode(data.toJson());
 
 class LocalizationModelV2 {
-  EnUs? enUs;
-  EnUs? idId;
+  LocalizationKeyV2? enUs;
+  LocalizationKeyV2? idId;
 
   LocalizationModelV2({
     this.enUs,
@@ -18,8 +20,8 @@ class LocalizationModelV2 {
   });
 
   factory LocalizationModelV2.fromJson(Map<String, dynamic> json) => LocalizationModelV2(
-        enUs: json["en_US"] == null ? null : EnUs.fromJson(json["en_US"]),
-        idId: json["id_ID"] == null ? null : EnUs.fromJson(json["id_ID"]),
+        enUs: json["en_US"] == null ? null : LocalizationKeyV2.fromJson(json["en_US"]),
+        idId: json["id_ID"] == null ? null : LocalizationKeyV2.fromJson(json["id_ID"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -28,7 +30,7 @@ class LocalizationModelV2 {
       };
 }
 
-class EnUs {
+class LocalizationKeyV2 {
   HomePage? homePage;
   LandingPage? landingPage;
   SignUpPage? signUpPage;
@@ -36,6 +38,7 @@ class EnUs {
   ForgotPasswordPage? forgotPasswordPage;
   AccountPage? accountPage;
   AccountSettingsPage? accountSettingsPage;
+  UpdatePasswordPage? updatePasswordPage;
   ChangePasswordPage? changePasswordPage;
   DeleteAccountDialog? deleteAccountDialog;
   DailyJournalPage? dailyJournalPage;
@@ -53,8 +56,14 @@ class EnUs {
   StreakPage? streakPage;
   OnboardingPage? onboardingPage;
   Map<String, String>? wellnessCalculation;
+  RequestFoodPage? requestFoodPage;
+  RequestFoodSuccessPage? requestFoodSuccessPage;
+  NutrientFactPage? nutrientFactPage;
+  UserDiaryPage? userDiaryPage;
+  AddFoodPage? addFoodPage;
+  AddMealPage? addMealPage;
 
-  EnUs({
+  LocalizationKeyV2({
     this.homePage,
     this.landingPage,
     this.signUpPage,
@@ -62,6 +71,7 @@ class EnUs {
     this.forgotPasswordPage,
     this.accountPage,
     this.accountSettingsPage,
+    this.updatePasswordPage,
     this.changePasswordPage,
     this.deleteAccountDialog,
     this.dailyJournalPage,
@@ -79,9 +89,15 @@ class EnUs {
     this.streakPage,
     this.onboardingPage,
     this.wellnessCalculation,
+    this.requestFoodPage,
+    this.requestFoodSuccessPage,
+    this.nutrientFactPage,
+    this.userDiaryPage,
+    this.addFoodPage,
+    this.addMealPage,
   });
 
-  factory EnUs.fromJson(Map<String, dynamic> json) => EnUs(
+  factory LocalizationKeyV2.fromJson(Map<String, dynamic> json) => LocalizationKeyV2(
         homePage: json["home_page"] == null ? null : HomePage.fromJson(json["home_page"]),
         landingPage: json["landing_page"] == null ? null : LandingPage.fromJson(json["landing_page"]),
         signUpPage: json["sign_up_page"] == null ? null : SignUpPage.fromJson(json["sign_up_page"]),
@@ -89,6 +105,7 @@ class EnUs {
         forgotPasswordPage: json["forgot_password_page"] == null ? null : ForgotPasswordPage.fromJson(json["forgot_password_page"]),
         accountPage: json["account_page"] == null ? null : AccountPage.fromJson(json["account_page"]),
         accountSettingsPage: json["account_settings_page"] == null ? null : AccountSettingsPage.fromJson(json["account_settings_page"]),
+        updatePasswordPage: json["update_password_page"] == null ? null : UpdatePasswordPage.fromJson(json["update_password_page"]),
         changePasswordPage: json["change_password_page"] == null ? null : ChangePasswordPage.fromJson(json["change_password_page"]),
         deleteAccountDialog: json["delete_account_dialog"] == null ? null : DeleteAccountDialog.fromJson(json["delete_account_dialog"]),
         dailyJournalPage: json["daily_journal_page"] == null ? null : DailyJournalPage.fromJson(json["daily_journal_page"]),
@@ -106,6 +123,12 @@ class EnUs {
         streakPage: json["streak_page"] == null ? null : StreakPage.fromJson(json["streak_page"]),
         onboardingPage: json["onboarding_page"] == null ? null : OnboardingPage.fromJson(json["onboarding_page"]),
         wellnessCalculation: Map.from(json["wellness_calculation"]!).map((k, v) => MapEntry<String, String>(k, v)),
+        requestFoodPage: json["request_food_page"] == null ? null : RequestFoodPage.fromJson(json["request_food_page"]),
+        requestFoodSuccessPage: json["request_food_success_page"] == null ? null : RequestFoodSuccessPage.fromJson(json["request_food_success_page"]),
+        nutrientFactPage: json["nutrient_fact_page"] == null ? null : NutrientFactPage.fromJson(json["nutrient_fact_page"]),
+        userDiaryPage: json["user_diary_page"] == null ? null : UserDiaryPage.fromJson(json["user_diary_page"]),
+        addFoodPage: json["add_food_page"] == null ? null : AddFoodPage.fromJson(json["add_food_page"]),
+        addMealPage: json["add_meal_page"] == null ? null : AddMealPage.fromJson(json["add_meal_page"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -116,6 +139,7 @@ class EnUs {
         "forgot_password_page": forgotPasswordPage?.toJson(),
         "account_page": accountPage?.toJson(),
         "account_settings_page": accountSettingsPage?.toJson(),
+        "update_password_page": updatePasswordPage?.toJson(),
         "change_password_page": changePasswordPage?.toJson(),
         "delete_account_dialog": deleteAccountDialog?.toJson(),
         "daily_journal_page": dailyJournalPage?.toJson(),
@@ -133,6 +157,12 @@ class EnUs {
         "streak_page": streakPage?.toJson(),
         "onboarding_page": onboardingPage?.toJson(),
         "wellness_calculation": Map.from(wellnessCalculation!).map((k, v) => MapEntry<String, dynamic>(k, v)),
+        "request_food_page": requestFoodPage?.toJson(),
+        "request_food_success_page": requestFoodSuccessPage?.toJson(),
+        "nutrient_fact_page": nutrientFactPage?.toJson(),
+        "user_diary_page": userDiaryPage?.toJson(),
+        "add_food_page": addFoodPage?.toJson(),
+        "add_meal_page": addMealPage?.toJson(),
       };
 }
 
@@ -144,6 +174,7 @@ class AccountPage {
   String? languages;
   String? privacyPolicy;
   String? logout;
+  String? saveChanges;
 
   AccountPage({
     this.accountSettings,
@@ -153,6 +184,7 @@ class AccountPage {
     this.languages,
     this.privacyPolicy,
     this.logout,
+    this.saveChanges,
   });
 
   factory AccountPage.fromJson(Map<String, dynamic> json) => AccountPage(
@@ -163,6 +195,7 @@ class AccountPage {
         languages: json["languages"],
         privacyPolicy: json["privacy_policy"],
         logout: json["logout"],
+        saveChanges: json["save_changes"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -173,6 +206,7 @@ class AccountPage {
         "languages": languages,
         "privacy_policy": privacyPolicy,
         "logout": logout,
+        "save_changes": saveChanges,
       };
 }
 
@@ -224,34 +258,134 @@ class AccountSettingsPage {
       };
 }
 
+class AddFoodPage {
+  String? numberOfServing;
+  String? time;
+  String? cancel;
+  String? save;
+  String? ofYourGoal;
+  String? submit;
+  String? add;
+
+  AddFoodPage({
+    this.numberOfServing,
+    this.time,
+    this.cancel,
+    this.save,
+    this.ofYourGoal,
+    this.submit,
+    this.add,
+  });
+
+  factory AddFoodPage.fromJson(Map<String, dynamic> json) => AddFoodPage(
+        numberOfServing: json["number_of_serving"],
+        time: json["time"],
+        cancel: json["cancel"],
+        save: json["save"],
+        ofYourGoal: json["of_your_goal"],
+        submit: json["submit"],
+        add: json["add"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "number_of_serving": numberOfServing,
+        "time": time,
+        "cancel": cancel,
+        "save": save,
+        "of_your_goal": ofYourGoal,
+        "submit": submit,
+        "add": add,
+      };
+}
+
+class AddMealPage {
+  String? search;
+  String? done;
+  String? foodRecommendation;
+  String? basedOnYourNutritionalNeeds;
+  String? searchResult;
+  String? filter;
+  String? resetFilter;
+  String? amount;
+  String? submit;
+  String? yourRecommendedFoods;
+  String? pickedBasedOnYourNutritionalNeed;
+  String? searchHere;
+
+  AddMealPage({
+    this.search,
+    this.done,
+    this.foodRecommendation,
+    this.basedOnYourNutritionalNeeds,
+    this.searchResult,
+    this.filter,
+    this.resetFilter,
+    this.amount,
+    this.submit,
+    this.yourRecommendedFoods,
+    this.pickedBasedOnYourNutritionalNeed,
+    this.searchHere,
+  });
+
+  factory AddMealPage.fromJson(Map<String, dynamic> json) => AddMealPage(
+        search: json["search"],
+        done: json["done"],
+        foodRecommendation: json["food_recommendation"],
+        basedOnYourNutritionalNeeds: json["based_on_your_nutritional_needs"],
+        searchResult: json["search_result"],
+        filter: json["filter"],
+        resetFilter: json["reset_filter"],
+        amount: json["amount"],
+        submit: json["submit"],
+        yourRecommendedFoods: json["your_recommended_foods"],
+        pickedBasedOnYourNutritionalNeed: json["picked_based_on_your_nutritional_need"],
+        searchHere: json["search_here"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "search": search,
+        "done": done,
+        "food_recommendation": foodRecommendation,
+        "based_on_your_nutritional_needs": basedOnYourNutritionalNeeds,
+        "search_result": searchResult,
+        "filter": filter,
+        "reset_filter": resetFilter,
+        "amount": amount,
+        "submit": submit,
+        "your_recommended_foods": yourRecommendedFoods,
+        "picked_based_on_your_nutritional_need": pickedBasedOnYourNutritionalNeed,
+        "search_here": searchHere,
+      };
+}
+
 class ChangePasswordPage {
   String? changePassword;
+  String? enterYourOtp;
   String? enterNewPassword;
-  String? newPassword;
-  String? newPasswordConfirmation;
+  String? confirmPassword;
   String? change;
 
   ChangePasswordPage({
     this.changePassword,
+    this.enterYourOtp,
     this.enterNewPassword,
-    this.newPassword,
-    this.newPasswordConfirmation,
+    this.confirmPassword,
     this.change,
   });
 
   factory ChangePasswordPage.fromJson(Map<String, dynamic> json) => ChangePasswordPage(
         changePassword: json["change_password"],
+        enterYourOtp: json["enter_your_otp"],
         enterNewPassword: json["enter_new_password"],
-        newPassword: json["new_password"],
-        newPasswordConfirmation: json["new_password_confirmation"],
+        confirmPassword: json["confirm_password"],
         change: json["change"],
       );
 
   Map<String, dynamic> toJson() => {
         "change_password": changePassword,
+        "enter_your_otp": enterYourOtp,
         "enter_new_password": enterNewPassword,
-        "new_password": newPassword,
-        "new_password_confirmation": newPasswordConfirmation,
+        "confirm_password": confirmPassword,
         "change": change,
       };
 }
@@ -264,6 +398,9 @@ class DailyJournalPage {
   String? lunch;
   String? snack;
   String? dinner;
+  String? time;
+  String? cancel;
+  String? save;
 
   DailyJournalPage({
     this.dailyJournal,
@@ -273,6 +410,9 @@ class DailyJournalPage {
     this.lunch,
     this.snack,
     this.dinner,
+    this.time,
+    this.cancel,
+    this.save,
   });
 
   factory DailyJournalPage.fromJson(Map<String, dynamic> json) => DailyJournalPage(
@@ -283,6 +423,9 @@ class DailyJournalPage {
         lunch: json["lunch"],
         snack: json["snack"],
         dinner: json["dinner"],
+        time: json["time"],
+        cancel: json["cancel"],
+        save: json["save"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -293,6 +436,9 @@ class DailyJournalPage {
         "lunch": lunch,
         "snack": snack,
         "dinner": dinner,
+        "time": time,
+        "cancel": cancel,
+        "save": save,
       };
 }
 
@@ -605,6 +751,8 @@ class MoodPage {
   String? meh;
   String? bad;
   String? awful;
+  String? moodChart;
+  String? howAreYou;
 
   MoodPage({
     this.moodTracker,
@@ -615,6 +763,8 @@ class MoodPage {
     this.meh,
     this.bad,
     this.awful,
+    this.moodChart,
+    this.howAreYou,
   });
 
   factory MoodPage.fromJson(Map<String, dynamic> json) => MoodPage(
@@ -626,6 +776,8 @@ class MoodPage {
         meh: json["meh"],
         bad: json["bad"],
         awful: json["awful"],
+        moodChart: json["mood_chart"],
+        howAreYou: json["how_are_you"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -637,6 +789,8 @@ class MoodPage {
         "meh": meh,
         "bad": bad,
         "awful": awful,
+        "mood_chart": moodChart,
+        "how_are_you": howAreYou,
       };
 }
 
@@ -688,6 +842,86 @@ class MyGoalsPage {
       };
 }
 
+class NutrientFactPage {
+  String? nutrientFact;
+  String? totalFat;
+  String? saturated;
+  String? transFat;
+  String? polyunsaturated;
+  String? monounsaturated;
+  String? carbs;
+  String? fiber;
+  String? protein;
+  String? sodium;
+  String? potassium;
+  String? cholesterol;
+  String? vitaminA;
+  String? vitaminC;
+  String? calcium;
+  String? iron;
+  String? sugar;
+
+  NutrientFactPage({
+    this.nutrientFact,
+    this.totalFat,
+    this.saturated,
+    this.transFat,
+    this.polyunsaturated,
+    this.monounsaturated,
+    this.carbs,
+    this.fiber,
+    this.protein,
+    this.sodium,
+    this.potassium,
+    this.cholesterol,
+    this.vitaminA,
+    this.vitaminC,
+    this.calcium,
+    this.iron,
+    this.sugar,
+  });
+
+  factory NutrientFactPage.fromJson(Map<String, dynamic> json) => NutrientFactPage(
+        nutrientFact: json["nutrient_fact"],
+        totalFat: json["total_fat"],
+        saturated: json["saturated"],
+        transFat: json["trans_fat"],
+        polyunsaturated: json["polyunsaturated"],
+        monounsaturated: json["monounsaturated"],
+        carbs: json["carbs"],
+        fiber: json["fiber"],
+        protein: json["protein"],
+        sodium: json["sodium"],
+        potassium: json["potassium"],
+        cholesterol: json["cholesterol"],
+        vitaminA: json["vitamin_a"],
+        vitaminC: json["vitamin_c"],
+        calcium: json["calcium"],
+        iron: json["iron"],
+        sugar: json["sugar"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "nutrient_fact": nutrientFact,
+        "total_fat": totalFat,
+        "saturated": saturated,
+        "trans_fat": transFat,
+        "polyunsaturated": polyunsaturated,
+        "monounsaturated": monounsaturated,
+        "carbs": carbs,
+        "fiber": fiber,
+        "protein": protein,
+        "sodium": sodium,
+        "potassium": potassium,
+        "cholesterol": cholesterol,
+        "vitamin_a": vitaminA,
+        "vitamin_c": vitaminC,
+        "calcium": calcium,
+        "iron": iron,
+        "sugar": sugar,
+      };
+}
+
 class NutriscoreDetailPage {
   String? nutriscoreDetail;
   String? nutriscore;
@@ -697,6 +931,7 @@ class NutriscoreDetailPage {
   String? belowTarget;
   String? onTrack;
   String? excellent;
+  String? high;
   String? score;
   String? todaysAmount;
   String? weeklyAverage;
@@ -720,6 +955,10 @@ class NutriscoreDetailPage {
   String? sugar;
   String? fiber;
   String? cholesterol;
+  String? letsMakeTodayCount;
+  String? dontWorryWeCanImproveNutritionTogether;
+  String? youreDoingGreat;
+  String? greatJobNutritionOnPoint;
 
   NutriscoreDetailPage({
     this.nutriscoreDetail,
@@ -730,6 +969,7 @@ class NutriscoreDetailPage {
     this.belowTarget,
     this.onTrack,
     this.excellent,
+    this.high,
     this.score,
     this.todaysAmount,
     this.weeklyAverage,
@@ -753,6 +993,10 @@ class NutriscoreDetailPage {
     this.sugar,
     this.fiber,
     this.cholesterol,
+    this.letsMakeTodayCount,
+    this.dontWorryWeCanImproveNutritionTogether,
+    this.youreDoingGreat,
+    this.greatJobNutritionOnPoint,
   });
 
   factory NutriscoreDetailPage.fromJson(Map<String, dynamic> json) => NutriscoreDetailPage(
@@ -764,6 +1008,7 @@ class NutriscoreDetailPage {
         belowTarget: json["below_target"],
         onTrack: json["on_track"],
         excellent: json["excellent"],
+        high: json["high"],
         score: json["score"],
         todaysAmount: json["todays_amount"],
         weeklyAverage: json["weekly_average"],
@@ -787,6 +1032,10 @@ class NutriscoreDetailPage {
         sugar: json["sugar"],
         fiber: json["fiber"],
         cholesterol: json["cholesterol"],
+        letsMakeTodayCount: json["lets_make_today_count"],
+        dontWorryWeCanImproveNutritionTogether: json["dont_worry_we_can_improve_nutrition_together"],
+        youreDoingGreat: json["youre_doing_great"],
+        greatJobNutritionOnPoint: json["great_job_nutrition_on_point"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -798,6 +1047,7 @@ class NutriscoreDetailPage {
         "below_target": belowTarget,
         "on_track": onTrack,
         "excellent": excellent,
+        "high": high,
         "score": score,
         "todays_amount": todaysAmount,
         "weekly_average": weeklyAverage,
@@ -821,6 +1071,10 @@ class NutriscoreDetailPage {
         "sugar": sugar,
         "fiber": fiber,
         "cholesterol": cholesterol,
+        "lets_make_today_count": letsMakeTodayCount,
+        "dont_worry_we_can_improve_nutrition_together": dontWorryWeCanImproveNutritionTogether,
+        "youre_doing_great": youreDoingGreat,
+        "great_job_nutrition_on_point": greatJobNutritionOnPoint,
       };
 }
 
@@ -840,6 +1094,7 @@ class NutritionPage {
   String? protein;
   String? carbs;
   String? fat;
+  String? showNutrientFacts;
 
   NutritionPage({
     this.nutrition,
@@ -857,6 +1112,7 @@ class NutritionPage {
     this.protein,
     this.carbs,
     this.fat,
+    this.showNutrientFacts,
   });
 
   factory NutritionPage.fromJson(Map<String, dynamic> json) => NutritionPage(
@@ -875,6 +1131,7 @@ class NutritionPage {
         protein: json["protein"],
         carbs: json["carbs"],
         fat: json["fat"],
+        showNutrientFacts: json["show_nutrient_facts"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -893,6 +1150,7 @@ class NutritionPage {
         "protein": protein,
         "carbs": carbs,
         "fat": fat,
+        "show_nutrient_facts": showNutrientFacts,
       };
 }
 
@@ -929,6 +1187,9 @@ class OnboardingPage {
   String? youreAllSet;
   String? yourPersonalizedPlanIsReady;
   String? getStarted;
+  String? light;
+  String? moderate;
+  String? active;
 
   OnboardingPage({
     this.healthProfile,
@@ -963,6 +1224,9 @@ class OnboardingPage {
     this.youreAllSet,
     this.yourPersonalizedPlanIsReady,
     this.getStarted,
+    this.light,
+    this.moderate,
+    this.active,
   });
 
   factory OnboardingPage.fromJson(Map<String, dynamic> json) => OnboardingPage(
@@ -998,6 +1262,9 @@ class OnboardingPage {
         youreAllSet: json["youre_all_set"],
         yourPersonalizedPlanIsReady: json["your_personalized_plan_is_ready"],
         getStarted: json["get_started"],
+        light: json["light"],
+        moderate: json["moderate"],
+        active: json["active"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -1033,6 +1300,9 @@ class OnboardingPage {
         "youre_all_set": youreAllSet,
         "your_personalized_plan_is_ready": yourPersonalizedPlanIsReady,
         "get_started": getStarted,
+        "light": light,
+        "moderate": moderate,
+        "active": active,
       };
 }
 
@@ -1044,6 +1314,8 @@ class PhysicalInformationPage {
   String? weightKg;
   String? dietaryRestriction;
   String? save;
+  String? male;
+  String? female;
 
   PhysicalInformationPage({
     this.physicalInformation,
@@ -1053,6 +1325,8 @@ class PhysicalInformationPage {
     this.weightKg,
     this.dietaryRestriction,
     this.save,
+    this.male,
+    this.female,
   });
 
   factory PhysicalInformationPage.fromJson(Map<String, dynamic> json) => PhysicalInformationPage(
@@ -1063,6 +1337,8 @@ class PhysicalInformationPage {
         weightKg: json["weight_kg"],
         dietaryRestriction: json["dietary_restriction"],
         save: json["save"],
+        male: json["male"],
+        female: json["female"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -1073,6 +1349,60 @@ class PhysicalInformationPage {
         "weight_kg": weightKg,
         "dietary_restriction": dietaryRestriction,
         "save": save,
+        "male": male,
+        "female": female,
+      };
+}
+
+class RequestFoodPage {
+  String? requestFood;
+  String? foodName;
+  String? submit;
+
+  RequestFoodPage({
+    this.requestFood,
+    this.foodName,
+    this.submit,
+  });
+
+  factory RequestFoodPage.fromJson(Map<String, dynamic> json) => RequestFoodPage(
+        requestFood: json["request_food"],
+        foodName: json["food_name"],
+        submit: json["submit"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "request_food": requestFood,
+        "food_name": foodName,
+        "submit": submit,
+      };
+}
+
+class RequestFoodSuccessPage {
+  String? foodRequestCompleted;
+  String? thankYou;
+  String? ourTeamWorkingOnYourRequest;
+  String? backToDashboard;
+
+  RequestFoodSuccessPage({
+    this.foodRequestCompleted,
+    this.thankYou,
+    this.ourTeamWorkingOnYourRequest,
+    this.backToDashboard,
+  });
+
+  factory RequestFoodSuccessPage.fromJson(Map<String, dynamic> json) => RequestFoodSuccessPage(
+        foodRequestCompleted: json["food_request_completed"],
+        thankYou: json["thank_you"],
+        ourTeamWorkingOnYourRequest: json["our_team_working_on_your_request"],
+        backToDashboard: json["back_to_dashboard"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "food_request_completed": foodRequestCompleted,
+        "thank_you": thankYou,
+        "our_team_working_on_your_request": ourTeamWorkingOnYourRequest,
+        "back_to_dashboard": backToDashboard,
       };
 }
 
@@ -1215,6 +1545,8 @@ class SleepPage {
   String? startTimeOfSleep;
   String? wakeUpTime;
   String? save;
+  String? time;
+  String? cancel;
 
   SleepPage({
     this.sleep,
@@ -1231,6 +1563,8 @@ class SleepPage {
     this.startTimeOfSleep,
     this.wakeUpTime,
     this.save,
+    this.time,
+    this.cancel,
   });
 
   factory SleepPage.fromJson(Map<String, dynamic> json) => SleepPage(
@@ -1248,6 +1582,8 @@ class SleepPage {
         startTimeOfSleep: json["start_time_of_sleep"],
         wakeUpTime: json["wake_up_time"],
         save: json["save"],
+        time: json["time"],
+        cancel: json["cancel"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -1265,6 +1601,8 @@ class SleepPage {
         "start_time_of_sleep": startTimeOfSleep,
         "wake_up_time": wakeUpTime,
         "save": save,
+        "time": time,
+        "cancel": cancel,
       };
 }
 
@@ -1328,6 +1666,106 @@ class StreakPage {
       };
 }
 
+class UpdatePasswordPage {
+  String? changePassword;
+  String? enterNewPassword;
+  String? newPassword;
+  String? newPasswordConfirmation;
+  String? change;
+
+  UpdatePasswordPage({
+    this.changePassword,
+    this.enterNewPassword,
+    this.newPassword,
+    this.newPasswordConfirmation,
+    this.change,
+  });
+
+  factory UpdatePasswordPage.fromJson(Map<String, dynamic> json) => UpdatePasswordPage(
+        changePassword: json["change_password"],
+        enterNewPassword: json["enter_new_password"],
+        newPassword: json["new_password"],
+        newPasswordConfirmation: json["new_password_confirmation"],
+        change: json["change"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "change_password": changePassword,
+        "enter_new_password": enterNewPassword,
+        "new_password": newPassword,
+        "new_password_confirmation": newPasswordConfirmation,
+        "change": change,
+      };
+}
+
+class UserDiaryPage {
+  String? diary;
+  String? nutrition;
+  String? breakfast;
+  String? lunch;
+  String? snack;
+  String? dinner;
+  String? exercise;
+  String? caloriesBurnt;
+  String? steps;
+  String? numberOfServing;
+  String? update;
+  String? cancel;
+  String? done;
+  String? sleep;
+
+  UserDiaryPage({
+    this.diary,
+    this.nutrition,
+    this.breakfast,
+    this.lunch,
+    this.snack,
+    this.dinner,
+    this.exercise,
+    this.caloriesBurnt,
+    this.steps,
+    this.numberOfServing,
+    this.update,
+    this.cancel,
+    this.done,
+    this.sleep,
+  });
+
+  factory UserDiaryPage.fromJson(Map<String, dynamic> json) => UserDiaryPage(
+        diary: json["diary"],
+        nutrition: json["nutrition"],
+        breakfast: json["breakfast"],
+        lunch: json["lunch"],
+        snack: json["snack"],
+        dinner: json["dinner"],
+        exercise: json["exercise"],
+        caloriesBurnt: json["calories_burnt"],
+        steps: json["steps"],
+        numberOfServing: json["number_of_serving"],
+        update: json["update"],
+        cancel: json["cancel"],
+        done: json["done"],
+        sleep: json["sleep"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "diary": diary,
+        "nutrition": nutrition,
+        "breakfast": breakfast,
+        "lunch": lunch,
+        "snack": snack,
+        "dinner": dinner,
+        "exercise": exercise,
+        "calories_burnt": caloriesBurnt,
+        "steps": steps,
+        "number_of_serving": numberOfServing,
+        "update": update,
+        "cancel": cancel,
+        "done": done,
+        "sleep": sleep,
+      };
+}
+
 class WaterPage {
   String? hydration;
   String? remaining;
@@ -1362,6 +1800,11 @@ class WaterPage {
   String? here;
   String? youreDoingWellInStayingHydrated;
   String? youHitYourGoalToday;
+  String? noColor;
+  String? paleStrawYellow;
+  String? translucentYellow;
+  String? darkYellow;
+  String? amber;
 
   WaterPage({
     this.hydration,
@@ -1397,6 +1840,11 @@ class WaterPage {
     this.here,
     this.youreDoingWellInStayingHydrated,
     this.youHitYourGoalToday,
+    this.noColor,
+    this.paleStrawYellow,
+    this.translucentYellow,
+    this.darkYellow,
+    this.amber,
   });
 
   factory WaterPage.fromJson(Map<String, dynamic> json) => WaterPage(
@@ -1433,6 +1881,11 @@ class WaterPage {
         here: json["here"],
         youreDoingWellInStayingHydrated: json["youre_doing_well_in_staying_hydrated"],
         youHitYourGoalToday: json["you_hit_your_goal_today"],
+        noColor: json["no_color"],
+        paleStrawYellow: json["pale_straw_yellow"],
+        translucentYellow: json["translucent_yellow"],
+        darkYellow: json["dark_yellow"],
+        amber: json["amber"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -1469,6 +1922,11 @@ class WaterPage {
         "here": here,
         "youre_doing_well_in_staying_hydrated": youreDoingWellInStayingHydrated,
         "you_hit_your_goal_today": youHitYourGoalToday,
+        "no_color": noColor,
+        "pale_straw_yellow": paleStrawYellow,
+        "translucent_yellow": translucentYellow,
+        "dark_yellow": darkYellow,
+        "amber": amber,
       };
 }
 
@@ -1492,6 +1950,7 @@ class WeightPage {
   String? whatsYourGoal;
   String? updateYourCurrentGoalSetting;
   String? goalSettingUpdate;
+  String? youHaveLost;
 
   WeightPage({
     this.weight,
@@ -1513,6 +1972,7 @@ class WeightPage {
     this.whatsYourGoal,
     this.updateYourCurrentGoalSetting,
     this.goalSettingUpdate,
+    this.youHaveLost,
   });
 
   factory WeightPage.fromJson(Map<String, dynamic> json) => WeightPage(
@@ -1535,6 +1995,7 @@ class WeightPage {
         whatsYourGoal: json["whats_your_goal"],
         updateYourCurrentGoalSetting: json["update_your_current_goal_setting"],
         goalSettingUpdate: json["goal_setting_update"],
+        youHaveLost: json["you_have_lost"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -1557,6 +2018,7 @@ class WeightPage {
         "whats_your_goal": whatsYourGoal,
         "update_your_current_goal_setting": updateYourCurrentGoalSetting,
         "goal_setting_update": goalSettingUpdate,
+        "you_have_lost": youHaveLost,
       };
 }
 

@@ -28,7 +28,7 @@ class _MoodScreenState extends State<MoodScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: controller.localization.moodTracker ?? "Mood Tracker",
+        title: controller.localization.moodPage?.moodTracker ?? "Mood Tracker",
         onBack: () {
           controller.trackEvent(LivewellMoodEvent.moodPageBackButton);
           Get.back();
@@ -48,29 +48,17 @@ class _MoodScreenState extends State<MoodScreen> {
                       children: [
                         32.verticalSpace,
                         Text(
-                          controller.localization.moodChart ?? "Mood chart",
-                          style: TextStyle(
-                              color: const Color(0xFF171433),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20.sp),
+                          controller.localization.moodPage?.moodChart ?? "Mood chart",
+                          style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w600, fontSize: 20.sp),
                         ),
                         16.verticalSpace,
                         Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 16.w, vertical: 16.h),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(24)),
+                          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24)),
                           width: double.infinity,
                           height: 263.h,
                           child: Column(children: [
-                            Text(
-                                controller.localization.last14Days ??
-                                    "Last 14 days",
-                                style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700)),
+                            Text(controller.localization.moodPage?.last14Days ?? "Last 14 days", style: TextStyle(fontSize: 14.sp, color: Colors.black, fontWeight: FontWeight.w700)),
                             12.verticalSpace,
                             const Divider(),
                             SizedBox(
@@ -83,16 +71,12 @@ class _MoodScreenState extends State<MoodScreen> {
                         ),
                         32.verticalSpace,
                         Text(
-                          controller.localization.moodCount ?? "Mood Count",
-                          style: TextStyle(
-                              color: const Color(0xFF171433),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20.sp),
+                          controller.localization.moodPage?.moodCount ?? "Mood Count",
+                          style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w600, fontSize: 20.sp),
                         ),
                         16.verticalSpace,
                         Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 24.w, vertical: 16.h),
+                          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(24),
@@ -111,16 +95,12 @@ class _MoodScreenState extends State<MoodScreen> {
                                       alignment: Alignment.topRight,
                                       children: [
                                         Obx(() {
-                                          return SvgPicture.asset(e.assets(),
-                                              color: getColor(e),
-                                              width: 48.w,
-                                              height: 48.h);
+                                          return SvgPicture.asset(e.assets(), color: getColor(e), width: 48.w, height: 48.h);
                                         }),
                                         Align(
                                           alignment: Alignment.topRight,
                                           child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 2.h, horizontal: 2.w),
+                                            padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
                                             decoration: const BoxDecoration(
                                               color: Colors.white,
                                               shape: BoxShape.circle,
@@ -130,19 +110,11 @@ class _MoodScreenState extends State<MoodScreen> {
                                                   padding: EdgeInsets.all(4.w),
                                                   decoration: BoxDecoration(
                                                     shape: BoxShape.circle,
-                                                    color:
-                                                        getColorForIndicator(e),
+                                                    color: getColorForIndicator(e),
                                                   ),
                                                   child: Text(
-                                                    controller
-                                                        .getTotalMoodByType(
-                                                            e.value())
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 8.sp,
-                                                        fontWeight:
-                                                            FontWeight.w700),
+                                                    controller.getTotalMoodByType(e.value()).toString(),
+                                                    style: TextStyle(color: Colors.white, fontSize: 8.sp, fontWeight: FontWeight.w700),
                                                   ));
                                             })),
                                           ),
@@ -152,11 +124,7 @@ class _MoodScreenState extends State<MoodScreen> {
                                     4.verticalSpace,
                                     Text(
                                       e.title(),
-                                      style: TextStyle(
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w400,
-                                          color: const Color(0xFF171433)
-                                              .withOpacity(0.8)),
+                                      style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: const Color(0xFF171433).withOpacity(0.8)),
                                     ),
                                   ],
                                 ),
@@ -246,8 +214,7 @@ class _MoodScreenState extends State<MoodScreen> {
           LineChartBarData(
             spots: List.generate(14, (index) {
               if (controller.moodList.isNotEmpty) {
-                final date =
-                    DateTime.now().subtract(Duration(days: 14 - index - 1));
+                final date = DateTime.now().subtract(Duration(days: 14 - index - 1));
                 final mood = controller.getMoodByDate(date);
                 if (mood != null) {
                   return FlSpot(index.toDouble(), mood.value!.toDouble());
@@ -302,8 +269,7 @@ class _MoodScreenState extends State<MoodScreen> {
     DateFormat dateFormat = DateFormat('d');
     Widget text;
     text = Text(
-      dateFormat.format(
-          DateTime.now().subtract(Duration(days: 14 - value.toInt() - 1))),
+      dateFormat.format(DateTime.now().subtract(Duration(days: 14 - value.toInt() - 1))),
       style: style,
     );
 
@@ -327,8 +293,6 @@ class _MoodScreenState extends State<MoodScreen> {
   }
 
   Color intToColor(int value) {
-    return MoodType.values
-        .firstWhere((element) => element.value() == value)
-        .mainColor();
+    return MoodType.values.firstWhere((element) => element.value() == value).mainColor();
   }
 }

@@ -27,18 +27,15 @@ class ManualSleepInput extends StatelessWidget {
                     controler.manualSleepInput.text = show;
                     DateTime temp = time;
                     if (time.hour > 17) {
-                      temp = DateTime(time.year, time.month, time.day - 1,
-                          time.hour, time.minute);
+                      temp = DateTime(time.year, time.month, time.day - 1, time.hour, time.minute);
                     }
                     controler.sleepInput.value = temp;
-                  },
-                      DateTime(DateTime.now().year, DateTime.now().month,
-                          DateTime.now().day, 22, 0));
+                  }, DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 22, 0));
                 },
                 child: LiveWellTextField(
                     controller: controler.manualSleepInput,
-                    hintText: 'Start Time of Sleep',
-                    labelText: 'Start Time of Sleep',
+                    hintText: controler.localization.sleepPage?.startTimeOfSleep ?? "Start Time of Sleep",
+                    labelText: controler.localization.sleepPage?.startTimeOfSleep ?? "Start Time of Sleep",
                     keyboardType: TextInputType.number,
                     errorText: null,
                     enabled: false,
@@ -52,18 +49,15 @@ class ManualSleepInput extends StatelessWidget {
                     controler.manualWakeUpInput.text = show;
                     DateTime temp = time;
                     if (time.hour > 17) {
-                      temp = DateTime(time.year, time.month, time.day - 1,
-                          time.hour, time.minute);
+                      temp = DateTime(time.year, time.month, time.day - 1, time.hour, time.minute);
                     }
                     controler.wakeUpInput.value = temp;
-                  },
-                      DateTime(DateTime.now().year, DateTime.now().month,
-                          DateTime.now().day, 6, 0));
+                  }, DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 6, 0));
                 },
                 child: LiveWellTextField(
                     controller: controler.manualWakeUpInput,
-                    hintText: 'Wake Up Time',
-                    labelText: 'Wake Up Time',
+                    hintText: controler.localization.sleepPage?.wakeUpTime ?? "Wake Up Time",
+                    labelText: controler.localization.sleepPage?.wakeUpTime ?? "Wake Up Time",
                     keyboardType: TextInputType.number,
                     errorText: null,
                     enabled: false,
@@ -86,25 +80,20 @@ class ManualSleepInput extends StatelessWidget {
         ));
   }
 
-  Future<dynamic> showTimePicker(BuildContext context,
-      Function(DateTime) onConfirm, DateTime initialDate) {
+  Future<dynamic> showTimePicker(BuildContext context, Function(DateTime) onConfirm, DateTime initialDate) {
     DateTime temp = initialDate;
     return showCupertinoDialog(
         context: context,
         builder: (context) {
           return Dialog(
             child: Container(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 20, horizontal: 20).r,
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20).r,
               height: 386.h,
               child: Column(
                 children: [
                   Text(
-                    controler.localization.time!,
-                    style: TextStyle(
-                        color: const Color(0xFF171433),
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w600),
+                    controler.localization.sleepPage?.time ?? "Time",
+                    style: TextStyle(color: const Color(0xFF171433), fontSize: 18.sp, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
                     height: 274.h,
@@ -123,10 +112,7 @@ class ManualSleepInput extends StatelessWidget {
                         flex: 2,
                         child: OutlinedButton(
                             style: OutlinedButton.styleFrom(
-                              side: BorderSide(
-                                  width: 2,
-                                  color:
-                                      const Color(0xFF171433).withOpacity(0.7)),
+                              side: BorderSide(width: 2, color: const Color(0xFF171433).withOpacity(0.7)),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20.r),
                               ),
@@ -135,11 +121,8 @@ class ManualSleepInput extends StatelessWidget {
                               Get.back();
                             },
                             child: Text(
-                              controler.localization.cancel!,
-                              style: TextStyle(
-                                  color: const Color.fromARGB(255, 49, 46, 75),
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500),
+                              controler.localization.sleepPage?.cancel ?? "Cancel",
+                              style: TextStyle(color: const Color.fromARGB(255, 49, 46, 75), fontSize: 14.sp, fontWeight: FontWeight.w500),
                             )),
                       ),
                       const Spacer(),
@@ -157,7 +140,7 @@ class ManualSleepInput extends StatelessWidget {
                               Get.back();
                             },
                             child: Text(
-                              controler.localization.save!,
+                              controler.localization.sleepPage?.save ?? "Save",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14.sp,

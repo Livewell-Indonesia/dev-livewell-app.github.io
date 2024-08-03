@@ -148,7 +148,6 @@ class StreakController extends BaseController {
   void getStreakData(DateTime dateFrom, DateTime dateTo) {
     final params = GetWellnessDataBatchParams(dateFrom: dateFrom, dateTo: dateTo);
     final useCase = GetWellnessDataBatch.instance();
-    final currentDate = DateTime.now();
     useCase(params).then((value) {
       value.fold((l) {
         Log.error(l);

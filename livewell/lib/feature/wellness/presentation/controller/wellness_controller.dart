@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';

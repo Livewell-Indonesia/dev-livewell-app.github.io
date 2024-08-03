@@ -20,7 +20,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:livewell/theme/design_system.dart';
 import 'package:sentry/sentry.dart';
 
 import 'feature/food/presentation/pages/food_screen.dart';

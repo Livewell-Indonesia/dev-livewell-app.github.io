@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
 import 'package:livewell/feature/questionnaire/presentation/page/widget/subtitle_questionnaire.dart';
 import 'package:livewell/feature/questionnaire/presentation/page/widget/title_questionnaire.dart';
@@ -177,8 +175,7 @@ class CustomCupertinoDatePicker extends StatefulWidget {
     this.selectionOverlay = const CupertinoPickerDefaultSelectionOverlay(),
   }) : super(key: key);
   @override
-  State<CustomCupertinoDatePicker> createState() =>
-      _CustomCupertinoDatePickerState();
+  State<CustomCupertinoDatePicker> createState() => _CustomCupertinoDatePickerState();
 }
 
 class _CustomCupertinoDatePickerState extends State<CustomCupertinoDatePicker> {
@@ -243,8 +240,7 @@ class _CustomCupertinoDatePickerState extends State<CustomCupertinoDatePicker> {
 
   bool _isLeapYear() {
     final year = _minDate.year + _selectedYearIndex;
-    return year % 4 == 0 &&
-        (year % 100 != 0 || (year % 100 == 0 && year % 400 == 0));
+    return year % 4 == 0 && (year % 100 != 0 || (year % 100 == 0 && year % 400 == 0));
   }
 
   /// get number of days for the selected month
@@ -353,9 +349,7 @@ class _CustomCupertinoDatePickerState extends State<CustomCupertinoDatePicker> {
         // if selected month is february & selected day is 29
         // But now year is changed to non-leap year
         // set the day to february 28
-        if (!_isLeapYear() &&
-            _selectedMonthIndex == 1 &&
-            _selectedDayIndex == 28) {
+        if (!_isLeapYear() && _selectedMonthIndex == 1 && _selectedDayIndex == 28) {
           _selectedDayIndex = 27;
         }
         break;
@@ -431,8 +425,7 @@ class _CustomCupertinoDatePickerState extends State<CustomCupertinoDatePicker> {
     _maxDate = widget.maxDate ?? DateTime(currentDate.year + 100);
     if (widget.selectedDate != null) {
       _selectedDate = widget.selectedDate!;
-    } else if (!currentDate.isBefore(_minDate) &&
-        !currentDate.isAfter(_maxDate)) {
+    } else if (!currentDate.isBefore(_minDate) && !currentDate.isAfter(_maxDate)) {
       _selectedDate = currentDate;
     } else {
       _selectedDate = _minDate;
@@ -466,14 +459,6 @@ class _CustomCupertinoDatePickerState extends State<CustomCupertinoDatePicker> {
     }
     if (widget.maxDate != null && widget.selectedDate != null) {
       assert(!widget.selectedDate!.isAfter(widget.maxDate!));
-    }
-
-    @override
-    void dispose() {
-      _dayScrollController.dispose();
-      _monthScrollController.dispose();
-      _yearScrollController.dispose();
-      super.dispose();
     }
   }
 }

@@ -40,7 +40,7 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: controller.localization.diary!,
+        title: controller.localization.userDiaryPage?.diary ?? "Diary",
         body: Expanded(
           child: RefreshIndicator(
             onRefresh: () async {
@@ -136,10 +136,10 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
                     return DailyJournalItem(
                         enableAddButton: DateTime.now().difference(controller.dateList[controller.selectedIndex.value]).inDays <= 7 &&
                             DateTime.now().difference(controller.dateList[controller.selectedIndex.value]).inDays >= 0,
-                        model: DailyJournalItemModel(type: DailyJournalItemType.nutrition, itemName: controller.localization.nutrition ?? "Nutrition", content: [
+                        model: DailyJournalItemModel(type: DailyJournalItemType.nutrition, itemName: controller.localization.userDiaryPage?.nutrition ?? "Nutrition", content: [
                           DailyJournalItemContentModel(
                               type: DailyJournalItemType.nutrition,
-                              contentName: controller.localization.breakfast ?? "",
+                              contentName: controller.localization.userDiaryPage?.breakfast ?? "",
                               contentValue: "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "breakfast".toUpperCase()).toList())} kcal",
                               contentDesc: controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "breakfast".toUpperCase()).map((e) {
                                 return DailyJournalItemContentDescModel(
@@ -150,7 +150,7 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
                               }),
                           DailyJournalItemContentModel(
                               type: DailyJournalItemType.nutrition,
-                              contentName: controller.localization.lunch ?? "",
+                              contentName: controller.localization.userDiaryPage?.lunch ?? "",
                               contentValue: "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "lunch".toUpperCase()).toList())} kcal",
                               contentDesc: controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "lunch".toUpperCase()).map((e) {
                                 return DailyJournalItemContentDescModel(
@@ -161,7 +161,7 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
                               }),
                           DailyJournalItemContentModel(
                               type: DailyJournalItemType.nutrition,
-                              contentName: controller.localization.dinner ?? "",
+                              contentName: controller.localization.userDiaryPage?.dinner ?? "",
                               contentValue: "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "dinner".toUpperCase()).toList())} kcal",
                               contentDesc: controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "dinner".toUpperCase()).map((e) {
                                 return DailyJournalItemContentDescModel(
@@ -172,7 +172,7 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
                               }),
                           DailyJournalItemContentModel(
                               type: DailyJournalItemType.nutrition,
-                              contentName: controller.localization.snack ?? "",
+                              contentName: controller.localization.userDiaryPage?.snack ?? "",
                               contentValue: "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "snack".toUpperCase()).toList())} kcal",
                               contentDesc: controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "snack".toUpperCase()).map((e) {
                                 return DailyJournalItemContentDescModel(
@@ -192,20 +192,20 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
                     return DailyJournalItem(
                         enableAddButton: DateTime.now().difference(controller.dateList[controller.selectedIndex.value]).inDays <= 7 &&
                             DateTime.now().difference(controller.dateList[controller.selectedIndex.value]).inDays >= 0,
-                        model: DailyJournalItemModel(type: DailyJournalItemType.exercise, itemName: controller.localization.exercise ?? "Exercise", content: [
+                        model: DailyJournalItemModel(type: DailyJournalItemType.exercise, itemName: controller.localization.userDiaryPage?.exercise ?? "Exercise", content: [
                           DailyJournalItemContentModel(
                               type: DailyJournalItemType.exercise,
-                              contentName: controller.localization.exercise ?? "",
+                              contentName: controller.localization.userDiaryPage?.exercise ?? "",
                               contentValue: "${controller.filteredExerciseHistory.fold(0, (previousValue, element) {
                                 return previousValue + (element.value ?? 0).toInt();
-                              })} ${controller.localization.caloriesBurnt ?? "Calories Burnt"}",
+                              })} ${controller.localization.userDiaryPage?.caloriesBurnt ?? "Calories Burnt"}",
                               contentDesc: []),
                           DailyJournalItemContentModel(
                               type: DailyJournalItemType.exercise,
-                              contentName: controller.localization.steps ?? "Steps",
+                              contentName: controller.localization.userDiaryPage?.steps ?? "Steps",
                               contentValue: "${controller.filteredStepsHistory.fold(0, (previousValue, element) {
                                 return previousValue + (element.value ?? 0).toInt();
-                              })} ${controller.localization.steps ?? "Steps"}",
+                              })} ${controller.localization.userDiaryPage?.steps ?? "Steps"}",
                               contentDesc: []),
                         ]));
                   }),
@@ -228,7 +228,7 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
                     return DailyJournalItem(
                         enableAddButton: DateTime.now().difference(controller.dateList[controller.selectedIndex.value]).inDays <= 7 &&
                             DateTime.now().difference(controller.dateList[controller.selectedIndex.value]).inDays >= 0,
-                        model: DailyJournalItemModel(type: DailyJournalItemType.sleep, itemName: controller.localization.sleep ?? "Sleep", content: [
+                        model: DailyJournalItemModel(type: DailyJournalItemType.sleep, itemName: controller.localization.userDiaryPage?.sleep ?? "Sleep", content: [
                           DailyJournalItemContentModel(
                               type: DailyJournalItemType.sleep,
                               contentName: "Total",
@@ -483,15 +483,15 @@ class EditPortionWidget extends StatelessWidget {
             LiveWellTextField(
                 keyboardType: const TextInputType.numberWithOptions(signed: false, decimal: true),
                 controller: textController,
-                hintText: Get.find<HomeController>().localization.numberOfServing ?? "Number of Serving",
-                labelText: Get.find<HomeController>().localization.numberOfServing ?? "Number of Serving",
+                hintText: Get.find<HomeController>().localization.userDiaryPage?.numberOfServing ?? "Number of Serving",
+                labelText: Get.find<HomeController>().localization.userDiaryPage?.numberOfServing ?? "Number of Serving",
                 errorText: null,
                 obscureText: false),
             32.verticalSpace,
             LiveWellButton(
                 color: const Color(0xFFDDF235),
                 textColor: Colors.black,
-                label: Get.find<HomeController>().localization.update ?? "Update",
+                label: Get.find<HomeController>().localization.userDiaryPage?.update ?? "Update",
                 onPressed: () {
                   onTap();
                 }),
@@ -510,7 +510,7 @@ class EditPortionWidget extends StatelessWidget {
                     Get.back();
                   },
                   child: Text(
-                    Get.find<HomeController>().localization.cancel ?? "Cancel",
+                    Get.find<HomeController>().localization.userDiaryPage?.cancel ?? "Cancel",
                     style: TextStyle(color: Colors.black, fontSize: 16.sp, fontWeight: FontWeight.w500),
                   )),
             ),
@@ -731,7 +731,7 @@ class _HistoryContentState extends State<HistoryContent> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(Get.find<HomeController>().localization.done!),
+                  child: Text(Get.find<HomeController>().localization.userDiaryPage?.done ?? "Done"),
                 ),
               );
             }

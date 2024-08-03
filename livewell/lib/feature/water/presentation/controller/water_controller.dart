@@ -10,7 +10,6 @@ import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/water/data/model/water_list_model.dart';
 import 'package:livewell/feature/water/domain/usecase/get_water_data.dart';
 import 'package:livewell/feature/water/domain/usecase/post_water_data.dart';
-import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 import 'package:livewell/core/base/base_controller.dart';
 
@@ -132,54 +131,54 @@ extension UrineColorTypeX on UrineColorType {
   String get title {
     switch (this) {
       case UrineColorType.overhydrated:
-        return Get.find<DashboardController>().localization.hydrationOverhydrated ?? 'Overhydrated';
+        return Get.find<DashboardController>().localization.waterPage?.overhydrated ?? 'Overhydrated';
       case UrineColorType.good:
-        return Get.find<DashboardController>().localization.hydrationGood ?? 'Good';
+        return Get.find<DashboardController>().localization.waterPage?.good ?? 'Good';
       case UrineColorType.fair:
-        return Get.find<DashboardController>().localization.hydrationFair ?? 'Fair';
+        return Get.find<DashboardController>().localization.waterPage?.fair ?? 'Fair';
       case UrineColorType.lightHydrated:
-        return Get.find<DashboardController>().localization.hydrationLightDehydrated ?? 'Light Hydrated';
+        return Get.find<DashboardController>().localization.waterPage?.lightDehydrated ?? 'Light Hydrated';
       case UrineColorType.dehydrated:
-        return Get.find<DashboardController>().localization.hydrationDehydrated ?? 'Dehydrated';
+        return Get.find<DashboardController>().localization.waterPage?.dehydrated ?? 'Dehydrated';
       case UrineColorType.veryDehydrated:
-        return Get.find<DashboardController>().localization.hydrationVeryDehydrated ?? 'Very Dehydrated';
+        return "";
       case UrineColorType.severeDehydrated:
-        return Get.find<DashboardController>().localization.hydrationSevereDehydrated ?? 'Severe Dehydrated';
+        return "";
     }
   }
 
   String get colorName {
     switch (this) {
       case UrineColorType.overhydrated:
-        return Get.find<DashboardController>().localization.hydrationNoColor ?? 'No Color';
+        return Get.find<DashboardController>().localization.waterPage?.noColor ?? 'No Color';
       case UrineColorType.good:
-        return Get.find<DashboardController>().localization.hydrationPaleStrawYellow ?? 'Pale Straw Yellow';
+        return Get.find<DashboardController>().localization.waterPage?.paleStrawYellow ?? 'Pale Straw Yellow';
       case UrineColorType.fair:
-        return Get.find<DashboardController>().localization.hydrationTranslucentYellow ?? 'Translucent Yellow';
+        return Get.find<DashboardController>().localization.waterPage?.translucentYellow ?? 'Translucent Yellow';
       case UrineColorType.lightHydrated:
-        return Get.find<DashboardController>().localization.hydrationDarkYellow ?? 'Dark Yellow';
+        return Get.find<DashboardController>().localization.waterPage?.darkYellow ?? 'Dark Yellow';
       case UrineColorType.dehydrated:
-        return Get.find<DashboardController>().localization.hydrationAmber ?? 'Amber';
+        return Get.find<DashboardController>().localization.waterPage?.amber ?? 'Amber';
       case UrineColorType.veryDehydrated:
-        return Get.find<DashboardController>().localization.hydrationBurntOrange ?? 'Burnt Orange';
+        return "";
       case UrineColorType.severeDehydrated:
-        return Get.find<DashboardController>().localization.hydrationRed ?? 'Red';
+        return "";
     }
   }
 
   String get description {
     switch (this) {
       case UrineColorType.overhydrated:
-        return "Time to Slow The Flow";
+        return Get.find<DashboardController>().localization.waterPage?.timeToSlowTheFlow ?? "Time to Slow The Flow";
       case UrineColorType.veryDehydrated:
       case UrineColorType.severeDehydrated:
-        return Get.find<DashboardController>().localization.hydrationSeeDoctor ?? 'See Doctor';
+        return "";
       case UrineColorType.good:
       case UrineColorType.fair:
-        return Get.find<DashboardController>().localization.hydrationNormal ?? 'Normal';
+        return Get.find<DashboardController>().localization.waterPage?.normal ?? 'Normal';
       case UrineColorType.lightHydrated:
       case UrineColorType.dehydrated:
-        return Get.find<DashboardController>().localization.hydrationDrinkWaterNow ?? 'Drink Water Now';
+        return Get.find<DashboardController>().localization.waterPage?.drinkWaterNow ?? 'Drink Water Now';
     }
   }
 }

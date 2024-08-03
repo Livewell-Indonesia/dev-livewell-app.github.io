@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -102,8 +100,8 @@ class UpdateWeightController extends BaseController {
           var initialWeight = weightHistory.last.weight!.toDouble();
           var latestWeight = weightHistory.first.weight!.toDouble();
           title.value = initialWeight >= latestWeight
-              ? '${localization.youHaveLost ?? ""} ${NumberFormat('0.0').format(initialWeight - latestWeight)} kg'
-              : '${localization.youHaveGained ?? ""} ${NumberFormat('0.0').format(latestWeight - initialWeight)} kg';
+              ? '${localization.weightPage?.youHaveLost ?? ""} ${NumberFormat('0.0').format(initialWeight - latestWeight)} kg'
+              : '${localization.weightPage?.youHaveGained ?? ""} ${NumberFormat('0.0').format(latestWeight - initialWeight)} kg';
         }
       });
     }

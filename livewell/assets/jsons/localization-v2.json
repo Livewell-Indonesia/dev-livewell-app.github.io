@@ -79,7 +79,8 @@
             "my_goals": "My Goals",
             "languages": "Languages",
             "privacy_policy": "Privacy Policy",
-            "logout": "Logout"
+            "logout": "Logout",
+            "save_changes": "Save Changes"
         },
         "account_settings_page": {
            "account_settings": "Account Settings",
@@ -92,11 +93,18 @@
            "delete_account": "Delete Account",
            "update": "Update"
         },
-        "change_password_page": {
+        "update_password_page": {
             "change_password": "Change Password",
             "enter_new_password": "Enter new password",
             "new_password": "New Password",
             "new_password_confirmation": "New Password Confirmation",
+            "change": "Change"
+        },
+        "change_password_page": {
+            "change_password": "Change Password",
+            "enter_your_otp": "Enter your OTP",
+            "enter_new_password": "Enter new password",
+            "confirm_password": "Confirm Password",
             "change": "Change"
         },
         "delete_account_dialog": {
@@ -112,7 +120,10 @@
             "breakfast": "Breakfast",
             "lunch": "Lunch",
             "snack": "Snack",
-            "dinner": "Dinner"
+            "dinner": "Dinner",
+            "time": "Time",
+            "cancel": "Cancel",
+            "save": "Save"
         },
         "physical_information_page": {
             "physical_information": "Physical Information",
@@ -121,7 +132,9 @@
             "height_cm": "Height (cm)",
             "weight_kg": "Weight (kg)",
             "dietary_restriction": "Dietary Restriction",
-            "save": "Save"
+            "save": "Save",
+            "male": "Male",
+            "female": "Female"
         },
         "my_goals_page": {
             "goals_setting": "Goals Setting",
@@ -172,7 +185,12 @@
             "see_how_do_hydration_score_calculated": "See how do hydration score calculated",
             "here": "Here",
             "youre_doing_well_in_staying_hydrated": "You're doing well in staying hydrated! Keep it up by drinking water regularly to maintain optimal health.",
-            "you_hit_your_goal_today": "You hit your goal today!"
+            "you_hit_your_goal_today": "You hit your goal today!",
+            "no_color": "No Color",
+            "pale_straw_yellow": "Pale Straw Yellow",
+            "translucent_yellow": "Translucent Yellow",
+            "dark_yellow": "Dark Yellow",
+            "amber": "Amber"
         },
         "mood_page": {
             "mood_tracker": "Mood Tracker",
@@ -182,7 +200,9 @@
             "good": "Good",
             "meh": "Meh",
             "bad": "Bad",
-            "awful": "Awful"
+            "awful": "Awful",
+            "mood_chart": "Mood chart",
+            "how_are_you": "How are you?"
         },
         "exercise_page": {
             "exercise": "Exercise",
@@ -213,7 +233,9 @@
             "add_sleep": "Add Sleep",
             "start_time_of_sleep": "Start Time of Sleep",
             "wake_up_time": "Wake Up Time",
-            "save": "Save"
+            "save": "Save",
+            "time": "Time",
+            "cancel": "Cancel"
         },
         "nutrition_page": {
             "nutrition": "Nutrition",
@@ -230,7 +252,8 @@
             "of": "of",
             "protein": "Protein",
             "carbs": "Carbs",
-            "fat": "Fat"
+            "fat": "Fat",
+            "show_nutrient_facts": "Show Nutrient Facts"
         },
         "wellness_score_page": {
             "wellness_score": "Wellness Score",
@@ -277,7 +300,8 @@
             "goals_setting": "Goals Setting",
             "whats_your_goal": "What's your goal?",
             "update_your_current_goal_setting": "Update Your Current Goal Setting",
-            "goal_setting_update": "Update"
+            "goal_setting_update": "Update",
+            "you_have_lost": "You have lost "
         },
         "nutriscore_detail_page": {
             "nutriscore_detail": "NutriScore Details",
@@ -288,6 +312,7 @@
             "below_target": "Below Target",
             "on_track": "On Track",
             "excellent": "Excellent",
+            "high": "High",
             "score": "Score",
             "todays_amount": "Today's Amount",
             "weekly_average": "Weekly Average",
@@ -310,7 +335,11 @@
             "vitamin_c": "Vitamin C",
             "sugar": "Sugar",
             "fiber": "Fiber",
-            "cholesterol": "Cholesterol"
+            "cholesterol": "Cholesterol",
+            "lets_make_today_count": "Let's make today count!",
+            "dont_worry_we_can_improve_nutrition_together": "Don't worry, we can improve nutrition together!",
+            "youre_doing_great": "You're doing great! Keep your spirit up!",
+            "great_job_nutrition_on_point": "Great job! nutrition on point!"
         },
         "streak_page": {
             "streak_page": "Streak Page",
@@ -358,7 +387,10 @@
             "submit": "Submit",
             "youre_all_set": "You're all set!",
             "your_personalized_plan_is_ready": "Your personalized plan is ready. Let's start your health journey by keeping track of your daily habit.",
-            "get_started": "Get Started!"
+            "get_started": "Get Started!",
+            "light": "Light",
+            "moderate": "Moderate",
+            "active": "Active"
         },
         "wellness_calculation": {
             "how_do_wellness_score_calculated": "How do Wellness Score calculated?",
@@ -430,6 +462,75 @@
             "hydration_category_1000": "Over Halfway",
             "hydration_category_1500": "Hydrated",
             "hydration_category_more_2000": "Supercharged"
+        },
+        "request_food_page": {
+            "request_food": "Request Food",
+            "food_name": "Food Name",
+            "submit": "Submit"
+        },
+        "request_food_success_page": {
+            "food_request_completed": "Food Request Completed",
+            "thank_you": "Thank You",
+            "our_team_working_on_your_request": "Our team is working on your request",
+            "back_to_dashboard": "Back to Dashboard"
+        },
+        "nutrient_fact_page": {
+            "nutrient_fact": "Nutrient Fact",
+            "total_fat": "Total Fat",
+            "saturated": "Saturated",
+            "trans_fat": "Trans",
+            "polyunsaturated": "Polyunsaturated",
+            "monounsaturated": "Monounsaturated",
+            "carbs": "Carbs",
+            "fiber": "Fiber",
+            "protein": "Protein",
+            "sodium": "Sodium",
+            "potassium": "Potassium",
+            "cholesterol": "Cholesterol",
+            "vitamin_a": "Vitamin A",
+            "vitamin_c": "Vitamin C",
+            "calcium": "Calcium",
+            "iron": "Iron",
+            "sugar": "Sugar"
+        },
+        "user_diary_page": {
+            "diary": "Diary",
+            "nutrition": "Nutrition",
+            "breakfast": "Breakfast",
+            "lunch": "Lunch",
+            "snack": "Snack",
+            "dinner": "Dinner",
+            "exercise": "Exercise",
+            "calories_burnt": "Calories Burnt",
+            "steps": "Steps",
+            "number_of_serving": "Number of Serving",
+            "update": "Update",
+            "cancel": "Cancel",
+            "done": "Done",
+            "sleep": "Sleep"
+        },
+        "add_food_page": {
+            "number_of_serving": "Number of Serving",
+            "time": "Time",
+            "cancel": "Cancel",
+            "save": "Save",
+            "of_your_goal": "of your goal!",
+            "submit": "Submit",
+            "add": "Add"
+        },
+        "add_meal_page": {
+            "search": "Search",
+            "done": "Done",
+            "food_recommendation": "Food Recommendation",
+            "based_on_your_nutritional_needs": "Based on your nutritional needs",
+            "search_result": "Search Result",
+            "filter": "Filter",
+            "reset_filter": "Reset Filter",
+            "amount": "Amount",
+            "submit": "Submit",
+            "your_recommended_foods": "Your Recommended Foods",
+            "picked_based_on_your_nutritional_need": "Picked based on your nutritional need",
+            "search_here": "Search here"
         }
     },
     "id_ID": {
@@ -512,7 +613,8 @@
             "my_goals": "My Goals",
             "languages": "Languages",
             "privacy_policy": "Privacy Policy",
-            "logout": "Logout"
+            "logout": "Logout",
+            "save_changes": "Save Changes"
         },
         "account_settings_page": {
            "account_settings": "Account Settings",
@@ -525,11 +627,18 @@
            "delete_account": "Delete Account",
            "update": "Update"
         },
-        "change_password_page": {
+        "update_password_page": {
             "change_password": "Change Password",
             "enter_new_password": "Enter new password",
             "new_password": "New Password",
             "new_password_confirmation": "New Password Confirmation",
+            "change": "Change"
+        },
+        "change_password_page": {
+            "change_password": "Change Password",
+            "enter_your_otp": "Enter your OTP",
+            "enter_new_password": "Enter new password",
+            "confirm_password": "Confirm Password",
             "change": "Change"
         },
         "delete_account_dialog": {
@@ -545,7 +654,10 @@
             "breakfast": "Breakfast",
             "lunch": "Lunch",
             "snack": "Snack",
-            "dinner": "Dinner"
+            "dinner": "Dinner",
+            "time": "Time",
+            "cancel": "Cancel",
+            "save": "Save"
         },
         "physical_information_page": {
             "physical_information": "Physical Information",
@@ -554,7 +666,9 @@
             "height_cm": "Height (cm)",
             "weight_kg": "Weight (kg)",
             "dietary_restriction": "Dietary Restriction",
-            "save": "Save"
+            "save": "Save",
+            "male": "Male",
+            "female": "Female"
         },
         "my_goals_page": {
             "goals_setting": "Goals Setting",
@@ -605,7 +719,12 @@
             "see_how_do_hydration_score_calculated": "See how do hydration score calculated",
             "here": "Here",
             "youre_doing_well_in_staying_hydrated": "You're doing well in staying hydrated! Keep it up by drinking water regularly to maintain optimal health.",
-            "you_hit_your_goal_today": "You hit your goal today!"
+            "you_hit_your_goal_today": "You hit your goal today!",
+            "no_color": "No Color",
+            "pale_straw_yellow": "Pale Straw Yellow",
+            "translucent_yellow": "Translucent Yellow",
+            "dark_yellow": "Dark Yellow",
+            "amber": "Amber"
         },
         "mood_page": {
             "mood_tracker": "Mood Tracker",
@@ -615,7 +734,9 @@
             "good": "Good",
             "meh": "Meh",
             "bad": "Bad",
-            "awful": "Awful"
+            "awful": "Awful",
+            "mood_chart": "Mood chart",
+            "how_are_you": "How are you?"
         },
         "exercise_page": {
             "exercise": "Exercise",
@@ -646,7 +767,9 @@
             "add_sleep": "Add Sleep",
             "start_time_of_sleep": "Start Time of Sleep",
             "wake_up_time": "Wake Up Time",
-            "save": "Save"
+            "save": "Save",
+            "time": "Time",
+            "cancel": "Cancel"
         },
         "nutrition_page": {
             "nutrition": "Nutrition",
@@ -663,7 +786,8 @@
             "of": "of",
             "protein": "Protein",
             "carbs": "Carbs",
-            "fat": "Fat"
+            "fat": "Fat",
+            "show_nutrient_facts": "Show Nutrient Facts"
         },
         "wellness_score_page": {
             "wellness_score": "Wellness Score",
@@ -710,7 +834,8 @@
             "goals_setting": "Goals Setting",
             "whats_your_goal": "What's your goal?",
             "update_your_current_goal_setting": "Update Your Current Goal Setting",
-            "goal_setting_update": "Update"
+            "goal_setting_update": "Update",
+            "you_have_lost": "You have lost "
         },
         "nutriscore_detail_page": {
             "nutriscore_detail": "NutriScore Details",
@@ -721,6 +846,7 @@
             "below_target": "Below Target",
             "on_track": "On Track",
             "excellent": "Excellent",
+            "high": "High",
             "score": "Score",
             "todays_amount": "Today's Amount",
             "weekly_average": "Weekly Average",
@@ -743,7 +869,11 @@
             "vitamin_c": "Vitamin C",
             "sugar": "Sugar",
             "fiber": "Fiber",
-            "cholesterol": "Cholesterol"
+            "cholesterol": "Cholesterol",
+            "lets_make_today_count": "Let's make today count!",
+            "dont_worry_we_can_improve_nutrition_together": "Don't worry, we can improve nutrition together!",
+            "youre_doing_great": "You're doing great! Keep your spirit up!",
+            "great_job_nutrition_on_point": "Great job! nutrition on point!"
         },
         "streak_page": {
             "streak_page": "Streak Page",
@@ -791,7 +921,10 @@
             "submit": "Submit",
             "youre_all_set": "You're all set!",
             "your_personalized_plan_is_ready": "Your personalized plan is ready. Let's start your health journey by keeping track of your daily habit.",
-            "get_started": "Get Started!"
+            "get_started": "Get Started!",
+            "light": "Light",
+            "moderate": "Moderate",
+            "active": "Active"
         },
         "wellness_calculation": {
             "how_do_wellness_score_calculated": "How do Wellness Score calculated?",
@@ -863,6 +996,75 @@
             "hydration_category_1000": "Over Halfway",
             "hydration_category_1500": "Hydrated",
             "hydration_category_more_2000": "Supercharged"
+        },
+        "request_food_page": {
+            "request_food": "Request Food",
+            "food_name": "Food Name",
+            "submit": "Submit"
+        },
+        "request_food_success_page": {
+            "food_request_completed": "Food Request Completed",
+            "thank_you": "Thank You",
+            "our_team_working_on_your_request": "Our team is working on your request",
+            "back_to_dashboard": "Back to Dashboard"
+        },
+        "nutrient_fact_page": {
+            "nutrient_fact": "Nutrient Fact",
+            "total_fat": "Total Fat",
+            "saturated": "Saturated",
+            "trans_fat": "Trans",
+            "polyunsaturated": "Polyunsaturated",
+            "monounsaturated": "Monounsaturated",
+            "carbs": "Carbs",
+            "fiber": "Fiber",
+            "protein": "Protein",
+            "sodium": "Sodium",
+            "potassium": "Potassium",
+            "cholesterol": "Cholesterol",
+            "vitamin_a": "Vitamin A",
+            "vitamin_c": "Vitamin C",
+            "calcium": "Calcium",
+            "iron": "Iron",
+            "sugar": "Sugar"
+        },
+        "user_diary_page": {
+            "diary": "Diary",
+            "nutrition": "Nutrition",
+            "breakfast": "Breakfast",
+            "lunch": "Lunch",
+            "snack": "Snack",
+            "dinner": "Dinner",
+            "exercise": "Exercise",
+            "calories_burnt": "Calories Burnt",
+            "steps": "Steps",
+            "number_of_serving": "Number of Serving",
+            "update": "Update",
+            "cancel": "Cancel",
+            "done": "Done",
+            "sleep": "Sleep"
+        },
+        "add_food_page": {
+            "number_of_serving": "Number of Serving",
+            "time": "Time",
+            "cancel": "Cancel",
+            "save": "Save",
+            "of_your_goal": "of your goal!",
+            "submit": "Submit",
+            "add": "Add"
+        },
+        "add_meal_page": {
+            "search": "Search",
+            "done": "Done",
+            "food_recommendation": "Food Recommendation",
+            "based_on_your_nutritional_needs": "Based on your nutritional needs",
+            "search_result": "Search Result",
+            "filter": "Filter",
+            "reset_filter": "Reset Filter",
+            "amount": "Amount",
+            "submit": "Submit",
+            "your_recommended_foods": "Your Recommended Foods",
+            "picked_based_on_your_nutritional_need": "Picked based on your nutritional need",
+            "search_here": "Search here"
         }
     }
 }

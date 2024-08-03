@@ -33,7 +33,7 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: controller.localization.goalsSetting!,
+        title: controller.localization.myGoalsPage?.goalsSetting ?? "Goals Setting",
         body: Expanded(
           child: Column(
             children: [
@@ -50,16 +50,12 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding:
-                          EdgeInsets.only(top: 18.h, left: 24.w, right: 24.w),
+                      padding: EdgeInsets.only(top: 18.h, left: 24.w, right: 24.w),
                       child: Row(
                         children: [
                           Text(
-                            controller.localization.goalsSetting!,
-                            style: TextStyle(
-                                color: const Color(0xFF171433),
-                                fontSize: 20.sp,
-                                fontWeight: FontWeight.w600),
+                            controller.localization.myGoalsPage?.goalsSetting ?? "Goals Setting",
+                            style: TextStyle(color: const Color(0xFF171433), fontSize: 20.sp, fontWeight: FontWeight.w600),
                           ),
                         ],
                       ),
@@ -79,41 +75,32 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
                                       width: 0.8.sw,
                                       child: Obx(() {
                                         return Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Column(
                                               children: GoalSelection.values
                                                   .map((e) => ListTile(
                                                         title: Text(
                                                           e.title(),
-                                                          style: const TextStyle(
-                                                              color: Color(
-                                                                  0xFF171433)),
+                                                          style: const TextStyle(color: Color(0xFF171433)),
                                                         ),
                                                         trailing: Radio(
                                                             value: e,
-                                                            groupValue: controller
-                                                                .selectedGoals
-                                                                .value,
+                                                            groupValue: controller.selectedGoals.value,
                                                             onChanged: (val) {
-                                                              controller
-                                                                      .selectedGoals
-                                                                      .value =
-                                                                  val as GoalSelection;
+                                                              controller.selectedGoals.value = val as GoalSelection;
                                                             }),
                                                       ))
                                                   .toList(),
                                             ),
                                             30.verticalSpace,
                                             LiveWellButton(
-                                                label: 'Save Changes'.tr,
+                                                label: controller.localization.myGoalsPage?.save ?? "Save Changes",
                                                 color: const Color(0xFF8F01DF),
                                                 textColor: Colors.white,
                                                 onPressed: () {
                                                   Get.back();
-                                                  controller.setGoal(controller
-                                                      .selectedGoals.value);
+                                                  controller.setGoal(controller.selectedGoals.value);
                                                 })
                                           ],
                                         );
@@ -122,51 +109,41 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
                               },
                               child: AccountSettingsTextField(
                                 textEditingController: controller.specificGoal,
-                                hintText: controller.localization.specificGoal!,
+                                hintText: controller.localization.myGoalsPage?.specificGoal ?? "Specific Goal",
                                 enabled: false,
                               ),
                             ),
                             16.verticalSpace,
                             AccountSettingsTextField(
                               textEditingController: controller.targetWeight,
-                              hintText: controller.localization.targetWeightKg!,
+                              hintText: controller.localization.myGoalsPage?.targetWeightKg ?? "Target Weight (kg)",
                               enabled: true,
-                              inputFormatter: Platform.isIOS
-                                  ? []
-                                  : [
-                                      FilteringTextInputFormatter.allow(
-                                          RegExp(r'^\d+\.?\d{0,2}'))
-                                    ],
-                              inputType: const TextInputType.numberWithOptions(
-                                  decimal: true),
+                              inputFormatter: Platform.isIOS ? [] : [FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}'))],
+                              inputType: const TextInputType.numberWithOptions(decimal: true),
                             ),
                             16.verticalSpace,
                             AccountSettingsTextField(
                               textEditingController: controller.drink,
-                              hintText: controller.localization.drink!,
+                              hintText: controller.localization.myGoalsPage?.drink ?? "Drink",
                               enabled: true,
                               inputType: TextInputType.number,
-                              suffixText: "Glass",
+                              suffixText: controller.localization.myGoalsPage?.glass ?? "Glass",
                             ),
                             16.verticalSpace,
                             AccountSettingsTextField(
                               textEditingController: controller.sleep,
-                              hintText: controller.localization.sleepHours!,
+                              hintText: controller.localization.myGoalsPage?.sleepHours ?? "Sleep (Hours)",
                               enabled: true,
-                              inputType: const TextInputType.numberWithOptions(
-                                  decimal: true),
+                              inputType: const TextInputType.numberWithOptions(decimal: true),
                             ),
                             16.verticalSpace,
                             AccountSettingsTextField(
-                              textEditingController:
-                                  exerciseController.exerciseController,
-                              hintText: 'Calories (kcal)'.tr,
+                              textEditingController: exerciseController.exerciseController,
+                              hintText: controller.localization.myGoalsPage?.caloriesKcal ?? 'Calories (kcal)',
                               enabled: true,
-                              inputType:
-                                  const TextInputType.numberWithOptions(),
+                              inputType: const TextInputType.numberWithOptions(),
                               inputFormatter: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(r'[0-9]')),
+                                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                               ],
                             ),
                           ],
@@ -178,7 +155,7 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
               ),
               const Spacer(),
               LiveWellButton(
-                label: controller.localization.save!,
+                label: controller.localization.myGoalsPage?.save ?? "Save",
                 textColor: Colors.white,
                 color: const Color(0xFF8F01DF),
                 onPressed: () {

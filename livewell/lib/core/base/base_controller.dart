@@ -1,16 +1,13 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
-import 'package:livewell/core/localization/localization_model.dart';
-import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/core/localization/localization_model_v2.dart';
 import 'package:livewell/feature/splash/domain/usecase/get_localization_data.dart';
 import 'package:livewell/feature/wellness/presentation/controller/wellness_controller.dart';
 
 class BaseController extends FullLifeCycleController with FullLifeCycleMixin {
-  LocalizationKey localization = LocalizationKey();
+  LocalizationKeyV2 localization = LocalizationKeyV2();
   LivewellTrackerService livewellTracker = Get.find();
   WellnessCalculationModel wellnessCalculationModel = WellnessCalculationModel.generate();
   @override
@@ -93,9 +90,9 @@ class BaseController extends FullLifeCycleController with FullLifeCycleMixin {
 }
 
 class LanguageController extends GetxController {
-  Rx<Localization> parentLocalization = Localization().obs;
-  Rx<LocalizationKey> localization = LocalizationKey().obs;
-  GetLocalizationData getLocalizationData = GetLocalizationData.instance();
+  Rx<LocalizationModelV2> parentLocalization = LocalizationModelV2().obs;
+  Rx<LocalizationKeyV2> localization = LocalizationKeyV2().obs;
+  GetLocalizationDataV2 getLocalizationData = GetLocalizationDataV2.instance();
   Rx<AvailableLanguage> currentLanguage = AvailableLanguage.en.obs;
   @override
   void onInit() {
@@ -108,6 +105,10 @@ class LanguageController extends GetxController {
     result.fold((l) {}, (r) {
       parentLocalization.value = r;
     });
+    // final result = await getLocalizationDataV2.call(NoParams());
+    // result.fold((l) {}, (r) {
+    //   lovalizationV2.value = r;
+    // });
   }
 
   Future<void> changeLocalization(AvailableLanguage lang) async {
@@ -116,11 +117,11 @@ class LanguageController extends GetxController {
       parentLocalization.value = r;
       switch (lang) {
         case AvailableLanguage.en:
-          localization.value = r.enUS!;
+          localization.value = r.enUs!;
           currentLanguage.value = AvailableLanguage.en;
           break;
         case AvailableLanguage.id:
-          localization.value = r.idID!;
+          localization.value = r.idId!;
           currentLanguage.value = AvailableLanguage.id;
           break;
       }

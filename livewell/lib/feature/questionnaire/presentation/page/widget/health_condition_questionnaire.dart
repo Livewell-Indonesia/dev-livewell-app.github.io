@@ -8,18 +8,14 @@ import 'package:livewell/theme/design_system.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/textfield/auth_textfield.dart';
 
-import 'calories_need_questionnaire.dart';
-
 class HealthConditionQuestionnaire extends StatefulWidget {
   const HealthConditionQuestionnaire({super.key});
 
   @override
-  State<HealthConditionQuestionnaire> createState() =>
-      _HealthConditionQuestionnaireState();
+  State<HealthConditionQuestionnaire> createState() => _HealthConditionQuestionnaireState();
 }
 
-class _HealthConditionQuestionnaireState
-    extends State<HealthConditionQuestionnaire> {
+class _HealthConditionQuestionnaireState extends State<HealthConditionQuestionnaire> {
   final QuestionnaireController controller = Get.find();
   @override
   Widget build(BuildContext context) {
@@ -47,8 +43,7 @@ class _HealthConditionQuestionnaireState
         AuthTextField(
           controller: controller.healthCondition,
           hintText: null,
-          labelText:
-              "examples: diabetes, high blood pressure, gluten sensitivity, etc.",
+          labelText: "examples: diabetes, high blood pressure, gluten sensitivity, etc.",
           errorText: null,
           obscureText: false,
           borderColor: const Color(0xFFE8E7E7),

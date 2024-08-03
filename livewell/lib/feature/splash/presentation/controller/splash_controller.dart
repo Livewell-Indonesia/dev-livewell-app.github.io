@@ -104,6 +104,11 @@ class SplashController extends BaseController {
       // check user locale
       getUserData();
     });
+    // final result = await controller.getLocalizationDataV2.call(NoParams());
+    // result.fold((l) {}, (r) async {
+    //   // check user locale
+    //   getUserData();
+    // });
   }
 
   void getUserData() async {

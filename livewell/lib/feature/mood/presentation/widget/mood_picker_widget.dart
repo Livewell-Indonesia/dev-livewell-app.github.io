@@ -23,7 +23,7 @@ class MoodPickerWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            Get.find<HomeController>().localization.howAreYou ?? 'How are you?',
+            Get.find<HomeController>().localization.moodPage?.howAreYou ?? 'How are you?',
             style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontWeight: FontWeight.w600, fontSize: 16.sp),
           ),
           14.verticalSpace,
@@ -137,15 +137,15 @@ extension MoodTypeExt on MoodType {
   String title() {
     switch (this) {
       case MoodType.great:
-        return Get.find<HomeController>().localization.moodGreat ?? 'Great';
+        return Get.find<HomeController>().localization.moodPage?.great ?? 'Great';
       case MoodType.good:
-        return Get.find<HomeController>().localization.moodGood ?? 'Good';
+        return Get.find<HomeController>().localization.moodPage?.good ?? 'Good';
       case MoodType.meh:
-        return Get.find<HomeController>().localization.moodMeh ?? 'Meh';
+        return Get.find<HomeController>().localization.moodPage?.meh ?? 'Meh';
       case MoodType.bad:
-        return Get.find<HomeController>().localization.moodBad ?? 'Bad';
+        return Get.find<HomeController>().localization.moodPage?.bad ?? 'Bad';
       case MoodType.awful:
-        return Get.find<HomeController>().localization.moodAwful ?? 'Awful';
+        return Get.find<HomeController>().localization.moodPage?.awful ?? 'Awful';
     }
   }
 
