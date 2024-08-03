@@ -86,4 +86,7 @@ class Endpoint {
 
   /// change password
   static const String updatePassword = "user/change-password";
+
+  /// task recommendation
+  static const String taskRecommendation = "wellness/recommendation-list";
 }

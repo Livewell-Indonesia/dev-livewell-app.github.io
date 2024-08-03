@@ -5,7 +5,6 @@ import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/localization/localization_model.dart';
-import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/splash/domain/usecase/get_localization_data.dart';
 import 'package:livewell/feature/wellness/presentation/controller/wellness_controller.dart';
 

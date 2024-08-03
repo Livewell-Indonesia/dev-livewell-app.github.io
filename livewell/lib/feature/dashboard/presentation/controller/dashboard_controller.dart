@@ -13,6 +13,7 @@ import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/data/model/dashboard_model.dart';
+import 'package:livewell/feature/dashboard/data/model/task_recommendation_model.dart';
 import 'package:livewell/feature/dashboard/data/model/user_model.dart';
 import 'package:livewell/feature/dashboard/domain/entity/feature_limit_entity.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_dashboard_data.dart';
@@ -34,7 +35,6 @@ import 'package:livewell/feature/sleep/domain/usecase/get_sleep_list.dart';
 import 'package:livewell/feature/sleep/presentation/controller/sleep_controller.dart';
 import 'package:livewell/feature/streak/data/model/wellness_batch_data_model.dart';
 import 'package:livewell/feature/streak/domain/usecase/get_total_streak.dart';
-import 'package:livewell/feature/streak/domain/usecase/get_wellness_data_batch.dart';
 import 'package:livewell/feature/streak/domain/usecase/get_wellness_detail.dart';
 import 'package:livewell/feature/streak/presentation/widget/streak_calendar.dart';
 import 'package:livewell/feature/water/data/model/water_list_model.dart';
@@ -88,6 +88,8 @@ class DashboardController extends BaseController {
   ];
 
   RxList<TaskCardModel> taskCardModel = <TaskCardModel>[].obs;
+  Rx<TaskRecommendationModel> taskRecommendationModel = TaskRecommendationModel().obs;
+  Rx<bool> isLoadingTaskRecommendation = false.obs;
 
   void getTotalStreak() {
     final useCase = GetTotalStreak.instance();
