@@ -8,12 +8,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
-import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/extension/dashboard_task_card_controller.dart';
 import 'package:livewell/feature/dashboard/presentation/enums/dashboard_coachmark_type.dart';
 import 'package:livewell/feature/dashboard/presentation/enums/task_card_type.dart';
-import 'package:livewell/feature/dashboard/presentation/widget/coachmark/coachmark_widget.dart';
 import 'package:livewell/feature/dashboard/presentation/widget/dashboard_summary_widget.dart';
 import 'package:livewell/feature/dashboard/presentation/widget/task_card/task_card.dart';
 import 'package:livewell/feature/dashboard/presentation/widget/task_card/task_card_finish_widget.dart';
@@ -26,10 +24,8 @@ import 'package:livewell/feature/mood/presentation/widget/mood_picker_widget.dar
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
 import 'package:livewell/feature/sleep/presentation/controller/sleep_controller.dart';
 import 'package:livewell/feature/streak/presentation/pages/streak_screen.dart';
-import 'package:livewell/feature/water/presentation/pages/water_custom_input_page.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({super.key});
@@ -148,7 +144,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                                 );
                               }),
                               Text(
-                                '${controller.localization.goodGreeting ?? ""} ${controller.greeting()}',
+                                controller.greeting(),
                                 style: TextStyle(color: const Color(0xFF171433), fontSize: 24.sp, fontWeight: FontWeight.w600),
                               )
                             ],
@@ -408,7 +404,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                           : Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 20).r,
                               child: Text(
-                                controller.localization.taskList!,
+                                controller.localization.homePage?.taskList ?? "Task List",
                                 style: TextStyle(color: const Color(0xFF171433), fontSize: 20.sp, fontWeight: FontWeight.w600),
                               ),
                             );
@@ -429,33 +425,94 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                     8.verticalSpace,
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20).r,
-                      child: Obx(() {
-                        if (homeController.isShowCoachmark.value) {
-                          return dummyTask();
-                        } else {
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  controller.trackEvent(LivewellHomepageEvent.taskListWaterButton);
-                                  AppNavigator.push(routeName: AppPages.waterScreen);
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.only(left: 10.w, right: 20.w),
-                                  width: 335.w,
-                                  height: 72.h,
-                                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20).r),
-                                  child: Row(
-                                    children: [
-                                      Transform.scale(
-                                        scale: 1.2,
-                                        child: Obx(
-                                          () {
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              controller.trackEvent(LivewellHomepageEvent.taskListWaterButton);
+                              AppNavigator.push(routeName: AppPages.waterScreen);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.only(left: 10.w, right: 20.w),
+                              width: 335.w,
+                              height: 72.h,
+                              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20).r),
+                              child: Row(
+                                children: [
+                                  Transform.scale(
+                                    scale: 1.2,
+                                    child: Obx(
+                                      () {
+                                        return Checkbox(
+                                          value: controller.waterConsumed.value >= 2000,
+                                          onChanged: (val) {},
+                                          fillColor: MaterialStateProperty.resolveWith((states) {
+                                            if (states.contains(MaterialState.selected)) {
+                                              return const Color(0xFFDDF235);
+                                            }
+                                            return null;
+                                          }),
+                                          checkColor: const Color(0xFF171433),
+                                          activeColor: Colors.green,
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                          side: const BorderSide(color: Color(0xFF171433), width: 1),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 43.w,
+                                    height: 43.w,
+                                    decoration: BoxDecoration(color: const Color(0xFFF1F1F1), borderRadius: BorderRadius.circular(10.r)),
+                                    child: Image.asset(Constant.icWaterUnselected),
+                                  ),
+                                  10.horizontalSpace,
+                                  Text(
+                                    'Water',
+                                    style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    "${(controller.waterConsumed.value / 1000).toStringAsFixed(1)} L",
+                                    style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          ListView.separated(
+                              padding: EdgeInsets.only(top: 10.h),
+                              shrinkWrap: true,
+                              physics: const ClampingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    if (controller.user.value.dailyJournal?[index].name?.toLowerCase() == "breakfast") {
+                                      controller.trackEvent(LivewellHomepageEvent.taskListBreakfastButton);
+                                    } else if (controller.user.value.dailyJournal?[index].name?.toLowerCase() == "lunch") {
+                                      controller.trackEvent(LivewellHomepageEvent.taskListLunchButton);
+                                    } else if (controller.user.value.dailyJournal?[index].name?.toLowerCase() == "dinner") {
+                                      controller.trackEvent(LivewellHomepageEvent.taskListDinnerButton);
+                                    } else if (controller.user.value.dailyJournal?[index].name?.toLowerCase() == "snack") {
+                                      controller.trackEvent(LivewellHomepageEvent.taskListSnackButton);
+                                    }
+                                    AppNavigator.push(routeName: AppPages.addMeal, arguments: {"type": controller.user.value.dailyJournal?[index].name, "date": DateTime.now()});
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.only(left: 10.w, right: 20.w),
+                                    width: 335.w,
+                                    height: 72.h,
+                                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20).r),
+                                    child: Row(
+                                      children: [
+                                        Transform.scale(
+                                          scale: 1.2,
+                                          child: Obx(() {
                                             return Checkbox(
-                                              value: controller.waterConsumed.value >= 2000,
+                                              value: controller.isCompleted(index).value,
                                               onChanged: (val) {},
                                               fillColor: MaterialStateProperty.resolveWith((states) {
                                                 if (states.contains(MaterialState.selected)) {
@@ -468,102 +525,35 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                               side: const BorderSide(color: Color(0xFF171433), width: 1),
                                             );
-                                          },
+                                          }),
                                         ),
-                                      ),
-                                      Container(
-                                        width: 43.w,
-                                        height: 43.w,
-                                        decoration: BoxDecoration(color: const Color(0xFFF1F1F1), borderRadius: BorderRadius.circular(10.r)),
-                                        child: Image.asset(Constant.icWaterUnselected),
-                                      ),
-                                      10.horizontalSpace,
-                                      Text(
-                                        'Water',
-                                        style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        "${(controller.waterConsumed.value / 1000).toStringAsFixed(1)} L",
-                                        style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
-                                      ),
-                                    ],
+                                        Container(
+                                          width: 43.w,
+                                          height: 43.w,
+                                          decoration: BoxDecoration(color: const Color(0xFFF1F1F1), borderRadius: BorderRadius.circular(10.r)),
+                                          child: Image.asset(Constant.icFoodUnselected),
+                                        ),
+                                        10.horizontalSpace,
+                                        Text(
+                                          "${controller.user.value.dailyJournal?[index].time} ${MealTime.values.firstWhere((element) => element.name == controller.user.value.dailyJournal?[index].name?.toLowerCase()).text()}",
+                                          style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                        ),
+                                        const Spacer(),
+                                        Icon(
+                                          Icons.arrow_forward_ios_rounded,
+                                          size: 20.r,
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ),
-                              ListView.separated(
-                                  padding: EdgeInsets.only(top: 10.h),
-                                  shrinkWrap: true,
-                                  physics: const ClampingScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    return InkWell(
-                                      onTap: () {
-                                        if (controller.user.value.dailyJournal?[index].name?.toLowerCase() == "breakfast") {
-                                          controller.trackEvent(LivewellHomepageEvent.taskListBreakfastButton);
-                                        } else if (controller.user.value.dailyJournal?[index].name?.toLowerCase() == "lunch") {
-                                          controller.trackEvent(LivewellHomepageEvent.taskListLunchButton);
-                                        } else if (controller.user.value.dailyJournal?[index].name?.toLowerCase() == "dinner") {
-                                          controller.trackEvent(LivewellHomepageEvent.taskListDinnerButton);
-                                        } else if (controller.user.value.dailyJournal?[index].name?.toLowerCase() == "snack") {
-                                          controller.trackEvent(LivewellHomepageEvent.taskListSnackButton);
-                                        }
-                                        AppNavigator.push(routeName: AppPages.addMeal, arguments: {"type": controller.user.value.dailyJournal?[index].name, "date": DateTime.now()});
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsets.only(left: 10.w, right: 20.w),
-                                        width: 335.w,
-                                        height: 72.h,
-                                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20).r),
-                                        child: Row(
-                                          children: [
-                                            Transform.scale(
-                                              scale: 1.2,
-                                              child: Obx(() {
-                                                return Checkbox(
-                                                  value: controller.isCompleted(index).value,
-                                                  onChanged: (val) {},
-                                                  fillColor: MaterialStateProperty.resolveWith((states) {
-                                                    if (states.contains(MaterialState.selected)) {
-                                                      return const Color(0xFFDDF235);
-                                                    }
-                                                    return null;
-                                                  }),
-                                                  checkColor: const Color(0xFF171433),
-                                                  activeColor: Colors.green,
-                                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                                  side: const BorderSide(color: Color(0xFF171433), width: 1),
-                                                );
-                                              }),
-                                            ),
-                                            Container(
-                                              width: 43.w,
-                                              height: 43.w,
-                                              decoration: BoxDecoration(color: const Color(0xFFF1F1F1), borderRadius: BorderRadius.circular(10.r)),
-                                              child: Image.asset(Constant.icFoodUnselected),
-                                            ),
-                                            10.horizontalSpace,
-                                            Text(
-                                              "${controller.user.value.dailyJournal?[index].time} ${MealTime.values.firstWhere((element) => element.name == controller.user.value.dailyJournal?[index].name?.toLowerCase()).text()}",
-                                              style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
-                                            ),
-                                            const Spacer(),
-                                            Icon(
-                                              Icons.arrow_forward_ios_rounded,
-                                              size: 20.r,
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  separatorBuilder: (context, index) {
-                                    return 10.verticalSpace;
-                                  },
-                                  itemCount: controller.user.value.dailyJournal?.length ?? 0),
-                            ],
-                          );
-                        }
-                      }),
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return 10.verticalSpace;
+                              },
+                              itemCount: controller.user.value.dailyJournal?.length ?? 0),
+                        ],
+                      ),
                     ),
                     80.verticalSpace,
                   ],
@@ -584,56 +574,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
     } else {
       return 32.h * (todayProgress / 5);
     }
-  }
-
-  InkWell dummyTask() {
-    return InkWell(
-      onTap: () {},
-      child: Container(
-        key: homeController.taskKey,
-        padding: EdgeInsets.only(left: 10.w, right: 20.w),
-        width: 335.w,
-        height: 72.h,
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20).r),
-        child: Row(
-          children: [
-            Transform.scale(
-              scale: 1.2,
-              child: Checkbox(
-                value: false,
-                onChanged: (val) {},
-                fillColor: MaterialStateProperty.resolveWith((states) {
-                  if (states.contains(MaterialState.selected)) {
-                    return const Color(0xFFDDF235);
-                  }
-                  return const Color(0xFF171433);
-                }),
-                checkColor: const Color(0xFF171433),
-                activeColor: Colors.green,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                side: const BorderSide(color: Color(0xFF171433), width: 1),
-              ),
-            ),
-            Container(
-              width: 43.w,
-              height: 43.w,
-              decoration: BoxDecoration(color: const Color(0xFFF1F1F1), borderRadius: BorderRadius.circular(10.r)),
-              child: Image.asset(Constant.icFoodUnselected),
-            ),
-            10.horizontalSpace,
-            Text(
-              controller.localization.addFood!,
-              style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
-            ),
-            const Spacer(),
-            Icon(
-              Icons.arrow_forward_ios_rounded,
-              size: 20.r,
-            )
-          ],
-        ),
-      ),
-    );
   }
 }
 
@@ -774,83 +714,6 @@ class MyTooltip extends StatelessWidget {
 }
 
 enum CarouselDashboard { weight }
-
-class YourWeightWidget extends StatelessWidget {
-  final double weight;
-  final double targetWeight;
-  const YourWeightWidget({super.key, required this.weight, required this.targetWeight});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-      decoration: BoxDecoration(
-        color: const Color(0xFF171433),
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'Target: $targetWeight Kg',
-                      style: TextStyle(color: Colors.white, fontSize: 12.sp, fontWeight: FontWeight.w500),
-                    ),
-                    const Spacer(),
-                    Text(
-                      '${Get.find<HomeController>().localization.current ?? ""}: $weight Kg',
-                      style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 12.sp, fontWeight: FontWeight.w500),
-                    )
-                  ],
-                ),
-                8.verticalSpace,
-                LinearPercentIndicator(
-                  padding: EdgeInsets.zero,
-                  lineHeight: 7.h,
-                  percent: (weight / targetWeight).maxOneOrZero,
-                  barRadius: const Radius.circular(100.0),
-                  backgroundColor: const Color(0xFFF2F1F9),
-                  progressColor: const Color(0xFFDDF235),
-                ),
-                8.verticalSpace,
-                Text(
-                  Get.find<DashboardController>().localization.keepWithOurPlan!,
-                  style: TextStyle(color: Colors.white, fontSize: 12.sp, fontWeight: FontWeight.w500),
-                ),
-                12.verticalSpace,
-                Container(
-                  width: 1.sw,
-                  height: 1,
-                  color: const Color(0xFF4D4A68),
-                ),
-                12.verticalSpace,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      Get.find<DashboardController>().localization.seeMyProgress!,
-                      style: TextStyle(color: Colors.white, fontSize: 12.sp, fontWeight: FontWeight.w600),
-                    ),
-                    12.horizontalSpace,
-                    Icon(
-                      Icons.arrow_forward_ios_outlined,
-                      size: 12.sp,
-                      color: Colors.white,
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 extension DoubleExtension on double {
   double get maxOneOrZero {

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -33,7 +31,6 @@ class QuestionnaireController extends BaseController {
   Rx<Gender> selectedGender = Gender.male.obs;
   Rx<GoalSelection> selectedGoals = GoalSelection.none.obs;
   Rx<DietrarySelection> selectedDietrary = DietrarySelection.no.obs;
-  Rx<TargetExerciseSelection> selectedExerciseTarget = TargetExerciseSelection.light.obs;
   Rx<CaloriesNeedType> selectedCaloriesNeed = CaloriesNeedType.none.obs;
   Rx<AvailableLanguage> selectedLanguage = AvailableLanguage.en.obs;
   TextEditingController selectedDietraryText = TextEditingController();
@@ -301,11 +298,11 @@ extension DietrarySelectionContent on DietrarySelection {
   String title() {
     switch (this) {
       case DietrarySelection.yes:
-        return Get.find<HomeController>().localization.yes!;
+        return "";
       case DietrarySelection.no:
-        return Get.find<HomeController>().localization.no!;
+        return "";
       case DietrarySelection.none:
-        return Get.find<HomeController>().localization.none!;
+        return "";
     }
   }
 }
@@ -338,15 +335,15 @@ extension GoalSelectionContent on GoalSelection {
   String title() {
     switch (this) {
       case GoalSelection.getFitter:
-        return Get.find<HomeController>().localization.getFitter!;
+        return "";
       case GoalSelection.betterSleeping:
-        return Get.find<HomeController>().localization.betterSleeping!;
+        return "";
       case GoalSelection.weightLoss:
-        return Get.find<HomeController>().localization.weightLoss!;
+        return "";
       case GoalSelection.trackNutrition:
-        return Get.find<HomeController>().localization.trackNutrition!;
+        return "";
       case GoalSelection.none:
-        return Get.find<HomeController>().localization.none!;
+        return "";
     }
   }
 
@@ -372,11 +369,11 @@ extension TargetExerciseContent on TargetExerciseSelection {
   String title() {
     switch (this) {
       case TargetExerciseSelection.light:
-        return Get.find<HomeController>().localization.s200kcal!;
+        return Get.find<HomeController>().localization.onboardingPage?.light100Kcal ?? "(100kcal)";
       case TargetExerciseSelection.moderate:
-        return Get.find<HomeController>().localization.s300kcal!;
+        return Get.find<HomeController>().localization.onboardingPage?.moderate250Kcal ?? "(250kcal)";
       case TargetExerciseSelection.active:
-        return Get.find<HomeController>().localization.s400kcal!;
+        return Get.find<HomeController>().localization.onboardingPage?.active400Kcal ?? "(400kcal)";
     }
   }
 

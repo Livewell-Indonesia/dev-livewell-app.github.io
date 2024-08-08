@@ -12,8 +12,7 @@ class ExerciseInformationScreen extends StatefulWidget {
   ExerciseInformationScreen({super.key});
 
   @override
-  State<ExerciseInformationScreen> createState() =>
-      _ExerciseInformationScreenState();
+  State<ExerciseInformationScreen> createState() => _ExerciseInformationScreenState();
 }
 
 class _ExerciseInformationScreenState extends State<ExerciseInformationScreen> {
@@ -28,7 +27,7 @@ class _ExerciseInformationScreenState extends State<ExerciseInformationScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: controller.localization.exerciseInformation!,
+        title: controller.localization.physicalInformationPage?.physicalInformation ?? "Physical Information",
         body: Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -44,16 +43,12 @@ class _ExerciseInformationScreenState extends State<ExerciseInformationScreen> {
                   child: Column(
                     children: [
                       Padding(
-                        padding:
-                            EdgeInsets.only(top: 18.h, left: 24.w, right: 24.w),
+                        padding: EdgeInsets.only(top: 18.h, left: 24.w, right: 24.w),
                         child: Row(
                           children: [
                             Text(
-                              controller.localization.exerciseInformation!,
-                              style: TextStyle(
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black),
+                              controller.localization.physicalInformationPage?.physicalInformation ?? "Physical Information",
+                              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600, color: Colors.black),
                             ),
                             const Spacer(),
                           ],
@@ -62,23 +57,19 @@ class _ExerciseInformationScreenState extends State<ExerciseInformationScreen> {
                       12.verticalSpace,
                       Expanded(
                         child: Container(
-                          padding: EdgeInsets.only(
-                              left: 20.w, right: 20.w, top: 39.h),
+                          padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 39.h),
                           color: const Color(0xFFF1F1F1),
                           child: SingleChildScrollView(
                             child: Column(
                               children: [
                                 20.verticalSpace,
                                 AccountSettingsTextField(
-                                  textEditingController:
-                                      controller.exerciseController,
+                                  textEditingController: controller.exerciseController,
                                   hintText: 'Calories (kcal)'.tr,
                                   enabled: true,
-                                  inputType:
-                                      const TextInputType.numberWithOptions(),
+                                  inputType: const TextInputType.numberWithOptions(),
                                   inputFormatter: [
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]')),
+                                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                   ],
                                 ),
                                 20.verticalSpace,
@@ -92,12 +83,11 @@ class _ExerciseInformationScreenState extends State<ExerciseInformationScreen> {
                 ),
                 20.verticalSpace,
                 LiveWellButton(
-                    label: controller.localization.save!,
+                    label: controller.localization.physicalInformationPage?.save ?? "Save",
                     color: const Color(0xFF8F01DF),
                     textColor: Colors.white,
                     onPressed: () {
-                      controller.trackEvent(LivewellProfileEvent
-                          .physicalInformationPageSaveButton);
+                      controller.trackEvent(LivewellProfileEvent.physicalInformationPageSaveButton);
                       controller.save();
                     })
               ],

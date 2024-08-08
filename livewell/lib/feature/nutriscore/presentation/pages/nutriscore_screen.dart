@@ -28,7 +28,7 @@ class _NutriScoreScreenState extends State<NutriScoreScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: controller.localization.nutriscoreDetails!,
+        title: controller.localization.nutriscoreDetailPage?.nutriscoreDetail ?? "NutriScore Details",
         backgroundColor: Colors.white,
         body: Expanded(
           child: Padding(
@@ -179,17 +179,17 @@ extension NutrientScoreStatusAtt on NutrientScoreStatus {
   String title() {
     switch (this) {
       case NutrientScoreStatus.low:
-        return Get.find<HomeController>().localization.low!;
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.low ?? "Low";
       case NutrientScoreStatus.optimal:
-        return Get.find<HomeController>().localization.optimal!;
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.optimal ?? "Optimal";
       case NutrientScoreStatus.high:
-        return Get.find<HomeController>().localization.high!;
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.high ?? "High";
       case NutrientScoreStatus.ontrack:
-        return Get.find<HomeController>().localization.onTrack!;
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.onTrack ?? "On Track";
       case NutrientScoreStatus.belowTarget:
-        return Get.find<HomeController>().localization.belowTarget!;
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.belowTarget ?? "Below Target";
       case NutrientScoreStatus.excellent:
-        return Get.find<HomeController>().localization.excellent!;
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.excellent ?? "Excellent";
     }
   }
 

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
 import 'package:livewell/core/error/failures.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';

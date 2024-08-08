@@ -7,7 +7,6 @@ import 'package:livewell/feature/dashboard/presentation/controller/dashboard_con
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/nutrico/presentation/widget/nutri_score_plus_bottom_sheet.dart';
 import 'package:livewell/feature/streak/data/model/wellness_detail_model.dart';
-import 'package:livewell/feature/water/presentation/pages/water_custom_input_page.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
 
@@ -85,7 +84,7 @@ extension StreakItemTypeExt on StreakItemType {
     switch (this) {
       case StreakItemType.hydration:
         Get.find<DashboardController>().trackEvent(LivewellStreakEvent.streakPageHydrationWaterButton);
-        AppNavigator.push(routeName: AppPages.waterConsumedPage, arguments: {"waterInputType": WaterInputType.increase});
+        AppNavigator.push(routeName: AppPages.waterScreen);
         break;
       case StreakItemType.sleep:
         Get.find<DashboardController>().trackEvent(LivewellStreakEvent.streakPageSleepButton);

@@ -260,33 +260,33 @@ extension NutrientTypeAtt on NutrientType {
   String lowTitle() {
     switch (this) {
       case NutrientType.water:
-        return Get.find<HomeController>().localization.belowTarget!;
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.belowTarget ?? "Below Target";
       case NutrientType.protein:
-        return Get.find<HomeController>().localization.belowTarget!;
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.belowTarget ?? "Below Target";
       default:
-        return Get.find<HomeController>().localization.low!;
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.low ?? "Low";
     }
   }
 
   String optimalTitle() {
     switch (this) {
       case NutrientType.water:
-        return Get.find<HomeController>().localization.onTrack!;
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.onTrack ?? "On Track";
       case NutrientType.protein:
-        return Get.find<HomeController>().localization.onTrack!;
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.onTrack ?? "On Track";
       default:
-        return Get.find<HomeController>().localization.optimal!;
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.optimal ?? "Optimal";
     }
   }
 
   String highTitle() {
     switch (this) {
       case NutrientType.water:
-        return Get.find<HomeController>().localization.excellent!;
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.excellent ?? "Excellent";
       case NutrientType.protein:
-        return Get.find<HomeController>().localization.excellent!;
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.excellent ?? "Excellent";
       default:
-        return Get.find<HomeController>().localization.high!;
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.high ?? "High";
     }
   }
 }

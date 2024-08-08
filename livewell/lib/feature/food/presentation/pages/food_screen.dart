@@ -37,7 +37,7 @@ class _FoodScreenState extends State<FoodScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-      title: controller.localization.nutrition ?? "Nutrition",
+      title: controller.localization.nutritionPage?.nutrition ?? "Nutrition",
       body: Expanded(
         child: RefreshIndicator(
           onRefresh: () async {
@@ -56,7 +56,7 @@ class _FoodScreenState extends State<FoodScreen> {
                           textAlign: TextAlign.center,
                           text: TextSpan(children: [
                             TextSpan(
-                              text: controller.localization.todayYouHaveConsumed ?? "Today you have consumed ",
+                              text: controller.localization.nutritionPage?.todayYouHaveConsumed ?? "Today you have consumed ",
                               style: TextStyle(color: Colors.black, fontSize: 20.sp, fontWeight: FontWeight.w600),
                             ),
                             TextSpan(text: "${controller.getTotalCal().value} Cal", style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 20.sp, fontWeight: FontWeight.w600))
@@ -106,7 +106,7 @@ class _FoodScreenState extends State<FoodScreen> {
                                       ),
                                       8.horizontalSpace,
                                       Text(
-                                        'Protein',
+                                        controller.localization.nutritionPage?.protein ?? "Protein",
                                         style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp, fontWeight: FontWeight.w500),
                                       )
                                     ],
@@ -116,7 +116,7 @@ class _FoodScreenState extends State<FoodScreen> {
                                         text: TextSpan(children: [
                                       TextSpan(text: controller.getConsumedProtein().value.toString(), style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp, fontWeight: FontWeight.w400)),
                                       TextSpan(
-                                          text: ' ${controller.localization.of ?? "of"} ${controller.getTargetProtein().value.toString()}',
+                                          text: ' ${controller.localization.nutritionPage?.of ?? "of"} ${controller.getTargetProtein().value.toString()}',
                                           style: TextStyle(color: const Color(0xFF808080), fontSize: 14.sp, fontWeight: FontWeight.w400)),
                                     ]));
                                   }),
@@ -135,7 +135,7 @@ class _FoodScreenState extends State<FoodScreen> {
                                       ),
                                       8.horizontalSpace,
                                       Text(
-                                        'Carbs',
+                                        controller.localization.nutritionPage?.carbs ?? "Carbs",
                                         style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp, fontWeight: FontWeight.w500),
                                       )
                                     ],
@@ -145,7 +145,7 @@ class _FoodScreenState extends State<FoodScreen> {
                                         text: TextSpan(children: [
                                       TextSpan(text: controller.getConsumedCarbs().value.toString(), style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp, fontWeight: FontWeight.w400)),
                                       TextSpan(
-                                          text: ' ${controller.localization.of ?? "of"} ${controller.getTargetCarbs().value.toString()}',
+                                          text: ' ${controller.localization.nutritionPage?.of ?? "of"} ${controller.getTargetCarbs().value.toString()}',
                                           style: TextStyle(color: const Color(0xFF808080), fontSize: 14.sp, fontWeight: FontWeight.w400)),
                                     ]));
                                   }),
@@ -164,7 +164,7 @@ class _FoodScreenState extends State<FoodScreen> {
                                       ),
                                       8.horizontalSpace,
                                       Text(
-                                        'Fat',
+                                        controller.localization.nutritionPage?.fat ?? "Fat",
                                         style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp, fontWeight: FontWeight.w500),
                                       )
                                     ],
@@ -174,7 +174,7 @@ class _FoodScreenState extends State<FoodScreen> {
                                         text: TextSpan(children: [
                                       TextSpan(text: controller.getConsumedFat().value.toString(), style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp, fontWeight: FontWeight.w400)),
                                       TextSpan(
-                                          text: ' ${controller.localization.of ?? "of"} ${controller.getTargetFat().value.toString()}',
+                                          text: ' ${controller.localization.nutritionPage?.of ?? "of"} ${controller.getTargetFat().value.toString()}',
                                           style: TextStyle(color: const Color(0xFF808080), fontSize: 14.sp, fontWeight: FontWeight.w400)),
                                     ]));
                                   }),
@@ -347,7 +347,7 @@ class NutritionProgressDescription extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        Get.find<DashboardController>().localization.showNutrientFacts!,
+                        Get.find<DashboardController>().localization.nutritionPage?.showNutrientFacts ?? "Show Nutrient Facts",
                         style: TextStyle(color: const Color(0xFF505050), fontSize: 16.sp, fontWeight: FontWeight.w600),
                       ),
                       const Spacer(),
@@ -542,13 +542,13 @@ extension MealTimeAttribute on MealTime {
   String text() {
     switch (this) {
       case MealTime.breakfast:
-        return Get.find<HomeController>().localization.breakfast!;
+        return Get.find<HomeController>().localization.nutritionPage?.breakfast ?? "Breakfast";
       case MealTime.lunch:
-        return Get.find<HomeController>().localization.lunch!;
+        return Get.find<HomeController>().localization.nutritionPage?.lunch ?? "Lunch";
       case MealTime.dinner:
-        return Get.find<HomeController>().localization.dinner!;
+        return Get.find<HomeController>().localization.nutritionPage?.dinner ?? "Dinner";
       case MealTime.snack:
-        return Get.find<HomeController>().localization.snack!;
+        return Get.find<HomeController>().localization.nutritionPage?.snack ?? "Snack";
     }
   }
 
@@ -566,7 +566,7 @@ extension MealTimeAttribute on MealTime {
   }
 
   String appBarTitle() {
-    return Get.find<HomeController>().localization.add! + text();
+    return (Get.find<HomeController>().localization.addFoodPage?.add ?? "Add") + text();
   }
 
   String icon() {

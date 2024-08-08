@@ -268,7 +268,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                           controller: controller.numberOfServing,
                           keyboardType: const TextInputType.numberWithOptions(decimal: true),
                           hintText: null,
-                          labelText: controller.localization.numberOfServing!,
+                          labelText: controller.localization.addFoodPage?.numberOfServing ?? "Number of Serving",
                           errorText: null,
                           obscureText: false,
                           enabled: true,
@@ -291,7 +291,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                         child: Column(
                                           children: [
                                             Text(
-                                              controller.localization.time!,
+                                              controller.localization.addFoodPage?.time ?? "Time",
                                               style: TextStyle(color: const Color(0xFF171433), fontSize: 18.sp, fontWeight: FontWeight.w600),
                                             ),
                                             SizedBox(
@@ -324,7 +324,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                                         Get.back();
                                                       },
                                                       child: Text(
-                                                        controller.localization.cancel ?? "Cancel",
+                                                        controller.localization.addFoodPage?.cancel ?? "Cancel",
                                                         style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp, fontWeight: FontWeight.w500),
                                                       )),
                                                 ),
@@ -344,7 +344,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                                         Get.back();
                                                       },
                                                       child: Text(
-                                                        controller.localization.save ?? "Save",
+                                                        controller.localization.addFoodPage?.save ?? "Save",
                                                         style: TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 14.sp,
@@ -364,7 +364,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                               child: LiveWellTextField(
                                 controller: controller.time,
                                 hintText: null,
-                                labelText: controller.localization.time ?? "Time",
+                                labelText: controller.localization.addFoodPage?.time ?? "Time",
                                 errorText: null,
                                 obscureText: false,
                                 enabled: false,
@@ -396,7 +396,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                 GetBuilder<AddFoodController>(
                                   builder: ((controller) {
                                     return Text(
-                                        "${controller.percentOfDailyGoals(controller.getTotalCalByServings(num.parse(food?.servings?[0].calories ?? "0")).round().toInt())}% ${controller.localization.ofYourGoal}",
+                                        "${controller.percentOfDailyGoals(controller.getTotalCalByServings(num.parse(food?.servings?[0].calories ?? "0")).round().toInt())}% ${controller.localization.addFoodPage?.ofYourGoal ?? "of your goal"}",
                                         style: TextStyle(color: Colors.white, fontSize: 11.sp, fontWeight: FontWeight.w600));
                                   }),
                                 ),
@@ -441,7 +441,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                controller.localization.submit!,
+                                controller.localization.addFoodPage?.submit ?? "Submit",
                                 style: TextStyle(color: Colors.black, fontSize: 12.sp, fontWeight: FontWeight.w500),
                               ),
                             ),

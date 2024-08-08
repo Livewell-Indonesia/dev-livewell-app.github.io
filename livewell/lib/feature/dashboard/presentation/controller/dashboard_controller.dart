@@ -348,12 +348,12 @@ class DashboardController extends BaseController {
   String greeting() {
     var hour = DateTime.now().hour;
     if (hour < 12) {
-      return localization.morning!;
+      return localization.homePage?.goodMorning ?? "Good Morning";
     }
     if (hour < 17) {
-      return localization.afternoon!;
+      return localization.homePage?.goodAfternoon ?? "Good Afternoon";
     }
-    return localization.evening!;
+    return localization.homePage?.goodEvening ?? "Good Evening";
   }
 
   Rx<double> getWeightPercentage() {

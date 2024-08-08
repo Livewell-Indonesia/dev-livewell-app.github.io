@@ -15,8 +15,8 @@ import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/streak/presentation/widget/streak_item.dart';
 import 'package:livewell/feature/water/data/model/water_list_model.dart';
 import 'package:livewell/feature/water/presentation/controller/water_controller.dart';
+import 'package:livewell/feature/water/presentation/enum/water_input_type.dart';
 import 'package:livewell/feature/water/presentation/enum/water_shortcut_type.dart';
-import 'package:livewell/feature/water/presentation/pages/water_custom_input_page.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
 import 'package:livewell/widgets/floating_dots/floating_dots.dart';
@@ -87,8 +87,8 @@ class _WaterScreenState extends State<WaterScreen> {
                 ((int.parse((Get.find<DashboardController>().user.value.onboardingQuestionnaire?.glassesOfWaterDaily ?? "0")) * 0.25) * 1000).toInt() -
                             Get.find<DashboardController>().waterConsumed.value.toInt() >
                         0
-                    ? '${controller.localization.hydrationRemaining ?? 'Remaining'} ${((int.parse((Get.find<DashboardController>().user.value.onboardingQuestionnaire?.glassesOfWaterDaily ?? "0")) * 0.25) * 1000).toInt() - Get.find<DashboardController>().waterConsumed.value.toInt()} ml'
-                    : controller.localization.hydrationYouHitYourGoalToday ?? 'You hit your goal today!',
+                    ? '${(controller.localization..waterPage?.remaining)} ${((int.parse((Get.find<DashboardController>().user.value.onboardingQuestionnaire?.glassesOfWaterDaily ?? "0")) * 0.25) * 1000).toInt() - Get.find<DashboardController>().waterConsumed.value.toInt()} ml'
+                    : controller.localization.waterPage?.youHitYourGoalToday ?? 'You hit your goal today!',
                 style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14.sp),
               );
             })),
@@ -124,118 +124,10 @@ class _WaterScreenState extends State<WaterScreen> {
             }),
             16.verticalSpace,
             const UrineColorWidget(),
-            // 40.verticalSpace,
-            // Obx(() {
-            //   return RichText(
-            //       textAlign: TextAlign.center,
-            //       text: TextSpan(children: [
-            //         TextSpan(text: controller.localization.yourWaterIntakeForToday!, style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433))),
-            //         TextSpan(text: controller.waterConsumed.value.toStringAsFixed(1), style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600, color: const Color(0xFF8F01DF))),
-            //       ]));
-            // }),
-            // 32.verticalSpace,
-            // Obx(() {
-            //   return DrinkIndicator(
-            //     value: controller.waterConsumedPercentage.value,
-            //     label: controller.waterConsumed.value.toStringAsFixed(1),
-            //   );
-            // }),
-            // Obx(() {
-            //   return Padding(
-            //     padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 16),
-            //     child: WaterRuler(
-            //       value: controller.waterConsumedPercentage.value,
-            //     ),
-            //   );
-            // }),
-            // 32.verticalSpace,
-            // // Obx(() {
-            // //   return WaterHistoriesWidget(
-            // //     waterHistories: contoller.waterList.value,
-            // //   );
-            // // }),
-            // // Container(
-            // //   margin: const EdgeInsets.symmetric(horizontal: 16),
-            // //   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 18),
-            // //   decoration: BoxDecoration(
-            // //     color: Colors.white,
-            // //     borderRadius: BorderRadius.circular(30),
-            // //   ),
-            // //   child: Column(
-            // //     crossAxisAlignment: CrossAxisAlignment.start,
-            // //     children: [
-            // //       const Padding(
-            // //         padding: EdgeInsets.only(bottom: 18.0),
-            // //         child: Text("Last Update",
-            // //             style: TextStyle(
-            // //                 fontSize: 16,
-            // //                 fontWeight: FontWeight.w700,
-            // //                 color: Color(0xFF171433))),
-            // //       ),
-            // //       ListView.separated(
-            // //           physics: const NeverScrollableScrollPhysics(),
-            // //           shrinkWrap: true,
-            // //           itemCount: 2,
-            // //           itemBuilder: (context, index) {
-            // //             return Row(
-            // //               children: [
-            // //                 Text('Water',
-            // //                     style: TextStyle(
-            // //                       fontSize: 16.sp,
-            // //                       fontWeight: FontWeight.w500,
-            // //                       color: const Color(0xFF171433),
-            // //                     )),
-            // //                 const Spacer(),
-            // //                 Text('50 ml',
-            // //                     style: TextStyle(
-            // //                         fontSize: 16.sp,
-            // //                         color: const Color(0xFF171433),
-            // //                         fontWeight: FontWeight.w500)),
-            // //               ],
-            // //             );
-            // //           },
-            // //           separatorBuilder: (context, index) {
-            // //             return const Padding(
-            // //               padding: EdgeInsets.symmetric(vertical: 8.0),
-            // //               child: Divider(),
-            // //             );
-            // //           }),
-            // //     ],
-            // //   ),
-            // // ),
-            // 40.verticalSpace,
-            // LiveWellButton(
-            //     label: controller.localization.addDrink!,
-            //     color: const Color(0xFF8F01DF),
-            //     textColor: const Color(0xFFFFFFFF),
-            //     onPressed: () {
-            //       controller.trackEvent(LivewellWaterEvent.waterPageAddDrinkButton);
-            //       AppNavigator.push(routeName: AppPages.waterConsumedPage, arguments: {"waterInputType": WaterInputType.increase});
-            //     }),
-            // 20.verticalSpace,
-            // Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: 16.w),
-            //   child: OutlinedButton(
-            //       style: OutlinedButton.styleFrom(
-            //         padding: EdgeInsets.symmetric(vertical: 16.h),
-            //         side: const BorderSide(width: 2, color: Color(0xFF8F01DF)),
-            //         shape: RoundedRectangleBorder(
-            //           borderRadius: BorderRadius.circular(30.r),
-            //         ),
-            //       ),
-            //       onPressed: () {
-            //         controller.trackEvent(LivewellWaterEvent.waterPageReduceWaterButton);
-            //         AppNavigator.push(routeName: AppPages.waterConsumedPage, arguments: {"waterInputType": WaterInputType.reduce});
-            //       },
-            //       child: Text(
-            //         'Reduce Water',
-            //         style: TextStyle(color: const Color(0xFF171433), fontSize: 16.sp, fontWeight: FontWeight.w500),
-            //       )),
-            // ),
           ],
         ),
       ),
-      title: controller.localization.hydrationTitle ?? 'Hydration',
+      title: controller.localization.waterPage?.hydration ?? 'Hydration',
     );
   }
 }
@@ -290,7 +182,7 @@ class HydartionScoreWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(controller.localization.hydrationHydrationScoreToday ?? 'Hydration Score Today',
+                Text(controller.localization.waterPage?.hydrationScoreToday ?? "Hydration Score Today",
                     style: TextStyle(color: Theme.of(context).colorScheme.neutral70, fontWeight: FontWeight.w400, fontSize: 12.sp)),
                 Obx(() {
                   return Text(scoreToDescription(Get.find<DashboardController>().wellnessData.value?.hydrationScore ?? 0),
@@ -308,7 +200,7 @@ class HydartionScoreWidget extends StatelessWidget {
           text: TextSpan(
             children: [
               TextSpan(
-                text: controller.localization.hydrationSeeHowDoHydrationScoreCalculated ?? 'See how do Hydration Score calculated ',
+                text: controller.localization.waterPage?.seeHowDoHydrationScoreCalculated ?? 'See how do Hydration Score calculated ',
                 style: TextStyle(color: Theme.of(context).colorScheme.disabled, fontSize: 12.sp, fontWeight: FontWeight.w400),
               ),
               TextSpan(
@@ -443,7 +335,7 @@ class HydartionScoreWidget extends StatelessWidget {
                           );
                         });
                   },
-                text: controller.localization.hydrationHere ?? 'here',
+                text: controller.localization.waterPage?.here ?? 'here',
                 style: TextStyle(color: Theme.of(context).colorScheme.primaryPurple, fontSize: 12.sp, fontWeight: FontWeight.w600),
               ),
             ],
@@ -492,12 +384,12 @@ class _UrineColorWidgetState extends State<UrineColorWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        Get.find<DashboardController>().localization.hydrationLearnYourUrineColor ?? 'Learn Your urine color',
+                        Get.find<DashboardController>().localization.waterPage?.learnYourUrineColor ?? 'Learn Your urine color',
                         style: TextStyle(color: Theme.of(context).colorScheme.neutral100, fontWeight: FontWeight.w600, fontSize: 14.sp),
                       ),
                       4.verticalSpace,
                       Text(
-                        Get.find<DashboardController>().localization.hydrationUnderstandYourHydration ?? 'Understand your hydration levels and maintain optimal health by learning your urine color.',
+                        Get.find<DashboardController>().localization.waterPage?.understandYourHydration ?? 'Understand your hydration levels and maintain optimal health by learning your urine color.',
                         style: TextStyle(color: Theme.of(context).colorScheme.neutral90, fontWeight: FontWeight.w400, fontSize: 12.sp),
                       ),
                     ],
@@ -535,7 +427,7 @@ class _UrineColorWidgetState extends State<UrineColorWidget> {
 
 class UrineItem extends StatelessWidget {
   final List<UrineColorType> types;
-  UrineItem({super.key, required this.types});
+  const UrineItem({super.key, required this.types});
 
   @override
   Widget build(BuildContext context) {
@@ -640,7 +532,7 @@ class ReduceWaterSection extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(Get.find<DashboardController>().localization.hydrationWantToReduceWaterIntake ?? 'Want to reduce your water intake?',
+        Text(Get.find<DashboardController>().localization.waterPage?.wantToReduceWaterIntake ?? 'Want to reduce your water intake?',
             style: TextStyle(color: Theme.of(context).colorScheme.neutral80, fontWeight: FontWeight.w600, fontSize: 12.sp)),
         12.horizontalSpace,
         InkWell(
@@ -649,7 +541,7 @@ class ReduceWaterSection extends StatelessWidget {
             children: [
               Icon(Icons.remove_circle_outline, color: Theme.of(context).colorScheme.primaryPurple, size: 14.sp),
               4.horizontalSpace,
-              Text(Get.find<DashboardController>().localization.hydrationReduce ?? 'Reduce Water',
+              Text(Get.find<DashboardController>().localization.waterPage?.reduceWater ?? 'Reduce Water',
                   style: TextStyle(color: Theme.of(context).colorScheme.primaryPurple, fontWeight: FontWeight.w600, fontSize: 12.sp)),
             ],
           ),
@@ -821,54 +713,6 @@ extension on double {
   double get minZero => this < 0 ? 0 : this;
 }
 
-class WaterRuler extends StatelessWidget {
-  final double value;
-  const WaterRuler({super.key, required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.generate(50, (index) {
-            return SizedBox(
-              height: ((index % 5 == 0) && index != 0) ? 32 : 16,
-              child: VerticalDivider(
-                width: 1,
-                thickness: 2,
-                color: (index <= value * 50) ? const Color(0xFF34EAB2) : const Color(0xFF34EAB2),
-              ),
-            );
-          }).toList(),
-        ),
-        8.verticalSpace,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: WaterRatings.values.map((e) => Text(e.value, style: TextStyle(fontSize: 16.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w500))).toList(),
-        ),
-      ],
-    );
-  }
-}
-
-enum WaterRatings { poor, good, almost, perfect }
-
-extension on WaterRatings {
-  String get value {
-    switch (this) {
-      case WaterRatings.poor:
-        return Get.find<HomeController>().localization.poor!;
-      case WaterRatings.good:
-        return Get.find<HomeController>().localization.good!;
-      case WaterRatings.almost:
-        return Get.find<HomeController>().localization.almost!;
-      case WaterRatings.perfect:
-        return Get.find<HomeController>().localization.great!;
-    }
-  }
-}
-
 class WaterAnimationWidget extends StatefulWidget {
   final int value;
   final int maxValue;
@@ -906,7 +750,7 @@ class _WaterAnimationWidgetState extends State<WaterAnimationWidget> with Ticker
                   ),
                   Text(
                     '/ ${widget.maxValue} ml',
-                    style: TextStyle(color: Color(0xFF505050), fontWeight: FontWeight.w400, fontSize: 14.sp),
+                    style: TextStyle(color: const Color(0xFF505050), fontWeight: FontWeight.w400, fontSize: 14.sp),
                   ),
                 ],
               ),

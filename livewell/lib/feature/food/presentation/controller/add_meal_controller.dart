@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:math';
 import 'package:algolia_helper_flutter/algolia_helper_flutter.dart';
 import 'package:flutter/foundation.dart';

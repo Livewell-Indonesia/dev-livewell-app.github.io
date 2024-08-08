@@ -33,7 +33,7 @@ class _SleepScreenState extends State<SleepScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-      title: controller.localization.sleep!,
+      title: controller.localization.sleepPage?.sleep ?? "Sleep",
       trailing: InkWell(
         onTap: () {
           HomeController controller = Get.find();
@@ -104,7 +104,7 @@ class _SleepScreenState extends State<SleepScreen> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 30),
                             child: Text(
-                              controller.localization.ofDailyGoals!,
+                              controller.localization.sleepPage?.ofDailyGoals ?? "of daily goals",
                               textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 17.sp, color: Colors.white.withOpacity(0.63)),
                             ),
@@ -123,7 +123,7 @@ class _SleepScreenState extends State<SleepScreen> {
                       if (controller.deepSleepPercent.value == 0 && controller.lightSleepPercent.value == 0) {
                         return const SizedBox(height: 40);
                       } else {
-                        return SmallerSleepCircular(color: const Color(0xFFDDF235), label: controller.localization.deepSleep ?? "", circleColors: {
+                        return SmallerSleepCircular(color: const Color(0xFFDDF235), label: controller.localization.sleepPage?.deepSleep ?? "Deep Sleep", circleColors: {
                           const Color(0xFFDDF235): (controller.deepSleepPercent.value * 100).round(),
                           Colors.white: (controller.deepSleepPercent.value * 100).round() > 100 ? 0 : 100 - (controller.deepSleepPercent.value * 100).round(),
                         });
@@ -140,7 +140,7 @@ class _SleepScreenState extends State<SleepScreen> {
                               const Color(0xFF8F01DF): (controller.lightSleepPercent.value * 100).round(),
                               Colors.white: (controller.lightSleepPercent.value * 100).round() > 100 ? 0 : 100 - (controller.lightSleepPercent.value * 100).round(),
                             },
-                            label: controller.localization.lightSleep ?? "");
+                            label: controller.localization.sleepPage?.lightSleep ?? "Light Sleep");
                       }
                     })
                   ],
@@ -150,7 +150,7 @@ class _SleepScreenState extends State<SleepScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 40),
                 child: Text(
-                  controller.localization.dailyBreakdown!,
+                  controller.localization.sleepPage?.dailyBreakdown ?? "Daily Breakdown",
                   style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w600, fontSize: 16.sp),
                 ),
               ),
@@ -171,16 +171,16 @@ class _SleepScreenState extends State<SleepScreen> {
                     ),
                     children: [
                       GetBuilder<SleepController>(builder: (controller) {
-                        return DailyBreakdownItem(image: Constant.icWentToSleep2, time: controller.wentToSleep.value, label: controller.localization.wentToSleep ?? "");
+                        return DailyBreakdownItem(image: Constant.icWentToSleep2, time: controller.wentToSleep.value, label: controller.localization.sleepPage?.wentToSleep ?? "Went to Sleep");
                       }),
                       GetBuilder<SleepController>(builder: (controller) {
-                        return DailyBreakdownItem(image: Constant.icWokeUp, time: controller.wokeUp.value, label: controller.localization.wokeUp ?? "");
+                        return DailyBreakdownItem(image: Constant.icWokeUp, time: controller.wokeUp.value, label: controller.localization.sleepPage?.wokeUp ?? "Woke Up");
                       }),
                       GetBuilder<SleepController>(builder: (controller) {
-                        return DailyBreakdownItem(image: Constant.icFeelASleep, time: controller.feelASleep.value, label: controller.localization.lightSleep ?? "");
+                        return DailyBreakdownItem(image: Constant.icFeelASleep, time: controller.feelASleep.value, label: controller.localization.sleepPage?.lightSleep ?? "Light Sleep");
                       }),
                       GetBuilder<SleepController>(builder: (controller) {
-                        return DailyBreakdownItem(image: Constant.icDeepSleep, time: controller.deepSleep.value, label: controller.localization.deepSleep ?? "");
+                        return DailyBreakdownItem(image: Constant.icDeepSleep, time: controller.deepSleep.value, label: controller.localization.sleepPage?.deepSleep ?? "Deep Sleep");
                       }),
                     ],
                   )),
@@ -201,7 +201,7 @@ class _SleepScreenState extends State<SleepScreen> {
                 decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: const Color(0xFFEBEBEB))),
                 child: Column(
                   children: [
-                    Text(controller.localization.last7Days!, style: TextStyle(color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w700, height: 20.sp / 14.sp)),
+                    Text(controller.localization.sleepPage?.last7Days ?? "Last 7 days", style: TextStyle(color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w700, height: 20.sp / 14.sp)),
                     16.verticalSpace,
                     const Divider(),
                     16.verticalSpace,

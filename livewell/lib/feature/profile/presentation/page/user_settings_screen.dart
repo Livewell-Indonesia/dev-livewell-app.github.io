@@ -27,11 +27,9 @@ class UserSettingsScreen extends StatefulWidget {
 class _UserSettingsScreenState extends State<UserSettingsScreen> {
   final UserSettingsController controller = Get.put(UserSettingsController());
 
-  final PhysicalInformationController physicalController =
-      Get.put(PhysicalInformationController());
+  final PhysicalInformationController physicalController = Get.put(PhysicalInformationController());
 
-  final ExerciseInformationController exerciseInformationController =
-      Get.put(ExerciseInformationController());
+  final ExerciseInformationController exerciseInformationController = Get.put(ExerciseInformationController());
 
   @override
   void initState() {
@@ -86,8 +84,7 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                         showModalBottomSheet(
                             context: context,
                             builder: (context) {
-                              return ImagePickerBottomSheet(
-                                  onImageSelected: (img, source) {
+                              return ImagePickerBottomSheet(onImageSelected: (img, source) {
                                 Get.back();
                                 physicalController.pickImages(img);
                               });
@@ -96,9 +93,7 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                       child: Container(
                         width: 210.w,
                         height: 210.h,
-                        decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.3),
-                            shape: BoxShape.circle),
+                        decoration: BoxDecoration(color: Colors.white.withOpacity(0.3), shape: BoxShape.circle),
                         alignment: Alignment.center,
                         child: Stack(
                           alignment: Alignment.bottomRight,
@@ -112,31 +107,19 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                                 color: Colors.white,
                               ),
                               child: Obx(() {
-                                if (controller.user.value.avatarUrl != null &&
-                                    controller
-                                        .user.value.avatarUrl!.isNotEmpty) {
+                                if (controller.user.value.avatarUrl != null && controller.user.value.avatarUrl!.isNotEmpty) {
                                   return CachedNetworkImage(
                                     imageUrl: controller.user.value.avatarUrl!,
                                     fit: BoxFit.cover,
                                     errorWidget: (context, error, stackTrace) {
                                       return SvgPicture.asset(
-                                        (controller.user.value.gender ??
-                                                        Gender.male.name)
-                                                    .toLowerCase() ==
-                                                "male"
-                                            ? Constant.imgMaleSVG
-                                            : Constant.imgFemaleSVG,
+                                        (controller.user.value.gender ?? Gender.male.name).toLowerCase() == "male" ? Constant.imgMaleSVG : Constant.imgFemaleSVG,
                                       );
                                     },
                                   );
                                 } else {
                                   return SvgPicture.asset(
-                                    (controller.user.value.gender ??
-                                                    Gender.male.name)
-                                                .toLowerCase() ==
-                                            "male"
-                                        ? Constant.imgMaleSVG
-                                        : Constant.imgFemaleSVG,
+                                    (controller.user.value.gender ?? Gender.male.name).toLowerCase() == "male" ? Constant.imgMaleSVG : Constant.imgFemaleSVG,
                                   );
                                 }
                               }),
@@ -162,10 +145,7 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                     Obx(() {
                       return Text(
                         "${controller.user.value.firstName ?? ""} ${controller.user.value.lastName ?? ""}",
-                        style: TextStyle(
-                            fontSize: 24.sp,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xFF171433)),
+                        style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433)),
                       );
                     })
                     // Text(
@@ -178,14 +158,14 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
             ),
             //32.verticalSpace,
             ProfileSettingsItem(
-                title: controller.localization.accountSettings!,
+                title: controller.localization.accountPage?.accountSettings ?? "Account Setting",
                 icon: Image.asset(Constant.icAccountSetting),
                 onPressed: () {
                   controller.accountSettingsTap();
                 }),
             8.verticalSpace,
             ProfileSettingsItem(
-                title: controller.localization.dailyJournal!,
+                title: controller.localization.accountPage?.dailyJournal ?? "Daily Journal",
                 icon: Icon(
                   Icons.class_outlined,
                   size: 20.w,
@@ -195,7 +175,7 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                 }),
             8.verticalSpace,
             ProfileSettingsItem(
-                title: controller.localization.physicalInformation!,
+                title: controller.localization.accountPage?.physicalInformation ?? "Physical Information",
                 icon: Icon(
                   Icons.accessibility_new,
                   size: 20.w,
@@ -212,7 +192,7 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
             //     }),
             8.verticalSpace,
             ProfileSettingsItem(
-                title: controller.localization.myGoals!,
+                title: controller.localization.accountPage?.myGoals ?? "My Goals",
                 icon: const Icon(Icons.ballot_outlined, size: 20),
                 onPressed: () {
                   Get.to(() => MyGoalsScreen());
@@ -220,7 +200,7 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
 
             8.verticalSpace,
             ProfileSettingsItem(
-                title: controller.localization.languages ?? "",
+                title: controller.localization.accountPage?.languages ?? "Languages",
                 icon: const Icon(Icons.language, size: 20),
                 onPressed: () {
                   Get.dialog(
@@ -233,14 +213,11 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                                     ListTile(
                                       leading: Text(
                                         AvailableLanguage.en.title,
-                                        style: TextStyle(
-                                            color: const Color(0xFF171433),
-                                            fontSize: 14.sp),
+                                        style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp),
                                       ),
                                       trailing: Radio(
                                           value: AvailableLanguage.en.locale,
-                                          groupValue:
-                                              controller.language.value.locale,
+                                          groupValue: controller.language.value.locale,
                                           onChanged: (val) {
                                             controller.setValue(val as String);
                                           }),
@@ -248,21 +225,17 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                                     ListTile(
                                       leading: Text(
                                         AvailableLanguage.id.title,
-                                        style: TextStyle(
-                                            color: const Color(0xFF171433),
-                                            fontSize: 14.sp),
+                                        style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp),
                                       ),
                                       trailing: Radio(
                                           value: AvailableLanguage.id.locale,
-                                          groupValue:
-                                              controller.language.value.locale,
+                                          groupValue: controller.language.value.locale,
                                           onChanged: (val) {
                                             controller.setValue(val as String);
                                           }),
                                     ),
                                     LiveWellButton(
-                                        label: controller
-                                            .localization.saveChanges!,
+                                        label: controller.localization.accountPage?.saveChanges ?? "Save Changes",
                                         color: const Color(0xFF8F01DF),
                                         textColor: Colors.white,
                                         onPressed: () {
@@ -276,8 +249,7 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                 }),
             8.verticalSpace,
             ProfileSettingsItem(
-                title:
-                    controller.localization.privacyPolicy ?? "Privacy Policy",
+                title: controller.localization.accountPage?.privacyPolicy ?? "Privacy Policy",
                 icon: const Icon(Icons.privacy_tip_outlined, size: 20),
                 onPressed: () {
                   Get.to(
@@ -289,7 +261,7 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                 }),
             8.verticalSpace,
             ProfileSettingsItem(
-              title: controller.localization.logout!,
+              title: controller.localization.accountPage?.logout ?? "Logout",
               icon: Image.asset(Constant.icLogout),
               onPressed: () {
                 controller.logoutTapped();
@@ -333,9 +305,7 @@ class ProfileSettingsItem extends StatelessWidget {
               width: 43.h,
               height: 43.h,
               alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: const Color(0xFFF1F1F1),
-                  borderRadius: BorderRadius.circular(15).r),
+              decoration: BoxDecoration(color: const Color(0xFFF1F1F1), borderRadius: BorderRadius.circular(15).r),
               child: SizedBox(
                 width: 20.w,
                 height: 20.h,
@@ -345,10 +315,7 @@ class ProfileSettingsItem extends StatelessWidget {
             18.horizontalSpace,
             Text(
               title,
-              style: TextStyle(
-                  color: const Color(0xFF171433).withOpacity(0.8),
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600),
+              style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
             ),
             const Spacer(),
             const Icon(Icons.arrow_forward_ios_rounded)

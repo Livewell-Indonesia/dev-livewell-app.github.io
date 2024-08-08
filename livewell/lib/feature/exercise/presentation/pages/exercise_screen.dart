@@ -50,7 +50,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-      title: controller.localization.exercise ?? "",
+      title: controller.localization.exercisePage?.exercise ?? "Exercise",
       backgroundColor: const Color(0xFFF1F1F1),
       trailing: Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -287,7 +287,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: Text(
-                  controller.localization.exerciseHabit!,
+                  controller.localization.exercisePage?.exerciseHabit ?? "Exercise habit",
                   style: TextStyle(color: const Color(0xFF171433), fontSize: 20.sp, fontWeight: FontWeight.w600),
                 ),
               ),
@@ -298,7 +298,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                 decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: const Color(0xFFEBEBEB))),
                 child: Column(
                   children: [
-                    Text(controller.localization.last7Days!, style: TextStyle(color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w700, height: 20.sp / 14.sp)),
+                    Text(controller.localization.exercisePage?.last7Days ?? "Last 7 days", style: TextStyle(color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w700, height: 20.sp / 14.sp)),
                     16.verticalSpace,
                     const Divider(),
                     16.verticalSpace,

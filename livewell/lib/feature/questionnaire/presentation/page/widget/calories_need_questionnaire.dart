@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
 import 'package:livewell/feature/questionnaire/presentation/page/widget/subtitle_questionnaire.dart';
 import 'package:livewell/feature/questionnaire/presentation/page/widget/title_questionnaire.dart';
@@ -20,11 +21,11 @@ extension CaloriesNeedTypeExtension on CaloriesNeedType {
   String get title {
     switch (this) {
       case CaloriesNeedType.light:
-        return 'Light';
+        return Get.find<HomeController>().localization.onboardingPage?.light ?? "Light";
       case CaloriesNeedType.moderate:
-        return 'Moderate';
+        return Get.find<HomeController>().localization.onboardingPage?.moderate ?? "Moderate";
       case CaloriesNeedType.active:
-        return 'Active';
+        return Get.find<HomeController>().localization.onboardingPage?.active ?? "Active";
       case CaloriesNeedType.none:
         return 'None';
     }
@@ -33,11 +34,11 @@ extension CaloriesNeedTypeExtension on CaloriesNeedType {
   String get calories {
     switch (this) {
       case CaloriesNeedType.light:
-        return '(100kcal)';
+        return Get.find<HomeController>().localization.onboardingPage?.light100Kcal ?? "(100kcal)";
       case CaloriesNeedType.moderate:
-        return '(250kcal)';
+        return Get.find<HomeController>().localization.onboardingPage?.moderate250Kcal ?? "(250kcal)";
       case CaloriesNeedType.active:
-        return '(400kcal)';
+        return Get.find<HomeController>().localization.onboardingPage?.active400Kcal ?? "(400kcal)";
       case CaloriesNeedType.none:
         return 'None';
     }
@@ -59,11 +60,11 @@ extension CaloriesNeedTypeExtension on CaloriesNeedType {
   String get subtitle {
     switch (this) {
       case CaloriesNeedType.light:
-        return 'Mostly sedentary with occasional movement';
+        return Get.find<HomeController>().localization.onboardingPage?.lightDescription ?? "Mostly sedentary with occasional movement";
       case CaloriesNeedType.moderate:
-        return 'Regular exercise or physically demanding work.';
+        return Get.find<HomeController>().localization.onboardingPage?.moderateDescription ?? "Regular exercise or physically demanding work.";
       case CaloriesNeedType.active:
-        return 'Frequent exercise and a high level of daily activity.';
+        return Get.find<HomeController>().localization.onboardingPage?.activeDescription ?? "Frequent exercise and a high level of daily activity.";
       case CaloriesNeedType.none:
         return 'None';
     }

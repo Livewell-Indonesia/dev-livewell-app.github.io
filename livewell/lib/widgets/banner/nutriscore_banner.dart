@@ -5,8 +5,7 @@ import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/widgets/chart/circular_nutrition.dart';
 
 class NutriscoreBanner extends StatelessWidget {
-  const NutriscoreBanner(
-      {super.key, required this.value, this.hideSeeDetails = false});
+  const NutriscoreBanner({super.key, required this.value, this.hideSeeDetails = false});
 
   final int value;
   final bool hideSeeDetails;
@@ -31,19 +30,13 @@ class NutriscoreBanner extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: MultipleColorCircle(
-                  colorOccurrences:
-                      getNutritionScoreType(value).getColors(value),
+                  colorOccurrences: getNutritionScoreType(value).getColors(value),
                   height: 66.h,
                   strokeWidth: 5,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('$value',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 18.sp)),
+                      Text('$value', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 18.sp)),
                     ],
                   ),
                 ),
@@ -56,20 +49,13 @@ class NutriscoreBanner extends StatelessWidget {
                   children: [
                     Text(
                       'NutriScore',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w700),
+                      style: TextStyle(color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.w700),
                     ),
                     3.verticalSpace,
                     Text(
                       getNutritionScoreType(value).description(),
                       maxLines: 2,
-                      style: TextStyle(
-                          height: 1.3,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12.sp),
+                      style: TextStyle(height: 1.3, color: Colors.white, fontWeight: FontWeight.w500, fontSize: 12.sp),
                     ),
                   ],
                 ),
@@ -90,9 +76,8 @@ class NutriscoreBanner extends StatelessWidget {
                         children: [
                           const Spacer(),
                           Text(
-                            Get.find<HomeController>().localization.seeDetails!,
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 12.sp),
+                            Get.find<HomeController>().localization.nutritionPage?.seeDetails ?? "See Details",
+                            style: TextStyle(color: Colors.white, fontSize: 12.sp),
                           ),
                           12.horizontalSpace,
                           const Icon(
@@ -132,17 +117,13 @@ extension on NutriScoreType {
   String description() {
     switch (this) {
       case NutriScoreType.zero:
-        return Get.find<HomeController>().localization.letsMakeTodayCount!;
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.letsMakeTodayCount ?? "Let's make today count!";
       case NutriScoreType.fifty:
-        return Get.find<HomeController>()
-            .localization
-            .dontWorryWeCanImproveNutritionTogether!;
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.dontWorryWeCanImproveNutritionTogether ?? "Don't worry, we can improve nutrition together!";
       case NutriScoreType.seventyFive:
-        return Get.find<HomeController>().localization.youreDoingGreat!;
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.youreDoingGreat ?? "You're doing great! Keep your spirit up!";
       case NutriScoreType.hundred:
-        return Get.find<HomeController>()
-            .localization
-            .greatJobNutritionOnPoint!;
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.greatJobNutritionOnPoint ?? "Great job! nutrition on point!";
     }
   }
 
@@ -178,10 +159,7 @@ extension on NutriScoreType {
           const Color(0xFF34EAB2): 25,
           const Color(0xFFDDF235): 25,
         };
-        map.addEntries([
-          MapEntry(const Color(0xFF8F01DF), value - 50),
-          MapEntry(Colors.white, 100 - value)
-        ]);
+        map.addEntries([MapEntry(const Color(0xFF8F01DF), value - 50), MapEntry(Colors.white, 100 - value)]);
         return map;
     }
   }

@@ -13,33 +13,24 @@ class SuccessRequestFoodScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: Get.find<HomeController>().localization.foodRequestCompleted!,
+        title: Get.find<HomeController>().localization.requestFoodSuccessPage?.foodRequestCompleted ?? "Food Request Completed",
         body: Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                Get.find<HomeController>().localization.thankYou!,
-                style: TextStyle(
-                    color: const Color(0xFF171433),
-                    fontSize: 40.sp,
-                    fontWeight: FontWeight.w600),
+                Get.find<HomeController>().localization.requestFoodSuccessPage?.thankYou ?? "Thank You",
+                style: TextStyle(color: const Color(0xFF171433), fontSize: 40.sp, fontWeight: FontWeight.w600),
               ),
               30.verticalSpace,
               Text(
-                Get.find<HomeController>()
-                    .localization
-                    .ourTeamWorkingOnYourRequest!,
+                Get.find<HomeController>().localization.requestFoodSuccessPage?.ourTeamWorkingOnYourRequest ?? "Our team is working on your request",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: const Color(0xFF171433).withOpacity(0.8),
-                    fontSize: 24.sp,
-                    fontWeight: FontWeight.w500),
+                style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 24.sp, fontWeight: FontWeight.w500),
               ),
               50.verticalSpace,
               LiveWellButton(
-                  label:
-                      Get.find<HomeController>().localization.backToDashboard!,
+                  label: Get.find<HomeController>().localization.requestFoodSuccessPage?.backToDashboard ?? "Back to Dashboard",
                   color: const Color(0xFF8F01DF),
                   textColor: Colors.white,
                   onPressed: () {

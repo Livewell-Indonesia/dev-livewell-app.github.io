@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
-import 'package:livewell/feature/water/presentation/pages/water_custom_input_page.dart';
+
+import '../enum/water_input_type.dart';
 
 class WaterCustomInputController extends BaseController {
   var position = 0.0.obs;
