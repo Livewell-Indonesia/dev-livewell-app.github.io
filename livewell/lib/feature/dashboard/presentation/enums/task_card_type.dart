@@ -1,3 +1,4 @@
+import 'package:livewell/feature/dashboard/presentation/widget/task_card/task_card.dart';
 import 'package:livewell/routes/app_navigator.dart';
 
 enum TaskCardType { hydration, nutrition, exercise, sleep, none, mood }
@@ -20,25 +21,44 @@ extension TaskCardTypeX on TaskCardType {
     }
   }
 
+  static TaskCardType fromString(String value) {
+    switch (value) {
+      case 'water':
+        return TaskCardType.hydration;
+      case 'food':
+        return TaskCardType.nutrition;
+      case 'exercise':
+        return TaskCardType.exercise;
+      case 'sleep':
+        return TaskCardType.sleep;
+      case 'none':
+        return TaskCardType.none;
+      case 'mood':
+        return TaskCardType.mood;
+      default:
+        return TaskCardType.none;
+    }
+  }
+
   void navigation() {
     switch (this) {
       case TaskCardType.hydration:
         AppNavigator.push(routeName: AppPages.waterScreen);
         break;
       case TaskCardType.nutrition:
-        // navigate to nutrition screen
+        AppNavigator.push(routeName: AppPages.nutritionScreen);
         break;
       case TaskCardType.exercise:
-        // navigate to exercise screen
+        AppNavigator.push(routeName: AppPages.exerciseScreen);
         break;
       case TaskCardType.sleep:
-        // navigate to sleep screen
+        AppNavigator.push(routeName: AppPages.sleepScreen);
         break;
       case TaskCardType.none:
         // navigate to none screen
         break;
       case TaskCardType.mood:
-        // navigate to mood screen
+        AppNavigator.push(routeName: AppPages.moodDetailScreen);
         break;
     }
   }

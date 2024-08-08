@@ -143,8 +143,6 @@ class SleepController extends BaseController {
     }
   }
 
-  HealthFactory healthFactory = HealthFactory();
-
   var types = [
     HealthDataType.STEPS,
     HealthDataType.ACTIVE_ENERGY_BURNED,

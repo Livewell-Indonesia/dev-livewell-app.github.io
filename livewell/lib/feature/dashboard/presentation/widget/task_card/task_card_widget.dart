@@ -9,8 +9,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
-import 'package:livewell/feature/dashboard/presentation/controller/dashboard_task_card_controller.dart';
-import 'package:livewell/feature/dashboard/presentation/widget/task_card.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/extension/dashboard_task_card_controller.dart';
+import 'package:livewell/feature/dashboard/presentation/enums/task_card_type.dart';
+import 'package:livewell/feature/dashboard/presentation/widget/task_card/task_card.dart';
 
 class TaskCardModel {
   final String title;
@@ -19,8 +20,6 @@ class TaskCardModel {
 
   TaskCardModel({required this.title, required this.description, required this.type});
 }
-
-enum TaskCardType { hydration, nutrition, exercise, sleep, none, mood }
 
 class TaskCardWidget extends StatefulWidget {
   const TaskCardWidget({super.key});
@@ -32,6 +31,7 @@ class TaskCardWidget extends StatefulWidget {
 class _TaskCardWidgetState extends State<TaskCardWidget> {
   final controller = Get.find<DashboardController>();
   var cardPosition = 0.0;
+  var cardSwiperController = CardSwiperController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +40,19 @@ class _TaskCardWidgetState extends State<TaskCardWidget> {
         Obx(() {
           return CardSwiper(
               numberOfCardsDisplayed: 1,
+              controller: cardSwiperController,
               cardBuilder: (context, index, horizontalOffsetPercentage, verticalOffsetPercentage) {
                 return TaskCard(
                   taskCardModel: controller.taskCardModel[index],
+                  onNextTap: () {
+                    cardSwiperController.moveTo(index + 1);
+                  },
+                  onPrevTap: () {
+                    cardSwiperController.moveTo(index - 1);
+                  },
+                  onDoneTap: () {
+                    controller.removeTaskCard();
+                  },
                 );
               },
               cardsCount: controller.taskCardModel.length);

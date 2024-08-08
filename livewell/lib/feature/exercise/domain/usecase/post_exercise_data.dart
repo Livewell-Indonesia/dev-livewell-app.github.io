@@ -5,7 +5,7 @@ import 'package:health/health.dart';
 import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/core/error/failures.dart';
 import 'package:livewell/feature/auth/data/model/register_model.dart';
-import 'package:livewell/feature/dashboard/presentation/controller/dashboard_health_controller.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/extension/dashboard_health_controller.dart';
 import 'package:livewell/feature/exercise/domain/repository/exercise_repository.dart';
 
 import '../../data/repository/exercise_repository_impl.dart';

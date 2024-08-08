@@ -50,7 +50,7 @@ class BaseController extends FullLifeCycleController with FullLifeCycleMixin {
       LanguageController languageController = Get.find<LanguageController>();
       return languageController.currentLanguage.value;
     } else {
-      return AvailableLanguage.en;
+      return AvailableLanguage.id;
     }
   }
 
@@ -95,7 +95,7 @@ class LanguageController extends GetxController {
   Rx<Localization> parentLocalization = Localization().obs;
   Rx<LocalizationKey> localization = LocalizationKey().obs;
   GetLocalizationData getLocalizationData = GetLocalizationData.instance();
-  Rx<AvailableLanguage> currentLanguage = AvailableLanguage.en.obs;
+  Rx<AvailableLanguage> currentLanguage = AvailableLanguage.id.obs;
   @override
   void onInit() {
     //getLocalizationDatas();

@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:health/health.dart';
@@ -25,12 +27,14 @@ class HomeController extends BaseController {
   Rx<AppConfigModel> appConfigModel = AppConfigModel().obs;
   Rx<PopupAssetsModel> popupAssetsModel = PopupAssetsModel().obs;
 
-  HealthFactory healthFactory = HealthFactory();
-
   GlobalKey cardKey = GlobalKey();
   GlobalKey taskKey = GlobalKey();
   GlobalKey navigationKey = GlobalKey();
   ScrollController scrollController = ScrollController();
+  GlobalKey? nutricoKey = GlobalKey();
+  GlobalKey? taskRecommendationKey = GlobalKey();
+  GlobalKey? wellnessScoreWidgetKey = GlobalKey();
+  GlobalKey? finishTaskRecommendationKey = GlobalKey();
 
   late TutorialCoachMark tutorialCoachMark;
 

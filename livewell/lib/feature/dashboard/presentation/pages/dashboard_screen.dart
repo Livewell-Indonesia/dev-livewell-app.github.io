@@ -10,9 +10,15 @@ import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/extension/dashboard_task_card_controller.dart';
+import 'package:livewell/feature/dashboard/presentation/enums/dashboard_coachmark_type.dart';
+import 'package:livewell/feature/dashboard/presentation/enums/task_card_type.dart';
+import 'package:livewell/feature/dashboard/presentation/widget/coachmark/coachmark_widget.dart';
 import 'package:livewell/feature/dashboard/presentation/widget/dashboard_summary_widget.dart';
-import 'package:livewell/feature/dashboard/presentation/widget/task_card.dart';
-import 'package:livewell/feature/dashboard/presentation/widget/task_card_widget.dart';
+import 'package:livewell/feature/dashboard/presentation/widget/task_card/task_card.dart';
+import 'package:livewell/feature/dashboard/presentation/widget/task_card/task_card_finish_widget.dart';
+import 'package:livewell/feature/dashboard/presentation/widget/task_card/task_card_loading_widget.dart';
+import 'package:livewell/feature/dashboard/presentation/widget/task_card/task_card_widget.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
@@ -38,6 +44,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
   int current = 0;
   final CarouselController carouselController = CarouselController();
   final HomeController homeController = Get.find();
+  final cardSwiperController = CardSwiperController();
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
@@ -54,10 +61,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
   @override
   void didChangeAppLifecycleState(final AppLifecycleState state) {
     if (state == AppLifecycleState.resumed && Get.currentRoute == AppPages.home) {
-      // if (kReleaseMode) {
-      //   controller.onRefresh();
-      // }
-      controller.onRefresh();
+      if (kReleaseMode) {
+        controller.onRefresh();
+      }
     }
   }
 
@@ -148,7 +154,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                             ],
                           ),
                           const Spacer(),
-
                           8.horizontalSpace,
                           InkWell(
                             onTap: () {
@@ -218,30 +223,78 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                       ),
                     ),
                     Obx(() {
-                      if (controller.taskCardModel.isNotEmpty) {
-                        return Container(
-                          height: 150.h,
-                          padding: EdgeInsets.only(top: 16.h),
-                          child: CardSwiper(
-                              padding: EdgeInsets.zero,
-                              backCardOffset: const Offset(0, 20),
-                              threshold: 40,
-                              allowedSwipeDirection: const AllowedSwipeDirection.symmetric(horizontal: true, vertical: false),
-                              cardBuilder: (context, index, percentThresholdX, percentThresholdY) {
-                                return Wrap(
-                                  children: [
-                                    TaskCard(
-                                      taskCardModel: controller.taskCardModel[index],
-                                      index: index,
-                                      totalLength: controller.taskCardModel.length,
-                                    ),
-                                  ],
-                                );
-                              },
-                              cardsCount: controller.taskCardModel.length),
-                        );
+                      if (controller.isShowCoachmark.value) {
+                        if (controller.coachmarkType.value == DashboardCoachmarkType.taskRecommendation) {
+                          return SizedBox(
+                            height: 180.h,
+                            child: TaskCard(
+                                taskCardModel: TaskCardModel(
+                                    title: 'Nutrient-Rich Breakfast ',
+                                    description:
+                                        'Begin by drinking a full glass of water (around 250-300 ml) to rehydrate after a night of sleep. This will help kickstart your metabolism and refresh your body.  ',
+                                    type: TaskCardType.none),
+                                onNextTap: () {},
+                                onPrevTap: () {},
+                                onDoneTap: () {}),
+                          );
+                        } else if (controller.coachmarkType.value == DashboardCoachmarkType.finishTaskRecommendation) {
+                          return TaskCardFinishWidget(
+                            onTap: () {},
+                          );
+                        } else {
+                          return const SizedBox();
+                        }
                       } else {
-                        return const SizedBox();
+                        if (controller.isLoadingTaskRecommendation.value) {
+                          return const TaskCardLoadingWidget();
+                        } else if (controller.showDoneRecommendation.value) {
+                          return TaskCardFinishWidget(onTap: () {
+                            AppNavigator.push(routeName: AppPages.wellnessScore);
+                          });
+                        } else if (controller.taskCardModel.isNotEmpty) {
+                          return Container(
+                              height: 200.h,
+                              padding: EdgeInsets.only(top: 16.h),
+                              child: Obx(() {
+                                return CardSwiper(
+                                    controller: cardSwiperController,
+                                    padding: EdgeInsets.zero,
+                                    backCardOffset: const Offset(0, 20),
+                                    threshold: 40,
+                                    isLoop: false,
+                                    onSwipe: (previousIndex, currentIndex, direction) {
+                                      if (previousIndex == controller.taskCardModel.length - 1) {
+                                        controller.onDoneTap();
+                                      }
+                                      return true;
+                                    },
+                                    allowedSwipeDirection: const AllowedSwipeDirection.symmetric(horizontal: true, vertical: false),
+                                    cardBuilder: (context, index, percentThresholdX, percentThresholdY) {
+                                      return InkWell(
+                                        onTap: () {
+                                          controller.taskCardModel[index].type.navigation();
+                                        },
+                                        child: TaskCard(
+                                          taskCardModel: controller.taskCardModel[index],
+                                          index: index,
+                                          totalLength: controller.taskCardModel.length,
+                                          onNextTap: () {
+                                            cardSwiperController.swipe(CardSwiperDirection.left);
+                                          },
+                                          onPrevTap: () {
+                                            cardSwiperController.undo();
+                                          },
+                                          onDoneTap: () {
+                                            controller.onDoneTap();
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    cardsCount: controller.taskCardModel.length);
+                              }));
+                        } else {
+                          return const SizedBox();
+                        }
                       }
                     }),
                     16.verticalSpace,
@@ -609,80 +662,83 @@ class WellnessScoreWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.w),
-      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16.r),
       ),
-      child: Row(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.r),
-              color: const Color(0xFFDDF235).withOpacity(0.35),
-            ),
-            child: Column(
-              children: [
-                Text(
-                  score.toString(),
-                  style: TextStyle(color: const Color(0xFF505050), fontSize: 20.sp, fontWeight: FontWeight.w600),
-                ),
-                Text(
-                  '/100',
-                  style: TextStyle(color: const Color(0xFF505050), fontSize: 12.sp, fontWeight: FontWeight.w400),
-                ),
-              ],
-            ),
-          ),
-          12.horizontalSpace,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Wellness',
-                  style: TextStyle(
-                    color: const Color(0xFF505050),
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+        key: Get.find<HomeController>().wellnessScoreWidgetKey,
+        child: Row(
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.r),
+                color: const Color(0xFFDDF235).withOpacity(0.35),
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    score.toString(),
+                    style: TextStyle(color: const Color(0xFF505050), fontSize: 20.sp, fontWeight: FontWeight.w600),
                   ),
-                ),
-                Text(
-                  getTitle(score),
-                  style: TextStyle(
-                    color: const Color(0xFF808080),
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w400,
+                  Text(
+                    '/100',
+                    style: TextStyle(color: const Color(0xFF505050), fontSize: 12.sp, fontWeight: FontWeight.w400),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          12.horizontalSpace,
-          (onTap == null)
-              ? const SizedBox()
-              : InkWell(
-                  onTap: () {
-                    onTap!();
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xFF8F01DF)),
-                      borderRadius: BorderRadius.circular(16.r),
+            12.horizontalSpace,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Wellness',
+                    style: TextStyle(
+                      color: const Color(0xFF505050),
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
                     ),
-                    child: Text(
-                      'See detail',
-                      style: TextStyle(
-                        color: const Color(0xFF8F01DF),
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
+                  ),
+                  Text(
+                    getTitle(score),
+                    style: TextStyle(
+                      color: const Color(0xFF808080),
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            12.horizontalSpace,
+            (onTap == null)
+                ? const SizedBox()
+                : InkWell(
+                    onTap: () {
+                      onTap!();
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: const Color(0xFF8F01DF)),
+                        borderRadius: BorderRadius.circular(16.r),
+                      ),
+                      child: Text(
+                        'View Insights',
+                        style: TextStyle(
+                          color: const Color(0xFF8F01DF),
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
-                ),
-        ],
+          ],
+        ),
       ),
     );
   }

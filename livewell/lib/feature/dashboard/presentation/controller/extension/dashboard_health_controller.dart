@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter_health_fit/flutter_health_fit.dart';
@@ -79,6 +80,7 @@ extension DashboardHealthController on DashboardController {
         newData.add(element.toCustomHealthDataPoint(PlatformType.IOS, element.type));
       }
     }
+    saveSleepData(newData);
   }
 
   void fetchSleepDataFromLocalAndroid(DateTime currentDate, DateTime dateTill) async {
@@ -89,6 +91,7 @@ extension DashboardHealthController on DashboardController {
         newData.add(element.toCustomHealthDataPoint(PlatformType.ANDROID, element.gfSleepSampleType));
       }
     }
+    saveSleepData(newData);
   }
 
   void saveSleepData(List<CustomHealthDataPoint> newData) async {
@@ -109,6 +112,7 @@ extension DashboardHealthController on DashboardController {
     var currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0, 0, 0);
     var dateTill = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59, 0, 0);
     List<HealthDataPoint> healthData = await healthFactory.getHealthDataFromTypes(currentDate, dateTill, [HealthDataType.STEPS, HealthDataType.ACTIVE_ENERGY_BURNED]);
+    healthData.sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
     healthData = await filterExerciseData(healthData);
     if (healthData.isNotEmpty) {
       postExerciseData(PostExerciseParams.fromHealth(healthData), healthData.last.dateFrom);
@@ -124,7 +128,6 @@ extension DashboardHealthController on DashboardController {
     }, (r) async {
       await SharedPref.saveLastStepSyncDate(lastSyncedAt);
       getExerciseHistorydata();
-      Log.info(r);
     });
   }
 

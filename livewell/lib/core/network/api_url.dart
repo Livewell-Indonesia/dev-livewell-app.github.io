@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 
 class Endpoint {
   /// DEV
-  static String api = kReleaseMode ? "https://api.livewellindo.com/api/v1/" : "https://dev-api.livewellindo.com/api/v1/";
+  static String api = kReleaseMode ? "https://api.livewellindo.com/api/v1/" : "https://api.livewellindo.com/api/v1/";
 
   /// Login
   static const String login = "auth/login";
@@ -47,8 +47,8 @@ class Endpoint {
   static const String popupAssets = "config/pop-up-assets";
 
   ///Exercise
-  static const String postBulkActivities = "activities/bulk-create";
-  static const String getActivities = "activities-clean/list";
+  static const String postBulkActivities = "activities/bulk-create-v2";
+  static const String getActivities = "activities-clean/lists";
   static const String getActivityHistories = 'activities-clean/lists';
 
   /// Sleep

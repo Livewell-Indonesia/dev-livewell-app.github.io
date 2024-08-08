@@ -20,4 +20,8 @@ class PrefConstant {
   static const String name = "name";
   static const String lastSyncStepDate = "last_sync_step_date";
   static const String lastSyncSleepDate = "last_sync_sleep_date";
+  static const String lastWellnessScore = "last_wellness_score";
+  static const String doneWithRecommendation = "done_with_wellness_recommendation";
+  static const String lastRecommendation = "last_recommendation";
+  static const String newDashboardCoachmarkShowed = "new_dashboard_coachmark_showed";
 }

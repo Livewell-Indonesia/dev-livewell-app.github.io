@@ -1,5 +1,3 @@
-import 'dart:developer';
-import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_health_fit/flutter_health_fit.dart';
@@ -19,8 +17,11 @@ import 'package:livewell/feature/dashboard/domain/usecase/get_dashboard_data.dar
 import 'package:livewell/feature/dashboard/domain/usecase/get_feature_limit.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_user.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/post_mood.dart';
-import 'package:livewell/feature/dashboard/presentation/controller/dashboard_health_controller.dart';
-import 'package:livewell/feature/dashboard/presentation/widget/task_card_widget.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/extension/dashboard_coachmark_controller.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/extension/dashboard_health_controller.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/extension/dashboard_task_card_controller.dart';
+import 'package:livewell/feature/dashboard/presentation/enums/dashboard_coachmark_type.dart';
+import 'package:livewell/feature/dashboard/presentation/widget/task_card/task_card_widget.dart';
 import 'package:livewell/feature/diary/domain/usecase/get_user_meal_history.dart';
 import 'package:livewell/feature/diary/presentation/controller/user_diary_controller.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
@@ -40,6 +41,7 @@ import 'package:livewell/feature/streak/presentation/widget/streak_calendar.dart
 import 'package:livewell/feature/water/data/model/water_list_model.dart';
 import 'package:livewell/feature/water/domain/usecase/get_water_data.dart';
 import 'package:livewell/routes/app_navigator.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 import '../../../diary/domain/entity/user_meal_history_model.dart';
 import 'dart:core';
@@ -63,7 +65,7 @@ class DashboardController extends BaseController {
   Rx<double> waterConsumed = 0.0.obs;
   Rxn<MoodDetail> todayMood = Rxn<MoodDetail>();
 
-  HealthFactory healthFactory = HealthFactory();
+  HealthFactory healthFactory = HealthFactory(useHealthConnectIfAvailable: true);
   FlutterHealthFit healthFit = FlutterHealthFit();
 
   Rx<NutriScoreModel> nutriScore = NutriScoreModel().obs;
@@ -76,6 +78,8 @@ class DashboardController extends BaseController {
   Rx<int> wellnessScore = 0.obs;
   Rxn<WellnessData> wellnessData = Rxn<WellnessData>();
   Rx<String> wellnessTitle = 'Your wellness is in the low range. Check to see what you need to improve.'.obs;
+  Rx<bool> showDoneRecommendation = false.obs;
+  late TutorialCoachMark tutorialCoachMark;
 
   var types = [
     HealthDataType.STEPS,
@@ -103,7 +107,11 @@ class DashboardController extends BaseController {
 
   RxList<TaskCardModel> taskCardModel = <TaskCardModel>[].obs;
   Rx<TaskRecommendationModel> taskRecommendationModel = TaskRecommendationModel().obs;
-  Rx<bool> isLoadingTaskRecommendation = false.obs;
+  Rx<bool> isLoadingTaskRecommendation = true.obs;
+
+  // Coachmark Variables
+  Rx<DashboardCoachmarkType> coachmarkType = DashboardCoachmarkType.nutricoPlus.obs;
+  Rx<bool> isShowCoachmark = false.obs;
 
   void getTotalStreak() {
     final useCase = GetTotalStreak.instance();
@@ -152,6 +160,7 @@ class DashboardController extends BaseController {
           todayProgress.value++;
         }
         wellnessScore.value = r.response?.displayData?.totalScore ?? 0;
+        getTaskRecommendation();
       });
     });
   }
@@ -180,9 +189,10 @@ class DashboardController extends BaseController {
   void fetchHealthData() async {
     if (await isHealthAuthorized()) {
       fetchHealthDataFromLocal();
-      showCoachmark();
+      initiateCoachmark();
     } else {
-      showCoachmark();
+      fetchHealthDataFromLocal();
+      initiateCoachmark();
     }
   }
 
@@ -244,23 +254,6 @@ class DashboardController extends BaseController {
     getFeatureLimitData();
     getTodayWellnessData();
     getTotalStreak();
-    taskCardModel.value = [
-      TaskCardModel(
-        title: "Hydration",
-        description: "Begin by drinking a full glass of water (around 250-300 ml) to rehydrate after a night of sleep. This will help kickstart your metabolism and refresh your body.",
-        type: TaskCardType.hydration,
-      ),
-      TaskCardModel(
-        title: "Hydration",
-        description: "Begin by drinking a full glass of water (around 250-300 ml) to rehydrate after a night of sleep. This will help kickstart your metabolism and refresh your body.",
-        type: TaskCardType.hydration,
-      ),
-      TaskCardModel(
-        title: "Hydration",
-        description: "Begin by drinking a full glass of water (around 250-300 ml) to rehydrate after a night of sleep. This will help kickstart your metabolism and refresh your body.",
-        type: TaskCardType.hydration,
-      ),
-    ];
     super.onInit();
   }
 

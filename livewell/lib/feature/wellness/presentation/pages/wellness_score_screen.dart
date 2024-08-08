@@ -26,6 +26,15 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
   void initState() {
     Get.find<DashboardController>().trackEvent(LivewellWellnessScoreEvent.wellnessScorePage);
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      showModalBottomSheet(
+          isScrollControlled: true,
+          context: Get.context!,
+          shape: shapeBorder(),
+          builder: (context) {
+            return WellnessScoreRecommendationBottomSheet(controller: controller);
+          });
+    });
   }
 
   WellnessController controller = Get.put(WellnessController());

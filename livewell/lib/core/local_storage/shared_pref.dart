@@ -246,4 +246,44 @@ class SharedPref {
     prefs.setString(PrefConstant.lastSyncSleepDate, date.toIso8601String());
     return date;
   }
+
+  static Future<int?> getLastWellnessScore() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(PrefConstant.lastWellnessScore);
+  }
+
+  static Future<bool> saveLastWellnessScore(int score) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setInt(PrefConstant.lastWellnessScore, score);
+  }
+
+  static Future<bool> getDoneWithRecommendation() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(PrefConstant.doneWithRecommendation) ?? false;
+  }
+
+  static Future<bool> saveDoneWithRecommendation(bool done) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setBool(PrefConstant.doneWithRecommendation, done);
+  }
+
+  static Future<String?> getLastRecommendation() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(PrefConstant.lastRecommendation);
+  }
+
+  static Future<bool> saveLastRecommendation(String recommendation) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setString(PrefConstant.lastRecommendation, recommendation);
+  }
+
+  static Future<bool> getNewDashboardCoachmarkShowed() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(PrefConstant.newDashboardCoachmarkShowed) ?? false;
+  }
+
+  static Future<bool> saveNewDashboardCoachmarkShowed(bool showed) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setBool(PrefConstant.newDashboardCoachmarkShowed, showed);
+  }
 }

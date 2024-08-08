@@ -272,7 +272,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
           child: ListView(
             children: [
               40.verticalSpace,
-              const ExerciseDiaryScreen(),
+              ExerciseDiaryScreen(),
               32.verticalSpace,
               LiveWellButton(
                 label: 'Input Steps',
@@ -457,250 +457,161 @@ class ImageWithOverlay extends StatelessWidget {
             fit: BoxFit.cover,
           ),
           Positioned.fill(
-              top: 50,
+              top: 30,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: SvgPicture.asset(
-                      "assets/images/FA_Livewell_Logo_2.svg",
-                      fit: BoxFit.cover,
-                      color: const Color(0xFF8F01DF),
-                      width: 112.w,
-                      height: 30.h,
-                    ),
-                  ),
-                  10.verticalSpace,
-                  Container(
-                    decoration: const BoxDecoration(color: Color(0xFFDDF235), borderRadius: BorderRadius.only(topRight: Radius.circular(100), bottomRight: Radius.circular(100))),
-                    padding: EdgeInsets.only(left: 16.w, right: 46.w, top: 12.h, bottom: 12.h),
-                    margin: EdgeInsets.only(right: 70.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+                  Stack(
+                    children: [
+                      Container(
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(image: AssetImage("assets/images/IMG_5451.png"), fit: BoxFit.cover),
+                        ),
+                        padding: EdgeInsets.only(left: 16.w, right: 62.w, top: 64.h, bottom: 25.h),
+                        margin: EdgeInsets.only(right: 40.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Icon(
-                              Icons.calendar_month,
-                              color: Color(0xFF8F01DF),
-                              size: 16,
-                            ),
-                            Expanded(
-                              child: AutoSizeText(
-                                DateFormat('EEEE, dd MMMM yyyy').format(DateTime.now()),
-                                maxLines: 1,
-                                style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 10.sp),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.location_on,
-                              color: Color(0xFF8F01DF),
-                              size: 16,
-                            ),
-                            Flexible(
-                              child: Text(
-                                location,
-                                maxLines: 1,
-                                overflow: TextOverflow.clip,
-                                style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 10.sp),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16.sp,
-                            color: const Color(0xFF8F01DF),
-                          ),
-                        ),
-                        2.verticalSpace,
-                        const Divider(
-                          height: 4,
-                          color: Color(0xFF8F01DF),
-                        ),
-                        2.verticalSpace,
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Expanded(
-                              flex: 4,
-                              child: Text(
-                                "Steps",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12.sp,
-                                  color: const Color(0xFF8F01DF),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.calendar_month,
+                                  color: Color(0xFF8F01DF),
+                                  size: 16,
                                 ),
-                              ),
-                            ),
-                            const Spacer(
-                              flex: 1,
-                            ),
-                            Expanded(
-                              flex: 4,
-                              child: Text(
-                                "$steps",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.end,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 12.sp,
-                                  color: const Color(0xFF8F01DF),
+                                Expanded(
+                                  child: AutoSizeText(
+                                    DateFormat('EEEE, dd MMMM yyyy').format(DateTime.now()),
+                                    maxLines: 1,
+                                    style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 10.sp),
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
-                        2.verticalSpace,
-                        Row(
-                          children: [
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.location_on,
+                                  color: Color(0xFF8F01DF),
+                                  size: 16,
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    location,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.clip,
+                                    style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 10.sp),
+                                  ),
+                                ),
+                              ],
+                            ),
                             Text(
-                              "Distance",
+                              title,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16.sp,
                                 color: const Color(0xFF8F01DF),
                               ),
                             ),
-                            Expanded(
-                              flex: 4,
-                              child: Text(
-                                "${NumberFormat("0.0").format(distance)} KM",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.end,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 12.sp,
-                                  color: const Color(0xFF8F01DF),
+                            2.verticalSpace,
+                            const Divider(
+                              height: 4,
+                              color: Color(0xFF8F01DF),
+                            ),
+                            2.verticalSpace,
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Expanded(
+                                  flex: 4,
+                                  child: Text(
+                                    "Steps",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12.sp,
+                                      color: const Color(0xFF8F01DF),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                const Spacer(
+                                  flex: 1,
+                                ),
+                                Expanded(
+                                  flex: 4,
+                                  child: Text(
+                                    "$steps",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.end,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 12.sp,
+                                      color: const Color(0xFF8F01DF),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            2.verticalSpace,
+                            Row(
+                              children: [
+                                Text(
+                                  "Distance",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12.sp,
+                                    color: const Color(0xFF8F01DF),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 4,
+                                  child: Text(
+                                    "${NumberFormat("0.0").format(distance)} KM",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.end,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 12.sp,
+                                      color: const Color(0xFF8F01DF),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            2.verticalSpace,
+                            Row(
+                              children: [
+                                Text(
+                                  "Calories burnt",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12.sp,
+                                    color: const Color(0xFF8F01DF),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 4,
+                                  child: Text(
+                                    "$calories kcal",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.end,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 12.sp,
+                                      color: const Color(0xFF8F01DF),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                        2.verticalSpace,
-                        Row(
-                          children: [
-                            Text(
-                              "Calories burnt",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 12.sp,
-                                color: const Color(0xFF8F01DF),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 4,
-                              child: Text(
-                                "$calories kcal",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.end,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 12.sp,
-                                  color: const Color(0xFF8F01DF),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   crossAxisAlignment: CrossAxisAlignment.start,
-                        //   children: [
-                        //     // Expanded(
-                        //     //   flex: 2,
-                        //     //   child: Column(
-                        //     //     crossAxisAlignment: CrossAxisAlignment.start,
-                        //     //     children: [
-                        //     //       AutoSizeText(
-                        //     //         "$steps",
-                        //     //         maxLines: 1,
-                        //     //         group: myGroup,
-                        //     //         style: TextStyle(
-                        //     //           fontWeight: FontWeight.w800,
-                        //     //           fontSize: 20.sp,
-                        //     //           color: Color(0xFF8F01DF),
-                        //     //         ),
-                        //     //       ),
-                        //     //       Text(
-                        //     //         "steps",
-                        //     //         style: TextStyle(
-                        //     //           fontWeight: FontWeight.w500,
-                        //     //           fontSize: 12.sp,
-                        //     //           color: Color(0xFF8F01DF),
-                        //     //         ),
-                        //     //       )
-                        //     //     ],
-                        //     //   ),
-                        //     // ),
-                        //     Expanded(
-                        //       flex: 2,
-                        //       child: Column(
-                        //         crossAxisAlignment: CrossAxisAlignment.start,
-                        //         children: [
-                        //           AutoSizeText(
-                        //             "${NumberFormat("0.0").format(distance)} KM",
-                        //             maxLines: 1,
-                        //             group: myGroup,
-                        //             style: TextStyle(
-                        //               fontWeight: FontWeight.w800,
-                        //               fontSize: 20.sp,
-                        //               color: Color(0xFF8F01DF),
-                        //             ),
-                        //           ),
-                        //           Text(
-                        //             "distance",
-                        //             style: TextStyle(
-                        //               fontWeight: FontWeight.w500,
-                        //               fontSize: 12.sp,
-                        //               color: Color(0xFF8F01DF),
-                        //             ),
-                        //           )
-                        //         ],
-                        //       ),
-                        //     ),
-                        //     Expanded(
-                        //       flex: 2,
-                        //       child: Column(
-                        //         crossAxisAlignment: CrossAxisAlignment.start,
-                        //         children: [
-                        //           AutoSizeText(
-                        //             "$calories kcal",
-                        //             maxLines: 1,
-                        //             group: myGroup,
-                        //             style: TextStyle(
-                        //               fontWeight: FontWeight.w800,
-                        //               fontSize: 20.sp,
-                        //               color: Color(0xFF8F01DF),
-                        //             ),
-                        //           ),
-                        //           Text(
-                        //             "calories burnt",
-                        //             style: TextStyle(
-                        //               fontWeight: FontWeight.w500,
-                        //               fontSize: 12.sp,
-                        //               color: Color(0xFF8F01DF),
-                        //             ),
-                        //           )
-                        //         ],
-                        //       ),
-                        //     )
-                        //   ],
-                        // )
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               )),

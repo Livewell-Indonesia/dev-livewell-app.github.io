@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/helper/get_meal_type_by_current_time.dart';
 import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
+import 'package:livewell/feature/dashboard/data/model/dashboard_model.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/dashboard/presentation/enums/dashboard_coachmark_type.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/nutrico/presentation/widget/nutri_score_plus_bottom_sheet.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -114,6 +116,7 @@ class HomeScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
+                  key: Get.find<HomeController>().nutricoKey,
                   decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFF8F01DF)),
                   height: 56.h,
                   width: 56.w,

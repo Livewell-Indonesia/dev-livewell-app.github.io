@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:livewell/core/log.dart';
 import 'package:sentry/sentry.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
@@ -22,16 +23,17 @@ mixin NetworkModule {
   Future<Result<T>> _safeCallApi<T>(Future<Response<T>> call) async {
     try {
       final response = await call;
+      Log.colorGreen("andi ganteng ${_baseOptions}");
       return Result.success(
         response.data as T,
         response.statusMessage,
         response.statusCode,
       );
     } on DioError catch (e, stacktrace) {
+      Log.error("andi ganteng");
       Sentry.captureException(e, stackTrace: stacktrace);
       if (e.type == DioErrorType.response) {
-        return Result.error(e.response!.statusCode ?? 400, e.response!.data,
-            message: e.response!.data['message']);
+        return Result.error(e.response?.statusCode ?? 400, e.response?.data, message: e.response!.data['message']);
       } else {
         return Result.timeout(
           '' as dynamic,

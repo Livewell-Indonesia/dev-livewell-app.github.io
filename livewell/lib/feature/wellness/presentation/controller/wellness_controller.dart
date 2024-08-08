@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:livewell/core/base/base_controller.dart';
-import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/streak/domain/usecase/get_wellness_recommendation.dart';
@@ -17,20 +15,9 @@ class WellnessController extends BaseController {
 
   @override
   void onInit() async {
-    isLoadingRecommendation.value = true;
+    //isLoadingRecommendation.value = true;
     if (Get.find<DashboardController>().wellnessScore.value != 0) {
-      final result = await getWellnessRecommendation(NoParams());
-      isLoadingRecommendation.value = false;
-      result.fold((l) => null, (r) {
-        recommendation.value = r;
-        showModalBottomSheet(
-            isScrollControlled: true,
-            context: Get.context!,
-            shape: shapeBorder(),
-            builder: (context) {
-              return WellnessScoreRecommendationBottomSheet(controller: this);
-            });
-      });
+      recommendation.value = Get.find<DashboardController>().taskRecommendationModel.value.response?.recommendation ?? "";
     }
     super.onInit();
   }
