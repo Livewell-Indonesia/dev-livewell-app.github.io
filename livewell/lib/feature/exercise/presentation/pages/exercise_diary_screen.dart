@@ -128,7 +128,8 @@ class _ExerciseDiaryScreenState extends State<ExerciseDiaryScreen> {
           ],
         ),
         20.verticalSpace,
-        Text('Synced Via ${Platform.isIOS ? 'Apple Health' : 'Google Fit'}', style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433))),
+        Text('${controller.localization.exercisePage?.syncedVia ?? 'Synced Via'} ${Platform.isIOS ? 'Apple Health' : 'Google Fit'}',
+            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433))),
       ],
     );
   }

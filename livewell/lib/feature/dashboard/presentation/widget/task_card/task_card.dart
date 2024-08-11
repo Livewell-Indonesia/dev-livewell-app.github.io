@@ -39,7 +39,6 @@ class TaskCard extends StatelessWidget {
             ],
           ),
           child: Padding(
-            key: Get.find<HomeController>().taskRecommendationKey,
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -182,6 +181,91 @@ class DoneButton extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class DummyTaskCard extends StatelessWidget {
+  final TaskCardModel taskCardModel;
+  final bool isDummy;
+  final int index;
+  final int totalLength;
+  const DummyTaskCard({super.key, required this.taskCardModel, this.isDummy = false, this.index = 0, this.totalLength = 1});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          width: 1.sw,
+          margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12.r),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.08),
+                blurRadius: 20,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Padding(
+            key: Get.find<HomeController>().taskRecommendationKey,
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 28.w),
+                  child: Text(
+                    taskCardModel.title,
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.sp, color: Theme.of(context).colorScheme.textLoEm),
+                  ),
+                ),
+                8.verticalSpace,
+                Text(
+                  taskCardModel.description,
+                  maxLines: 4,
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    color: Theme.of(context).colorScheme.textLoEm,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                8.verticalSpace,
+                const Spacer(),
+                Row(
+                  children: [
+                    Text('${(index + 1).toString()}' " of $totalLength insights",
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: Theme.of(context).colorScheme.textLoEm,
+                          fontWeight: FontWeight.w400,
+                        )),
+                    const Spacer(),
+                    if (index > 0)
+                      Padding(
+                        padding: EdgeInsets.only(right: 4.w),
+                        child: PrevButton(onPrevTap: () {}),
+                      )
+                    else
+                      const SizedBox(),
+                    if (index == totalLength - 1) DoneButton(onDoneTap: () {}) else const SizedBox(),
+                    if (index != totalLength - 1) NextButton(onNextTap: () {}) else const SizedBox(),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        !isDummy
+            ? Positioned(
+                left: 10.w,
+                child: SvgPicture.asset('assets/icons/ic_task_card_star.svg'),
+              )
+            : const SizedBox(),
+      ],
     );
   }
 }

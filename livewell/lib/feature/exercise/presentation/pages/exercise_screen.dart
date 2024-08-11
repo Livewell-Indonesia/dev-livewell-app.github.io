@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/exercise/presentation/controller/exercise_controller.dart';
@@ -402,6 +403,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   _showFullScreenDialog(BuildContext context, File file, double aspectRatio) {
     showDialog(
         context: context,
+        useSafeArea: false,
         builder: (BuildContext context) {
           return Obx(() {
             return ExerciseSharePage(
@@ -465,7 +467,7 @@ class ImageWithOverlay extends StatelessWidget {
                     children: [
                       Container(
                         decoration: const BoxDecoration(
-                          image: DecorationImage(image: AssetImage("assets/images/IMG_5451.png"), fit: BoxFit.cover),
+                          image: DecorationImage(image: NetworkImage("https://livewell-dev.s3.ap-southeast-1.amazonaws.com/static/merdeka.png"), fit: BoxFit.cover),
                         ),
                         padding: EdgeInsets.only(left: 16.w, right: 62.w, top: 64.h, bottom: 25.h),
                         margin: EdgeInsets.only(right: 40.w),
@@ -527,7 +529,7 @@ class ImageWithOverlay extends StatelessWidget {
                                 Expanded(
                                   flex: 4,
                                   child: Text(
-                                    "Steps",
+                                    Get.find<HomeController>().localization.exercisePage?.steps ?? "Steps",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 12.sp,
@@ -585,7 +587,7 @@ class ImageWithOverlay extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  "Calories burnt",
+                                  Get.find<HomeController>().localization.exercisePage?.caloriesBurnt ?? "Calories burnt",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 12.sp,

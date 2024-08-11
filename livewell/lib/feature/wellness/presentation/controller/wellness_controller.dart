@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/streak/domain/usecase/get_wellness_recommendation.dart';
 import 'package:livewell/feature/streak/presentation/widget/streak_item.dart';
 import 'package:livewell/feature/wellness/presentation/pages/wellness_score_screen.dart';
@@ -43,11 +44,11 @@ extension WellnessProfileTypeExtension on WellnessProfileType {
   String get title {
     switch (this) {
       case WellnessProfileType.needImprovement:
-        return 'Need Improvement';
+        return Get.find<HomeController>().localization.wellnessScorePage?.needImprovement ?? "Need Improvement";
       case WellnessProfileType.balanced:
-        return 'Balanced Wellness';
+        return Get.find<HomeController>().localization.wellnessScorePage?.balanced ?? "Balanced Wellness";
       case WellnessProfileType.excellent:
-        return 'Excellent Wellness';
+        return Get.find<HomeController>().localization.wellnessScorePage?.excellent ?? "Excellent Wellness";
     }
   }
 
@@ -69,39 +70,142 @@ class WellnessCalculationModel {
 
   WellnessCalculationModel({required this.title, required this.details});
 
-  factory WellnessCalculationModel.generate() {
-    return WellnessCalculationModel(title: 'How do Wellness Score calculated?', details: [
-      WellnessCalculationModelDetail(type: StreakItemType.nutrition, title: 'Nutriscore Ranges and Corresponding Scores', descriptions: [
-        WellnessCalculationModelDetailDescription(range: 'Nutriscore 0-20', score: '4', description: 'Poor Quality'),
-        WellnessCalculationModelDetailDescription(range: 'Nutriscore 21-40', score: '8', description: 'Fair Quality'),
-        WellnessCalculationModelDetailDescription(range: 'Nutriscore 41-60', score: '12', description: 'Average Quality'),
-        WellnessCalculationModelDetailDescription(range: 'Nutriscore 61-80', score: '16', description: 'Good Quality'),
-        WellnessCalculationModelDetailDescription(range: 'Nutriscore 81-100', score: '20', description: 'Excellent Quality'),
-      ]),
-      WellnessCalculationModelDetail(type: StreakItemType.activity, title: 'Scoring for Physical Activity Level: Based on Steps', descriptions: [
-        WellnessCalculationModelDetailDescription(range: '<5000 steps', score: '4', description: 'Sedentary'),
-        WellnessCalculationModelDetailDescription(range: '5000-7500 steps', score: '12', description: 'Moderate'),
-        WellnessCalculationModelDetailDescription(range: '>7500 steps', score: '20', description: 'Active'),
-      ]),
-      WellnessCalculationModelDetail(type: StreakItemType.mood, title: 'Scoring for Mood: Based on Daily Mood Logging', descriptions: [
-        WellnessCalculationModelDetailDescription(range: 'Awful, Bad', score: '4', description: 'Low'),
-        WellnessCalculationModelDetailDescription(range: 'Meh', score: '12', description: 'Unmotivated'),
-        WellnessCalculationModelDetailDescription(range: 'Good, Great', score: '20', description: 'Happy, High, Awesome'),
-      ]),
-      WellnessCalculationModelDetail(type: StreakItemType.sleep, title: 'Scoring for Sleep Analysis', descriptions: [
-        WellnessCalculationModelDetailDescription(range: '<5 hours', score: '8', description: 'Poor'),
-        WellnessCalculationModelDetailDescription(range: '5 hours', score: '12', description: 'Fair'),
-        WellnessCalculationModelDetailDescription(range: '6 hours', score: '16', description: 'Good'),
-        WellnessCalculationModelDetailDescription(range: '>7 hours', score: '20', description: 'Excellent'),
-      ]),
-      WellnessCalculationModelDetail(type: StreakItemType.hydration, title: 'Scoring for Hydration: Based on (ml)', descriptions: [
-        WellnessCalculationModelDetailDescription(range: '<500 ml', score: '4', description: 'Dehydrated'),
-        WellnessCalculationModelDetailDescription(range: '500 ml', score: '8', description: 'Thristy'),
-        WellnessCalculationModelDetailDescription(range: '1000 ml', score: '12', description: 'Over Halfway'),
-        WellnessCalculationModelDetailDescription(range: '1500 ml', score: '16', description: 'Hydrated'),
-        WellnessCalculationModelDetailDescription(range: '>2000 ml', score: '20', description: 'Supercharged'),
-      ]),
-    ]);
+  static WellnessCalculationModel generate(Map<String, String> localization) {
+    return WellnessCalculationModel(
+      title: localization['how_do_wellness_score_calculated'] ?? 'How do Wellness Score calculated?',
+      details: [
+        WellnessCalculationModelDetail(
+          type: StreakItemType.nutrition,
+          title: localization['nutriscore_title'] ?? 'Nutriscore Ranges and Corresponding Scores',
+          descriptions: [
+            WellnessCalculationModelDetailDescription(
+              range: localization['nutriscore_range_0_20'] ?? 'Nutriscore 0-20',
+              score: localization["nutriscore_score_0_20"] ?? '4',
+              description: localization['nutriscore_category_0_20'] ?? 'Poor Quality',
+            ),
+            WellnessCalculationModelDetailDescription(
+              range: localization['nutriscore_range_21_40'] ?? 'Nutriscore 21-40',
+              score: localization["nutriscore_score_21_40"] ?? '8',
+              description: localization['nutriscore_category_21_40'] ?? 'Fair Quality',
+            ),
+            WellnessCalculationModelDetailDescription(
+              range: localization['nutriscore_range_41_60'] ?? 'Nutriscore 41-60',
+              score: localization["nutriscore_score_41_60"] ?? '12',
+              description: localization['nutriscore_category_41_60'] ?? 'Average Quality',
+            ),
+            WellnessCalculationModelDetailDescription(
+              range: localization['nutriscore_range_61_80'] ?? 'Nutriscore 61-80',
+              score: localization["nutriscore_score_61_80"] ?? '16',
+              description: localization['nutriscore_category_61_80'] ?? 'Good Quality',
+            ),
+            WellnessCalculationModelDetailDescription(
+              range: localization['nutriscore_range_81_100'] ?? 'Nutriscore 81-100',
+              score: localization["nutriscore_score_81_100"] ?? '20',
+              description: localization['nutriscore_category_81_100'] ?? 'Excellent Quality',
+            ),
+          ],
+        ),
+        WellnessCalculationModelDetail(
+          type: StreakItemType.activity,
+          title: localization['physical_activity_title'] ?? 'Scoring for Physical Activity Level: Based on Steps',
+          descriptions: [
+            WellnessCalculationModelDetailDescription(
+              range: localization['physical_activity_range_5000'] ?? '<5000 steps',
+              score: localization['physical_activity_score_5000'] ?? '4',
+              description: localization['physical_activity_category_5000'] ?? 'Sedentary',
+            ),
+            WellnessCalculationModelDetailDescription(
+              range: localization['physical_activity_range_5000_7500'] ?? '5000-7500 steps',
+              score: localization['physical_activity_score_5000_7500'] ?? '12',
+              description: localization['physical_activity_category_5000_7500'] ?? 'Moderate',
+            ),
+            WellnessCalculationModelDetailDescription(
+              range: localization['physical_activity_range_7500'] ?? '>7500 steps',
+              score: localization['physical_activity_score_7500'] ?? '20',
+              description: localization['physical_activity_category_7500'] ?? 'Active',
+            ),
+          ],
+        ),
+        WellnessCalculationModelDetail(
+          type: StreakItemType.mood,
+          title: localization['mood_title'] ?? 'Scoring for Mood: Based on Daily Mood Logging',
+          descriptions: [
+            WellnessCalculationModelDetailDescription(
+              range: localization['mood_range_awful_bad'] ?? 'Awful, Bad',
+              score: localization['mood_score_awful_bad'] ?? '4',
+              description: localization['mood_category_awful_bad'] ?? 'Low',
+            ),
+            WellnessCalculationModelDetailDescription(
+              range: localization['mood_range_meh'] ?? 'Meh',
+              score: localization['mood_score_meh'] ?? '12',
+              description: localization['mood_category_meh'] ?? 'Unmotivated',
+            ),
+            WellnessCalculationModelDetailDescription(
+              range: localization['mood_range_good_great'] ?? 'Good, Great',
+              score: localization['mood_score_good_great'] ?? '20',
+              description: localization['mood_category_good_great'] ?? 'Happy, High, Awesome',
+            ),
+          ],
+        ),
+        WellnessCalculationModelDetail(
+          type: StreakItemType.sleep,
+          title: localization['sleep_title'] ?? 'Scoring for Sleep Analysis',
+          descriptions: [
+            WellnessCalculationModelDetailDescription(
+              range: localization['sleep_range_lower_5_hours'] ?? '<5 hours',
+              score: localization['sleep_score_lower_5_hours'] ?? '8',
+              description: localization['sleep_category_lower_5_hours'] ?? 'Poor',
+            ),
+            WellnessCalculationModelDetailDescription(
+              range: localization['sleep_range_5_hours'] ?? '5 hours',
+              score: localization['sleep_score_5_hours'] ?? '12',
+              description: localization['sleep_category_5_hours'] ?? 'Fair',
+            ),
+            WellnessCalculationModelDetailDescription(
+              range: localization['sleep_range_6_hours'] ?? '6 hours',
+              score: localization['sleep_score_6_hours'] ?? '16',
+              description: localization['sleep_category_6_hours'] ?? 'Good',
+            ),
+            WellnessCalculationModelDetailDescription(
+              range: localization['sleep_range_more_7_hours'] ?? '>7 hours',
+              score: localization['sleep_score_more_7_hours'] ?? '20',
+              description: localization['sleep_category_more_7_hours'] ?? 'Excellent',
+            ),
+          ],
+        ),
+        WellnessCalculationModelDetail(
+          type: StreakItemType.hydration,
+          title: localization['hydration_title'] ?? 'Scoring for Hydration: Based on (ml)',
+          descriptions: [
+            WellnessCalculationModelDetailDescription(
+              range: localization['hydration_range_lower_500'] ?? '<500 ml',
+              score: localization['hydration_score_lower_500'] ?? '4',
+              description: localization['hydration_category_lower_500'] ?? 'Dehydrated',
+            ),
+            WellnessCalculationModelDetailDescription(
+              range: localization['hydration_range_500'] ?? '500 ml',
+              score: localization['hydration_score_500'] ?? '8',
+              description: localization['hydration_category_500'] ?? 'Thirsty',
+            ),
+            WellnessCalculationModelDetailDescription(
+              range: localization['hydration_range_1000'] ?? '1000 ml',
+              score: localization['hydration_score_1000'] ?? '12',
+              description: localization['hydration_category_1000'] ?? 'Over Halfway',
+            ),
+            WellnessCalculationModelDetailDescription(
+              range: localization['hydration_range_1500'] ?? '1500 ml',
+              score: localization['hydration_score_1500'] ?? '16',
+              description: localization['hydration_category_1500'] ?? 'Hydrated',
+            ),
+            WellnessCalculationModelDetailDescription(
+              range: localization['hydration_range_more_2000'] ?? '>2000 ml',
+              score: localization['hydration_score_more_2000'] ?? '20',
+              description: localization['hydration_category_more_2000'] ?? 'Supercharged',
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
 

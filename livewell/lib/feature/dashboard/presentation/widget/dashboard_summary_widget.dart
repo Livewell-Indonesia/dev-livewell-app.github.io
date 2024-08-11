@@ -170,21 +170,21 @@ extension DashboardSummaryItemExt on DashboardSummaryItem {
   String title() {
     switch (this) {
       case DashboardSummaryItem.calories:
-        return 'Calories';
+        return Get.find<DashboardController>().localization.homePage?.calories ?? 'Calories';
       case DashboardSummaryItem.exercise:
-        return 'Exercise Burnt';
+        return Get.find<DashboardController>().localization.homePage?.exerciseBurnt ?? 'Exercise Burnt';
       case DashboardSummaryItem.protein:
-        return 'Protein';
+        return Get.find<DashboardController>().localization.nutritionPage?.protein ?? 'Protein';
       case DashboardSummaryItem.mood:
-        return 'Mood';
+        return Get.find<DashboardController>().localization.moodPage?.moodChart ?? 'Mood';
       case DashboardSummaryItem.carbs:
-        return 'Carbs';
+        return Get.find<DashboardController>().localization.nutritionPage?.carbs ?? 'Carbs';
       case DashboardSummaryItem.sleep:
-        return 'Sleep';
+        return Get.find<DashboardController>().localization.sleepPage?.sleep ?? 'Sleep';
       case DashboardSummaryItem.fat:
-        return 'Fat';
+        return Get.find<DashboardController>().localization.nutritionPage?.fat ?? 'Fat';
       case DashboardSummaryItem.water:
-        return 'Water';
+        return Get.find<DashboardController>().localization.waterPage?.hydration ?? 'Water';
     }
   }
 

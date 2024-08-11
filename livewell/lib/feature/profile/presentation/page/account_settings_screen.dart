@@ -192,10 +192,11 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Change your password",
+                              controller.localization.accountSettingsPage?.changeYourPassword ?? "Change your password",
                               style: TextStyle(color: Theme.of(context).colorScheme.textLoEm, fontSize: 16.sp, fontWeight: FontWeight.w500),
                             ),
-                            Text('Change your password anytime', style: TextStyle(color: Theme.of(context).colorScheme.textLoEm, fontSize: 10.sp, fontWeight: FontWeight.w500)),
+                            Text(controller.localization.accountSettingsPage?.changeYourPasswordAnytime ?? "Change Your Password Anytime",
+                                style: TextStyle(color: Theme.of(context).colorScheme.textLoEm, fontSize: 10.sp, fontWeight: FontWeight.w500)),
                           ],
                         ),
                         trailing: const Icon(Icons.arrow_forward_ios_rounded),

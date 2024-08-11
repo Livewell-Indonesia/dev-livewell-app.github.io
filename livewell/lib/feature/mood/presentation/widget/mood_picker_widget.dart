@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -28,16 +29,19 @@ class MoodPickerWidget extends StatelessWidget {
           ),
           14.verticalSpace,
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: MoodType.values.map((e) {
-              return InkWell(
-                  onTap: () {
-                    onTap(e);
-                  },
-                  child: MoodPickerItem(
-                    selectedMoodType: selectedMoodType,
-                    moodType: e,
-                  ));
+              return Expanded(
+                child: InkWell(
+                    onTap: () {
+                      onTap(e);
+                    },
+                    child: MoodPickerItem(
+                      selectedMoodType: selectedMoodType,
+                      moodType: e,
+                    )),
+              );
             }).toList(),
           ),
         ],
@@ -55,6 +59,8 @@ class MoodPickerItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SvgPicture.asset(
           moodType.assets(),
@@ -63,8 +69,10 @@ class MoodPickerItem extends StatelessWidget {
           color: getColor(),
         ),
         4.verticalSpace,
-        Text(
+        AutoSizeText(
           moodType.title(),
+          maxLines: 2,
+          textAlign: TextAlign.center,
           style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: const Color(0xFF171433)),
         ),
       ],

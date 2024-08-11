@@ -45,108 +45,97 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        if (addMealController.tutorialCoachMark.isShowing) {
-          addMealController.tutorialCoachMark.finish();
-          addMealController.onFinishCoachmark();
-          return Future.value(false);
-        } else {
-          return Future.value(true);
-        }
-      },
-      child: LiveWellScaffold(
-        title: MealTime.values.byName((type ?? MealTime.breakfast.name).toLowerCase()).appBarTitle(),
-        body: Expanded(
-          child: Column(
-            children: [
-              24.verticalSpace,
-              GetBuilder<AddMealController>(builder: (controller) {
-                return SizedBox(
-                  width: 1.sw,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 5,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          child: SearchBar(
-                            key: addMealController.key1,
-                            enabled: !addMealController.tutorialCoachMark.isShowing,
-                            addMealController: addMealController.textEditingController,
-                            focusNode: addMealController.focusNode,
-                            onEditingComplete: () {
-                              // addMealController.doSearchFood();
-                              addMealController.onDoneInput();
-                              addMealController.focusNode.unfocus();
-                              addMealController.state.value = SearchStates.searchingWithResults;
-                            },
-                            onChanged: (val) => controller.hitsSearcher.query(val),
-                          ),
+    return LiveWellScaffold(
+      title: MealTime.values.byName((type ?? MealTime.breakfast.name).toLowerCase()).appBarTitle(),
+      body: Expanded(
+        child: Column(
+          children: [
+            24.verticalSpace,
+            GetBuilder<AddMealController>(builder: (controller) {
+              return SizedBox(
+                width: 1.sw,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: SearchBar(
+                          key: addMealController.key1,
+                          enabled: true,
+                          addMealController: addMealController.textEditingController,
+                          focusNode: addMealController.focusNode,
+                          onEditingComplete: () {
+                            // addMealController.doSearchFood();
+                            addMealController.onDoneInput();
+                            addMealController.focusNode.unfocus();
+                            addMealController.state.value = SearchStates.searchingWithResults;
+                          },
+                          onChanged: (val) => controller.hitsSearcher.query(val),
                         ),
                       ),
-                      controller.state.value == SearchStates.searchingWithResults
-                          ? Expanded(
-                              flex: 1,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  GestureDetector(
-                                    //behavior: HitTestBehavior.translucent,
-                                    onTap: () {
-                                      addMealController.trackEvent(LivewellMealLogEvent.mealLogPageRequestFoodButton);
-                                      AppNavigator.push(routeName: AppPages.requestFood, arguments: controller.textEditingController.text);
-                                    },
-                                    child: Container(
-                                      width: 50.w,
-                                      height: 50.h,
-                                      key: addMealController.key3,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: const SizedBox(
-                                        child: Icon(
-                                          Icons.add,
-                                          size: 24,
-                                        ),
+                    ),
+                    controller.state.value == SearchStates.searchingWithResults
+                        ? Expanded(
+                            flex: 1,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                GestureDetector(
+                                  //behavior: HitTestBehavior.translucent,
+                                  onTap: () {
+                                    addMealController.trackEvent(LivewellMealLogEvent.mealLogPageRequestFoodButton);
+                                    AppNavigator.push(routeName: AppPages.requestFood, arguments: controller.textEditingController.text);
+                                  },
+                                  child: Container(
+                                    width: 50.w,
+                                    height: 50.h,
+                                    key: addMealController.key3,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: const SizedBox(
+                                      child: Icon(
+                                        Icons.add,
+                                        size: 24,
                                       ),
                                     ),
                                   ),
-                                  const Spacer()
-                                ],
-                              ),
-                            )
-                          : Container()
-                    ],
-                  ),
-                );
+                                ),
+                                const Spacer()
+                              ],
+                            ),
+                          )
+                        : Container()
+                  ],
+                ),
+              );
+            }),
+            Expanded(
+              child: Obx(() {
+                return mapState(addMealController.tabController);
               }),
-              Expanded(
-                child: Obx(() {
-                  return mapState(addMealController.tabController);
-                }),
-              ),
-              Obx(() {
-                return addMealController.state.value == SearchStates.searchingWithResults || addMealController.state.value == SearchStates.searchingWithRecommendation
-                    ? Column(
-                        children: [
-                          24.verticalSpace,
-                          LiveWellButton(
-                              label: addMealController.localization.addMealPage?.done ?? "Done",
-                              color: const Color(0xFFDDF235),
-                              onPressed: addMealController.addedFoods.isEmpty
-                                  ? null
-                                  : () {
-                                      AppNavigator.popUntil(routeName: AppPages.home);
-                                    }),
-                          20.verticalSpace,
-                        ],
-                      )
-                    : Container();
-              })
-            ],
-          ),
+            ),
+            Obx(() {
+              return addMealController.state.value == SearchStates.searchingWithResults || addMealController.state.value == SearchStates.searchingWithRecommendation
+                  ? Column(
+                      children: [
+                        24.verticalSpace,
+                        LiveWellButton(
+                            label: addMealController.localization.addMealPage?.done ?? "Done",
+                            color: const Color(0xFFDDF235),
+                            onPressed: addMealController.addedFoods.isEmpty
+                                ? null
+                                : () {
+                                    AppNavigator.popUntil(routeName: AppPages.home);
+                                  }),
+                        20.verticalSpace,
+                      ],
+                    )
+                  : Container();
+            })
+          ],
         ),
       ),
     );
@@ -424,24 +413,27 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                                     padding: const EdgeInsets.symmetric(horizontal: 16),
                                     child: Row(
                                       children: [
-                                        Text('Filter'.tr, style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w700, fontSize: 16.sp)),
+                                        Text(addMealController.localization.addMealPage?.filter ?? 'Filter',
+                                            style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w700, fontSize: 16.sp)),
                                         const Spacer(),
                                         TextButton(
                                             onPressed: () {
                                               addMealController.resetFilter();
                                             },
-                                            child: Text('Reset filter'.tr, style: TextStyle(color: const Color(0xFF8F01DF), fontWeight: FontWeight.w600, fontSize: 12.sp))),
+                                            child: Text(addMealController.localization.addMealPage?.resetFilter ?? 'Reset filter',
+                                                style: TextStyle(color: const Color(0xFF8F01DF), fontWeight: FontWeight.w600, fontSize: 12.sp))),
                                       ],
                                     ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                                    child: Text('Amount'.tr, style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w700, fontSize: 16.sp)),
+                                    child: Text(addMealController.localization.addMealPage?.amount ?? 'Amount',
+                                        style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w700, fontSize: 16.sp)),
                                   ),
                                   16.verticalSpace,
                                   Obx(() {
                                     return SearchFoodSliders(
-                                        title: 'Calories'.tr,
+                                        title: addMealController.localization.homePage?.calories ?? 'Calories',
                                         value: addMealController.caloriesRange.value,
                                         maxValue: 1500,
                                         onChanged: (value) {
@@ -451,7 +443,7 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                                   24.verticalSpace,
                                   Obx(() {
                                     return SearchFoodSliders(
-                                        title: 'Protein'.tr,
+                                        title: addMealController.localization.nutritionPage?.protein ?? 'Protein',
                                         value: addMealController.proteinRange.value,
                                         maxValue: 300,
                                         onChanged: (value) {
@@ -461,7 +453,7 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                                   24.verticalSpace,
                                   Obx(() {
                                     return SearchFoodSliders(
-                                        title: 'Fat'.tr,
+                                        title: addMealController.localization.nutritionPage?.fat ?? 'Fat',
                                         value: addMealController.fatRange.value,
                                         maxValue: 200,
                                         onChanged: (value) {
@@ -471,7 +463,7 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                                   24.verticalSpace,
                                   Obx(() {
                                     return SearchFoodSliders(
-                                        title: 'Carbs'.tr,
+                                        title: addMealController.localization.nutritionPage?.carbs ?? 'Carbs',
                                         value: addMealController.carbsRange.value,
                                         maxValue: 400,
                                         onChanged: (value) {
@@ -480,7 +472,7 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                                   }),
                                   64.verticalSpace,
                                   LiveWellButton(
-                                      label: 'Submit'.tr,
+                                      label: addMealController.localization.addMealPage?.submit ?? 'Submit',
                                       color: const Color(0xFFDDF235),
                                       onPressed: () {
                                         addMealController.onSubmitFilter();
@@ -616,7 +608,7 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
             ),
-            padding: EdgeInsets.only(top: 16.h, left: 14.w, bottom: 16.h, right: 14.w),
+            padding: EdgeInsets.only(top: 16.h, left: 14.w, bottom: 12.h, right: 14.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

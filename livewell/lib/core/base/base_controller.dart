@@ -9,10 +9,11 @@ import 'package:livewell/feature/wellness/presentation/controller/wellness_contr
 class BaseController extends FullLifeCycleController with FullLifeCycleMixin {
   LocalizationKeyV2 localization = LocalizationKeyV2();
   LivewellTrackerService livewellTracker = Get.find();
-  WellnessCalculationModel wellnessCalculationModel = WellnessCalculationModel.generate();
+  late WellnessCalculationModel wellnessCalculationModel;
   @override
   void onInit() {
     getLocalizationDatas();
+    wellnessCalculationModel = WellnessCalculationModel.generate(localization.wellnessCalculation ?? {});
     super.onInit();
   }
 
@@ -40,6 +41,15 @@ class BaseController extends FullLifeCycleController with FullLifeCycleMixin {
     } else {
       LanguageController languageController = Get.put(LanguageController(), permanent: true);
       localization = languageController.localization.value;
+    }
+  }
+
+  String getCurrentLocale() {
+    if (Get.isRegistered<LanguageController>()) {
+      LanguageController languageController = Get.find<LanguageController>();
+      return languageController.currentLanguage.value.locale;
+    } else {
+      return AvailableLanguage.id.locale;
     }
   }
 

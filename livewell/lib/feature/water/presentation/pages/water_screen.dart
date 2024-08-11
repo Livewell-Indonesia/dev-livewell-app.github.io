@@ -87,7 +87,7 @@ class _WaterScreenState extends State<WaterScreen> {
                 ((int.parse((Get.find<DashboardController>().user.value.onboardingQuestionnaire?.glassesOfWaterDaily ?? "0")) * 0.25) * 1000).toInt() -
                             Get.find<DashboardController>().waterConsumed.value.toInt() >
                         0
-                    ? '${(controller.localization..waterPage?.remaining)} ${((int.parse((Get.find<DashboardController>().user.value.onboardingQuestionnaire?.glassesOfWaterDaily ?? "0")) * 0.25) * 1000).toInt() - Get.find<DashboardController>().waterConsumed.value.toInt()} ml'
+                    ? '${(controller.localization.waterPage?.remaining ?? "")} ${((int.parse((Get.find<DashboardController>().user.value.onboardingQuestionnaire?.glassesOfWaterDaily ?? "0")) * 0.25) * 1000).toInt() - Get.find<DashboardController>().waterConsumed.value.toInt()} ml'
                     : controller.localization.waterPage?.youHitYourGoalToday ?? 'You hit your goal today!',
                 style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14.sp),
               );
@@ -155,9 +155,10 @@ class HydartionScoreWidget extends StatelessWidget {
       children: [
         SvgPicture.asset('assets/icons/ic_hydration_score.svg', width: 64.w, height: 64.h),
         16.verticalSpace,
-        Text('Your Hydration Score is still empty!', style: TextStyle(color: Theme.of(context).colorScheme.neutral100, fontWeight: FontWeight.w600, fontSize: 14.sp)),
+        Text(controller.localization.waterPage?.yourHydrationScoreStillEmpty ?? 'Your Hydration Score is still empty!',
+            style: TextStyle(color: Theme.of(context).colorScheme.neutral100, fontWeight: FontWeight.w600, fontSize: 14.sp)),
         8.verticalSpace,
-        Text('Let\'s help your body stay hydrated and track your hydration progress by logging your glasses of water today!',
+        Text(controller.localization.waterPage?.letsHelpYourBodyStayHydrated ?? 'Let\'s help your body stay hydrated and track your hydration progress by logging your glasses of water today!',
             textAlign: TextAlign.center, style: TextStyle(color: Theme.of(context).colorScheme.neutral90, fontWeight: FontWeight.w400, fontSize: 12.sp)),
       ],
     );
@@ -193,7 +194,7 @@ class HydartionScoreWidget extends StatelessWidget {
           ],
         ),
         16.verticalSpace,
-        Text('You\'re doing well in staying hydrated! Keep it up by drinking water regularly to maintain optimal health.',
+        Text(controller.localization.waterPage?.youreDoingWellInStayingHydrated ?? 'You\'re doing well in staying hydrated! Keep it up by drinking water regularly to maintain optimal health.',
             style: TextStyle(color: Theme.of(context).colorScheme.neutral90, fontWeight: FontWeight.w500, fontSize: 12.sp)),
         16.verticalSpace,
         RichText(
@@ -227,7 +228,7 @@ class HydartionScoreWidget extends StatelessWidget {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'How do Hydration Score calculated?',
+                                        controller.localization.waterPage?.seeHowDoHydrationScoreCalculated ?? 'How do Hydration Score calculated?',
                                         style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutral100),
                                       ),
                                       Column(
@@ -335,7 +336,7 @@ class HydartionScoreWidget extends StatelessWidget {
                           );
                         });
                   },
-                text: controller.localization.waterPage?.here ?? 'here',
+                text: " ${controller.localization.waterPage?.here ?? 'here'}",
                 style: TextStyle(color: Theme.of(context).colorScheme.primaryPurple, fontSize: 12.sp, fontWeight: FontWeight.w600),
               ),
             ],
@@ -366,7 +367,7 @@ class _UrineColorWidgetState extends State<UrineColorWidget> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
       ),
-      height: isExpanded ? 380.h : 92.h,
+      height: isExpanded ? 395.h : 110.h,
       child: Column(
         children: [
           InkWell(

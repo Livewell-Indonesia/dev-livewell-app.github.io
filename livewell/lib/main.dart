@@ -169,36 +169,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final flutterClarityPlugin = FlutterClarityPlugin();
-
-  String sessionId = 'Unknown';
-
-  Future<void> initClarityState() async {
-    String sessionId;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      // Demo project id : fwof4hmuvb
-      await flutterClarityPlugin.initialize(projectId: 'meunfwukkn');
-
-      sessionId = await flutterClarityPlugin.getCurrentSessionId() ?? 'Unknown clarity session';
-    } on PlatformException {
-      sessionId = 'Failed to get clarity session.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      sessionId = sessionId;
-    });
-  }
-
   @override
   void initState() {
-    initClarityState();
     super.initState();
   }
 

@@ -566,7 +566,7 @@ extension MealTimeAttribute on MealTime {
   }
 
   String appBarTitle() {
-    return (Get.find<HomeController>().localization.addFoodPage?.add ?? "Add") + text();
+    return ("${Get.find<HomeController>().localization.addFoodPage?.add ?? "Add"} ") + text();
   }
 
   String icon() {

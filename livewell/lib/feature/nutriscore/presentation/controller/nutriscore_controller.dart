@@ -123,37 +123,37 @@ extension NutrientTypeAtt on NutrientType {
   String title() {
     switch (this) {
       case NutrientType.water:
-        return "Water";
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.water ?? "Water";
       case NutrientType.protein:
-        return "Protein";
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.protein ?? "Protein";
       case NutrientType.carb:
-        return "Carbohydrate";
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.carbohydrate ?? "Carbohydrate";
       case NutrientType.fat:
-        return "Fat";
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.fat ?? "Fat";
       case NutrientType.sodium:
-        return "Sodium";
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.sodium ?? "Sodium";
       case NutrientType.saturatedFat:
-        return "Saturated Fat";
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.saturatedFat ?? "Saturated Fat";
       case NutrientType.monounsaturatedFat:
-        return "Monounsaturated Fat";
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.monounsaturatedFat ?? "Monounsaturated Fat";
       case NutrientType.polyunsaturatedFat:
-        return "Polyunsaturated Fat";
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.polyunsaturatedFat ?? "Polyunsaturated Fat";
       case NutrientType.calcium:
-        return "Calcium";
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.calcium ?? "Calcium";
       case NutrientType.vitaminA:
-        return "Vitamin A";
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.calcium ?? "Calcium";
       case NutrientType.vitaminC:
-        return "Vitamin C";
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.vitaminC ?? "Vitamin C";
       case NutrientType.potassium:
-        return "Potassium";
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.potassium ?? "Potassium";
       case NutrientType.transFat:
-        return "Trans Fat";
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.transFat ?? "Trans Fat";
       case NutrientType.sugar:
-        return "Sugar";
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.sugar ?? "Sugar";
       case NutrientType.fiber:
-        return "Fiber";
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.fiber ?? "Fiber";
       case NutrientType.cholesterol:
-        return "Cholesterol";
+        return Get.find<HomeController>().localization.nutriscoreDetailPage?.cholesterol ?? "Cholesterol";
     }
   }
 

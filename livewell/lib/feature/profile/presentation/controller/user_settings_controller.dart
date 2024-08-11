@@ -61,6 +61,7 @@ class UserSettingsController extends BaseController {
     data.fold((l) {}, (r) {
       Future.delayed(const Duration(milliseconds: 300)).then((value) {
         AppNavigator.pushAndRemove(routeName: '/');
+        Get.delete<DashboardController>(force: true);
       });
     });
   }

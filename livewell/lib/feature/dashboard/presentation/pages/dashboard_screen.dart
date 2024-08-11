@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carousel;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
@@ -38,7 +38,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
   DashboardController controller = Get.put(DashboardController(), permanent: true);
   SleepController sleepController = Get.put(SleepController());
   int current = 0;
-  final CarouselController carouselController = CarouselController();
+  final carousel.CarouselController carouselController = carousel.CarouselController();
   final HomeController homeController = Get.find();
   final cardSwiperController = CardSwiperController();
   @override
@@ -206,7 +206,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                             const Spacer(),
                             Obx(() {
                               return Text(
-                                '${controller.numberOfStreaks.value}-day streak',
+                                '${controller.numberOfStreaks.value}${Get.find<DashboardController>().localization.homePage?.dayStreak ?? "day streak"}',
                                 style: TextStyle(
                                   color: const Color(0xFF808080),
                                   fontSize: 14.sp,
@@ -223,20 +223,16 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                         if (controller.coachmarkType.value == DashboardCoachmarkType.taskRecommendation) {
                           return SizedBox(
                             height: 180.h,
-                            child: TaskCard(
-                                taskCardModel: TaskCardModel(
-                                    title: 'Nutrient-Rich Breakfast ',
-                                    description:
-                                        'Begin by drinking a full glass of water (around 250-300 ml) to rehydrate after a night of sleep. This will help kickstart your metabolism and refresh your body.  ',
-                                    type: TaskCardType.none),
-                                onNextTap: () {},
-                                onPrevTap: () {},
-                                onDoneTap: () {}),
+                            child: DummyTaskCard(
+                              taskCardModel: TaskCardModel(
+                                  title: 'Nutrient-Rich Breakfast ',
+                                  description:
+                                      'Begin by drinking a full glass of water (around 250-300 ml) to rehydrate after a night of sleep. This will help kickstart your metabolism and refresh your body.  ',
+                                  type: TaskCardType.none),
+                            ),
                           );
                         } else if (controller.coachmarkType.value == DashboardCoachmarkType.finishTaskRecommendation) {
-                          return TaskCardFinishWidget(
-                            onTap: () {},
-                          );
+                          return const DummyTaskCardFinishWidget();
                         } else {
                           return const SizedBox();
                         }
@@ -471,7 +467,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                                   ),
                                   10.horizontalSpace,
                                   Text(
-                                    'Water',
+                                    Get.find<DashboardController>().localization.homePage?.water ?? 'Water',
                                     style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
                                   ),
                                   const Spacer(),
@@ -483,75 +479,77 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                               ),
                             ),
                           ),
-                          ListView.separated(
-                              padding: EdgeInsets.only(top: 10.h),
-                              shrinkWrap: true,
-                              physics: const ClampingScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return InkWell(
-                                  onTap: () {
-                                    if (controller.user.value.dailyJournal?[index].name?.toLowerCase() == "breakfast") {
-                                      controller.trackEvent(LivewellHomepageEvent.taskListBreakfastButton);
-                                    } else if (controller.user.value.dailyJournal?[index].name?.toLowerCase() == "lunch") {
-                                      controller.trackEvent(LivewellHomepageEvent.taskListLunchButton);
-                                    } else if (controller.user.value.dailyJournal?[index].name?.toLowerCase() == "dinner") {
-                                      controller.trackEvent(LivewellHomepageEvent.taskListDinnerButton);
-                                    } else if (controller.user.value.dailyJournal?[index].name?.toLowerCase() == "snack") {
-                                      controller.trackEvent(LivewellHomepageEvent.taskListSnackButton);
-                                    }
-                                    AppNavigator.push(routeName: AppPages.addMeal, arguments: {"type": controller.user.value.dailyJournal?[index].name, "date": DateTime.now()});
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.only(left: 10.w, right: 20.w),
-                                    width: 335.w,
-                                    height: 72.h,
-                                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20).r),
-                                    child: Row(
-                                      children: [
-                                        Transform.scale(
-                                          scale: 1.2,
-                                          child: Obx(() {
-                                            return Checkbox(
-                                              value: controller.isCompleted(index).value,
-                                              onChanged: (val) {},
-                                              fillColor: MaterialStateProperty.resolveWith((states) {
-                                                if (states.contains(MaterialState.selected)) {
-                                                  return const Color(0xFFDDF235);
-                                                }
-                                                return null;
-                                              }),
-                                              checkColor: const Color(0xFF171433),
-                                              activeColor: Colors.green,
-                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                              side: const BorderSide(color: Color(0xFF171433), width: 1),
-                                            );
-                                          }),
-                                        ),
-                                        Container(
-                                          width: 43.w,
-                                          height: 43.w,
-                                          decoration: BoxDecoration(color: const Color(0xFFF1F1F1), borderRadius: BorderRadius.circular(10.r)),
-                                          child: Image.asset(Constant.icFoodUnselected),
-                                        ),
-                                        10.horizontalSpace,
-                                        Text(
-                                          "${controller.user.value.dailyJournal?[index].time} ${MealTime.values.firstWhere((element) => element.name == controller.user.value.dailyJournal?[index].name?.toLowerCase()).text()}",
-                                          style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
-                                        ),
-                                        const Spacer(),
-                                        Icon(
-                                          Icons.arrow_forward_ios_rounded,
-                                          size: 20.r,
-                                        )
-                                      ],
+                          Obx(() {
+                            return ListView.separated(
+                                padding: EdgeInsets.only(top: 10.h),
+                                shrinkWrap: true,
+                                physics: const ClampingScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () {
+                                      if (controller.user.value.dailyJournal?[index].name?.toLowerCase() == "breakfast") {
+                                        controller.trackEvent(LivewellHomepageEvent.taskListBreakfastButton);
+                                      } else if (controller.user.value.dailyJournal?[index].name?.toLowerCase() == "lunch") {
+                                        controller.trackEvent(LivewellHomepageEvent.taskListLunchButton);
+                                      } else if (controller.user.value.dailyJournal?[index].name?.toLowerCase() == "dinner") {
+                                        controller.trackEvent(LivewellHomepageEvent.taskListDinnerButton);
+                                      } else if (controller.user.value.dailyJournal?[index].name?.toLowerCase() == "snack") {
+                                        controller.trackEvent(LivewellHomepageEvent.taskListSnackButton);
+                                      }
+                                      AppNavigator.push(routeName: AppPages.addMeal, arguments: {"type": controller.user.value.dailyJournal?[index].name, "date": DateTime.now()});
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.only(left: 10.w, right: 20.w),
+                                      width: 335.w,
+                                      height: 72.h,
+                                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20).r),
+                                      child: Row(
+                                        children: [
+                                          Transform.scale(
+                                            scale: 1.2,
+                                            child: Obx(() {
+                                              return Checkbox(
+                                                value: controller.isCompleted(index).value,
+                                                onChanged: (val) {},
+                                                fillColor: MaterialStateProperty.resolveWith((states) {
+                                                  if (states.contains(MaterialState.selected)) {
+                                                    return const Color(0xFFDDF235);
+                                                  }
+                                                  return null;
+                                                }),
+                                                checkColor: const Color(0xFF171433),
+                                                activeColor: Colors.green,
+                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                                side: const BorderSide(color: Color(0xFF171433), width: 1),
+                                              );
+                                            }),
+                                          ),
+                                          Container(
+                                            width: 43.w,
+                                            height: 43.w,
+                                            decoration: BoxDecoration(color: const Color(0xFFF1F1F1), borderRadius: BorderRadius.circular(10.r)),
+                                            child: Image.asset(Constant.icFoodUnselected),
+                                          ),
+                                          10.horizontalSpace,
+                                          Text(
+                                            "${controller.user.value.dailyJournal?[index].time} ${MealTime.values.firstWhere((element) => element.name == controller.user.value.dailyJournal?[index].name?.toLowerCase()).text()}",
+                                            style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                          ),
+                                          const Spacer(),
+                                          Icon(
+                                            Icons.arrow_forward_ios_rounded,
+                                            size: 20.r,
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (context, index) {
-                                return 10.verticalSpace;
-                              },
-                              itemCount: controller.user.value.dailyJournal?.length ?? 0),
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return 10.verticalSpace;
+                                },
+                                itemCount: controller.user.value.dailyJournal?.length ?? 0);
+                          })
                         ],
                       ),
                     ),
@@ -590,11 +588,11 @@ class WellnessScoreWidget extends StatelessWidget {
 
   String getTitle(int score) {
     if (score <= 50) {
-      return 'Check the app to see what you need to improve.';
+      return Get.find<DashboardController>().localization.homePage?.checkTheAppToSeeWhatYouNeedToImprove ?? 'Check the app to see what you need to improve.';
     } else if (score <= 80) {
-      return 'See the app for areas to improve.';
+      return Get.find<DashboardController>().localization.homePage?.seeTheAppForAreasToImprove ?? 'See the app for areas to improve.';
     } else {
-      return 'Great job! Keep up the good work.';
+      return Get.find<DashboardController>().localization.homePage?.greatJobKeepUpTheGoodWork ?? 'Great job! Keep up the good work.';
     }
   }
 
@@ -636,7 +634,7 @@ class WellnessScoreWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Wellness',
+                    Get.find<DashboardController>().localization.homePage?.wellness ?? 'Wellness',
                     style: TextStyle(
                       color: const Color(0xFF505050),
                       fontSize: 14.sp,
@@ -733,15 +731,15 @@ extension QuickActionExt on QuickAction {
   String title() {
     switch (this) {
       case QuickAction.exercise:
-        return 'Exercise';
+        return Get.find<DashboardController>().localization.homePage?.exercise ?? 'Exercise';
       case QuickAction.sleep:
-        return 'Sleep';
+        return Get.find<DashboardController>().localization.homePage?.sleep ?? 'Sleep';
       case QuickAction.water:
-        return 'Water';
+        return Get.find<DashboardController>().localization.homePage?.water ?? 'Water';
       case QuickAction.mood:
-        return 'Mood';
+        return Get.find<DashboardController>().localization.homePage?.mood ?? 'Mood';
       case QuickAction.nutrition:
-        return 'Nutrition';
+        return Get.find<DashboardController>().localization.homePage?.nutrition ?? 'Nutrition';
       default:
         return '';
     }
@@ -795,6 +793,7 @@ class QuickActionRow extends StatelessWidget {
                 8.verticalSpace,
                 Text(
                   e.title(),
+                  textAlign: TextAlign.center,
                   style: TextStyle(color: const Color(0xFF171433), fontSize: 10.sp, fontWeight: FontWeight.w400),
                 )
               ],

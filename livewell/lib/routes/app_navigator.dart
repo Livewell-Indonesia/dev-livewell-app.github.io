@@ -7,6 +7,7 @@ import 'package:livewell/feature/auth/presentation/page/signup/signup_screen.dar
 import 'package:livewell/feature/auth/presentation/page/update_password/update_password_screen.dart';
 import 'package:livewell/feature/daily_journal/presentation/page/daily_journal_screen.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_kyc_screen.dart';
+import 'package:livewell/feature/exercise/presentation/pages/exercise_share_page.dart';
 import 'package:livewell/feature/exercise/presentation/pages/manual_exercise_input.dart';
 import 'package:livewell/feature/food/presentation/pages/add_food_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
@@ -178,4 +179,5 @@ class AppPages {
   static String streakPage = '/streak';
   static String updatePassword = '/update-password';
   static String wellnessScore = '/wellness-score';
+  static String exerciseShare = '/exercise-share';
 }

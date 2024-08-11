@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/theme/design_system.dart';
 import 'package:lottie/lottie.dart';
 
@@ -37,7 +39,7 @@ class TaskCardLoadingWidget extends StatelessWidget {
                 child: Lottie.asset('assets/jsons/loading dot.json', repeat: true),
               ),
               8.verticalSpace,
-              Text("Preparing recommendation for you...",
+              Text(Get.find<DashboardController>().localization.homePage?.preparingRecommendationForYou ?? "Preparing recommendation for you...",
                   style: TextStyle(
                     fontSize: 14.sp,
                     color: Theme.of(context).colorScheme.textLoEm,

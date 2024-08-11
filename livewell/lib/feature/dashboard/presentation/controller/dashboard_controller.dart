@@ -118,7 +118,7 @@ class DashboardController extends BaseController {
     useCase(NoParams()).then((value) {
       value.fold((l) {
         Log.error(l);
-        streakDescription.value = 'Start your streak!';
+        streakDescription.value = localization.homePage?.startYourStreak ?? 'Start your streak!';
         numberOfStreaks.value = 0;
       }, (r) {
         numberOfStreaks.value = r;
@@ -126,7 +126,7 @@ class DashboardController extends BaseController {
           final shuffled = streakDescriptionList..shuffle();
           streakDescription.value = shuffled.first;
         } else {
-          streakDescription.value = 'Start your streak!';
+          streakDescription.value = localization.homePage?.startYourStreak ?? 'Start your streak!';
         }
       });
     });

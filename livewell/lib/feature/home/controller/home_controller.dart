@@ -220,7 +220,7 @@ extension HomeTabIcons on HomeTab {
   String title() {
     switch (this) {
       case HomeTab.home:
-        return "Home";
+        return Get.find<HomeController>().localization.homePage?.home ?? "Home";
       // case HomeTab.exercise:
       //   return localization.exercise;
       // case HomeTab.sleep:
@@ -232,7 +232,7 @@ extension HomeTabIcons on HomeTab {
       // case HomeTab.nutrition:
       //   return localization.nutrition;
       case HomeTab.account:
-        return "Account";
+        return Get.find<HomeController>().localization.homePage?.account ?? "Account";
     }
   }
 

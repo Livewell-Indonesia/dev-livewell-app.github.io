@@ -114,7 +114,7 @@ class SplashController extends BaseController {
   void getUserData() async {
     final isLoggedIn = await SharedPref.getToken();
     if (isLoggedIn.isEmpty) {
-      controller.changeLocalization(AvailableLanguage.en).then((value) {
+      controller.changeLocalization(AvailableLanguage.id).then((value) {
         AppNavigator.pushAndRemove(routeName: AppPages.landingLogin);
         Get.delete<SplashController>();
       });
@@ -123,7 +123,7 @@ class SplashController extends BaseController {
       final result = await getUser.call(NoParams());
       result.fold((l) {
         if (l is UnauthorizedException) {
-          controller.changeLocalization(AvailableLanguage.en).then((value) {
+          controller.changeLocalization(AvailableLanguage.id).then((value) {
             AppNavigator.pushAndRemove(routeName: AppPages.landingLogin);
           });
         }

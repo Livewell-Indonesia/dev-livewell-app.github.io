@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/dashboard/presentation/widget/coachmark/coachmark_widget.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
@@ -8,26 +10,26 @@ extension DashboardCoachmarkTypeExtension on DashboardCoachmarkType {
   String get title {
     switch (this) {
       case DashboardCoachmarkType.nutricoPlus:
-        return 'Snap, NutriCo+';
+        return Get.find<DashboardController>().localization.tooltipHomePage?.nutricoPlusTitle ?? "NutriCo+";
       case DashboardCoachmarkType.taskRecommendation:
-        return 'At-a-Glance Insight For Today!';
+        return Get.find<DashboardController>().localization.tooltipHomePage?.taskRecommendationTitle ?? "At-a-Glance Insight For Today!";
       case DashboardCoachmarkType.finishTaskRecommendation:
-        return 'See the Full Picture';
+        return Get.find<DashboardController>().localization.tooltipHomePage?.finishTaskRecommendationTitle ?? "See the Full Picture";
       case DashboardCoachmarkType.wellnessScoreWidget:
-        return 'Need More Time?';
+        return Get.find<DashboardController>().localization.tooltipHomePage?.wellnessScoreTitle ?? "Need More Time?";
     }
   }
 
   String get description {
     switch (this) {
       case DashboardCoachmarkType.nutricoPlus:
-        return 'Now you can discover quick tips to improve your day only in seconds.';
+        return Get.find<DashboardController>().localization.tooltipHomePage?.nutricoPlusDescription ?? "Now you can discover quick tips to improve your day only in seconds.";
       case DashboardCoachmarkType.taskRecommendation:
-        return 'Now you can discover quick tips to improve your day only in seconds.';
+        return Get.find<DashboardController>().localization.tooltipHomePage?.taskRecommendationDescription ?? "Now you can discover quick tips to improve your day only in seconds.";
       case DashboardCoachmarkType.finishTaskRecommendation:
-        return 'Uncover detailed insights and recommendations with a single click.';
+        return Get.find<DashboardController>().localization.tooltipHomePage?.finishTaskRecommendationDescription ?? "Uncover detailed insights and recommendations with a single click.";
       case DashboardCoachmarkType.wellnessScoreWidget:
-        return 'You still can find the full recommendation here.';
+        return Get.find<DashboardController>().localization.tooltipHomePage?.wellnessScoreDescription ?? "You still can find the full recommendation here.";
     }
   }
 

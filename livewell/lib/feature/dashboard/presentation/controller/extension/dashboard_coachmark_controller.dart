@@ -22,18 +22,20 @@ extension DashboardCoachmarkControllerX on DashboardController {
       unFocusAnimationDuration: const Duration(milliseconds: 300),
       onSkip: () {
         onSkipTap();
+        SharedPref.saveNewDashboardCoachmarkShowed(true);
         return true;
       },
       onClickTarget: (p0) {},
       onClickTargetWithTapPosition: ((p0, p1) {}),
       onFinish: () {
+        SharedPref.saveNewDashboardCoachmarkShowed(true);
         return true;
       },
     );
   }
 
   void initiateCoachmark() async {
-    if (await SharedPref.getDoneWithRecommendation()) {
+    if (await SharedPref.getNewDashboardCoachmarkShowed()) {
       isShowCoachmark.value = false;
       return;
     } else {
@@ -74,7 +76,7 @@ extension DashboardCoachmarkControllerX on DashboardController {
     Get.find<HomeController>().wellnessScoreWidgetKey = null;
     Get.find<HomeController>().finishTaskRecommendationKey = null;
     tutorialCoachMark.finish();
-    await SharedPref.saveDoneWithRecommendation(true);
+    await SharedPref.saveNewDashboardCoachmarkShowed(true);
   }
 
   List<TargetFocus> createTargets() {

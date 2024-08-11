@@ -19,7 +19,7 @@ class SplashRepositoryImpl with NetworkModule implements SplashRepository {
       if (isLocalAvail != null) {
         return Right(Localization.fromJson(jsonDecode(isLocalAvail)));
       }
-      final response = await getMethod('config/internationalization');
+      final response = await getMethod('config/internationalization-v2');
       final data = responseHandler(response);
       await SharedPref.saveLocalizationJson(jsonEncode(data));
       return Right(Localization.fromJson(data));
@@ -31,7 +31,7 @@ class SplashRepositoryImpl with NetworkModule implements SplashRepository {
   @override
   Future<Either<Failure, LocalizationModelV2>> getLocalizationDataV2() async {
     try {
-      final response = await getMethod('config/internationalization');
+      final response = await getMethod('config/internationalization-v2');
       final data = responseHandler(response);
       return Right(LocalizationModelV2.fromJson(data));
     } catch (e) {

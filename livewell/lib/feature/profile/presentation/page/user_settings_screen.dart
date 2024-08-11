@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/profile/presentation/controller/exercise_information_controller.dart';
 import 'package:livewell/feature/profile/presentation/controller/physical_information_controller.dart';
 import 'package:livewell/feature/profile/presentation/controller/user_settings_controller.dart';
@@ -386,9 +387,9 @@ class ImagePickerBottomSheet extends StatelessWidget {
         children: <Widget>[
           ListTile(
             leading: const Icon(Icons.photo_library),
-            title: const Text(
-              'Pick from Gallery',
-              style: TextStyle(color: Colors.black),
+            title: Text(
+              Get.find<HomeController>().localization.nutricoPlusBottomSheet?.pickFromGallery ?? "Pick from Gallery",
+              style: const TextStyle(color: Colors.black),
             ),
             onTap: () {
               _pickImage(ImageSource.gallery, context);
@@ -396,9 +397,9 @@ class ImagePickerBottomSheet extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.camera_alt),
-            title: const Text(
-              'Take a Photo',
-              style: TextStyle(color: Colors.black),
+            title: Text(
+              Get.find<HomeController>().localization.nutricoPlusBottomSheet?.takeAPhoto ?? "Take a Photo",
+              style: const TextStyle(color: Colors.black),
             ),
             onTap: () {
               _pickImage(ImageSource.camera, context);

@@ -29,7 +29,7 @@ class NewTokenInteceptor extends QueuedInterceptor with NetworkModule {
         await SharedPref.removeToken();
         await SharedPref.removeRefreshToken();
         EasyLoading.dismiss();
-        Get.find<LanguageController>().changeLocalization(AvailableLanguage.en).then((value) {
+        Get.find<LanguageController>().changeLocalization(AvailableLanguage.id).then((value) {
           AppNavigator.pushAndRemove(routeName: AppPages.landingLogin);
         });
       } else {
@@ -67,7 +67,7 @@ class NewTokenInteceptor extends QueuedInterceptor with NetworkModule {
       await SharedPref.removeToken();
       await SharedPref.removeRefreshToken();
       EasyLoading.dismiss();
-      Get.find<LanguageController>().changeLocalization(AvailableLanguage.en).then((value) {
+      Get.find<LanguageController>().changeLocalization(AvailableLanguage.id).then((value) {
         AppNavigator.pushAndRemove(routeName: AppPages.landingLogin);
       });
     }

@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -12,17 +16,17 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-    <key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleTypeRole</key>
-            <string>Editor</string>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>com.googleusercontent.apps.649229634613-l8tqhjbf9o0lmu3mcs3ouhndi0aj5brk</string>
-            </array>
-        </dict>
-    </array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.649229634613-l8tqhjbf9o0lmu3mcs3ouhndi0aj5brk</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleName</key>
 	<string>livewell</string>
 	<key>CFBundlePackageType</key>
@@ -52,10 +56,10 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-    <key>NSCameraUsageDescription</key>
-    <string>Enable the camera to scan UPC codes or meal items and easily get nutritional information.</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>Enable the camera to upload meal items and easily get nutritional information.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Enable the camera to scan UPC codes or meal items and easily get nutritional information.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Enable the camera to upload meal items and easily get nutritional information.</string>
 	<key>NSHealthShareUsageDescription</key>
 	<string>We will sync your data with the Apple Health app to give you better insights</string>
 	<key>NSHealthUpdateUsageDescription</key>
@@ -66,17 +70,17 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-    <key>FacebookAppID</key>
-    <string>108487895683370</string>
-    <key>LSApplicationQueriesSchemes</key>
-        <array>
-        <string>instagram-stories</string>
-        <string>facebook-stories</string>
-        <string>facebook</string>
-        <string>instagram</string>
-        <string>twitter</string>
-        <string>whatsapp</string>
-        <string>tg</string>
-        </array>
+	<key>FacebookAppID</key>
+	<string>108487895683370</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>instagram-stories</string>
+		<string>facebook-stories</string>
+		<string>facebook</string>
+		<string>instagram</string>
+		<string>twitter</string>
+		<string>whatsapp</string>
+		<string>tg</string>
+	</array>
 </dict>
 </plist>
