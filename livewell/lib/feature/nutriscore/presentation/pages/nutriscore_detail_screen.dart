@@ -33,7 +33,7 @@ class _NutriScoreDetailsScreenState extends State<NutriScoreDetailsScreen> {
   Widget build(BuildContext context) {
     return LiveWellScaffold(
         backgroundColor: Colors.white,
-        title: controller.localization.nutriscoreDetails!,
+        title: controller.localization.nutriscoreDetailPage?.nutriscoreDetail ?? "NutriScore Details",
         body: Expanded(
           child: content(),
         ));
@@ -100,7 +100,7 @@ class _NutriScoreDetailsScreenState extends State<NutriScoreDetailsScreen> {
                   return Column(
                     children: [
                       Text(
-                        controller.localization.todaysAmount!,
+                        controller.localization.nutriscoreDetailPage?.todaysAmount ?? "Today's Amount",
                         style: TextStyle(color: const Color(0xFF808080), fontSize: 10.sp, fontWeight: FontWeight.w600),
                       ),
                       4.verticalSpace,
@@ -115,7 +115,7 @@ class _NutriScoreDetailsScreenState extends State<NutriScoreDetailsScreen> {
                   return Column(
                     children: [
                       Text(
-                        controller.localization.weeklyAverage!,
+                        controller.localization.nutriscoreDetailPage?.weeklyAverage ?? "Weekly Average",
                         style: TextStyle(color: const Color(0xFF808080), fontSize: 10.sp, fontWeight: FontWeight.w600),
                       ),
                       4.verticalSpace,
@@ -248,12 +248,13 @@ class _NutriScoreDetailsScreenState extends State<NutriScoreDetailsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  controller.localization.disclaimer!,
+                  controller.localization.nutriscoreDetailPage?.disclaimer ?? "Disclaimer",
                   style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp, fontWeight: FontWeight.w600),
                 ),
                 8.verticalSpace,
                 Text(
-                  controller.localization.livewellNutritionalDataDisclaimer!,
+                  controller.localization.nutriscoreDetailPage?.disclaimerDescription ??
+                      'Livewell nutritional data is for general fitness and wellness use. May contain inaccuracies. Consult a professional for personalized advice.',
                   style: TextStyle(color: const Color(0xFF808080), fontSize: 14.sp, fontWeight: FontWeight.w400),
                 ),
               ],
@@ -396,7 +397,7 @@ class BuildIndicator extends StatelessWidget {
     return Column(
       crossAxisAlignment: value < 20 ? CrossAxisAlignment.start : CrossAxisAlignment.center,
       children: [
-        Text(Get.find<HomeController>().localization.yourValue!, style: TextStyle(color: const Color(0xFF808080), fontSize: 10.sp)),
+        Text(Get.find<HomeController>().localization.nutriscoreDetailPage?.yourValue ?? "Your Value", style: TextStyle(color: const Color(0xFF808080), fontSize: 10.sp)),
         2.verticalSpace,
         Text(banner, style: TextStyle(color: Colors.black, fontSize: 16.sp, fontWeight: FontWeight.w700)),
         Column(

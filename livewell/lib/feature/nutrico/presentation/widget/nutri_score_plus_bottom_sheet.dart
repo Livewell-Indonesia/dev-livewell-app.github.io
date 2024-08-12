@@ -84,14 +84,15 @@ class _NutriScorePlusBottomSheetState extends State<NutriScorePlusBottomSheet> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             24.verticalSpace,
-            Text('Manual Describe Your Food', style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433))),
+            Text(Get.find<DashboardController>().localization.nutricoPlusBottomSheet?.manualDescribeYourFood ?? "Manual Describe Your Food",
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433))),
             ListTile(
               contentPadding: EdgeInsets.zero,
               onTap: () {
                 widget.onSelected(SelectedNutriscorePlusMethod.desc);
               },
               title: Text(
-                'Describe Food',
+                Get.find<DashboardController>().localization.nutricoPlusBottomSheet?.describeFood ?? "Describe Food",
                 style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: const Color(0xFF505050)),
               ),
               leading: const Icon(
@@ -106,15 +107,19 @@ class _NutriScorePlusBottomSheetState extends State<NutriScorePlusBottomSheet> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Generate From Image', style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433))),
+                    Text(Get.find<DashboardController>().localization.nutricoPlusBottomSheet?.generateFromImage ?? "Generate From Image",
+                        style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433))),
                     8.verticalSpace,
-                    Text('Maximum generate of ${widget.maxRequest} images per month', style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w400, color: const Color(0xFF808080))),
+                    Text(
+                        '${Get.find<DashboardController>().localization.nutricoPlusBottomSheet?.maximumGenerateOf ?? "Maximum generate of"} ${widget.maxRequest} ${Get.find<DashboardController>().localization.nutricoPlusBottomSheet?.imagesPerMonth ?? "images per month"}',
+                        style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w400, color: const Color(0xFF808080))),
                   ],
                 ),
                 const Spacer(),
                 InkWell(
                     onTap: () {
-                      Get.find<DashboardController>().trackEvent(widget.isFromDashboard ? LivewellHomepageEvent.navbarNutricoInformationButton : LivewellMealLogEvent.mealLogPageNutricoInformationButton);
+                      Get.find<DashboardController>()
+                          .trackEvent(widget.isFromDashboard ? LivewellHomepageEvent.navbarNutricoInformationButton : LivewellMealLogEvent.mealLogPageNutricoInformationButton);
                       loadTutorial();
                     },
                     child: Icon(Icons.info_outline, color: const Color(0xFF171433), size: 24.sp)),
@@ -126,7 +131,8 @@ class _NutriScorePlusBottomSheetState extends State<NutriScorePlusBottomSheet> {
               onTap: widget.isAlreadyLimit
                   ? null
                   : () {
-                      Get.find<DashboardController>().trackEvent(widget.isFromDashboard ? LivewellHomepageEvent.navbarNutricoPickFromGalleryButton : LivewellMealLogEvent.mealLogPageNutricoPickFromGalleryButton);
+                      Get.find<DashboardController>()
+                          .trackEvent(widget.isFromDashboard ? LivewellHomepageEvent.navbarNutricoPickFromGalleryButton : LivewellMealLogEvent.mealLogPageNutricoPickFromGalleryButton);
                       _pickImage(ImageSource.gallery, context);
                     },
               title: Row(
@@ -135,12 +141,12 @@ class _NutriScorePlusBottomSheetState extends State<NutriScorePlusBottomSheet> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Pick From Gallery',
+                        Get.find<DashboardController>().localization.nutricoPlusBottomSheet?.pickFromGallery ?? "Pick From Gallery",
                         style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: widget.isAlreadyLimit ? const Color(0xFF808080) : const Color(0xFF505050)),
                       ),
                       widget.isAlreadyLimit
                           ? Text(
-                              'Max request reached',
+                              Get.find<DashboardController>().localization.nutricoPlusBottomSheet?.maxRequestReached ?? "Max request reached",
                               style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: const Color(0xFF808080)),
                             )
                           : const SizedBox(),
@@ -158,7 +164,8 @@ class _NutriScorePlusBottomSheetState extends State<NutriScorePlusBottomSheet> {
               onTap: widget.isAlreadyLimit
                   ? null
                   : () {
-                      Get.find<DashboardController>().trackEvent(widget.isFromDashboard ? LivewellHomepageEvent.navbarNutricoTakeAPhotoButton : LivewellMealLogEvent.mealLogPageNutricoTakeAPhotoButton);
+                      Get.find<DashboardController>()
+                          .trackEvent(widget.isFromDashboard ? LivewellHomepageEvent.navbarNutricoTakeAPhotoButton : LivewellMealLogEvent.mealLogPageNutricoTakeAPhotoButton);
                       _pickImage(ImageSource.camera, context);
                     },
               title: Row(
@@ -167,12 +174,12 @@ class _NutriScorePlusBottomSheetState extends State<NutriScorePlusBottomSheet> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Take a Photo',
+                        Get.find<DashboardController>().localization.nutricoPlusBottomSheet?.takeAPhoto ?? "Take a Photo",
                         style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: widget.isAlreadyLimit ? const Color(0xFF808080) : const Color(0xFF505050)),
                       ),
                       widget.isAlreadyLimit
                           ? Text(
-                              'Max request reached',
+                              Get.find<DashboardController>().localization.nutricoPlusBottomSheet?.maxRequestReached ?? "Max request reached",
                               style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: const Color(0xFF808080)),
                             )
                           : const SizedBox(),

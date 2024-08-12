@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -50,7 +48,6 @@ class AddFoodController extends BaseController {
 
   void addMeals(Foods food, MealTime mealTime) async {
     await EasyLoading.show();
-    inspect(food);
 
     // convert selectedTime to DateTime
     var date = DateTime.parse(selectedTime.value);

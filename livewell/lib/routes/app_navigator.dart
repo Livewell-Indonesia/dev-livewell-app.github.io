@@ -7,6 +7,7 @@ import 'package:livewell/feature/auth/presentation/page/signup/signup_screen.dar
 import 'package:livewell/feature/auth/presentation/page/update_password/update_password_screen.dart';
 import 'package:livewell/feature/daily_journal/presentation/page/daily_journal_screen.dart';
 import 'package:livewell/feature/exercise/presentation/pages/exercise_kyc_screen.dart';
+import 'package:livewell/feature/exercise/presentation/pages/exercise_share_page.dart';
 import 'package:livewell/feature/exercise/presentation/pages/manual_exercise_input.dart';
 import 'package:livewell/feature/food/presentation/pages/add_food_screen.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
@@ -32,8 +33,6 @@ import 'package:livewell/feature/sleep/presentation/pages/sleep_screen.dart';
 import 'package:livewell/feature/splash/presentation/splash_screen.dart';
 import 'package:livewell/feature/streak/presentation/pages/streak_screen.dart';
 import 'package:livewell/feature/update_weight/presentation/page/update_weight_screen.dart';
-import 'package:livewell/feature/water/presentation/pages/water_consumed_page.dart';
-import 'package:livewell/feature/water/presentation/pages/water_custom_input_page.dart';
 import 'package:livewell/feature/water/presentation/pages/water_custom_input_screen.dart';
 import 'package:livewell/feature/water/presentation/pages/water_screen.dart';
 import 'package:livewell/feature/wellness/presentation/pages/wellness_score_screen.dart';
@@ -75,8 +74,6 @@ class AppNavigator {
     ),
     GetPage(name: AppPages.updateWeight, page: () => const UpdateWeightScreen(), transition: Transition.cupertino),
     GetPage(name: AppPages.exerciseKYC, page: () => ExerciseKYCScreen(), transition: Transition.cupertinoDialog),
-    GetPage(name: AppPages.waterConsumedPage, page: () => WaterConsumedPage(), transition: Transition.cupertino),
-    GetPage(name: AppPages.waterCustomInputPage, page: () => WaterCustomInputPage(), transition: Transition.cupertino),
     GetPage(name: AppPages.nutriScore, page: () => const NutriScoreScreen(), transition: Transition.cupertino),
     GetPage(name: AppPages.nutriScoreDetail, page: () => NutriScoreDetailsScreen(), transition: Transition.cupertino),
     GetPage(name: AppPages.nutriCoScreen, page: () => NutriCoScreen(), transition: Transition.cupertino),
@@ -162,7 +159,6 @@ class AppPages {
   static String requestFoodSuccess = '/request-food-success';
   static String updateWeight = '/update-weight'; // done
   static String exerciseKYC = '/exercise-kyc';
-  static String waterConsumedPage = '/water-consumed-page';
   static String waterCustomInputPage = '/water-custom-input-page';
   static String waterCustomInput = '/water-custom-input';
   static String nutriScore = '/nutriscore';
@@ -183,4 +179,5 @@ class AppPages {
   static String streakPage = '/streak';
   static String updatePassword = '/update-password';
   static String wellnessScore = '/wellness-score';
+  static String exerciseShare = '/exercise-share';
 }

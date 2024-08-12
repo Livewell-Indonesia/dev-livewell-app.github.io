@@ -9,14 +9,12 @@ import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 class NutrientFactScreen extends StatelessWidget {
   final Servings servings;
   final num numberOfServings;
-  const NutrientFactScreen(
-      {Key? key, required this.servings, required this.numberOfServings})
-      : super(key: key);
+  const NutrientFactScreen({Key? key, required this.servings, required this.numberOfServings}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: Get.find<HomeController>().localization.nutrientFact!,
+        title: Get.find<HomeController>().localization.nutrientFactPage?.nutrientFact ?? "Nutrient Fact",
         body: Expanded(
           child: SingleChildScrollView(
             child: Padding(
@@ -25,90 +23,90 @@ class NutrientFactScreen extends StatelessWidget {
                 children: [
                   48.verticalSpace,
                   parentNutrient(
-                    "Total Fat",
+                    Get.find<HomeController>().localization.nutrientFactPage?.totalFat ?? "Total Fat",
                     servingDesc(servings.fat, "g"),
                   ),
                   10.verticalSpace,
-                  childNutrient("Saturated", servings.saturatedFat),
+                  childNutrient(Get.find<HomeController>().localization.nutrientFactPage?.saturated ?? "Saturated", servings.saturatedFat),
                   10.verticalSpace,
-                  childNutrient("Trans", servings.transFat),
+                  childNutrient(Get.find<HomeController>().localization.nutrientFactPage?.transFat ?? "Trans", servings.transFat),
                   10.verticalSpace,
-                  childNutrient("Polyunsaturated", servings.polyunsaturatedFat),
+                  childNutrient(Get.find<HomeController>().localization.nutrientFactPage?.polyunsaturated ?? "Polyunsaturated", servings.polyunsaturatedFat),
                   10.verticalSpace,
-                  childNutrient("Monounsaturated", servings.monounsaturatedFat),
+                  childNutrient(Get.find<HomeController>().localization.nutrientFactPage?.monounsaturated ?? "Monounsaturated", servings.monounsaturatedFat),
                   10.verticalSpace,
                   const Divider(),
                   20.verticalSpace,
                   parentNutrient(
-                    "Carbs",
+                    Get.find<HomeController>().localization.nutrientFactPage?.carbs ?? "Carbs",
                     servingDesc(servings.carbohydrate, "g"),
                   ),
                   10.verticalSpace,
                   const Divider(),
                   20.verticalSpace,
                   parentNutrient(
-                    "Fiber",
+                    Get.find<HomeController>().localization.nutrientFactPage?.fiber ?? "Fiber",
                     servingDesc(servings.fiber, "mg"),
                   ),
                   10.verticalSpace,
                   const Divider(),
                   20.verticalSpace,
                   parentNutrient(
-                    "Protein",
+                    Get.find<HomeController>().localization.nutrientFactPage?.protein ?? "Protein",
                     servingDesc(servings.protein, "g"),
                   ),
                   10.verticalSpace,
                   const Divider(),
                   20.verticalSpace,
                   parentNutrient(
-                    "Sodium",
+                    Get.find<HomeController>().localization.nutrientFactPage?.sodium ?? "Sodium",
                     servingDesc(servings.sodium, "mg"),
                   ),
                   10.verticalSpace,
                   const Divider(),
                   20.verticalSpace,
                   parentNutrient(
-                    "Potassium",
+                    Get.find<HomeController>().localization.nutrientFactPage?.potassium ?? "Potassium",
                     servingDesc(servings.potassium, "mg"),
                   ),
                   10.verticalSpace,
                   const Divider(),
                   20.verticalSpace,
                   parentNutrient(
-                    "Cholesterol",
+                    Get.find<HomeController>().localization.nutrientFactPage?.cholesterol ?? "Cholesterol",
                     servingDesc(servings.cholesterol, "mg"),
                   ),
                   10.verticalSpace,
                   const Divider(),
                   20.verticalSpace,
                   parentNutrient(
-                    "Vitamin A",
+                    Get.find<HomeController>().localization.nutrientFactPage?.vitaminA ?? "Vitamin A",
                     servingDesc(servings.vitaminA, "mcg"),
                   ),
                   10.verticalSpace,
                   const Divider(),
                   20.verticalSpace,
                   parentNutrient(
-                    "Vitamin C",
+                    Get.find<HomeController>().localization.nutrientFactPage?.vitaminC ?? "Vitamin C",
                     servingDesc(servings.vitaminC, "mg"),
                   ),
                   10.verticalSpace,
                   const Divider(),
                   20.verticalSpace,
                   parentNutrient(
-                    "Calcium",
+                    Get.find<HomeController>().localization.nutrientFactPage?.calcium ?? "Calcium",
                     servingDesc(servings.calcium, "mg"),
                   ),
                   10.verticalSpace,
                   const Divider(),
                   20.verticalSpace,
                   parentNutrient(
-                    "Iron",
+                    Get.find<HomeController>().localization.nutrientFactPage?.iron ?? "Iron",
                     servingDesc(servings.iron, "mg"),
                   ),
                   20.verticalSpace,
                   const Divider(),
-                  parentNutrient("Sugar", servingDesc(servings.sugar, "g")),
+                  parentNutrient(Get.find<HomeController>().localization.nutrientFactPage?.sugar ?? "Sugar", servingDesc(servings.sugar, "g")),
                   10.verticalSpace,
                   const Divider(),
                 ],
@@ -121,25 +119,15 @@ class NutrientFactScreen extends StatelessWidget {
   Widget parentNutrient(String name, String? value) {
     return Row(
       children: [
-        Text(name,
-            style: TextStyle(
-                fontSize: 20.sp,
-                color: const Color(0xFF171433),
-                fontWeight: FontWeight.w600)),
+        Text(name, style: TextStyle(fontSize: 20.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w600)),
         const Spacer(),
-        Text(value ?? "-",
-            style: TextStyle(
-                fontSize: 20.sp,
-                color: const Color(0xFF171433),
-                fontWeight: FontWeight.w600)),
+        Text(value ?? "-", style: TextStyle(fontSize: 20.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w600)),
       ],
     );
   }
 
   String servingDesc(String? servingAmountInt, String? metricServingUnit) {
-    if (servingAmountInt == "0" ||
-        servingAmountInt == "" ||
-        servingAmountInt == null) {
+    if (servingAmountInt == "0" || servingAmountInt == "" || servingAmountInt == null) {
       return "-";
     }
     if (metricServingUnit == null) {
@@ -154,21 +142,12 @@ class NutrientFactScreen extends StatelessWidget {
         Container(
           width: 8.w,
           height: 8.w,
-          decoration: const BoxDecoration(
-              shape: BoxShape.circle, color: Color(0xFFDDF235)),
+          decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFFDDF235)),
         ),
         11.horizontalSpace,
-        Text(name,
-            style: TextStyle(
-                fontSize: 16.sp,
-                color: const Color(0xFF171433),
-                fontWeight: FontWeight.w500)),
+        Text(name, style: TextStyle(fontSize: 16.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w500)),
         const Spacer(),
-        Text(value == null ? '-' : "$value g",
-            style: TextStyle(
-                fontSize: 16.sp,
-                color: const Color(0xFF171433),
-                fontWeight: FontWeight.w500)),
+        Text(value == null ? '-' : "$value g", style: TextStyle(fontSize: 16.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w500)),
       ],
     );
   }

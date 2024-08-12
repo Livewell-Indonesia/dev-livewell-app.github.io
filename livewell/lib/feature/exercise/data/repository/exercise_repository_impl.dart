@@ -12,18 +12,14 @@ import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.
 import 'package:livewell/feature/exercise/domain/usecase/get_exercise_list.dart';
 import 'package:livewell/feature/exercise/domain/usecase/post_exercise_data.dart';
 
-class ExerciseRepositoryImpl with NetworkModule
-    implements ExerciseRepository {
+class ExerciseRepositoryImpl with NetworkModule implements ExerciseRepository {
   ExerciseRepositoryImpl._();
 
   static ExerciseRepositoryImpl getInstance() => ExerciseRepositoryImpl._();
   @override
-  Future<Either<Failure, RegisterModel>> postExerciseData(
-      PostExerciseParams data) async {
+  Future<Either<Failure, RegisterModel>> postExerciseData(PostExerciseParams data) async {
     try {
-      final response = await postMethod(Endpoint.postBulkActivities,
-          headers: {authorization: await SharedPref.getToken()},
-          body: data.toJson());
+      final response = await postMethod(Endpoint.postBulkActivities, headers: {authorization: await SharedPref.getToken()}, body: data.toJson());
       Log.colorGreen(data.toJson());
       final json = responseHandler(response);
       return Right(RegisterModel.fromJson(json));
@@ -33,29 +29,24 @@ class ExerciseRepositoryImpl with NetworkModule
   }
 
   @override
-  Future<Either<Failure, ActivityDataModel>> getExerciseData(
-      GetExerciseParams params) async {
+  Future<Either<Failure, ActivityDataModel>> getExerciseData(GetExerciseParams params) async {
     try {
-      final response = await postMethod(Endpoint.getActivities,
-          headers: {authorization: await SharedPref.getToken()},
-          body: params.toJson());
+      final response = await postMethod(Endpoint.getActivities, headers: {authorization: await SharedPref.getToken()}, body: params.toJson());
+      Log.colorGreen("andi ganteng");
       final json = responseHandler(response);
       return Right(ActivityDataModel.fromJson(json));
     } catch (ex) {
+      Log.error(ex);
       return Left(ServerFailure(message: ex.toString()));
     }
   }
 
   @override
-  Future<Either<Failure, List<ActivityHistoryModel>>> getActivityHistory(
-      GetActivityHistoryParam params) async {
+  Future<Either<Failure, List<ActivityHistoryModel>>> getActivityHistory(GetActivityHistoryParam params) async {
     try {
-      final response = await postMethod(Endpoint.getActivityHistories,
-          headers: {authorization: await SharedPref.getToken()},
-          body: params.toJson());
+      final response = await postMethod(Endpoint.getActivityHistories, headers: {authorization: await SharedPref.getToken()}, body: params.toJson());
       final json = responseHandler(response);
-      return Right(List<ActivityHistoryModel>.from(
-          json.map((x) => ActivityHistoryModel.fromJson(x))));
+      return Right(List<ActivityHistoryModel>.from(json.map((x) => ActivityHistoryModel.fromJson(x))));
     } catch (ex) {
       return Left(ServerFailure(message: ex.toString()));
     }

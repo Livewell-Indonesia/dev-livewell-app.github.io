@@ -14,18 +14,18 @@ class GoalSettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-      title: controller.localization.goalsSetting!,
+      title: controller.localization.weightPage?.goalsSetting ?? "Goals Setting",
       body: Expanded(
         child: Column(
           children: [
             95.verticalSpace,
             Text(
-              'What\'s your goal?',
+              controller.localization.weightPage?.whatsYourGoal ?? "What's your goal?",
               style: TextStyle(color: const Color(0xFF171433), fontSize: 24.sp, fontWeight: FontWeight.w600, height: 32.sp / 24.sp),
             ),
             8.verticalSpace,
             Text(
-              'Update Your current goal setting',
+              controller.localization.weightPage?.updateYourCurrentGoalSetting ?? "Update Your current goal setting",
               style: TextStyle(color: const Color(0xFF505050), fontWeight: FontWeight.w500, fontSize: 14.sp, height: 20.sp / 14.sp),
             ),
             60.verticalSpace,
@@ -37,7 +37,7 @@ class GoalSettingScreen extends StatelessWidget {
             ),
             const Spacer(),
             LiveWellButton(
-              label: controller.localization.update!,
+              label: controller.localization.weightPage?.update ?? "Update",
               color: const Color(0xFFDDF235),
               onPressed: () {
                 controller.onUpdateTargetTapped();

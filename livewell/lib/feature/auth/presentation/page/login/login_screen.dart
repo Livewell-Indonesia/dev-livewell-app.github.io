@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: controller.localization.signIn!,
+        title: controller.localization.signInPage?.signIn ?? "Sign In",
         backgroundColor: Colors.white,
         onBack: () {
           Get.back();
@@ -50,19 +50,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 24.h,
               ),
               68.verticalSpace,
-              AuthTextField(controller: controller.email, hintText: null, labelText: controller.localization.emailAddress!, errorText: null, obscureText: false, isEmail: true),
+              AuthTextField(
+                  controller: controller.email, hintText: null, labelText: controller.localization.signInPage?.emailAddress ?? "Email Address", errorText: null, obscureText: false, isEmail: true),
               16.verticalSpace,
               Obx(() {
                 return AuthTextField(
                     controller: controller.password,
                     hintText: null,
-                    labelText: controller.localization.password!,
+                    labelText: controller.localization.signInPage?.password ?? "Password",
                     errorText: controller.passwordError.isEmpty ? null : controller.passwordError.value,
                     obscureText: true);
               }),
               32.verticalSpace,
               LiveWellButton(
-                  label: controller.localization.signIn!,
+                  label: controller.localization.signInPage?.signIn ?? "Sign In",
                   color: const Color(0xFFDDF235),
                   onPressed: () {
                     controller.trackEvent(LivewellAuthEvent.signInPageSignInButton);
@@ -74,11 +75,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     AppNavigator.push(routeName: AppPages.forgotPassword);
                   },
                   child: Text(
-                    controller.localization.forgotPassword!,
+                    controller.localization.signInPage?.forgotPassword ?? "Forgot Password?",
                     style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 16.sp, fontWeight: FontWeight.w500),
                   )),
               20.verticalSpace,
-              Text(controller.localization.orSignInWith!, style: TextStyle(fontSize: 16.sp)),
+              Text(controller.localization.signInPage?.orSignInWith ?? "Or Sign in with", style: TextStyle(fontSize: 16.sp)),
               20.verticalSpace,
               SigninThridPartyButton(
                   type: SignInButtonType.google,
@@ -99,14 +100,15 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(controller.localization.dontHaveAccount!, style: TextStyle(color: const Color(0xFF171433).withOpacity(0.7), fontSize: 16.sp, fontWeight: FontWeight.w400)),
+                  Text(controller.localization.signInPage?.dontHaveAccount ?? "Don't have account?",
+                      style: TextStyle(color: const Color(0xFF171433).withOpacity(0.7), fontSize: 16.sp, fontWeight: FontWeight.w400)),
                   TextButton(
                       onPressed: () {
                         controller.trackEvent(LivewellAuthEvent.signInPageSignUp);
                         AppNavigator.push(routeName: AppPages.signup);
                       },
                       child: Text(
-                        controller.localization.signUp!,
+                        controller.localization.signInPage?.signUp ?? "Sign Up",
                         style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 16.sp, fontWeight: FontWeight.w500),
                       )),
                 ],
@@ -116,11 +118,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                        text: controller.localization.bySigningInAgreeToTermsAndConditions!,
+                        text: controller.localization.signInPage?.bySigningInAgreeToTermsAndConditions ?? "By signing in above, I agree to Livewell's ",
                         style: TextStyle(color: const Color(0xFF171433).withOpacity(0.7), fontSize: 14.sp, fontWeight: FontWeight.w400),
                         children: [
                           TextSpan(
-                            text: "${controller.localization.termsAndConditions} ",
+                            text: "${controller.localization.signInPage?.termsAndConditions ?? "Terms & Conditions"} ",
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 controller.trackEvent(LivewellAuthEvent.signInPageTnc);
@@ -132,11 +134,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 14.sp, fontWeight: FontWeight.w500),
                           ),
                           TextSpan(
-                            text: '${controller.localization.and!} ',
+                            text: '${controller.localization.signInPage?.and ?? "and"} ',
                             style: TextStyle(color: const Color(0xFF171433).withOpacity(0.7), fontSize: 14.sp, fontWeight: FontWeight.w400),
                           ),
                           TextSpan(
-                            text: controller.localization.privacyPolicy!,
+                            text: controller.localization.signInPage?.privacyPolicy ?? "Privacy Policy",
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 controller.trackEvent(LivewellAuthEvent.signInPagePrivacyPolicy);

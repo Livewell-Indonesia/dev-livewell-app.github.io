@@ -40,7 +40,7 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: controller.localization.diary!,
+        title: controller.localization.userDiaryPage?.diary ?? "Diary",
         body: Expanded(
           child: RefreshIndicator(
             onRefresh: () async {
@@ -63,27 +63,15 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
                               icon: Icon(
                                 Icons.arrow_back_ios_new_rounded,
                                 size: 20.r,
-                                color: controller.selectedIndex.value == 0
-                                    ? const Color(0xFF171433).withOpacity(0.5)
-                                    : const Color(0xFF171433),
+                                color: controller.selectedIndex.value == 0 ? const Color(0xFF171433).withOpacity(0.5) : const Color(0xFF171433),
                               )),
                           Column(
                             children: [
+                              Text(DateFormat('MMMM').format(controller.dateList[controller.selectedIndex.value]),
+                                  style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433).withOpacity(0.7))),
                               Text(
-                                  DateFormat('MMMM').format(controller.dateList[
-                                      controller.selectedIndex.value]),
-                                  style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w600,
-                                      color: const Color(0xFF171433)
-                                          .withOpacity(0.7))),
-                              Text(
-                                DateFormat('EEEE, d').format(controller
-                                    .dateList[controller.selectedIndex.value]),
-                                style: TextStyle(
-                                    fontSize: 24.sp,
-                                    color: const Color(0xFF171433),
-                                    fontWeight: FontWeight.w500),
+                                DateFormat('EEEE, d').format(controller.dateList[controller.selectedIndex.value]),
+                                style: TextStyle(fontSize: 24.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w500),
                               )
                             ],
                           ),
@@ -94,10 +82,7 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
                               icon: Icon(
                                 Icons.arrow_forward_ios_rounded,
                                 size: 20.r,
-                                color: controller.selectedIndex.value ==
-                                        controller.dateList.length - 1
-                                    ? const Color(0xFF171433).withOpacity(0.5)
-                                    : const Color(0xFF171433),
+                                color: controller.selectedIndex.value == controller.dateList.length - 1 ? const Color(0xFF171433).withOpacity(0.5) : const Color(0xFF171433),
                               )),
                           const Spacer()
                         ],
@@ -125,31 +110,15 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
                                   height: 72.h,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                      color: controller.selectedIndex.value ==
-                                              index
-                                          ? const Color(0xFFDDF235)
-                                          : const Color(0xFFDDF235)
-                                              .withOpacity(0.2),
-                                      borderRadius:
-                                          BorderRadius.circular(10).r),
+                                      color: controller.selectedIndex.value == index ? const Color(0xFFDDF235) : const Color(0xFFDDF235).withOpacity(0.2), borderRadius: BorderRadius.circular(10).r),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        DateFormat('EEE')
-                                            .format(controller.dateList[index]),
-                                        style: TextStyle(
-                                            fontSize: 13.sp,
-                                            color: const Color(0xFF171433),
-                                            fontWeight: FontWeight.w500),
+                                        DateFormat('EEE').format(controller.dateList[index]),
+                                        style: TextStyle(fontSize: 13.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w500),
                                       ),
-                                      Text(
-                                          controller.dateList[index].day
-                                              .toString(),
-                                          style: TextStyle(
-                                              fontSize: 19.sp,
-                                              color: const Color(0xFF171433),
-                                              fontWeight: FontWeight.w700)),
+                                      Text(controller.dateList[index].day.toString(), style: TextStyle(fontSize: 19.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w700)),
                                     ],
                                   ),
                                 ),
@@ -165,223 +134,107 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
                   40.verticalSpace,
                   Obx(() {
                     return DailyJournalItem(
-                        enableAddButton: DateTime.now()
-                                    .difference(controller.dateList[
-                                        controller.selectedIndex.value])
-                                    .inDays <=
-                                7 &&
-                            DateTime.now()
-                                    .difference(controller.dateList[
-                                        controller.selectedIndex.value])
-                                    .inDays >=
-                                0,
-                        model: DailyJournalItemModel(
-                            type: DailyJournalItemType.nutrition,
-                            itemName: controller.localization.nutrition ??
-                                "Nutrition",
-                            content: [
-                              DailyJournalItemContentModel(
-                                  type: DailyJournalItemType.nutrition,
-                                  contentName:
-                                      controller.localization.breakfast ?? "",
-                                  contentValue:
-                                      "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "breakfast".toUpperCase()).toList())} kcal",
-                                  contentDesc: controller.filteredMealHistory
-                                      .where((p0) =>
-                                          p0.mealType?.toUpperCase() ==
-                                          "breakfast".toUpperCase())
-                                      .map((e) {
-                                    return DailyJournalItemContentDescModel(
-                                        contentDescName: e.mealName ?? "",
-                                        contentDescValue:
-                                            "${e.caloriesInG} kcal",
-                                        contentServing: e.mealServings ?? "",
-                                        onMoreTap: () => onMoreTap(context, e));
-                                  }).toList(),
-                                  onAddTap: () {
-                                    AppNavigator.push(
-                                        routeName: AppPages.addMeal,
-                                        arguments: {
-                                          "type": "breakfast",
-                                          "date": controller.dateList[
-                                              controller.selectedIndex.value]
-                                        });
-                                  }),
-                              DailyJournalItemContentModel(
-                                  type: DailyJournalItemType.nutrition,
-                                  contentName:
-                                      controller.localization.lunch ?? "",
-                                  contentValue:
-                                      "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "lunch".toUpperCase()).toList())} kcal",
-                                  contentDesc: controller.filteredMealHistory
-                                      .where((p0) =>
-                                          p0.mealType?.toUpperCase() ==
-                                          "lunch".toUpperCase())
-                                      .map((e) {
-                                    return DailyJournalItemContentDescModel(
-                                        contentDescName: e.mealName ?? "",
-                                        contentDescValue:
-                                            "${e.caloriesInG} kcal",
-                                        contentServing: e.mealServings ?? "",
-                                        onMoreTap: () => onMoreTap(context, e));
-                                  }).toList(),
-                                  onAddTap: () {
-                                    AppNavigator.push(
-                                        routeName: AppPages.addMeal,
-                                        arguments: {
-                                          "type": "lunch",
-                                          "date": controller.dateList[
-                                              controller.selectedIndex.value]
-                                        });
-                                  }),
-                              DailyJournalItemContentModel(
-                                  type: DailyJournalItemType.nutrition,
-                                  contentName:
-                                      controller.localization.dinner ?? "",
-                                  contentValue:
-                                      "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "dinner".toUpperCase()).toList())} kcal",
-                                  contentDesc: controller.filteredMealHistory
-                                      .where((p0) =>
-                                          p0.mealType?.toUpperCase() ==
-                                          "dinner".toUpperCase())
-                                      .map((e) {
-                                    return DailyJournalItemContentDescModel(
-                                        contentDescName: e.mealName ?? "",
-                                        contentDescValue:
-                                            "${e.caloriesInG} kcal",
-                                        contentServing: e.mealServings ?? "",
-                                        onMoreTap: () => onMoreTap(context, e));
-                                  }).toList(),
-                                  onAddTap: () {
-                                    AppNavigator.push(
-                                        routeName: AppPages.addMeal,
-                                        arguments: {
-                                          "type": "dinner",
-                                          "date": controller.dateList[
-                                              controller.selectedIndex.value]
-                                        });
-                                  }),
-                              DailyJournalItemContentModel(
-                                  type: DailyJournalItemType.nutrition,
-                                  contentName:
-                                      controller.localization.snack ?? "",
-                                  contentValue:
-                                      "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "snack".toUpperCase()).toList())} kcal",
-                                  contentDesc: controller.filteredMealHistory
-                                      .where((p0) =>
-                                          p0.mealType?.toUpperCase() ==
-                                          "snack".toUpperCase())
-                                      .map((e) {
-                                    return DailyJournalItemContentDescModel(
-                                      contentDescName: e.mealName ?? "",
-                                      contentDescValue: "${e.caloriesInG} kcal",
-                                      contentServing: e.mealServings ?? "",
-                                      onMoreTap: () => onMoreTap(context, e),
-                                    );
-                                  }).toList(),
-                                  onAddTap: () {
-                                    AppNavigator.push(
-                                        routeName: AppPages.addMeal,
-                                        arguments: {
-                                          "type": "snack",
-                                          "date": controller.dateList[
-                                              controller.selectedIndex.value]
-                                        });
-                                  }),
-                            ]));
+                        enableAddButton: DateTime.now().difference(controller.dateList[controller.selectedIndex.value]).inDays <= 7 &&
+                            DateTime.now().difference(controller.dateList[controller.selectedIndex.value]).inDays >= 0,
+                        model: DailyJournalItemModel(type: DailyJournalItemType.nutrition, itemName: controller.localization.userDiaryPage?.nutrition ?? "Nutrition", content: [
+                          DailyJournalItemContentModel(
+                              type: DailyJournalItemType.nutrition,
+                              contentName: controller.localization.userDiaryPage?.breakfast ?? "",
+                              contentValue: "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "breakfast".toUpperCase()).toList())} kcal",
+                              contentDesc: controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "breakfast".toUpperCase()).map((e) {
+                                return DailyJournalItemContentDescModel(
+                                    contentDescName: e.mealName ?? "", contentDescValue: "${e.caloriesInG} kcal", contentServing: e.mealServings ?? "", onMoreTap: () => onMoreTap(context, e));
+                              }).toList(),
+                              onAddTap: () {
+                                AppNavigator.push(routeName: AppPages.addMeal, arguments: {"type": "breakfast", "date": controller.dateList[controller.selectedIndex.value]});
+                              }),
+                          DailyJournalItemContentModel(
+                              type: DailyJournalItemType.nutrition,
+                              contentName: controller.localization.userDiaryPage?.lunch ?? "",
+                              contentValue: "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "lunch".toUpperCase()).toList())} kcal",
+                              contentDesc: controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "lunch".toUpperCase()).map((e) {
+                                return DailyJournalItemContentDescModel(
+                                    contentDescName: e.mealName ?? "", contentDescValue: "${e.caloriesInG} kcal", contentServing: e.mealServings ?? "", onMoreTap: () => onMoreTap(context, e));
+                              }).toList(),
+                              onAddTap: () {
+                                AppNavigator.push(routeName: AppPages.addMeal, arguments: {"type": "lunch", "date": controller.dateList[controller.selectedIndex.value]});
+                              }),
+                          DailyJournalItemContentModel(
+                              type: DailyJournalItemType.nutrition,
+                              contentName: controller.localization.userDiaryPage?.dinner ?? "",
+                              contentValue: "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "dinner".toUpperCase()).toList())} kcal",
+                              contentDesc: controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "dinner".toUpperCase()).map((e) {
+                                return DailyJournalItemContentDescModel(
+                                    contentDescName: e.mealName ?? "", contentDescValue: "${e.caloriesInG} kcal", contentServing: e.mealServings ?? "", onMoreTap: () => onMoreTap(context, e));
+                              }).toList(),
+                              onAddTap: () {
+                                AppNavigator.push(routeName: AppPages.addMeal, arguments: {"type": "dinner", "date": controller.dateList[controller.selectedIndex.value]});
+                              }),
+                          DailyJournalItemContentModel(
+                              type: DailyJournalItemType.nutrition,
+                              contentName: controller.localization.userDiaryPage?.snack ?? "",
+                              contentValue: "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "snack".toUpperCase()).toList())} kcal",
+                              contentDesc: controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "snack".toUpperCase()).map((e) {
+                                return DailyJournalItemContentDescModel(
+                                  contentDescName: e.mealName ?? "",
+                                  contentDescValue: "${e.caloriesInG} kcal",
+                                  contentServing: e.mealServings ?? "",
+                                  onMoreTap: () => onMoreTap(context, e),
+                                );
+                              }).toList(),
+                              onAddTap: () {
+                                AppNavigator.push(routeName: AppPages.addMeal, arguments: {"type": "snack", "date": controller.dateList[controller.selectedIndex.value]});
+                              }),
+                        ]));
                   }),
                   16.verticalSpace,
                   Obx(() {
                     return DailyJournalItem(
-                        enableAddButton: DateTime.now()
-                                    .difference(controller.dateList[
-                                        controller.selectedIndex.value])
-                                    .inDays <=
-                                7 &&
-                            DateTime.now()
-                                    .difference(controller.dateList[
-                                        controller.selectedIndex.value])
-                                    .inDays >=
-                                0,
-                        model: DailyJournalItemModel(
-                            type: DailyJournalItemType.exercise,
-                            itemName:
-                                controller.localization.exercise ?? "Exercise",
-                            content: [
-                              DailyJournalItemContentModel(
-                                  type: DailyJournalItemType.exercise,
-                                  contentName:
-                                      controller.localization.exercise ?? "",
-                                  contentValue:
-                                      "${controller.filteredExerciseHistory.fold(0, (previousValue, element) {
-                                    return previousValue +
-                                        (element.value ?? 0).toInt();
-                                  })} ${controller.localization.caloriesBurnt ?? "Calories Burnt"}",
-                                  contentDesc: []),
-                              DailyJournalItemContentModel(
-                                  type: DailyJournalItemType.exercise,
-                                  contentName:
-                                      controller.localization.steps ?? "Steps",
-                                  contentValue:
-                                      "${controller.filteredStepsHistory.fold(0, (previousValue, element) {
-                                    return previousValue +
-                                        (element.value ?? 0).toInt();
-                                  })} ${controller.localization.steps ?? "Steps"}",
-                                  contentDesc: []),
-                            ]));
+                        enableAddButton: DateTime.now().difference(controller.dateList[controller.selectedIndex.value]).inDays <= 7 &&
+                            DateTime.now().difference(controller.dateList[controller.selectedIndex.value]).inDays >= 0,
+                        model: DailyJournalItemModel(type: DailyJournalItemType.exercise, itemName: controller.localization.userDiaryPage?.exercise ?? "Exercise", content: [
+                          DailyJournalItemContentModel(
+                              type: DailyJournalItemType.exercise,
+                              contentName: controller.localization.userDiaryPage?.exercise ?? "",
+                              contentValue: "${controller.filteredExerciseHistory.fold(0, (previousValue, element) {
+                                return previousValue + (element.value ?? 0).toInt();
+                              })} ${controller.localization.userDiaryPage?.caloriesBurnt ?? "Calories Burnt"}",
+                              contentDesc: []),
+                          DailyJournalItemContentModel(
+                              type: DailyJournalItemType.exercise,
+                              contentName: controller.localization.userDiaryPage?.steps ?? "Steps",
+                              contentValue: "${controller.filteredStepsHistory.fold(0, (previousValue, element) {
+                                return previousValue + (element.value ?? 0).toInt();
+                              })} ${controller.localization.userDiaryPage?.steps ?? "Steps"}",
+                              contentDesc: []),
+                        ]));
                   }),
                   16.verticalSpace,
                   Obx(() {
                     return DailyJournalItem(
-                      enableAddButton: DateTime.now()
-                                  .difference(controller
-                                      .dateList[controller.selectedIndex.value])
-                                  .inDays <=
-                              7 &&
-                          DateTime.now()
-                                  .difference(controller
-                                      .dateList[controller.selectedIndex.value])
-                                  .inDays >=
-                              0,
-                      model: DailyJournalItemModel(
-                          type: DailyJournalItemType.water,
-                          itemName: "Hydration",
-                          content: [
-                            DailyJournalItemContentModel(
-                                type: DailyJournalItemType.water,
-                                contentName: "Water",
-                                contentValue:
-                                    "${controller.filteredWaterHistory.isEmpty ? 0 : controller.filteredWaterHistory[0].value ?? 0} ml",
-                                contentDesc: [])
-                          ]),
+                      enableAddButton: DateTime.now().difference(controller.dateList[controller.selectedIndex.value]).inDays <= 7 &&
+                          DateTime.now().difference(controller.dateList[controller.selectedIndex.value]).inDays >= 0,
+                      model: DailyJournalItemModel(type: DailyJournalItemType.water, itemName: "Hydration", content: [
+                        DailyJournalItemContentModel(
+                            type: DailyJournalItemType.water,
+                            contentName: "Water",
+                            contentValue: "${controller.filteredWaterHistory.isEmpty ? 0 : controller.filteredWaterHistory[0].value ?? 0} ml",
+                            contentDesc: [])
+                      ]),
                     );
                   }),
                   16.verticalSpace,
                   Obx(() {
                     return DailyJournalItem(
-                        enableAddButton: DateTime.now()
-                                    .difference(controller.dateList[
-                                        controller.selectedIndex.value])
-                                    .inDays <=
-                                7 &&
-                            DateTime.now()
-                                    .difference(controller.dateList[
-                                        controller.selectedIndex.value])
-                                    .inDays >=
-                                0,
-                        model: DailyJournalItemModel(
-                            type: DailyJournalItemType.sleep,
-                            itemName: controller.localization.sleep ?? "Sleep",
-                            content: [
-                              DailyJournalItemContentModel(
-                                  type: DailyJournalItemType.sleep,
-                                  contentName: "Total",
-                                  contentValue: controller
-                                      .calculateSleepHour(controller.dateList[
-                                          controller.selectedIndex.value])
-                                      .value,
-                                  contentDesc: [])
-                            ]));
+                        enableAddButton: DateTime.now().difference(controller.dateList[controller.selectedIndex.value]).inDays <= 7 &&
+                            DateTime.now().difference(controller.dateList[controller.selectedIndex.value]).inDays >= 0,
+                        model: DailyJournalItemModel(type: DailyJournalItemType.sleep, itemName: controller.localization.userDiaryPage?.sleep ?? "Sleep", content: [
+                          DailyJournalItemContentModel(
+                              type: DailyJournalItemType.sleep,
+                              contentName: "Total",
+                              contentValue: controller.calculateSleepHour(controller.dateList[controller.selectedIndex.value]).value,
+                              contentDesc: [])
+                        ]));
                   }),
                   16.verticalSpace,
                   Padding(
@@ -391,10 +244,7 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
                         onTap: (type) {
                           controller.onMoodSelected(type);
                         },
-                        selectedMoodType: controller.getMoodTypeByValue(
-                            controller.filteredMoodHistory.isEmpty
-                                ? 0
-                                : controller.filteredMoodHistory[0].value ?? 0),
+                        selectedMoodType: MoodTypeExt.getMoodTypeByValue(controller.filteredMoodHistory.isEmpty ? 0 : controller.filteredMoodHistory[0].value ?? 0),
                       );
                     }),
                   ),
@@ -539,8 +389,7 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
                 InkWell(
                   onTap: () {
                     Get.back();
-                    controller.servingSizeController.text =
-                        (e.servingSize ?? 1).toString();
+                    controller.servingSizeController.text = (e.servingSize ?? 1).toString();
                     showModalBottomSheet(
                         context: context,
                         isScrollControlled: true,
@@ -549,10 +398,7 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
                           return EditPortionWidget(
                               textController: controller.servingSizeController,
                               onTap: () {
-                                controller.onUpdateTappedNew(
-                                    e,
-                                    double.parse(
-                                        controller.servingSizeController.text));
+                                controller.onUpdateTappedNew(e, double.parse(controller.servingSizeController.text));
                               });
                         });
                   },
@@ -564,10 +410,7 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
                     ),
                     title: Text(
                       "Edit Portion",
-                      style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFF505050)),
+                      style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: const Color(0xFF505050)),
                     ),
                   ),
                 ),
@@ -592,10 +435,7 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
                     ),
                     title: Text(
                       "Delete",
-                      style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFF505050)),
+                      style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: const Color(0xFF505050)),
                     ),
                   ),
                 ),
@@ -607,19 +447,12 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
 }
 
 ShapeBorder? shapeBorder() {
-  return ShapeBorder.lerp(
-      const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-      const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-      1);
+  return ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+      const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1);
 }
 
 class EditPortionWidget extends StatelessWidget {
-  const EditPortionWidget(
-      {super.key, required this.textController, required this.onTap});
+  const EditPortionWidget({super.key, required this.textController, required this.onTap});
   final TextEditingController textController;
   final VoidCallback onTap;
 
@@ -635,8 +468,7 @@ class EditPortionWidget extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -645,42 +477,31 @@ class EditPortionWidget extends StatelessWidget {
             20.verticalSpace,
             Text(
               'Edit Portion',
-              style: TextStyle(
-                  color: const Color(0xFF171433),
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.w600),
+              style: TextStyle(color: const Color(0xFF171433), fontSize: 24.sp, fontWeight: FontWeight.w600),
             ),
             24.verticalSpace,
             LiveWellTextField(
-                keyboardType: const TextInputType.numberWithOptions(
-                    signed: false, decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(signed: false, decimal: true),
                 controller: textController,
-                hintText:
-                    Get.find<HomeController>().localization.numberOfServing ??
-                        "Number of Serving",
-                labelText:
-                    Get.find<HomeController>().localization.numberOfServing ??
-                        "Number of Serving",
+                hintText: Get.find<HomeController>().localization.userDiaryPage?.numberOfServing ?? "Number of Serving",
+                labelText: Get.find<HomeController>().localization.userDiaryPage?.numberOfServing ?? "Number of Serving",
                 errorText: null,
                 obscureText: false),
             32.verticalSpace,
             LiveWellButton(
                 color: const Color(0xFFDDF235),
                 textColor: Colors.black,
-                label:
-                    Get.find<HomeController>().localization.update ?? "Update",
+                label: Get.find<HomeController>().localization.userDiaryPage?.update ?? "Update",
                 onPressed: () {
                   onTap();
                 }),
             16.verticalSpace,
             Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: Insets.paddingMedium),
+              padding: const EdgeInsets.symmetric(horizontal: Insets.paddingMedium),
               child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
                       fixedSize: Size(1.sw, 48.w),
-                      side:
-                          const BorderSide(width: 2, color: Color(0xFFDDF235)),
+                      side: const BorderSide(width: 2, color: Color(0xFFDDF235)),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(36.r),
                       ),
@@ -689,11 +510,8 @@ class EditPortionWidget extends StatelessWidget {
                     Get.back();
                   },
                   child: Text(
-                    Get.find<HomeController>().localization.cancel ?? "Cancel",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500),
+                    Get.find<HomeController>().localization.userDiaryPage?.cancel ?? "Cancel",
+                    style: TextStyle(color: Colors.black, fontSize: 16.sp, fontWeight: FontWeight.w500),
                   )),
             ),
           ],
@@ -719,8 +537,7 @@ class DeleteFoodWidget extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -729,18 +546,12 @@ class DeleteFoodWidget extends StatelessWidget {
             20.verticalSpace,
             Text(
               'Delete Confirmation',
-              style: TextStyle(
-                  color: const Color(0xFF171433),
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.w600),
+              style: TextStyle(color: const Color(0xFF171433), fontSize: 24.sp, fontWeight: FontWeight.w600),
             ),
             8.verticalSpace,
             Text(
               'Are You sure want to delete this action?',
-              style: TextStyle(
-                  color: const Color(0xFF808080),
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w500),
+              style: TextStyle(color: const Color(0xFF808080), fontSize: 16.sp, fontWeight: FontWeight.w500),
             ),
             32.verticalSpace,
             LiveWellButton(
@@ -752,13 +563,11 @@ class DeleteFoodWidget extends StatelessWidget {
                 }),
             16.verticalSpace,
             Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: Insets.paddingMedium),
+              padding: const EdgeInsets.symmetric(horizontal: Insets.paddingMedium),
               child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
                       fixedSize: Size(1.sw, 48.w),
-                      side:
-                          const BorderSide(width: 2, color: Color(0xFFDDF235)),
+                      side: const BorderSide(width: 2, color: Color(0xFFDDF235)),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(36.r),
                       ),
@@ -768,10 +577,7 @@ class DeleteFoodWidget extends StatelessWidget {
                   },
                   child: Text(
                     "Not Now",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500),
+                    style: TextStyle(color: Colors.black, fontSize: 16.sp, fontWeight: FontWeight.w500),
                   )),
             ),
           ],
@@ -782,9 +588,7 @@ class DeleteFoodWidget extends StatelessWidget {
 }
 
 List<ActivityHistoryModel> getStepsOnlyDatas(List<ActivityHistoryModel> model) {
-  return model
-      .where((p0) => p0.type?.toUpperCase() == "steps".toUpperCase())
-      .toList();
+  return model.where((p0) => p0.type?.toUpperCase() == "steps".toUpperCase()).toList();
 }
 
 class ExpandableDiaryItem extends StatelessWidget {
@@ -793,14 +597,7 @@ class ExpandableDiaryItem extends StatelessWidget {
   final VoidCallback onTap;
   final void Function(int) onDelete;
   final void Function(int index, double value) onUpdate;
-  const ExpandableDiaryItem(
-      {Key? key,
-      required this.title,
-      required this.data,
-      required this.onTap,
-      required this.onUpdate,
-      required this.onDelete})
-      : super(key: key);
+  const ExpandableDiaryItem({Key? key, required this.title, required this.data, required this.onTap, required this.onUpdate, required this.onDelete}) : super(key: key);
 
   num getTotalCal(List<MealHistoryModel> mealHistory) {
     num totalCal = 0;
@@ -830,12 +627,8 @@ class ExpandableDiaryItem extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(30.r),
                   topRight: Radius.circular(30.r),
-                  bottomLeft: data.isNotEmpty
-                      ? Radius.circular(0.r)
-                      : Radius.circular(30.r),
-                  bottomRight: data.isNotEmpty
-                      ? Radius.circular(0.r)
-                      : Radius.circular(30.r),
+                  bottomLeft: data.isNotEmpty ? Radius.circular(0.r) : Radius.circular(30.r),
+                  bottomRight: data.isNotEmpty ? Radius.circular(0.r) : Radius.circular(30.r),
                 ),
               ),
               child: Row(
@@ -844,25 +637,14 @@ class ExpandableDiaryItem extends StatelessWidget {
                 children: [
                   Text(
                     '$title: ',
-                    style: TextStyle(
-                        color: const Color(0xFF171433).withOpacity(0.8),
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.w600),
+                    style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 24.sp, fontWeight: FontWeight.w600),
                   ),
                   RichText(
                       text: TextSpan(children: [
-                    TextSpan(
-                        text: '${getTotalCal(data)} ',
-                        style: TextStyle(
-                            color: const Color(0xFF8F01DF),
-                            fontSize: 24.sp,
-                            fontWeight: FontWeight.w600)),
+                    TextSpan(text: '${getTotalCal(data)} ', style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 24.sp, fontWeight: FontWeight.w600)),
                     TextSpan(
                       text: 'cal',
-                      style: TextStyle(
-                          color: const Color(0xFF171433).withOpacity(0.7),
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w500),
+                      style: TextStyle(color: const Color(0xFF171433).withOpacity(0.7), fontSize: 15.sp, fontWeight: FontWeight.w500),
                     )
                   ])),
                   const Spacer(),
@@ -949,7 +731,7 @@ class _HistoryContentState extends State<HistoryContent> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(Get.find<HomeController>().localization.done!),
+                  child: Text(Get.find<HomeController>().localization.userDiaryPage?.done ?? "Done"),
                 ),
               );
             }
@@ -995,25 +777,12 @@ class _HistoryContentState extends State<HistoryContent> {
                               child: TextFormField(
                                 focusNode: _focusNode,
                                 textInputAction: TextInputAction.done,
-                                keyboardType:
-                                    const TextInputType.numberWithOptions(
-                                        signed: false, decimal: true),
-                                inputFormatters: Platform.isIOS
-                                    ? []
-                                    : [
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp(r'^\d+\.?\d{0,2}'))
-                                      ],
+                                keyboardType: const TextInputType.numberWithOptions(signed: false, decimal: true),
+                                inputFormatters: Platform.isIOS ? [] : [FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}'))],
                                 controller: _controller,
-                                style: TextStyle(
-                                    color: const Color(0xFF171433)
-                                        .withOpacity(0.7),
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500),
+                                style: TextStyle(color: const Color(0xFF171433).withOpacity(0.7), fontSize: 16.sp, fontWeight: FontWeight.w500),
                                 textAlign: TextAlign.center,
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    contentPadding: EdgeInsets.all(8)),
+                                decoration: const InputDecoration(border: OutlineInputBorder(), contentPadding: EdgeInsets.all(8)),
                               ),
                             )),
                       )
@@ -1028,17 +797,11 @@ class _HistoryContentState extends State<HistoryContent> {
                         widget.data[widget.index].mealName ?? "",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            color: const Color(0xFF171433).withOpacity(0.8),
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w600),
+                        style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 20.sp, fontWeight: FontWeight.w600),
                       ),
                       Text(
                         widget.data[widget.index].mealServings ?? "",
-                        style: TextStyle(
-                            color: const Color(0xFF171433).withOpacity(0.7),
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w500),
+                        style: TextStyle(color: const Color(0xFF171433).withOpacity(0.7), fontSize: 15.sp, fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
@@ -1048,10 +811,7 @@ class _HistoryContentState extends State<HistoryContent> {
                   flex: 2,
                   child: Text(
                     '${(widget.data[widget.index].caloriesInG!).round()} cal',
-                    style: TextStyle(
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xFF8F01DF)),
+                    style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w500, color: const Color(0xFF8F01DF)),
                   ),
                 )
               ],
@@ -1065,11 +825,7 @@ class _HistoryContentState extends State<HistoryContent> {
                             label: "update",
                             color: Colors.green,
                             onPressed: () {
-                              widget.onUpdate(
-                                  widget.index,
-                                  double.parse(_controller.text
-                                      .trim()
-                                      .replaceAll(',', '.')));
+                              widget.onUpdate(widget.index, double.parse(_controller.text.trim().replaceAll(',', '.')));
                             }),
                       ),
                       Expanded(
@@ -1096,13 +852,7 @@ class LiveWellSmallButton extends StatelessWidget {
   final Color color;
   final VoidCallback onPressed;
   final Color? textColor;
-  const LiveWellSmallButton(
-      {required this.label,
-      required this.color,
-      required this.onPressed,
-      this.textColor,
-      Key? key})
-      : super(key: key);
+  const LiveWellSmallButton({required this.label, required this.color, required this.onPressed, this.textColor, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -1114,17 +864,11 @@ class LiveWellSmallButton extends StatelessWidget {
             shadowColor: Colors.transparent,
             backgroundColor: color,
             minimumSize: Size(double.infinity, 22.w),
-            padding: const EdgeInsets.symmetric(
-                    horizontal: Insets.paddingMedium, vertical: 12.0)
-                .r,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(36.0).r)),
+            padding: const EdgeInsets.symmetric(horizontal: Insets.paddingMedium, vertical: 12.0).r,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(36.0).r)),
         child: Text(
           label,
-          style: TextStyle(
-              color: textColor ?? Colors.black,
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w500),
+          style: TextStyle(color: textColor ?? Colors.black, fontSize: 16.sp, fontWeight: FontWeight.w500),
         ),
       ),
     );

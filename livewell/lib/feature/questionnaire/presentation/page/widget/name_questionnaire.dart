@@ -44,7 +44,7 @@ class _NameQuestionnaireState extends State<NameQuestionnaire> {
           AuthTextField(
             controller: controller.firstName,
             hintText: null,
-            labelText: controller.localization.firstName!,
+            labelText: controller.localization.onboardingPage?.firstName ?? "First Name",
             errorText: null,
             obscureText: false,
             borderColor: const Color(0xFFE8E7E7),
@@ -53,7 +53,7 @@ class _NameQuestionnaireState extends State<NameQuestionnaire> {
           AuthTextField(
             controller: controller.lastName,
             hintText: null,
-            labelText: controller.localization.lastName!,
+            labelText: controller.localization.onboardingPage?.lastName ?? "Last Name",
             errorText: null,
             obscureText: false,
             borderColor: const Color(0xFFE8E7E7),

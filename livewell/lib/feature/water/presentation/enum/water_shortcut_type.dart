@@ -12,13 +12,13 @@ extension WaterShortCutTypeX on WaterShortcutType {
   String get title {
     switch (this) {
       case WaterShortcutType.custom:
-        return Get.find<DashboardController>().localization.custom ?? 'Custom';
+        return Get.find<DashboardController>().localization.waterPage?.custom ?? 'Custom';
       case WaterShortcutType.hundredMl:
-        return Get.find<DashboardController>().localization.hydration100Ml ?? '100 ml';
+        return Get.find<DashboardController>().localization.waterPage?.the100Ml ?? '100 ml';
       case WaterShortcutType.twoFiftyMl:
-        return Get.find<DashboardController>().localization.hydration250Ml ?? '250 ml';
+        return Get.find<DashboardController>().localization.waterPage?.the250Ml ?? '250 ml';
       case WaterShortcutType.fiveHundredMl:
-        return Get.find<DashboardController>().localization.hydration500Ml ?? '500 ml';
+        return Get.find<DashboardController>().localization.waterPage?.the500Ml ?? '500 ml';
     }
   }
 

@@ -65,9 +65,9 @@ class _LandingAuthScreenState extends State<LandingAuthScreen> {
                             //   width: 165.w,
                             //   height: 80.h,
                             // ),
-                            Text(controller.localization.welcomeToLivewell ?? "", style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433))),
+                            Text(controller.localization.landingPage?.welcomeToLivewell ?? "", style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433))),
                             8.verticalSpace,
-                            Text(controller.localization.betterHealthThroughBetterLiving ?? "",
+                            Text(controller.localization.landingPage?.betterHealthThroughBetterLiving ?? "",
                                 textAlign: TextAlign.center, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433).withOpacity(0.7))),
                           ],
                         )),
@@ -80,7 +80,7 @@ class _LandingAuthScreenState extends State<LandingAuthScreen> {
               child: Column(
                 children: [
                   LiveWellButton(
-                      label: controller.localization.getStartedExclamation ?? "",
+                      label: controller.localization.landingPage?.getStarted ?? "Get Started",
                       color: const Color(0xFFDDF235),
                       onPressed: () {
                         controller.trackEvent(LivewellAuthEvent.landingPageGetStarted);
@@ -89,14 +89,15 @@ class _LandingAuthScreenState extends State<LandingAuthScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(controller.localization.alreadyHaveAccount ?? "", style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: const Color(0xFF171433))),
+                      Text(controller.localization.landingPage?.alreadyHaveAccount ?? "Already have account?",
+                          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: const Color(0xFF171433))),
                       TextButton(
                           onPressed: () {
                             AppNavigator.push(routeName: AppPages.login);
                             controller.trackEvent(LivewellAuthEvent.landingPageSignIn);
                           },
                           child: Text(
-                            controller.localization.signIn ?? "",
+                            controller.localization.landingPage?.signIn ?? "Sign In",
                             style: TextStyle(
                               color: const Color(0xFF8F01DF),
                               fontSize: 16.sp,

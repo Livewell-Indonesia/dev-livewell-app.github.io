@@ -15,7 +15,6 @@ import 'package:livewell/feature/nutrico/presentation/widget/nutri_score_plus_bo
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
-import 'dart:developer';
 
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
@@ -35,377 +34,108 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
   void initState() {
     type = Get.arguments['type'];
     date = Get.arguments['date'];
-    createTutorial();
     addMealController.trackEvent(LivewellMealLogEvent.mealLogPage);
-    Future.delayed(const Duration(milliseconds: 800), () {
-      addMealController.showTutorial(context);
-    });
     super.initState();
-  }
-
-  createTutorial() {
-    addMealController.tutorialCoachMark = TutorialCoachMark(
-        targets: createTargets(),
-        colorShadow: Colors.black,
-        textSkip: "SKIP",
-        pulseEnable: false,
-        paddingFocus: 0,
-        opacityShadow: 0.7,
-        alignSkip: Alignment.topRight,
-        focusAnimationDuration: const Duration(milliseconds: 300),
-        unFocusAnimationDuration: const Duration(milliseconds: 300),
-        onFinish: () {
-          addMealController.onFinishCoachmark();
-        },
-        onSkip: () {
-          addMealController.onFinishCoachmark();
-          return true;
-        },
-        onClickTarget: (p0) {
-          addMealController.tutorialCoachMark.next();
-        },
-        onClickTargetWithTapPosition: ((p0, p1) {}));
   }
 
   List<TargetFocus> createTargets() {
     List<TargetFocus> targets = [];
-    targets.add(
-      TargetFocus(
-        identify: 'Target 1',
-        keyTarget: addMealController.key1,
-        shape: ShapeLightFocus.RRect,
-        radius: 20,
-        color: Colors.black,
-        contents: [
-          TargetContent(
-              align: ContentAlign.bottom,
-              builder: (context, controller) {
-                return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        addMealController.localization.searchBar ?? "",
-                        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black, fontSize: 16.sp),
-                      ),
-                      4.verticalSpace,
-                      Text(
-                        addMealController.localization.useTheSearchbarTo ?? "",
-                        style: TextStyle(fontWeight: FontWeight.w400, color: const Color(0xFF808080), height: 1.3, fontSize: 14.sp),
-                      ),
-                      20.verticalSpace,
-                      Row(
-                        children: [
-                          const CoachmarkIndicator(position: 0),
-                          const Spacer(),
-                          InkWell(
-                              onTap: () {
-                                addMealController.tutorialCoachMark.next();
-                              },
-                              child: Text(
-                                addMealController.localization.next ?? "",
-                                style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 12.sp, fontWeight: FontWeight.w600),
-                              ))
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              }),
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: 'Target 2',
-        keyTarget: addMealController.key2,
-        shape: ShapeLightFocus.RRect,
-        radius: 24,
-        color: Colors.black,
-        contents: [
-          TargetContent(
-              align: ContentAlign.bottom,
-              builder: (context, controller) {
-                return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        addMealController.localization.foodRecommendation!,
-                        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black, fontSize: 16.sp),
-                      ),
-                      4.verticalSpace,
-                      Text(
-                        addMealController.localization.discoverPersonalizedFood ?? "",
-                        style: TextStyle(fontWeight: FontWeight.w400, color: const Color(0xFF808080), height: 1.3, fontSize: 14.sp),
-                      ),
-                      20.verticalSpace,
-                      Row(
-                        children: [
-                          const CoachmarkIndicator(position: 1),
-                          const Spacer(),
-                          InkWell(
-                              onTap: () {
-                                addMealController.tutorialCoachMark.previous();
-                              },
-                              child: Text(
-                                addMealController.localization.prev ?? "",
-                                style: TextStyle(color: const Color(0xFF808080), fontSize: 12.sp, fontWeight: FontWeight.w600),
-                              )),
-                          24.horizontalSpace,
-                          InkWell(
-                              onTap: () {
-                                addMealController.tutorialCoachMark.next();
-                              },
-                              child: Text(
-                                addMealController.localization.next ?? "",
-                                style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 12.sp, fontWeight: FontWeight.w600),
-                              ))
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              }),
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: 'Target 3',
-        keyTarget: addMealController.key3,
-        shape: ShapeLightFocus.RRect,
-        radius: 10,
-        color: Colors.black,
-        contents: [
-          TargetContent(
-              align: ContentAlign.bottom,
-              builder: (context, controller) {
-                return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        addMealController.localization.requestNewFood ?? "",
-                        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black, fontSize: 16.sp),
-                      ),
-                      4.verticalSpace,
-                      Text(
-                        addMealController.localization.foundAFoodThatIsNot ?? "",
-                        style: TextStyle(fontWeight: FontWeight.w400, color: const Color(0xFF808080), height: 1.3, fontSize: 14.sp),
-                      ),
-                      20.verticalSpace,
-                      Row(
-                        children: [
-                          const CoachmarkIndicator(position: 2),
-                          const Spacer(),
-                          InkWell(
-                              onTap: () {
-                                addMealController.tutorialCoachMark.previous();
-                              },
-                              child: Text(
-                                addMealController.localization.prev ?? "",
-                                style: TextStyle(color: const Color(0xFF808080), fontSize: 12.sp, fontWeight: FontWeight.w600),
-                              )),
-                          24.horizontalSpace,
-                          InkWell(
-                              onTap: () {
-                                addMealController.tutorialCoachMark.next();
-                              },
-                              child: Text(
-                                addMealController.localization.next ?? "",
-                                style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 12.sp, fontWeight: FontWeight.w600),
-                              ))
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              }),
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: 'Target 4',
-        keyTarget: addMealController.key4,
-        shape: ShapeLightFocus.Circle,
-        color: Colors.black,
-        contents: [
-          TargetContent(
-              align: ContentAlign.bottom,
-              builder: (context, controller) {
-                return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        addMealController.localization.foodFilter ?? "",
-                        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black, fontSize: 16.sp),
-                      ),
-                      4.verticalSpace,
-                      Text(
-                        addMealController.localization.filterRestaurantBrandsBy ?? "",
-                        style: TextStyle(fontWeight: FontWeight.w400, color: const Color(0xFF808080), height: 1.3, fontSize: 14.sp),
-                      ),
-                      20.verticalSpace,
-                      Row(
-                        children: [
-                          const CoachmarkIndicator(position: 3),
-                          const Spacer(),
-                          InkWell(
-                              onTap: () {
-                                addMealController.tutorialCoachMark.previous();
-                              },
-                              child: Text(
-                                addMealController.localization.prev ?? "",
-                                style: TextStyle(color: const Color(0xFF808080), fontSize: 12.sp, fontWeight: FontWeight.w600),
-                              )),
-                          24.horizontalSpace,
-                          InkWell(
-                              onTap: () {
-                                addMealController.tutorialCoachMark.finish();
-                              },
-                              child: Text(
-                                addMealController.localization.done!,
-                                style: TextStyle(color: const Color(0xFF8F01DF), fontSize: 12.sp, fontWeight: FontWeight.w600),
-                              ))
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              }),
-        ],
-      ),
-    );
     return targets;
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        if (addMealController.tutorialCoachMark.isShowing) {
-          addMealController.tutorialCoachMark.finish();
-          addMealController.onFinishCoachmark();
-          return Future.value(false);
-        } else {
-          return Future.value(true);
-        }
-      },
-      child: LiveWellScaffold(
-        title: MealTime.values.byName((type ?? MealTime.breakfast.name).toLowerCase()).appBarTitle(),
-        body: Expanded(
-          child: Column(
-            children: [
-              24.verticalSpace,
-              GetBuilder<AddMealController>(builder: (controller) {
-                return SizedBox(
-                  width: 1.sw,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 5,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          child: SearchBar(
-                            key: addMealController.key1,
-                            enabled: !addMealController.tutorialCoachMark.isShowing,
-                            addMealController: addMealController.textEditingController,
-                            focusNode: addMealController.focusNode,
-                            onEditingComplete: () {
-                              // addMealController.doSearchFood();
-                              addMealController.onDoneInput();
-                              addMealController.focusNode.unfocus();
-                              addMealController.state.value = SearchStates.searchingWithResults;
-                            },
-                            onChanged: (val) => controller.hitsSearcher.query(val),
-                          ),
+    return LiveWellScaffold(
+      title: MealTime.values.byName((type ?? MealTime.breakfast.name).toLowerCase()).appBarTitle(),
+      body: Expanded(
+        child: Column(
+          children: [
+            24.verticalSpace,
+            GetBuilder<AddMealController>(builder: (controller) {
+              return SizedBox(
+                width: 1.sw,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: SearchBar(
+                          key: addMealController.key1,
+                          enabled: true,
+                          addMealController: addMealController.textEditingController,
+                          focusNode: addMealController.focusNode,
+                          onEditingComplete: () {
+                            // addMealController.doSearchFood();
+                            addMealController.onDoneInput();
+                            addMealController.focusNode.unfocus();
+                            addMealController.state.value = SearchStates.searchingWithResults;
+                          },
+                          onChanged: (val) => controller.hitsSearcher.query(val),
                         ),
                       ),
-                      controller.state.value == SearchStates.searchingWithResults
-                          ? Expanded(
-                              flex: 1,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  GestureDetector(
-                                    //behavior: HitTestBehavior.translucent,
-                                    onTap: () {
-                                      addMealController.trackEvent(LivewellMealLogEvent.mealLogPageRequestFoodButton);
-                                      AppNavigator.push(routeName: AppPages.requestFood, arguments: controller.textEditingController.text);
-                                    },
-                                    child: Container(
-                                      width: 50.w,
-                                      height: 50.h,
-                                      key: addMealController.key3,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: const SizedBox(
-                                        child: Icon(
-                                          Icons.add,
-                                          size: 24,
-                                        ),
+                    ),
+                    controller.state.value == SearchStates.searchingWithResults
+                        ? Expanded(
+                            flex: 1,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                GestureDetector(
+                                  //behavior: HitTestBehavior.translucent,
+                                  onTap: () {
+                                    addMealController.trackEvent(LivewellMealLogEvent.mealLogPageRequestFoodButton);
+                                    AppNavigator.push(routeName: AppPages.requestFood, arguments: controller.textEditingController.text);
+                                  },
+                                  child: Container(
+                                    width: 50.w,
+                                    height: 50.h,
+                                    key: addMealController.key3,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: const SizedBox(
+                                      child: Icon(
+                                        Icons.add,
+                                        size: 24,
                                       ),
                                     ),
                                   ),
-                                  const Spacer()
-                                ],
-                              ),
-                            )
-                          : Container()
-                    ],
-                  ),
-                );
+                                ),
+                                const Spacer()
+                              ],
+                            ),
+                          )
+                        : Container()
+                  ],
+                ),
+              );
+            }),
+            Expanded(
+              child: Obx(() {
+                return mapState(addMealController.tabController);
               }),
-              Expanded(
-                child: Obx(() {
-                  return mapState(addMealController.tabController);
-                }),
-              ),
-              Obx(() {
-                return addMealController.state.value == SearchStates.searchingWithResults || addMealController.state.value == SearchStates.searchingWithRecommendation
-                    ? Column(
-                        children: [
-                          24.verticalSpace,
-                          LiveWellButton(
-                              label: addMealController.localization.done!,
-                              color: const Color(0xFFDDF235),
-                              onPressed: addMealController.addedFoods.isEmpty
-                                  ? null
-                                  : () {
-                                      AppNavigator.popUntil(routeName: AppPages.home);
-                                    }),
-                          20.verticalSpace,
-                        ],
-                      )
-                    : Container();
-              })
-            ],
-          ),
+            ),
+            Obx(() {
+              return addMealController.state.value == SearchStates.searchingWithResults || addMealController.state.value == SearchStates.searchingWithRecommendation
+                  ? Column(
+                      children: [
+                        24.verticalSpace,
+                        LiveWellButton(
+                            label: addMealController.localization.addMealPage?.done ?? "Done",
+                            color: const Color(0xFFDDF235),
+                            onPressed: addMealController.addedFoods.isEmpty
+                                ? null
+                                : () {
+                                    AppNavigator.popUntil(routeName: AppPages.home);
+                                  }),
+                        20.verticalSpace,
+                      ],
+                    )
+                  : Container();
+            })
+          ],
         ),
       ),
     );
@@ -465,11 +195,11 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                addMealController.localization.foodRecommendation!,
+                                addMealController.localization.addMealPage?.foodRecommendation ?? "Food Recommendation",
                                 style: TextStyle(color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.w600),
                               ),
                               Text(
-                                addMealController.localization.basedOnYourNutritionalNeeds ?? "",
+                                addMealController.localization.addMealPage?.basedOnYourNutritionalNeeds ?? "",
                                 softWrap: false,
                                 style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w300),
                               )
@@ -501,7 +231,7 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
           child: Row(
             children: [
               Text(
-                addMealController.localization.searchResult!,
+                addMealController.localization.addMealPage?.searchResult ?? "Search Result",
                 style: TextStyle(fontSize: 20.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w600),
               ),
               const Spacer(),
@@ -532,20 +262,23 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                                     padding: const EdgeInsets.symmetric(horizontal: 16),
                                     child: Row(
                                       children: [
-                                        Text(addMealController.localization.filter!, style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w700, fontSize: 16.sp)),
+                                        Text(addMealController.localization.addMealPage?.filter ?? "Filter",
+                                            style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w700, fontSize: 16.sp)),
                                         const Spacer(),
                                         TextButton(
                                             onPressed: () {
                                               addMealController.trackEvent(LivewellMealLogEvent.mealLogPageFilterDrawerResetFilterButton);
                                               addMealController.resetFilter();
                                             },
-                                            child: Text(addMealController.localization.resetFilter!, style: TextStyle(color: const Color(0xFF8F01DF), fontWeight: FontWeight.w600, fontSize: 12.sp))),
+                                            child: Text(addMealController.localization.addMealPage?.resetFilter ?? "Reset Filter",
+                                                style: TextStyle(color: const Color(0xFF8F01DF), fontWeight: FontWeight.w600, fontSize: 12.sp))),
                                       ],
                                     ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                                    child: Text(addMealController.localization.amount!, style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w700, fontSize: 16.sp)),
+                                    child: Text(addMealController.localization.addMealPage?.amount ?? "Amount",
+                                        style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w700, fontSize: 16.sp)),
                                   ),
                                   16.verticalSpace,
                                   Obx(() {
@@ -589,7 +322,7 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                                   }),
                                   64.verticalSpace,
                                   LiveWellButton(
-                                      label: addMealController.localization.submit!,
+                                      label: addMealController.localization.addMealPage?.submit ?? "Submit",
                                       color: const Color(0xFFDDF235),
                                       onPressed: () {
                                         addMealController.trackEvent(LivewellMealLogEvent.mealLogPageFilterDrawerSubmitButton);
@@ -640,12 +373,12 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
               Column(
                 children: [
                   Text(
-                    addMealController.localization.yourRecommendedFoods!,
+                    addMealController.localization.addMealPage?.yourRecommendedFoods ?? "Your Recommended Foods",
                     style: TextStyle(fontSize: 20.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w600),
                   ),
                   4.verticalSpace,
                   Text(
-                    addMealController.localization.pickedBasedOnYourNutritionalNeeds!,
+                    addMealController.localization.addMealPage?.pickedBasedOnYourNutritionalNeed ?? "Picked based on your nutritional needs",
                     style: TextStyle(
                       color: const Color(0xFF171433),
                       fontSize: 14.sp,
@@ -680,24 +413,27 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                                     padding: const EdgeInsets.symmetric(horizontal: 16),
                                     child: Row(
                                       children: [
-                                        Text('Filter'.tr, style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w700, fontSize: 16.sp)),
+                                        Text(addMealController.localization.addMealPage?.filter ?? 'Filter',
+                                            style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w700, fontSize: 16.sp)),
                                         const Spacer(),
                                         TextButton(
                                             onPressed: () {
                                               addMealController.resetFilter();
                                             },
-                                            child: Text('Reset filter'.tr, style: TextStyle(color: const Color(0xFF8F01DF), fontWeight: FontWeight.w600, fontSize: 12.sp))),
+                                            child: Text(addMealController.localization.addMealPage?.resetFilter ?? 'Reset filter',
+                                                style: TextStyle(color: const Color(0xFF8F01DF), fontWeight: FontWeight.w600, fontSize: 12.sp))),
                                       ],
                                     ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                                    child: Text('Amount'.tr, style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w700, fontSize: 16.sp)),
+                                    child: Text(addMealController.localization.addMealPage?.amount ?? 'Amount',
+                                        style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w700, fontSize: 16.sp)),
                                   ),
                                   16.verticalSpace,
                                   Obx(() {
                                     return SearchFoodSliders(
-                                        title: 'Calories'.tr,
+                                        title: addMealController.localization.homePage?.calories ?? 'Calories',
                                         value: addMealController.caloriesRange.value,
                                         maxValue: 1500,
                                         onChanged: (value) {
@@ -707,7 +443,7 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                                   24.verticalSpace,
                                   Obx(() {
                                     return SearchFoodSliders(
-                                        title: 'Protein'.tr,
+                                        title: addMealController.localization.nutritionPage?.protein ?? 'Protein',
                                         value: addMealController.proteinRange.value,
                                         maxValue: 300,
                                         onChanged: (value) {
@@ -717,7 +453,7 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                                   24.verticalSpace,
                                   Obx(() {
                                     return SearchFoodSliders(
-                                        title: 'Fat'.tr,
+                                        title: addMealController.localization.nutritionPage?.fat ?? 'Fat',
                                         value: addMealController.fatRange.value,
                                         maxValue: 200,
                                         onChanged: (value) {
@@ -727,7 +463,7 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                                   24.verticalSpace,
                                   Obx(() {
                                     return SearchFoodSliders(
-                                        title: 'Carbs'.tr,
+                                        title: addMealController.localization.nutritionPage?.carbs ?? 'Carbs',
                                         value: addMealController.carbsRange.value,
                                         maxValue: 400,
                                         onChanged: (value) {
@@ -736,7 +472,7 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                                   }),
                                   64.verticalSpace,
                                   LiveWellButton(
-                                      label: 'Submit'.tr,
+                                      label: addMealController.localization.addMealPage?.submit ?? 'Submit',
                                       color: const Color(0xFFDDF235),
                                       onPressed: () {
                                         addMealController.onSubmitFilter();
@@ -835,7 +571,6 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
                         description: "${addMealController.history[index].mealServings}",
                         isAdded: false,
                         callback: () {
-                          inspect(addMealController.history[index]);
                           addMealController.trackEvent(LivewellMealLogEvent.mealLogPageFoodButton);
                           AppNavigator.push(routeName: AppPages.addFood, arguments: {
                             "date": date,
@@ -873,7 +608,7 @@ class _AddMealScreenState extends State<AddMealScreen> with TickerProviderStateM
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
             ),
-            padding: EdgeInsets.only(top: 16.h, left: 14.w, bottom: 16.h, right: 14.w),
+            padding: EdgeInsets.only(top: 16.h, left: 14.w, bottom: 12.h, right: 14.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -1008,7 +743,7 @@ class SearchBar extends StatelessWidget {
         decoration: InputDecoration(
             contentPadding: EdgeInsets.only(top: 20.h, bottom: 16.h),
             border: InputBorder.none,
-            hintText: Get.find<HomeController>().localization.searchHere!,
+            hintText: Get.find<HomeController>().localization.addMealPage?.searchHere ?? "Search here",
             hintStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
             prefixIcon: Image.asset(
               Constant.icSearch,

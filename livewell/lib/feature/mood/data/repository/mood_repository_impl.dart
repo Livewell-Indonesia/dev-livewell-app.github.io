@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
 import 'package:livewell/core/error/failures.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
@@ -39,7 +37,6 @@ class MoodRepositoryImpl with NetworkModule implements MoodRepository {
       final json = responseHandler(response);
       return Right(MoodDetail.fromJson(json));
     } catch (ex) {
-      inspect(ex);
       return Left(ServerFailure(message: ex.toString()));
     }
   }

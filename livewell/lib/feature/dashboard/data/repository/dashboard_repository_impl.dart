@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:intl/intl.dart';
+import 'package:livewell/core/log.dart';
 import 'package:livewell/core/network/api_url.dart';
 import 'package:livewell/core/network/network_module.dart';
 import 'package:livewell/feature/auth/data/model/register_model.dart';
@@ -7,8 +10,10 @@ import 'package:livewell/feature/dashboard/data/model/app_config_model.dart';
 import 'package:livewell/feature/dashboard/data/model/dashboard_model.dart';
 import 'package:livewell/feature/dashboard/data/model/feature_limit_model.dart';
 import 'package:livewell/feature/dashboard/data/model/popup_assets_model.dart';
+import 'package:livewell/feature/dashboard/data/model/task_recommendation_model.dart';
 import 'package:livewell/feature/dashboard/domain/entity/feature_limit_entity.dart';
 import 'package:livewell/feature/dashboard/domain/repository/dashboard_repository.dart';
+import 'package:livewell/feature/dashboard/presentation/widget/task_card/task_card_widget.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/local_storage/shared_pref.dart';
@@ -87,8 +92,7 @@ class DashboardRepostoryImpl with NetworkModule implements DashBoardRepository {
   }
 
   @override
-  Future<Either<Failure, RegisterModel>> postMood(int value,
-      {DateTime? dateTime}) async {
+  Future<Either<Failure, RegisterModel>> postMood(int value, {DateTime? dateTime}) async {
     try {
       final response = await postMethod(Endpoint.postMood, body: {
         "date": DateFormat('yyyy-MM-dd').format(dateTime ?? DateTime.now()),
@@ -112,6 +116,32 @@ class DashboardRepostoryImpl with NetworkModule implements DashBoardRepository {
       final json = responseHandler(response);
       final model = FeatureLimitModel.fromJson(json);
       return Right(FeatureLimitEntity.fromRemote(model));
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, TaskRecommendationModel>> getTaskRecommendation(int wellnessScore) async {
+    try {
+      var currentWellnessScore = wellnessScore;
+      var lastWellnessScore = await SharedPref.getLastWellnessScore();
+      if (currentWellnessScore != lastWellnessScore) {
+        Log.info('getting new task recommendation');
+        final response = await postMethod(Endpoint.taskRecommendation, headers: {
+          authorization: await SharedPref.getToken(),
+        });
+        final json = responseHandler(response);
+        final model = TaskRecommendationModel.fromJson(json);
+        await SharedPref.saveLastRecommendation(jsonEncode(model.toJson()));
+        await SharedPref.saveDoneWithRecommendation(false);
+        return Right(model);
+      } else {
+        Log.info('getting last task recommendation');
+        final result = await SharedPref.getLastRecommendation();
+        final model = TaskRecommendationModel.fromJson(jsonDecode(result ?? "{}"));
+        return Right(model);
+      }
     } catch (ex) {
       return Left(ServerFailure(message: ex.toString()));
     }

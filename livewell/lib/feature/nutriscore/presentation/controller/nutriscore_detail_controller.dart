@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/feature/nutriscore/domain/entity/nutri_score_model.dart';
@@ -35,7 +33,6 @@ class NutriscoreDetailController extends BaseController {
     NutriScoreController nutriScoreController = Get.find();
     var data = nutriScoreController.nutriScoreDetail;
     for (var element in data) {
-      inspect(element.details!.toJson()[currentType.jsonName()]);
       nutrientList.add(NutrientDetailData(
         nutrient: Nutrient.fromJson(element.details!.toJson()[currentType.jsonName()]),
         date: element.date!,

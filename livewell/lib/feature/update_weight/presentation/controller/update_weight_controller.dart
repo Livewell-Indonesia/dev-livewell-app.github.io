@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -50,7 +48,6 @@ class UpdateWeightController extends BaseController {
       )));
       EasyLoading.dismiss();
       result.fold((l) {}, (r) {
-        inspect(r.response);
         mealHistoryList.value = r.response!;
       });
     }
@@ -103,11 +100,9 @@ class UpdateWeightController extends BaseController {
           var initialWeight = weightHistory.last.weight!.toDouble();
           var latestWeight = weightHistory.first.weight!.toDouble();
           title.value = initialWeight >= latestWeight
-              ? '${localization.youHaveLost ?? ""} ${NumberFormat('0.0').format(initialWeight - latestWeight)} kg'
-              : '${localization.youHaveGained ?? ""} ${NumberFormat('0.0').format(latestWeight - initialWeight)} kg';
+              ? '${localization.weightPage?.youHaveLost ?? ""} ${NumberFormat('0.0').format(initialWeight - latestWeight)} kg'
+              : '${localization.weightPage?.youHaveGained ?? ""} ${NumberFormat('0.0').format(latestWeight - initialWeight)} kg';
         }
-        inspect(weightHistory);
-        inspect(minY);
       });
     }
   }
@@ -155,7 +150,6 @@ class UpdateWeightController extends BaseController {
       dashboardController.user.value.onboardingQuestionnaire!.targetImprovement!.first,
       dashboardController.user.value.language,
     );
-    inspect(params);
     final result = await postQuestionnaire.call(params);
     EasyLoading.dismiss();
     result.fold((l) {}, (r) {

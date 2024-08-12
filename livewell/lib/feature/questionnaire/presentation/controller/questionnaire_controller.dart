@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -33,8 +31,6 @@ class QuestionnaireController extends BaseController {
   Rx<Gender> selectedGender = Gender.male.obs;
   Rx<GoalSelection> selectedGoals = GoalSelection.none.obs;
   Rx<DietrarySelection> selectedDietrary = DietrarySelection.no.obs;
-  Rx<TargetExerciseSelection> selectedExerciseTarget =
-      TargetExerciseSelection.light.obs;
   Rx<CaloriesNeedType> selectedCaloriesNeed = CaloriesNeedType.none.obs;
   Rx<AvailableLanguage> selectedLanguage = AvailableLanguage.en.obs;
   TextEditingController selectedDietraryText = TextEditingController();
@@ -48,8 +44,7 @@ class QuestionnaireController extends BaseController {
 
   QuestionnairePage findNextPage() {
     // if current page is questionnairepage.goal and selected goal is not better sleeping, return questionnairepage.targetweight
-    final nextIndex =
-        (currentPage.value.index + 1) % QuestionnairePage.values.length;
+    final nextIndex = (currentPage.value.index + 1) % QuestionnairePage.values.length;
     final nextPage = QuestionnairePage.values[nextIndex];
     // if (currentPage.value == QuestionnairePage.goal && selectedGoals.value != GoalSelection.betterSleeping) {
     //   return QuestionnairePage.targetWeight;
@@ -88,8 +83,7 @@ class QuestionnaireController extends BaseController {
         case QuestionnairePage.finish:
           break;
       }
-      final previousIndex =
-          (currentPage.value.index - 1) % QuestionnairePage.values.length;
+      final previousIndex = (currentPage.value.index - 1) % QuestionnairePage.values.length;
       currentPage.value = QuestionnairePage.values[previousIndex];
     }
   }
@@ -140,8 +134,7 @@ class QuestionnaireController extends BaseController {
   }
 
   QuestionnairePage findPreviousPage() {
-    final prefIndex =
-        (currentPage.value.index - 1) % QuestionnairePage.values.length;
+    final prefIndex = (currentPage.value.index - 1) % QuestionnairePage.values.length;
     return QuestionnairePage.values[prefIndex];
   }
 
@@ -179,14 +172,10 @@ class QuestionnaireController extends BaseController {
       selectedGoals.value.value(),
       selectedLanguage.value.code(),
     );
-    inspect(params);
-    Log.info(params.toJson());
-    inspect(params.toJson());
     await EasyLoading.show(maskType: EasyLoadingMaskType.black);
     final result = await postQuestionnaire(params);
     result.fold((l) {}, (r) async {
-      final result = await postDailyJournal(
-          DailyJournalParams.asParams('07:00', '12:00', '15:00', '18:00'));
+      final result = await postDailyJournal(DailyJournalParams.asParams('07:00', '12:00', '15:00', '18:00'));
       await EasyLoading.dismiss();
       result.fold((l) {}, (r) {
         trackEvent(LivewellAuthEvent.onboardingThankYouPage);
@@ -210,16 +199,7 @@ class QuestionnaireController extends BaseController {
   }
 }
 
-enum QuestionnairePage {
-  landing,
-  name,
-  gender,
-  birthDate,
-  heightWeight,
-  caloriesNeed,
-  healthCondition,
-  finish
-}
+enum QuestionnairePage { landing, name, gender, birthDate, heightWeight, caloriesNeed, healthCondition, finish }
 
 extension QuestionnairePageData on QuestionnairePage {
   String title() {
@@ -318,11 +298,11 @@ extension DietrarySelectionContent on DietrarySelection {
   String title() {
     switch (this) {
       case DietrarySelection.yes:
-        return Get.find<HomeController>().localization.yes!;
+        return "";
       case DietrarySelection.no:
-        return Get.find<HomeController>().localization.no!;
+        return "";
       case DietrarySelection.none:
-        return Get.find<HomeController>().localization.none!;
+        return "";
     }
   }
 }
@@ -349,27 +329,21 @@ extension LangaugeSelectionContent on LanguageSelection {
   }
 }
 
-enum GoalSelection {
-  getFitter,
-  betterSleeping,
-  weightLoss,
-  trackNutrition,
-  none
-}
+enum GoalSelection { getFitter, betterSleeping, weightLoss, trackNutrition, none }
 
 extension GoalSelectionContent on GoalSelection {
   String title() {
     switch (this) {
       case GoalSelection.getFitter:
-        return Get.find<HomeController>().localization.getFitter!;
+        return "";
       case GoalSelection.betterSleeping:
-        return Get.find<HomeController>().localization.betterSleeping!;
+        return "";
       case GoalSelection.weightLoss:
-        return Get.find<HomeController>().localization.weightLoss!;
+        return "";
       case GoalSelection.trackNutrition:
-        return Get.find<HomeController>().localization.trackNutrition!;
+        return "";
       case GoalSelection.none:
-        return Get.find<HomeController>().localization.none!;
+        return "";
     }
   }
 
@@ -395,11 +369,11 @@ extension TargetExerciseContent on TargetExerciseSelection {
   String title() {
     switch (this) {
       case TargetExerciseSelection.light:
-        return Get.find<HomeController>().localization.s200kcal!;
+        return Get.find<HomeController>().localization.onboardingPage?.light100Kcal ?? "(100kcal)";
       case TargetExerciseSelection.moderate:
-        return Get.find<HomeController>().localization.s300kcal!;
+        return Get.find<HomeController>().localization.onboardingPage?.moderate250Kcal ?? "(250kcal)";
       case TargetExerciseSelection.active:
-        return Get.find<HomeController>().localization.s400kcal!;
+        return Get.find<HomeController>().localization.onboardingPage?.active400Kcal ?? "(400kcal)";
     }
   }
 

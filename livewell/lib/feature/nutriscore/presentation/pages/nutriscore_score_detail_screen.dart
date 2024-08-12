@@ -28,7 +28,7 @@ class _NutriscoreScoreDetailScreenState extends State<NutriscoreScoreDetailScree
   Widget build(BuildContext context) {
     return LiveWellScaffold(
       backgroundColor: Colors.white,
-      title: controller.localization.nutriscoreDetails!,
+      title: controller.localization.nutriscoreDetailPage?.nutriscoreDetail ?? "NutriScore Details",
       body: Expanded(
         child: content(),
       ),
@@ -92,7 +92,7 @@ class _NutriscoreScoreDetailScreenState extends State<NutriscoreScoreDetailScree
                   return Column(
                     children: [
                       Text(
-                        controller.localization.todaysAmount!,
+                        controller.localization.nutriscoreDetailPage?.todaysAmount ?? "Today's Amount",
                         style: TextStyle(color: const Color(0xFF808080), fontSize: 10.sp, fontWeight: FontWeight.w600),
                       ),
                       4.verticalSpace,
@@ -107,7 +107,7 @@ class _NutriscoreScoreDetailScreenState extends State<NutriscoreScoreDetailScree
                   return Column(
                     children: [
                       Text(
-                        controller.localization.weeklyAverage!,
+                        controller.localization.nutriscoreDetailPage?.weeklyAverage ?? "Weekly Average",
                         style: TextStyle(color: const Color(0xFF808080), fontSize: 10.sp, fontWeight: FontWeight.w600),
                       ),
                       4.verticalSpace,
@@ -128,7 +128,8 @@ class _NutriscoreScoreDetailScreenState extends State<NutriscoreScoreDetailScree
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), border: Border.all(color: const Color(0xFFEBEBEB))),
             child: Column(
               children: [
-                Text(controller.localization.last7Days!, style: TextStyle(color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w700, height: 20.sp / 14.sp)),
+                Text(controller.localization.nutriscoreDetailPage?.last7Days ?? "Last 7 Days",
+                    style: TextStyle(color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w700, height: 20.sp / 14.sp)),
                 16.verticalSpace,
                 const Divider(),
                 16.verticalSpace,
@@ -227,12 +228,13 @@ class _NutriscoreScoreDetailScreenState extends State<NutriscoreScoreDetailScree
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  controller.localization.disclaimer!,
+                  controller.localization.nutriscoreDetailPage?.disclaimer ?? "Disclaimer",
                   style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp, fontWeight: FontWeight.w600),
                 ),
                 8.verticalSpace,
                 Text(
-                  'Livewell nutritional data is for general fitness and wellness use. May contain inaccuracies. Consult a professional for personalized advice.',
+                  controller.localization.nutriscoreDetailPage?.disclaimerDescription ??
+                      'Livewell nutritional data is for general fitness and wellness use. May contain inaccuracies. Consult a professional for personalized advice.',
                   style: TextStyle(color: const Color(0xFF808080), fontSize: 14.sp, fontWeight: FontWeight.w400),
                 ),
               ],
@@ -376,7 +378,7 @@ class BuildDetailIndicator extends StatelessWidget {
               ? CrossAxisAlignment.end
               : CrossAxisAlignment.center,
       children: [
-        Text(Get.find<HomeController>().localization.yourValue!, style: TextStyle(color: const Color(0xFF808080), fontSize: 10.sp)),
+        Text(Get.find<HomeController>().localization.nutriscoreDetailPage?.yourValue ?? "Your Value", style: TextStyle(color: const Color(0xFF808080), fontSize: 10.sp)),
         2.verticalSpace,
         Text(banner, style: TextStyle(color: Colors.black, fontSize: 16.sp, fontWeight: FontWeight.w700)),
         Column(
@@ -444,7 +446,7 @@ class NutriscoreOptimalIndicator extends StatelessWidget {
               ),
               8.verticalSpace,
               Text(
-                Get.find<HomeController>().localization.optimal!,
+                Get.find<HomeController>().localization.nutriscoreDetailPage?.optimal ?? "Optimal",
                 style: TextStyle(color: const Color(0xFF808080), fontSize: 12.sp, fontWeight: FontWeight.w500),
               ),
             ],
@@ -482,7 +484,7 @@ class NutriscoreMidIndicator extends StatelessWidget {
               ),
               8.verticalSpace,
               Text(
-                Get.find<HomeController>().localization.mid!,
+                Get.find<HomeController>().localization.nutriscoreDetailPage?.mid ?? "Mid",
                 style: TextStyle(color: const Color(0xFF808080), fontSize: 12.sp, fontWeight: FontWeight.w500),
               ),
             ],
@@ -525,7 +527,7 @@ class NutriscoreLowIndicator extends StatelessWidget {
               ),
               8.verticalSpace,
               Text(
-                Get.find<HomeController>().localization.low!,
+                Get.find<HomeController>().localization.nutriscoreDetailPage?.low ?? "Low",
                 style: TextStyle(color: const Color(0xFF808080), fontSize: 12.sp, fontWeight: FontWeight.w500),
               ),
             ],

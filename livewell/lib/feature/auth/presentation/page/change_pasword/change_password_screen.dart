@@ -37,14 +37,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: controller.localization.changePassword!,
+        title: controller.localization.changePasswordPage?.changePassword ?? "Change Password",
         backgroundColor: const Color(0xFFFFFFFF),
         body: SingleChildScrollView(
           child: Column(
             children: [
               50.verticalSpace,
               Text(
-                controller.localization.enterYourOtp!,
+                controller.localization.changePasswordPage?.enterYourOtp ?? "Enter your OTP",
                 style: TextStyle(fontSize: 16.sp, color: const Color(0xFF171433).withOpacity(0.7), fontWeight: FontWeight.w500),
               ),
               20.verticalSpace,
@@ -60,16 +60,28 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               ),
               20.verticalSpace,
               Text(
-                controller.localization.enterNewPassword!,
+                controller.localization.changePasswordPage?.enterNewPassword ?? "Enter new password",
                 style: TextStyle(fontSize: 16.sp, color: const Color(0xFF171433).withOpacity(0.7), fontWeight: FontWeight.w500),
               ),
               20.verticalSpace,
-              LiveWellTextField(controller: controller.newPassword, hintText: null, labelText: controller.localization.newPassword!, errorText: null, obscureText: true, isEmail: false),
+              LiveWellTextField(
+                  controller: controller.newPassword,
+                  hintText: null,
+                  labelText: controller.localization.changePasswordPage?.enterNewPassword ?? "New Password",
+                  errorText: null,
+                  obscureText: true,
+                  isEmail: false),
               20.verticalSpace,
-              LiveWellTextField(controller: controller.confirmPassword, hintText: null, labelText: controller.localization.confirmPassword!, errorText: null, obscureText: true, isEmail: false),
+              LiveWellTextField(
+                  controller: controller.confirmPassword,
+                  hintText: null,
+                  labelText: controller.localization.changePasswordPage?.confirmPassword ?? "Confirm Password",
+                  errorText: null,
+                  obscureText: true,
+                  isEmail: false),
               36.verticalSpace,
               LiveWellButton(
-                  label: controller.localization.change!,
+                  label: controller.localization.changePasswordPage?.change ?? "Change",
                   color: const Color(0xFFDDF235),
                   onPressed: () {
                     controller.trackEvent(LivewellAuthEvent.forgotPasswordChangePasswordChange);

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
-import 'package:livewell/feature/dashboard/presentation/pages/dashboard_screen.dart';
 import 'package:livewell/feature/diary/presentation/controller/user_diary_controller.dart';
 import 'package:livewell/feature/exercise/data/model/activity_history_model.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
@@ -32,9 +30,9 @@ class ExerciseController extends BaseController with GetSingleTickerProviderStat
   ValueNotifier<double> caloriesValueNotifier = ValueNotifier(0);
   ValueNotifier<double> stepsValueNotifier = ValueNotifier(0);
   Rx<num> steps = 0.obs;
-  Rx<num> burntCalories = 0.0.obs;
-  Rx<num> totalSteps = 0.0.obs;
-  Rx<num> totalCalories = 0.0.obs;
+  Rx<num> burntCalories = 0.obs;
+  Rx<num> totalSteps = 0.obs;
+  Rx<num> totalCalories = 0.obs;
   RxList<ActivityHistoryModel> exerciseHistoryList = <ActivityHistoryModel>[].obs;
   TextEditingController dataController = TextEditingController();
   Rx<TargetExerciseSelection> selectedExerciseTarget = TargetExerciseSelection.light.obs;
@@ -124,7 +122,7 @@ class ExerciseController extends BaseController with GetSingleTickerProviderStat
     }
   }
 
-  void refreshWellness() async {
+  Future<void> refreshWellness() async {
     RefreshWellnessData refreshWellnessData = RefreshWellnessData.instance();
     await refreshWellnessData.call('ACTIVITY');
   }
@@ -156,7 +154,7 @@ class ExerciseController extends BaseController with GetSingleTickerProviderStat
     await getStepsData();
     await getBurntCaloriesData();
     await getExerciseHistorydata();
-    refreshWellness();
+    await refreshWellness();
     return true;
   }
 
@@ -170,8 +168,6 @@ class ExerciseController extends BaseController with GetSingleTickerProviderStat
     GetActivityHistory getExerciseList = GetActivityHistory.instance();
     final result = await getExerciseList.call(GetActivityHistoryParam(type: ['ACTIVE_ENERGY_BURNED'], dateFrom: currentDate, dateTo: dateTill));
     result.fold((l) => Log.error(l), (r) {
-      Log.info(r);
-      inspect(r);
       exerciseHistoryList.assignAll(r);
     });
   }
@@ -214,13 +210,18 @@ class ExerciseController extends BaseController with GetSingleTickerProviderStat
   }
 
   Future<void> getStepsData() async {
-    GetExerciseData getExerciseData = GetExerciseData.instance();
+    GetActivityHistory getSteps = GetActivityHistory.instance();
     var currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0, 0, 0);
     var dateTill = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59, 0, 0);
-    var result = await getExerciseData(GetExerciseParams(type: HealthDataType.STEPS.name, dateFrom: currentDate, dateTo: dateTill));
+    var result = await getSteps(GetActivityHistoryParam(type: ['STEPS'], dateFrom: currentDate, dateTo: dateTill));
     result.fold((l) => Log.error(l), (r) {
       // sum all value from object r and assign it to steps
-      steps.value = r.totalValue ?? 0;
+      if (r.isEmpty) {
+        steps.value = 0;
+        stepsValueNotifier.value = 0;
+        return;
+      }
+      steps.value = r.first.totalValue ?? 0;
       stepsValueNotifier.value = steps.value.toDouble() / (Get.find<DashboardController>().user.value.stepsGoalCount ?? 0);
     });
   }
@@ -237,17 +238,19 @@ class ExerciseController extends BaseController with GetSingleTickerProviderStat
   }
 
   Future<void> getBurntCaloriesData() async {
-    GetExerciseData getExerciseData = GetExerciseData.instance();
+    GetActivityHistory getBurntCalories = GetActivityHistory.instance();
     var currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0, 0, 0);
     var dateTill = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59, 0, 0);
-    var result = await getExerciseData(GetExerciseParams(type: HealthDataType.ACTIVE_ENERGY_BURNED.name, dateFrom: currentDate, dateTo: dateTill));
+    var result = await getBurntCalories(GetActivityHistoryParam(type: ['ACTIVE_ENERGY_BURNED'], dateFrom: currentDate, dateTo: dateTill));
     result.fold((l) => Log.error(l), (r) {
       // sum all value from object r and assign it to burntCalories
-      if (r.details != null) {
-        for (var element in r.details!) {
-          burntCalories.value += element.value!;
-        }
+      if (r.isEmpty) {
+        burntCalories.value = 0;
+        caloriesValueNotifier.value = 0;
+        totalCalories.value = 0;
+        return;
       }
+      burntCalories.value = r.first.totalValue ?? 0.0;
       totalCalories.value = burntCalories.value;
       caloriesValueNotifier.value = burntCalories.value.toDouble();
       goalValueNotifier.value = burntCalories.value.toDouble() / (Get.find<DashboardController>().user.value.exerciseGoalKcal ?? 0);

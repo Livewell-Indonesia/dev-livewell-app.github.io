@@ -25,8 +25,7 @@ class AccountSettingsScreen extends StatefulWidget {
 }
 
 class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
-  final AccountSettingsController controller =
-      Get.put(AccountSettingsController());
+  final AccountSettingsController controller = Get.put(AccountSettingsController());
 
   final UserSettingsController userController = Get.find();
 
@@ -71,8 +70,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          controller.localization.accountSettings ??
-                              "Account Setting",
+                          controller.localization.accountSettingsPage?.accountSettings ?? "Account Setting",
                           style: TextStyles.navbarTitle(context),
                         ),
                       ),
@@ -101,9 +99,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         child: Container(
                           width: 150.w,
                           height: 150.h,
-                          decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.3),
-                              shape: BoxShape.circle),
+                          decoration: BoxDecoration(color: Colors.white.withOpacity(0.3), shape: BoxShape.circle),
                           alignment: Alignment.center,
                           child: Stack(
                             alignment: Alignment.bottomRight,
@@ -114,8 +110,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                                   showModalBottomSheet(
                                       context: context,
                                       builder: (context) {
-                                        return ImagePickerBottomSheet(
-                                            onImageSelected: (img, source) {
+                                        return ImagePickerBottomSheet(onImageSelected: (img, source) {
                                           physicalController.pickImages(img);
                                         });
                                       });
@@ -128,34 +123,19 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                                     color: Colors.white,
                                   ),
                                   child: Obx(() {
-                                    if (userController.user.value.avatarUrl !=
-                                            null &&
-                                        userController
-                                            .user.value.avatarUrl!.isNotEmpty) {
+                                    if (userController.user.value.avatarUrl != null && userController.user.value.avatarUrl!.isNotEmpty) {
                                       return CachedNetworkImage(
-                                        imageUrl: userController
-                                            .user.value.avatarUrl!,
+                                        imageUrl: userController.user.value.avatarUrl!,
                                         fit: BoxFit.cover,
-                                        errorWidget:
-                                            (context, error, stackTrace) {
+                                        errorWidget: (context, error, stackTrace) {
                                           return SvgPicture.asset(
-                                            (userController.user.value.gender ??
-                                                            Gender.male.name)
-                                                        .toLowerCase() ==
-                                                    "male"
-                                                ? Constant.imgMaleSVG
-                                                : Constant.imgFemaleSVG,
+                                            (userController.user.value.gender ?? Gender.male.name).toLowerCase() == "male" ? Constant.imgMaleSVG : Constant.imgFemaleSVG,
                                           );
                                         },
                                       );
                                     } else {
                                       return SvgPicture.asset(
-                                        (userController.user.value.gender ??
-                                                        Gender.male.name)
-                                                    .toLowerCase() ==
-                                                "male"
-                                            ? Constant.imgMaleSVG
-                                            : Constant.imgFemaleSVG,
+                                        (userController.user.value.gender ?? Gender.male.name).toLowerCase() == "male" ? Constant.imgMaleSVG : Constant.imgFemaleSVG,
                                       );
                                     }
                                   }),
@@ -181,37 +161,30 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
                         child: Text(
-                          controller.localization.personalInformation ??
-                              "Personal Information",
-                          style: TextStyle(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .secondaryDarkBlue,
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.w600),
+                          controller.localization.accountSettingsPage?.personalInformation ?? "Personal Information",
+                          style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue, fontSize: 20.sp, fontWeight: FontWeight.w600),
                         ),
                       ),
                       24.verticalSpace,
                       AccountSettingsTextField(
                         textEditingController: controller.firstName,
-                        hintText: controller.localization.firstName!,
+                        hintText: controller.localization.accountSettingsPage?.firstName ?? "First Name",
                       ),
                       20.verticalSpace,
                       AccountSettingsTextField(
                         textEditingController: controller.lastName,
-                        hintText: controller.localization.lastName!,
+                        hintText: controller.localization.accountSettingsPage?.lastName ?? "Last Name",
                       ),
                       20.verticalSpace,
                       AccountSettingsTextField(
                         textEditingController: controller.email,
-                        hintText: controller.localization.emailAddress!,
+                        hintText: controller.localization.accountSettingsPage?.emailAddress ?? "Email Address",
                         enabled: false,
                       ),
                       24.verticalSpace,
                       ListTile(
                         onTap: () {
-                          controller.trackEvent(LivewellProfileEvent
-                              .accountSettingsPageChangePasswordButton);
+                          controller.trackEvent(LivewellProfileEvent.accountSettingsPageChangePasswordButton);
                           AppNavigator.push(routeName: AppPages.updatePassword);
                         },
                         leading: const Icon(Icons.vpn_key_outlined),
@@ -219,18 +192,11 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Change your password",
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.textLoEm,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w500),
+                              controller.localization.accountSettingsPage?.changeYourPassword ?? "Change your password",
+                              style: TextStyle(color: Theme.of(context).colorScheme.textLoEm, fontSize: 16.sp, fontWeight: FontWeight.w500),
                             ),
-                            Text('Change your password anytime',
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.textLoEm,
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w500)),
+                            Text(controller.localization.accountSettingsPage?.changeYourPasswordAnytime ?? "Change Your Password Anytime",
+                                style: TextStyle(color: Theme.of(context).colorScheme.textLoEm, fontSize: 10.sp, fontWeight: FontWeight.w500)),
                           ],
                         ),
                         trailing: const Icon(Icons.arrow_forward_ios_rounded),
@@ -238,45 +204,37 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                       64.verticalSpace,
                       TextButton(
                           onPressed: () {
-                            controller.trackEvent(LivewellProfileEvent
-                                .accountSettingsPageDeleteAccountButton);
+                            controller.trackEvent(LivewellProfileEvent.accountSettingsPageDeleteAccountButton);
                             showCupertinoModalPopup(
                                 context: context,
                                 builder: (context) {
                                   return CupertinoAlertDialog(
-                                    title: const Text(
-                                      'Delete Account Permanently',
-                                      style: TextStyle(color: Colors.black),
+                                    title: Text(
+                                      controller.localization.deleteAccountDialog?.dialogTitle ?? "Delete Account Permanently",
+                                      style: const TextStyle(color: Colors.black),
                                     ),
                                     content: Text(
-                                        controller.localization
-                                            .yourAccountAndContentDeletedPermanently!,
-                                        style: const TextStyle(
-                                            color: Colors.black)),
+                                        controller.localization.deleteAccountDialog?.dialogSubtitle ??
+                                            "Your account and content will be deleted permanently. You may cancel the deletion request by logging in your account within 30 days.",
+                                        style: const TextStyle(color: Colors.black)),
                                     actions: [
                                       CupertinoDialogAction(
                                         child: Text(
-                                          controller.localization.cancel!,
-                                          style: const TextStyle(
-                                              color: Colors.black),
+                                          controller.localization.deleteAccountDialog?.cancel ?? "Cancel",
+                                          style: const TextStyle(color: Colors.black),
                                         ),
                                         onPressed: () {
-                                          controller.trackEvent(
-                                              LivewellProfileEvent
-                                                  .deleteAccountCancelButton);
+                                          controller.trackEvent(LivewellProfileEvent.deleteAccountCancelButton);
                                           Get.back();
                                         },
                                       ),
                                       CupertinoDialogAction(
                                         child: Text(
-                                          'Confirm'.tr,
-                                          style: const TextStyle(
-                                              color: Colors.red),
+                                          controller.localization.deleteAccountDialog?.confirm ?? "Confirm",
+                                          style: const TextStyle(color: Colors.red),
                                         ),
                                         onPressed: () {
-                                          controller.trackEvent(
-                                              LivewellProfileEvent
-                                                  .deleteAccountConfirmButton);
+                                          controller.trackEvent(LivewellProfileEvent.deleteAccountConfirmButton);
                                           controller.requestAccountDeletion();
                                         },
                                       ),
@@ -300,7 +258,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                           )),
                       16.verticalSpace,
                       LiveWellButton(
-                          label: controller.localization.update!,
+                          label: controller.localization.accountSettingsPage?.update ?? "Update",
                           color: const Color(0xFF8F01DF),
                           textColor: Colors.white,
                           onPressed: () {
@@ -341,8 +299,7 @@ class AccountSettingsTextField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<AccountSettingsTextField> createState() =>
-      _AccountSettingsTextFieldState();
+  State<AccountSettingsTextField> createState() => _AccountSettingsTextFieldState();
 }
 
 class _AccountSettingsTextFieldState extends State<AccountSettingsTextField> {
@@ -353,9 +310,7 @@ class _AccountSettingsTextFieldState extends State<AccountSettingsTextField> {
       keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
       keyboardBarColor: Colors.grey[200],
       nextFocus: false,
-      actions: widget.inputType == TextInputType.number ||
-              widget.inputType ==
-                  const TextInputType.numberWithOptions(decimal: true)
+      actions: widget.inputType == TextInputType.number || widget.inputType == const TextInputType.numberWithOptions(decimal: true)
           ? [
               KeyboardActionsItem(
                 focusNode: _focusNode,
@@ -405,16 +360,10 @@ class _AccountSettingsTextFieldState extends State<AccountSettingsTextField> {
           focusNode: _focusNode,
           controller: widget.textEditingController,
           inputFormatters: widget.inputFormatter,
-          style: TextStyle(
-              color: widget.textColor,
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w400),
+          style: TextStyle(color: widget.textColor, fontSize: 16.sp, fontWeight: FontWeight.w400),
           decoration: InputDecoration(
             suffixText: widget.suffixText,
-            suffixStyle: TextStyle(
-                color: widget.textColor,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w400),
+            suffixStyle: TextStyle(color: widget.textColor, fontSize: 16.sp, fontWeight: FontWeight.w400),
             contentPadding: EdgeInsets.only(top: 16.h),
             prefixIcon: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -423,18 +372,12 @@ class _AccountSettingsTextFieldState extends State<AccountSettingsTextField> {
                 Text(
                   widget.hintText,
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                      color: widget.labelColor,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500),
+                  style: TextStyle(color: widget.labelColor, fontSize: 16.sp, fontWeight: FontWeight.w500),
                 ),
               ],
             ),
             border: InputBorder.none,
-            labelStyle: TextStyle(
-                color: const Color(0xFF8F01DF),
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600),
+            labelStyle: TextStyle(color: const Color(0xFF8F01DF), fontSize: 16.sp, fontWeight: FontWeight.w600),
           ),
         ),
       ),

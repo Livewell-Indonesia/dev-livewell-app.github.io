@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -26,6 +27,17 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
   void initState() {
     Get.find<DashboardController>().trackEvent(LivewellWellnessScoreEvent.wellnessScorePage);
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (Get.find<DashboardController>().wellnessScore.value != 0) {
+        showModalBottomSheet(
+            isScrollControlled: true,
+            context: Get.context!,
+            shape: shapeBorder(),
+            builder: (context) {
+              return WellnessScoreRecommendationBottomSheet(controller: controller);
+            });
+      }
+    });
   }
 
   WellnessController controller = Get.put(WellnessController());
@@ -62,7 +74,7 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        'Wellness Score',
+                        controller.localization.wellnessScorePage?.wellnessScore ?? "Wellness Score",
                         style: TextStyles.navbarTitle(context),
                       ),
                     ),
@@ -111,10 +123,11 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                                   height: 120.h,
                                 ),
                                 24.verticalSpace,
-                                Text('Unlock your wellness score today!', style: TextStyle(color: Theme.of(context).colorScheme.neutral100, fontSize: 16.sp, fontWeight: FontWeight.w700)),
+                                Text(controller.localization.wellnessScorePage?.unlockYourWellnessScoreToday ?? "Unlock your wellness score today!",
+                                    style: TextStyle(color: Theme.of(context).colorScheme.neutral100, fontSize: 16.sp, fontWeight: FontWeight.w700)),
                                 8.verticalSpace,
                                 Text(
-                                  'Track your daily task to see your wellness score and insights for today!',
+                                  controller.localization.wellnessScorePage?.trackYourDailyTaskToSeeYourWellness ?? "Track your daily task to see your wellness score and insights for today!",
                                   style: TextStyle(color: Theme.of(context).colorScheme.neutral80, fontSize: 14.sp, fontWeight: FontWeight.w400),
                                   textAlign: TextAlign.center,
                                 ),
@@ -141,17 +154,17 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                                       child: Row(
                                         children: [
                                           Text(
-                                            'Low',
+                                            controller.localization.wellnessScorePage?.low ?? "Low",
                                             style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue, fontSize: 12.sp, fontWeight: FontWeight.w600),
                                           ),
                                           const Spacer(),
                                           Text(
-                                            'Optimal',
+                                            controller.localization.wellnessScorePage?.optimal ?? "Optimal",
                                             style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue, fontSize: 12.sp, fontWeight: FontWeight.w600),
                                           ),
                                           const Spacer(),
                                           Text(
-                                            'High',
+                                            controller.localization.wellnessScorePage?.high ?? "High",
                                             style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue, fontSize: 12.sp, fontWeight: FontWeight.w600),
                                           ),
                                         ],
@@ -212,8 +225,9 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                                               Container(
                                                 alignment: Alignment.centerLeft,
                                                 width: 50.w,
-                                                child: Text(
+                                                child: AutoSizeText(
                                                   StreakItemType.values[index].wellnessTitle,
+                                                  maxLines: 1,
                                                   style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue, fontSize: 12.sp, fontWeight: FontWeight.w600),
                                                 ),
                                               ),
@@ -243,7 +257,7 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                                       text: TextSpan(
                                         children: [
                                           TextSpan(
-                                            text: 'See how do Wellness Score calculated. ',
+                                            text: controller.localization.wellnessScorePage?.seeHowDoWellnessScoreCalculated ?? 'See how do Wellness Score calculated. ',
                                             style: TextStyle(color: Theme.of(context).colorScheme.disabled, fontSize: 12.sp, fontWeight: FontWeight.w400),
                                           ),
                                           TextSpan(
@@ -257,7 +271,7 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                                                       return WellnessScoreBottomSheet(controller: controller);
                                                     });
                                               },
-                                            text: 'Learn more',
+                                            text: " ${controller.localization.wellnessScorePage?.learnMore ?? 'Learn more'}",
                                             style: TextStyle(color: Theme.of(context).colorScheme.primaryPurple, fontSize: 12.sp, fontWeight: FontWeight.w600),
                                           ),
                                         ],
@@ -292,7 +306,7 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'Your Wellness Profile Today',
+                                          controller.localization.wellnessScorePage?.yourWellnessProfileToday ?? "Your Wellness Profile Today",
                                           style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutral70),
                                         ),
                                         4.verticalSpace,
@@ -360,7 +374,8 @@ class _WellnessScoreScreenState extends State<WellnessScoreScreen> {
                                               //   overflow: TextOverflow.ellipsis,
                                               // ),
                                               2.verticalSpace,
-                                              Text('Show more', style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.primaryPurple)),
+                                              Text(controller.localization.wellnessScorePage?.showMore ?? "Show more",
+                                                  style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.primaryPurple)),
                                             ],
                                           ),
                                         ),
@@ -549,21 +564,21 @@ class WellnessScoreBottomSheet extends StatelessWidget {
                                     Expanded(
                                       flex: 5,
                                       child: Text(
-                                        'Ranges',
+                                        controller.localization.wellnessCalculation?['ranges'] ?? "Ranges",
                                         style: TextStyle(color: Theme.of(context).colorScheme.black600, fontWeight: FontWeight.w600, fontSize: 14.sp),
                                       ),
                                     ),
                                     Expanded(
                                       flex: 2,
                                       child: Text(
-                                        'Score',
+                                        controller.localization.wellnessCalculation?['scores'] ?? "Ranges",
                                         style: TextStyle(color: Theme.of(context).colorScheme.black600, fontWeight: FontWeight.w600, fontSize: 14.sp),
                                       ),
                                     ),
                                     Expanded(
                                       flex: 5,
                                       child: Text(
-                                        'Category',
+                                        controller.localization.wellnessCalculation?['category'] ?? "Ranges",
                                         style: TextStyle(color: Theme.of(context).colorScheme.black600, fontWeight: FontWeight.w600, fontSize: 14.sp),
                                       ),
                                     ),

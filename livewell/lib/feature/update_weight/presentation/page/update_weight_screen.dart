@@ -84,7 +84,7 @@ class _UpdateWeightScreenState extends State<UpdateWeightScreen> {
                           }),
                           4.verticalSpace,
                           Text(
-                            controller.localization.youreDoingGreatKeepYourSpirit ?? "",
+                            controller.localization.weightPage?.youreDoingGreatKeepYourSpiritUp ?? "You're doing great! Keep your spirit up!",
                             style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w400),
                           ),
                           16.verticalSpace,
@@ -128,7 +128,7 @@ class _UpdateWeightScreenState extends State<UpdateWeightScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(controller.localization.updateYourWeight ?? "", style: TextStyle(color: Colors.white, fontSize: 12.sp, fontWeight: FontWeight.w600)),
+                                Text(controller.localization.weightPage?.updateYourWeight ?? "Update Your Weight", style: TextStyle(color: Colors.white, fontSize: 12.sp, fontWeight: FontWeight.w600)),
                                 13.horizontalSpace,
                                 Icon(Icons.arrow_forward_ios, color: Colors.white, size: 14.sp),
                               ],
@@ -139,7 +139,7 @@ class _UpdateWeightScreenState extends State<UpdateWeightScreen> {
                     ),
                     32.verticalSpace,
                     Text(
-                      controller.localization.weightProgress ?? "",
+                      controller.localization.weightPage?.weightProgress ?? "Weight Progress",
                       style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w600, fontSize: 20.sp),
                     ),
                     16.verticalSpace,
@@ -154,7 +154,7 @@ class _UpdateWeightScreenState extends State<UpdateWeightScreen> {
                     ),
                     32.verticalSpace,
                     Text(
-                      controller.localization.calorieIntake ?? "",
+                      controller.localization.weightPage?.caloriesIntake ?? "Calorie Intake",
                       style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w600, fontSize: 20.sp),
                     ),
                     16.verticalSpace,
@@ -165,7 +165,7 @@ class _UpdateWeightScreenState extends State<UpdateWeightScreen> {
                       height: 262.h,
                       child: Column(
                         children: [
-                          Text(controller.localization.last7Days!, style: TextStyle(fontSize: 14.sp, color: Colors.black, fontWeight: FontWeight.w700)),
+                          Text(controller.localization.weightPage?.last7Days ?? "Last 7 days", style: TextStyle(fontSize: 14.sp, color: Colors.black, fontWeight: FontWeight.w700)),
                           12.verticalSpace,
                           const Divider(),
                           SizedBox(
@@ -251,7 +251,7 @@ class _UpdateWeightScreenState extends State<UpdateWeightScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            controller.localization.projectedWeightAfter4Weeks ?? "",
+                            controller.localization.weightPage?.projectedWeightAfter4Weeks ?? "Projected Weight After 4 Weeks",
                             style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w600, fontSize: 14.sp),
                           ),
                           8.verticalSpace,
@@ -263,7 +263,7 @@ class _UpdateWeightScreenState extends State<UpdateWeightScreen> {
                           }),
                           8.verticalSpace,
                           Text(
-                            controller.localization.disclaimerProjectionBasedOnTodays ?? "",
+                            controller.localization.weightPage?.disclaimer ?? "Disclaimer: Projection based on today's food intake. Estimate only.",
                             style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w400, fontSize: 14.sp),
                           ),
                         ],

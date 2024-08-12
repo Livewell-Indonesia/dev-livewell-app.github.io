@@ -20,7 +20,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:livewell/theme/design_system.dart';
 import 'package:sentry/sentry.dart';
 
 import 'feature/food/presentation/pages/food_screen.dart';
@@ -113,14 +112,16 @@ extension MealReminderExt on FeatureTypeNotification {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   await LivewellNotification().init();
   FirebaseMessaging.onBackgroundMessage(handleBackgroundMesage);
   await FirebaseRemoteConfigService().init();
 
   PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack);
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
   runZonedGuarded(() async {
@@ -168,36 +169,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final flutterClarityPlugin = FlutterClarityPlugin();
-
-  String sessionId = 'Unknown';
-
-  Future<void> initClarityState() async {
-    String sessionId;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      // Demo project id : fwof4hmuvb
-      await flutterClarityPlugin.initialize(projectId: 'meunfwukkn');
-
-      sessionId = await flutterClarityPlugin.getCurrentSessionId() ?? 'Unknown clarity session';
-    } on PlatformException {
-      sessionId = 'Failed to get clarity session.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      sessionId = sessionId;
-    });
-  }
-
   @override
   void initState() {
-    initClarityState();
     super.initState();
   }
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -10,7 +9,7 @@ import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart'
 import 'package:livewell/feature/streak/presentation/pages/streak_screen.dart';
 import 'package:livewell/feature/water/presentation/controller/water_controller.dart';
 import 'package:livewell/feature/water/presentation/controller/water_custom_input_controller.dart';
-import 'package:livewell/feature/water/presentation/pages/water_custom_input_page.dart';
+import 'package:livewell/feature/water/presentation/enum/water_input_type.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
@@ -25,8 +24,8 @@ class WaterCustomInputScreen extends StatefulWidget {
 
 class _WaterCustomInputScreenState extends State<WaterCustomInputScreen> {
   var controller = Get.put(WaterCustomInputController());
-  GlobalKey _containerKey = GlobalKey();
-  GlobalKey _bottleKey = GlobalKey();
+  final GlobalKey _containerKey = GlobalKey();
+  final GlobalKey _bottleKey = GlobalKey();
   FocusNode focusNode = FocusNode();
 
   @override

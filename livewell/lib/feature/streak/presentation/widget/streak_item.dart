@@ -7,7 +7,6 @@ import 'package:livewell/feature/dashboard/presentation/controller/dashboard_con
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/nutrico/presentation/widget/nutri_score_plus_bottom_sheet.dart';
 import 'package:livewell/feature/streak/data/model/wellness_detail_model.dart';
-import 'package:livewell/feature/water/presentation/pages/water_custom_input_page.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
 
@@ -24,30 +23,30 @@ extension StreakItemTypeExt on StreakItemType {
   String get title {
     switch (this) {
       case StreakItemType.hydration:
-        return 'Hydration';
+        return Get.find<DashboardController>().localization.waterPage?.hydration ?? 'Hydration';
       case StreakItemType.sleep:
-        return 'Sleep';
+        return Get.find<DashboardController>().localization.sleepPage?.sleep ?? 'Sleep';
       case StreakItemType.mood:
-        return 'Mood';
+        return Get.find<DashboardController>().localization.moodPage?.moodChart ?? 'Mood';
       case StreakItemType.nutrition:
-        return 'Nutrition';
+        return Get.find<DashboardController>().localization.nutritionPage?.nutriscore ?? 'Nutrition';
       case StreakItemType.activity:
-        return 'Activity';
+        return Get.find<DashboardController>().localization.exercisePage?.exercise ?? 'Activity';
     }
   }
 
   String get wellnessTitle {
     switch (this) {
       case StreakItemType.hydration:
-        return 'Water';
+        return Get.find<DashboardController>().localization.waterPage?.hydration ?? 'Water';
       case StreakItemType.sleep:
-        return 'Sleep';
+        return Get.find<DashboardController>().localization.sleepPage?.sleep ?? 'Sleep';
       case StreakItemType.mood:
-        return 'Mood';
+        return Get.find<DashboardController>().localization.moodPage?.moodChart ?? 'Mood';
       case StreakItemType.nutrition:
-        return 'Nutrition';
+        return Get.find<DashboardController>().localization.nutritionPage?.nutriscore ?? 'Nutrition';
       case StreakItemType.activity:
-        return 'Exercise';
+        return Get.find<DashboardController>().localization.exercisePage?.exercise ?? 'Exercise';
     }
   }
 

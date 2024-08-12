@@ -1,9 +1,7 @@
-import 'dart:developer';
 import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/base/base_controller.dart';
@@ -38,7 +36,6 @@ class NutricoPlusController extends BaseController {
     }, (r) {
       final dataByLocalization = r.where((element) => element.language == currentLanguage().languageCode).toList();
       var random = Random();
-      inspect(dataByLocalization);
       final randomizeData = dataByLocalization[random.nextInt(dataByLocalization.length)];
       title.value = randomizeData.title ?? "";
       description.value = randomizeData.belowPicture ?? "";

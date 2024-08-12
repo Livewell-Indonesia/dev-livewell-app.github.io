@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -143,8 +141,6 @@ class SleepController extends BaseController {
     }
   }
 
-  HealthFactory healthFactory = HealthFactory();
-
   var types = [
     HealthDataType.STEPS,
     HealthDataType.ACTIVE_ENERGY_BURNED,
@@ -166,8 +162,6 @@ class SleepController extends BaseController {
     result.fold((l) {
       y = 0.0;
     }, (r) {
-      Log.colorGreen(r);
-      inspect(r);
       y = r.fold(0, (previousValue, element) {
         var temp = element.totalValue ?? 0.0;
         return previousValue + temp;
@@ -260,8 +254,6 @@ class SleepController extends BaseController {
     GetActivityHistory getExerciseList = GetActivityHistory.instance();
     final result = await getExerciseList.call(GetActivityHistoryParam(type: ['SLEEP_IN_BED', 'LIGHT_SLEEP', 'DEEP_SLEEP'], dateFrom: currentDate, dateTo: dateTill));
     result.fold((l) => Log.error(l), (r) {
-      Log.info(r);
-      inspect(r);
       exerciseHistoryList.assignAll(r);
     });
   }
@@ -274,7 +266,6 @@ class SleepController extends BaseController {
     result.fold((l) {
       Log.error(l);
     }, (r) {
-      inspect(r);
       if (r.isNotEmpty) {
         var lightSleepValue = r.where((element) => element.type == 'LIGHT_SLEEP').toList();
         var deepSleepValue = r.where((element) => element.type == 'DEEP_SLEEP').toList();

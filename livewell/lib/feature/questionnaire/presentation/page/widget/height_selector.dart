@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:livewell/feature/questionnaire/presentation/controller/questionnaire_controller.dart';
@@ -9,7 +8,7 @@ import 'package:livewell/widgets/buttons/livewell_button.dart';
 class HeightSelector extends StatefulWidget {
   final double initialValue;
 
-  HeightSelector({Key? key, this.initialValue = 150}) : super(key: key);
+  const HeightSelector({Key? key, this.initialValue = 150}) : super(key: key);
 
   @override
   State<HeightSelector> createState() => _HeightSelectorState();

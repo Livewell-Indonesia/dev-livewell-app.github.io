@@ -27,7 +27,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     return LiveWellScaffold(
         backgroundColor: Colors.white,
-        title: controller.localization.forgotPasswordText!,
+        title: controller.localization.forgotPasswordPage?.forgotPassword ?? "Forgot Password",
         onBack: () {
           Get.back();
           controller.trackEvent(LivewellAuthEvent.forgotPasswordBack);
@@ -39,7 +39,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20).r,
                 child: Text(
-                  controller.localization.pleaseEnterEmailToResetPassword!,
+                  controller.localization.forgotPasswordPage?.pleaseEnterEmailToResetPassword ?? "Please enter your email address. You will receive a link to create a new password via email.",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16.sp, color: Colors.black),
                 ),
@@ -49,7 +49,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 return LiveWellTextField(
                   controller: controller.forgotPasswordEmail,
                   hintText: null,
-                  labelText: controller.localization.emailAddress!,
+                  labelText: controller.localization.forgotPasswordPage?.emailAddress ?? "Email Address",
                   errorText: null,
                   obscureText: false,
                   isEmail: controller.isEmailValid.value,
@@ -58,7 +58,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               20.verticalSpace,
               Obx(() {
                 return LiveWellButton(
-                    label: controller.localization.submit!,
+                    label: controller.localization.forgotPasswordPage?.submit ?? "Submit",
                     color: const Color(0xFFDDF235),
                     onPressed: (controller.isEmailValid.value ?? false)
                         ? () {

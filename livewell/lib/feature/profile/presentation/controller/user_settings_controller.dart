@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -49,7 +47,6 @@ class UserSettingsController extends BaseController {
   void updateData() async {
     UpdateUserInfo updateUserInfo = UpdateUserInfo.instance();
     EasyLoading.show();
-    inspect(language.value.locale);
     final data = await updateUserInfo.call(UpdateUserInfoParams(
         firstName: user.value.firstName ?? "",
         lastName: user.value.lastName ?? "",
@@ -64,6 +61,7 @@ class UserSettingsController extends BaseController {
     data.fold((l) {}, (r) {
       Future.delayed(const Duration(milliseconds: 300)).then((value) {
         AppNavigator.pushAndRemove(routeName: '/');
+        Get.delete<DashboardController>(force: true);
       });
     });
   }
