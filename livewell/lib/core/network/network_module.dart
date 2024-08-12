@@ -23,7 +23,6 @@ mixin NetworkModule {
   Future<Result<T>> _safeCallApi<T>(Future<Response<T>> call) async {
     try {
       final response = await call;
-      Log.colorGreen("andi ganteng ${_baseOptions}");
       return Result.success(
         response.data as T,
         response.statusMessage,
