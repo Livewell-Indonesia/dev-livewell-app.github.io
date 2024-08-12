@@ -40,24 +40,10 @@ class AddMealController extends BaseController with GetTickerProviderStateMixin 
 
   Rx<bool> showRecommendationWidget = false.obs;
 
-  late TutorialCoachMark tutorialCoachMark;
-
   GlobalKey key1 = GlobalKey();
   GlobalKey key2 = GlobalKey();
   GlobalKey key3 = GlobalKey();
   GlobalKey key4 = GlobalKey();
-
-  void showTutorial(BuildContext context) async {
-    var showCoachmark = await SharedPref.getShowCoachmarkFood();
-    if (showCoachmark) {
-      state.value = SearchStates.searchingWithResults;
-      showRecommendationWidget.value = true;
-      update();
-      Future.delayed(const Duration(milliseconds: 200), () {
-        tutorialCoachMark.show(context: context);
-      });
-    }
-  }
 
   void onFinishCoachmark() async {
     await SharedPref.saveShowCoachmarkFood(false);

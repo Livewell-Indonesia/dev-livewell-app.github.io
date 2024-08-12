@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:livewell/core/network/token_interceptor.dart';
 
 import 'api_url.dart';
@@ -25,4 +27,5 @@ class DioModule with DioMixin implements Dio {
   }
 
   static Dio getInstance([BaseOptions? options]) => DioModule._(options);
+  static Completer<String>? refreshTokenCompleter;
 }
