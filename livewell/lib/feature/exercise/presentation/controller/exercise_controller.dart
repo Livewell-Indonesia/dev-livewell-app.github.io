@@ -250,7 +250,14 @@ class ExerciseController extends BaseController with GetSingleTickerProviderStat
         totalCalories.value = 0;
         return;
       }
-      burntCalories.value = r.first.totalValue ?? 0.0;
+
+      num total = 0.0;
+      if (r.first.details != null) {
+        for (var data in r.first.details!) {
+          total += data.value ?? 0;
+        }
+      }
+      burntCalories.value = total.round();
       totalCalories.value = burntCalories.value;
       caloriesValueNotifier.value = burntCalories.value.toDouble();
       goalValueNotifier.value = burntCalories.value.toDouble() / (Get.find<DashboardController>().user.value.exerciseGoalKcal ?? 0);
