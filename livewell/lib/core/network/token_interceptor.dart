@@ -2,45 +2,50 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/core/network/api_url.dart';
+import 'package:livewell/core/network/dio_module.dart';
 import 'package:livewell/feature/auth/data/model/login_model.dart';
 import 'package:livewell/routes/app_navigator.dart';
 
 import 'network_module.dart';
 
-class TokenInterceptor extends Interceptor with NetworkModule {
-  @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
-    var statusCode = err.response!.statusCode;
-    if ((statusCode == 401 && err.response?.data['message'] != 'invalid email or password') || (statusCode == 400 && err.response?.data['message'] == 'missing or malformed jwt')) {}
-    super.onError(err, handler);
-  }
-}
-
 class NewTokenInteceptor extends QueuedInterceptor with NetworkModule {
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) async {
-    if (err.response?.statusCode == 401) {
-      final options = err.requestOptions;
-      if (err.requestOptions.path == Endpoint.refreshToken) {
-        await SharedPref.removeToken();
-        await SharedPref.removeRefreshToken();
-        EasyLoading.dismiss();
-        Get.find<LanguageController>().changeLocalization(AvailableLanguage.id).then((value) {
-          AppNavigator.pushAndRemove(routeName: AppPages.landingLogin);
-        });
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+    if (options.headers['Authorization'] != null) {
+      // check if token is expired
+
+      if (JwtDecoder.tryDecode(options.headers['Authorization']!) == null || JwtDecoder.isExpired(options.headers['Authorization']!)) {
+        final result = await refreshToken();
+        options.headers['Authorization'] = result;
+        handler.next(options);
       } else {
-        Log.info("Token Expired");
-        await refreshToken();
-        options.headers['Authorization'] = await SharedPref.getToken();
-        final originalResult = await dio.fetch(options);
-        handler.resolve(originalResult);
+        handler.next(options);
       }
+    }
+    return super.onRequest(options, handler);
+  }
+
+  Future<String> refreshToken() async {
+    if (DioModule.refreshTokenCompleter != null) {
+      return DioModule.refreshTokenCompleter!.future;
     } else {
-      return handler.next(err);
+      DioModule.refreshTokenCompleter = Completer<String>();
+      try {
+        await _refreshToken();
+        DioModule.refreshTokenCompleter?.complete(await SharedPref.getToken());
+        DioModule.refreshTokenCompleter = null;
+        return await SharedPref.getToken();
+      } catch (e) {
+        DioModule.refreshTokenCompleter?.completeError(e);
+        rethrow;
+      } finally {
+        DioModule.refreshTokenCompleter = null;
+      }
     }
   }
 
@@ -55,7 +60,7 @@ class NewTokenInteceptor extends QueuedInterceptor with NetworkModule {
   //   return super.onRequest(options, handler);
   // }
 
-  Future<void> refreshToken() async {
+  Future<void> _refreshToken() async {
     try {
       final refreshToken = await SharedPref.getRefreshToken();
       final response = await postMethod(Endpoint.refreshToken, body: {'refresh_token': refreshToken});
@@ -70,6 +75,7 @@ class NewTokenInteceptor extends QueuedInterceptor with NetworkModule {
       Get.find<LanguageController>().changeLocalization(AvailableLanguage.id).then((value) {
         AppNavigator.pushAndRemove(routeName: AppPages.landingLogin);
       });
+      rethrow;
     }
   }
 }
