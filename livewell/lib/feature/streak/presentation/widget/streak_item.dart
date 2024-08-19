@@ -44,7 +44,7 @@ extension StreakItemTypeExt on StreakItemType {
       case StreakItemType.mood:
         return Get.find<DashboardController>().localization.moodPage?.moodChart ?? 'Mood';
       case StreakItemType.nutrition:
-        return Get.find<DashboardController>().localization.nutritionPage?.nutriscore ?? 'Nutrition';
+        return Get.find<DashboardController>().localization.nutritionPage?.nutrition ?? 'Nutrition';
       case StreakItemType.activity:
         return Get.find<DashboardController>().localization.exercisePage?.exercise ?? 'Exercise';
     }

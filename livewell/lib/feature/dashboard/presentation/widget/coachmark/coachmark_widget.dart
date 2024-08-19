@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:livewell/feature/dashboard/presentation/enums/dashboard_coachmark_type.dart';
 import 'package:livewell/feature/food/presentation/pages/add_meal_screen.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/theme/design_system.dart';
 
 class DashboardCoachmarkWidget extends StatelessWidget {
@@ -80,7 +82,7 @@ class GeneralCoachmarkWidget extends StatelessWidget {
       child: InkWell(
         onTap: onPrevTap,
         child: Text(
-          'Prev',
+          Get.find<HomeController>().localization.homePage?.prev ?? "Prev",
           style: TextStyle(color: Theme.of(context).colorScheme.disabled, fontSize: 12.sp, fontWeight: FontWeight.w600),
         ),
       ),
@@ -91,7 +93,7 @@ class GeneralCoachmarkWidget extends StatelessWidget {
     return InkWell(
       onTap: onNextTap,
       child: Text(
-        'Next',
+        Get.find<HomeController>().localization.homePage?.next ?? "Next",
         style: TextStyle(color: Theme.of(context).colorScheme.primaryPurple, fontSize: 12.sp, fontWeight: FontWeight.w600),
       ),
     );

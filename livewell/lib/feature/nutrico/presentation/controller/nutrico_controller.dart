@@ -30,6 +30,12 @@ class NutriCoController extends BaseController {
       imageUrl.value = Get.arguments['imageUrl'];
       refId.value = Get.arguments['refId'];
     }
+    if (Get.arguments['imageUrl'] != null) {
+      imageUrl.value = Get.arguments['imageUrl'];
+    }
+    if (Get.arguments['refId'] != null) {
+      refId.value = Get.arguments['refId'];
+    }
     super.onInit();
   }
 

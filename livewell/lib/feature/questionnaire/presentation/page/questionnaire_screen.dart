@@ -29,7 +29,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       return PopScope(
         canPop: false,
         child: LiveWellScaffold(
-          title: 'Health Profile',
+          title: controller.localization.onboardingPage?.healthProfile ?? 'Health Profile',
           allowBack: controller.currentPage.value != QuestionnairePage.landing,
           onBack: () {
             controller.onBackPressed();

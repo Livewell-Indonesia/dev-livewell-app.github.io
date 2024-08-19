@@ -61,7 +61,7 @@ class _NameQuestionnaireState extends State<NameQuestionnaire> {
           const Spacer(),
           Obx(() {
             return LiveWellButton(
-              label: 'Next',
+              label: controller.localization.onboardingPage?.next ?? "Next",
               color: Theme.of(context).colorScheme.primaryPurple,
               onPressed: controller.isNameValid.value
                   ? () {

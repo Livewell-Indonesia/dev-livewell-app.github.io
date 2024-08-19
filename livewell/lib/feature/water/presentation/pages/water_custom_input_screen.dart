@@ -54,13 +54,13 @@ class _WaterCustomInputScreenState extends State<WaterCustomInputScreen> {
                           child: Stack(
                             children: [
                               Container(
-                                width: 258.w,
+                                width: 258.h,
                                 height: 412.h,
                                 color: Colors.white,
                                 child: Column(
                                   children: [
                                     Container(
-                                      width: 258.w,
+                                      width: 258.h,
                                       height: 412.h,
                                       decoration: const BoxDecoration(
                                         color: Color(0xFF8F01DF),
@@ -71,7 +71,7 @@ class _WaterCustomInputScreenState extends State<WaterCustomInputScreen> {
                               ),
                               Container(
                                 key: _bottleKey,
-                                width: 258.w,
+                                width: 258.h,
                                 height: 412.h,
                                 color: Colors.white,
                                 alignment: Alignment.bottomCenter,

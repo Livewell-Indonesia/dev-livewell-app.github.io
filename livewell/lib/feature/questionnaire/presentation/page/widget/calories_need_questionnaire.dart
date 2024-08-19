@@ -144,7 +144,7 @@ class _CaloriesNeedQuestionnaireState extends State<CaloriesNeedQuestionnaire> {
           const Spacer(),
           Obx(() {
             return LiveWellButton(
-              label: 'Next',
+              label: controller.localization.onboardingPage?.next ?? "Next",
               color: Theme.of(context).colorScheme.primaryPurple,
               textColor: Colors.white,
               onPressed: controller.selectedCaloriesNeed.value != CaloriesNeedType.none

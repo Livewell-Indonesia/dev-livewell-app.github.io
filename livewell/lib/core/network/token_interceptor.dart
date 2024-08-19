@@ -37,11 +37,15 @@ class NewTokenInteceptor extends QueuedInterceptor with NetworkModule {
       DioModule.refreshTokenCompleter = Completer<String>();
       try {
         await _refreshToken();
-        DioModule.refreshTokenCompleter?.complete(await SharedPref.getToken());
-        DioModule.refreshTokenCompleter = null;
-        return await SharedPref.getToken();
+        final newToken = await SharedPref.getToken();
+        if (!DioModule.refreshTokenCompleter!.isCompleted) {
+          DioModule.refreshTokenCompleter!.complete(newToken);
+        }
+        return newToken;
       } catch (e) {
-        DioModule.refreshTokenCompleter?.completeError(e);
+        if (!DioModule.refreshTokenCompleter!.isCompleted) {
+          DioModule.refreshTokenCompleter!.completeError(e);
+        }
         rethrow;
       } finally {
         DioModule.refreshTokenCompleter = null;

@@ -136,7 +136,8 @@ class _NutriScoreDetailsScreenState extends State<NutriScoreDetailsScreen> {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), border: Border.all(color: const Color(0xFFEBEBEB))),
             child: Column(
               children: [
-                Text('Last 7 days', style: TextStyle(color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w700, height: 20.sp / 14.sp)),
+                Text(controller.localization.nutriscoreDetailPage?.last7Days ?? "Last 7 days",
+                    style: TextStyle(color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w700, height: 20.sp / 14.sp)),
                 16.verticalSpace,
                 const Divider(),
                 16.verticalSpace,

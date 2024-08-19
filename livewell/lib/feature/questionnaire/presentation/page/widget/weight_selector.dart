@@ -26,7 +26,7 @@ class _WeightSelectorState extends State<WeightSelector> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Weight',
+              controller.localization.physicalInformationPage?.weightKg ?? 'Weight',
               style: TextStyle(color: const Color(0xFF000000), fontSize: 24.sp, fontWeight: FontWeight.w600),
             ),
             Container(
@@ -42,7 +42,7 @@ class _WeightSelectorState extends State<WeightSelector> {
               ),
             ),
             LiveWellButton(
-              label: 'Confirm',
+              label: controller.localization.onboardingPage?.confirm ?? "Confirm",
               color: const Color(0xFF8F01DF),
               textColor: Colors.white,
               onPressed: () {

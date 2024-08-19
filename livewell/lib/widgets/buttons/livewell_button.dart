@@ -19,7 +19,7 @@ class LiveWellButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             elevation: elevation,
             shadowColor: Colors.transparent,
-            fixedSize: Size(1.sw, 48.w),
+            fixedSize: Size(1.sw, 48.h),
             backgroundColor: color,
             disabledBackgroundColor: const Color(0xFFEBEBEB),
             padding: EdgeInsets.symmetric(horizontal: Insets.paddingMedium, vertical: Insets.paddingMedium.h),

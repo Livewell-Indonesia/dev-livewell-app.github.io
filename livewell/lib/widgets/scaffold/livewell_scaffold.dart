@@ -33,7 +33,7 @@ class LiveWellScaffold extends StatelessWidget {
     return CustomWillPopScope(
       allowBack: allowBack,
       child: Scaffold(
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         backgroundColor: backgroundColor,
         body: GestureDetector(
           onTap: () {

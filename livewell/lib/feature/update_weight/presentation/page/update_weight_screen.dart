@@ -200,6 +200,7 @@ class _UpdateWeightScreenState extends State<UpdateWeightScreen> {
                                     ),
                                     leftTitles: AxisTitles(
                                       sideTitles: SideTitles(
+                                        interval: 100,
                                         reservedSize: 30,
                                         showTitles: true,
                                         getTitlesWidget: (value, meta) {
@@ -306,7 +307,7 @@ class _UpdateWeightScreenState extends State<UpdateWeightScreen> {
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 30,
-            interval: controller.weightHistory.length - 1,
+            interval: controller.weightHistory.length <= 1 ? 1 : controller.weightHistory.length - 1,
             getTitlesWidget: bottomTitleWidgets,
           ),
         ),

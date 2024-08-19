@@ -32,7 +32,7 @@ class QuestionnaireController extends BaseController {
   Rx<GoalSelection> selectedGoals = GoalSelection.none.obs;
   Rx<DietrarySelection> selectedDietrary = DietrarySelection.no.obs;
   Rx<CaloriesNeedType> selectedCaloriesNeed = CaloriesNeedType.none.obs;
-  Rx<AvailableLanguage> selectedLanguage = AvailableLanguage.en.obs;
+  Rx<AvailableLanguage> selectedLanguage = AvailableLanguage.id.obs;
   TextEditingController selectedDietraryText = TextEditingController();
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
@@ -207,40 +207,41 @@ extension QuestionnairePageData on QuestionnairePage {
       case QuestionnairePage.landing:
         return 'Welcome to LiveWell!';
       case QuestionnairePage.name:
-        return 'First, what\'s your name?';
+        return Get.find<HomeController>().localization.onboardingPage?.firstWhatsYourName ?? 'First, what\'s your name?';
       case QuestionnairePage.gender:
-        return 'What is your gender?';
+        return Get.find<HomeController>().localization.onboardingPage?.whatIsYourGender ?? 'What is your gender?';
       case QuestionnairePage.birthDate:
-        return 'Tell us your birth date!';
+        return Get.find<HomeController>().localization.onboardingPage?.tellUsYourBirthDate ?? 'Tell us your birth date!';
       case QuestionnairePage.heightWeight:
-        return 'What\'s your current weight and height?';
+        return Get.find<HomeController>().localization.onboardingPage?.whatsYourCurrentWeightHeight ?? 'What\'s your current weight and height?';
       case QuestionnairePage.caloriesNeed:
-        return 'Your Current Condition';
+        return Get.find<HomeController>().localization.onboardingPage?.yourCurrentCondition ?? 'Your Current Condition';
       case QuestionnairePage.healthCondition:
-        return 'Do you have any allergies, intolerances, or health conditions that affect your diet?';
+        return Get.find<HomeController>().localization.onboardingPage?.doYouHaveAnyAllergies ?? 'Do you have any allergies, intolerances, or health conditions that affect your diet?';
       case QuestionnairePage.finish:
-        return 'You\'re all set!';
+        return Get.find<HomeController>().localization.onboardingPage?.youreAllSet ?? 'You\'re all set!';
     }
   }
 
   String subtitle() {
     switch (this) {
       case QuestionnairePage.landing:
-        return 'Tell us your name to unlock your personalized experience';
+        return Get.find<HomeController>().localization.onboardingPage?.tellUsYourNameToUnlockPersonalizedExperience ?? 'Tell us your name to unlock your personalized experience';
       case QuestionnairePage.name:
-        return 'Tell us your name to unlock your personalized experience';
+        return Get.find<HomeController>().localization.onboardingPage?.tellUsYourNameToUnlockPersonalizedExperience ?? 'Tell us your name to unlock your personalized experience';
       case QuestionnairePage.gender:
-        return 'Knowing your gender allows us to provide a more comprehensive picture of your health.';
+        return Get.find<HomeController>().localization.onboardingPage?.genderDescription ?? 'Knowing your gender allows us to provide a more comprehensive picture of your health.';
       case QuestionnairePage.birthDate:
-        return 'As your body changes with age, so do your nutritional needs.';
+        return Get.find<HomeController>().localization.onboardingPage?.asYourBodyChangesWithAge ?? 'As your body changes with age, so do your nutritional needs.';
       case QuestionnairePage.heightWeight:
-        return 'It\'s essential for calculating your BMI and setting realistic goals.';
+        return Get.find<HomeController>().localization.onboardingPage?.itsEssentialForCalculating ?? 'It\'s essential for calculating your BMI and setting realistic goals.';
       case QuestionnairePage.caloriesNeed:
-        return 'Help us calculate your daily calorie needs';
+        return Get.find<HomeController>().localization.onboardingPage?.helpUsCalculateYourDailyCalorieNeeds ?? 'Help us calculate your daily calorie needs';
       case QuestionnairePage.healthCondition:
-        return 'Tap next if you don’t have any.';
+        return Get.find<HomeController>().localization.onboardingPage?.youCanAnswerNo ?? 'Tap next if you don’t have any.';
       case QuestionnairePage.finish:
-        return 'Your personalized plan is ready. Let\'s start your health journey by keeping track of your daily habit.';
+        return Get.find<HomeController>().localization.onboardingPage?.yourPersonalizedPlanIsReady ??
+            'Your personalized plan is ready. Let\'s start your health journey by keeping track of your daily habit.';
     }
   }
 
@@ -285,9 +286,9 @@ extension GenderContent on Gender {
   String label() {
     switch (this) {
       case Gender.female:
-        return 'Female';
+        return Get.find<HomeController>().localization.physicalInformationPage?.female ?? 'Female';
       case Gender.male:
-        return 'Male';
+        return Get.find<HomeController>().localization.physicalInformationPage?.male ?? 'Male';
     }
   }
 }

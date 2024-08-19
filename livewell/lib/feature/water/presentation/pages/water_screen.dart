@@ -111,11 +111,17 @@ class _WaterScreenState extends State<WaterScreen> {
               ),
             ),
             16.verticalSpace,
-            ReduceWaterSection(
-              onTap: () {
-                AppNavigator.push(routeName: AppPages.waterCustomInput, arguments: {"waterInputType": WaterInputType.reduce});
-              },
-            ),
+            Obx(() {
+              if (controller.waterConsumed.value == 0) {
+                return const SizedBox();
+              } else {
+                return ReduceWaterSection(
+                  onTap: () {
+                    AppNavigator.push(routeName: AppPages.waterCustomInput, arguments: {"waterInputType": WaterInputType.reduce});
+                  },
+                );
+              }
+            }),
             16.verticalSpace,
             Obx(() {
               return HydartionScoreWidget(
@@ -569,7 +575,7 @@ class WaterShortcutButton extends StatelessWidget {
         children: [
           vg.SvgPicture.asset(
             type.assets,
-            width: 36.w,
+            width: 36.h,
             height: 36.h,
           ),
           4.verticalSpace,
@@ -581,137 +587,6 @@ class WaterShortcutButton extends StatelessWidget {
       ),
     );
   }
-}
-
-class WaterHistoriesWidget extends StatelessWidget {
-  final List<WaterModel> waterHistories;
-  const WaterHistoriesWidget({super.key, required this.waterHistories});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 18),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: CarouselSlider(
-        options: CarouselOptions(
-          enableInfiniteScroll: false,
-          viewportFraction: 1.0,
-        ),
-        items: waterHistories.slices(3).map((e) {
-          return ListView.separated(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: e.length,
-              itemBuilder: (context, index) {
-                return Row(
-                  children: [
-                    Text(e[index].createdAt ?? "",
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFF171433),
-                        )),
-                    const Spacer(),
-                    Text('50 ml', style: TextStyle(fontSize: 16.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w500)),
-                  ],
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                  child: Divider(),
-                );
-              });
-        }).toList(),
-      ),
-    );
-  }
-}
-
-class DrinkIndicator extends StatefulWidget {
-  final double value;
-  final String label;
-  const DrinkIndicator({super.key, required this.value, required this.label});
-
-  @override
-  State<DrinkIndicator> createState() => _DrinkIndicatorState();
-}
-
-class _DrinkIndicatorState extends State<DrinkIndicator> {
-  double widthValue = 0.0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        widget.value == 0.0
-            ? Container()
-            : Row(
-                children: [
-                  AnimatedContainer(
-                    duration: const Duration(seconds: 1),
-                    curve: Curves.fastOutSlowIn,
-                    width: widget.value == 0 ? 0.0 : (((1.sw - 56) * widget.value) - 25 - 8).minZero,
-                  ),
-                  Container(
-                    width: 50,
-                    height: 50.h,
-                    margin: EdgeInsets.only(right: widget.value == 0 ? 28 : 0, left: widget.value == 0 ? 0 : 28),
-                    child: Stack(
-                      alignment: AlignmentDirectional.center,
-                      children: [vg.SvgPicture.asset("assets/icons/buble.svg"), Text(widget.label, style: TextStyle(fontSize: 20.sp, color: Colors.white, fontWeight: FontWeight.w600))],
-                    ),
-                  ),
-                ],
-              ),
-        Container(
-          width: 1.sw,
-          height: 72.h,
-          margin: const EdgeInsets.symmetric(horizontal: 28),
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.white,
-          ),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: LayoutBuilder(
-              builder: (context, containerConstraint) {
-                return AnimatedContainer(
-                  duration: const Duration(milliseconds: 1000),
-                  height: 72.h,
-                  width: containerConstraint.maxWidth * widget.value,
-                  curve: Curves.fastOutSlowIn,
-                  margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: const Color(0xFF34EAB2),
-                  ),
-                  child: FloatingDotGroup(
-                    number: 50,
-                    direction: Direction.up,
-                    trajectory: Trajectory.random,
-                    size: DotSize.small,
-                    colors: [Colors.white.withOpacity(0.7), Colors.white.withOpacity(0.5), Colors.white.withOpacity(0.3)],
-                    opacity: 0.5,
-                    speed: DotSpeed.fast,
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-extension on double {
-  double get minZero => this < 0 ? 0 : this;
 }
 
 class WaterAnimationWidget extends StatefulWidget {
@@ -732,7 +607,7 @@ class _WaterAnimationWidgetState extends State<WaterAnimationWidget> with Ticker
         Center(
           child: SizedBox(
             height: 184.h,
-            width: 184.w,
+            width: 184.h,
             child: LiquidCircularProgressIndicator(
               valueColor: const AlwaysStoppedAnimation(
                 Color(0xFF34EAB2),

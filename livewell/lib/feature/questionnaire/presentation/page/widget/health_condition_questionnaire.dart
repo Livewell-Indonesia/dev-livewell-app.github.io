@@ -43,7 +43,7 @@ class _HealthConditionQuestionnaireState extends State<HealthConditionQuestionna
         AuthTextField(
           controller: controller.healthCondition,
           hintText: null,
-          labelText: "examples: diabetes, high blood pressure, gluten sensitivity, etc.",
+          labelText: controller.localization.onboardingPage?.example ?? "examples: diabetes, high blood pressure, gluten sensitivity, etc.",
           errorText: null,
           obscureText: false,
           borderColor: const Color(0xFFE8E7E7),
@@ -54,7 +54,7 @@ class _HealthConditionQuestionnaireState extends State<HealthConditionQuestionna
         const Spacer(),
         24.verticalSpace,
         LiveWellButton(
-          label: 'Next',
+          label: controller.localization.onboardingPage?.next ?? "Next",
           color: Theme.of(context).colorScheme.primaryPurple,
           textColor: Colors.white,
           onPressed: () {

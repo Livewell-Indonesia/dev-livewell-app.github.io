@@ -8,7 +8,7 @@ import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
 class NutriCoScreen extends StatefulWidget {
-  NutriCoScreen({super.key});
+  const NutriCoScreen({super.key});
 
   @override
   State<NutriCoScreen> createState() => _NutriCoScreenState();

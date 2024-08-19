@@ -159,7 +159,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                             child: Icon(
                               Icons.class_outlined,
                               color: const Color(0xFF171433).withOpacity(0.7),
-                              size: 24.w,
+                              size: 24.h,
                             ),
                           ),
                         ],
@@ -433,7 +433,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                             },
                             child: Container(
                               padding: EdgeInsets.only(left: 10.w, right: 20.w),
-                              width: 335.w,
+                              width: 360.w,
                               height: 72.h,
                               decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20).r),
                               child: Row(
@@ -460,8 +460,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                                     ),
                                   ),
                                   Container(
-                                    width: 43.w,
-                                    height: 43.w,
+                                    width: 43.h,
+                                    height: 43.h,
                                     decoration: BoxDecoration(color: const Color(0xFFF1F1F1), borderRadius: BorderRadius.circular(10.r)),
                                     child: Image.asset(Constant.icWaterUnselected),
                                   ),
@@ -525,10 +525,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                                             }),
                                           ),
                                           Container(
-                                            width: 43.w,
-                                            height: 43.w,
+                                            width: 43.h,
+                                            height: 43.h,
                                             decoration: BoxDecoration(color: const Color(0xFFF1F1F1), borderRadius: BorderRadius.circular(10.r)),
-                                            child: Image.asset(Constant.icFoodUnselected),
+                                            child: Image.asset(
+                                              Constant.icFoodUnselected,
+                                              width: 43.h,
+                                              height: 43.h,
+                                            ),
                                           ),
                                           10.horizontalSpace,
                                           Text(
@@ -666,7 +670,7 @@ class WellnessScoreWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16.r),
                       ),
                       child: Text(
-                        'View Insights',
+                        Get.find<HomeController>().localization.homePage?.viewInsights ?? 'View Insights',
                         style: TextStyle(
                           color: const Color(0xFF8F01DF),
                           fontSize: 12.sp,
@@ -731,15 +735,15 @@ extension QuickActionExt on QuickAction {
   String title() {
     switch (this) {
       case QuickAction.exercise:
-        return Get.find<DashboardController>().localization.homePage?.exercise ?? 'Exercise';
+        return Get.find<DashboardController>().localization.homePage?.nutritionButton ?? 'Exercise';
       case QuickAction.sleep:
-        return Get.find<DashboardController>().localization.homePage?.sleep ?? 'Sleep';
+        return Get.find<DashboardController>().localization.homePage?.sleepButton ?? 'Sleep';
       case QuickAction.water:
-        return Get.find<DashboardController>().localization.homePage?.water ?? 'Water';
+        return Get.find<DashboardController>().localization.homePage?.waterButton ?? 'Water';
       case QuickAction.mood:
-        return Get.find<DashboardController>().localization.homePage?.mood ?? 'Mood';
+        return Get.find<DashboardController>().localization.homePage?.moodButton ?? 'Mood';
       case QuickAction.nutrition:
-        return Get.find<DashboardController>().localization.homePage?.nutrition ?? 'Nutrition';
+        return Get.find<DashboardController>().localization.homePage?.nutritionButton ?? 'Nutrition';
       default:
         return '';
     }
@@ -779,7 +783,7 @@ class QuickActionRow extends StatelessWidget {
             onTap(e);
           },
           child: SizedBox(
-            width: 48.w,
+            width: 48.h,
             height: 90.h,
             child: Column(
               children: [

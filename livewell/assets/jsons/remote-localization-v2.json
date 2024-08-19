@@ -118,24 +118,7 @@
             "task_list": "Task List",
             "water": "Water",
             "water_button": "Water",
-            "water_task": "Water",
-            "of": "of",
-            "insights": "Insights",
-            "next": "Next",
-            "prev": "Prev",
-            "preparing_recommendation_for_you": "Preparing recommendation for you...",
-            "done": "Done",
-            "youre_all_set": "You're all set!",
-            "curious_about_full_picture": "Curious about the full picture? Explore your detailed wellness insights ",
-            "here": "here",
-            "wellness": "Wellness",
-            "view_insights": "View Insights",
-            "check_the_app_to_see_what_you_need_to_improve": "Check the app to see what you need to improve",
-            "see_the_app_for_areas_to_improve": "See the app for areas to improve",
-            "great_job_keep_up_the_good_work": "Great job! Keep up the good work!",
-            "exercise": "Exercise",
-            "nutrition": "Nutrition"
-
+            "water_task": "Water"
         },
         "landing_page": {
             "already_have_account": "Already have account?",
@@ -548,26 +531,6 @@
             "wellness": "Wellness",
             "wellness_score": "Wellness Score",
             "your_wellness_profile_today": "Your Wellness Profile Today"
-        },
-        "nutrico_plus_bottom_sheet": {
-            "manual_describe_your_food": "Manual Describe Your Food",
-            "describe_food": "Describe Food",
-            "generate_from_image": "Generate From Image",
-            "maximum_generate_of": "Maximum generate of",
-            "images_per_month": "images per month",
-            "pick_from_gallery": "Pick from Gallery",
-            "take_a_photo": "Take a Photo",
-            "max_request_reached": "Max request reached"
-        },
-        "tooltip_home_page": {
-            "nutrico_plus_title": "Snap, NutriCo+",
-            "task_recommendation_title": "At a Glance Insight For Today!",
-            "finish_task_recommendation_title": "See the Full Picture",
-            "wellness_score_title": "Need More Time?",
-           "nutrico_plus_description": "Now you can discover quick tips to improve your day only in seconds.",
-           "task_recommendation_description": "Now you can discover quick tips to improve your day only in seconds.",
-           "finish_task_recommendation_description": "Uncover detailed insights and recommendations with a single click.",
-           "wellness_score_description": "You still can find the full recommendation here."
         }
     },
     "id_ID": {
@@ -689,23 +652,7 @@
             "task_list": "Daftar Tugas",
             "water": "Hidrasi",
             "water_button": "Hidrasi",
-            "water_task": "Hidrasi",
-            "of": "dari",
-            "insights": "wawasan",
-            "next": "Selanjutnya",
-            "prev": "Sebelumnya",
-            "preparing_recommendation_for_you": "Menyiapkan rekomendasi untuk Anda...",
-            "done": "Selesai",
-            "youre_all_set": "Kamu sudah siap!",
-            "curious_about_full_picture": "Penasaran dengan gambaran lengkapnya? Jelajahi wawasan kesehatan terperinci Anda ",
-            "here": "Di sini",
-            "wellness": "Kesehatan",
-            "view_insights": "Lihat wawasan",
-            "check_the_app_to_see_what_you_need_to_improve": "Cek aplikasi untuk melihat apa yang perlu ditingkatkan",
-            "see_the_app_for_areas_to_improve": "Lihat aplikasi untuk area yang perlu ditingkatkan",
-            "great_job_keep_up_the_good_work": "Kerja yang baik! Tetap menjalankan kerja yang baik untuk meningkatkan kesehatanmu",
-            "exercise": "Olahraga",
-            "nutrition": "Nutrisi"
+            "water_task": "Hidrasi"
         },
         "landing_page": {
             "already_have_account": "Sudah punya akun?",
@@ -1118,26 +1065,6 @@
             "wellness": "Wellness atau Kesehatan",
             "wellness_score": "Skor Kesehatan",
             "your_wellness_profile_today": "Profil Kesehatanmu Hari Ini"
-        },
-        "nutrico_plus_bottom_sheet": {
-            "manual_describe_your_food": "manual menjelaskan makanan Anda",
-            "describe_food": "Jelaskan Makanan",
-            "generate_from_image": "Hasilkan Dari Gambar",
-            "maximum_generate_of": "Hasil maksimal sebesar",
-            "images_per_month": "gambar per bulan",
-            "pick_from_gallery": "Pilih dari Galeri",
-            "take_a_photo": "Ambil Foto",
-            "max_request_reached": "Maksimum permintaan tercapai"
-        },
-        "tooltip_home_page": {
-            "nutrico_plus_title": "Snap, NutriCo+",
-            "task_recommendation_title": "Sekilas insight untuk hari ini!",
-            "finish_task_recommendation_title": "Lihat Semua Gambar",
-            "wellness_score_title": "Butuh Waktu Tambahan?",
-           "nutrico_plus_description": "Sekarang kamu bisa melihat tips untuk meningkatkan harimu hanya dalam hitungan detik",
-           "task_recommendation_description": "Sekarang kamu bisa melihat tips untuk meningkatkan harimu hanya dalam hitungan detik",
-           "finish_task_recommendation_description": "Buka insight yg mendetail dan rekomendasi hanya dengan satu klik",
-           "wellness_score_description": "Kamu tetap bisa melihat semua rekomendasi di sini"
         }
     }
 }

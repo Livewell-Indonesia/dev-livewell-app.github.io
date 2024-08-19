@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:livewell/core/helper/clarity/flutter_clarity.dart';
 import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/core/notification/firebase_notification.dart';
 import 'package:livewell/core/remote_config/remote_config_service.dart';
@@ -179,6 +178,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
+      splitScreenMode: true,
       minTextAdapt: false,
       fontSizeResolver: (fontSize, instance) => FontSizeResolvers.radius(fontSize, instance),
       builder: (context, child) {

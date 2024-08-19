@@ -58,7 +58,7 @@ class _NutriScoreScreenState extends State<NutriScoreScreen> {
                       crossAxisCount: 2,
                       mainAxisSpacing: 8.h,
                       crossAxisSpacing: 8.w,
-                      childAspectRatio: 2.13.w,
+                      childAspectRatio: 1.65.w,
                     ),
                     itemBuilder: (context, index) {
                       return InkWell(
@@ -110,6 +110,7 @@ class NutriScoreDetailItem extends StatelessWidget {
       decoration: BoxDecoration(border: Border.all(color: const Color(0xFFEBEBEB)), borderRadius: BorderRadius.circular(24.r)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             name,

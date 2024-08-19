@@ -23,18 +23,21 @@ class LandingQuestionnaire extends StatelessWidget {
             height: 240.h,
           ),
           32.verticalSpace,
-          Text(
-            'Let\'s start by completing your profile',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.secondaryDarkBlue,
-              fontSize: 24.sp,
-              fontWeight: FontWeight.w600,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              controller.localization.onboardingPage?.letsStartByCompletingYourProfile ?? "Let's start by completing your profile",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.secondaryDarkBlue,
+                fontSize: 24.sp,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
           8.verticalSpace,
           Text(
-            'Personalized plan will be crafted based on your current condition',
+            controller.localization.onboardingPage?.personalizedPlanWillBeCraftedBasedOnYourCurrentCondition ?? "Personalized plan will be crafted based on your current condition",
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Theme.of(context).colorScheme.disabled,
@@ -44,7 +47,7 @@ class LandingQuestionnaire extends StatelessWidget {
           ),
           const Spacer(),
           LiveWellButton(
-            label: 'Start Now',
+            label: controller.localization.onboardingPage?.startNow ?? "Start Now",
             color: Theme.of(context).colorScheme.primaryPurple,
             textColor: Colors.white,
             onPressed: () {

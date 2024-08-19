@@ -45,7 +45,7 @@ class GenderSelector extends StatelessWidget {
           ),
           const Spacer(),
           LiveWellButton(
-            label: 'Next',
+            label: controller.localization.onboardingPage?.next ?? "Next",
             color: Theme.of(context).colorScheme.primaryPurple,
             textColor: Colors.white,
             onPressed: () {

@@ -84,7 +84,7 @@ class DashboardSummaryWidget extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: 14.w,
+                  width: 14.h,
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(100),

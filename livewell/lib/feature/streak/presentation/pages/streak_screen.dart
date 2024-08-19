@@ -157,7 +157,7 @@ class _StreakScreenState extends State<StreakScreen> {
                           16.verticalSpace,
                           Obx(() {
                             return Text(
-                              '${controller.numberOfStreaks.value}-day streak',
+                              '${controller.numberOfStreaks.value} ${controller.localization.streakPage?.dayStreak ?? ''}',
                               style: TextStyle(color: Theme.of(context).colorScheme.textLoEm, fontWeight: FontWeight.w600, fontSize: 16.sp),
                             );
                           }),
@@ -316,44 +316,282 @@ class LivewellBottleClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-    double radius = 20.0; 
+    double radius = 20.0;
     final double _xScaling = size.width / 259;
     final double _yScaling = size.height / 412;
-    path.lineTo(120.799 * _xScaling,0.0000308191 * _yScaling);
-    path.cubicTo(120.799 * _xScaling,0.0000308191 * _yScaling,138.199 * _xScaling,0.0000308191 * _yScaling,138.199 * _xScaling,0.0000308191 * _yScaling,);
-    path.cubicTo(147.22 * _xScaling,-0.00446338 * _yScaling,155.96 * _xScaling,3.13678 * _yScaling,162.907 * _xScaling,8.88089 * _yScaling,);
-    path.cubicTo(169.854 * _xScaling,14.625 * _yScaling,174.572 * _xScaling,22.611 * _yScaling,176.246 * _xScaling,31.4586 * _yScaling,);
-    path.cubicTo(177.92 * _xScaling,40.3063 * _yScaling,176.444 * _xScaling,49.4595 * _yScaling,172.074 * _xScaling,57.3364 * _yScaling,);
-    path.cubicTo(167.703 * _xScaling,65.2133 * _yScaling,179.798 * _xScaling,64.5 * _yScaling,182.311 * _xScaling,74.5977 * _yScaling,);
-    path.cubicTo(185.433 * _xScaling,87.138 * _yScaling,194.618 * _xScaling,96.6398 * _yScaling,208.679 * _xScaling,110.468 * _yScaling,);
-    path.cubicTo(208.679 * _xScaling,110.468 * _yScaling,208.937 * _xScaling,110.725 * _yScaling,208.937 * _xScaling,110.725 * _yScaling,);
-    path.cubicTo(218.844 * _xScaling,120.459 * _yScaling,230.583 * _xScaling,131.995 * _yScaling,240.851 * _xScaling,147.367 * _yScaling,);
-    path.cubicTo(241.109 * _xScaling,147.711 * _yScaling,241.324 * _xScaling,148.071 * _yScaling,241.496 * _xScaling,148.449 * _yScaling,);
-    path.cubicTo(253.903 * _xScaling,167.681 * _yScaling,259.782 * _xScaling,190.386 * _yScaling,258.266 * _xScaling,213.21 * _yScaling,);
-    path.cubicTo(258.421 * _xScaling,215.098 * _yScaling,258.498 * _xScaling,216.987 * _yScaling,258.498 * _xScaling,218.875 * _yScaling,);
-    path.cubicTo(258.498 * _xScaling,218.875 * _yScaling,258.498 * _xScaling,347.625 * _yScaling,258.498 * _xScaling,347.625 * _yScaling,);
-    path.cubicTo(258.498 * _xScaling,358.925 * _yScaling,255.517 * _xScaling,370.026 * _yScaling,249.856 * _xScaling,379.812 * _yScaling,);
-    path.cubicTo(244.195 * _xScaling,389.598 * _yScaling,236.053 * _xScaling,397.724 * _yScaling,226.248 * _xScaling,403.374 * _yScaling,);
-    path.cubicTo(216.443 * _xScaling,409.024 * _yScaling,205.32 * _xScaling,411.998 * _yScaling,193.998 * _xScaling,411.998 * _yScaling,);
-    path.cubicTo(182.676 * _xScaling,411.998 * _yScaling,171.554 * _xScaling,409.024 * _yScaling,161.749 * _xScaling,403.374 * _yScaling,);
-    path.cubicTo(151.944 * _xScaling,409.024 * _yScaling,140.821 * _xScaling,412 * _yScaling,129.499 * _xScaling,412 * _yScaling,);
-    path.cubicTo(118.177 * _xScaling,412 * _yScaling,107.054 * _xScaling,409.024 * _yScaling,97.2493 * _xScaling,403.374 * _yScaling,);
-    path.cubicTo(87.4443 * _xScaling,409.024 * _yScaling,76.3219 * _xScaling,411.998 * _yScaling,65 * _xScaling,411.998 * _yScaling,);
-    path.cubicTo(53.6781 * _xScaling,411.998 * _yScaling,42.5556 * _xScaling,409.024 * _yScaling,32.7505 * _xScaling,403.374 * _yScaling,);
-    path.cubicTo(22.9454 * _xScaling,397.724 * _yScaling,14.8031 * _xScaling,389.598 * _yScaling,9.14192 * _xScaling,379.812 * _yScaling,);
-    path.cubicTo(3.48079 * _xScaling,370.026 * _yScaling,0.500288 * _xScaling,358.925 * _yScaling,0.5 * _xScaling,347.625 * _yScaling,);
-    path.cubicTo(0.5 * _xScaling,347.625 * _yScaling,0.5 * _xScaling,218.875 * _yScaling,0.5 * _xScaling,218.875 * _yScaling,);
-    path.cubicTo(0.5 * _xScaling,216.987 * _yScaling,0.586012 * _xScaling,215.098 * _yScaling,0.758011 * _xScaling,213.21 * _yScaling,);
-    path.cubicTo(0.587679 * _xScaling,210.81 * _yScaling,0.501614 * _xScaling,208.406 * _yScaling,0.5 * _xScaling,206 * _yScaling,);
-    path.cubicTo(0.5 * _xScaling,171.753 * _yScaling,16.9861 * _xScaling,141.316 * _yScaling,42.5537 * _xScaling,120.355 * _yScaling,);
-    path.cubicTo(45.4777 * _xScaling,117.266 * _yScaling,48.2985 * _xScaling,114.33 * _yScaling,51.0161 * _xScaling,111.549 * _yScaling,);
-    path.cubicTo(51.0161 * _xScaling,111.549 * _yScaling,51.0676 * _xScaling,111.523 * _yScaling,51.0676 * _xScaling,111.523 * _yScaling,);
-    path.cubicTo(64.8189 * _xScaling,97.3608 * _yScaling,73.7973 * _xScaling,87.7045 * _yScaling,76.7901 * _xScaling,74.6493 * _yScaling,);
-    path.cubicTo(79.0021 * _xScaling,65 * _yScaling,91.341 * _xScaling,65.3017 * _yScaling,86.9432 * _xScaling,57.4231 * _yScaling,);
-    path.cubicTo(82.5455 * _xScaling,49.5446 * _yScaling,81.0487 * _xScaling,40.3785 * _yScaling,82.7123 * _xScaling,31.5139 * _yScaling,);
-    path.cubicTo(84.3759 * _xScaling,22.6494 * _yScaling,89.095 * _xScaling,14.6454 * _yScaling,96.0515 * _xScaling,8.88943 * _yScaling,);
-    path.cubicTo(103.008 * _xScaling,3.13351 * _yScaling,111.763 * _xScaling,-0.0113571 * _yScaling,120.799 * _xScaling,0.0000308191 * _yScaling,);
-    path.cubicTo(120.799 * _xScaling,0.0000308191 * _yScaling,120.799 * _xScaling,0.0000308191 * _yScaling,120.799 * _xScaling,0.0000308191 * _yScaling,);
+    path.lineTo(120.799 * _xScaling, 0.0000308191 * _yScaling);
+    path.cubicTo(
+      120.799 * _xScaling,
+      0.0000308191 * _yScaling,
+      138.199 * _xScaling,
+      0.0000308191 * _yScaling,
+      138.199 * _xScaling,
+      0.0000308191 * _yScaling,
+    );
+    path.cubicTo(
+      147.22 * _xScaling,
+      -0.00446338 * _yScaling,
+      155.96 * _xScaling,
+      3.13678 * _yScaling,
+      162.907 * _xScaling,
+      8.88089 * _yScaling,
+    );
+    path.cubicTo(
+      169.854 * _xScaling,
+      14.625 * _yScaling,
+      174.572 * _xScaling,
+      22.611 * _yScaling,
+      176.246 * _xScaling,
+      31.4586 * _yScaling,
+    );
+    path.cubicTo(
+      177.92 * _xScaling,
+      40.3063 * _yScaling,
+      176.444 * _xScaling,
+      49.4595 * _yScaling,
+      172.074 * _xScaling,
+      57.3364 * _yScaling,
+    );
+    path.cubicTo(
+      167.703 * _xScaling,
+      65.2133 * _yScaling,
+      179.798 * _xScaling,
+      64.5 * _yScaling,
+      182.311 * _xScaling,
+      74.5977 * _yScaling,
+    );
+    path.cubicTo(
+      185.433 * _xScaling,
+      87.138 * _yScaling,
+      194.618 * _xScaling,
+      96.6398 * _yScaling,
+      208.679 * _xScaling,
+      110.468 * _yScaling,
+    );
+    path.cubicTo(
+      208.679 * _xScaling,
+      110.468 * _yScaling,
+      208.937 * _xScaling,
+      110.725 * _yScaling,
+      208.937 * _xScaling,
+      110.725 * _yScaling,
+    );
+    path.cubicTo(
+      218.844 * _xScaling,
+      120.459 * _yScaling,
+      230.583 * _xScaling,
+      131.995 * _yScaling,
+      240.851 * _xScaling,
+      147.367 * _yScaling,
+    );
+    path.cubicTo(
+      241.109 * _xScaling,
+      147.711 * _yScaling,
+      241.324 * _xScaling,
+      148.071 * _yScaling,
+      241.496 * _xScaling,
+      148.449 * _yScaling,
+    );
+    path.cubicTo(
+      253.903 * _xScaling,
+      167.681 * _yScaling,
+      259.782 * _xScaling,
+      190.386 * _yScaling,
+      258.266 * _xScaling,
+      213.21 * _yScaling,
+    );
+    path.cubicTo(
+      258.421 * _xScaling,
+      215.098 * _yScaling,
+      258.498 * _xScaling,
+      216.987 * _yScaling,
+      258.498 * _xScaling,
+      218.875 * _yScaling,
+    );
+    path.cubicTo(
+      258.498 * _xScaling,
+      218.875 * _yScaling,
+      258.498 * _xScaling,
+      347.625 * _yScaling,
+      258.498 * _xScaling,
+      347.625 * _yScaling,
+    );
+    path.cubicTo(
+      258.498 * _xScaling,
+      358.925 * _yScaling,
+      255.517 * _xScaling,
+      370.026 * _yScaling,
+      249.856 * _xScaling,
+      379.812 * _yScaling,
+    );
+    path.cubicTo(
+      244.195 * _xScaling,
+      389.598 * _yScaling,
+      236.053 * _xScaling,
+      397.724 * _yScaling,
+      226.248 * _xScaling,
+      403.374 * _yScaling,
+    );
+    path.cubicTo(
+      216.443 * _xScaling,
+      409.024 * _yScaling,
+      205.32 * _xScaling,
+      411.998 * _yScaling,
+      193.998 * _xScaling,
+      411.998 * _yScaling,
+    );
+    path.cubicTo(
+      182.676 * _xScaling,
+      411.998 * _yScaling,
+      171.554 * _xScaling,
+      409.024 * _yScaling,
+      161.749 * _xScaling,
+      403.374 * _yScaling,
+    );
+    path.cubicTo(
+      151.944 * _xScaling,
+      409.024 * _yScaling,
+      140.821 * _xScaling,
+      412 * _yScaling,
+      129.499 * _xScaling,
+      412 * _yScaling,
+    );
+    path.cubicTo(
+      118.177 * _xScaling,
+      412 * _yScaling,
+      107.054 * _xScaling,
+      409.024 * _yScaling,
+      97.2493 * _xScaling,
+      403.374 * _yScaling,
+    );
+    path.cubicTo(
+      87.4443 * _xScaling,
+      409.024 * _yScaling,
+      76.3219 * _xScaling,
+      411.998 * _yScaling,
+      65 * _xScaling,
+      411.998 * _yScaling,
+    );
+    path.cubicTo(
+      53.6781 * _xScaling,
+      411.998 * _yScaling,
+      42.5556 * _xScaling,
+      409.024 * _yScaling,
+      32.7505 * _xScaling,
+      403.374 * _yScaling,
+    );
+    path.cubicTo(
+      22.9454 * _xScaling,
+      397.724 * _yScaling,
+      14.8031 * _xScaling,
+      389.598 * _yScaling,
+      9.14192 * _xScaling,
+      379.812 * _yScaling,
+    );
+    path.cubicTo(
+      3.48079 * _xScaling,
+      370.026 * _yScaling,
+      0.500288 * _xScaling,
+      358.925 * _yScaling,
+      0.5 * _xScaling,
+      347.625 * _yScaling,
+    );
+    path.cubicTo(
+      0.5 * _xScaling,
+      347.625 * _yScaling,
+      0.5 * _xScaling,
+      218.875 * _yScaling,
+      0.5 * _xScaling,
+      218.875 * _yScaling,
+    );
+    path.cubicTo(
+      0.5 * _xScaling,
+      216.987 * _yScaling,
+      0.586012 * _xScaling,
+      215.098 * _yScaling,
+      0.758011 * _xScaling,
+      213.21 * _yScaling,
+    );
+    path.cubicTo(
+      0.587679 * _xScaling,
+      210.81 * _yScaling,
+      0.501614 * _xScaling,
+      208.406 * _yScaling,
+      0.5 * _xScaling,
+      206 * _yScaling,
+    );
+    path.cubicTo(
+      0.5 * _xScaling,
+      171.753 * _yScaling,
+      16.9861 * _xScaling,
+      141.316 * _yScaling,
+      42.5537 * _xScaling,
+      120.355 * _yScaling,
+    );
+    path.cubicTo(
+      45.4777 * _xScaling,
+      117.266 * _yScaling,
+      48.2985 * _xScaling,
+      114.33 * _yScaling,
+      51.0161 * _xScaling,
+      111.549 * _yScaling,
+    );
+    path.cubicTo(
+      51.0161 * _xScaling,
+      111.549 * _yScaling,
+      51.0676 * _xScaling,
+      111.523 * _yScaling,
+      51.0676 * _xScaling,
+      111.523 * _yScaling,
+    );
+    path.cubicTo(
+      64.8189 * _xScaling,
+      97.3608 * _yScaling,
+      73.7973 * _xScaling,
+      87.7045 * _yScaling,
+      76.7901 * _xScaling,
+      74.6493 * _yScaling,
+    );
+    path.cubicTo(
+      79.0021 * _xScaling,
+      65 * _yScaling,
+      91.341 * _xScaling,
+      65.3017 * _yScaling,
+      86.9432 * _xScaling,
+      57.4231 * _yScaling,
+    );
+    path.cubicTo(
+      82.5455 * _xScaling,
+      49.5446 * _yScaling,
+      81.0487 * _xScaling,
+      40.3785 * _yScaling,
+      82.7123 * _xScaling,
+      31.5139 * _yScaling,
+    );
+    path.cubicTo(
+      84.3759 * _xScaling,
+      22.6494 * _yScaling,
+      89.095 * _xScaling,
+      14.6454 * _yScaling,
+      96.0515 * _xScaling,
+      8.88943 * _yScaling,
+    );
+    path.cubicTo(
+      103.008 * _xScaling,
+      3.13351 * _yScaling,
+      111.763 * _xScaling,
+      -0.0113571 * _yScaling,
+      120.799 * _xScaling,
+      0.0000308191 * _yScaling,
+    );
+    path.cubicTo(
+      120.799 * _xScaling,
+      0.0000308191 * _yScaling,
+      120.799 * _xScaling,
+      0.0000308191 * _yScaling,
+      120.799 * _xScaling,
+      0.0000308191 * _yScaling,
+    );
     // path.lineTo(68.5 * _xScaling,13 * _yScaling);
     // path.cubicTo(68.5 * _xScaling,5.8203 * _yScaling,74.3203 * _xScaling,0 * _yScaling,81.5 * _xScaling,0 * _yScaling,);
     // path.cubicTo(81.5 * _xScaling,0 * _yScaling,178.5 * _xScaling,0 * _yScaling,178.5 * _xScaling,0 * _yScaling,);
@@ -383,8 +621,8 @@ class LivewellClipperSmall extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-    final double xScaling = size.width / 48;
-    final double yScaling = size.height / 32;
+    final double xScaling = (size.width / 48).h;
+    final double yScaling = (size.height / 32).h;
     path.lineTo(12.6667 * xScaling, 0.779297 * yScaling);
     path.cubicTo(
       12.6667 * xScaling,

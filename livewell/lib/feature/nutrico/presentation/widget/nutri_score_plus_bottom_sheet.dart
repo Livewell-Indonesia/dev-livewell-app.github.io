@@ -131,6 +131,7 @@ class _NutriScorePlusBottomSheetState extends State<NutriScorePlusBottomSheet> {
               onTap: widget.isAlreadyLimit
                   ? null
                   : () {
+                      EasyLoading.show();
                       Get.find<DashboardController>()
                           .trackEvent(widget.isFromDashboard ? LivewellHomepageEvent.navbarNutricoPickFromGalleryButton : LivewellMealLogEvent.mealLogPageNutricoPickFromGalleryButton);
                       _pickImage(ImageSource.gallery, context);
@@ -200,6 +201,7 @@ class _NutriScorePlusBottomSheetState extends State<NutriScorePlusBottomSheet> {
 
   void _pickImage(ImageSource source, BuildContext context) async {
     final picker = ImagePicker();
+    EasyLoading.show();
     final pickedFile = await picker.pickImage(source: source, imageQuality: 65);
     // FilePickerResult? file =
     //     await FilePicker.platform.pickFiles(type: FileType.image);
@@ -213,6 +215,7 @@ class _NutriScorePlusBottomSheetState extends State<NutriScorePlusBottomSheet> {
       // );
       // onImageSelected(selectedImage.first);
     }
+    EasyLoading.dismiss();
     //Navigator.of(context).pop();
   }
 }

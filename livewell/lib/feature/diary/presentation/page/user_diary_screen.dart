@@ -106,7 +106,7 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
                                   controller.onDateTapped(index);
                                 },
                                 child: Container(
-                                  width: 55.w,
+                                  width: 55.h,
                                   height: 72.h,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(

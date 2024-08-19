@@ -32,7 +32,7 @@ class _HeightSelectorState extends State<HeightSelector> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Height',
+            controller.localization.onboardingPage?.height ?? 'Height',
             style: TextStyle(color: const Color(0xFF000000), fontSize: 24.sp, fontWeight: FontWeight.w600),
           ),
           Container(
@@ -87,7 +87,7 @@ class _HeightSelectorState extends State<HeightSelector> {
             ),
           ),
           LiveWellButton(
-            label: 'Confirm',
+            label: controller.localization.onboardingPage?.confirm ?? "Confirm",
             color: const Color(0xFF8F01DF),
             textColor: Colors.white,
             onPressed: () {

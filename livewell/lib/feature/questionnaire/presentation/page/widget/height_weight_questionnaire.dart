@@ -71,7 +71,7 @@ class _HeightWeightQuestionnaireState extends State<HeightWeightQuestionnaire> {
                         );
                       });
                 },
-                hint: 'Height',
+                hint: controller.localization.onboardingPage?.height ?? 'Height',
               );
             })),
         16.verticalSpace,
@@ -104,13 +104,13 @@ class _HeightWeightQuestionnaireState extends State<HeightWeightQuestionnaire> {
                         );
                       });
                 },
-                hint: 'Weight',
+                hint: controller.localization.physicalInformationPage?.weightKg ?? 'Weight',
               );
             })),
         const Spacer(),
         Obx(() {
           return LiveWellButton(
-            label: 'Next',
+            label: controller.localization.onboardingPage?.next ?? "Next",
             color: Theme.of(context).colorScheme.primaryPurple,
             textColor: Colors.white,
             onPressed: controller.weight.value != 0.0 && controller.height.value != 0

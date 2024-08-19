@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 
 enum WaterInputType { reduce, increase }
 
@@ -6,7 +8,7 @@ extension WaterInputTypeExt on WaterInputType {
   String get title {
     switch (this) {
       case WaterInputType.reduce:
-        return 'Reduce Water';
+        return Get.find<HomeController>().localization.waterPage?.reduceWater ?? 'Reduce Water';
       case WaterInputType.increase:
         return "Water Consumed";
     }
@@ -33,18 +35,18 @@ extension WaterInputTypeExt on WaterInputType {
   String get navbarTitle {
     switch (this) {
       case WaterInputType.increase:
-        return 'Add Water';
+        return Get.find<HomeController>().localization.waterPage?.addWater ?? 'Add Water';
       case WaterInputType.reduce:
-        return 'Reduce';
+        return Get.find<HomeController>().localization.waterPage?.reduceWater ?? 'Reduce';
     }
   }
 
   String get buttonText {
     switch (this) {
       case WaterInputType.increase:
-        return 'Add Drink';
+        return Get.find<HomeController>().localization.waterPage?.addDrink ?? 'Add Drink';
       case WaterInputType.reduce:
-        return 'Reduce Drink';
+        return Get.find<HomeController>().localization.waterPage?.reduceDrink ?? 'Reduce Drink';
     }
   }
 }

@@ -1,5 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -83,50 +85,56 @@ class _MoodScreenState extends State<MoodScreen> {
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: MoodType.values.map((e) {
-                              return InkWell(
-                                onTap: () {
-                                  controller.postMoodData(e);
-                                },
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Stack(
-                                      alignment: Alignment.topRight,
-                                      children: [
-                                        Obx(() {
-                                          return SvgPicture.asset(e.assets(), color: getColor(e), width: 48.w, height: 48.h);
-                                        }),
-                                        Align(
-                                          alignment: Alignment.topRight,
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
-                                            decoration: const BoxDecoration(
-                                              color: Colors.white,
-                                              shape: BoxShape.circle,
+                              return Expanded(
+                                child: InkWell(
+                                  onTap: () {
+                                    controller.postMoodData(e);
+                                  },
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Stack(
+                                        alignment: Alignment.topRight,
+                                        children: [
+                                          Obx(() {
+                                            return SvgPicture.asset(e.assets(), color: getColor(e), width: 48.w, height: 48.h);
+                                          }),
+                                          Positioned(
+                                            left: 2,
+                                            top: 0,
+                                            child: Container(
+                                              //padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
+                                              decoration: const BoxDecoration(
+                                                color: Colors.white,
+                                                shape: BoxShape.circle,
+                                              ),
+                                              child: Center(child: Obx(() {
+                                                return Container(
+                                                    padding: EdgeInsets.all(4.w),
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: getColorForIndicator(e),
+                                                    ),
+                                                    child: Text(
+                                                      controller.getTotalMoodByType(e.value()).toString(),
+                                                      style: TextStyle(color: Colors.white, fontSize: 8.sp, fontWeight: FontWeight.w700),
+                                                    ));
+                                              })),
                                             ),
-                                            child: Center(child: Obx(() {
-                                              return Container(
-                                                  padding: EdgeInsets.all(4.w),
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: getColorForIndicator(e),
-                                                  ),
-                                                  child: Text(
-                                                    controller.getTotalMoodByType(e.value()).toString(),
-                                                    style: TextStyle(color: Colors.white, fontSize: 8.sp, fontWeight: FontWeight.w700),
-                                                  ));
-                                            })),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    4.verticalSpace,
-                                    Text(
-                                      e.title(),
-                                      style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: const Color(0xFF171433).withOpacity(0.8)),
-                                    ),
-                                  ],
+                                          )
+                                        ],
+                                      ),
+                                      4.verticalSpace,
+                                      AutoSizeText(
+                                        e.title(),
+                                        maxLines: 2,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: const Color(0xFF171433).withOpacity(0.8)),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               );
                             }).toList(),

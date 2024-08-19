@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -105,6 +106,7 @@ class HomeScreen extends StatelessWidget {
                           }
                         },
                         onImageSelected: (file) {
+                          EasyLoading.dismiss();
                           Get.back();
                           AppNavigator.push(routeName: AppPages.loadingNutricoPlus, arguments: file);
                         },
@@ -119,7 +121,7 @@ class HomeScreen extends StatelessWidget {
                   key: Get.find<HomeController>().nutricoKey,
                   decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFF8F01DF)),
                   height: 56.h,
-                  width: 56.w,
+                  width: 56.h,
                   child: Padding(
                     padding: EdgeInsets.all(8.w),
                     child: SvgPicture.asset(
