@@ -267,21 +267,21 @@ class HydartionScoreWidget extends StatelessWidget {
                                                           Expanded(
                                                             flex: 5,
                                                             child: Text(
-                                                              'Ranges',
+                                                              controller.localization.wellnessCalculation?['ranges'] ?? "Ranges",
                                                               style: TextStyle(color: Theme.of(context).colorScheme.black600, fontWeight: FontWeight.w600, fontSize: 14.sp),
                                                             ),
                                                           ),
                                                           Expanded(
                                                             flex: 2,
                                                             child: Text(
-                                                              'Score',
+                                                              controller.localization.wellnessCalculation?['scores'] ?? "Scores",
                                                               style: TextStyle(color: Theme.of(context).colorScheme.black600, fontWeight: FontWeight.w600, fontSize: 14.sp),
                                                             ),
                                                           ),
                                                           Expanded(
                                                             flex: 5,
                                                             child: Text(
-                                                              'Category',
+                                                              controller.localization.wellnessCalculation?['category'] ?? "Category",
                                                               style: TextStyle(color: Theme.of(context).colorScheme.black600, fontWeight: FontWeight.w600, fontSize: 14.sp),
                                                             ),
                                                           ),

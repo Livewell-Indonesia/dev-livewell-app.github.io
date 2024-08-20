@@ -177,7 +177,7 @@ class _UpdateWeightScreenState extends State<UpdateWeightScreen> {
                                     touchTooltipData: BarTouchTooltipData(
                                       getTooltipItem: (group, groupIndex, rod, rodIndex) {
                                         return BarTooltipItem(
-                                          '${NumberFormat('0.0').format(rod.toY)} kcal',
+                                          '${NumberFormat('0.0').format(rod.toY)} ${controller.localization.exercisePage?.kcal ?? 'kkal'}',
                                           TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 14.sp),
                                         );
                                       },

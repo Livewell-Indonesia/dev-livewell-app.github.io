@@ -163,7 +163,8 @@ class _StreakScreenState extends State<StreakScreen> {
                           }),
                           4.verticalSpace,
                           Text(
-                            'Learning daily keeps your streak up',
+                            controller.localization.streakPage?.learningDailyKeepsYourStreakUp ?? 'Learning daily keeps your streak up',
+                            textAlign: TextAlign.center,
                             style: TextStyle(color: Theme.of(context).colorScheme.disabled, fontSize: 12.sp, fontWeight: FontWeight.w400),
                           ),
                           24.verticalSpace,

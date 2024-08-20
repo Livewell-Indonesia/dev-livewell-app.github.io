@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/core/notification/firebase_notification.dart';
 import 'package:livewell/core/remote_config/remote_config_service.dart';
@@ -115,6 +116,7 @@ void main() async {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  initializeDateFormatting('id_ID');
   await LivewellNotification().init();
   FirebaseMessaging.onBackgroundMessage(handleBackgroundMesage);
   await FirebaseRemoteConfigService().init();

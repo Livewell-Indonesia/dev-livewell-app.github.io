@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
@@ -107,6 +108,7 @@ class LanguageController extends GetxController {
   @override
   void onInit() {
     //getLocalizationDatas();
+    Intl.defaultLocale = 'id_ID';
     super.onInit();
   }
 
@@ -129,10 +131,12 @@ class LanguageController extends GetxController {
         case AvailableLanguage.en:
           localization.value = r.enUs!;
           currentLanguage.value = AvailableLanguage.en;
+          Intl.defaultLocale = 'en_US';
           break;
         case AvailableLanguage.id:
           localization.value = r.idId!;
           currentLanguage.value = AvailableLanguage.id;
+          Intl.defaultLocale = 'id_ID';
           break;
       }
     });

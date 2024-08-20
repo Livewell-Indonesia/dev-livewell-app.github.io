@@ -140,10 +140,14 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
                           DailyJournalItemContentModel(
                               type: DailyJournalItemType.nutrition,
                               contentName: controller.localization.userDiaryPage?.breakfast ?? "",
-                              contentValue: "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "breakfast".toUpperCase()).toList())} kcal",
+                              contentValue:
+                                  "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "breakfast".toUpperCase()).toList())} ${controller.localization.exercisePage?.kcal ?? 'kcal'}",
                               contentDesc: controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "breakfast".toUpperCase()).map((e) {
                                 return DailyJournalItemContentDescModel(
-                                    contentDescName: e.mealName ?? "", contentDescValue: "${e.caloriesInG} kcal", contentServing: e.mealServings ?? "", onMoreTap: () => onMoreTap(context, e));
+                                    contentDescName: e.mealName ?? "",
+                                    contentDescValue: "${e.caloriesInG} ${controller.localization.exercisePage?.kcal ?? 'kcal'}",
+                                    contentServing: e.mealServings ?? "",
+                                    onMoreTap: () => onMoreTap(context, e));
                               }).toList(),
                               onAddTap: () {
                                 AppNavigator.push(routeName: AppPages.addMeal, arguments: {"type": "breakfast", "date": controller.dateList[controller.selectedIndex.value]});
@@ -151,10 +155,14 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
                           DailyJournalItemContentModel(
                               type: DailyJournalItemType.nutrition,
                               contentName: controller.localization.userDiaryPage?.lunch ?? "",
-                              contentValue: "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "lunch".toUpperCase()).toList())} kcal",
+                              contentValue:
+                                  "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "lunch".toUpperCase()).toList())} ${controller.localization.exercisePage?.kcal ?? 'kcal'}",
                               contentDesc: controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "lunch".toUpperCase()).map((e) {
                                 return DailyJournalItemContentDescModel(
-                                    contentDescName: e.mealName ?? "", contentDescValue: "${e.caloriesInG} kcal", contentServing: e.mealServings ?? "", onMoreTap: () => onMoreTap(context, e));
+                                    contentDescName: e.mealName ?? "",
+                                    contentDescValue: "${e.caloriesInG} ${controller.localization.exercisePage?.kcal ?? 'kcal'}}",
+                                    contentServing: e.mealServings ?? "",
+                                    onMoreTap: () => onMoreTap(context, e));
                               }).toList(),
                               onAddTap: () {
                                 AppNavigator.push(routeName: AppPages.addMeal, arguments: {"type": "lunch", "date": controller.dateList[controller.selectedIndex.value]});
@@ -162,10 +170,14 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
                           DailyJournalItemContentModel(
                               type: DailyJournalItemType.nutrition,
                               contentName: controller.localization.userDiaryPage?.dinner ?? "",
-                              contentValue: "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "dinner".toUpperCase()).toList())} kcal",
+                              contentValue:
+                                  "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "dinner".toUpperCase()).toList())} ${controller.localization.exercisePage?.kcal ?? 'kcal'}",
                               contentDesc: controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "dinner".toUpperCase()).map((e) {
                                 return DailyJournalItemContentDescModel(
-                                    contentDescName: e.mealName ?? "", contentDescValue: "${e.caloriesInG} kcal", contentServing: e.mealServings ?? "", onMoreTap: () => onMoreTap(context, e));
+                                    contentDescName: e.mealName ?? "",
+                                    contentDescValue: "${e.caloriesInG} ${controller.localization.exercisePage?.kcal ?? 'kcal'}",
+                                    contentServing: e.mealServings ?? "",
+                                    onMoreTap: () => onMoreTap(context, e));
                               }).toList(),
                               onAddTap: () {
                                 AppNavigator.push(routeName: AppPages.addMeal, arguments: {"type": "dinner", "date": controller.dateList[controller.selectedIndex.value]});
@@ -173,11 +185,12 @@ class _UserDiaryScreenState extends State<UserDiaryScreen> {
                           DailyJournalItemContentModel(
                               type: DailyJournalItemType.nutrition,
                               contentName: controller.localization.userDiaryPage?.snack ?? "",
-                              contentValue: "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "snack".toUpperCase()).toList())} kcal",
+                              contentValue:
+                                  "${getTotalCal(controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "snack".toUpperCase()).toList())} ${controller.localization.exercisePage?.kcal ?? 'kcal'}",
                               contentDesc: controller.filteredMealHistory.where((p0) => p0.mealType?.toUpperCase() == "snack".toUpperCase()).map((e) {
                                 return DailyJournalItemContentDescModel(
                                   contentDescName: e.mealName ?? "",
-                                  contentDescValue: "${e.caloriesInG} kcal",
+                                  contentDescValue: "${e.caloriesInG} ${controller.localization.exercisePage?.kcal ?? 'kcal'}",
                                   contentServing: e.mealServings ?? "",
                                   onMoreTap: () => onMoreTap(context, e),
                                 );

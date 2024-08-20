@@ -186,7 +186,7 @@ class _SleepScreenState extends State<SleepScreen> {
                   )),
               16.verticalSpace,
               LiveWellButton(
-                label: "Input Sleep",
+                label: controller.localization.sleepPage?.inputSleep ?? "Input Sleep",
                 color: const Color(0xFF8F01DF),
                 textColor: Colors.white,
                 onPressed: () {

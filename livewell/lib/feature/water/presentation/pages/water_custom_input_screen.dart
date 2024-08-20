@@ -225,7 +225,7 @@ class _WaterCustomInputScreenState extends State<WaterCustomInputScreen> {
                                           children: [
                                             24.verticalSpace,
                                             Text(
-                                              'Input your water intake',
+                                              controller.localization.waterPage?.inputYourWaterIntake ?? 'Input your water intake',
                                               style: TextStyle(color: Theme.of(context).colorScheme.textLoEm, fontWeight: FontWeight.w600, fontSize: 16.sp),
                                             ),
                                             Obx(() {
@@ -239,7 +239,7 @@ class _WaterCustomInputScreenState extends State<WaterCustomInputScreen> {
                                                       text: TextSpan(
                                                         children: <TextSpan>[
                                                           TextSpan(
-                                                            text: 'Please reduce your water intake by up to ',
+                                                            text: controller.localization.waterPage?.pleaseReduceYourWaterIntakeByUpTo ?? 'Please reduce your water intake by up to ',
                                                             style: TextStyle(color: Theme.of(context).colorScheme.neutral90, fontSize: 12.sp, fontWeight: FontWeight.w400),
                                                           ),
                                                           TextSpan(
@@ -247,7 +247,7 @@ class _WaterCustomInputScreenState extends State<WaterCustomInputScreen> {
                                                             style: TextStyle(color: Theme.of(context).colorScheme.neutral90, fontSize: 12.sp, fontWeight: FontWeight.w700),
                                                           ),
                                                           TextSpan(
-                                                            text: ' (total of water you have already logged).',
+                                                            text: controller.localization.waterPage?.totalOfWaterYouHaveAlreadyLogged ?? ' (total of water you have already logged).',
                                                             style: TextStyle(color: Theme.of(context).colorScheme.neutral90, fontSize: 12.sp, fontWeight: FontWeight.w400),
                                                           ),
                                                         ],
@@ -298,7 +298,7 @@ class _WaterCustomInputScreenState extends State<WaterCustomInputScreen> {
                                               if (controller.inputtedValue.value > controller.maxMils.value ||
                                                   (controller.inputtedValue.value > controller.currentValue.value && controller.type.value == WaterInputType.reduce)) {
                                                 return Text(
-                                                  'Please keep your input under ${controller.type.value == WaterInputType.increase ? controller.maxMils.value : controller.currentValue.value} ml',
+                                                  '${controller.localization.waterPage?.pleaseKeepYourWaterIntakeUnder ?? 'Please keep your input under'} ${controller.type.value == WaterInputType.increase ? controller.maxMils.value : controller.currentValue.value} ml',
                                                   style: TextStyle(color: Theme.of(context).colorScheme.dangerMain, fontWeight: FontWeight.w600, fontSize: 12.sp),
                                                 );
                                               } else {
@@ -356,7 +356,7 @@ class _WaterCustomInputScreenState extends State<WaterCustomInputScreen> {
                           text: TextSpan(
                             children: <TextSpan>[
                               TextSpan(
-                                text: 'Please reduce your water intake by up to ',
+                                text: controller.localization.waterPage?.pleaseReduceYourWaterIntakeByUpTo ?? 'Please reduce your water intake by up to ',
                                 style: TextStyle(color: Theme.of(context).colorScheme.neutral90, fontSize: 12.sp, fontWeight: FontWeight.w400),
                               ),
                               TextSpan(
@@ -364,7 +364,7 @@ class _WaterCustomInputScreenState extends State<WaterCustomInputScreen> {
                                 style: TextStyle(color: Theme.of(context).colorScheme.neutral90, fontSize: 12.sp, fontWeight: FontWeight.w700),
                               ),
                               TextSpan(
-                                text: ' (total of water you have already logged).',
+                                text: controller.localization.waterPage?.totalOfWaterYouHaveAlreadyLogged ?? ' (total of water you have already logged).',
                                 style: TextStyle(color: Theme.of(context).colorScheme.neutral90, fontSize: 12.sp, fontWeight: FontWeight.w400),
                               ),
                             ],

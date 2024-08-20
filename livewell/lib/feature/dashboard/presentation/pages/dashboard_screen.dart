@@ -735,7 +735,7 @@ extension QuickActionExt on QuickAction {
   String title() {
     switch (this) {
       case QuickAction.exercise:
-        return Get.find<DashboardController>().localization.homePage?.nutritionButton ?? 'Exercise';
+        return Get.find<DashboardController>().localization.homePage?.exerciseButton ?? 'Exercise';
       case QuickAction.sleep:
         return Get.find<DashboardController>().localization.homePage?.sleepButton ?? 'Sleep';
       case QuickAction.water:
