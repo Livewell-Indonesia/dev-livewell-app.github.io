@@ -232,19 +232,19 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                       calories: controller.getTotalCalByServings(num.parse(food?.servings?[0].calories ?? "0")).round().toInt(),
                       data: [
                         NutrtionProgressModel(
-                            name: 'Carbs',
+                            name: controller.localization.nutritionPage?.carbs ?? 'Carbs',
                             color: const Color(0xFF34EAB2),
                             total: "${controller.getTotalCarbsByServings(num.parse(food?.servings?[0].carbohydrate ?? "0")).toInt()} ${food?.servings?[0].metricServingUnit ?? "g"}",
                             consumed: "${(controller.maxHundred((num.parse(food?.servings?[0].carbohydrate ?? "0") * 4) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero())}% ",
                             percentage: (controller.maxHundred((num.parse(food?.servings?[0].carbohydrate ?? "0") * 4) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero()).toDouble()),
                         NutrtionProgressModel(
-                            name: 'Fat',
+                            name: controller.localization.nutritionPage?.fat ?? 'Fat',
                             color: const Color(0xFF8F01DF),
                             total: "${controller.getTotalFatByServings(num.parse(food?.servings?[0].fat ?? "0")).toInt()} ${food?.servings?[0].metricServingUnit ?? "g"}",
                             consumed: "${(controller.maxHundred((num.parse(food?.servings?[0].fat ?? "0") * 9) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero())}% ",
                             percentage: (controller.maxHundred((num.parse(food?.servings?[0].fat ?? "0") * 9) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero()).toDouble()),
                         NutrtionProgressModel(
-                            name: 'Protein',
+                            name: controller.localization.nutritionPage?.protein ?? 'Protein',
                             color: const Color(0xFFDDF235),
                             total: "${controller.getTotalProteinByServings(num.parse(food?.servings?[0].protein ?? "0")).toInt()} ${food?.servings?[0].metricServingUnit ?? "g"}",
                             consumed: "${(controller.maxHundred((num.parse(food?.servings?[0].protein ?? "0") * 4) / num.parse(food?.servings?[0].calories ?? "0") * 100).roundZero())}% ",
