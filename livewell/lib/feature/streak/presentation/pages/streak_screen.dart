@@ -77,7 +77,7 @@ class _StreakScreenState extends State<StreakScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        'Streak Page',
+                        controller.localization.streakPage?.streakPage ?? "Streak Page",
                         style: TextStyles.navbarTitle(context),
                       ),
                     ),

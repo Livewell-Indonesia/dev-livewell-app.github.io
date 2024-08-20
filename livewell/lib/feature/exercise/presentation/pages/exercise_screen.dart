@@ -276,7 +276,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
               ExerciseDiaryScreen(),
               32.verticalSpace,
               LiveWellButton(
-                label: 'Input Steps',
+                label: controller.localization.exercisePage?.inputSteps ?? "Input Steps",
                 color: const Color(0xFF8F01DF),
                 textColor: Colors.white,
                 onPressed: () {

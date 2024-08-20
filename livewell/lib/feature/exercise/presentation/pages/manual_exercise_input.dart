@@ -13,22 +13,22 @@ class ManualExerciseInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: 'Add Steps',
+        title: controler.localization.exercisePage?.addSteps ?? "Add Steps",
         body: Expanded(
           child: Column(
             children: [
               40.verticalSpace,
               LiveWellTextField(
                   controller: controler.exerciseManualInput,
-                  hintText: 'Step Count',
-                  labelText: 'Step Count',
+                  hintText: controler.localization.exercisePage?.stepCount ?? "Step Count",
+                  labelText: controler.localization.exercisePage?.stepCount ?? "Step Count",
                   keyboardType: TextInputType.number,
                   errorText: null,
                   obscureText: false),
               20.verticalSpace,
               const Spacer(),
               LiveWellButton(
-                label: 'Save',
+                label: controler.localization.exercisePage?.save ?? "Save",
                 textColor: Colors.white,
                 color: const Color(0xFF8F01DF),
                 onPressed: () {

@@ -213,7 +213,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                       );
                                     }),
                                     Text(
-                                      'Cal',
+                                      controller.localization.streakPage?.cal ?? "cal",
                                       style: TextStyle(fontSize: 11.sp, color: const Color(0xFF171433)),
                                     ),
                                   ],
@@ -402,7 +402,8 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                 ),
                                 const Spacer(),
                                 GetBuilder<AddFoodController>(builder: (controller) {
-                                  return Text(("${controller.getTotalCalByServings(num.parse(food?.servings?[0].calories ?? "0")).round().toInt()} cal"),
+                                  return Text(
+                                      ("${controller.getTotalCalByServings(num.parse(food?.servings?[0].calories ?? "0")).round().toInt()} ${controller.localization.streakPage?.cal ?? "cal"}"),
                                       style: TextStyle(color: Colors.white, fontSize: 11.sp, fontWeight: FontWeight.w600));
                                 }),
                               ],

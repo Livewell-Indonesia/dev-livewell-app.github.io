@@ -301,7 +301,7 @@ class NutritionProgressDescription extends StatelessWidget {
                     ),
                     16.horizontalSpace,
                     Text(
-                      '$calories cal',
+                      '$calories ${Get.find<DashboardController>().localization.streakPage?.cal ?? "cal"}',
                       style: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp, fontWeight: FontWeight.w500),
                     ),
                   ],

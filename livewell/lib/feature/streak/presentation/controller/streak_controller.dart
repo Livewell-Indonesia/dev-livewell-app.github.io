@@ -78,8 +78,7 @@ class StreakController extends BaseController {
               selectedStreak.add(
                 StreakItemModel(
                   title: item,
-                  description:
-                      r.response?.details?.activity?.value == 0.0 ? "-" : "${r.response?.details?.activity?.value?.toInt() ?? '0'} ${r.response?.details?.activity?.displayUnit ?? 'calories'}",
+                  description: r.response?.details?.activity?.value == 0.0 ? "-" : "${r.response?.details?.activity?.value?.toInt() ?? '0'} ${localization.exercisePage?.steps ?? 'langkah'}",
                   isCompleted: r.response?.details?.activity?.value != 0,
                 ),
               );
@@ -91,8 +90,7 @@ class StreakController extends BaseController {
               selectedStreak.add(
                 StreakItemModel(
                   title: item,
-                  description:
-                      r.response?.details?.hydration?.value == 0.0 ? "-" : "${((r.response?.details?.hydration?.value?.toInt() ?? 0) / 1000)} ${r.response?.details?.hydration?.displayUnit ?? 'ml'}",
+                  description: r.response?.details?.hydration?.value == 0.0 ? "-" : "${((r.response?.details?.hydration?.value?.toInt() ?? 0) / 1000)} ${localization.streakPage?.liters ?? 'liters'}",
                   isCompleted: r.response?.details?.hydration?.value != 0,
                 ),
               );
@@ -104,9 +102,7 @@ class StreakController extends BaseController {
               selectedStreak.add(
                 StreakItemModel(
                   title: item,
-                  description: r.response?.details?.mood?.value == 0.0
-                      ? "-"
-                      : "${(MoodTypeExt.getMoodTypeByValue(r.response?.details?.mood?.value?.toInt() ?? 0)?.title() ?? "")} ${r.response?.details?.mood?.displayUnit ?? ''}",
+                  description: r.response?.details?.mood?.value == 0.0 ? "-" : (MoodTypeExt.getMoodTypeByValue(r.response?.details?.mood?.value?.toInt() ?? 0)?.title() ?? ""),
                   isCompleted: r.response?.details?.mood?.value != 0,
                 ),
               );
