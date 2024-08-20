@@ -336,15 +336,15 @@ extension GoalSelectionContent on GoalSelection {
   String title() {
     switch (this) {
       case GoalSelection.getFitter:
-        return "";
+        return Get.find<HomeController>().localization.goalSettingDialog?.getFitter ?? "Get Fitter";
       case GoalSelection.betterSleeping:
-        return "";
+        return Get.find<HomeController>().localization.goalSettingDialog?.betterSleeping ?? "Better Sleeping";
       case GoalSelection.weightLoss:
-        return "";
+        return Get.find<HomeController>().localization.goalSettingDialog?.weightLoss ?? "Weight Loss";
       case GoalSelection.trackNutrition:
-        return "";
+        return Get.find<HomeController>().localization.goalSettingDialog?.trackNutrition ?? "Track Nutrition";
       case GoalSelection.none:
-        return "";
+        return Get.find<HomeController>().localization.goalSettingDialog?.none ?? "None";
     }
   }
 

@@ -27,7 +27,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-      title: 'Change Password',
+      title: controller.localization.updatePasswordPage?.changePassword ?? "Change Password",
       body: Expanded(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -36,12 +36,9 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
             children: [
               24.verticalSpace,
               Text(
-                'Enter New Password',
+                controller.localization.updatePasswordPage?.enterNewPassword ?? "Enter New Password",
                 style: TextStyle(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .secondaryDarkBlue
-                      .withOpacity(0.7),
+                  color: Theme.of(context).colorScheme.secondaryDarkBlue.withOpacity(0.7),
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w500,
                 ),
@@ -50,7 +47,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
               Obx(() {
                 return LivewellTextFieldWithError(
                   controller: controller.newPassword,
-                  hintText: 'New Password',
+                  hintText: controller.localization.updatePasswordPage?.newPassword ?? "New Password",
                   errorText: controller.newPasswordError.value,
                 );
               }),
@@ -58,19 +55,18 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
               Obx(() {
                 return LivewellTextFieldWithError(
                   controller: controller.confirmPassword,
-                  hintText: 'New Password Confirmation',
+                  hintText: controller.localization.updatePasswordPage?.newPasswordConfirmation ?? "New Password Confirmation",
                   errorText: controller.confirmPasswordError.value,
                 );
               }),
               const Spacer(),
               Obx(() {
                 return LiveWellButton(
-                    label: 'Change',
+                    label: controller.localization.updatePasswordPage?.change ?? "Change",
                     color: Theme.of(context).colorScheme.primaryGreen,
                     onPressed: controller.isButtonEnabled.value
                         ? () {
-                            controller.trackEvent(LivewellProfileEvent
-                                .changePasswordPageChangeButton);
+                            controller.trackEvent(LivewellProfileEvent.changePasswordPageChangeButton);
                             controller.onButtonTapped(context);
                           }
                         : null);
@@ -110,19 +106,13 @@ class BottomsheetSuccessChangePassword extends StatelessWidget {
           Text(
             'Password has been successfully changed',
             textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Theme.of(context).colorScheme.secondaryDarkBlue,
-                fontSize: 24.sp,
-                fontWeight: FontWeight.w600),
+            style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue, fontSize: 24.sp, fontWeight: FontWeight.w600),
           ),
           8.verticalSpace,
           Text(
             'Please login again to use the LiveWell application.',
             textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Theme.of(context).colorScheme.disabled,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500),
+            style: TextStyle(color: Theme.of(context).colorScheme.disabled, fontSize: 16.sp, fontWeight: FontWeight.w500),
           ),
           32.verticalSpace,
           LiveWellButton(
@@ -142,19 +132,13 @@ class LivewellTextFieldWithError extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
   final String? errorText;
-  const LivewellTextFieldWithError(
-      {super.key,
-      required this.controller,
-      required this.hintText,
-      this.errorText});
+  const LivewellTextFieldWithError({super.key, required this.controller, required this.hintText, this.errorText});
 
   @override
-  State<LivewellTextFieldWithError> createState() =>
-      _LivewellTextFieldWithErrorState();
+  State<LivewellTextFieldWithError> createState() => _LivewellTextFieldWithErrorState();
 }
 
-class _LivewellTextFieldWithErrorState
-    extends State<LivewellTextFieldWithError> {
+class _LivewellTextFieldWithErrorState extends State<LivewellTextFieldWithError> {
   bool isObscure = true;
   @override
   Widget build(BuildContext context) {
@@ -168,10 +152,7 @@ class _LivewellTextFieldWithErrorState
             suffixIcon: IconButton(
               icon: Icon(
                 isObscure ? Icons.visibility_off : Icons.visibility,
-                color: Theme.of(context)
-                    .colorScheme
-                    .secondaryDarkBlue
-                    .withOpacity(0.7),
+                color: Theme.of(context).colorScheme.secondaryDarkBlue.withOpacity(0.7),
               ),
               onPressed: () {
                 setState(() {
@@ -205,10 +186,7 @@ class _LivewellTextFieldWithErrorState
               ),
             ),
             hintStyle: TextStyle(
-              color: Theme.of(context)
-                  .colorScheme
-                  .secondaryDarkBlue
-                  .withOpacity(0.5),
+              color: Theme.of(context).colorScheme.secondaryDarkBlue.withOpacity(0.5),
               fontSize: 16.sp,
               fontWeight: FontWeight.w500,
             ),

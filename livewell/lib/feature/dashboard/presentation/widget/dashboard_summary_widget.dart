@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/mood/presentation/widget/mood_picker_widget.dart';
 import 'package:livewell/feature/nutriscore/presentation/controller/nutriscore_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
@@ -105,8 +106,18 @@ class DashboardSummaryWidget extends StatelessWidget {
 
 List<DashboardSummaryModel> generateDefaultModel() {
   return [
-    DashboardSummaryModel(item: DashboardSummaryItem.calories, currentValue: '0', targetValue: '0', unit: 'kcal', status: DashboardSummaryStatus.eightyPlus),
-    DashboardSummaryModel(item: DashboardSummaryItem.exercise, currentValue: '0', targetValue: '0', unit: 'kCal', status: DashboardSummaryStatus.eightyPlus),
+    DashboardSummaryModel(
+        item: DashboardSummaryItem.calories,
+        currentValue: '0',
+        targetValue: '0',
+        unit: 'k${Get.find<HomeController>().localization.streakPage?.cal ?? 'cal'}',
+        status: DashboardSummaryStatus.eightyPlus),
+    DashboardSummaryModel(
+        item: DashboardSummaryItem.exercise,
+        currentValue: '0',
+        targetValue: '0',
+        unit: 'K${Get.find<HomeController>().localization.streakPage?.cal ?? 'cal'}',
+        status: DashboardSummaryStatus.eightyPlus),
     DashboardSummaryModel(item: DashboardSummaryItem.protein, currentValue: '0', targetValue: '0', unit: 'g', status: DashboardSummaryStatus.eightyPlus),
     DashboardSummaryModel(item: DashboardSummaryItem.carbs, currentValue: '0', targetValue: '0', unit: 'g', status: DashboardSummaryStatus.eightyPlus),
     DashboardSummaryModel(item: DashboardSummaryItem.sleep, currentValue: '0', targetValue: '0', unit: 'hours', status: DashboardSummaryStatus.eightyPlus),

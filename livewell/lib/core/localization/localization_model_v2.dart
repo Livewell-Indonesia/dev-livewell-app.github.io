@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:livewell/core/localization/localization_model.dart';
+
 LocalizationModelV2 localizationModelV2FromJson(String str) => LocalizationModelV2.fromJson(json.decode(str));
 
 String localizationModelV2ToJson(LocalizationModelV2 data) => json.encode(data.toJson());
@@ -62,6 +64,7 @@ class LocalizationKeyV2 {
   WellnessScorePage? wellnessScorePage;
   NutricoPlusBottomSheet? nutricoPlusBottomSheet;
   TooltipHomePage? tooltipHomePage;
+  GoalSettingDialog? goalSettingDialog;
 
   LocalizationKeyV2({
     this.accountPage,
@@ -97,6 +100,7 @@ class LocalizationKeyV2 {
     this.wellnessScorePage,
     this.nutricoPlusBottomSheet,
     this.tooltipHomePage,
+    this.goalSettingDialog,
   });
 
   factory LocalizationKeyV2.fromJson(Map<String, dynamic> json) => LocalizationKeyV2(
@@ -133,6 +137,7 @@ class LocalizationKeyV2 {
         wellnessScorePage: json["wellness_score_page"] == null ? null : WellnessScorePage.fromJson(json["wellness_score_page"]),
         nutricoPlusBottomSheet: json["nutrico_plus_bottom_sheet"] == null ? null : NutricoPlusBottomSheet.fromJson(json["nutrico_plus_bottom_sheet"]),
         tooltipHomePage: json["tooltip_home_page"] == null ? null : TooltipHomePage.fromJson(json["tooltip_home_page"]),
+        goalSettingDialog: json["goal_setting_dialog"] == null ? null : GoalSettingDialog.fromJson(json["goal_setting_dialog"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -169,6 +174,7 @@ class LocalizationKeyV2 {
         "wellness_score_page": wellnessScorePage?.toJson(),
         "nutrico_plus_bottom_sheet": nutricoPlusBottomSheet?.toJson(),
         "tooltip_home_page": tooltipHomePage?.toJson(),
+        "goal_setting_dialog": goalSettingDialog?.toJson(),
       };
 }
 
@@ -565,6 +571,38 @@ class ForgotPasswordPage {
         "forgot_password": forgotPassword,
         "please_enter_email_to_reset_password": pleaseEnterEmailToResetPassword,
         "submit": submit,
+      };
+}
+
+class GoalSettingDialog {
+  String? getFitter;
+  String? betterSleeping;
+  String? weightLoss;
+  String? trackNutrition;
+  String? none;
+
+  GoalSettingDialog({
+    this.getFitter,
+    this.betterSleeping,
+    this.weightLoss,
+    this.trackNutrition,
+    this.none,
+  });
+
+  factory GoalSettingDialog.fromJson(Map<String, dynamic> json) => GoalSettingDialog(
+        getFitter: json["get_fitter"],
+        betterSleeping: json["better_sleeping"],
+        weightLoss: json["weight_loss"],
+        trackNutrition: json["track_nutrition"],
+        none: json["none"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "get_fitter": getFitter,
+        "better_sleeping": betterSleeping,
+        "weight_loss": weightLoss,
+        "track_nutrition": trackNutrition,
+        "none": none,
       };
 }
 

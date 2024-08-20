@@ -568,6 +568,13 @@
            "task_recommendation_description": "Now you can discover quick tips to improve your day only in seconds.",
            "finish_task_recommendation_description": "Uncover detailed insights and recommendations with a single click.",
            "wellness_score_description": "You still can find the full recommendation here."
+        },
+        "goal_setting_dialog": {
+            "get_fitter": "Get Fitter",
+            "better_sleeping": "Better Sleeping",
+            "weight_loss": "Weight Loss",
+            "track_nutrition": "Track Nutrition",
+            "none": "None"
         }
     },
     "id_ID": {
@@ -1138,6 +1145,13 @@
            "task_recommendation_description": "Sekarang kamu bisa melihat tips untuk meningkatkan harimu hanya dalam hitungan detik",
            "finish_task_recommendation_description": "Buka insight yg mendetail dan rekomendasi hanya dengan satu klik",
            "wellness_score_description": "Kamu tetap bisa melihat semua rekomendasi di sini"
+        },
+        "goal_setting_dialog": {
+            "get_fitter": "menjadi lebih bugar",
+            "better_sleeping": "tidur lebih baik",
+            "weight_loss": "penurunan berat badan",
+            "track_nutrition": "Trek Nutrisi",
+            "none": "Tidak Ada"
         }
     }
 }

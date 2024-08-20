@@ -246,7 +246,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                             children: [
                               const Spacer(),
                               Text(
-                                'Delete Account',
+                                controller.localization.accountSettingsPage?.deleteAccount ?? "Delete Account",
                                 style: TextStyle(
                                   color: const Color(0xFFFA6F6F),
                                   fontSize: 16.sp,

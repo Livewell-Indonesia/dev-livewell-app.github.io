@@ -39,7 +39,7 @@ class TaskCardFinishWidget extends StatelessWidget {
             ),
             8.verticalSpace,
             Text(
-              'You\'re all set',
+              Get.find<HomeController>().localization.homePage?.youreAllSet ?? 'You\'re all set',
               style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.textLoEm),
             ),
             8.verticalSpace,
@@ -48,7 +48,7 @@ class TaskCardFinishWidget extends StatelessWidget {
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: 'Curious about the full picture? Explore your detailed wellness insights ',
+                    text: Get.find<HomeController>().localization.homePage?.curiousAboutFullPicture ?? 'Curious about the full picture? Explore your detailed wellness insights ',
                     style: TextStyle(
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w400,
@@ -57,7 +57,7 @@ class TaskCardFinishWidget extends StatelessWidget {
                   ),
                   TextSpan(
                       recognizer: TapGestureRecognizer()..onTap = onTap,
-                      text: 'here',
+                      text: Get.find<HomeController>().localization.homePage?.here ?? 'here',
                       style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.primaryPurple)),
                 ],
               ),

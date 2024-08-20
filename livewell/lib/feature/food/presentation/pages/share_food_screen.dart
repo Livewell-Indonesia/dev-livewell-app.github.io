@@ -13,6 +13,7 @@ import 'package:livewell/feature/dashboard/presentation/controller/dashboard_con
 import 'package:livewell/feature/exercise/presentation/pages/exercise_share_page.dart';
 import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/feature/food/presentation/pages/choose_template_share_food.dart';
+import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -358,7 +359,7 @@ class FirstTemplateContent extends StatelessWidget {
                     ),
                   ])),
               8.verticalSpace,
-              Text('Kcal',
+              Text('K${Get.find<HomeController>().localization.streakPage?.cal ?? 'cal'}',
                   style: TextStyle(color: const Color(0xFFDDF235), fontSize: 14.sp, fontWeight: FontWeight.w600, shadows: [
                     Shadow(
                       color: Colors.black.withOpacity(0.5),

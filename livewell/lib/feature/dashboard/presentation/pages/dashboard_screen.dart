@@ -309,14 +309,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                                 item: DashboardSummaryItem.calories,
                                 currentValue: "${controller.dashboard.value.dashboard?.caloriesTaken ?? 0}",
                                 targetValue: "${(controller.user.value.bmr?.toInt() ?? 0) + (controller.totalExercise.value)}",
-                                unit: 'kCal',
+                                unit: 'K${Get.find<HomeController>().localization.streakPage?.cal ?? 'kal'}',
                                 status: DashboardSummaryModel.statusFromValue(
                                     (controller.dashboard.value.dashboard?.caloriesTaken ?? 0) / ((controller.user.value.bmr?.toInt() ?? 0) + (controller.totalExercise.value)), false)),
                             DashboardSummaryModel(
                                 item: DashboardSummaryItem.exercise,
                                 currentValue: "${controller.totalExercise.value}",
                                 targetValue: '${controller.user.value.exerciseGoalKcal ?? 0}',
-                                unit: 'kCal',
+                                unit: 'K${Get.find<HomeController>().localization.streakPage?.cal ?? 'kal'}',
                                 status: DashboardSummaryModel.statusFromValue((controller.totalExercise.value) / (controller.user.value.exerciseGoalKcal ?? 0), false)),
                             DashboardSummaryModel(
                                 item: DashboardSummaryItem.carbs,
@@ -341,7 +341,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                                 item: DashboardSummaryItem.water,
                                 currentValue: (controller.waterConsumed.value / 1000).toStringAsFixed(1),
                                 targetValue: removeTrailingZero((int.parse((controller.user.value.onboardingQuestionnaire?.glassesOfWaterDaily ?? "0")) * 0.25).toString()),
-                                unit: 'liters',
+                                unit: controller.localization.streakPage?.liters ?? 'liters',
                                 status: DashboardSummaryModel.statusFromValue(
                                     (controller.waterConsumed.value / 1000) / (int.parse((controller.user.value.onboardingQuestionnaire?.glassesOfWaterDaily ?? "0")) * 0.25), false)),
                             DashboardSummaryModel(
