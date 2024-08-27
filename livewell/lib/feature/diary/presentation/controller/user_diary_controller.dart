@@ -355,7 +355,7 @@ class UserDiaryController extends BaseController {
     if (isContainManualInput(filteredSleepHistory)) {
       return Rx<String>(calculateManualSleepHour(sleepInBedValue).toStringAsFixed(1));
     } else if (lightSleepValue.isNotEmpty && deepSleepValue.isNotEmpty && sleepInBedValue.isNotEmpty) {
-      return Rx<String>('${calculateAllSleepValue(deepSleepValue, lightSleepValue, sleepInBedValue).toStringAsFixed(1)} hours');
+      return Rx<String>('${calculateAllSleepValue(deepSleepValue, lightSleepValue, sleepInBedValue).toStringAsFixed(1)} ${Get.find<DashboardController>().localization.sleepPage?.hrs ?? 'hrs'}');
     }
 
     return Rx<String>('');

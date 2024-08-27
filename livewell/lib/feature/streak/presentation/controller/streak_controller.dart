@@ -114,8 +114,7 @@ class StreakController extends BaseController {
               selectedStreak.add(
                 StreakItemModel(
                   title: item,
-                  description:
-                      r.response?.details?.calories?.value == 0.0 ? "-" : "${r.response?.details?.calories?.value?.toInt() ?? '0'} ${r.response?.details?.calories?.displayUnit ?? 'calories'}",
+                  description: r.response?.details?.calories?.value == 0.0 ? "-" : "${r.response?.details?.calories?.value?.toInt() ?? '0'} ${localization.exercisePage?.kcal ?? ""}}",
                   isCompleted: r.response?.details?.calories?.value != 0,
                 ),
               );

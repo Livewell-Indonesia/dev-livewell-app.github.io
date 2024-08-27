@@ -227,7 +227,7 @@ class _SleepScreenState extends State<SleepScreen> {
                                   touchTooltipData: BarTouchTooltipData(
                                     getTooltipItem: (group, groupIndex, rod, rodIndex) {
                                       return BarTooltipItem(
-                                        '${NumberFormat('0.0').format(rod.toY)}hrs',
+                                        '${NumberFormat('0.0').format(rod.toY)} ${controller.localization.sleepPage?.hrs ?? 'hrs'}',
                                         TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 14.sp),
                                       );
                                     },
@@ -285,7 +285,7 @@ class _SleepScreenState extends State<SleepScreen> {
                           Align(
                             alignment: Alignment.bottomLeft,
                             child: Text(
-                              'hrs.',
+                              controller.localization.sleepPage?.hrs ?? 'hrs',
                               style: TextStyle(color: const Color(0xFF505050), fontSize: 10.sp, fontWeight: FontWeight.w600),
                             ),
                           ),

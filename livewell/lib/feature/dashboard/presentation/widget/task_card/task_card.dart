@@ -64,7 +64,7 @@ class TaskCard extends StatelessWidget {
                 const Spacer(),
                 Row(
                   children: [
-                    Text('${(index + 1).toString()}' " of $totalLength insights",
+                    Text('${(index + 1).toString()}' " of $totalLength ${Get.find<HomeController>().localization.homePage?.insights ?? "insights"}",
                         style: TextStyle(
                           fontSize: 12.sp,
                           color: Theme.of(context).colorScheme.textLoEm,
@@ -116,7 +116,7 @@ class NextButton extends StatelessWidget {
         padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 4.h, horizontal: 8.w)),
       ),
       child: Text(
-        'Next',
+        Get.find<HomeController>().localization.homePage?.next ?? "Next",
         style: TextStyle(color: Theme.of(context).colorScheme.primaryPurple, fontSize: 12.sp, fontWeight: FontWeight.w600),
       ),
     );
@@ -139,10 +139,10 @@ class PrevButton extends StatelessWidget {
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.r))),
         backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.neutral10),
-        padding: MaterialStateProperty.all(EdgeInsets.zero),
+        padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 4.h, horizontal: 8.w)),
       ),
       child: Text(
-        'Prev',
+        Get.find<HomeController>().localization.homePage?.prev ?? "Prev",
         style: TextStyle(color: Theme.of(context).colorScheme.neutral80, fontSize: 12.sp, fontWeight: FontWeight.w600),
       ),
     );
@@ -176,7 +176,7 @@ class DoneButton extends StatelessWidget {
           ),
           8.horizontalSpace,
           Text(
-            'Done',
+            Get.find<HomeController>().localization.homePage?.done ?? "Done",
             style: TextStyle(color: Theme.of(context).colorScheme.primaryPurple, fontSize: 12.sp, fontWeight: FontWeight.w600),
           ),
         ],
@@ -237,7 +237,7 @@ class DummyTaskCard extends StatelessWidget {
                 const Spacer(),
                 Row(
                   children: [
-                    Text('${(index + 1).toString()}' " of $totalLength insights",
+                    Text('${(index + 1).toString()}' " of $totalLength ${Get.find<HomeController>().localization.homePage?.insights ?? "insights"}",
                         style: TextStyle(
                           fontSize: 12.sp,
                           color: Theme.of(context).colorScheme.textLoEm,

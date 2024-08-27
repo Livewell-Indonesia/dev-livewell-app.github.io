@@ -15,7 +15,7 @@ class ManualSleepInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiveWellScaffold(
-        title: 'Add Sleep',
+        title: controler.localization.sleepPage?.addSleep ?? "Add Sleep",
         body: Expanded(
           child: Column(
             children: [
@@ -67,7 +67,7 @@ class ManualSleepInput extends StatelessWidget {
               20.verticalSpace,
               const Spacer(),
               LiveWellButton(
-                label: 'Save',
+                label: controler.localization.sleepPage?.save ?? "Save",
                 color: const Color(0xFF8F01DF),
                 textColor: Colors.white,
                 onPressed: () {

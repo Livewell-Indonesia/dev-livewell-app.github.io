@@ -328,7 +328,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                                 item: DashboardSummaryItem.sleep,
                                 currentValue: (sleepController.finalSleepValue).toStringAsFixed(1),
                                 targetValue: '${controller.user.value.onboardingQuestionnaire?.sleepDuration ?? 0}',
-                                unit: "hours",
+                                unit: controller.localization.sleepPage?.hrs ?? 'hrs',
                                 status:
                                     DashboardSummaryModel.statusFromValue((sleepController.finalSleepValue / int.parse(controller.user.value.onboardingQuestionnaire?.sleepDuration ?? "0")), false)),
                             DashboardSummaryModel(
