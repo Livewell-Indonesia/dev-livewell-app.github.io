@@ -13,7 +13,6 @@ import 'package:livewell/feature/dashboard/data/model/popup_assets_model.dart';
 import 'package:livewell/feature/dashboard/data/model/task_recommendation_model.dart';
 import 'package:livewell/feature/dashboard/domain/entity/feature_limit_entity.dart';
 import 'package:livewell/feature/dashboard/domain/repository/dashboard_repository.dart';
-import 'package:livewell/feature/dashboard/presentation/widget/task_card/task_card_widget.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/local_storage/shared_pref.dart';
@@ -142,6 +141,27 @@ class DashboardRepostoryImpl with NetworkModule implements DashBoardRepository {
         final model = TaskRecommendationModel.fromJson(jsonDecode(result ?? "{}"));
         return Right(model);
       }
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+    // try {
+    //   final response = await postMethod(Endpoint.taskRecommendation, headers: {
+    //     authorization: await SharedPref.getToken(),
+    //   });
+    //   final json = responseHandler(response);
+    //   final model = TaskRecommendationModel.fromJson(json);
+    //   return Right(model);
+    // } catch (ex) {
+    //   return Left(ServerFailure(message: ex.toString()));
+    // }
+  }
+
+  @override
+  Future<Either<Failure, RegisterModel>> markTaskAsRead(String refId) async {
+    try {
+      var result = await postMethod(Endpoint.markTaskAsRead, body: {"reference_id": refId}, headers: {authorization: await SharedPref.getToken()});
+      final json = responseHandler(result);
+      return Right(RegisterModel.fromJson(json));
     } catch (ex) {
       return Left(ServerFailure(message: ex.toString()));
     }

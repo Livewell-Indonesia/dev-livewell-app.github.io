@@ -4,8 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:livewell/core/localization/localization_model.dart';
-
 LocalizationModelV2 localizationModelV2FromJson(String str) => LocalizationModelV2.fromJson(json.decode(str));
 
 String localizationModelV2ToJson(LocalizationModelV2 data) => json.encode(data.toJson());

@@ -11,7 +11,6 @@ import 'package:livewell/feature/dashboard/presentation/controller/dashboard_con
 import 'package:livewell/feature/diary/presentation/controller/user_diary_controller.dart';
 import 'package:livewell/feature/exercise/data/model/activity_history_model.dart';
 import 'package:livewell/feature/exercise/domain/usecase/get_activity_histories.dart';
-import 'package:livewell/feature/exercise/domain/usecase/get_exercise_list.dart';
 import 'package:livewell/feature/exercise/domain/usecase/post_exercise_data.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/profile/domain/usecase/update_user_info.dart';

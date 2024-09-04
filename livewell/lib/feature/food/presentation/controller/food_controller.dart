@@ -219,6 +219,9 @@ class FoodController extends BaseController {
 
   Rx<double> getPercentMicroNut() {
     if (dashboardData.value.dashboard != null) {
+      if (dashboardData.value.details == null) {
+        return 0.0.obs;
+      }
       double? totalVitA = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminAInMcg ?? 0));
       double? totalVitC = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminCInMg ?? 0));
 
@@ -291,6 +294,9 @@ class FoodController extends BaseController {
 
   Rx<int> getTotalMicroNut() {
     if (dashboardData.value.dashboard != null) {
+      if (dashboardData.value.details == null) {
+        return 0.obs;
+      }
       double? totalVitA = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminAInMcg ?? 0));
       double? totalVitC = dashboardData.value.details?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.vitaminCInMg ?? 0));
 

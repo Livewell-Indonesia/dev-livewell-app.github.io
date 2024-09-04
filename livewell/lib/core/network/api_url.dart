@@ -83,6 +83,7 @@ class Endpoint {
   static const String wellnessRefresh = "wellness/refresh";
   static const String streakTotal = "wellness/streak";
   static const String wellnessRecommendation = "wellness/recommendation";
+  static const String markTaskAsRead = "wellness/recommendation-list/mark-read";
 
   /// change password
   static const String updatePassword = "user/change-password";

@@ -28,23 +28,27 @@ class Response {
   String? recommendation;
   List<ListElement>? list;
   DateTime? time;
+  String? referenceId;
 
   Response({
     this.recommendation,
     this.list,
     this.time,
+    this.referenceId,
   });
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
         recommendation: json["recommendation"],
         list: json["list"] == null ? [] : List<ListElement>.from(json["list"]!.map((x) => ListElement.fromJson(x))),
         time: json["time"] == null ? null : DateTime.parse(json["time"]),
+        referenceId: json["reference_id"],
       );
 
   Map<String, dynamic> toJson() => {
         "recommendation": recommendation,
         "list": list == null ? [] : List<dynamic>.from(list!.map((x) => x.toJson())),
         "time": time?.toIso8601String(),
+        "reference_id": referenceId,
       };
 }
 

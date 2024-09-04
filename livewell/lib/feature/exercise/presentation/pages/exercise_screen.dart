@@ -5,12 +5,10 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/exercise/presentation/controller/exercise_controller.dart';
@@ -273,7 +271,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
           child: ListView(
             children: [
               40.verticalSpace,
-              ExerciseDiaryScreen(),
+              const ExerciseDiaryScreen(),
               32.verticalSpace,
               LiveWellButton(
                 label: controller.localization.exercisePage?.inputSteps ?? "Input Steps",

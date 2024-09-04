@@ -1,7 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-
-import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/core/local_storage/shared_pref.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_task_recommendation.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
@@ -22,6 +19,7 @@ extension DashboardTaskCardControllerX on DashboardController {
     showDoneRecommendation.value = true;
     Timer(const Duration(seconds: 5), () async {
       await SharedPref.saveDoneWithRecommendation(true);
+      // await markTaskAsRead(taskRecommendationReferenceId.value);
       showDoneRecommendation.value = false;
     });
   }
@@ -41,6 +39,7 @@ extension DashboardTaskCardControllerX on DashboardController {
         taskRecommendationModel.value.response?.list?.forEach((element) {
           taskCardModel.add(TaskCardModel(title: element.title ?? "", description: element.text ?? "", type: TaskCardTypeX.fromString(element.type ?? "")));
         });
+        taskRecommendationReferenceId.value = r.response?.referenceId ?? "";
         await SharedPref.saveLastWellnessScore(wellnessScore.value);
       }
     });

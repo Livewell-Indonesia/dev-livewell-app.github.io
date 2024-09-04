@@ -80,6 +80,46 @@ extension StreakItemTypeExt on StreakItemType {
     }
   }
 
+  String assetName() {
+    switch (this) {
+      case StreakItemType.hydration:
+        return "assets/icons/ic_hydration_score.svg";
+      case StreakItemType.sleep:
+        break;
+      case StreakItemType.mood:
+        break;
+      case StreakItemType.nutrition:
+        break;
+      case StreakItemType.activity:
+        break;
+    }
+    return "";
+  }
+
+  String scoreTitle() {
+    switch (this) {
+      case StreakItemType.hydration:
+        return Get.find<DashboardController>().localization.waterPage?.hydrationScoreToday ?? "Hydration Score Today";
+      case StreakItemType.sleep:
+        break;
+      case StreakItemType.mood:
+        break;
+      case StreakItemType.nutrition:
+        break;
+      case StreakItemType.activity:
+        break;
+    }
+    return "";
+  }
+
+  String scoreEmptyTitle() {
+    return "";
+  }
+
+  String scoreEmptyDescription() {
+    return "";
+  }
+
   void navigate() {
     switch (this) {
       case StreakItemType.hydration:

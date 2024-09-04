@@ -1,12 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
-import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/streak/domain/usecase/get_wellness_recommendation.dart';
 import 'package:livewell/feature/streak/presentation/widget/streak_item.dart';
-import 'package:livewell/feature/wellness/presentation/pages/wellness_score_screen.dart';
 
 class WellnessController extends BaseController {
   GetWellnessRecommendation getWellnessRecommendation = GetWellnessRecommendation.instance();

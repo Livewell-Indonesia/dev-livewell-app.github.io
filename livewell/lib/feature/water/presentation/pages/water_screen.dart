@@ -1,5 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -13,14 +11,11 @@ import 'package:livewell/feature/dashboard/presentation/controller/dashboard_con
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/streak/presentation/widget/streak_item.dart';
-import 'package:livewell/feature/water/data/model/water_list_model.dart';
 import 'package:livewell/feature/water/presentation/controller/water_controller.dart';
 import 'package:livewell/feature/water/presentation/enum/water_input_type.dart';
 import 'package:livewell/feature/water/presentation/enum/water_shortcut_type.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
-import 'package:livewell/widgets/floating_dots/floating_dots.dart';
-import 'package:collection/collection.dart';
 import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 

@@ -74,13 +74,13 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       case QuestionnairePage.birthDate:
         return AgeSelector();
       case QuestionnairePage.caloriesNeed:
-        return CaloriesNeedQuestionnaire();
+        return const CaloriesNeedQuestionnaire();
       case QuestionnairePage.healthCondition:
-        return HealthConditionQuestionnaire();
+        return const HealthConditionQuestionnaire();
       case QuestionnairePage.landing:
         return LandingQuestionnaire();
       case QuestionnairePage.heightWeight:
-        return HeightWeightQuestionnaire();
+        return const HeightWeightQuestionnaire();
       case QuestionnairePage.finish:
         return Container();
     }

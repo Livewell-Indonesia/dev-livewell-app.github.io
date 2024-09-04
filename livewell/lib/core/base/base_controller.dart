@@ -95,9 +95,6 @@ class BaseController extends FullLifeCycleController with FullLifeCycleMixin {
 
   @override
   void onResumed() {}
-
-  @override
-  void onHidden() {}
 }
 
 class LanguageController extends GetxController {

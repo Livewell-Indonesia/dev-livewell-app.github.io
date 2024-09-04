@@ -30,7 +30,6 @@ class QuestionnaireController extends BaseController {
   var targetWeight = 50.0.obs;
   Rx<Gender> selectedGender = Gender.male.obs;
   Rx<GoalSelection> selectedGoals = GoalSelection.none.obs;
-  Rx<DietrarySelection> selectedDietrary = DietrarySelection.no.obs;
   Rx<CaloriesNeedType> selectedCaloriesNeed = CaloriesNeedType.none.obs;
   Rx<AvailableLanguage> selectedLanguage = AvailableLanguage.id.obs;
   TextEditingController selectedDietraryText = TextEditingController();
@@ -160,7 +159,7 @@ class QuestionnaireController extends BaseController {
     var params = QuestionnaireParams.asParams(
       firstName.text,
       lastName.text,
-      selectedGender.value.label(),
+      selectedGender.value.value(),
       DateFormat('yyyy-MM-dd').format(date.value),
       weight.value,
       height.value,
@@ -289,6 +288,15 @@ extension GenderContent on Gender {
         return Get.find<HomeController>().localization.physicalInformationPage?.female ?? 'Female';
       case Gender.male:
         return Get.find<HomeController>().localization.physicalInformationPage?.male ?? 'Male';
+    }
+  }
+
+  String value() {
+    switch (this) {
+      case Gender.female:
+        return 'Female';
+      case Gender.male:
+        return 'Male';
     }
   }
 }

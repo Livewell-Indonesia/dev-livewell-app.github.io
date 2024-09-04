@@ -16,6 +16,7 @@ import 'package:livewell/feature/dashboard/domain/entity/feature_limit_entity.da
 import 'package:livewell/feature/dashboard/domain/usecase/get_dashboard_data.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_feature_limit.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/get_user.dart';
+import 'package:livewell/feature/dashboard/domain/usecase/mark_task_as_read.dart';
 import 'package:livewell/feature/dashboard/domain/usecase/post_mood.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/extension/dashboard_coachmark_controller.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/extension/dashboard_health_controller.dart';
@@ -61,6 +62,7 @@ class DashboardController extends BaseController {
   Rx<DashboardModel> dashboard = DashboardModel().obs;
   ValueNotifier<double> valueNotifier = ValueNotifier(0.0);
   GetUserMealHistory getUserMealHistory = GetUserMealHistory.instance();
+  MarkTaskAsRead markTaskAsRead = MarkTaskAsRead.instance();
   RxList<MealHistoryModel> mealHistoryList = <MealHistoryModel>[].obs;
   Rx<double> waterConsumed = 0.0.obs;
   Rxn<MoodDetail> todayMood = Rxn<MoodDetail>();
@@ -107,6 +109,7 @@ class DashboardController extends BaseController {
 
   RxList<TaskCardModel> taskCardModel = <TaskCardModel>[].obs;
   Rx<TaskRecommendationModel> taskRecommendationModel = TaskRecommendationModel().obs;
+  Rx<String> taskRecommendationReferenceId = "".obs;
   Rx<bool> isLoadingTaskRecommendation = true.obs;
 
   // Coachmark Variables
@@ -247,13 +250,6 @@ class DashboardController extends BaseController {
   void onInit() {
     todayProgress.value = 0;
     getUsersData();
-    getDashBoardData();
-    getMealHistories();
-    getWaterData();
-    getSingleMoodData();
-    getFeatureLimitData();
-    getTodayWellnessData();
-    getTotalStreak();
     super.onInit();
   }
 
@@ -325,6 +321,13 @@ class DashboardController extends BaseController {
         });
       } else {
         fetchHealthData();
+        getDashBoardData();
+        getMealHistories();
+        getWaterData();
+        getSingleMoodData();
+        getFeatureLimitData();
+        getTodayWellnessData();
+        getTotalStreak();
       }
     });
   }

@@ -1,23 +1,30 @@
 class Formula {
   static double proteinPercentage(num protein, num totalCalories) {
+    if (totalCalories == 0) {
+      return 0.0;
+    }
     return protein / ((0.2 * totalCalories) / 4);
   }
 
   static double carbohydratePercentage(num carbohydrate, num totalCalories) {
+    if (totalCalories == 0) {
+      return 0.0;
+    }
     return carbohydrate / ((0.5 * totalCalories) / 4);
   }
 
   static double fatPercentage(num fat, num totalCalories) {
+    if (totalCalories == 0) {
+      return 0.0;
+    }
     return fat / ((0.3 * totalCalories) / 9);
   }
 
-  static double averageMacroPercentage(
-      double protein, double carbs, double fat) {
+  static double averageMacroPercentage(double protein, double carbs, double fat) {
     return (protein + carbs + fat) / 3;
   }
 
-  static double averageMicroPercentage(
-      double vit, double majorMineral, double minorMineral) {
+  static double averageMicroPercentage(double vit, double majorMineral, double minorMineral) {
     return (vit + majorMineral + minorMineral) / 3;
   }
 
@@ -34,51 +41,16 @@ class Formula {
   }
 
   static double averageEssentialVitamins(
-      double vitA,
-      double vitC,
-      double vitD,
-      double vitE,
-      double vitK,
-      double vitb1,
-      double vitb2,
-      double vitb3,
-      double vitb5,
-      double vitb6,
-      double vitb7,
-      double vitb9,
-      double vitb12) {
-    return (vitA +
-            vitC +
-            vitD +
-            vitE +
-            vitK +
-            vitb1 +
-            vitb2 +
-            vitb3 +
-            vitb5 +
-            vitb6 +
-            vitb7 +
-            vitb9 +
-            vitb12) /
-        13;
+      double vitA, double vitC, double vitD, double vitE, double vitK, double vitb1, double vitb2, double vitb3, double vitb5, double vitb6, double vitb7, double vitb9, double vitb12) {
+    return (vitA + vitC + vitD + vitE + vitK + vitb1 + vitb2 + vitb3 + vitb5 + vitb6 + vitb7 + vitb9 + vitb12) / 13;
   }
 
-  static double averageMajorMineral(double calcium, double magnesium,
-      double phosphorus, double chloride, double potassium, double sodium) {
-    return (calcium + magnesium + phosphorus + chloride + potassium + sodium) /
-        6;
+  static double averageMajorMineral(double calcium, double magnesium, double phosphorus, double chloride, double potassium, double sodium) {
+    return (calcium + magnesium + phosphorus + chloride + potassium + sodium) / 6;
   }
 
-  static double averageMinorMineral(double iron, double iodine, double zinc,
-      double selenium, double fluoride, double chromium, double molybdenum) {
-    return (iron +
-            iodine +
-            zinc +
-            selenium +
-            fluoride +
-            chromium +
-            molybdenum) /
-        7;
+  static double averageMinorMineral(double iron, double iodine, double zinc, double selenium, double fluoride, double chromium, double molybdenum) {
+    return (iron + iodine + zinc + selenium + fluoride + chromium + molybdenum) / 7;
   }
 
   static double vitAPercentage(double vitA) {
