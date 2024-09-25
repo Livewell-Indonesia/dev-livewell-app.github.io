@@ -57,15 +57,15 @@ class AddFoodController extends BaseController {
     }
     final param = AddMealParams.asParams(food, numberOfServing.text.trim().replaceAll(',', '.'), mealTime, date.toString());
     final result = await addMeal.call(param);
-    await addMealHistory.call(MealHistory(date: date.toString(), mealType: mealTime.name));
-    Get.find<DashboardController>().onInit();
-    if (Get.isRegistered<FoodController>()) {
-      Get.find<FoodController>().fetchUserMealHistory();
-    }
     await EasyLoading.dismiss();
     result.fold((l) {
       Log.error(l.toString());
-    }, (r) {
+    }, (r) async {
+      await addMealHistory.call(MealHistory(date: date.toString(), mealType: mealTime.name));
+      Get.find<DashboardController>().onInit();
+      if (Get.isRegistered<FoodController>()) {
+        Get.find<FoodController>().fetchUserMealHistory();
+      }
       if (Get.isRegistered<AddMealController>()) {
         Get.find<AddMealController>().addedFoods.add(food);
       }

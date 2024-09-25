@@ -105,13 +105,13 @@ class Activities {
   }
 
   Activities.fromHealth(HealthDataPoint data) {
-    value = double.tryParse(data.value.toString()) ?? 0.0;
+    value = double.tryParse(data.value is NumericHealthValue ? (data.value as NumericHealthValue).numericValue.toDouble().toString() : "0.0") ?? 0.0;
     type = data.type.name;
     unit = data.unitString;
     dateFrom = data.dateFrom.toIso8601String();
     dateTo = data.dateTo.toIso8601String();
-    platformType = data.platform.toString();
-    deviceId = data.deviceId.toString();
+    platformType = data.sourcePlatform.toString();
+    deviceId = data.sourceDeviceId.toString();
     sourceId = data.sourceId.toString();
     sourceName = data.sourceName.toString();
   }

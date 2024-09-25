@@ -471,10 +471,12 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
                                     style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
                                   ),
                                   const Spacer(),
-                                  Text(
-                                    "${(controller.waterConsumed.value / 1000).toStringAsFixed(1)} L",
-                                    style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
-                                  ),
+                                  Obx(() {
+                                    return Text(
+                                      "${(controller.waterConsumed.value / 1000).toStringAsFixed(1)} L",
+                                      style: TextStyle(color: const Color(0xFF171433).withOpacity(0.8), fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                    );
+                                  })
                                 ],
                               ),
                             ),

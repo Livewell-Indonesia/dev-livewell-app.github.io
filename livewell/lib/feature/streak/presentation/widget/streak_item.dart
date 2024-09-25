@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/helper/get_meal_type_by_current_time.dart';
 import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
@@ -83,33 +84,20 @@ extension StreakItemTypeExt on StreakItemType {
   String assetName() {
     switch (this) {
       case StreakItemType.hydration:
-        return "assets/icons/ic_hydration_score.svg";
+        return Constant.icWaterUnselected;
       case StreakItemType.sleep:
-        break;
+        return Constant.icSleepUnselected;
       case StreakItemType.mood:
-        break;
+        return Constant.icMeditationUnselected;
       case StreakItemType.nutrition:
-        break;
+        return Constant.icFoodUnselected;
       case StreakItemType.activity:
-        break;
+        return Constant.icExerciseUnselected;
     }
-    return "";
   }
 
   String scoreTitle() {
-    switch (this) {
-      case StreakItemType.hydration:
-        return Get.find<DashboardController>().localization.waterPage?.hydrationScoreToday ?? "Hydration Score Today";
-      case StreakItemType.sleep:
-        break;
-      case StreakItemType.mood:
-        break;
-      case StreakItemType.nutrition:
-        break;
-      case StreakItemType.activity:
-        break;
-    }
-    return "";
+    return Get.find<DashboardController>().wellnessCalculationModel.details.where((element) => element.type == this).first.title;
   }
 
   String scoreEmptyTitle() {

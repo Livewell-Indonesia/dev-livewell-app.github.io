@@ -30,6 +30,17 @@ extension DashboardTaskCardControllerX on DashboardController {
     final result = await GetTaskRecommendation.instance().call(wellnessScore.value);
     isLoadingTaskRecommendation.value = false;
     result.fold((l) {}, (r) async {
+      // final isRead = r.response?.isRead ?? false;
+      // if (isRead) {
+      //   return;
+      // } else {
+      //   taskRecommendationModel.value = r;
+      //   taskRecommendationModel.value.response?.list?.forEach((element) {
+      //     taskCardModel.add(TaskCardModel(title: element.title ?? "", description: element.text ?? "", type: TaskCardTypeX.fromString(element.type ?? "")));
+      //   });
+      //   taskRecommendationReferenceId.value = r.response?.referenceId ?? "";
+      //   await SharedPref.saveLastWellnessScore(wellnessScore.value);
+      // }
       var lastWellnessScore = await SharedPref.getLastWellnessScore();
       var isDoneWithRecommendation = await SharedPref.getDoneWithRecommendation();
       taskRecommendationModel.value = r;

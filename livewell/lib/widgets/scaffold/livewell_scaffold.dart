@@ -57,10 +57,7 @@ class LiveWellScaffold extends StatelessWidget {
                             customTitleWidget ??
                                 Text(
                                   title,
-                                  style: TextStyle(
-                                    fontSize: 20.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                  style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: const Color(0xFF595A5B)),
                                 ),
                             beta ? 8.horizontalSpace : 0.verticalSpace,
                             beta ? const BetaTags() : Container(),

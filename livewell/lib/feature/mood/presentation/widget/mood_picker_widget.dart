@@ -66,7 +66,7 @@ class MoodPickerItem extends StatelessWidget {
           moodType.assets(),
           width: 48,
           height: 48,
-          color: getColor(),
+          color: getColor() ?? moodType.mainColor(),
         ),
         4.verticalSpace,
         AutoSizeText(
@@ -82,12 +82,12 @@ class MoodPickerItem extends StatelessWidget {
   Color? getColor() {
     if (selectedMoodType != null) {
       if (selectedMoodType == moodType) {
-        return null;
+        return selectedMoodType?.mainColor();
       } else {
         return const Color(0xFF171433).withOpacity(0.3);
       }
     } else {
-      return null;
+      return selectedMoodType?.mainColor();
     }
   }
 }
@@ -119,7 +119,7 @@ extension MoodTypeExt on MoodType {
       case MoodType.meh:
         return const Color(0xFF34A8EA);
       case MoodType.bad:
-        return const Color(0xFF8F01DF);
+        return const Color(0xFFFC6E6B);
       case MoodType.awful:
         return const Color(0xFFDF0101);
     }

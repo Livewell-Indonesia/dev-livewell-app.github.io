@@ -6,8 +6,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/mood/presentation/controller/mood_screen_controller.dart';
 import 'package:livewell/feature/mood/presentation/widget/mood_picker_widget.dart';
+import 'package:livewell/feature/streak/presentation/widget/streak_item.dart';
+import 'package:livewell/theme/design_system.dart';
+import 'package:livewell/widgets/hydration_score/hydration_score_widget.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
 class MoodScreen extends StatefulWidget {
@@ -48,97 +52,117 @@ class _MoodScreenState extends State<MoodScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         32.verticalSpace,
-                        Text(
-                          controller.localization.moodPage?.moodChart ?? "Mood chart",
-                          style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w600, fontSize: 20.sp),
-                        ),
-                        16.verticalSpace,
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24)),
-                          width: double.infinity,
-                          height: 263.h,
-                          child: Column(children: [
-                            Text(controller.localization.moodPage?.last14Days ?? "Last 14 days", style: TextStyle(fontSize: 14.sp, color: Colors.black, fontWeight: FontWeight.w700)),
-                            12.verticalSpace,
-                            const Divider(),
-                            SizedBox(
-                              height: 185.h,
-                              child: Obx(() {
-                                return LineChart(mainData(controller));
-                              }),
-                            ),
-                          ]),
-                        ),
-                        32.verticalSpace,
-                        Text(
-                          controller.localization.moodPage?.moodCount ?? "Mood Count",
-                          style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w600, fontSize: 20.sp),
-                        ),
-                        16.verticalSpace,
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(24),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: MoodType.values.map((e) {
-                              return Expanded(
-                                child: InkWell(
-                                  onTap: () {
-                                    controller.postMoodData(e);
-                                  },
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Stack(
-                                        alignment: Alignment.topRight,
+                            children: [
+                              Text(
+                                controller.localization.moodPage?.moodCount ?? "Mood Count",
+                                style: TextStyle(color: Theme.of(context).colorScheme.secondaryDarkBlue, fontWeight: FontWeight.w600, fontSize: 20.sp),
+                              ),
+                              10.verticalSpace,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: MoodType.values.map((e) {
+                                  return Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        controller.postMoodData(e);
+                                      },
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Obx(() {
-                                            return SvgPicture.asset(e.assets(), color: getColor(e), width: 48.w, height: 48.h);
-                                          }),
-                                          Positioned(
-                                            left: 2,
-                                            top: 0,
-                                            child: Container(
-                                              //padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
-                                              decoration: const BoxDecoration(
-                                                color: Colors.white,
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: Center(child: Obx(() {
-                                                return Container(
-                                                    padding: EdgeInsets.all(4.w),
-                                                    decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color: getColorForIndicator(e),
-                                                    ),
-                                                    child: Text(
-                                                      controller.getTotalMoodByType(e.value()).toString(),
-                                                      style: TextStyle(color: Colors.white, fontSize: 8.sp, fontWeight: FontWeight.w700),
-                                                    ));
-                                              })),
-                                            ),
-                                          )
+                                          Stack(
+                                            alignment: Alignment.topRight,
+                                            children: [
+                                              Obx(() {
+                                                return SvgPicture.asset(e.assets(), color: getColor(e), width: 48.w, height: 48.h);
+                                              }),
+                                              Positioned(
+                                                left: 2,
+                                                top: 0,
+                                                child: Container(
+                                                  //padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
+                                                  decoration: const BoxDecoration(
+                                                    color: Colors.white,
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  child: Center(child: Obx(() {
+                                                    return Container(
+                                                        padding: EdgeInsets.all(4.w),
+                                                        decoration: BoxDecoration(
+                                                          shape: BoxShape.circle,
+                                                          color: getColorForIndicator(e),
+                                                        ),
+                                                        child: Text(
+                                                          controller.getTotalMoodByType(e.value()).toString(),
+                                                          style: TextStyle(color: Colors.white, fontSize: 8.sp, fontWeight: FontWeight.w700),
+                                                        ));
+                                                  })),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          4.verticalSpace,
+                                          AutoSizeText(
+                                            e.title(),
+                                            maxLines: 2,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: const Color(0xFF171433).withOpacity(0.8)),
+                                          ),
                                         ],
                                       ),
-                                      4.verticalSpace,
-                                      AutoSizeText(
-                                        e.title(),
-                                        maxLines: 2,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: const Color(0xFF171433).withOpacity(0.8)),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }).toList(),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ],
                           ),
-                        )
+                        ),
+                        18.verticalSpace,
+                        // Obx(() {
+                        //   return WellnessProfileWidget(
+                        //     type: StreakItemType.mood,
+                        //     value: Get.find<DashboardController>().wellnessData.value?.moodScore ?? 0.0,
+                        //   );
+                        // }),
+                        16.verticalSpace,
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24)),
+                          width: double.infinity,
+                          height: 268.h,
+                          child: Column(children: [
+                            Row(
+                              children: [
+                                Text(
+                                  controller.localization.moodPage?.moodChart ?? "Mood chart",
+                                  style: TextStyle(color: Theme.of(context).colorScheme.neutral100, fontWeight: FontWeight.w600, fontSize: 16.sp),
+                                ),
+                                const Spacer(),
+                                Text(
+                                  controller.localization.moodPage?.last14Days ?? "Last 14 days",
+                                  style: TextStyle(fontSize: 12.sp, color: Theme.of(context).colorScheme.neutral90, fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                            12.verticalSpace,
+                            const Divider(),
+                            SizedBox(
+                              height: 180.h,
+                              child: Obx(() {
+                                return LineChart(mainData(controller));
+                              }),
+                            ),
+                          ]),
+                        ),
+                        16.verticalSpace,
                       ],
                     ),
                   ],
@@ -215,7 +239,7 @@ class _MoodScreenState extends State<MoodScreen> {
           ),
         ),
         borderData: FlBorderData(
-          show: true,
+          show: false,
         ),
         lineBarsData: [
           LineChartBarData(

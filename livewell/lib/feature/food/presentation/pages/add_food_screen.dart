@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -24,6 +25,11 @@ class AddFoodScreen extends StatefulWidget {
 
   @override
   State<AddFoodScreen> createState() => _AddFoodScreenState();
+}
+
+dynamic decodeBase64(String encoded) {
+  String decoded = utf8.decode(base64Url.decode(encoded));
+  return decoded;
 }
 
 class _AddFoodScreenState extends State<AddFoodScreen> {
@@ -177,10 +183,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                             width: 1.sw,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20.r),
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(imageUrl!),
-                              ),
+                              image: DecorationImage(fit: BoxFit.cover, image: MemoryImage(base64Decode(imageUrl!.split(',').last))),
                             ),
                           ),
                         ],

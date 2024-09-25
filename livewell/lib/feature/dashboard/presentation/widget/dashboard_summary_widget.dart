@@ -73,7 +73,7 @@ class DashboardSummaryWidget extends StatelessWidget {
                           : Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                SvgPicture.asset((model[index].moodType!.assets()), width: 20.w, height: 20.h),
+                                SvgPicture.asset((model[index].moodType!.assets()), color: model[index].moodType!.mainColor(), width: 20.w, height: 20.h),
                                 8.horizontalSpace,
                                 Text(
                                   model[index].moodType!.title(),

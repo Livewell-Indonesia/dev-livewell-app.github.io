@@ -6,11 +6,16 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/core/constant/constant.dart';
 import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
+import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/sleep/presentation/controller/sleep_controller.dart';
+import 'package:livewell/feature/streak/presentation/widget/streak_item.dart';
 import 'package:livewell/routes/app_navigator.dart';
+import 'package:livewell/theme/design_system.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 import 'package:livewell/widgets/chart/circular_nutrition.dart';
+import 'package:livewell/widgets/hydration_score/hydration_score_widget.dart';
 import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
@@ -70,25 +75,29 @@ class _SleepScreenState extends State<SleepScreen> {
             controller.refreshList();
           },
           child: ListView(
+            padding: EdgeInsets.zero,
             children: [
-              40.verticalSpace,
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 20.h),
+              Padding(
+                padding: EdgeInsets.only(top: 16.h),
                 child: Center(child: Obx(() {
                   return MultipleColorCircle(
-                    colorOccurrences: {
-                      const Color(0xFF8F01DF): controller.lightSleepPercent.value.round() * 100,
-                      const Color(0xFFDDF235): controller.deepSleepPercent.value.round() * 100,
-                      const Color(0xFF34EAB2): controller.sleepInBedPercent.value.round() * 100,
-                      Colors.white: controller.leftSleepPercent.value.round(),
-                    },
-                    height: 200,
-                    strokeWidth: 32,
+                    colorOccurrences: controller.totalSleepPercent.value == 0
+                        ? {
+                            Colors.white: 0,
+                          }
+                        : {
+                            const Color(0xFF8F01DF): controller.lightSleepPercent.value.round() * 100,
+                            const Color(0xFFDDF235): controller.deepSleepPercent.value.round() * 100,
+                            const Color(0xFF34EAB2): controller.sleepInBedPercent.value.round() * 100,
+                            Colors.white: controller.leftSleepPercent.value.round(),
+                          },
+                    height: 231.h,
+                    strokeWidth: 9,
                     child:
                         // crete circular container
                         Container(
                       padding: EdgeInsets.symmetric(horizontal: 20.w),
-                      decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFF171433)),
+                      decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.transparent),
                       child: Center(
                         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                           SvgPicture.asset(
@@ -98,7 +107,7 @@ class _SleepScreenState extends State<SleepScreen> {
                           10.verticalSpace,
                           Text(
                             "${controller.totalSleepPercent.value.toInt() > 100 ? 100 : controller.totalSleepPercent.value.toInt()}%",
-                            style: TextStyle(fontSize: 43.sp, fontWeight: FontWeight.w500, color: Colors.white),
+                            style: TextStyle(fontSize: 43.sp, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutral100),
                           ),
                           4.verticalSpace,
                           Padding(
@@ -106,7 +115,7 @@ class _SleepScreenState extends State<SleepScreen> {
                             child: Text(
                               controller.localization.sleepPage?.ofDailyGoals ?? "of daily goals",
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 17.sp, color: Colors.white.withOpacity(0.63)),
+                              style: TextStyle(fontSize: 17.sp, color: Theme.of(context).colorScheme.neutral90, fontWeight: FontWeight.w500),
                             ),
                           ),
                         ]),
@@ -146,54 +155,162 @@ class _SleepScreenState extends State<SleepScreen> {
                   ],
                 ),
               ),
-              20.verticalSpace,
-              Padding(
-                padding: const EdgeInsets.only(left: 40),
-                child: Text(
-                  controller.localization.sleepPage?.dailyBreakdown ?? "Daily Breakdown",
-                  style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w600, fontSize: 16.sp),
-                ),
-              ),
-              20.verticalSpace,
-              Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 40),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF171433).withOpacity(0.1),
-                  ),
-                  child: GridView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 1,
-                      crossAxisSpacing: 1,
-                      childAspectRatio: 2,
-                    ),
+              Obx(() {
+                if (controller.totalSleepPercent.value == 0.0) {
+                  return const SizedBox();
+                } else {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      GetBuilder<SleepController>(builder: (controller) {
-                        return DailyBreakdownItem(image: Constant.icWentToSleep2, time: controller.wentToSleep.value, label: controller.localization.sleepPage?.wentToSleep ?? "Went to Sleep");
-                      }),
-                      GetBuilder<SleepController>(builder: (controller) {
-                        return DailyBreakdownItem(image: Constant.icWokeUp, time: controller.wokeUp.value, label: controller.localization.sleepPage?.wokeUp ?? "Woke Up");
-                      }),
-                      GetBuilder<SleepController>(builder: (controller) {
-                        return DailyBreakdownItem(image: Constant.icFeelASleep, time: controller.feelASleep.value, label: controller.localization.sleepPage?.lightSleep ?? "Light Sleep");
-                      }),
-                      GetBuilder<SleepController>(builder: (controller) {
-                        return DailyBreakdownItem(image: Constant.icDeepSleep, time: controller.deepSleep.value, label: controller.localization.sleepPage?.deepSleep ?? "Deep Sleep");
-                      }),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 48),
+                        child: Row(
+                          children: [
+                            Text(
+                              controller.localization.sleepPage?.dailyBreakdown ?? "Daily Breakdown",
+                              style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w600, fontSize: 16.sp),
+                            ),
+                            4.horizontalSpace,
+                            // InkWell(
+                            //   onTap: () {
+                            //     showModalBottomSheet(
+                            //         context: context,
+                            //         shape: shapeBorder(),
+                            //         isScrollControlled: true,
+                            //         builder: (context) {
+                            //           return Wrap(children: [
+                            //             Container(
+                            //               decoration: const BoxDecoration(
+                            //                 color: Colors.white,
+                            //                 borderRadius: BorderRadius.only(
+                            //                   topLeft: Radius.circular(32),
+                            //                   topRight: Radius.circular(32),
+                            //                 ),
+                            //               ),
+                            //               child: Padding(
+                            //                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
+                            //                 child: Column(
+                            //                   crossAxisAlignment: CrossAxisAlignment.start,
+                            //                   children: [
+                            //                     Text("Sleep Breakdown", style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.secondaryDarkBlue)),
+                            //                     Row(
+                            //                       children: [
+                            //                         SvgPicture.asset(Constant.icWentToSleep2),
+                            //                         Column(
+                            //                           children: [
+                            //                             Text(controller.localization.sleepPage?.wentToSleep ?? "Went to Sleep",
+                            //                                 style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.secondaryDarkBlue)),
+                            //                             8.verticalSpace,
+                            //                             Text(controller.localization.sleepPageLearnMore?.awakeDescription ?? "Awake",
+                            //                                 style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutral90)),
+                            //                           ],
+                            //                         ),
+                            //                       ],
+                            //                     ),
+                            //                   ],
+                            //                 ),
+                            //               ),
+                            //             )
+                            //           ]);
+                            //         });
+                            //   },
+                            //   child: Icon(
+                            //     Icons.info_outline,
+                            //     color: const Color(0xFF171433),
+                            //     size: 16.sp,
+                            //   ),
+                            // )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 20),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF171433).withOpacity(0.1),
+                          ),
+                          child: GridView(
+                            padding: EdgeInsets.zero,
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 1,
+                              crossAxisSpacing: 1,
+                              childAspectRatio: 2,
+                            ),
+                            children: [
+                              GetBuilder<SleepController>(builder: (controller) {
+                                return DailyBreakdownItem(
+                                  image: Constant.icWentToSleep2,
+                                  time: controller.wentToSleep.value,
+                                  label: controller.localization.sleepPage?.wentToSleep ?? "Went to Sleep",
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                );
+                              }),
+                              GetBuilder<SleepController>(builder: (controller) {
+                                return DailyBreakdownItem(
+                                  image: Constant.icWokeUp,
+                                  time: controller.wokeUp.value,
+                                  label: controller.localization.sleepPage?.wokeUp ?? "Woke Up",
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                );
+                              }),
+                              GetBuilder<SleepController>(builder: (controller) {
+                                return DailyBreakdownItem(
+                                  image: Constant.icFeelASleep,
+                                  time: controller.feelASleep.value,
+                                  label: controller.localization.sleepPage?.lightSleep ?? "Light Sleep",
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                );
+                              }),
+                              GetBuilder<SleepController>(
+                                builder: (controller) {
+                                  return DailyBreakdownItem(
+                                    image: Constant.icDeepSleep,
+                                    time: controller.deepSleep.value,
+                                    label: controller.localization.sleepPage?.deepSleep ?? "Deep Sleep",
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      16.verticalSpace,
                     ],
-                  )),
-              16.verticalSpace,
-              LiveWellButton(
-                label: controller.localization.sleepPage?.inputSleep ?? "Input Sleep",
-                color: const Color(0xFF8F01DF),
-                textColor: Colors.white,
-                onPressed: () {
-                  controller.trackEvent(LivewellSleepEvent.sleepPageInputSleepButton);
-                  AppNavigator.push(routeName: AppPages.manualInputSleep);
-                },
+                  );
+                }
+              }),
+              Wrap(
+                children: [
+                  Center(
+                    child: LiveWellButton(
+                      label: controller.localization.sleepPage?.inputSleep ?? "Input Sleep",
+                      color: const Color(0xFF8F01DF),
+                      textColor: Colors.white,
+                      wrapSize: true,
+                      padding: EdgeInsets.symmetric(horizontal: 36.h, vertical: 12.h),
+                      onPressed: () {
+                        controller.trackEvent(LivewellSleepEvent.sleepPageInputSleepButton);
+                        AppNavigator.push(routeName: AppPages.manualInputSleep);
+                      },
+                    ),
+                  ),
+                ],
               ),
+              16.verticalSpace,
+              // Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: 16.h),
+              //   child: Obx(() {
+              //     return WellnessProfileWidget(
+              //       type: StreakItemType.sleep,
+              //       value: Get.find<DashboardController>().wellnessData.value?.sleepScore ?? 20,
+              //     );
+              //   }),
+              // ),
               16.verticalSpace,
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 16.w),
@@ -201,7 +318,14 @@ class _SleepScreenState extends State<SleepScreen> {
                 decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: const Color(0xFFEBEBEB))),
                 child: Column(
                   children: [
-                    Text(controller.localization.sleepPage?.last7Days ?? "Last 7 days", style: TextStyle(color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w700, height: 20.sp / 14.sp)),
+                    Row(
+                      children: [
+                        Text('Sleep Habit', style: TextStyle(color: Theme.of(context).colorScheme.neutral100, fontSize: 16.sp, fontWeight: FontWeight.w600, height: 20.sp / 14.sp)),
+                        const Spacer(),
+                        Text(controller.localization.sleepPage?.last7Days ?? "Last 7 days",
+                            style: TextStyle(color: Theme.of(context).colorScheme.neutral90, fontSize: 12.sp, fontWeight: FontWeight.w500, height: 20.sp / 14.sp)),
+                      ],
+                    ),
                     16.verticalSpace,
                     const Divider(),
                     16.verticalSpace,
@@ -265,14 +389,11 @@ class _SleepScreenState extends State<SleepScreen> {
                                     sideTitles: SideTitles(
                                       showTitles: true,
                                       getTitlesWidget: (value, meta) {
-                                        return Transform.rotate(
-                                          angle: -45,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(top: 10),
-                                            child: Text(
-                                              controller.getXValue(value.toInt()),
-                                              style: TextStyle(color: const Color(0xFF505050), fontSize: 11.sp),
-                                            ),
+                                        return Padding(
+                                          padding: const EdgeInsets.only(top: 5),
+                                          child: Text(
+                                            controller.getXValue(value.toInt()),
+                                            style: TextStyle(color: const Color(0xFF505050), fontSize: 10.sp, fontWeight: FontWeight.w600),
                                           ),
                                         );
                                       },
@@ -356,10 +477,12 @@ class DailyBreakdownItem extends StatelessWidget {
   final String image;
   final String time;
   final String label;
+  final MainAxisAlignment mainAxisAlignment;
   const DailyBreakdownItem({
     required this.image,
     required this.time,
     required this.label,
+    required this.mainAxisAlignment,
     Key? key,
   }) : super(key: key);
 
@@ -367,25 +490,32 @@ class DailyBreakdownItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: const Color(0xFFF1F1F1),
-      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        SvgPicture.asset(
-          image,
-          color: const Color(0xFF8F01DF),
+      child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.center, children: [
+        const Spacer(),
+        Expanded(
+          flex: 2,
+          child: SvgPicture.asset(
+            image,
+            color: const Color(0xFF8F01DF),
+          ),
         ),
         10.horizontalSpace,
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              time,
-              style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w500, fontSize: 16.sp),
-            ),
-            Text(
-              label,
-              style: TextStyle(color: const Color(0xFF171433).withOpacity(0.7), fontWeight: FontWeight.w500, fontSize: 12.sp),
-            ),
-          ],
+        Expanded(
+          flex: 6,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                time,
+                style: TextStyle(color: const Color(0xFF171433), fontWeight: FontWeight.w500, fontSize: 16.sp),
+              ),
+              Text(
+                label,
+                style: TextStyle(color: const Color(0xFF171433).withOpacity(0.7), fontWeight: FontWeight.w500, fontSize: 12.sp),
+              ),
+            ],
+          ),
         ),
       ]),
     );

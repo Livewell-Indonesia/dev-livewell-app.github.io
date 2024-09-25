@@ -32,7 +32,6 @@ class ExerciseRepositoryImpl with NetworkModule implements ExerciseRepository {
   Future<Either<Failure, ActivityDataModel>> getExerciseData(GetExerciseParams params) async {
     try {
       final response = await postMethod(Endpoint.getActivities, headers: {authorization: await SharedPref.getToken()}, body: params.toJson());
-      Log.colorGreen("andi ganteng");
       final json = responseHandler(response);
       return Right(ActivityDataModel.fromJson(json));
     } catch (ex) {

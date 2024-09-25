@@ -16,6 +16,7 @@ import 'package:livewell/feature/water/presentation/enum/water_input_type.dart';
 import 'package:livewell/feature/water/presentation/enum/water_shortcut_type.dart';
 import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/theme/design_system.dart';
+import 'package:livewell/widgets/hydration_score/hydration_score_widget.dart';
 import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 
@@ -117,12 +118,16 @@ class _WaterScreenState extends State<WaterScreen> {
                 );
               }
             }),
-            16.verticalSpace,
-            Obx(() {
-              return HydartionScoreWidget(
-                score: Get.find<DashboardController>().wellnessData.value?.hydrationScore ?? 0,
-              );
-            }),
+            // 16.verticalSpace,
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 16.h),
+            //   child: Obx(() {
+            //     return WellnessProfileWidget(
+            //       type: StreakItemType.hydration,
+            //       value: Get.find<DashboardController>().wellnessData.value?.hydrationScore ?? 0,
+            //     );
+            //   }),
+            // ),
             16.verticalSpace,
             const UrineColorWidget(),
           ],

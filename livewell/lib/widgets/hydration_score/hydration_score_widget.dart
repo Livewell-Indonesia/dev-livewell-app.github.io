@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
@@ -9,22 +8,37 @@ import 'package:livewell/feature/home/controller/home_controller.dart';
 import 'package:livewell/feature/streak/presentation/widget/streak_item.dart';
 import 'package:livewell/theme/design_system.dart';
 
-class HydrationScoreWidget extends StatelessWidget {
+class WellnessProfileWidget extends StatelessWidget {
   final StreakItemType type;
-  final double value;
+  final num value;
   final HomeController controller = Get.find();
 
-  HydrationScoreWidget({super.key, required this.type, required this.value});
+  WellnessProfileWidget({super.key, required this.type, required this.value});
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: value == 0 ? emptyState(context) : content(context),
+    );
   }
 
   Widget emptyState(BuildContext context) {
     return Column(
       children: [
-        SvgPicture.asset('assets/icons/ic_hydration_score.svg', width: 64.w, height: 64.h),
+        Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Theme.of(context).colorScheme.primaryTurquoise.withOpacity(0.2),
+          ),
+          width: 64.w,
+          height: 64.h,
+          child: Image.asset(type.assetName()),
+        ),
         16.verticalSpace,
         Text(controller.localization.waterPage?.yourHydrationScoreStillEmpty ?? 'Your Hydration Score is still empty!',
             style: TextStyle(color: Theme.of(context).colorScheme.neutral100, fontWeight: FontWeight.w600, fontSize: 14.sp)),
@@ -41,24 +55,38 @@ class HydrationScoreWidget extends StatelessWidget {
       children: [
         Row(
           children: [
-            SvgPicture.asset('assets/icons/ic_hydration_score.svg', width: 36.w, height: 36.h),
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Theme.of(context).colorScheme.primaryTurquoise.withOpacity(0.2),
+              ),
+              width: 36.w,
+              height: 36.h,
+              child: Image.asset(type.assetName()),
+            ),
             8.horizontalSpace,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(controller.localization.waterPage?.hydrationScoreToday ?? "Hydration Score Today",
-                    style: TextStyle(color: Theme.of(context).colorScheme.neutral70, fontWeight: FontWeight.w400, fontSize: 12.sp)),
-                Obx(() {
-                  return Text(scoreToDescription(Get.find<DashboardController>().wellnessData.value?.hydrationScore ?? 0),
-                      style: TextStyle(color: Theme.of(context).colorScheme.neutral100, fontWeight: FontWeight.w600, fontSize: 16.sp));
-                })
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    type.scoreTitle(),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: Theme.of(context).colorScheme.neutral70, fontWeight: FontWeight.w400, fontSize: 12.sp),
+                  ),
+                  Text(
+                    scoreToDescription(),
+                    maxLines: 2,
+                    style: TextStyle(color: Theme.of(context).colorScheme.neutral100, fontWeight: FontWeight.w600, fontSize: 16.sp),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
         16.verticalSpace,
-        Text(controller.localization.waterPage?.youreDoingWellInStayingHydrated ?? 'You\'re doing well in staying hydrated! Keep it up by drinking water regularly to maintain optimal health.',
-            style: TextStyle(color: Theme.of(context).colorScheme.neutral90, fontWeight: FontWeight.w500, fontSize: 12.sp)),
+        Text(getDescription(), style: TextStyle(color: Theme.of(context).colorScheme.neutral90, fontWeight: FontWeight.w500, fontSize: 12.sp)),
         16.verticalSpace,
         RichText(
           text: TextSpan(
@@ -209,11 +237,40 @@ class HydrationScoreWidget extends StatelessWidget {
     );
   }
 
-  String scoreToDescription(int score) {
+  String scoreToDescription() {
     var details = controller.wellnessCalculationModel.details.where((element) => element.type == type).first;
     var description = details.descriptions.firstWhere((element) {
-      return score == int.parse(element.score);
+      return value == int.parse(element.score);
     });
     return description.description;
+  }
+
+  String getDescription() {
+    switch (type) {
+      case StreakItemType.sleep:
+        if (value == 8) {
+          return Get.find<DashboardController>().localization.sleepAnalysisSleepPage?.sleepScore8Description ?? "a";
+        }
+        if (value == 12) {
+          return Get.find<DashboardController>().localization.sleepAnalysisSleepPage?.sleepScore12Description ?? "b";
+        }
+        if (value == 16) {
+          return Get.find<DashboardController>().localization.sleepAnalysisSleepPage?.sleepScore16Description ?? "c";
+        }
+        if (value == 20) {
+          return Get.find<DashboardController>().localization.sleepAnalysisSleepPage?.sleepScore20Description ?? "d";
+        }
+        return "asdasd";
+      case StreakItemType.activity:
+        return "";
+      case StreakItemType.hydration:
+        return "";
+      case StreakItemType.mood:
+        return "";
+      case StreakItemType.nutrition:
+        return "";
+      default:
+        return "asdasdsa";
+    }
   }
 }

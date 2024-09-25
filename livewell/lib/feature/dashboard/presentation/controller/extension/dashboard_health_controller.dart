@@ -51,13 +51,13 @@ extension DashboardHealthController on DashboardController {
     return allowGoogleHealth;
   }
 
-  Future<bool> askForAuthorization() {
-    return healthFactory.requestAuthorization(types, permissions: permissions);
+  Future<bool> askForAuthorization() async {
+    return await Health().requestAuthorization(types, permissions: permissions);
   }
 
   Future<bool> hasPermissionForHealthData() async {
     bool isAllowed = false;
-    isAllowed = await healthFactory.hasPermissions(types) ?? false;
+    isAllowed = await Health().hasPermissions(types) ?? false;
     return isAllowed;
   }
 
@@ -76,7 +76,7 @@ extension DashboardHealthController on DashboardController {
     List<CustomHealthDataPoint> newData = [];
     if (data != null) {
       for (var element in data) {
-        newData.add(element.toCustomHealthDataPoint(PlatformType.IOS, element.type));
+        newData.add(element.toCustomHealthDataPoint(HealthPlatformType.appleHealth, element.type));
       }
     }
     saveSleepData(newData);
@@ -87,7 +87,7 @@ extension DashboardHealthController on DashboardController {
     List<CustomHealthDataPoint> newData = [];
     if (data != null) {
       for (var element in data) {
-        newData.add(element.toCustomHealthDataPoint(PlatformType.ANDROID, element.gfSleepSampleType));
+        newData.add(element.toCustomHealthDataPoint(HealthPlatformType.googleHealthConnect, element.gfSleepSampleType));
       }
     }
     saveSleepData(newData);
@@ -110,7 +110,7 @@ extension DashboardHealthController on DashboardController {
   void fetchExerciseDataFromLocal() async {
     var currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0, 0, 0);
     var dateTill = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59, 0, 0);
-    List<HealthDataPoint> healthData = await healthFactory.getHealthDataFromTypes(currentDate, dateTill, [HealthDataType.STEPS, HealthDataType.ACTIVE_ENERGY_BURNED]);
+    List<HealthDataPoint> healthData = await Health().getHealthDataFromTypes(startTime: currentDate, endTime: dateTill, types: [HealthDataType.STEPS, HealthDataType.ACTIVE_ENERGY_BURNED]);
     healthData.sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
     healthData = await filterExerciseData(healthData);
     if (healthData.isNotEmpty) {
@@ -152,7 +152,7 @@ extension DashboardHealthController on DashboardController {
 }
 
 extension on SleepSample {
-  CustomHealthDataPoint toCustomHealthDataPoint(PlatformType platformType, SleepSampleType type) {
+  CustomHealthDataPoint toCustomHealthDataPoint(HealthPlatformType platformType, SleepSampleType type) {
     var value = end.difference(start).inMinutes;
     switch (type) {
       case SleepSampleType.asleepREM:
@@ -174,7 +174,7 @@ extension on SleepSample {
 }
 
 extension on GFSleepSample {
-  CustomHealthDataPoint toCustomHealthDataPoint(PlatformType platformType, GFSleepSampleType type) {
+  CustomHealthDataPoint toCustomHealthDataPoint(HealthPlatformType platformType, GFSleepSampleType type) {
     var value = end.difference(start).inMinutes;
     switch (type) {
       case GFSleepSampleType.sleepDeep:

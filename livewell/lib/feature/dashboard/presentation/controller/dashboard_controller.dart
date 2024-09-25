@@ -66,8 +66,6 @@ class DashboardController extends BaseController {
   RxList<MealHistoryModel> mealHistoryList = <MealHistoryModel>[].obs;
   Rx<double> waterConsumed = 0.0.obs;
   Rxn<MoodDetail> todayMood = Rxn<MoodDetail>();
-
-  HealthFactory healthFactory = HealthFactory(useHealthConnectIfAvailable: true);
   FlutterHealthFit healthFit = FlutterHealthFit();
 
   Rx<NutriScoreModel> nutriScore = NutriScoreModel().obs;
@@ -308,8 +306,12 @@ class DashboardController extends BaseController {
   }
 
   Future<void> getUsersData() async {
+    EasyLoading.show();
     var result = await getUser(NoParams());
-    result.fold((l) => Log.error(l), (r) async {
+    result.fold((l) {
+      EasyLoading.dismiss();
+      Log.error(l);
+    }, (r) async {
       user.value = r;
       await SharedPref.saveEmail(r.email ?? '');
       await SharedPref.saveBirthDate(r.birthDate ?? '');
@@ -317,9 +319,11 @@ class DashboardController extends BaseController {
       await SharedPref.saveName('${r.firstName} ${r.lastName}');
       if (r.onboardingQuestionnaire == null && Get.currentRoute == AppPages.home) {
         Future.delayed(const Duration(milliseconds: 800), () {
+          EasyLoading.dismiss();
           AppNavigator.push(routeName: AppPages.questionnaire);
         });
       } else {
+        EasyLoading.dismiss();
         fetchHealthData();
         getDashBoardData();
         getMealHistories();

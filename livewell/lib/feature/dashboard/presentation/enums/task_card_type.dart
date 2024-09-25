@@ -1,3 +1,4 @@
+import 'package:livewell/feature/streak/presentation/widget/streak_item.dart';
 import 'package:livewell/routes/app_navigator.dart';
 
 enum TaskCardType { hydration, nutrition, exercise, sleep, none, mood }
@@ -17,6 +18,23 @@ extension TaskCardTypeX on TaskCardType {
         return 'None';
       case TaskCardType.mood:
         return 'Mood';
+    }
+  }
+
+  StreakItemType? get streakItemType {
+    switch (this) {
+      case TaskCardType.hydration:
+        return StreakItemType.hydration;
+      case TaskCardType.nutrition:
+        return StreakItemType.nutrition;
+      case TaskCardType.exercise:
+        return StreakItemType.activity;
+      case TaskCardType.sleep:
+        return StreakItemType.sleep;
+      case TaskCardType.none:
+        return null;
+      case TaskCardType.mood:
+        return StreakItemType.mood;
     }
   }
 

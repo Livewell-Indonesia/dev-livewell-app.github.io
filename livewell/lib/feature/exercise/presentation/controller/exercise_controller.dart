@@ -30,7 +30,6 @@ class ExerciseController extends BaseController with GetSingleTickerProviderStat
   ValueNotifier<double> stepsValueNotifier = ValueNotifier(0);
   Rx<num> steps = 0.obs;
   Rx<num> burntCalories = 0.obs;
-  Rx<num> totalSteps = 0.obs;
   Rx<num> totalCalories = 0.obs;
   RxList<ActivityHistoryModel> exerciseHistoryList = <ActivityHistoryModel>[].obs;
   TextEditingController dataController = TextEditingController();
@@ -78,7 +77,7 @@ class ExerciseController extends BaseController with GetSingleTickerProviderStat
     String value = '';
     if (exerciseHistoryList.isNotEmpty) {
       var date = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day - 6 + index);
-      value = DateFormat('dd/MM').format(date);
+      value = DateFormat('dd').format(date);
     }
     return value;
   }
@@ -90,7 +89,6 @@ class ExerciseController extends BaseController with GetSingleTickerProviderStat
     if (show && data != null) {
       showModalBottomSheet(
           context: Get.context!,
-          isScrollControlled: true,
           shape: ShapeBorder.lerp(const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
               const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))), 1),
           builder: ((context) {
@@ -131,25 +129,24 @@ class ExerciseController extends BaseController with GetSingleTickerProviderStat
     EasyLoading.show();
     final result = await usecase.call(PostExerciseParams.manualInput(double.parse(exerciseManualInput.text), HealthDataType.STEPS));
     EasyLoading.dismiss();
+    Get.back();
     result.fold((l) {}, (r) async {
       final calories = 3 * (Get.find<DashboardController>().user.value.weight?.toDouble() ?? 1) * (double.parse(exerciseManualInput.text) / 10000);
       final result = await usecase.call(PostExerciseParams.manualInput(calories, HealthDataType.ACTIVE_ENERGY_BURNED));
-      result.fold((l) {}, (r) {
-        refreshList();
+      result.fold((l) {
+        Log.error("error $l calories $calories");
+      }, (r) async {
+        Log.info("success $r");
+        await refreshList();
         exerciseManualInput.clear();
         if (Get.isRegistered<UserDiaryController>()) {
           Get.find<UserDiaryController>().refreshList();
         }
-        Get.back();
       });
     });
   }
 
   Future<bool> refreshList() async {
-    steps.value = 0;
-    burntCalories.value = 0.0;
-    totalSteps.value = 0.0;
-    totalCalories.value = 0.0;
     await getStepsData();
     await getBurntCaloriesData();
     await getExerciseHistorydata();
@@ -213,7 +210,9 @@ class ExerciseController extends BaseController with GetSingleTickerProviderStat
     var currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0, 0, 0);
     var dateTill = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59, 0, 0);
     var result = await getSteps(GetActivityHistoryParam(type: ['STEPS'], dateFrom: currentDate, dateTo: dateTill));
-    result.fold((l) => Log.error(l), (r) {
+    result.fold((l) {
+      Log.error(l);
+    }, (r) {
       // sum all value from object r and assign it to steps
       if (r.isEmpty) {
         steps.value = 0;

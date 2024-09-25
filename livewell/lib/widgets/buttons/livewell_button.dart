@@ -8,7 +8,9 @@ class LiveWellButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final Color? textColor;
   final double? elevation;
-  const LiveWellButton({required this.label, required this.color, this.onPressed, this.textColor, this.elevation, Key? key}) : super(key: key);
+  final bool wrapSize;
+  final EdgeInsets? padding;
+  const LiveWellButton({required this.label, required this.color, this.onPressed, this.textColor, this.elevation, this.wrapSize = false, this.padding, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +21,10 @@ class LiveWellButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             elevation: elevation,
             shadowColor: Colors.transparent,
-            fixedSize: Size(1.sw, 48.h),
+            fixedSize: wrapSize ? null : Size(1.sw, 48.h),
             backgroundColor: color,
             disabledBackgroundColor: const Color(0xFFEBEBEB),
-            padding: EdgeInsets.symmetric(horizontal: Insets.paddingMedium, vertical: Insets.paddingMedium.h),
+            padding: padding ?? const EdgeInsets.symmetric(horizontal: Insets.paddingMedium, vertical: Insets.paddingSmall),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(36.0).r)),
         child: Text(
           label,

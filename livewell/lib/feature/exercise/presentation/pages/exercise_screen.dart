@@ -5,17 +5,20 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:livewell/core/helper/tracker/livewell_tracker.dart';
 import 'package:livewell/core/log.dart';
+import 'package:livewell/feature/diary/presentation/page/user_diary_screen.dart';
 import 'package:livewell/feature/exercise/presentation/controller/exercise_controller.dart';
-import 'package:livewell/feature/exercise/presentation/pages/exercise_diary_screen.dart';
+import 'package:livewell/feature/exercise/presentation/widget/input_step_bottom_sheet.dart';
 import 'package:livewell/feature/home/controller/home_controller.dart';
-import 'package:livewell/routes/app_navigator.dart';
+import 'package:livewell/theme/design_system.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
+import 'package:livewell/widgets/chart/circular_calories.dart';
 import 'package:livewell/widgets/popup_asset/popup_asset_widget.dart';
 import 'package:livewell/widgets/scaffold/livewell_scaffold.dart';
 import 'package:livewell/widgets/textfield/livewell_textfield.dart';
@@ -270,26 +273,185 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
           },
           child: ListView(
             children: [
-              40.verticalSpace,
-              const ExerciseDiaryScreen(),
-              32.verticalSpace,
-              LiveWellButton(
-                label: controller.localization.exercisePage?.inputSteps ?? "Input Steps",
-                color: const Color(0xFF8F01DF),
-                textColor: Colors.white,
-                onPressed: () {
-                  controller.trackEvent(LivewellExerciseEvent.exercisePageInputStepsButton);
-                  AppNavigator.push(routeName: AppPages.manualInputExercise);
-                },
+              Column(
+                children: [
+                  //40.verticalSpace,
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 20),
+                  //   child: Obx(() {
+                  //     return RichText(
+                  //       textAlign: TextAlign.center,
+                  //       text: TextSpan(
+                  //         text: controller.localization.exercisePage?.youHaveReached ?? "You have reached ",
+                  //         style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433)),
+                  //         children: <TextSpan>[
+                  //           TextSpan(text: "${controller.getGoalPercentage()}%", style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600, color: const Color(0xFF8F01DF))),
+                  //           TextSpan(text: controller.localization.exercisePage?.ofYourGoal ?? "of your goal!", style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433))),
+                  //         ],
+                  //       ),
+                  //     );
+                  //   }),
+                  // ),
+                  //40.verticalSpace,
+                  SimpleCircularProgressBar(
+                    backColor: Colors.white,
+                    progressColors: const [Color(0xFF8F01DF)],
+                    mergeMode: true,
+                    backStrokeWidth: 8,
+                    size: 200.h,
+                    progressStrokeWidth: 14,
+                    valueNotifier: controller.goalValueNotifier,
+                    animationDuration: const Duration(seconds: 1),
+                    maxValue: 1,
+                    shadow: false,
+                    onGetText: (value) {
+                      return SizedBox(
+                        width: 180.h,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "${controller.getGoalPercentage()}%",
+                              style: TextStyle(fontSize: 40.sp, color: const Color(0xFF171433)),
+                            ),
+                            Text(
+                              'of daily calories goals',
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              style: TextStyle(fontSize: 14.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  30.verticalSpace,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(14.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SimpleCircularProgressBar(
+                              backColor: Colors.white,
+                              progressColors: [const Color(0xFF171433).withOpacity(0.7)],
+                              mergeMode: true,
+                              backStrokeWidth: 5,
+                              size: 70.h,
+                              progressStrokeWidth: 8,
+                              valueNotifier: controller.goalValueNotifier,
+                              animationDuration: const Duration(seconds: 1),
+                              maxValue: 1,
+                              shadow: false,
+                              onGetText: (value) {
+                                return SvgPicture.asset("assets/icons/livewell-calories-burnt.svg", width: 18.h, height: 24.h);
+                              },
+                            ),
+                            16.verticalSpace,
+                            Obx(() {
+                              return Text(
+                                "${controller.burntCalories.value.round()}\n ${controller.localization.exercisePage?.caloriesBurnt ?? "Calories Burnt"}",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433)),
+                              );
+                            })
+                          ],
+                        ),
+                      ),
+                      20.horizontalSpace,
+                      Padding(
+                        padding: const EdgeInsets.all(14.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SimpleCircularProgressBar(
+                              backColor: Colors.white,
+                              progressColors: [const Color(0xFF171433).withOpacity(0.7)],
+                              mergeMode: true,
+                              backStrokeWidth: 5,
+                              size: 70.h,
+                              progressStrokeWidth: 8,
+                              valueNotifier: controller.stepsValueNotifier,
+                              animationDuration: const Duration(seconds: 1),
+                              maxValue: 1,
+                              shadow: false,
+                              onGetText: (value) {
+                                return SvgPicture.asset("assets/icons/livewell-footstep.svg", width: 18.h, height: 24.h);
+                              },
+                            ),
+                            16.verticalSpace,
+                            Obx(() {
+                              return Text(
+                                "${controller.steps.value}\n ${controller.localization.exercisePage?.steps ?? "Steps"}",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433)),
+                              );
+                            })
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  18.verticalSpace,
+                  Text('${controller.localization.exercisePage?.syncedVia ?? 'Synced Via'} ${Platform.isIOS ? 'Apple Health' : 'Google Fit'}',
+                      style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433))),
+                ],
               ),
-              32.verticalSpace,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: Text(
-                  controller.localization.exercisePage?.exerciseHabit ?? "Exercise habit",
-                  style: TextStyle(color: const Color(0xFF171433), fontSize: 20.sp, fontWeight: FontWeight.w600),
+              18.verticalSpace,
+              Center(
+                child: Wrap(
+                  children: [
+                    LiveWellButton(
+                      label: controller.localization.exercisePage?.inputSteps ?? "Input Steps",
+                      color: const Color(0xFF8F01DF),
+                      wrapSize: true,
+                      textColor: Colors.white,
+                      padding: EdgeInsets.symmetric(horizontal: 40.h, vertical: 12.h),
+                      onPressed: () {
+                        controller.trackEvent(LivewellExerciseEvent.exercisePageInputStepsButton);
+                        FocusNode focusNode = FocusNode();
+                        focusNode.requestFocus();
+                        showModalBottomSheet(
+                            isScrollControlled: true,
+                            shape: shapeBorder(),
+                            context: context,
+                            builder: (context) {
+                              return Wrap(
+                                children: [
+                                  Container(
+                                    padding: MediaQuery.of(context).viewInsets,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(32),
+                                        topRight: Radius.circular(32),
+                                      ),
+                                    ),
+                                    child: InputStepsBottomSheet(
+                                      focusNode: focusNode,
+                                    ),
+                                  )
+                                ],
+                              );
+                            });
+                      },
+                    ),
+                  ],
                 ),
               ),
+              16.verticalSpace,
+              // Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: 16.h),
+              //   child: Obx(() {
+              //     return WellnessProfileWidget(
+              //       type: StreakItemType.activity,
+              //       value: Get.find<DashboardController>().wellnessData.value?.activityScore ?? 0.0,
+              //     );
+              //   }),
+              // ),
               16.verticalSpace,
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 16.w),
@@ -297,8 +459,17 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                 decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: const Color(0xFFEBEBEB))),
                 child: Column(
                   children: [
-                    Text(controller.localization.exercisePage?.last7Days ?? "Last 7 days", style: TextStyle(color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w700, height: 20.sp / 14.sp)),
-                    16.verticalSpace,
+                    Row(
+                      children: [
+                        Text(
+                          controller.localization.exercisePage?.exerciseHabit ?? "Exercise habit",
+                          style: TextStyle(color: Theme.of(context).colorScheme.neutral100, fontSize: 16.sp, fontWeight: FontWeight.w600),
+                        ),
+                        const Spacer(),
+                        Text(controller.localization.exercisePage?.last7Days ?? "Last 7 days",
+                            style: TextStyle(color: Theme.of(context).colorScheme.neutral90, fontSize: 12.sp, fontWeight: FontWeight.w500, height: 20.sp / 14.sp)),
+                      ],
+                    ),
                     const Divider(),
                     16.verticalSpace,
                     Obx(() {
@@ -360,14 +531,11 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                     sideTitles: SideTitles(
                                       showTitles: true,
                                       getTitlesWidget: (value, meta) {
-                                        return Transform.rotate(
-                                          angle: -45,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(top: 10),
-                                            child: Text(
-                                              controller.getXValue(value.toInt()),
-                                              style: TextStyle(color: const Color(0xFF505050), fontSize: 12.sp),
-                                            ),
+                                        return Padding(
+                                          padding: const EdgeInsets.only(top: 5),
+                                          child: Text(
+                                            controller.getXValue(value.toInt()),
+                                            style: TextStyle(color: const Color(0xFF505050), fontSize: 12.sp),
                                           ),
                                         );
                                       },
@@ -379,7 +547,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                             Align(
                               alignment: Alignment.bottomLeft,
                               child: Text(
-                                'kcal.',
+                                controller.localization.exercisePage?.kcal ?? 'kcal.',
                                 style: TextStyle(color: const Color(0xFF505050), fontSize: 10.sp, fontWeight: FontWeight.w600),
                               ),
                             ),

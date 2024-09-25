@@ -21,8 +21,9 @@ class _SplashScreenState extends State<SplashScreen> {
         color: Colors.white,
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              const Spacer(),
               AspectRatio(
                 aspectRatio: 5,
                 child: SvgPicture.asset(
@@ -33,6 +34,9 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               Text(controller.localization.landingPage?.betterHealthThroughBetterLiving ?? "Better Health Through Better Living".tr,
                   textAlign: TextAlign.center, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433).withOpacity(0.5))),
+              const Spacer(),
+              SvgPicture.asset("assets/icons/kemenkes-icon.svg"),
+              36.verticalSpace,
             ],
           ),
         ),

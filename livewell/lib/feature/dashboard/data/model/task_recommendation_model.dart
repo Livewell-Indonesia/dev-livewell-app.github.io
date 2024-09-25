@@ -29,12 +29,14 @@ class Response {
   List<ListElement>? list;
   DateTime? time;
   String? referenceId;
+  bool? isRead;
 
   Response({
     this.recommendation,
     this.list,
     this.time,
     this.referenceId,
+    this.isRead,
   });
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
@@ -42,6 +44,7 @@ class Response {
         list: json["list"] == null ? [] : List<ListElement>.from(json["list"]!.map((x) => ListElement.fromJson(x))),
         time: json["time"] == null ? null : DateTime.parse(json["time"]),
         referenceId: json["reference_id"],
+        isRead: json["is_read"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -49,6 +52,7 @@ class Response {
         "list": list == null ? [] : List<dynamic>.from(list!.map((x) => x.toJson())),
         "time": time?.toIso8601String(),
         "reference_id": referenceId,
+        "is_read": isRead,
       };
 }
 

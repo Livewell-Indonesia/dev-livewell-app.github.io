@@ -16,30 +16,30 @@ class ExerciseDiaryScreen extends StatefulWidget {
 }
 
 class _ExerciseDiaryScreenState extends State<ExerciseDiaryScreen> {
-  ExerciseController controller = Get.find();
+  final ExerciseController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         //40.verticalSpace,
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Obx(() {
-            return RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                text: controller.localization.exercisePage?.youHaveReached ?? "You have reached ",
-                style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433)),
-                children: <TextSpan>[
-                  TextSpan(text: "${controller.getGoalPercentage()}%", style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600, color: const Color(0xFF8F01DF))),
-                  TextSpan(text: controller.localization.exercisePage?.ofYourGoal ?? "of your goal!", style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433))),
-                ],
-              ),
-            );
-          }),
-        ),
-        40.verticalSpace,
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(horizontal: 20),
+        //   child: Obx(() {
+        //     return RichText(
+        //       textAlign: TextAlign.center,
+        //       text: TextSpan(
+        //         text: controller.localization.exercisePage?.youHaveReached ?? "You have reached ",
+        //         style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433)),
+        //         children: <TextSpan>[
+        //           TextSpan(text: "${controller.getGoalPercentage()}%", style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600, color: const Color(0xFF8F01DF))),
+        //           TextSpan(text: controller.localization.exercisePage?.ofYourGoal ?? "of your goal!", style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433))),
+        //         ],
+        //       ),
+        //     );
+        //   }),
+        // ),
+        //40.verticalSpace,
         SimpleCircularProgressBar(
           backColor: Colors.white,
           progressColors: const [Color(0xFF8F01DF)],
@@ -52,9 +52,24 @@ class _ExerciseDiaryScreenState extends State<ExerciseDiaryScreen> {
           maxValue: 1,
           shadow: false,
           onGetText: (value) {
-            return Text(
-              "${controller.getGoalPercentage()}%",
-              style: TextStyle(fontSize: 40.sp, color: const Color(0xFF171433)),
+            return SizedBox(
+              width: 180.h,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "${controller.getGoalPercentage()}%",
+                    style: TextStyle(fontSize: 40.sp, color: const Color(0xFF171433)),
+                  ),
+                  Text(
+                    'of daily calories goals',
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    style: TextStyle(fontSize: 14.sp, color: const Color(0xFF171433), fontWeight: FontWeight.w400),
+                  ),
+                ],
+              ),
             );
           },
         ),
@@ -79,7 +94,7 @@ class _ExerciseDiaryScreenState extends State<ExerciseDiaryScreen> {
                     maxValue: 1,
                     shadow: false,
                     onGetText: (value) {
-                      return SvgPicture.asset("assets/icons/ic_calories_exercise.svg");
+                      return SvgPicture.asset("assets/icons/livewell-calories-burnt.svg", width: 18.h, height: 24.h);
                     },
                   ),
                   16.verticalSpace,
@@ -111,7 +126,7 @@ class _ExerciseDiaryScreenState extends State<ExerciseDiaryScreen> {
                     maxValue: 1,
                     shadow: false,
                     onGetText: (value) {
-                      return SvgPicture.asset("assets/icons/ic_steps_exercise.svg");
+                      return SvgPicture.asset("assets/icons/livewell-footstep.svg", width: 18.h, height: 24.h);
                     },
                   ),
                   16.verticalSpace,
@@ -127,7 +142,7 @@ class _ExerciseDiaryScreenState extends State<ExerciseDiaryScreen> {
             ),
           ],
         ),
-        20.verticalSpace,
+        18.verticalSpace,
         Text('${controller.localization.exercisePage?.syncedVia ?? 'Synced Via'} ${Platform.isIOS ? 'Apple Health' : 'Google Fit'}',
             style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433))),
       ],

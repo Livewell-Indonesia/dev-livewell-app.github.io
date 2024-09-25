@@ -20,6 +20,7 @@ class AppColors {
   static const neutral10 = Color(0xFFFAFAFA);
   static const neutral20 = Color(0xFFF5F5F5);
   static const neutral30 = Color(0xFFEDEDED);
+  static const neutral50 = Color(0xFFC2C2C2);
 
   // black
   static const black = Color(0xFF000000);
@@ -132,10 +133,10 @@ extension LivewellColorScheme on ColorScheme {
   Color get neutral80 => brightness == Brightness.light ? AppColors.neutral80 : AppColors.neutral80;
   Color get neutral70 => brightness == Brightness.light ? AppColors.neutral70 : AppColors.neutral70;
   Color get neutral60 => brightness == Brightness.light ? AppColors.neutral60 : AppColors.neutral60;
-  Color get neutral10 => brightness == Brightness.light ? AppColors.neutral10 : AppColors.neutral10;
+  Color get neutral50 => brightness == Brightness.light ? AppColors.neutral50 : AppColors.neutral50;
   Color get neutral30 => brightness == Brightness.light ? AppColors.neutral30 : AppColors.neutral30;
-
   Color get neutral20 => brightness == Brightness.light ? AppColors.neutral20 : AppColors.neutral20;
+  Color get neutral10 => brightness == Brightness.light ? AppColors.neutral10 : AppColors.neutral10;
 
   // black
   Color get black => brightness == Brightness.light ? AppColors.black : AppColors.black;

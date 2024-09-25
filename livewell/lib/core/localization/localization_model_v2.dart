@@ -38,11 +38,13 @@ class LocalizationKeyV2 {
   DeleteAccountDialog? deleteAccountDialog;
   ExercisePage? exercisePage;
   ForgotPasswordPage? forgotPasswordPage;
+  GoalSettingDialog? goalSettingDialog;
   HomePage? homePage;
   LandingPage? landingPage;
   LanguagesDialog? languagesDialog;
   MoodPage? moodPage;
   MyGoalsPage? myGoalsPage;
+  NutricoPlusBottomSheet? nutricoPlusBottomSheet;
   NutrientFactPage? nutrientFactPage;
   NutriscoreDetailPage? nutriscoreDetailPage;
   NutritionPage? nutritionPage;
@@ -52,17 +54,17 @@ class LocalizationKeyV2 {
   RequestFoodSuccessPage? requestFoodSuccessPage;
   SignInPage? signInPage;
   SignUpPage? signUpPage;
+  SleepAnalysisSleepPage? sleepAnalysisSleepPage;
   SleepPage? sleepPage;
+  SleepPageLearnMore? sleepPageLearnMore;
   StreakPage? streakPage;
+  TooltipHomePage? tooltipHomePage;
   UpdatePasswordPage? updatePasswordPage;
   UserDiaryPage? userDiaryPage;
   WaterPage? waterPage;
   WeightPage? weightPage;
   Map<String, String>? wellnessCalculation;
   WellnessScorePage? wellnessScorePage;
-  NutricoPlusBottomSheet? nutricoPlusBottomSheet;
-  TooltipHomePage? tooltipHomePage;
-  GoalSettingDialog? goalSettingDialog;
 
   LocalizationKeyV2({
     this.accountPage,
@@ -74,11 +76,13 @@ class LocalizationKeyV2 {
     this.deleteAccountDialog,
     this.exercisePage,
     this.forgotPasswordPage,
+    this.goalSettingDialog,
     this.homePage,
     this.landingPage,
     this.languagesDialog,
     this.moodPage,
     this.myGoalsPage,
+    this.nutricoPlusBottomSheet,
     this.nutrientFactPage,
     this.nutriscoreDetailPage,
     this.nutritionPage,
@@ -88,17 +92,17 @@ class LocalizationKeyV2 {
     this.requestFoodSuccessPage,
     this.signInPage,
     this.signUpPage,
+    this.sleepAnalysisSleepPage,
     this.sleepPage,
+    this.sleepPageLearnMore,
     this.streakPage,
+    this.tooltipHomePage,
     this.updatePasswordPage,
     this.userDiaryPage,
     this.waterPage,
     this.weightPage,
     this.wellnessCalculation,
     this.wellnessScorePage,
-    this.nutricoPlusBottomSheet,
-    this.tooltipHomePage,
-    this.goalSettingDialog,
   });
 
   factory LocalizationKeyV2.fromJson(Map<String, dynamic> json) => LocalizationKeyV2(
@@ -111,11 +115,13 @@ class LocalizationKeyV2 {
         deleteAccountDialog: json["delete_account_dialog"] == null ? null : DeleteAccountDialog.fromJson(json["delete_account_dialog"]),
         exercisePage: json["exercise_page"] == null ? null : ExercisePage.fromJson(json["exercise_page"]),
         forgotPasswordPage: json["forgot_password_page"] == null ? null : ForgotPasswordPage.fromJson(json["forgot_password_page"]),
+        goalSettingDialog: json["goal_setting_dialog"] == null ? null : GoalSettingDialog.fromJson(json["goal_setting_dialog"]),
         homePage: json["home_page"] == null ? null : HomePage.fromJson(json["home_page"]),
         landingPage: json["landing_page"] == null ? null : LandingPage.fromJson(json["landing_page"]),
         languagesDialog: json["languages_dialog"] == null ? null : LanguagesDialog.fromJson(json["languages_dialog"]),
         moodPage: json["mood_page"] == null ? null : MoodPage.fromJson(json["mood_page"]),
         myGoalsPage: json["my_goals_page"] == null ? null : MyGoalsPage.fromJson(json["my_goals_page"]),
+        nutricoPlusBottomSheet: json["nutrico_plus_bottom_sheet"] == null ? null : NutricoPlusBottomSheet.fromJson(json["nutrico_plus_bottom_sheet"]),
         nutrientFactPage: json["nutrient_fact_page"] == null ? null : NutrientFactPage.fromJson(json["nutrient_fact_page"]),
         nutriscoreDetailPage: json["nutriscore_detail_page"] == null ? null : NutriscoreDetailPage.fromJson(json["nutriscore_detail_page"]),
         nutritionPage: json["nutrition_page"] == null ? null : NutritionPage.fromJson(json["nutrition_page"]),
@@ -125,17 +131,17 @@ class LocalizationKeyV2 {
         requestFoodSuccessPage: json["request_food_success_page"] == null ? null : RequestFoodSuccessPage.fromJson(json["request_food_success_page"]),
         signInPage: json["sign_in_page"] == null ? null : SignInPage.fromJson(json["sign_in_page"]),
         signUpPage: json["sign_up_page"] == null ? null : SignUpPage.fromJson(json["sign_up_page"]),
+        sleepAnalysisSleepPage: json["sleep_analysis_sleep_page"] == null ? null : SleepAnalysisSleepPage.fromJson(json["sleep_analysis_sleep_page"]),
         sleepPage: json["sleep_page"] == null ? null : SleepPage.fromJson(json["sleep_page"]),
+        sleepPageLearnMore: json["sleep_page_learn_more"] == null ? null : SleepPageLearnMore.fromJson(json["sleep_page_learn_more"]),
         streakPage: json["streak_page"] == null ? null : StreakPage.fromJson(json["streak_page"]),
+        tooltipHomePage: json["tooltip_home_page"] == null ? null : TooltipHomePage.fromJson(json["tooltip_home_page"]),
         updatePasswordPage: json["update_password_page"] == null ? null : UpdatePasswordPage.fromJson(json["update_password_page"]),
         userDiaryPage: json["user_diary_page"] == null ? null : UserDiaryPage.fromJson(json["user_diary_page"]),
         waterPage: json["water_page"] == null ? null : WaterPage.fromJson(json["water_page"]),
         weightPage: json["weight_page"] == null ? null : WeightPage.fromJson(json["weight_page"]),
         wellnessCalculation: Map.from(json["wellness_calculation"]!).map((k, v) => MapEntry<String, String>(k, v)),
         wellnessScorePage: json["wellness_score_page"] == null ? null : WellnessScorePage.fromJson(json["wellness_score_page"]),
-        nutricoPlusBottomSheet: json["nutrico_plus_bottom_sheet"] == null ? null : NutricoPlusBottomSheet.fromJson(json["nutrico_plus_bottom_sheet"]),
-        tooltipHomePage: json["tooltip_home_page"] == null ? null : TooltipHomePage.fromJson(json["tooltip_home_page"]),
-        goalSettingDialog: json["goal_setting_dialog"] == null ? null : GoalSettingDialog.fromJson(json["goal_setting_dialog"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -148,11 +154,13 @@ class LocalizationKeyV2 {
         "delete_account_dialog": deleteAccountDialog?.toJson(),
         "exercise_page": exercisePage?.toJson(),
         "forgot_password_page": forgotPasswordPage?.toJson(),
+        "goal_setting_dialog": goalSettingDialog?.toJson(),
         "home_page": homePage?.toJson(),
         "landing_page": landingPage?.toJson(),
         "languages_dialog": languagesDialog?.toJson(),
         "mood_page": moodPage?.toJson(),
         "my_goals_page": myGoalsPage?.toJson(),
+        "nutrico_plus_bottom_sheet": nutricoPlusBottomSheet?.toJson(),
         "nutrient_fact_page": nutrientFactPage?.toJson(),
         "nutriscore_detail_page": nutriscoreDetailPage?.toJson(),
         "nutrition_page": nutritionPage?.toJson(),
@@ -162,17 +170,17 @@ class LocalizationKeyV2 {
         "request_food_success_page": requestFoodSuccessPage?.toJson(),
         "sign_in_page": signInPage?.toJson(),
         "sign_up_page": signUpPage?.toJson(),
+        "sleep_analysis_sleep_page": sleepAnalysisSleepPage?.toJson(),
         "sleep_page": sleepPage?.toJson(),
+        "sleep_page_learn_more": sleepPageLearnMore?.toJson(),
         "streak_page": streakPage?.toJson(),
+        "tooltip_home_page": tooltipHomePage?.toJson(),
         "update_password_page": updatePasswordPage?.toJson(),
         "user_diary_page": userDiaryPage?.toJson(),
         "water_page": waterPage?.toJson(),
         "weight_page": weightPage?.toJson(),
         "wellness_calculation": Map.from(wellnessCalculation!).map((k, v) => MapEntry<String, dynamic>(k, v)),
         "wellness_score_page": wellnessScorePage?.toJson(),
-        "nutrico_plus_bottom_sheet": nutricoPlusBottomSheet?.toJson(),
-        "tooltip_home_page": tooltipHomePage?.toJson(),
-        "goal_setting_dialog": goalSettingDialog?.toJson(),
       };
 }
 
@@ -573,34 +581,34 @@ class ForgotPasswordPage {
 }
 
 class GoalSettingDialog {
-  String? getFitter;
   String? betterSleeping;
-  String? weightLoss;
-  String? trackNutrition;
+  String? getFitter;
   String? none;
+  String? trackNutrition;
+  String? weightLoss;
 
   GoalSettingDialog({
-    this.getFitter,
     this.betterSleeping,
-    this.weightLoss,
-    this.trackNutrition,
+    this.getFitter,
     this.none,
+    this.trackNutrition,
+    this.weightLoss,
   });
 
   factory GoalSettingDialog.fromJson(Map<String, dynamic> json) => GoalSettingDialog(
-        getFitter: json["get_fitter"],
         betterSleeping: json["better_sleeping"],
-        weightLoss: json["weight_loss"],
-        trackNutrition: json["track_nutrition"],
+        getFitter: json["get_fitter"],
         none: json["none"],
+        trackNutrition: json["track_nutrition"],
+        weightLoss: json["weight_loss"],
       );
 
   Map<String, dynamic> toJson() => {
-        "get_fitter": getFitter,
         "better_sleeping": betterSleeping,
-        "weight_loss": weightLoss,
-        "track_nutrition": trackNutrition,
+        "get_fitter": getFitter,
         "none": none,
+        "track_nutrition": trackNutrition,
+        "weight_loss": weightLoss,
       };
 }
 
@@ -608,187 +616,187 @@ class HomePage {
   String? account;
   String? calories;
   String? carbs;
+  String? checkTheAppToSeeWhatYouNeedToImprove;
+  String? curiousAboutFullPicture;
   String? dayStreak;
   String? dinnerTask;
+  String? done;
+  String? exercise;
   String? exerciseBurnt;
   String? exerciseButton;
   String? fat;
   String? goodAfternoon;
   String? goodEvening;
   String? goodMorning;
+  String? greatJobKeepUpTheGoodWork;
+  String? here;
   String? hi;
   String? home;
   String? howAreYou;
+  String? insights;
   String? lunchTask;
   String? mood;
   String? moodButton;
+  String? next;
   String? nutricoPlus;
+  String? nutrition;
   String? nutritionButton;
+  String? of;
+  String? preparingRecommendationForYou;
+  String? prev;
   String? protein;
+  String? seeTheAppForAreasToImprove;
   String? sleep;
   String? sleepButton;
   String? snackTask;
   String? startYourStreak;
   String? taskList;
+  String? viewInsights;
   String? water;
   String? waterButton;
   String? waterTask;
-  String? of;
-  String? insights;
-  String? next;
-  String? prev;
-  String? preparingRecommendationForYou;
-  String? done;
-  String? youreAllSet;
-  String? curiousAboutFullPicture;
-  String? here;
   String? wellness;
-  String? viewInsights;
-  String? checkTheAppToSeeWhatYouNeedToImprove;
-  String? seeTheAppForAreasToImprove;
-  String? greatJobKeepUpTheGoodWork;
-  String? exercise;
-  String? nutrition;
+  String? youreAllSet;
 
   HomePage({
     this.account,
     this.calories,
     this.carbs,
+    this.checkTheAppToSeeWhatYouNeedToImprove,
+    this.curiousAboutFullPicture,
     this.dayStreak,
     this.dinnerTask,
+    this.done,
+    this.exercise,
     this.exerciseBurnt,
     this.exerciseButton,
     this.fat,
     this.goodAfternoon,
     this.goodEvening,
     this.goodMorning,
+    this.greatJobKeepUpTheGoodWork,
+    this.here,
     this.hi,
     this.home,
     this.howAreYou,
+    this.insights,
     this.lunchTask,
     this.mood,
     this.moodButton,
+    this.next,
     this.nutricoPlus,
+    this.nutrition,
     this.nutritionButton,
+    this.of,
+    this.preparingRecommendationForYou,
+    this.prev,
     this.protein,
+    this.seeTheAppForAreasToImprove,
     this.sleep,
     this.sleepButton,
     this.snackTask,
     this.startYourStreak,
     this.taskList,
+    this.viewInsights,
     this.water,
     this.waterButton,
     this.waterTask,
-    this.of,
-    this.insights,
-    this.next,
-    this.prev,
-    this.preparingRecommendationForYou,
-    this.done,
-    this.youreAllSet,
-    this.curiousAboutFullPicture,
-    this.here,
     this.wellness,
-    this.viewInsights,
-    this.checkTheAppToSeeWhatYouNeedToImprove,
-    this.seeTheAppForAreasToImprove,
-    this.greatJobKeepUpTheGoodWork,
-    this.exercise,
-    this.nutrition,
+    this.youreAllSet,
   });
 
   factory HomePage.fromJson(Map<String, dynamic> json) => HomePage(
         account: json["account"],
         calories: json["calories"],
         carbs: json["carbs"],
+        checkTheAppToSeeWhatYouNeedToImprove: json["check_the_app_to_see_what_you_need_to_improve"],
+        curiousAboutFullPicture: json["curious_about_full_picture"],
         dayStreak: json["day_streak"],
         dinnerTask: json["dinner_task"],
+        done: json["done"],
+        exercise: json["exercise"],
         exerciseBurnt: json["exercise_burnt"],
         exerciseButton: json["exercise_button"],
         fat: json["fat"],
         goodAfternoon: json["good_afternoon"],
         goodEvening: json["good_evening"],
         goodMorning: json["good_morning"],
+        greatJobKeepUpTheGoodWork: json["great_job_keep_up_the_good_work"],
+        here: json["here"],
         hi: json["hi"],
         home: json["home"],
         howAreYou: json["how_are_you"],
+        insights: json["insights"],
         lunchTask: json["lunch_task"],
         mood: json["mood"],
         moodButton: json["mood_button"],
+        next: json["next"],
         nutricoPlus: json["nutrico_plus"],
+        nutrition: json["nutrition"],
         nutritionButton: json["nutrition_button"],
+        of: json["of"],
+        preparingRecommendationForYou: json["preparing_recommendation_for_you"],
+        prev: json["prev"],
         protein: json["protein"],
+        seeTheAppForAreasToImprove: json["see_the_app_for_areas_to_improve"],
         sleep: json["sleep"],
         sleepButton: json["sleep_button"],
         snackTask: json["snack_task"],
         startYourStreak: json["start_your_streak"],
         taskList: json["task_list"],
+        viewInsights: json["view_insights"],
         water: json["water"],
         waterButton: json["water_button"],
         waterTask: json["water_task"],
-        of: json["of"],
-        insights: json["insights"],
-        next: json["next"],
-        prev: json["prev"],
-        preparingRecommendationForYou: json["preparing_recommendation_for_you"],
-        done: json["done"],
-        youreAllSet: json["youre_all_set"],
-        curiousAboutFullPicture: json["curious_about_full_picture"],
-        here: json["here"],
         wellness: json["wellness"],
-        viewInsights: json["view_insights"],
-        checkTheAppToSeeWhatYouNeedToImprove: json["check_the_app_to_see_what_you_need_to_improve"],
-        seeTheAppForAreasToImprove: json["see_the_app_for_areas_to_improve"],
-        greatJobKeepUpTheGoodWork: json["great_job_keep_up_the_good_work"],
-        exercise: json["exercise"],
-        nutrition: json["nutrition"],
+        youreAllSet: json["youre_all_set"],
       );
 
   Map<String, dynamic> toJson() => {
         "account": account,
         "calories": calories,
         "carbs": carbs,
+        "check_the_app_to_see_what_you_need_to_improve": checkTheAppToSeeWhatYouNeedToImprove,
+        "curious_about_full_picture": curiousAboutFullPicture,
         "day_streak": dayStreak,
         "dinner_task": dinnerTask,
+        "done": done,
+        "exercise": exercise,
         "exercise_burnt": exerciseBurnt,
         "exercise_button": exerciseButton,
         "fat": fat,
         "good_afternoon": goodAfternoon,
         "good_evening": goodEvening,
         "good_morning": goodMorning,
+        "great_job_keep_up_the_good_work": greatJobKeepUpTheGoodWork,
+        "here": here,
         "hi": hi,
         "home": home,
         "how_are_you": howAreYou,
+        "insights": insights,
         "lunch_task": lunchTask,
         "mood": mood,
         "mood_button": moodButton,
+        "next": next,
         "nutrico_plus": nutricoPlus,
+        "nutrition": nutrition,
         "nutrition_button": nutritionButton,
+        "of": of,
+        "preparing_recommendation_for_you": preparingRecommendationForYou,
+        "prev": prev,
         "protein": protein,
+        "see_the_app_for_areas_to_improve": seeTheAppForAreasToImprove,
         "sleep": sleep,
         "sleep_button": sleepButton,
         "snack_task": snackTask,
         "start_your_streak": startYourStreak,
         "task_list": taskList,
+        "view_insights": viewInsights,
         "water": water,
         "water_button": waterButton,
         "water_task": waterTask,
-        "of": of,
-        "insights": insights,
-        "next": next,
-        "prev": prev,
-        "preparing_recommendation_for_you": preparingRecommendationForYou,
-        "done": done,
-        "youre_all_set": youreAllSet,
-        "curious_about_full_picture": curiousAboutFullPicture,
-        "here": here,
         "wellness": wellness,
-        "view_insights": viewInsights,
-        "check_the_app_to_see_what_you_need_to_improve": checkTheAppToSeeWhatYouNeedToImprove,
-        "see_the_app_for_areas_to_improve": seeTheAppForAreasToImprove,
-        "great_job_keep_up_the_good_work": greatJobKeepUpTheGoodWork,
-        "exercise": exercise,
-        "nutrition": nutrition,
+        "youre_all_set": youreAllSet,
       };
 }
 
@@ -949,46 +957,46 @@ class MyGoalsPage {
 }
 
 class NutricoPlusBottomSheet {
-  String? manualDescribeYourFood;
   String? describeFood;
   String? generateFromImage;
-  String? maximumGenerateOf;
   String? imagesPerMonth;
+  String? manualDescribeYourFood;
+  String? maxRequestReached;
+  String? maximumGenerateOf;
   String? pickFromGallery;
   String? takeAPhoto;
-  String? maxRequestReached;
 
   NutricoPlusBottomSheet({
-    this.manualDescribeYourFood,
     this.describeFood,
     this.generateFromImage,
-    this.maximumGenerateOf,
     this.imagesPerMonth,
+    this.manualDescribeYourFood,
+    this.maxRequestReached,
+    this.maximumGenerateOf,
     this.pickFromGallery,
     this.takeAPhoto,
-    this.maxRequestReached,
   });
 
   factory NutricoPlusBottomSheet.fromJson(Map<String, dynamic> json) => NutricoPlusBottomSheet(
-        manualDescribeYourFood: json["manual_describe_your_food"],
         describeFood: json["describe_food"],
         generateFromImage: json["generate_from_image"],
-        maximumGenerateOf: json["maximum_generate_of"],
         imagesPerMonth: json["images_per_month"],
+        manualDescribeYourFood: json["manual_describe_your_food"],
+        maxRequestReached: json["max_request_reached"],
+        maximumGenerateOf: json["maximum_generate_of"],
         pickFromGallery: json["pick_from_gallery"],
         takeAPhoto: json["take_a_photo"],
-        maxRequestReached: json["max_request_reached"],
       );
 
   Map<String, dynamic> toJson() => {
-        "manual_describe_your_food": manualDescribeYourFood,
         "describe_food": describeFood,
         "generate_from_image": generateFromImage,
-        "maximum_generate_of": maximumGenerateOf,
         "images_per_month": imagesPerMonth,
+        "manual_describe_your_food": manualDescribeYourFood,
+        "max_request_reached": maxRequestReached,
+        "maximum_generate_of": maximumGenerateOf,
         "pick_from_gallery": pickFromGallery,
         "take_a_photo": takeAPhoto,
-        "max_request_reached": maxRequestReached,
       };
 }
 
@@ -1680,6 +1688,34 @@ class SignUpPage {
       };
 }
 
+class SleepAnalysisSleepPage {
+  String? sleepScore12Description;
+  String? sleepScore16Description;
+  String? sleepScore20Description;
+  String? sleepScore8Description;
+
+  SleepAnalysisSleepPage({
+    this.sleepScore12Description,
+    this.sleepScore16Description,
+    this.sleepScore20Description,
+    this.sleepScore8Description,
+  });
+
+  factory SleepAnalysisSleepPage.fromJson(Map<String, dynamic> json) => SleepAnalysisSleepPage(
+        sleepScore12Description: json["sleep_score_12_description"],
+        sleepScore16Description: json["sleep_score_16_description"],
+        sleepScore20Description: json["sleep_score_20_description"],
+        sleepScore8Description: json["sleep_score_8_description"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "sleep_score_12_description": sleepScore12Description,
+        "sleep_score_16_description": sleepScore16Description,
+        "sleep_score_20_description": sleepScore20Description,
+        "sleep_score_8_description": sleepScore8Description,
+      };
+}
+
 class SleepPage {
   String? addSleep;
   String? cancel;
@@ -1756,6 +1792,54 @@ class SleepPage {
       };
 }
 
+class SleepPageLearnMore {
+  String? awakeDescription;
+  String? deepSleepDescription;
+  String? idealNapDurationDescription;
+  String? idealSleepDurationDescription;
+  String? ligtSleepDescription;
+  String? napDescription;
+  String? remSleepDescription;
+  String? sleepStagesDescription;
+  String? tipsToBetterSleepDescription;
+
+  SleepPageLearnMore({
+    this.awakeDescription,
+    this.deepSleepDescription,
+    this.idealNapDurationDescription,
+    this.idealSleepDurationDescription,
+    this.ligtSleepDescription,
+    this.napDescription,
+    this.remSleepDescription,
+    this.sleepStagesDescription,
+    this.tipsToBetterSleepDescription,
+  });
+
+  factory SleepPageLearnMore.fromJson(Map<String, dynamic> json) => SleepPageLearnMore(
+        awakeDescription: json["awake_description"],
+        deepSleepDescription: json["deep_sleep_description"],
+        idealNapDurationDescription: json["ideal_nap_duration_description"],
+        idealSleepDurationDescription: json["ideal_sleep_duration_description"],
+        ligtSleepDescription: json["ligt_sleep_description"],
+        napDescription: json["nap_description"],
+        remSleepDescription: json["rem_sleep_description"],
+        sleepStagesDescription: json["sleep_stages_description"],
+        tipsToBetterSleepDescription: json["tips_to_better_sleep_description"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "awake_description": awakeDescription,
+        "deep_sleep_description": deepSleepDescription,
+        "ideal_nap_duration_description": idealNapDurationDescription,
+        "ideal_sleep_duration_description": idealSleepDurationDescription,
+        "ligt_sleep_description": ligtSleepDescription,
+        "nap_description": napDescription,
+        "rem_sleep_description": remSleepDescription,
+        "sleep_stages_description": sleepStagesDescription,
+        "tips_to_better_sleep_description": tipsToBetterSleepDescription,
+      };
+}
+
 class StreakPage {
   String? activity;
   String? cal;
@@ -1817,46 +1901,46 @@ class StreakPage {
 }
 
 class TooltipHomePage {
-  String? nutricoPlusTitle;
-  String? taskRecommendationTitle;
-  String? finishTaskRecommendationTitle;
-  String? wellnessScoreTitle;
-  String? nutricoPlusDescription;
-  String? taskRecommendationDescription;
   String? finishTaskRecommendationDescription;
+  String? finishTaskRecommendationTitle;
+  String? nutricoPlusDescription;
+  String? nutricoPlusTitle;
+  String? taskRecommendationDescription;
+  String? taskRecommendationTitle;
   String? wellnessScoreDescription;
+  String? wellnessScoreTitle;
 
   TooltipHomePage({
-    this.nutricoPlusTitle,
-    this.taskRecommendationTitle,
-    this.finishTaskRecommendationTitle,
-    this.wellnessScoreTitle,
-    this.nutricoPlusDescription,
-    this.taskRecommendationDescription,
     this.finishTaskRecommendationDescription,
+    this.finishTaskRecommendationTitle,
+    this.nutricoPlusDescription,
+    this.nutricoPlusTitle,
+    this.taskRecommendationDescription,
+    this.taskRecommendationTitle,
     this.wellnessScoreDescription,
+    this.wellnessScoreTitle,
   });
 
   factory TooltipHomePage.fromJson(Map<String, dynamic> json) => TooltipHomePage(
-        nutricoPlusTitle: json["nutrico_plus_title"],
-        taskRecommendationTitle: json["task_recommendation_title"],
-        finishTaskRecommendationTitle: json["finish_task_recommendation_title"],
-        wellnessScoreTitle: json["wellness_score_title"],
-        nutricoPlusDescription: json["nutrico_plus_description"],
-        taskRecommendationDescription: json["task_recommendation_description"],
         finishTaskRecommendationDescription: json["finish_task_recommendation_description"],
+        finishTaskRecommendationTitle: json["finish_task_recommendation_title"],
+        nutricoPlusDescription: json["nutrico_plus_description"],
+        nutricoPlusTitle: json["nutrico_plus_title"],
+        taskRecommendationDescription: json["task_recommendation_description"],
+        taskRecommendationTitle: json["task_recommendation_title"],
         wellnessScoreDescription: json["wellness_score_description"],
+        wellnessScoreTitle: json["wellness_score_title"],
       );
 
   Map<String, dynamic> toJson() => {
-        "nutrico_plus_title": nutricoPlusTitle,
-        "task_recommendation_title": taskRecommendationTitle,
-        "finish_task_recommendation_title": finishTaskRecommendationTitle,
-        "wellness_score_title": wellnessScoreTitle,
-        "nutrico_plus_description": nutricoPlusDescription,
-        "task_recommendation_description": taskRecommendationDescription,
         "finish_task_recommendation_description": finishTaskRecommendationDescription,
+        "finish_task_recommendation_title": finishTaskRecommendationTitle,
+        "nutrico_plus_description": nutricoPlusDescription,
+        "nutrico_plus_title": nutricoPlusTitle,
+        "task_recommendation_description": taskRecommendationDescription,
+        "task_recommendation_title": taskRecommendationTitle,
         "wellness_score_description": wellnessScoreDescription,
+        "wellness_score_title": wellnessScoreTitle,
       };
 }
 
