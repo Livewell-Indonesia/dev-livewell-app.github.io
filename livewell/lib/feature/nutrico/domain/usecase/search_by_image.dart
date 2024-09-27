@@ -19,3 +19,15 @@ class SearchByImage extends UseCase<NutricoFoodModel, File> {
     return await repository.searchByImage(params);
   }
 }
+
+class SearchByImageWeb extends UseCase<NutricoFoodModel, List<int>> {
+  late NutricoRepository repository;
+
+  SearchByImageWeb.instance() {
+    repository = NutricoRepositoryImpl.getInstance();
+  }
+  @override
+  Future<Either<Failure, NutricoFoodModel>> call(List<int> params) async {
+    return await repository.searchByImageWeb(params);
+  }
+}

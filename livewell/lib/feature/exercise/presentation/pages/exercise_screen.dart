@@ -126,7 +126,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                                                 child: GooglePlaceAutoCompleteTextField(
                                                   textEditingController: controller.locationController,
-                                                  googleAPIKey: Platform.isAndroid ? "AIzaSyAyGPWBoAyXoiZPuOr1tVy_lhDbqiY6gVw" : "AIzaSyAxbnqu8icKNHauUZveyBjG5srd7f1GQIA",
+                                                  googleAPIKey: GetPlatform.isAndroid ? "AIzaSyAyGPWBoAyXoiZPuOr1tVy_lhDbqiY6gVw" : "AIzaSyAxbnqu8icKNHauUZveyBjG5srd7f1GQIA",
                                                   textStyle: TextStyle(color: const Color(0xFF171433), fontSize: 14.sp),
                                                   boxDecoration: BoxDecoration(color: const Color(0xFFF2F6F6), borderRadius: BorderRadius.circular(100)),
                                                   inputDecoration: const InputDecoration(
@@ -396,7 +396,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                     ],
                   ),
                   18.verticalSpace,
-                  Text('${controller.localization.exercisePage?.syncedVia ?? 'Synced Via'} ${Platform.isIOS ? 'Apple Health' : 'Google Fit'}',
+                  Text('${controller.localization.exercisePage?.syncedVia ?? 'Synced Via'} ${GetPlatform.isIOS ? 'Apple Health' : 'Google Fit'}',
                       style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600, color: const Color(0xFF171433))),
                 ],
               ),

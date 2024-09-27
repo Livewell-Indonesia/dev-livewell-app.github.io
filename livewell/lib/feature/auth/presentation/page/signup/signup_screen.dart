@@ -104,7 +104,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     controller.trackEvent(LivewellAuthEvent.signUpPageSignUpGoogle);
                   }),
               4.verticalSpace,
-              Platform.isIOS
+              GetPlatform.isIOS
                   ? SigninThridPartyButton(
                       type: SignInButtonType.apple,
                       onPressed: () async {

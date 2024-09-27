@@ -103,10 +103,10 @@ class HomeScreen extends StatelessWidget {
                               break;
                           }
                         },
-                        onImageSelected: (file) {
+                        onImageSelected: (bytes) {
                           EasyLoading.dismiss();
                           Get.back();
-                          AppNavigator.push(routeName: AppPages.loadingNutricoPlus, arguments: file);
+                          AppNavigator.push(routeName: AppPages.loadingNutricoPlus, arguments: bytes);
                         },
                       );
                     });

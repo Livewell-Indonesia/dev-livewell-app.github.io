@@ -43,13 +43,13 @@ class SplashController extends BaseController {
     final Uri appStoreUrl = Uri.parse('itms-apps://apple.com/app/id6444037227');
     final Uri playStoreUrl = Uri.parse('market://details?id=com.livewellindo.app');
 
-    if (Platform.isIOS) {
+    if (GetPlatform.isIOS) {
       if (await canLaunchUrl(appStoreUrl)) {
         await launchUrl(appStoreUrl);
       } else {
         throw 'Could not launch App Store';
       }
-    } else if (Platform.isAndroid) {
+    } else if (GetPlatform.isAndroid) {
       if (await canLaunchUrl(playStoreUrl)) {
         await launchUrl(playStoreUrl);
       } else {

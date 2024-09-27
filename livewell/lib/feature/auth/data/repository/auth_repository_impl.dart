@@ -1,5 +1,6 @@
 import 'dart:io' show Platform;
 
+import 'package:get/get_utils/src/platform/platform.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:livewell/core/error/failures.dart';
 import 'package:dartz/dartz.dart';
@@ -76,7 +77,7 @@ class AuthRepositoryImpl with NetworkModule implements AuthRepository {
   Future<Either<Failure, Login>> postAuthGoogle() async {
     try {
       var result = await GoogleSignIn(
-        clientId: Platform.isIOS ? '649229634613-l8tqhjbf9o0lmu3mcs3ouhndi0aj5brk.apps.googleusercontent.com' : null,
+        clientId: GetPlatform.isIOS ? '649229634613-l8tqhjbf9o0lmu3mcs3ouhndi0aj5brk.apps.googleusercontent.com' : null,
         scopes: ['email', 'openid'],
       ).signIn();
       try {

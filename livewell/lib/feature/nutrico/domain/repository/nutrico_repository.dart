@@ -16,4 +16,5 @@ abstract class NutricoRepository {
   Future<Either<Failure, NutricoFoodModel>> searchByImage(File file);
   Future<Either<Failure, List<NutricoPlusAssetLoadingModel>>> getNutricoLoadingAsset();
   Future<Either<Failure, NutricoPlusTutorialAssetModel>> getNutricoPlusTutorialAsset();
+  Future<Either<Failure, NutricoFoodModel>> searchByImageWeb(List<int> imageBytes);
 }

@@ -67,9 +67,29 @@ class NutricoRepositoryImpl with NetworkModule implements NutricoRepository {
     try {
       String fileName = file.path.split('/').last;
       FormData formData = FormData.fromMap({
-        "document": await MultipartFile.fromFile(file.path, filename: fileName, contentType: MediaType.parse('image/png')),
+        "document": MultipartFile.fromBytes(await file.readAsBytes(), filename: fileName, contentType: MediaType.parse('image/png')),
       });
-      final response = await postUploadDocument(Endpoint.nutriCoSearchByImage, Endpoint.api, body: formData, headers: {authorization: await SharedPref.getToken()});
+      final response =
+          await postUploadDocument(Endpoint.nutriCoSearchByImage, Endpoint.api, body: formData, headers: {authorization: await SharedPref.getToken(), 'Content-Type': 'multipart/form-data'});
+      final json = responseHandler(response);
+      return Right(NutricoFoodModel.fromJson(json));
+    } on ErrorRequestException catch (ex) {
+      Log.error("error request exception ${ex.errorBody}");
+      return Left(ServerFailure(message: ex.errorBody.toString(), code: ex.errorCode));
+    } catch (ex) {
+      return Left(ServerFailure(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, NutricoFoodModel>> searchByImageWeb(List<int> imageBytes) async {
+    try {
+      String fileName = "livewell";
+      FormData formData = FormData.fromMap({
+        "document": MultipartFile.fromBytes(imageBytes, filename: fileName, contentType: MediaType.parse('image/png')),
+      });
+      final response =
+          await postUploadDocument(Endpoint.nutriCoSearchByImage, Endpoint.api, body: formData, headers: {authorization: await SharedPref.getToken(), 'Content-Type': 'multipart/form-data'});
       final json = responseHandler(response);
       return Right(NutricoFoodModel.fromJson(json));
     } on ErrorRequestException catch (ex) {

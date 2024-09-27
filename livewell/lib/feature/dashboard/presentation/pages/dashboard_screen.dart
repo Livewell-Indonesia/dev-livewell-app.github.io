@@ -57,7 +57,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
   @override
   void didChangeAppLifecycleState(final AppLifecycleState state) {
     if (state == AppLifecycleState.resumed && Get.currentRoute == AppPages.home) {
-      if (kReleaseMode) {
+      if (kReleaseMode && !GetPlatform.isWeb) {
         controller.onRefresh();
       }
     }

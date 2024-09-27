@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:get/get_utils/src/platform/platform.dart';
 import 'package:livewell/core/log.dart';
 import 'package:sentry/sentry.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
@@ -50,7 +51,9 @@ mixin NetworkModule {
     Map<String, String>? headers,
   }) async {
     if (headers != null) {
-      headers.addAll(await userAgentClientHintsHeader());
+      if (!GetPlatform.isWeb) {
+        headers.addAll(await userAgentClientHintsHeader());
+      }
     }
     Options _options = Options(headers: headers);
 
@@ -72,7 +75,9 @@ mixin NetworkModule {
     Map<String, dynamic>? param,
   }) async {
     if (headers != null) {
-      headers.addAll(await userAgentClientHintsHeader());
+      if (!GetPlatform.isWeb) {
+        headers.addAll(await userAgentClientHintsHeader());
+      }
     }
     Options _options = Options(headers: headers);
     final response = await _safeCallApi(
@@ -93,7 +98,9 @@ mixin NetworkModule {
     Map<String, dynamic>? body,
   }) async {
     if (headers != null) {
-      headers.addAll(await userAgentClientHintsHeader());
+      if (!GetPlatform.isWeb) {
+        headers.addAll(await userAgentClientHintsHeader());
+      }
     }
     Options _options = Options(headers: headers);
 
@@ -115,7 +122,9 @@ mixin NetworkModule {
     FormData? body,
   }) async {
     if (headers != null) {
-      headers.addAll(await userAgentClientHintsHeader());
+      if (!GetPlatform.isWeb) {
+        headers.addAll(await userAgentClientHintsHeader());
+      }
     }
     Options _options = Options(headers: headers);
     Dio dio = DioModule.getInstance(

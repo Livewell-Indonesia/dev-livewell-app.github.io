@@ -20,7 +20,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 import 'package:sentry/sentry.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 import 'feature/food/presentation/pages/food_screen.dart';
 
@@ -120,6 +122,12 @@ void main() async {
   await LivewellNotification().init();
   FirebaseMessaging.onBackgroundMessage(handleBackgroundMesage);
   await FirebaseRemoteConfigService().init();
+  var mixPanel = await Mixpanel.init("b95e1ff0a63a8b2d63e10d2b7b0e8757", trackAutomaticEvents: false);
+  Get.putAsync(() async => LivewellTrackerService(mixPanel));
+
+  if (GetPlatform.isWeb) {
+    usePathUrlStrategy();
+  }
 
   PlatformDispatcher.instance.onError = (error, stack) {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
@@ -136,7 +144,7 @@ void main() async {
         SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
         await ScreenUtil.ensureScreenSize();
         configLoading();
-        Get.putAsync(() async => LivewellTrackerService());
+
         runApp(MyApp());
       },
     );

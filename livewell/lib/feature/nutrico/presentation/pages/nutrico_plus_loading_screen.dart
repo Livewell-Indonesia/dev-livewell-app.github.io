@@ -19,8 +19,8 @@ class _NutricoPlusLoadingScreenState extends State<NutricoPlusLoadingScreen> {
 
   @override
   void initState() {
-    File image = Get.arguments;
-    controller.searchFoodByImage(image);
+    List<int> imageBytes = Get.arguments;
+    controller.searchFoodByImage(imageBytes);
     controller.trackEvent(LivewellNutricoEvent.imageLoadingPage);
     super.initState();
   }

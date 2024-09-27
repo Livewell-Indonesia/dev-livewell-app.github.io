@@ -119,7 +119,7 @@ class CustomWillPopScope extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!Platform.isIOS) {
+    if (!GetPlatform.isIOS) {
       return WillPopScope(
         onWillPop: () {
           return Future.value(allowBack);

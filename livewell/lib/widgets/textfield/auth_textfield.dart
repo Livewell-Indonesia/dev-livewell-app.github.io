@@ -108,7 +108,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
               textInputAction: TextInputAction.done,
               obscureText: !showPassword && widget.obscureText,
               inputFormatters: widget.keyboardType == TextInputType.number || widget.keyboardType == const TextInputType.numberWithOptions(decimal: true)
-                  ? Platform.isIOS
+                  ? GetPlatform.isIOS
                       ? [
                           TextInputFormatter.withFunction((oldValue, newValue) {
                             return newValue.copyWith(

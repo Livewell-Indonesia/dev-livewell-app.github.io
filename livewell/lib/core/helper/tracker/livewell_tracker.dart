@@ -2,18 +2,20 @@ import 'package:get/get.dart';
 import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 
 class LivewellTrackerService extends GetxService {
-  late Mixpanel _mixpanel;
+  Mixpanel _mixpanel;
   bool isInitialized = false;
 
+  LivewellTrackerService(this._mixpanel);
+
   @override
-  void onInit() {
-    init();
+  void onInit() async {
+    //init();
     super.onInit();
+    //_mixpanel = await Mixpanel.init("b95e1ff0a63a8b2d63e10d2b7b0e8757", trackAutomaticEvents: false);
   }
 
   Future<void> init() async {
     _mixpanel = await Mixpanel.init("b95e1ff0a63a8b2d63e10d2b7b0e8757", trackAutomaticEvents: false);
-    _mixpanel.setLoggingEnabled(true);
   }
 
   void identifyUser(String userId) {

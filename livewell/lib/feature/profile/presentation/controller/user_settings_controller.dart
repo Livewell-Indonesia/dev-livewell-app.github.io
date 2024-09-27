@@ -69,9 +69,9 @@ class UserSettingsController extends BaseController {
   void logoutTapped() async {
     await SharedPref.removeToken();
     //await SharedPref.clearToken();
-    if (Platform.isIOS) {
+    if (GetPlatform.isIOS) {
       await GoogleSignIn(clientId: "649229634613-l8tqhjbf9o0lmu3mcs3ouhndi0aj5brk.apps.googleusercontent.com").signOut();
-    } else if (Platform.isAndroid) {
+    } else if (GetPlatform.isAndroid) {
       await GoogleSignIn().signOut();
     }
     AppNavigator.pushAndRemove(routeName: AppPages.landingLogin);

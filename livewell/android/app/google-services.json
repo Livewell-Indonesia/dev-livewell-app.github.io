@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "649229634613-8fopsmhruimfmj6ms4o48prirjenq6ic.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.livewellindo.app",
+            "certificate_hash": "9aa5c2d600361a226b005a0d4f256c668a57986d"
+          }
+        },
+        {
           "client_id": "649229634613-l8tqhjbf9o0lmu3mcs3ouhndi0aj5brk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -45,6 +53,13 @@
             {
               "client_id": "649229634613-kd7qtn4fs682kkg6o8q711j0lr519t5u.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "649229634613-k3rrdr47ps05uavsbggnvc70eabhv5tq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.livewellindo.app"
+              }
             }
           ]
         }

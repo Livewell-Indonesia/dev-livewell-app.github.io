@@ -88,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller.onGoogleLoginTapped();
                   }),
               4.verticalSpace,
-              Platform.isIOS
+              GetPlatform.isIOS
                   ? SigninThridPartyButton(
                       type: SignInButtonType.apple,
                       onPressed: () async {

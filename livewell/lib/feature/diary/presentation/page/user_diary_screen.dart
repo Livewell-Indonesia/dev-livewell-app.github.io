@@ -791,7 +791,7 @@ class _HistoryContentState extends State<HistoryContent> {
                                 focusNode: _focusNode,
                                 textInputAction: TextInputAction.done,
                                 keyboardType: const TextInputType.numberWithOptions(signed: false, decimal: true),
-                                inputFormatters: Platform.isIOS ? [] : [FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}'))],
+                                inputFormatters: GetPlatform.isIOS ? [] : [FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}'))],
                                 controller: _controller,
                                 style: TextStyle(color: const Color(0xFF171433).withOpacity(0.7), fontSize: 16.sp, fontWeight: FontWeight.w500),
                                 textAlign: TextAlign.center,

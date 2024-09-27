@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:livewell/core/base/base_controller.dart';
 import 'package:livewell/core/base/usecase.dart';
 import 'package:livewell/core/helper/get_meal_type_by_current_time.dart';
+import 'package:livewell/core/log.dart';
 import 'package:livewell/feature/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:livewell/feature/food/data/model/foods_model.dart';
 import 'package:livewell/feature/food/presentation/pages/food_screen.dart';
@@ -17,7 +18,7 @@ import 'package:livewell/routes/app_navigator.dart';
 import 'package:livewell/widgets/buttons/livewell_button.dart';
 
 class NutricoPlusController extends BaseController {
-  SearchByImage searchByImage = SearchByImage.instance();
+  SearchByImageWeb searchByImage = SearchByImageWeb.instance();
   PostNutrico postNutrico = PostNutrico.instance();
   GetNutricoPlusLoadingAssets getNutricoPlusLoadingAssets = GetNutricoPlusLoadingAssets.instance();
   Rx<NutricoPlusState> state = NutricoPlusState.uploading.obs;
@@ -28,10 +29,11 @@ class NutricoPlusController extends BaseController {
   Rx<String> assetUrl = ''.obs;
   Rx<String> loadingDescription = ''.obs;
 
-  Future<void> searchFoodByImage(File imageFile) async {
+  Future<void> searchFoodByImage(List<int> imageBytes) async {
     final loadingAssetData = await getNutricoPlusLoadingAssets(NoParams());
     loadingAssetData.fold((l) {
       Get.back();
+      Log.error("error $l");
       showError();
     }, (r) {
       final dataByLocalization = r.where((element) => element.language == currentLanguage().languageCode).toList();
@@ -41,13 +43,14 @@ class NutricoPlusController extends BaseController {
       description.value = randomizeData.belowPicture ?? "";
       assetUrl.value = randomizeData.video ?? "";
     });
-    final data = await searchByImage(imageFile);
+    final data = await searchByImage(imageBytes);
     data.fold((l) {
       if (l.code == 400) {
         Get.back();
         showError(title: 'Image Request Limit Reached', description: 'You have reached the limit of image requests');
       } else {
         Get.back();
+        Log.error("error andi $l");
         showError();
       }
     }, (r) async {

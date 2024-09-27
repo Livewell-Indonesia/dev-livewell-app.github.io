@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:livewell/core/base/usecase.dart';
 import 'dart:typed_data';
@@ -21,7 +22,7 @@ class NutriScorePlusBottomSheet extends StatefulWidget {
   final bool isFromDashboard;
   final int maxRequest;
   final Function(SelectedNutriscorePlusMethod) onSelected;
-  final Function(File) onImageSelected;
+  final Function(List<int>) onImageSelected;
   const NutriScorePlusBottomSheet({super.key, required this.onSelected, required this.onImageSelected, required this.isAlreadyLimit, required this.maxRequest, this.isFromDashboard = true});
 
   @override
@@ -206,10 +207,10 @@ class _NutriScorePlusBottomSheetState extends State<NutriScorePlusBottomSheet> {
     // FilePickerResult? file =
     //     await FilePicker.platform.pickFiles(type: FileType.image);
     if (pickedFile != null) {
-      final File file = File(pickedFile.path);
-      final Uint8List imageBytes = await file.readAsBytes();
-      final File resizedImage = await resizeImageToTargetSize(imageBytes, 250, pickedFile.path);
-      widget.onImageSelected(resizedImage);
+      //final File file = File(pickedFile.path);
+      final Uint8List imageBytes = await pickedFile.readAsBytes();
+      //final File resizedImage = await resizeImageToTargetSize(imageBytes, 250, pickedFile.path);
+      widget.onImageSelected(imageBytes);
       // final selectedImage = file.paths.map(
       //   (e) => File(e!),
       // );

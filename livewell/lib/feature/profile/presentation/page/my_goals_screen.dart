@@ -118,7 +118,7 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
                               textEditingController: controller.targetWeight,
                               hintText: controller.localization.myGoalsPage?.targetWeightKg ?? "Target Weight (kg)",
                               enabled: true,
-                              inputFormatter: Platform.isIOS ? [] : [FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}'))],
+                              inputFormatter: GetPlatform.isIOS ? [] : [FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}'))],
                               inputType: const TextInputType.numberWithOptions(decimal: true),
                             ),
                             16.verticalSpace,

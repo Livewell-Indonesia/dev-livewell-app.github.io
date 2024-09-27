@@ -72,7 +72,9 @@ class LoginController extends BaseController {
       await SharedPref.saveRefreshToken(r.refreshToken!);
       GetUser getUser = GetUser.instance();
       final result = await getUser(NoParams());
-      result.fold((l) {}, (r) async {
+      result.fold((l) {
+        Log.error("Error in login $l");
+      }, (r) async {
         await LivewellNotification().init();
         await registerDeviceToken();
         changeLocalization(languagefromLocale(r.language!)!).then((value) async {

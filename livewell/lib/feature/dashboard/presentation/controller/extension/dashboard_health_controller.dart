@@ -12,7 +12,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 extension DashboardHealthController on DashboardController {
   Future<bool> isHealthAuthorized() async {
-    if (Platform.isAndroid && !isAllowedToFetchFromGoogleHealth()) {
+    if (GetPlatform.isAndroid && !isAllowedToFetchFromGoogleHealth()) {
       return false;
     }
     if (await Permission.activityRecognition.isDenied) {
@@ -20,7 +20,7 @@ extension DashboardHealthController on DashboardController {
       if (status.isGranted) {
         return true;
       } else {
-        if (Platform.isAndroid) {
+        if (GetPlatform.isAndroid) {
           return false;
         } else {
           return true;
@@ -64,7 +64,7 @@ extension DashboardHealthController on DashboardController {
   void fetchSleepDataFromLocal() async {
     var currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day - 1, 12, 0, 0, 0, 0);
     var dateTill = currentDate.add(const Duration(days: 1));
-    if (Platform.isIOS) {
+    if (GetPlatform.isIOS) {
       fetchSleepDataFromLocaliOS(currentDate, dateTill);
     } else {
       fetchSleepDataFromLocalAndroid(currentDate, dateTill);

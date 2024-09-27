@@ -22,7 +22,7 @@ class LivewellNotification {
   Future<void> initToken() async {
     await _firebaseMessaging.requestPermission();
     Future.delayed(const Duration(seconds: 1), () async {});
-    if (Platform.isIOS) {
+    if (GetPlatform.isIOS) {
       String? apnsToken = await _firebaseMessaging.getAPNSToken();
       if (apnsToken != null) {
         final fcmToken = await _firebaseMessaging.getToken();
@@ -32,7 +32,7 @@ class LivewellNotification {
         }
       }
     } else {
-      final fcmToken = await _firebaseMessaging.getToken();
+      final fcmToken = await _firebaseMessaging.getToken(vapidKey: GetPlatform.isWeb ? "BAycFhI9AGLMs9BOdxpUSUQgrtthcRXCfyDHt0-ON402jbiQBgiembmCp741cY3P9KRwzxUAq3WhgOjOhyikKng" : null);
       if (fcmToken != null) {
         SharedPref.saveFCMToken(fcmToken);
         Log.info("fcm token = $fcmToken");

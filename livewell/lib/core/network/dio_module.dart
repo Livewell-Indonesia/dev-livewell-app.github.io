@@ -1,7 +1,7 @@
 import 'package:livewell/core/network/token_interceptor.dart';
+import 'adapter/shared_adapter.dart';
 
 import 'api_url.dart';
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 
 import 'logging_interceptor.dart';
@@ -21,7 +21,7 @@ class DioModule with DioMixin implements Dio {
     this.options = options;
     interceptors.add(LoggingInterceptor());
     interceptors.add(NewTokenInteceptor());
-    httpClientAdapter = DefaultHttpClientAdapter();
+    httpClientAdapter = getAdapter();
   }
 
   static Dio getInstance([BaseOptions? options]) => DioModule._(options);
