@@ -9,7 +9,7 @@ import 'package:livewell/feature/wellness/presentation/controller/wellness_contr
 
 class BaseController extends FullLifeCycleController with FullLifeCycleMixin {
   LocalizationKeyV2 localization = LocalizationKeyV2();
-  LivewellTrackerService livewellTracker = Get.find();
+  //LivewellTrackerService livewellTracker = Get.find();
   late WellnessCalculationModel wellnessCalculationModel;
   @override
   void onInit() {
@@ -24,14 +24,14 @@ class BaseController extends FullLifeCycleController with FullLifeCycleMixin {
       properties['gender'] = await SharedPref.getGender();
       properties['birth_date'] = await SharedPref.getBirthDate();
       properties['name'] = await SharedPref.getName();
-      livewellTracker.trackEvent(event, properties: properties);
+      //livewellTracker.trackEvent(event, properties: properties);
     } else {
-      livewellTracker.trackEvent(event, properties: {
-        'email': await SharedPref.getEmail(),
-        'gender': await SharedPref.getGender(),
-        'birth_date': await SharedPref.getBirthDate(),
-        'name': await SharedPref.getName(),
-      });
+      // livewellTracker.trackEvent(event, properties: {
+      //   'email': await SharedPref.getEmail(),
+      //   'gender': await SharedPref.getGender(),
+      //   'birth_date': await SharedPref.getBirthDate(),
+      //   'name': await SharedPref.getName(),
+      // });
     }
   }
 

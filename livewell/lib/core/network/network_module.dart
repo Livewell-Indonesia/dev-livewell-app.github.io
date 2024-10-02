@@ -33,7 +33,7 @@ mixin NetworkModule {
     } on DioError catch (e, stacktrace) {
       if (e.type == DioErrorType.response) {
         if ((e.response?.statusCode ?? 0) >= 500) {
-          Sentry.captureException(e, stackTrace: stacktrace);
+          //Sentry.captureException(e, stackTrace: stacktrace);
         }
         return Result.error(e.response?.statusCode ?? 400, e.response?.data, message: e.response!.data['message']);
       } else {
@@ -55,7 +55,7 @@ mixin NetworkModule {
         headers.addAll(await userAgentClientHintsHeader());
       }
     }
-    Options _options = Options(headers: headers);
+    Options _options = Options(headers: GetPlatform.isWeb ? null : headers);
 
     final response = await _safeCallApi(
       dio.get(
@@ -79,7 +79,7 @@ mixin NetworkModule {
         headers.addAll(await userAgentClientHintsHeader());
       }
     }
-    Options _options = Options(headers: headers);
+    Options _options = Options(headers: GetPlatform.isWeb ? null : headers);
     final response = await _safeCallApi(
       dio.post(
         endpoint,
@@ -102,7 +102,7 @@ mixin NetworkModule {
         headers.addAll(await userAgentClientHintsHeader());
       }
     }
-    Options _options = Options(headers: headers);
+    Options _options = Options(headers: GetPlatform.isWeb ? null : headers);
 
     final response = await _safeCallApi(
       dio.put(
@@ -126,7 +126,7 @@ mixin NetworkModule {
         headers.addAll(await userAgentClientHintsHeader());
       }
     }
-    Options _options = Options(headers: headers);
+    Options _options = Options(headers: GetPlatform.isWeb ? null : headers);
     Dio dio = DioModule.getInstance(
       BaseOptions(baseUrl: url),
     );
@@ -147,7 +147,7 @@ mixin NetworkModule {
     Map<String, String>? headers,
     Map<String, dynamic>? body,
   }) async {
-    Options _options = Options(headers: headers);
+    Options _options = Options(headers: GetPlatform.isWeb ? null : headers);
 
     final response = await _safeCallApi(
       dio.delete(

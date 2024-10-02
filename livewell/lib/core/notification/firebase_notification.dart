@@ -20,22 +20,27 @@ class LivewellNotification {
       description: 'This channel is used for important notifications', importance: Importance.defaultImportance);
 
   Future<void> initToken() async {
-    await _firebaseMessaging.requestPermission();
-    Future.delayed(const Duration(seconds: 1), () async {});
-    if (GetPlatform.isIOS) {
-      String? apnsToken = await _firebaseMessaging.getAPNSToken();
-      if (apnsToken != null) {
-        final fcmToken = await _firebaseMessaging.getToken();
+    if (GetPlatform.isWeb) {
+      return;
+    }
+    var result = await _firebaseMessaging.requestPermission();
+    if (result.authorizationStatus == AuthorizationStatus.authorized) {
+      Future.delayed(const Duration(seconds: 1), () async {});
+      if (GetPlatform.isIOS) {
+        String? apnsToken = await _firebaseMessaging.getAPNSToken();
+        if (apnsToken != null) {
+          final fcmToken = await _firebaseMessaging.getToken();
+          if (fcmToken != null) {
+            SharedPref.saveFCMToken(fcmToken);
+            Log.info("fcm token = $fcmToken");
+          }
+        }
+      } else {
+        final fcmToken = await _firebaseMessaging.getToken(vapidKey: GetPlatform.isWeb ? "BAycFhI9AGLMs9BOdxpUSUQgrtthcRXCfyDHt0-ON402jbiQBgiembmCp741cY3P9KRwzxUAq3WhgOjOhyikKng" : null);
         if (fcmToken != null) {
           SharedPref.saveFCMToken(fcmToken);
           Log.info("fcm token = $fcmToken");
         }
-      }
-    } else {
-      final fcmToken = await _firebaseMessaging.getToken(vapidKey: GetPlatform.isWeb ? "BAycFhI9AGLMs9BOdxpUSUQgrtthcRXCfyDHt0-ON402jbiQBgiembmCp741cY3P9KRwzxUAq3WhgOjOhyikKng" : null);
-      if (fcmToken != null) {
-        SharedPref.saveFCMToken(fcmToken);
-        Log.info("fcm token = $fcmToken");
       }
     }
   }

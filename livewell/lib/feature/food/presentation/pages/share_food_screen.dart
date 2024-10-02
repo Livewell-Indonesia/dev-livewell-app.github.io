@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:appinio_social_share/appinio_social_share.dart';
-import 'package:davinci/core/davinci_capture.dart';
+import 'package:davincii/core/davinci_capture.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

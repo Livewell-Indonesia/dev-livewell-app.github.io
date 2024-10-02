@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart' as carousel;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
@@ -38,7 +37,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> with WidgetsBindingOb
   DashboardController controller = Get.put(DashboardController(), permanent: true);
   SleepController sleepController = Get.put(SleepController());
   int current = 0;
-  final carousel.CarouselController carouselController = carousel.CarouselController();
   final HomeController homeController = Get.find();
   final cardSwiperController = CardSwiperController();
   @override

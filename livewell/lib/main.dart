@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,7 +27,6 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 
 import 'feature/food/presentation/pages/food_screen.dart';
 
-List<CameraDescription> cameras = [];
 @pragma('vm:entry-point')
 Future<void> handleBackgroundMesage(RemoteMessage mesage) async {
   // Log.info('Handling a background message ${mesage.messageId}');
@@ -113,15 +113,28 @@ extension MealReminderExt on FeatureTypeNotification {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  if (GetPlatform.isWeb) {
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: 'AIzaSyAc-eYwFgTwe2w7jZuae_jmjrn0oBUowzE',
+        appId: '1:649229634613:web:4214220332235e2665357c',
+        messagingSenderId: '649229634613',
+        projectId: 'livewell-apps',
+        authDomain: 'livewell-apps.firebaseapp.com',
+        storageBucket: 'livewell-apps.appspot.com',
+        measurementId: 'G-X1XZSLJDPR',
+      ),
+    );
+    runApp(MyApp());
+  } else {
+    var app = await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  }
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };
-  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   initializeDateFormatting('id_ID');
   await LivewellNotification().init();
-  FirebaseMessaging.onBackgroundMessage(handleBackgroundMesage);
-  await FirebaseRemoteConfigService().init();
+  //FirebaseMessaging.onBackgroundMessage(handleBackgroundMesage);
   var mixPanel = await Mixpanel.init("b95e1ff0a63a8b2d63e10d2b7b0e8757", trackAutomaticEvents: false);
   Get.putAsync(() async => LivewellTrackerService(mixPanel));
 
@@ -133,24 +146,23 @@ void main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
-  runZonedGuarded(() async {
-    Sentry.init(
-      (p0) {
-        p0.dsn = 'https://344e610591e04e998dda24b51c38c4e0@o4505522504400896.ingest.sentry.io/4505545112616960';
-      },
-      appRunner: () async {
-        cameras = await availableCameras();
-        SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarBrightness: Brightness.light));
-        SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-        await ScreenUtil.ensureScreenSize();
-        configLoading();
+  // runZonedGuarded(() async {
+  //   Sentry.init(
+  //     (p0) {
+  //       p0.dsn = 'https://344e610591e04e998dda24b51c38c4e0@o4505522504400896.ingest.sentry.io/4505545112616960';
+  //     },
+  //     appRunner: () async {},
+  //   );
+  // }, (error, stackTrace) async {
+  //   await Sentry.captureException(error, stackTrace: stackTrace);
+  // });
 
-        runApp(MyApp());
-      },
-    );
-  }, (error, stackTrace) async {
-    await Sentry.captureException(error, stackTrace: stackTrace);
-  });
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarBrightness: Brightness.light));
+  //SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await ScreenUtil.ensureScreenSize();
+  configLoading();
+
+  runApp(MyApp());
 }
 
 void configLoading() {
@@ -193,12 +205,14 @@ class _MyAppState extends State<MyApp> {
       fontSizeResolver: (fontSize, instance) => FontSizeResolvers.radius(fontSize, instance),
       builder: (context, child) {
         return GetMaterialApp(
-          builder: EasyLoading.init(builder: (context, widget) {
-            return MediaQuery(
-              data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
-              child: widget!,
-            );
-          }),
+          builder: EasyLoading.init(
+            builder: (context, widget) {
+              return MediaQuery(
+                data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
+                child: widget!,
+              );
+            },
+          ),
           title: 'LiveWell',
           debugShowCheckedModeBanner: false,
           locale: Get.deviceLocale,
@@ -206,11 +220,12 @@ class _MyAppState extends State<MyApp> {
           initialRoute: AppNavigator.initialRoute,
           getPages: AppNavigator.pages,
           theme: ThemeData(
-              primarySwatch: mycolor,
-              textTheme: GoogleFonts.archivoTextTheme(
-                Theme.of(context).textTheme,
-              ),
-              brightness: Brightness.light),
+            primarySwatch: mycolor,
+            textTheme: GoogleFonts.archivoTextTheme(
+              Theme.of(context).textTheme,
+            ),
+            brightness: Brightness.light,
+          ),
           home: const SplashScreen(),
         );
       },
